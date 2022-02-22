@@ -1,28 +1,21 @@
 package slimeknights.tconstruct.tools.modifiers.slotless;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.materials.MaterialRegistry;
-import slimeknights.tconstruct.library.materials.definition.IMaterial;
-import slimeknights.tconstruct.library.materials.definition.MaterialId;
-import slimeknights.tconstruct.library.modifiers.SingleUseModifier;
+import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
+import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
+import slimeknights.tconstruct.library.modifiers.impl.SingleUseModifier;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
 public class EmbellishmentModifier extends SingleUseModifier {
   private static final String FORMAT_KEY = TConstruct.makeTranslationKey("modifier", "embellishment.formatted");
-  public EmbellishmentModifier() {
-    super(-1);
-  }
 
   @Override
   public Component getDisplayName(IToolStackView tool, int level) {
-    MaterialId location = MaterialId.tryCreate(tool.getPersistentData().getString(getId()));
-    if (location != null) {
-      IMaterial material = MaterialRegistry.getMaterial(location);
-      TextColor color = material.getColor();
-      return new TranslatableComponent(FORMAT_KEY, material.getDisplayName()).withStyle(style -> style.withColor(color));
+    MaterialVariantId materialVariant = MaterialVariantId.tryParse(tool.getPersistentData().getString(getId()));
+    if (materialVariant != null) {
+      return new TranslatableComponent(FORMAT_KEY, MaterialTooltipCache.getDisplayName(materialVariant)).withStyle(style -> style.withColor(MaterialTooltipCache.getColor(materialVariant)));
     }
     return super.getDisplayName();
   }

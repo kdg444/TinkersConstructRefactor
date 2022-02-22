@@ -6,6 +6,7 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
@@ -16,6 +17,8 @@ import slimeknights.mantle.registration.object.MetalItemObject;
 import slimeknights.mantle.registration.object.WoodBlockObject;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
+import slimeknights.tconstruct.common.registration.GeodeItemObject;
+import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
@@ -28,6 +31,7 @@ import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.world.TinkerHeadType;
 import slimeknights.tconstruct.world.TinkerWorld;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import static net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE;
@@ -170,8 +174,8 @@ public class BlockTagProvider extends BlockTagsProvider {
     this.tag(TinkerTags.Blocks.SLIMY_PLANKS).add(TinkerWorld.greenheart.get(), TinkerWorld.skyroot.get(), TinkerWorld.bloodshroom.get());
     this.tag(BlockTags.PLANKS).addTag(TinkerTags.Blocks.SLIMY_PLANKS);
     this.tag(BlockTags.LOGS).addTag(TinkerTags.Blocks.SLIMY_LOGS);
-    this.addWoodTags(TinkerWorld.greenheart, true);
-    this.addWoodTags(TinkerWorld.skyroot, true);
+    this.addWoodTags(TinkerWorld.greenheart, false);
+    this.addWoodTags(TinkerWorld.skyroot, false);
     this.addWoodTags(TinkerWorld.bloodshroom, false);
 
     // slime blocks
@@ -211,6 +215,11 @@ public class BlockTagProvider extends BlockTagsProvider {
     }));
     TinkerWorld.slimeDirt.forEach((type, block) -> this.tag(type.getDirtBlockTag()).add(block));
     endermanHoldable.addTag(TinkerTags.Blocks.SLIMY_SOIL);
+
+    // slime spawns
+    this.tag(TinkerTags.Blocks.SKY_SLIME_SPAWN).add(TinkerWorld.earthGeode.getBlock(), TinkerWorld.earthGeode.getBudding()).addTag(SlimeType.SKY.getGrassBlockTag());
+    this.tag(TinkerTags.Blocks.EARTH_SLIME_SPAWN).add(TinkerWorld.skyGeode.getBlock(), TinkerWorld.skyGeode.getBudding()).addTag(SlimeType.EARTH.getGrassBlockTag());
+    this.tag(TinkerTags.Blocks.ENDER_SLIME_SPAWN).add(TinkerWorld.enderGeode.getBlock(), TinkerWorld.enderGeode.getBudding()).addTag(SlimeType.ENDER.getGrassBlockTag());
 
     this.tag(BlockTags.GUARDED_BY_PIGLINS)
         .add(TinkerTables.castChest.get(), TinkerCommons.goldBars.get(), TinkerCommons.goldPlatform.get(),
@@ -328,10 +337,30 @@ public class BlockTagProvider extends BlockTagsProvider {
 
     // slime
     tagBlocks(MINEABLE_WITH_SHOVEL, TinkerWorld.congealedSlime, TinkerWorld.slimeDirt, TinkerWorld.vanillaSlimeGrass, TinkerWorld.earthSlimeGrass, TinkerWorld.skySlimeGrass, TinkerWorld.enderSlimeGrass, TinkerWorld.ichorSlimeGrass);
+    // harvest tiers on shovel blocks
+    TinkerWorld.slimeDirt.forEach((type, block) -> this.tag((Tag.Named<Block>)Objects.requireNonNull(type.getHarvestTier().getTag())).add(block));
+    for (SlimeType dirt : SlimeType.values()) {
+      for (SlimeType grass : SlimeType.values()) {
+        Tiers dirtTier = dirt.getHarvestTier();
+        Tiers grassTier = grass.getHarvestTier();
+        // cannot use tier sorting registry as its not init during datagen, stuck comparing levels and falling back to ordinal for gold
+        Tiers tier;
+        if (dirtTier.getLevel() == grassTier.getLevel()) {
+          tier = dirtTier.ordinal() > grassTier.ordinal() ? dirtTier : grassTier;
+        } else {
+          tier = dirtTier.getLevel() > grassTier.getLevel() ? dirtTier : grassTier;
+        }
+        this.tag((Tag.Named<Block>)Objects.requireNonNull(tier.getTag())).add(TinkerWorld.slimeGrass.get(dirt).get(grass));
+      }
+    }
+
     tagBlocks(MINEABLE_WITH_HOE, TinkerWorld.slimeLeaves);
-    tagLogs(MINEABLE_WITH_AXE, NEEDS_GOLD_TOOL, TinkerWorld.greenheart, TinkerWorld.skyroot, TinkerWorld.bloodshroom);
+    tagLogs(MINEABLE_WITH_AXE, NEEDS_GOLD_TOOL, TinkerWorld.skyroot);
+    tagLogs(MINEABLE_WITH_AXE, NEEDS_STONE_TOOL, TinkerWorld.greenheart);
+    tagLogs(MINEABLE_WITH_AXE, NEEDS_IRON_TOOL, TinkerWorld.bloodshroom);
     tagPlanks(MINEABLE_WITH_SHOVEL, TinkerWorld.greenheart, TinkerWorld.skyroot, TinkerWorld.bloodshroom);
     tagBlocks(MINEABLE_WITH_AXE, TinkerWorld.skySlimeVine, TinkerWorld.enderSlimeVine);
+    tagBlocks(MINEABLE_WITH_PICKAXE, TinkerWorld.earthGeode, TinkerWorld.skyGeode, TinkerWorld.ichorGeode, TinkerWorld.enderGeode);
 
     // smeltery
     tagBlocks(MINEABLE_WITH_SHOVEL, TinkerSmeltery.grout, TinkerSmeltery.netherGrout);
@@ -392,6 +421,18 @@ public class BlockTagProvider extends BlockTagsProvider {
     TagAppender<Block> appender = this.tag(tag);
     for (Supplier<? extends Block> block : blocks) {
       appender.add(block.get());
+    }
+  }
+
+  /** Applies a tag to a set of suppliers */
+  private void tagBlocks(Tag.Named<Block> tag, GeodeItemObject... blocks) {
+    TagAppender<Block> appender = this.tag(tag);
+    for (GeodeItemObject geode : blocks) {
+      appender.add(geode.getBlock());
+      appender.add(geode.getBudding());
+      for (BudSize size : BudSize.values()) {
+        appender.add(geode.getBud(size));
+      }
     }
   }
 

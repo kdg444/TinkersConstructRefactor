@@ -9,7 +9,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import slimeknights.mantle.recipe.helper.LoggingRecipeSerializer;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
-import slimeknights.tconstruct.library.recipe.material.MaterialRecipeSerializer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.repairing.SpecializedRepairRecipeSerializer.ISpecializedRepairRecipe;
 
 import javax.annotation.Nullable;
@@ -24,7 +23,7 @@ public class SpecializedRepairRecipeSerializer<T extends Recipe<?> & ISpecialize
   @Override
   public T fromJson(ResourceLocation id, JsonObject json) {
     Ingredient tool = Ingredient.fromJson(JsonHelper.getElement(json, "tool"));
-    MaterialId repairMaterial = MaterialRecipeSerializer.getMaterial(json, "repair_material");
+    MaterialId repairMaterial = MaterialId.fromJson(json, "repair_material");
     return factory.create(id, tool, repairMaterial);
   }
 
@@ -39,7 +38,7 @@ public class SpecializedRepairRecipeSerializer<T extends Recipe<?> & ISpecialize
   @Override
   protected void toNetworkSafe(FriendlyByteBuf buffer, T recipe) {
     recipe.getTool().toNetwork(buffer);
-    buffer.writeUtf(recipe.getRepairMaterialID().toString());
+    buffer.writeUtf(recipe.getRepairMaterial().toString());
   }
 
   /** Interface for serializing the recipe */
@@ -48,7 +47,7 @@ public class SpecializedRepairRecipeSerializer<T extends Recipe<?> & ISpecialize
     Ingredient getTool();
 
     /** Gets the material ID from the recipe */
-    MaterialId getRepairMaterialID();
+    MaterialId getRepairMaterial();
   }
 
   /** Factory constructor for this serializer */

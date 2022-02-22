@@ -40,6 +40,14 @@ public class TinkerTags {
     /** Copper platform variants */
     public static final IOptionalNamedTag<Block> COPPER_PLATFORMS = tag("copper_platforms");
 
+    // Slime spawn
+    /** Blocks skyslimes can spawn on in the overworld */
+    public static final IOptionalNamedTag<Block> SKY_SLIME_SPAWN = tag("slime_spawn/sky");
+    /** Blocks earthslimes can spawn on in the overworld */
+    public static final IOptionalNamedTag<Block> EARTH_SLIME_SPAWN = tag("slime_spawn/earth");
+    /** Blocks enderslimes can spawn on in the end */
+    public static final IOptionalNamedTag<Block> ENDER_SLIME_SPAWN = tag("slime_spawn/ender");
+
     public static final IOptionalNamedTag<Block> SLIME_BLOCK = tag("slime_block");
     public static final IOptionalNamedTag<Block> CONGEALED_SLIME = tag("congealed_slime");
     public static final IOptionalNamedTag<Block> SLIMY_LOGS = tag("slimy_logs");
@@ -142,6 +150,10 @@ public class TinkerTags {
     /** Copper platform variants */
     public static final IOptionalNamedTag<Item> COPPER_PLATFORMS = tag("copper_platforms");
 
+    /** Planks in this tag are skipped in the default wood crafting recipe as they have their own variant. Tagging your planks here will allow you to add another wood variant */
+    public static final IOptionalNamedTag<Item> VARIANT_PLANKS = tag("wood_variants/planks");
+    /** Logs in this tag are skipped in the default wood crafting recipe as they have their own variant. Tagging your planks here will allow you to add another wood variant */
+    public static final IOptionalNamedTag<Item> VARIANT_LOGS = tag("wood_variants/logs");
 
     public static final IOptionalNamedTag<Item> SLIME_BLOCK = tag("slime_block");
     public static final IOptionalNamedTag<Item> CONGEALED_SLIME = tag("congealed_slime");
@@ -176,6 +188,13 @@ public class TinkerTags {
     public static final IOptionalNamedTag<Item> TABLE_EMPTY_CASTS = tag("casts/empty/table");
     /** Items that count as empty in a casting basin */
     public static final IOptionalNamedTag<Item> BASIN_EMPTY_CASTS = tag("casts/empty/basin");
+
+    /** Items that can be placed in the pattern slot in the part builder */
+    public static final IOptionalNamedTag<Item> PATTERNS = tag("patterns");
+    /** Items that work in all basic part builder recipes, when unspecified this tag is used for the input */
+    public static final IOptionalNamedTag<Item> DEFAULT_PATTERNS = tag("patterns/default");
+    /** Pattern items that are not consumed in the part builder */
+    public static final IOptionalNamedTag<Item> REUSABLE_PATTERNS = tag("patterns/reusable");
 
     /** All basic tinkers tanks */
     public static final IOptionalNamedTag<Item> SEARED_TANKS = tag("seared_tanks");

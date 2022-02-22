@@ -77,7 +77,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                           .requires(TinkerMaterials.tinkersBronze.getIngotTag())
                           .unlockedBy("has_bronze", has(TinkerMaterials.tinkersBronze.getIngotTag()))
                           .save(consumer, prefix(TinkerTools.flintAndBronze, folder));
-    SpecializedRepairRecipeBuilder.repair(TinkerTools.flintAndBronze, MaterialIds.tinkersBronze)
+    SpecializedRepairRecipeBuilder.repair(TinkerTools.flintAndBronze, MaterialIds.bronze)
                                   .buildRepairKit(consumer, wrap(TinkerTools.flintAndBronze, repairFolder, "_repair_kit"))
                                   .save(consumer, wrap(TinkerTools.flintAndBronze, repairFolder, "_station"));
 
@@ -206,7 +206,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
     String castFolder = "smeltery/casts/";
     partRecipes(consumer, TinkerToolParts.repairKit, TinkerSmeltery.repairKitCast, 2, partFolder, castFolder);
     // head
-    partRecipes(consumer, TinkerToolParts.pickaxeHead,  TinkerSmeltery.pickaxeHeadCast,  2, partFolder, castFolder);
+    partRecipes(consumer, TinkerToolParts.pickHead,     TinkerSmeltery.pickHeadCast,     2, partFolder, castFolder);
     partRecipes(consumer, TinkerToolParts.hammerHead,   TinkerSmeltery.hammerHeadCast,   8, partFolder, castFolder);
     partRecipes(consumer, TinkerToolParts.smallAxeHead, TinkerSmeltery.smallAxeHeadCast, 2, partFolder, castFolder);
     partRecipes(consumer, TinkerToolParts.broadAxeHead, TinkerSmeltery.broadAxeHeadCast, 8, partFolder, castFolder);

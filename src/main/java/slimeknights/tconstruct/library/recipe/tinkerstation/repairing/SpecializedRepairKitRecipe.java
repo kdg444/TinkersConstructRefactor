@@ -2,14 +2,12 @@ package slimeknights.tconstruct.library.recipe.tinkerstation.repairing;
 
 import com.mojang.datafixers.util.Pair;
 import lombok.Getter;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import slimeknights.tconstruct.library.materials.MaterialRegistry;
-import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.recipe.tinkerstation.repairing.SpecializedRepairRecipeSerializer.ISpecializedRepairRecipe;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
@@ -23,21 +21,11 @@ public class SpecializedRepairKitRecipe extends CraftingTableRepairKitRecipe imp
   private final Ingredient tool;
   /** ID of material used in repairing */
   @Getter
-  private final MaterialId repairMaterialID;
-  /** Cache of the material used to repair */
-  private IMaterial repairMaterial;
-  public SpecializedRepairKitRecipe(ResourceLocation id, Ingredient tool, MaterialId repairMaterialID) {
+  private final MaterialId repairMaterial;
+  public SpecializedRepairKitRecipe(ResourceLocation id, Ingredient tool, MaterialId repairMaterial) {
     super(id);
     this.tool = tool;
-    this.repairMaterialID = repairMaterialID;
-  }
-
-  /** Gets the material used to repair */
-  private IMaterial getRepairMaterial() {
-    if (repairMaterial == null) {
-      repairMaterial = MaterialRegistry.getMaterial(repairMaterialID);
-    }
-    return repairMaterial;
+    this.repairMaterial = repairMaterial;
   }
 
   @Override
@@ -47,8 +35,8 @@ public class SpecializedRepairKitRecipe extends CraftingTableRepairKitRecipe imp
 
   @Override
   public boolean matches(CraftingContainer inv, Level worldIn) {
-    Pair<ToolStack, IMaterial> inputs = getRelevantInputs(inv);
-    return inputs != null && inputs.getSecond() == getRepairMaterial();
+    Pair<ToolStack, MaterialId> inputs = getRelevantInputs(inv);
+    return inputs != null && repairMaterial.equals(inputs.getSecond());
   }
 
   @Override

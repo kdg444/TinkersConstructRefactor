@@ -1,0 +1,8 @@
+{
+  "texture": "tconstruct:bronze_tin",
+  "fallbacks": [
+    "metal"
+  ],
+  "color": "D49765",
+  "luminosity": 0
+}

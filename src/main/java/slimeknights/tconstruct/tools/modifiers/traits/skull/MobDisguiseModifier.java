@@ -2,32 +2,20 @@ package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
-import net.minecraft.world.entity.Entity;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot.Type;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingVisibilityEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.modifiers.SingleUseModifier;
-import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
+import slimeknights.tconstruct.library.modifiers.impl.SingleUseModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
 import slimeknights.tconstruct.library.tools.context.EquipmentChangeContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
+@RequiredArgsConstructor
 public class MobDisguiseModifier extends SingleUseModifier {
-  private static final TinkerDataKey<Multiset<EntityType<?>>> DISGUISES = TConstruct.createKey("mob_disguise");
-  private static boolean registeredListener = false;
+  public static final TinkerDataKey<Multiset<EntityType<?>>> DISGUISES = TConstruct.createKey("mob_disguise");
+
   private final EntityType<?> type;
-  public MobDisguiseModifier(int color, EntityType<?> type) {
-    super(color);
-    this.type = type;
-    if (!registeredListener) {
-      registeredListener = true;
-      MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, LivingVisibilityEvent.class, MobDisguiseModifier::livingVisibility);
-    }
-  }
 
   @Override
   public void onEquip(IToolStackView tool, int level, EquipmentChangeContext context) {
@@ -53,21 +41,5 @@ public class MobDisguiseModifier extends SingleUseModifier {
         }
       });
     }
-  }
-
-  /** Reduces visibility to mobs */
-  private static void livingVisibility(LivingVisibilityEvent event) {
-    Entity lookingEntity = event.getLookingEntity();
-    if (lookingEntity == null) {
-      return;
-    }
-    LivingEntity living = event.getEntityLiving();
-    living.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
-      Multiset<EntityType<?>> disguises = data.get(DISGUISES);
-      if (disguises != null && disguises.contains(lookingEntity.getType())) {
-        // not as good as a real head
-        event.modifyVisibility(0.65f);
-      }
-    });
   }
 }

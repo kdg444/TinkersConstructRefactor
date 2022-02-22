@@ -42,6 +42,7 @@ import slimeknights.tconstruct.library.recipe.melting.DamageableMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.melting.MaterialMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.library.recipe.melting.OreMeltingRecipe;
+import slimeknights.tconstruct.library.recipe.melting.OreMeltingRecipe.Serializer;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipe;
 import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.shared.block.ClearGlassPaneBlock;
@@ -283,11 +284,9 @@ public final class TinkerSmeltery extends TinkerModule {
   public static final CastItemObject coinCast   = ITEMS.registerCast("coin",  SMELTERY_PROPS);
   public static final CastItemObject wireCast   = ITEMS.registerCast("wire",  SMELTERY_PROPS);
   // small tool heads
-  public static final CastItemObject pickaxeHeadCast  = ITEMS.registerCast("pickaxe_head", SMELTERY_PROPS);
+  public static final CastItemObject pickHeadCast = ITEMS.registerCast("pick_head", SMELTERY_PROPS);
   public static final CastItemObject smallAxeHeadCast = ITEMS.registerCast("small_axe_head", SMELTERY_PROPS);
   public static final CastItemObject smallBladeCast = ITEMS.registerCast("small_blade", SMELTERY_PROPS);
-  //  public static final ItemObject<Item> signHeadCast = ITEMS.register("sign_head_cast", SMELTERY_PROPS);
-  //  public static final ItemObject<Item> bowLimbCast = ITEMS.register("bow_limb_cast", SMELTERY_PROPS);
   // large tool heads
   public static final CastItemObject hammerHeadCast   = ITEMS.registerCast("hammer_head", SMELTERY_PROPS);
   public static final CastItemObject broadBladeCast   = ITEMS.registerCast("broad_blade", SMELTERY_PROPS);
@@ -319,7 +318,7 @@ public final class TinkerSmeltery extends TinkerModule {
   public static final RegistryObject<MoldingRecipe.Serializer<MoldingRecipe.Basin>> moldingBasinSerializer = RECIPE_SERIALIZERS.register("molding_basin", () -> new MoldingRecipe.Serializer<>(MoldingRecipe.Basin::new));
   // melting
   public static final RegistryObject<RecipeSerializer<MeltingRecipe>> meltingSerializer = RECIPE_SERIALIZERS.register("melting", () -> new MeltingRecipe.Serializer<>(MeltingRecipe::new));
-  public static final RegistryObject<RecipeSerializer<MeltingRecipe>> oreMeltingSerializer = RECIPE_SERIALIZERS.register("ore_melting", () -> new MeltingRecipe.Serializer<>(OreMeltingRecipe::new));
+  public static final RegistryObject<RecipeSerializer<OreMeltingRecipe>> oreMeltingSerializer = RECIPE_SERIALIZERS.register("ore_melting", Serializer::new);
   public static final RegistryObject<RecipeSerializer<MeltingRecipe>> damagableMeltingSerializer = RECIPE_SERIALIZERS.register("damagable_melting", () -> new MeltingRecipe.Serializer<>(DamageableMeltingRecipe::new));
   public static final RegistryObject<RecipeSerializer<MaterialMeltingRecipe>> materialMeltingSerializer = RECIPE_SERIALIZERS.register("material_melting", MaterialMeltingRecipe.Serializer::new);
   public static final RegistryObject<RecipeSerializer<MeltingFuel>> fuelSerializer = RECIPE_SERIALIZERS.register("melting_fuel", MeltingFuel.Serializer::new);

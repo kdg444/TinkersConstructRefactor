@@ -11,9 +11,9 @@ import net.minecraftforge.fluids.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator.DuelSidedListener;
-import slimeknights.tconstruct.library.materials.definition.MaterialId;
-import slimeknights.tconstruct.library.tools.part.IMaterialItem;
+import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.recipe.casting.ICastingContainer;
+import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,7 +64,7 @@ public class MaterialCastingLookup {
    */
   public static void registerFluid(MaterialFluidRecipe recipe) {
     LISTENER.checkClear();
-    if (recipe.getInputId() == null) {
+    if (recipe.getInput() == null) {
       for (FluidStack fluidStack : recipe.getFluids()) {
         CASTING_FLUIDS.put(fluidStack.getFluid(), recipe);
       }
@@ -127,9 +127,9 @@ public class MaterialCastingLookup {
    * @param material  Fluid
    * @return  Recipe
    */
-  public static List<MaterialFluidRecipe> getCastingFluids(MaterialId material) {
+  public static List<MaterialFluidRecipe> getCastingFluids(MaterialVariantId material) {
     return CASTING_FLUIDS.values().stream()
-                         .filter(recipe -> recipe.getOutputId().equals(material))
+                         .filter(recipe -> material.matchesVariant(recipe.getOutput()))
                          .collect(Collectors.toList());
   }
 
@@ -138,9 +138,9 @@ public class MaterialCastingLookup {
    * @param material  Fluid
    * @return  Recipe
    */
-  public static List<MaterialFluidRecipe> getCompositeFluids(MaterialId material) {
+  public static List<MaterialFluidRecipe> getCompositeFluids(MaterialVariantId material) {
     return COMPOSITE_FLUIDS.stream()
-                           .filter(recipe -> recipe.getOutputId().equals(material))
+                           .filter(recipe -> material.matchesVariant(recipe.getOutput()))
                            .collect(Collectors.toList());
   }
 

@@ -18,6 +18,8 @@ import slimeknights.tconstruct.library.tools.definition.aoe.VeiningAOEIterator;
 import slimeknights.tconstruct.library.tools.definition.harvest.FixedTierHarvestLogic;
 import slimeknights.tconstruct.library.tools.definition.harvest.IHarvestLogic;
 import slimeknights.tconstruct.library.tools.definition.harvest.ModifiedHarvestLogic;
+import slimeknights.tconstruct.library.tools.definition.harvest.predicate.AndBlockPredicate;
+import slimeknights.tconstruct.library.tools.definition.harvest.predicate.TagBlockPredicate;
 import slimeknights.tconstruct.library.tools.definition.weapon.CircleWeaponAttack;
 import slimeknights.tconstruct.library.tools.definition.weapon.ParticleWeaponAttack;
 import slimeknights.tconstruct.library.tools.definition.weapon.SweepWeaponAttack;
@@ -35,7 +37,7 @@ import static slimeknights.tconstruct.tools.TinkerToolParts.broadAxeHead;
 import static slimeknights.tconstruct.tools.TinkerToolParts.broadBlade;
 import static slimeknights.tconstruct.tools.TinkerToolParts.hammerHead;
 import static slimeknights.tconstruct.tools.TinkerToolParts.largePlate;
-import static slimeknights.tconstruct.tools.TinkerToolParts.pickaxeHead;
+import static slimeknights.tconstruct.tools.TinkerToolParts.pickHead;
 import static slimeknights.tconstruct.tools.TinkerToolParts.roundPlate;
 import static slimeknights.tconstruct.tools.TinkerToolParts.smallAxeHead;
 import static slimeknights.tconstruct.tools.TinkerToolParts.smallBlade;
@@ -53,7 +55,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
     // pickaxes
     define(ToolDefinitions.PICKAXE)
       // parts
-      .part(pickaxeHead)
+      .part(pickHead)
       .part(toolHandle)
       .part(toolBinding)
       // stats
@@ -82,7 +84,6 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .largeToolStartingSlots()
       // traits
       .trait(TinkerModifiers.smite, 2)
-      .trait(TinkerModifiers.twoHanded)
       // harvest
       .action(ToolActions.PICKAXE_DIG)
       .effective(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -93,18 +94,17 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       // parts
       .part(hammerHead, 2)
       .part(toughHandle)
-      .part(pickaxeHead, 1)
+      .part(pickHead, 1)
       .part(largePlate)
       // stats
       .stat(ToolStats.ATTACK_DAMAGE, 3f) // gains +1.25 damage from piercing
-      .stat(ToolStats.ATTACK_SPEED, 1.1f)
+      .stat(ToolStats.ATTACK_SPEED, 0.85f)
       .multiplier(ToolStats.ATTACK_DAMAGE, 1.25f)
       .multiplier(ToolStats.MINING_SPEED, 0.3f)
       .multiplier(ToolStats.DURABILITY, 5.0f)
       .largeToolStartingSlots()
       // traits
       .trait(TinkerModifiers.piercing, 2)
-      .trait(TinkerModifiers.twoHanded)
       // harvest
       .action(ToolActions.PICKAXE_DIG)
       .effective(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -133,28 +133,31 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .action(ToolActions.SHOVEL_DIG)
       .harvestLogic(ModifiedHarvestLogic
                       .builder(TinkerTags.Blocks.MINABLE_WITH_MATTOCK)
-                      .notTagModifier(BlockTags.MINEABLE_WITH_SHOVEL, 0.65f)
+                      // 200% hand speed on any axe block we do not directly target
+                      .addModifier(2f, new AndBlockPredicate(new TagBlockPredicate(BlockTags.MINEABLE_WITH_AXE),
+                                                             new TagBlockPredicate(TinkerTags.Blocks.MINABLE_WITH_MATTOCK).inverted()))
                       .build())
       .aoe(new VeiningAOEIterator(0));
 
     define(ToolDefinitions.PICKADZE)
       // parts
-      .part(pickaxeHead)
+      .part(pickHead)
       .part(toolHandle)
       .part(roundPlate)
       // stats
       .stat(ToolStats.ATTACK_DAMAGE, 0.5f)
-      .stat(ToolStats.ATTACK_SPEED, 1.4f)
+      .stat(ToolStats.ATTACK_SPEED, 1.3f)
       .smallToolStartingSlots()
       .multiplier(ToolStats.DURABILITY, 1.3f)
       .multiplier(ToolStats.MINING_SPEED, 0.75f)
       .multiplier(ToolStats.ATTACK_DAMAGE, 1.15f)
       // traits
       .trait(TinkerModifiers.shovelFlatten)
+      .trait(TinkerModifiers.baneOfSssss)
       // harvest
       .action(ToolActions.PICKAXE_DIG)
       .action(ToolActions.SHOVEL_DIG)
-      .harvestLogic(new FixedTierHarvestLogic(TinkerTags.Blocks.MINABLE_WITH_PICKADZE, Tiers.WOOD))
+      .harvestLogic(new FixedTierHarvestLogic(TinkerTags.Blocks.MINABLE_WITH_PICKADZE, Tiers.GOLD))
       .aoe(BoxAOEIterator.builder(0, 0, 0).addHeight(1).build());
 
     define(ToolDefinitions.EXCAVATOR)
@@ -173,7 +176,6 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       // traits
       .trait(TinkerModifiers.knockback, 2)
       .trait(TinkerModifiers.shovelFlatten)
-      .trait(TinkerModifiers.twoHanded)
       // harvest
       .action(ToolActions.SHOVEL_DIG)
       .effective(BlockTags.MINEABLE_WITH_SHOVEL)
@@ -205,7 +207,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       // parts
       .part(broadAxeHead, 2)
       .part(toughHandle)
-      .part(pickaxeHead, 1)
+      .part(pickHead, 1)
       .part(toolBinding)
       // stats
       .stat(ToolStats.ATTACK_DAMAGE, 5f)
@@ -218,7 +220,6 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .trait(TinkerModifiers.axeScrape)
       .trait(TinkerModifiers.axeStrip)
       .trait(TinkerModifiers.axeWaxOff)
-      .trait(TinkerModifiers.twoHanded)
       // harvest
       .action(ToolActions.AXE_DIG)
       .action(TinkerToolActions.SHIELD_DISABLE)
@@ -241,8 +242,8 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .part(toolBinding)
       // stats
       .stat(ToolStats.ATTACK_DAMAGE, 1f)
-      .stat(ToolStats.ATTACK_SPEED, 1.8f)
-      .multiplier(ToolStats.ATTACK_DAMAGE, 0.75f)
+      .stat(ToolStats.ATTACK_SPEED, 1.6f)
+      .multiplier(ToolStats.ATTACK_DAMAGE, 0.5f)
       .smallToolStartingSlots()
       // traits
       .trait(TinkerModifiers.shears)
@@ -250,7 +251,8 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       // harvest
       .action(ToolActions.HOE_DIG)
       .harvestLogic(scytheHarvest)
-      .aoe(new CircleAOEIterator(1, true));
+      .aoe(new CircleAOEIterator(1, true))
+      .attack(new CircleWeaponAttack(1));;
 
     define(ToolDefinitions.SCYTHE)
       // parts
@@ -260,7 +262,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .part(TinkerToolParts.toughHandle)
       // stats
       .stat(ToolStats.ATTACK_DAMAGE, 1f)
-      .stat(ToolStats.ATTACK_SPEED, 0.8f)
+      .stat(ToolStats.ATTACK_SPEED, 0.7f)
       .multiplier(ToolStats.MINING_SPEED, 0.45f)
       .multiplier(ToolStats.DURABILITY, 2.5f)
       .largeToolStartingSlots()
@@ -268,7 +270,6 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .trait(TinkerModifiers.hoeTill)
       .trait(TinkerModifiers.aoeSilkyShears)
       .trait(TinkerModifiers.harvest)
-      .trait(TinkerModifiers.twoHanded)
       // behavior
       .harvestLogic(scytheHarvest)
       .aoe(BoxAOEIterator.builder(1, 1, 2).addExpansion(1, 1, 0).addDepth(2).build())
@@ -281,8 +282,8 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .part(smallBlade)
       .part(toolHandle)
       // stats
-      .stat(ToolStats.ATTACK_DAMAGE, 2f)
-      .multiplier(ToolStats.ATTACK_DAMAGE, 0.5f)
+      .stat(ToolStats.ATTACK_DAMAGE, 3f)
+      .multiplier(ToolStats.ATTACK_DAMAGE, 0.65f)
       .stat(ToolStats.ATTACK_SPEED, 2.0f)
       .multiplier(ToolStats.MINING_SPEED, 0.75f)
       .multiplier(ToolStats.DURABILITY, 0.75f)
@@ -329,8 +330,8 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .part(toughHandle)
       .part(largePlate)
       // stats
-      .stat(ToolStats.ATTACK_DAMAGE, 3.5f)
-      .stat(ToolStats.ATTACK_SPEED, 0.9f)
+      .stat(ToolStats.ATTACK_DAMAGE, 3f)
+      .stat(ToolStats.ATTACK_SPEED, 1.0f)
       .multiplier(ToolStats.ATTACK_DAMAGE, 1.5f)
       .multiplier(ToolStats.MINING_SPEED, 0.25f)
       .multiplier(ToolStats.DURABILITY, 3.5f)
@@ -338,7 +339,6 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       // traits
       .trait(TinkerModifiers.severing, 2)
       .trait(TinkerModifiers.aoeSilkyShears)
-      .trait(TinkerModifiers.twoHanded)
       // behavior
       .action(ToolActions.SWORD_DIG)
       .harvestLogic(swordLogic)

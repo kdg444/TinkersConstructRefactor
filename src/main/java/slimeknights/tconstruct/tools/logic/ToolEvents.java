@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.logic;
 
+import com.google.common.collect.Multiset;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -29,6 +30,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingVisibilityEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -38,10 +40,12 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
+import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.events.TinkerToolEvent.ToolHarvestEvent;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.hooks.IArmorWalkModifier;
+import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataKeys;
 import slimeknights.tconstruct.library.tools.context.EquipmentContext;
 import slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial;
@@ -52,6 +56,8 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.utils.BlockSideHitListener;
 import slimeknights.tconstruct.tools.TinkerModifiers;
+import slimeknights.tconstruct.tools.modifiers.defense.ProjectileProtectionModifier;
+import slimeknights.tconstruct.tools.modifiers.traits.skull.MobDisguiseModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.harvest.HasteModifier;
 
 import java.util.List;
@@ -163,6 +169,9 @@ public class ToolEvents {
 
   @SubscribeEvent
   static void enderDragonDamage(LivingDamageEvent event) {
+    if (!Config.COMMON.dropDragonScales.get()) {
+      return;
+    }
     // dragon being damaged
     LivingEntity entity = event.getEntityLiving();
     if (entity.getType() == EntityType.ENDER_DRAGON && event.getAmount() > 0 && !entity.level.isClientSide) {
@@ -337,5 +346,34 @@ public class ToolEvents {
         }
       }
     }
+  }
+
+  /** Handles visibility effects of mob disguise and projectile protection */
+  @SubscribeEvent
+  static void livingVisibility(LivingVisibilityEvent event) {
+    // always nonnull in vanilla, not sure when it would be nullable but I dont see a need for either modifier
+    Entity lookingEntity = event.getLookingEntity();
+    if (lookingEntity == null) {
+      return;
+    }
+    LivingEntity living = event.getEntityLiving();
+    living.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
+      // mob disguise
+      Multiset<EntityType<?>> disguises = data.get(MobDisguiseModifier.DISGUISES);
+      if (disguises != null && disguises.contains(lookingEntity.getType())) {
+        // not as good as a real head
+        event.modifyVisibility(0.65f);
+      }
+
+      // projectile protection
+      ModifierMaxLevel projData = data.get(ProjectileProtectionModifier.PROJECTILE_DATA);
+      if (projData != null) {
+        float max = projData.getMax();
+        if (max > 0) {
+          // reduces visibility by 5% per level
+          event.modifyVisibility(Math.max(0, 1 - (max * 0.05)));
+        }
+      }
+    });
   }
 }

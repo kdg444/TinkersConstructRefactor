@@ -14,6 +14,8 @@ import net.minecraftforge.fml.event.config.ModConfigEvent.Reloading;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.commons.lang3.tuple.Pair;
 import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.IOreRate;
+import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.OreRateType;
 import slimeknights.tconstruct.library.utils.Orientation2D;
 import slimeknights.tconstruct.world.TinkerHeadType;
 import slimeknights.tconstruct.world.TinkerStructures;
@@ -42,20 +44,26 @@ public class Config {
     public final BooleanValue slimyLootChests;
     public final IntValue barterBlazingBlood;
     public final IntValue tinkerToolBonusChest;
+    public final BooleanValue dropDragonScales;
 
-    public final ConfigValue<Integer> melterNuggetsPerOre;
-    public final ConfigValue<Integer> smelteryNuggetsPerOre;
-    public final ConfigValue<Integer> foundryNuggetsPerOre, foundryByproductNuggetsPerOre;
+    public final OreRate melterOreRate;
+    public final OreRate smelteryOreRate;
+    public final OreRate foundryOreRate, foundryByproductRate;
 
     public final BooleanValue generateCobalt;
     public final ConfigValue<Integer> veinCountCobalt;
 
     // overworld
+    public final BooleanValue forceSlimeIslands;
     public final SlimeIslandConfiguration earthslimeIslands;
     public final SlimeIslandConfiguration skyslimeIslands;
     public final SlimeIslandConfiguration clayIslands;
     public final SlimeIslandConfiguration bloodIslands;
     public final SlimeIslandConfiguration endslimeIslands;
+    public final BooleanValue earthGeodes;
+    public final BooleanValue skyGeodes;
+    public final BooleanValue ichorGeodes;
+    public final BooleanValue enderGeodes;
 
     public final ConfigValue<String> showOnlyToolMaterial;
     public final ConfigValue<String> showOnlyPartMaterial;
@@ -140,23 +148,25 @@ public class Config {
         .worldRestart()
         .define("glassRecipeFix", true);
 
-      this.melterNuggetsPerOre = builder
-        .comment("Number of nuggets produced when an ore block is melted in the melter. 9 would give 1 ingot")
-        .translation("tconstruct.configgui.melterNuggetsPerOre")
-        .defineInRange("melterNuggetsPerOre", 12, 1, 45);
-      this.smelteryNuggetsPerOre = builder
-        .comment("Number of nuggets produced when an ore block is melted in the smeltery. 9 nuggets would give 1 ingot")
-        .translation("tconstruct.configgui.smelteryNuggetsPerOre")
-        .defineInRange("smelteryNuggetsPerOre", 12, 1, 45);
-      this.foundryNuggetsPerOre = builder
-        .comment("Number of nuggets produced when an ore block is melted in the foundry. 9 nuggets would give 1 ingot")
-        .translation("tconstruct.configgui.foundryNuggetsPerOre")
-        .defineInRange("foundryNuggetsPerOre", 9, 1, 45);
-      this.foundryByproductNuggetsPerOre = builder
-        .comment("Number of nuggets of byproduct produced when an ore block is melted in the foundry. 9 nuggets would give 1 ingot",
-                 "Note some byproducts (such as gold from copper) have a reduced value")
-        .worldRestart()
-        .defineInRange("foundryByproductNuggetsPerOre", 3, 1, 45);
+      builder.push("ore_rates");
+      {
+        builder.comment("Ore rates when melting in the melter").push("melter");
+        this.melterOreRate = new OreRate(builder, 12, 8);
+        builder.pop();
+
+        builder.comment("Ore rates when melting in the smeltery").push("smeltery");
+        this.smelteryOreRate = new OreRate(builder, 12, 8);
+        builder.pop();
+
+        builder.comment("Ore rates when melting in the foundry").push("foundry");
+        this.foundryOreRate = new OreRate(builder, 9, 4);
+        builder.pop();
+
+        builder.comment("Byprouct rates when melting in the foundry").push("foundry_byproduct");
+        this.foundryByproductRate = new OreRate(builder, 3, 4);
+        builder.pop();
+      }
+      builder.pop();
 
       builder.comment("Entity head drops when killed by a charged creeper").push("heads");
       headDrops = new EnumMap<>(TinkerHeadType.class);
@@ -185,43 +195,68 @@ public class Config {
                  "For comparison, vanilla wooden axes and pickaxes have a weight of 3, and stone axes/pickaxes have a weight of 1")
         .worldRestart()
         .defineInRange("tinker_tool_bonus_chest", 2, 0, 25);
+      dropDragonScales = builder
+        .comment("If true, ender dragons will drop scales when damaged by explosions")
+        .define("drop_dragon_Scales", true);
 
       builder.pop();
 
       builder.comment("Everything to do with world generation").push("worldgen");
+      {
+        this.generateCobalt = builder
+          .comment("Generate Cobalt")
+          .translation("tconstruct.configgui.generateCobalt")
+          .worldRestart()
+          .define("generateCobalt", true);
+        this.veinCountCobalt = builder
+          .comment("Approx Ores per Chunk")
+          .translation("tconstruct.configgui.veinCountCobalt")
+          .worldRestart()
+          .define("veinCountCobalt", 8);
 
-      this.generateCobalt = builder
-        .comment("Generate Cobalt")
-        .translation("tconstruct.configgui.generateCobalt")
-        .worldRestart()
-        .define("generateCobalt", true);
-      this.veinCountCobalt = builder
-        .comment("Approx Ores per Chunk")
-        .translation("tconstruct.configgui.veinCountCobalt")
-        .worldRestart()
-        .define("veinCountCobalt", 8);
+        builder.comment("Options related to slime islands").push("slime_islands");
 
-      builder.comment("Options related to slime islands").push("slime_islands");
-      builder.comment("Options related to earth slime islands spawning in the oceans").push("earth");
-      this.earthslimeIslands = new SlimeIslandConfiguration(builder, 35, 0.75, 25988585);
-      builder.pop();
+        forceSlimeIslands = builder
+          .comment("If true, slime islands are forced into the world, ignoring datapacks decisions. Disable if you are making a custom datapack and want full control over island placement.",
+                   "Defaults to true because users like to pretend datapacks are mods and thus should work automatically with mods.",
+                   "Normally I would default this sort of thing to false, but with how datapacks are set up, mod support in a datapack is not practical. Honestly should just be a mod at that point, but...")
+          .define("forceAddToWorld", true);
 
-      builder.comment("Settings for sky slime islands in the overworld sky").push("sky");
-      this.skyslimeIslands = new SlimeIslandConfiguration(builder, 40, 0.35, 14357800);
-      builder.pop();
+        builder.comment("Options related to earth slime islands spawning in the oceans").push("earth");
+        this.earthslimeIslands = new SlimeIslandConfiguration(builder, 35, 0.75, 25988585);
+        builder.pop();
 
-      builder.comment("Settings for clay islands in the overworld sky").push("clay");
-      this.clayIslands = new SlimeIslandConfiguration(builder, 125, 0.65, 162976988);
-      builder.pop();
+        builder.comment("Settings for sky slime islands in the overworld sky").push("sky");
+        this.skyslimeIslands = new SlimeIslandConfiguration(builder, 40, 0.35, 14357800);
+        builder.pop();
 
-      builder.comment("Settings for blood islands in the nether lava ocean").push("blood");
-      this.bloodIslands = new SlimeIslandConfiguration(builder, 15, 0.6, 65245622);
-      builder.pop();
+        builder.comment("Settings for clay islands in the overworld sky").push("clay");
+        this.clayIslands = new SlimeIslandConfiguration(builder, 125, 0.65, 162976988);
+        builder.pop();
 
-      builder.comment("Settings for end slime islands in the outer end islands").push("end");
-      this.endslimeIslands = new SlimeIslandConfiguration(builder, 25, 0.5, 368963602);
-      builder.pop(2);
+        builder.comment("Settings for blood islands in the nether lava ocean").push("blood");
+        this.bloodIslands = new SlimeIslandConfiguration(builder, 15, 0.6, 65245622);
+        builder.pop();
 
+        builder.comment("Settings for end slime islands in the outer end islands").push("end");
+        this.endslimeIslands = new SlimeIslandConfiguration(builder, 25, 0.5, 368963602);
+        builder.pop(2);
+
+        builder.comment("Options related to slime geodes").push("geodes");
+        this.earthGeodes = builder
+          .comment("If true, earthslime geodes generate deep in the world as another way to get slime")
+            .define("earth", true);
+        this.skyGeodes = builder
+          .comment("If true, skyslime geodes generate above amethyst as another way to get skyslime")
+          .define("sky", true);
+        this.ichorGeodes = builder
+          .comment("If true, ichor geodes generate high in the nether. Strongly encouraged to keep enabled even if you disable the other geodes, as ichor crystals have some unique recipes and the fallbacks kinda suck for gameplay.")
+          .define("ichor", true);
+        this.enderGeodes = builder
+          .comment("If true, enderslime geodes generate as additional islands in the end")
+          .define("ender", true);
+        builder.pop();
+      }
       builder.pop();
 
       builder.comment("Features to use in debugging gameplay and mechanics, generally should not be enabled in packs").push("debug");
@@ -397,6 +432,29 @@ public class Config {
     public StructureFeatureConfiguration makeConfiguration() {
       int spacing = this.spacing.get();
       return new StructureFeatureConfiguration(spacing, (int)(this.separationPercent.get() * spacing), salt);
+    }
+  }
+
+  /** Configuration for an ore rate, such as melter or foundry */
+  public static class OreRate implements IOreRate {
+    private final ConfigValue<Integer> nuggetsPerMetal;
+    private final ConfigValue<Integer> shardsPerGem;
+
+    public OreRate(ForgeConfigSpec.Builder builder, int defaultNuggets, int defaultQuarters) {
+      nuggetsPerMetal = builder
+        .comment("Number of nuggets produced per metal ore unit melted. 9 nuggets would give 1 ingot")
+        .defineInRange("nuggetsPerMetal", defaultNuggets, 1, 45);
+      shardsPerGem = builder
+        .comment("Number of gem shards produced per gem ore unit melted. 4 gem shards would give 1 gem")
+        .defineInRange("shardsPerGem", defaultQuarters, 1, 20);
+    }
+
+    @Override
+    public int applyOreBoost(OreRateType rate, int amount) {
+      return switch (rate) {
+        case METAL -> amount * nuggetsPerMetal.get() / 9;
+        case GEM -> amount * shardsPerGem.get() / 4;
+      };
     }
   }
 }

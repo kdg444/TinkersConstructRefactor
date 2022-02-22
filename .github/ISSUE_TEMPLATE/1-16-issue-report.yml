@@ -1,14 +1,14 @@
 name: 1.16 Issue Report
-description: Report an issue with the 1.16 alphas of Minecraft
+description: Report an issue with the 1.16 beta of Minecraft
 labels: [1.16, Bug, Unreviewed]
 body:
   - type: markdown
     attributes:
       value: |
-        Please note that 1.16 versions of the mod are in alpha, so are subject to change. Before submitting an issue, please search the following links to make sure your issue is not covered:
+        Please note that 1.16 versions of the mod are in nearing end of support as we move to 1.18. Before submitting an issue, please search the following links to make sure your issue is not covered:
         
         * **[Roadmap](/SlimeKnights/TinkersConstruct/wiki/Tinkers%27-Construct-3-Roadmap)**: Discusses unimplemented features and planned new changes
-        * **[What's New](/SlimeKnights/TinkersConstruct/wiki/New-in-Tinkers%27-Construct-3)**: Discusses many of the major changes in the 1.16 alphas
+        * **[What's New](/SlimeKnights/TinkersConstruct/wiki/New-in-Tinkers%27-Construct-3)**: Discusses many of the major changes in the 1.16 versions
         * **[FAQ](/SlimeKnights/TinkersConstruct/wiki/Tinkers%27-Construct-3-FAQ)**: Answers to many frequently asked questions about the 1.16 versions
         
         Please fill in the following template to report your issue.
@@ -90,6 +90,7 @@ body:
       label: Confirm the following
       description: Check all actions you have performed
       options:
-        - label: "Confirm you have checked the roadmap, what's new, and the FAQ for your issue"
-        - label: "Confirm you have searched the tracker to see if your issue already exists"
-        - label: "Confirm you are not using performance enhancers, such as optifine"
+        - label: "Check if you are using performance enhancers, such as optifine"
+        - label: "Check if you have searched the tracker to see if your issue already exists, notably pinned issues"
+        - label: "Check if you did not read any of the checkboxes and just checked all the boxes"
+        - label: "Check if you read FAQ to see if your issue is answered"
