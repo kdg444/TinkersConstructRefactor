@@ -7,7 +7,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IModelData;
+import slimeknights.mantle.lib.model.IModelData;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
 import slimeknights.mantle.util.BlockEntityHelper;

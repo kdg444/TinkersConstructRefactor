@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.recipe.casting.container;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -11,11 +12,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
+import slimeknights.mantle.lib.transfer.TransferUtil;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.tconstruct.library.recipe.RecipeTypes;
 import slimeknights.tconstruct.library.recipe.casting.DisplayCastingRecipe;
@@ -43,11 +41,11 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
   protected final Item container;
 
   @Override
-  public int getFluidAmount(ICastingContainer inv) {
+  public long getFluidAmount(ICastingContainer inv) {
     Fluid fluid = inv.getFluid();
-    return inv.getStack().getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
-              .map(handler -> handler.fill(new FluidStack(fluid, this.fluidAmount), FluidAction.SIMULATE))
-              .orElse(0);
+    return TransferUtil.getFluidHandlerItem(inv.getStack())
+              .map(handler -> handler.fill(new FluidStack(fluid, this.fluidAmount), true))
+              .orElse(0L);
   }
 
   @Override
@@ -70,8 +68,8 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
     ItemStack stack = inv.getStack();
     Fluid fluid = inv.getFluid();
     return stack.getItem() == this.container.asItem()
-           && stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
-                   .filter(handler -> handler.fill(new FluidStack(fluid, this.fluidAmount), FluidAction.SIMULATE) > 0)
+           && TransferUtil.getFluidHandlerItem(stack)
+                   .filter(handler -> handler.fill(new FluidStack(fluid, this.fluidAmount), true) > 0)
                    .isPresent();
   }
 
@@ -85,8 +83,8 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
   @Override
   public ItemStack assemble(ICastingContainer inv) {
     ItemStack stack = inv.getStack().copy();
-    return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).map(handler -> {
-      handler.fill(new FluidStack(inv.getFluid(), this.fluidAmount, inv.getFluidTag()), FluidAction.EXECUTE);
+    return TransferUtil.getFluidHandlerItem(stack).map(handler -> {
+      handler.fill(new FluidStack(inv.getFluid(), this.fluidAmount, inv.getFluidTag()), false);
       return handler.getContainer();
     }).orElse(stack);
   }
@@ -99,13 +97,13 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
   public List<DisplayCastingRecipe> getRecipes() {
     if (displayRecipes == null) {
       List<ItemStack> casts = Collections.singletonList(new ItemStack(container));
-      displayRecipes = ForgeRegistries.FLUIDS.getValues().stream()
+      displayRecipes = Registry.FLUID.stream()
                                              .filter(fluid -> fluid.getBucket() != Items.AIR && fluid.isSource(fluid.defaultFluidState()))
                                              .map(fluid -> {
                                                FluidStack fluidStack = new FluidStack(fluid, fluidAmount);
                                                ItemStack stack = new ItemStack(container);
-                                               stack = FluidUtil.getFluidHandler(stack).map(handler -> {
-                                                 handler.fill(fluidStack, FluidAction.EXECUTE);
+                                               stack = TransferUtil.getFluidHandlerItem(stack).map(handler -> {
+                                                 handler.fill(fluidStack, false);
                                                  return handler.getContainer();
                                                }).orElse(stack);
                                                return new DisplayCastingRecipe(getType(), casts, Collections.singletonList(fluidStack), stack, 5, true);

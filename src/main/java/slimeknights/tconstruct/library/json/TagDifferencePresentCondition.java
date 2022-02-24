@@ -9,8 +9,6 @@ import net.minecraft.tags.SerializationTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagCollection;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
 

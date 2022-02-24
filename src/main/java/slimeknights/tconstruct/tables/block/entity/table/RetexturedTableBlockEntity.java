@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.tables.block.entity.table;
 
 import lombok.Getter;
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -10,8 +12,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.common.util.Lazy;
+import slimeknights.mantle.lib.block.CustomRenderBoundingBoxBlockEntity;
+import slimeknights.mantle.lib.model.IModelData;
+import slimeknights.mantle.lib.util.Lazy;
 import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.shared.block.entity.TableBlockEntity;
@@ -19,7 +22,7 @@ import slimeknights.tconstruct.shared.block.entity.TableBlockEntity;
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
-public abstract class RetexturedTableBlockEntity extends TableBlockEntity implements IRetexturedBlockEntity {
+public abstract class RetexturedTableBlockEntity extends TableBlockEntity implements IRetexturedBlockEntity, RenderAttachmentBlockEntity, CustomRenderBoundingBoxBlockEntity {
   private static final String TAG_TEXTURE = "texture";
 
   private final Lazy<IModelData> data = Lazy.of(this::getRetexturedModelData);
@@ -38,7 +41,7 @@ public abstract class RetexturedTableBlockEntity extends TableBlockEntity implem
 
   @Nonnull
   @Override
-  public IModelData getModelData() {
+  public Object getRenderAttachmentData() {
     return this.data.get();
   }
 
@@ -47,17 +50,17 @@ public abstract class RetexturedTableBlockEntity extends TableBlockEntity implem
     if (texture == Blocks.AIR) {
       return "";
     }
-    return Objects.requireNonNull(texture.getRegistryName()).toString();
+    return Objects.requireNonNull(Registry.BLOCK.getKey(texture)).toString();
   }
 
   private void textureUpdated() {
     // update the texture in BE data
     if (level != null && level.isClientSide) {
       Block normalizedTexture = texture == Blocks.AIR ? null : texture;
-      IModelData data = getModelData();
+      IModelData data = getRetexturedModelData();
       if (data.getData(RetexturedHelper.BLOCK_PROPERTY) != normalizedTexture) {
         data.setData(RetexturedHelper.BLOCK_PROPERTY, normalizedTexture);
-        requestModelDataUpdate();
+//        requestModelDataUpdate();
         BlockState state = getBlockState();
         level.sendBlockUpdated(worldPosition, state, state, 0);
       }
@@ -78,7 +81,7 @@ public abstract class RetexturedTableBlockEntity extends TableBlockEntity implem
   public void saveSynced(CompoundTag tags) {
     super.saveSynced(tags);
     if (texture != Blocks.AIR) {
-      tags.putString(TAG_TEXTURE, Objects.requireNonNull(texture.getRegistryName()).toString());
+      tags.putString(TAG_TEXTURE, Objects.requireNonNull(Registry.BLOCK.getKey(texture)).toString());
     }
   }
 

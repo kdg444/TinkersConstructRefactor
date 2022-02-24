@@ -73,7 +73,7 @@ public interface IMeltingRecipe extends ICustomOutputRecipe<IMeltingContainer> {
    * @param amount  Fluid amount
    * @return  Time factor
    */
-  static float calcTimeFactor(int amount) {
+  static float calcTimeFactor(long amount) {
     return (float)Math.sqrt(amount / (float)FluidValues.INGOT);
   }
 
@@ -83,7 +83,7 @@ public interface IMeltingRecipe extends ICustomOutputRecipe<IMeltingContainer> {
    * @param amount       Amount of relevant fluid
    * @return  Time for the recipe in celsius
    */
-  static int calcTimeForAmount(int temperature, int amount) {
+  static int calcTimeForAmount(int temperature, long amount) {
     return calcTime(temperature, calcTimeFactor(amount));
   }
 }

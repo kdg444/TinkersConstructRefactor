@@ -14,7 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IModelData;
+import slimeknights.mantle.lib.model.IModelData;
 import net.minecraftforge.common.capabilities.Capability;
 import slimeknights.mantle.lib.util.LazyOptional;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;

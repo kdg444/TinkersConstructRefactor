@@ -3,6 +3,7 @@ package slimeknights.tconstruct.smeltery.block.entity.tank;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +23,7 @@ public class CastingFluidHandler implements IFluidHandler {
   @Getter @Setter
   private FluidStack fluid = FluidStack.EMPTY;
   @Setter
-  private int capacity = 0;
+  private long capacity = 0;
   private Fluid filter = Fluids.EMPTY;
 
   /** Checks if the given fluid is valid */
@@ -36,7 +37,7 @@ public class CastingFluidHandler implements IFluidHandler {
   }
 
   /** Gets the current capacity of this fluid handler */
-  public int getCapacity() {
+  public long getCapacity() {
     if (capacity == 0) {
       return fluid.getAmount();
     }
@@ -51,20 +52,20 @@ public class CastingFluidHandler implements IFluidHandler {
   }
 
   @Override
-  public int fill(FluidStack resource, FluidAction action) {
+  public long fill(FluidStack resource, boolean sim) {
     if (resource.isEmpty() || !isFluidValid(resource)) {
       return 0;
     }
 
     // update filter and capacity
-    int capacity = this.capacity;
+    long capacity = this.capacity;
     if (filter == null || this.capacity == 0) {
       Fluid fluid = resource.getFluid();
-      capacity = tile.initNewCasting(resource, action);
+      capacity = tile.initNewCasting(resource, sim);
       if (capacity <= 0) {
         return 0;
       }
-      if (action.execute()) {
+      if (!sim) {
         this.capacity = capacity;
         this.filter = fluid;
       }
@@ -72,8 +73,8 @@ public class CastingFluidHandler implements IFluidHandler {
 
     // if no fluid yet, copy it in
     if (fluid.isEmpty()) {
-      int amount = Math.min(capacity, resource.getAmount());
-      if (action.execute()) {
+      long amount = Math.min(capacity, resource.getAmount());
+      if (!sim) {
         fluid = new FluidStack(resource, amount);
         tile.onContentsChanged();
       }
@@ -86,21 +87,21 @@ public class CastingFluidHandler implements IFluidHandler {
     }
 
     // if full, nothing to do
-    int space = capacity - fluid.getAmount();
+    long space = capacity - fluid.getAmount();
     if (space <= 0) {
       return 0;
     }
     // if it fits, it grows
-    int amount = resource.getAmount();
+    long amount = resource.getAmount();
     if (amount < space) {
-      if (action.execute()) {
+      if (!sim) {
         fluid.grow(amount);
         tile.onContentsChanged();
       }
       return amount;
     } else {
       // too much? set to max
-      if (action.execute()) {
+      if (!sim) {
         fluid.setAmount(capacity);
         tile.onContentsChanged();
       }
@@ -110,23 +111,23 @@ public class CastingFluidHandler implements IFluidHandler {
 
   @Nonnull
   @Override
-  public FluidStack drain(FluidStack resource, FluidAction action) {
+  public FluidStack drain(FluidStack resource, boolean sim) {
     if (resource.isEmpty() || !resource.isFluidEqual(fluid)) {
       return FluidStack.EMPTY;
     }
-    return this.drain(resource.getAmount(), action);
+    return this.drain(resource.getAmount(), sim);
   }
 
   @Nonnull
   @Override
-  public FluidStack drain(int maxDrain, FluidAction action) {
-    int drained = Math.min(fluid.getAmount(), maxDrain);
+  public FluidStack drain(long maxDrain, boolean sim) {
+    long drained = Math.min(fluid.getAmount(), maxDrain);
     if (drained <= 0) {
       return FluidStack.EMPTY;
     }
 
     FluidStack stack = new FluidStack(fluid, drained);
-    if (action.execute()) {
+    if (!sim) {
       fluid.shrink(drained);
       if (fluid.isEmpty()) {
         // since empty, assume the current recipe is invalid now
@@ -157,7 +158,7 @@ public class CastingFluidHandler implements IFluidHandler {
   }
 
   @Override
-  public int getTankCapacity(int tank) {
+  public long getTankCapacity(int tank) {
     return getCapacity();
   }
 
@@ -173,12 +174,12 @@ public class CastingFluidHandler implements IFluidHandler {
 
   /** Reads the tank from Tag */
   public void readFromTag(CompoundTag nbt) {
-    capacity = nbt.getInt(TAG_CAPACITY);
+    capacity = nbt.getLong(TAG_CAPACITY);
     if (nbt.contains(TAG_FLUID, Tag.TAG_COMPOUND)) {
       setFluid(FluidStack.loadFluidStackFromNBT(nbt.getCompound(TAG_FLUID)));
     }
     if (nbt.contains(TAG_FILTER, Tag.TAG_STRING)) {
-      Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(nbt.getString(TAG_FILTER)));
+      Fluid fluid = Registry.FLUID.get(new ResourceLocation(nbt.getString(TAG_FILTER)));
       if (fluid != null) {
         filter = fluid;
       }
@@ -187,12 +188,12 @@ public class CastingFluidHandler implements IFluidHandler {
 
   /** Write the tank from NBT */
   public CompoundTag writeToTag(CompoundTag nbt) {
-    nbt.putInt(TAG_CAPACITY, capacity);
+    nbt.putLong(TAG_CAPACITY, capacity);
     if (!fluid.isEmpty()) {
       nbt.put(TAG_FLUID, fluid.writeToNBT(new CompoundTag()));
     }
     if (filter != Fluids.EMPTY) {
-      nbt.putString(TAG_FILTER, Objects.requireNonNull(filter.getRegistryName()).toString());
+      nbt.putString(TAG_FILTER, Objects.requireNonNull(Registry.FLUID.getKey(filter)).toString());
     }
     return nbt;
   }

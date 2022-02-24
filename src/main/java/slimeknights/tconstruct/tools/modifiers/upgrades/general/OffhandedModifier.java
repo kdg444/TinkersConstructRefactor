@@ -3,7 +3,7 @@ package slimeknights.tconstruct.tools.modifiers.upgrades.general;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.common.util.Lazy;
+import slimeknights.mantle.lib.util.Lazy;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.tools.context.ToolRebuildContext;
 import slimeknights.tconstruct.library.tools.item.IModifiable;

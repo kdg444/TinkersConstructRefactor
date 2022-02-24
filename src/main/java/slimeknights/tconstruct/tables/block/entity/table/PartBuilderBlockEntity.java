@@ -10,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.event.ForgeEventFactory;
 import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;

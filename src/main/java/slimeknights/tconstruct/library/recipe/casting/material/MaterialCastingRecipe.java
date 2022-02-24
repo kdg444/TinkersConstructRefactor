@@ -78,10 +78,10 @@ public abstract class MaterialCastingRecipe extends AbstractCastingRecipe implem
   }
 
   @Override
-  public int getFluidAmount(ICastingContainer inv) {
+  public long getFluidAmount(ICastingContainer inv) {
     return getCachedMaterialFluid(inv)
              .map(recipe -> recipe.getFluidAmount(inv.getFluid()))
-             .orElse(1) * this.itemCost;
+             .orElse(1L) * this.itemCost;
   }
 
   @Override
@@ -121,7 +121,7 @@ public abstract class MaterialCastingRecipe extends AbstractCastingRecipe implem
         })
         .map(recipe -> {
           List<FluidStack> fluids = resizeFluids(recipe.getFluids());
-          int fluidAmount = fluids.stream().mapToInt(FluidStack::getAmount).max().orElse(0);
+          long fluidAmount = fluids.stream().mapToLong(FluidStack::getAmount).max().orElse(0);
           return new DisplayCastingRecipe(type, castItems, fluids, result.withMaterial(recipe.getOutput().getVariant()),
                                           ICastingRecipe.calcCoolingTime(recipe.getTemperature(), itemCost * fluidAmount), consumed);
         })

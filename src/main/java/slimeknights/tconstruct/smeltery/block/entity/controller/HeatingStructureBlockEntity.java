@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.client.model.data.IModelData;
+import slimeknights.mantle.lib.model.IModelData;
 import net.minecraftforge.common.capabilities.Capability;
 import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;

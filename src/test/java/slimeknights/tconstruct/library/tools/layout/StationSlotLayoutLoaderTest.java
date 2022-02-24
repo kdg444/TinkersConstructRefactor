@@ -9,7 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.crafting.CraftingHelper;
+import slimeknights.mantle.lib.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.VanillaIngredientSerializer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

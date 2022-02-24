@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.util.Lazy;
+import slimeknights.mantle.lib.util.Lazy;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.data.CompoundIngredient;
 import slimeknights.tconstruct.TConstruct;

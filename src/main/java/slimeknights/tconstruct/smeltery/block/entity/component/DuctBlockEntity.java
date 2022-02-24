@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IModelData;
+import slimeknights.mantle.lib.model.IModelData;
 import net.minecraftforge.common.capabilities.Capability;
 import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;

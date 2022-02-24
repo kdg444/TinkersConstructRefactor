@@ -5,7 +5,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.util.Lazy;
+import slimeknights.mantle.lib.util.Lazy;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 

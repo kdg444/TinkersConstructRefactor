@@ -15,7 +15,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import slimeknights.mantle.recipe.helper.LoggingRecipeSerializer;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.mantle.util.JsonHelper;
@@ -88,7 +87,7 @@ public class MeltingRecipe implements IMeltingRecipe {
   public void handleByproducts(IMeltingContainer inv, IFluidHandler handler) {
     // fill byproducts until we run out of space or byproducts
     for (FluidStack fluidStack : byproducts) {
-      handler.fill(fluidStack.copy(), FluidAction.EXECUTE);
+      handler.fill(fluidStack.copy(), false);
     }
   }
 
@@ -146,13 +145,13 @@ public class MeltingRecipe implements IMeltingRecipe {
     protected T fromNetworkSafe(ResourceLocation id, FriendlyByteBuf buffer) {
       String group = buffer.readUtf(Short.MAX_VALUE);
       Ingredient input = Ingredient.fromNetwork(buffer);
-      FluidStack output = FluidStack.readFromPacket(buffer);
+      FluidStack output = FluidStack.fromBuffer(buffer);
       int temperature = buffer.readInt();
       int time = buffer.readVarInt();
       ImmutableList.Builder<FluidStack> builder = ImmutableList.builder();
       int byproductCount = buffer.readVarInt();
       for (int i = 0; i < byproductCount; i++) {
-        builder.add(FluidStack.readFromPacket(buffer));
+        builder.add(FluidStack.fromBuffer(buffer));
       }
       return createFromNetwork(id, group, input, output, temperature, time, builder.build(), buffer);
     }

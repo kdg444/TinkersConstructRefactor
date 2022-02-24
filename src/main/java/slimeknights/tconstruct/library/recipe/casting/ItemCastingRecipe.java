@@ -39,7 +39,7 @@ public abstract class ItemCastingRecipe extends AbstractCastingRecipe implements
   }
 
   @Override
-  public int getFluidAmount(ICastingContainer inv) {
+  public long getFluidAmount(ICastingContainer inv) {
     return this.fluid.getAmount(inv.getFluid());
   }
 

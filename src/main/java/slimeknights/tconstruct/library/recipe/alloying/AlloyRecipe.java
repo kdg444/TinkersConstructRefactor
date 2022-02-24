@@ -166,7 +166,7 @@ public class AlloyRecipe implements ICustomOutputRecipe<IAlloyTank> {
       int index = findMatch(ingredient, inv, used, true);
       if (index != -1 && drainFluids[index] == null) {
         fluid = inv.getFluidInTank(index);
-        int amount = ingredient.getAmount(fluid.getFluid());
+        long amount = ingredient.getAmount(fluid.getFluid());
         drainAmount += amount;
         drainFluids[index] = new FluidStack(fluid, amount);
       } else {
@@ -229,7 +229,7 @@ public class AlloyRecipe implements ICustomOutputRecipe<IAlloyTank> {
 
     @Override
     protected void toNetworkSafe(FriendlyByteBuf buffer, AlloyRecipe recipe) {
-      buffer.writeFluidStack(recipe.output);
+      recipe.output.toBuffer(buffer);
       buffer.writeVarInt(recipe.inputs.size());
       for (FluidIngredient input : recipe.inputs) {
         input.write(buffer);
@@ -240,7 +240,7 @@ public class AlloyRecipe implements ICustomOutputRecipe<IAlloyTank> {
     @Nullable
     @Override
     protected AlloyRecipe fromNetworkSafe(ResourceLocation id, FriendlyByteBuf buffer) {
-      FluidStack output = buffer.readFluidStack();
+      FluidStack output = FluidStack.fromBuffer(buffer);
       int inputCount = buffer.readVarInt();
       ImmutableList.Builder<FluidIngredient> builder = ImmutableList.builder();
       for (int i = 0; i < inputCount; i++) {

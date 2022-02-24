@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraftforge.common.crafting.CraftingHelper;
+import slimeknights.mantle.lib.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.FalseCondition;
 import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 import net.minecraftforge.common.crafting.conditions.TrueCondition;

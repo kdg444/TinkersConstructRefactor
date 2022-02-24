@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.casting;
 
 import net.minecraft.world.item.ItemStack;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.recipe.ICommonRecipe;
 import slimeknights.tconstruct.library.recipe.RecipeTypes;
@@ -21,7 +22,7 @@ public interface ICastingRecipe extends ICommonRecipe<ICastingContainer> {
    * @param inv  Inventory instance
    * @return  Fluid amount when using the fluid in the inventory
    */
-  int getFluidAmount(ICastingContainer inv);
+  long getFluidAmount(ICastingContainer inv);
 
   /**
    * @return true if the cast item is consumed on crafting
@@ -45,7 +46,7 @@ public interface ICastingRecipe extends ICommonRecipe<ICastingContainer> {
    * @param amount       Output amount
    * @return  Cooling time based on the given inputs
    */
-  static int calcCoolingTime(int temperature, int amount) {
+  static int calcCoolingTime(int temperature, long amount) {
     // the time in melting reipes assumes updating 5 times a second
     // we update 20 times a second, so get roughly a quart of those values
     return IMeltingRecipe.calcTimeForAmount(temperature, amount);
@@ -57,6 +58,6 @@ public interface ICastingRecipe extends ICommonRecipe<ICastingContainer> {
    * @return  Time for the recipe
    */
   static int calcCoolingTime(FluidStack fluid) {
-    return calcCoolingTime(fluid.getFluid().getAttributes().getTemperature(fluid) - 300, fluid.getAmount());
+    return calcCoolingTime(((FluidExtensions)fluid.getFluid()).getAttributes().getTemperature(fluid) - 300, fluid.getAmount());
   }
 }

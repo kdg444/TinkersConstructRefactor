@@ -3,11 +3,13 @@ package slimeknights.tconstruct.library.recipe.alloying;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
@@ -34,7 +36,7 @@ public class AlloyRecipeBuilder extends AbstractRecipeBuilder<AlloyRecipeBuilder
    * @return  Builder instance
    */
   public static AlloyRecipeBuilder alloy(FluidStack fluid) {
-    return alloy(fluid, fluid.getFluid().getAttributes().getTemperature(fluid) - 300);
+    return alloy(fluid, ((FluidExtensions)fluid.getFluid()).getAttributes().getTemperature(fluid) - 300);
   }
 
   /**
@@ -94,7 +96,7 @@ public class AlloyRecipeBuilder extends AbstractRecipeBuilder<AlloyRecipeBuilder
 
   @Override
   public void save(Consumer<FinishedRecipe> consumer) {
-    save(consumer, Objects.requireNonNull(output.getFluid().getRegistryName()));
+    save(consumer, Objects.requireNonNull(Registry.FLUID.getKey(output.getFluid())));
   }
 
   @Override

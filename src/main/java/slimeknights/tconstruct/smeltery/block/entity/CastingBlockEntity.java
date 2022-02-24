@@ -363,7 +363,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
    * @param action  EXECUTE or SIMULATE
    * @return        Amount of fluid needed for recipe, used to resize the tank.
    */
-  public int initNewCasting(FluidStack fluid, IFluidHandler.FluidAction action) {
+  public long initNewCasting(FluidStack fluid, boolean sim) {
     if (this.currentRecipe != null || this.recipeName != null) {
       return 0;
     }
@@ -386,7 +386,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
       castingInventory.useInput();
       ICastingRecipe castingRecipe = findCastingRecipe();
       if (castingRecipe != null) {
-        if (action == FluidAction.EXECUTE) {
+        if (!sim) {
           this.currentRecipe = castingRecipe;
           this.recipeName = null;
           this.lastOutput = null;
@@ -398,7 +398,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
       castingInventory.useOutput();
       ICastingRecipe castingRecipe = findCastingRecipe();
       if (castingRecipe != null) {
-        if (action == FluidAction.EXECUTE) {
+        if (!sim) {
           this.currentRecipe = castingRecipe;
           this.recipeName = null;
           this.lastOutput = null;
@@ -452,7 +452,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
     if (fluid.isEmpty()) {
       reset();
     } else {
-      int capacity = initNewCasting(fluid, FluidAction.EXECUTE);
+      long capacity = initNewCasting(fluid, false);
       if (capacity > 0) {
         tank.setCapacity(capacity);
       }
