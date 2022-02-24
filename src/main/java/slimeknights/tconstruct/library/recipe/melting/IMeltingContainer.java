@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import lombok.Getter;
 import net.minecraft.util.GsonHelper;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.recipe.container.ISingleStackContainer;
 
 import java.util.Locale;
@@ -20,7 +20,7 @@ public interface IMeltingContainer extends ISingleStackContainer {
   /** Ore rate logic in a melting container */
   interface IOreRate {
     /** Boosts the given integer by the rate */
-    int applyOreBoost(OreRateType rate, int amount);
+    long applyOreBoost(OreRateType rate, long amount);
 
     /** Boosts the given fluid stack by the rate */
     default FluidStack applyOreBoost(OreRateType rate, FluidStack fluid) {

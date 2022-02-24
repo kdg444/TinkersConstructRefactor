@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.common.network;
 
+import me.pepperbell.simplenetworking.NetworkDirection;
+import me.pepperbell.simplenetworking.S2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerLevel;
@@ -7,9 +9,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.PacketDistributor;
 import slimeknights.mantle.network.NetworkWrapper;
+import slimeknights.mantle.network.packet.ISimplePacket;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.materials.definition.UpdateMaterialsPacket;
 import slimeknights.tconstruct.library.materials.stats.UpdateMaterialStatsPacket;
@@ -128,8 +129,8 @@ public class TinkerNetwork extends NetworkWrapper {
    * @param entity  Entity to check
    */
   @Override
-  public void sendToTrackingAndSelf(Object msg, Entity entity) {
-    this.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), msg);
+  public void sendToTrackingAndSelf(S2CPacket msg, Entity entity) {
+    this.network.sendToClientsTrackingAndSelf(msg, entity);
   }
 
   /**
@@ -138,8 +139,8 @@ public class TinkerNetwork extends NetworkWrapper {
    * @param entity  Entity to check
    */
   @Override
-  public void sendToTracking(Object msg, Entity entity) {
-    this.network.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), msg);
+  public void sendToTracking(ISimplePacket msg, Entity entity) {
+    this.network.sendToClientsTracking(msg, entity);
   }
 
   /**

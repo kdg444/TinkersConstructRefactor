@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.library.utils.NBTTags;
 import slimeknights.tconstruct.smeltery.block.entity.ITankBlockEntity;

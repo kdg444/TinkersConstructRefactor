@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.recipe.modifiers.spilling.effects;
 
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.data.GenericLoaderRegistry;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.data.GenericLoaderRegistry.IHaveLoader;

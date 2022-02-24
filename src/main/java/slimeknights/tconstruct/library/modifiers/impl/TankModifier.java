@@ -8,8 +8,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ValidatedResult;
@@ -181,7 +180,7 @@ public class TankModifier extends Modifier {
    * @param amount     Amount to insert, overrides resource amount
    * @return  Fluid after filling, or empty if nothing changed
    */
-  public FluidStack fill(IToolStackView tool, FluidStack current, FluidStack resource, int amount) {
+  public FluidStack fill(IToolStackView tool, FluidStack current, FluidStack resource, long amount) {
     int capacity = getCapacity(tool);
     if (current.isEmpty()) {
       // cap fluid at capacity, store in tool
@@ -202,7 +201,7 @@ public class TankModifier extends Modifier {
    * @param amount   Amount to drain
    * @return  New fluid
    */
-  public FluidStack drain(IToolStackView tool, FluidStack current, int amount) {
+  public FluidStack drain(IToolStackView tool, FluidStack current, long amount) {
     if (current.getAmount() < amount) {
       return setFluid(tool, FluidStack.EMPTY);
     } else {
@@ -229,11 +228,11 @@ public class TankModifier extends Modifier {
     }
 
     @Override
-    public int fill(IToolStackView tool, int level, FluidStack resource, FluidAction action) {
+    public long fill(IToolStackView tool, int level, FluidStack resource, boolean sim) {
       if (!resource.isEmpty() && isOwner(tool)) {
         // must not be too full
         FluidStack current = getFluid(tool);
-        int remaining = getCapacity(tool) - current.getAmount();
+        long remaining = getCapacity(tool) - current.getAmount();
         if (remaining <= 0) {
           return 0;
         }
@@ -242,8 +241,8 @@ public class TankModifier extends Modifier {
           return 0;
         }
         // actual filling logic
-        int filled = Math.min(remaining, resource.getAmount());
-        if (filled > 0 && action.execute()) {
+        long filled = Math.min(remaining, resource.getAmount());
+        if (filled > 0 && !sim) {
           TankModifier.this.fill(tool, current, resource, filled);
         }
         return filled;
@@ -252,7 +251,7 @@ public class TankModifier extends Modifier {
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, int level, FluidStack resource, FluidAction action) {
+    public FluidStack drain(IToolStackView tool, int level, FluidStack resource, boolean sim) {
       if (!resource.isEmpty() && isOwner(tool)) {
         // fluid type mismatches
         FluidStack current = getFluid(tool);
@@ -260,9 +259,9 @@ public class TankModifier extends Modifier {
           return FluidStack.EMPTY;
         }
         // actual draining
-        int drainedAmount = Math.min(current.getAmount(), resource.getAmount());
+        long drainedAmount = Math.min(current.getAmount(), resource.getAmount());
         FluidStack drained = new FluidStack(current, drainedAmount);
-        if (action.execute()) {
+        if (!sim) {
           TankModifier.this.drain(tool, current, drainedAmount);
         }
         return drained;
@@ -271,7 +270,7 @@ public class TankModifier extends Modifier {
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, int level, int maxDrain, FluidAction action) {
+    public FluidStack drain(IToolStackView tool, int level, int maxDrain, boolean sim) {
       if (maxDrain > 0 && isOwner(tool)) {
         // fluid type mismatches
         FluidStack current = getFluid(tool);
@@ -279,9 +278,9 @@ public class TankModifier extends Modifier {
           return FluidStack.EMPTY;
         }
         // actual draining
-        int drainedAmount = Math.min(current.getAmount(), maxDrain);
+        long drainedAmount = Math.min(current.getAmount(), maxDrain);
         FluidStack drained = new FluidStack(current, drainedAmount);
-        if (action.execute()) {
+        if (!sim) {
           TankModifier.this.drain(tool, current, drainedAmount);
         }
         return drained;

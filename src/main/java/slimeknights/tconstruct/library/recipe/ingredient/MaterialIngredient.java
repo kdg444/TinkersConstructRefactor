@@ -12,7 +12,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.crafting.IIngredientSerializer;
+import slimeknights.mantle.lib.crafting.IIngredientSerializer;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
@@ -135,7 +135,7 @@ public class MaterialIngredient extends Ingredient {
   }
 
   @Override
-  protected void invalidate() {
+  public void invalidate() {
     super.invalidate();
     this.materialStacks = null;
   }

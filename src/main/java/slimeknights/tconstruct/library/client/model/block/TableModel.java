@@ -14,12 +14,12 @@ import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraftforge.client.model.IModelConfiguration;
-import net.minecraftforge.client.model.IModelLoader;
-import net.minecraftforge.client.model.geometry.IModelGeometry;
 import slimeknights.mantle.client.model.RetexturedModel;
 import slimeknights.mantle.client.model.inventory.ModelItem;
 import slimeknights.mantle.client.model.util.SimpleBlockModel;
+import slimeknights.mantle.lib.model.IModelConfiguration;
+import slimeknights.mantle.lib.model.IModelGeometry;
+import slimeknights.mantle.lib.model.IModelLoader;
 
 import java.util.Collection;
 import java.util.List;

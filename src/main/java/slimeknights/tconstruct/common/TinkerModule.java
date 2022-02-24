@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.common;
 
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
@@ -17,13 +18,11 @@ import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.item.BlockTooltipItem;
 import slimeknights.mantle.item.TooltipItem;
+import slimeknights.mantle.lib.loot.GlobalLootModifierSerializer;
+import slimeknights.mantle.lib.loot.LootModifierManager;
+import slimeknights.mantle.lib.util.MantleRegistry;
 import slimeknights.mantle.registration.deferred.BlockEntityTypeDeferredRegister;
 import slimeknights.mantle.registration.deferred.ContainerTypeDeferredRegister;
 import slimeknights.mantle.registration.deferred.EntityTypeDeferredRegister;
@@ -59,14 +58,14 @@ public abstract class TinkerModule {
   protected static final BlockEntityTypeDeferredRegister BLOCK_ENTITIES = new BlockEntityTypeDeferredRegister(TConstruct.MOD_ID);
   protected static final EntityTypeDeferredRegister ENTITIES = new EntityTypeDeferredRegister(TConstruct.MOD_ID);
   protected static final ContainerTypeDeferredRegister CONTAINERS = new ContainerTypeDeferredRegister(TConstruct.MOD_ID);
-  protected static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, TConstruct.MOD_ID);
-  protected static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, TConstruct.MOD_ID);
-  protected static final DeferredRegister<StructureFeature<?>> STRUCTURE_FEATURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, TConstruct.MOD_ID);
-  protected static final DeferredRegister<BlockStateProviderType<?>> BLOCK_STATE_PROVIDER_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_STATE_PROVIDER_TYPES, TConstruct.MOD_ID);
-  protected static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TConstruct.MOD_ID);
-  protected static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, TConstruct.MOD_ID);
-  protected static final DeferredRegister<Modifier> MODIFIERS = DeferredRegister.create(Modifier.class, TConstruct.MOD_ID);
-  protected static final DeferredRegister<GlobalLootModifierSerializer<?>> GLOBAL_LOOT_MODIFIERS = DeferredRegister.create(ForgeRegistries.LOOT_MODIFIER_SERIALIZERS, TConstruct.MOD_ID);
+  protected static final MantleRegistry<MobEffect> MOB_EFFECTS = MantleRegistry.create(Registry.MOB_EFFECT, TConstruct.MOD_ID);
+  protected static final MantleRegistry<Feature<?>> FEATURES = MantleRegistry.create(Registry.FEATURE, TConstruct.MOD_ID);
+  protected static final MantleRegistry<StructureFeature<?>> STRUCTURE_FEATURES = MantleRegistry.create(Registry.STRUCTURE_FEATURE, TConstruct.MOD_ID);
+  protected static final MantleRegistry<BlockStateProviderType<?>> BLOCK_STATE_PROVIDER_TYPES = MantleRegistry.create(Registry.BLOCKSTATE_PROVIDER_TYPES, TConstruct.MOD_ID);
+  protected static final MantleRegistry<RecipeSerializer<?>> RECIPE_SERIALIZERS = MantleRegistry.create(Registry.RECIPE_SERIALIZER, TConstruct.MOD_ID);
+  protected static final MantleRegistry<ParticleType<?>> PARTICLE_TYPES = MantleRegistry.create(Registry.PARTICLE_TYPE, TConstruct.MOD_ID);
+  protected static final MantleRegistry<Modifier> MODIFIERS = MantleRegistry.create(Modifier.class, TConstruct.MOD_ID);
+  protected static final MantleRegistry<GlobalLootModifierSerializer> GLOBAL_LOOT_MODIFIERS = MantleRegistry.create(LootModifierManager.SERIALIZER, TConstruct.MOD_ID);
 
   /** Creative tab for items that do not fit in another tab */
   @SuppressWarnings("WeakerAccess")
@@ -82,21 +81,20 @@ public abstract class TinkerModule {
 
   /** Called during construction to initialize the registers for this mod */
   public static void initRegisters() {
-    IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-    BLOCKS.register(bus);
-    ITEMS.register(bus);
-    FLUIDS.register(bus);
-    BLOCK_ENTITIES.register(bus);
-    ENTITIES.register(bus);
-    CONTAINERS.register(bus);
-    MOB_EFFECTS.register(bus);
-    FEATURES.register(bus);
-    STRUCTURE_FEATURES.register(bus);
-    BLOCK_STATE_PROVIDER_TYPES.register(bus);
-    RECIPE_SERIALIZERS.register(bus);
-    PARTICLE_TYPES.register(bus);
-    MODIFIERS.register(bus);
-    GLOBAL_LOOT_MODIFIERS.register(bus);
+    BLOCKS.register();
+    ITEMS.register();
+    FLUIDS.register();
+    BLOCK_ENTITIES.register();
+    ENTITIES.register();
+    CONTAINERS.register();
+    MOB_EFFECTS.register();
+    FEATURES.register();
+    STRUCTURE_FEATURES.register();
+    BLOCK_STATE_PROVIDER_TYPES.register();
+    RECIPE_SERIALIZERS.register();
+    PARTICLE_TYPES.register();
+    MODIFIERS.register();
+    GLOBAL_LOOT_MODIFIERS.register();
   }
 
   /**

@@ -1,36 +1,26 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.TagsProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.Registry;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tables.TinkerTables;
 
-import javax.annotation.Nullable;
-import java.nio.file.Path;
-
-public class TileEntityTypeTagProvider extends TagsProvider<BlockEntityType<?>> {
-  public TileEntityTypeTagProvider(DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
-    super(generatorIn, Registry.BLOCK_ENTITY_TYPE, TConstruct.MOD_ID, existingFileHelper, "tile_entity_types");
+public class TileEntityTypeTagProvider extends FabricTagProvider<BlockEntityType<?>> {
+  public TileEntityTypeTagProvider(FabricDataGenerator generatorIn) {
+    super(generatorIn, Registry.BLOCK_ENTITY_TYPE, "tile_entity_types", TConstruct.MOD_ID);
   }
 
   @Override
-  protected void addTags() {
+  protected void generateTags() {
     this.tag(TinkerTags.TileEntityTypes.CRAFTING_STATION_BLACKLIST)
         .add(TinkerTables.craftingStationTile.get(), TinkerTables.tinkerStationTile.get(), TinkerTables.partBuilderTile.get(),
 						 TinkerTables.partChestTile.get(), TinkerTables.tinkersChestTile.get(), TinkerTables.castChestTile.get(),
 						 TinkerSmeltery.basin.get(), TinkerSmeltery.table.get(), TinkerSmeltery.smeltery.get());
 
-  }
-
-  @Override
-  protected Path getPath(ResourceLocation id) {
-    return this.generator.getOutputFolder().resolve("data/" + id.getNamespace() + "/tags/" + folder + "/" + id.getPath() + ".json");
   }
 
   @Override

@@ -1,14 +1,14 @@
 package slimeknights.tconstruct.gadgets.capability;
 
+import dev.onyxstudios.cca.api.v3.component.Component;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
 import net.minecraft.core.Direction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
+import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 
 import javax.annotation.Nullable;
@@ -20,7 +20,7 @@ import java.util.List;
  * Does not serialize as the world saves the entities already, they just dismounted on logout
  */
 @RequiredArgsConstructor
-public class PiggybackHandler implements ICapabilityProvider {
+public class PiggybackHandler implements Component {
 
   /** Player holding this capability */
   @Nullable
@@ -51,5 +51,15 @@ public class PiggybackHandler implements ICapabilityProvider {
       }
       this.lastPassengers = this.riddenPlayer.getPassengers();
     }
+  }
+
+  @Override
+  public void readFromNbt(CompoundTag compoundTag) {
+
+  }
+
+  @Override
+  public void writeToNbt(CompoundTag compoundTag) {
+
   }
 }

@@ -1,5 +1,9 @@
 package slimeknights.tconstruct.common.data.tags;
 
+import me.alphamode.forgetags.Tags;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -12,8 +16,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.MetalItemObject;
 import slimeknights.tconstruct.TConstruct;
@@ -59,14 +61,14 @@ import static slimeknights.tconstruct.common.TinkerTags.Items.SWORD;
 import static slimeknights.tconstruct.common.TinkerTags.Items.TWO_HANDED;
 
 @SuppressWarnings("unchecked")
-public class ItemTagProvider extends ItemTagsProvider {
+public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
-  public ItemTagProvider(DataGenerator generatorIn, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
-    super(generatorIn, blockTagProvider, TConstruct.MOD_ID, existingFileHelper);
+  public ItemTagProvider(FabricDataGenerator generatorIn, BlockTagProvider blockTagProvider) {
+    super(generatorIn, blockTagProvider);
   }
 
   @Override
-  protected void addTags() {
+  protected void generateTags() {
     this.addCommon();
     this.addWorld();
     this.addSmeltery();
@@ -90,7 +92,7 @@ public class ItemTagProvider extends ItemTagsProvider {
     TinkerCommons.slimeball.forEach((type, ball) -> this.tag(type.getSlimeballTag()).add(ball));
 
     this.tag(Tags.Items.INGOTS).add(TinkerSmeltery.searedBrick.get(), TinkerSmeltery.scorchedBrick.get()).addTag(TinkerTags.Items.INGOTS_NETHERITE_SCRAP);
-    this.tag(Tags.Items.NUGGETS).addTags(TinkerTags.Items.NUGGETS_COPPER, TinkerTags.Items.NUGGETS_NETHERITE, TinkerTags.Items.NUGGETS_NETHERITE_SCRAP);
+    this.tag(Tags.Items.NUGGETS).addTag(TinkerTags.Items.NUGGETS_COPPER).addTag(TinkerTags.Items.NUGGETS_NETHERITE).addTag(TinkerTags.Items.NUGGETS_NETHERITE_SCRAP);
     this.tag(TinkerTags.Items.WITHER_BONES).add(TinkerMaterials.necroticBone.get());
 
     this.tag(TinkerTags.Items.NUGGETS_COPPER).add(TinkerMaterials.copperNugget.get());
@@ -122,10 +124,10 @@ public class ItemTagProvider extends ItemTagsProvider {
     copy(Tags.Blocks.STAINED_GLASS, Tags.Items.STAINED_GLASS);
     copy(Tags.Blocks.STAINED_GLASS_PANES, Tags.Items.STAINED_GLASS_PANES);
     for (DyeColor color : DyeColor.values()) {
-      ResourceLocation name = new ResourceLocation("forge", "glass/" + color.getSerializedName());
-      copy(BlockTags.createOptional(name), ItemTags.createOptional(name));
-      name = new ResourceLocation("forge", "glass_panes/" + color.getSerializedName());
-      copy(BlockTags.createOptional(name), ItemTags.createOptional(name));
+      ResourceLocation name = new ResourceLocation("c", "glass/" + color.getSerializedName());
+      copy(TagFactory.BLOCK.create(name), TagFactory.ITEM.create(name));
+      name = new ResourceLocation("c", "glass_panes/" + color.getSerializedName());
+      copy(TagFactory.BLOCK.create(name), TagFactory.ITEM.create(name));
     }
 
     copy(TinkerTags.Blocks.WORKBENCHES, TinkerTags.Items.WORKBENCHES);
@@ -144,8 +146,8 @@ public class ItemTagProvider extends ItemTagsProvider {
 
     // beacons are happy to accept any expensive ingots
     this.tag(ItemTags.BEACON_PAYMENT_ITEMS)
-        .addTags(TinkerMaterials.cobalt.getIngotTag(), TinkerMaterials.queensSlime.getIngotTag(),
-                 TinkerMaterials.manyullyn.getIngotTag(), TinkerMaterials.hepatizon.getIngotTag());
+        .addTag(TinkerMaterials.cobalt.getIngotTag()).addTag(TinkerMaterials.queensSlime.getIngotTag()).addTag(
+                 TinkerMaterials.manyullyn.getIngotTag()).addTag(TinkerMaterials.hepatizon.getIngotTag());
 
     this.copy(TinkerTags.Blocks.COPPER_PLATFORMS, TinkerTags.Items.COPPER_PLATFORMS);
   }

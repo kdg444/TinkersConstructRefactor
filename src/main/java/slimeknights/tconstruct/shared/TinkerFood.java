@@ -12,15 +12,15 @@ public final class TinkerFood {
   public static final FoodProperties BACON = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.6F).build();
 
   /** For the modifier */
-  public static final FoodProperties JEWELED_APPLE = (new FoodProperties.Builder()).nutrition(4).saturationMod(1.2F).effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 1200, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2400, 0), 1.0F).alwaysEat().build();
+  public static final FoodProperties JEWELED_APPLE = (new FoodProperties.Builder()).nutrition(4).saturationMod(1.2F).effect(new MobEffectInstance(MobEffects.DIG_SPEED, 1200, 0), 1.0F).effect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2400, 0), 1.0F).alwaysEat().build();
 
   /* Cake block is set up to take food as a parameter */
-  public static final FoodProperties EARTH_CAKE = new FoodProperties.Builder().nutrition(1).saturationMod(0.1f).alwaysEat().effect(() -> new MobEffectInstance(MobEffects.LUCK, 20 * 15, 0), 1.0f).build();
-  public static final FoodProperties SKY_CAKE   = new FoodProperties.Builder().nutrition(1).saturationMod(0.1f).alwaysEat().effect(() -> new MobEffectInstance(MobEffects.JUMP, 20 * 20, 1), 1.0f).build();
-  public static final FoodProperties ICHOR_CAKE = new FoodProperties.Builder().nutrition(3).saturationMod(0.1f).alwaysEat().effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 20 * 30, 0), 1.0f).build();
-  public static final FoodProperties BLOOD_CAKE = new FoodProperties.Builder().nutrition(1).saturationMod(0.2f).alwaysEat().effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 50 * 3, 0), 1.0f).build();
-  public static final FoodProperties MAGMA_CAKE = new FoodProperties.Builder().nutrition(1).saturationMod(0.2f).alwaysEat().effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 20 * 30, 0), 1.0f).build();
-  public static final FoodProperties ENDER_CAKE = new FoodProperties.Builder().nutrition(2).saturationMod(0.2f).alwaysEat().effect(() -> new MobEffectInstance(MobEffects.LEVITATION, 20 * 10, 0), 1.0f).build();
+  public static final FoodProperties EARTH_CAKE = new FoodProperties.Builder().nutrition(1).saturationMod(0.1f).alwaysEat().effect(new MobEffectInstance(MobEffects.LUCK, 20 * 15, 0), 1.0f).build();
+  public static final FoodProperties SKY_CAKE   = new FoodProperties.Builder().nutrition(1).saturationMod(0.1f).alwaysEat().effect(new MobEffectInstance(MobEffects.JUMP, 20 * 20, 1), 1.0f).build();
+  public static final FoodProperties ICHOR_CAKE = new FoodProperties.Builder().nutrition(3).saturationMod(0.1f).alwaysEat().effect(new MobEffectInstance(MobEffects.ABSORPTION, 20 * 30, 0), 1.0f).build();
+  public static final FoodProperties BLOOD_CAKE = new FoodProperties.Builder().nutrition(1).saturationMod(0.2f).alwaysEat().effect(new MobEffectInstance(MobEffects.REGENERATION, 50 * 3, 0), 1.0f).build();
+  public static final FoodProperties MAGMA_CAKE = new FoodProperties.Builder().nutrition(1).saturationMod(0.2f).alwaysEat().effect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 20 * 30, 0), 1.0f).build();
+  public static final FoodProperties ENDER_CAKE = new FoodProperties.Builder().nutrition(2).saturationMod(0.2f).alwaysEat().effect(new MobEffectInstance(MobEffects.LEVITATION, 20 * 10, 0), 1.0f).build();
 
   /**
    * Gets the cake for the given slime type

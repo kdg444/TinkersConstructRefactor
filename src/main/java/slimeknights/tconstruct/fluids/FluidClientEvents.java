@@ -1,20 +1,13 @@
 package slimeknights.tconstruct.fluids;
 
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import slimeknights.mantle.registration.object.FluidObject;
-import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 
-@EventBusSubscriber(modid = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
 public class FluidClientEvents extends ClientEventBase {
-  @SubscribeEvent
-  static void clientSetup(final FMLClientSetupEvent event) {
+
+  public static void clientSetup() {
     // slime
     setTranslucent(TinkerFluids.earthSlime);
     setTranslucent(TinkerFluids.skySlime);
@@ -31,7 +24,7 @@ public class FluidClientEvents extends ClientEventBase {
   }
 
   private static void setTranslucent(FluidObject<?> fluid) {
-    ItemBlockRenderTypes.setRenderLayer(fluid.getStill(), RenderType.translucent());
-    ItemBlockRenderTypes.setRenderLayer(fluid.getFlowing(), RenderType.translucent());
+    BlockRenderLayerMap.INSTANCE.putFluid(fluid.getStill(), RenderType.translucent());
+    BlockRenderLayerMap.INSTANCE.putFluid(fluid.getFlowing(), RenderType.translucent());
   }
 }

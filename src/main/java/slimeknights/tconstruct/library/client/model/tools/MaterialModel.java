@@ -32,14 +32,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec2;
-import net.minecraftforge.client.model.BakedItemModel;
-import net.minecraftforge.client.model.ForgeModelBakery;
-import net.minecraftforge.client.model.IModelConfiguration;
-import net.minecraftforge.client.model.IModelLoader;
-import net.minecraftforge.client.model.PerspectiveMapWrapper;
-import net.minecraftforge.client.model.geometry.IModelGeometry;
 import org.apache.commons.lang3.mutable.MutableObject;
+import slimeknights.mantle.client.model.util.BakedItemModel;
 import slimeknights.mantle.client.model.util.MantleItemLayerModel;
+import slimeknights.mantle.lib.model.IModelConfiguration;
+import slimeknights.mantle.lib.model.IModelGeometry;
+import slimeknights.mantle.lib.model.IModelLoader;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfo;
@@ -218,7 +216,7 @@ public class MaterialModel implements IModelGeometry<MaterialModel> {
     TextureAtlasSprite particle = getPartQuads(mutableList::setValue, owner, spriteGetter, transform, "texture", index, material);
 
     // bake model - while the transform may not be identity, it never has rotation so its safe to say untransformed
-    ImmutableMap<ItemTransforms.TransformType, Transformation> transformMap = PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform());
+    ImmutableMap<ItemTransforms.TransformType, Transformation> transformMap = Maps.immutableEnumMap(Maps.newEnumMap(ItemTransforms.TransformType.class));//PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform());
     return new BakedItemModel(mutableList.getValue(), particle, Maps.immutableEnumMap(transformMap), overrides, true, owner.isSideLit());
   }
 
@@ -277,7 +275,7 @@ public class MaterialModel implements IModelGeometry<MaterialModel> {
     private BakedModel bakeDynamic(MaterialVariantId material) {
       // bake internal does not require an instance to bake, we can pass in whatever material we want
       // use empty override list as the sub model never calls overrides, and already has a material
-      return bakeInternal(owner, ForgeModelBakery.defaultTextureGetter(), itemTransform, material, index, ItemOverrides.EMPTY);
+      return bakeInternal(owner, Material::sprite, itemTransform, material, index, ItemOverrides.EMPTY);
     }
   }
 

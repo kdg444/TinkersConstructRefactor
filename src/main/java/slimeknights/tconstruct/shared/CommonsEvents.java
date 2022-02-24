@@ -15,7 +15,6 @@ import slimeknights.tconstruct.world.TinkerWorld;
 
 @SuppressWarnings("unused")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Mod.EventBusSubscriber(modid = TConstruct.MOD_ID)
 public class CommonsEvents {
 
   // Slimy block jump stuff

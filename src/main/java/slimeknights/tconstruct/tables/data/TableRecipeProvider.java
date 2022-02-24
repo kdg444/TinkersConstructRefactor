@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.tables.data;
 
+import me.alphamode.forgetags.Tags;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -11,7 +13,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.Tags;
 import slimeknights.mantle.recipe.crafting.ShapedRetexturedRecipeBuilder;
 import slimeknights.mantle.recipe.data.CompoundIngredient;
 import slimeknights.mantle.recipe.data.NBTIngredient;
@@ -26,7 +27,7 @@ import java.util.function.Consumer;
 
 public class TableRecipeProvider extends BaseRecipeProvider {
 
-  public TableRecipeProvider(DataGenerator generator) {
+  public TableRecipeProvider(FabricDataGenerator generator) {
     super(generator);
   }
 
@@ -36,7 +37,7 @@ public class TableRecipeProvider extends BaseRecipeProvider {
   }
 
   @Override
-  protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+  protected void generateRecipes(Consumer<FinishedRecipe> consumer) {
     String folder = "tables/";
     // pattern
     ShapedRecipeBuilder.shaped(TinkerTables.pattern, 3)

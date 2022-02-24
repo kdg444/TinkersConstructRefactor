@@ -1,8 +1,11 @@
 package slimeknights.tconstruct.shared;
 
+import net.fabricmc.api.ClientModInitializer;
 import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
+import slimeknights.tconstruct.fluids.FluidClientEvents;
+import slimeknights.tconstruct.gadgets.GadgetClientEvents;
 import slimeknights.tconstruct.library.client.book.TinkerBook;
 import slimeknights.tconstruct.library.client.data.spritetransformer.GreyToColorMapping;
 import slimeknights.tconstruct.library.client.data.spritetransformer.GreyToSpriteTransformer;
@@ -16,11 +19,12 @@ import java.util.function.Consumer;
 /**
  * This class should only be referenced on the client side
  */
-public class TinkerClient {
+public class TinkerClient implements ClientModInitializer {
   /**
    * Called by TConstruct to handle any client side logic that needs to run during the constructor
    */
-  public static void onConstruct() {
+  @Override
+  public void onInitializeClient() {
     TinkerBook.initBook();
     // needs to register listeners early enough for minecraft to load
     PatternGuiTextureLoader.init();
@@ -33,5 +37,8 @@ public class TinkerClient {
     ISpriteTransformer.SERIALIZER.registerDeserializer(RecolorSpriteTransformer.NAME, RecolorSpriteTransformer.DESERIALIZER);
     GreyToSpriteTransformer.init();
     IColorMapping.SERIALIZER.registerDeserializer(GreyToColorMapping.NAME, GreyToColorMapping.DESERIALIZER);
+    FluidClientEvents.clientSetup();
+    GadgetClientEvents.init();
+    CommonsClientEvents.init();
   }
 }

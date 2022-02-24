@@ -2,6 +2,7 @@ package slimeknights.tconstruct.smeltery.block.component;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.StringRepresentable;
@@ -17,7 +18,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.extensions.BlockExtensions;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.library.fluid.FluidTransferUtil;
 import slimeknights.tconstruct.library.recipe.FluidValues;
@@ -29,7 +31,7 @@ import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity.I
 import javax.annotation.Nullable;
 import java.util.Locale;
 
-public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBlock {
+public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBlock, BlockPickInteractionAware, BlockExtensions {
   @Getter
   private final int capacity;
   public SearedTankBlock(Properties properties, int capacity) {
@@ -65,7 +67,7 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
       FluidStack fluid = ((TankBlockEntity) te).getTank().getFluid();
       return fluid.getFluid().getAttributes().getLuminosity(fluid);
     }
-    return super.getLightEmission(state, world, pos);
+    return BlockExtensions.super.getLightEmission(state, world, pos);
   }
 
   @Override
@@ -90,9 +92,9 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
   }
 
   @Override
-  public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+  public ItemStack getPickedStack(BlockState state, BlockGetter view, BlockPos pos, @Nullable Player player, @Nullable HitResult result) {
     ItemStack stack = new ItemStack(this);
-    BlockEntityHelper.get(TankBlockEntity.class, world, pos).ifPresent(te -> te.setTankTag(stack));
+    BlockEntityHelper.get(TankBlockEntity.class, view, pos).ifPresent(te -> te.setTankTag(stack));
     return stack;
   }
 
@@ -104,7 +106,7 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
     INGOT_GAUGE(FluidValues.INGOT * 48);
 
     @Getter
-    private final int capacity;
+    private final long capacity;
 
     @Override
     public String getSerializedName() {

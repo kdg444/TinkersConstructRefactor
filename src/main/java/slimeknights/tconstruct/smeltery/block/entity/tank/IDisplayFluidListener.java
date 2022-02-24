@@ -2,8 +2,8 @@ package slimeknights.tconstruct.smeltery.block.entity.tank;
 
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.client.model.data.ModelProperty;
-import net.minecraftforge.fluids.FluidAttributes;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 
 /**
  * Interface for blocks to be notified when the smeltery has a new bottommost fluid

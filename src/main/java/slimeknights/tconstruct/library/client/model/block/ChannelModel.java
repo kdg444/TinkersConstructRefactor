@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.client.model.block;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
@@ -13,12 +14,11 @@ import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
-import net.minecraftforge.client.model.BakedModelWrapper;
-import net.minecraftforge.client.model.IModelConfiguration;
-import net.minecraftforge.client.model.IModelLoader;
-import net.minecraftforge.client.model.geometry.IModelGeometry;
 import slimeknights.mantle.client.model.fluid.FluidCuboid;
 import slimeknights.mantle.client.model.util.SimpleBlockModel;
+import slimeknights.mantle.lib.model.IModelConfiguration;
+import slimeknights.mantle.lib.model.IModelGeometry;
+import slimeknights.mantle.lib.model.IModelLoader;
 
 import java.util.Collection;
 import java.util.EnumMap;
@@ -58,10 +58,10 @@ public class ChannelModel implements IModelGeometry<ChannelModel> {
 	/**
 	 * Baked model wrapper for cistern models
 	 */
-	public static class Baked extends BakedModelWrapper<BakedModel> {
+	public static class Baked extends ForwardingBakedModel {
 		private final Map<ChannelModelPart,FluidCuboid> fluids;
 		private Baked(BakedModel originalModel, Map<ChannelModelPart,FluidCuboid> fluids) {
-			super(originalModel);
+			wrapped = originalModel;
 			this.fluids = fluids;
 		}
 

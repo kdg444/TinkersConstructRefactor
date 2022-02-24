@@ -1,13 +1,11 @@
 package slimeknights.tconstruct.common;
 
 import lombok.Getter;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
 
@@ -16,7 +14,6 @@ import java.util.Locale;
 import java.util.Map;
 
 /** All sounds registered by Tinkers, should be used instead of vanilla events when subtitles need to be distinguished */
-@Mod.EventBusSubscriber(modid = TConstruct.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public enum Sounds {
   // blocks
   SAW("little_saw"),
@@ -72,20 +69,13 @@ public enum Sounds {
 
   Sounds(String name) {
     ResourceLocation registryName = TConstruct.getResource(name);
-    sound = new SoundEvent(registryName).setRegistryName(registryName);
+    sound = Registry.register(Registry.SOUND_EVENT, registryName, new SoundEvent(registryName));
   }
 
   Sounds() {
     String name = name().toLowerCase(Locale.US);
     ResourceLocation registryName = TConstruct.getResource(name);
-    sound = new SoundEvent(registryName).setRegistryName(registryName);
-  }
-
-  @SubscribeEvent
-  public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
-    for (Sounds sound : values()) {
-      event.getRegistry().register(sound.getSound());
-    }
+    sound = Registry.register(Registry.SOUND_EVENT, registryName, new SoundEvent(registryName));
   }
 
   /** Makes sound type for crystals */

@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.gadgets.data;
 
+import me.alphamode.forgetags.Tags;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -14,7 +15,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.data.BaseRecipeProvider;
 import slimeknights.tconstruct.fluids.TinkerFluids;
@@ -38,7 +38,7 @@ public class GadgetRecipeProvider extends BaseRecipeProvider {
   }
 
   @Override
-  protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+  protected void generateRecipes(Consumer<FinishedRecipe> consumer) {
     // slime
     String folder = "gadgets/slimesling/";
     for (SlimeType slime : SlimeType.TRUE_SLIME) {

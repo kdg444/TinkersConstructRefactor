@@ -2,6 +2,8 @@ package slimeknights.tconstruct.smeltery.block.entity.component;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -11,14 +13,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidAttributes;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
+import slimeknights.mantle.lib.model.IModelData;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidTransferable;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.library.client.model.ModelProperties;
 import slimeknights.tconstruct.library.fluid.FluidTankAnimated;
 import slimeknights.tconstruct.library.utils.NBTTags;
@@ -30,16 +30,16 @@ import slimeknights.tconstruct.smeltery.item.TankItem;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITankBlockEntity {
+public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITankBlockEntity, FluidTransferable, RenderAttachmentBlockEntity {
   /** Max capacity for the tank */
-  public static final int DEFAULT_CAPACITY = FluidAttributes.BUCKET_VOLUME * 4;
+  public static final long DEFAULT_CAPACITY = FluidConstants.BUCKET * 4;
 
   /**
    * Gets the capacity for the given block
    * @param block  block
    * @return  Capacity
    */
-  public static int getCapacity(Block block) {
+  public static long getCapacity(Block block) {
     if (block instanceof ITankBlock) {
       return ((ITankBlock) block).getCapacity();
     }
@@ -51,7 +51,7 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
    * @param item  item
    * @return  Capacity
    */
-  public static int getCapacity(Item item) {
+  public static long getCapacity(Item item) {
     if (item instanceof BlockItem) {
       return getCapacity(((BlockItem)item).getBlock());
     }
@@ -94,22 +94,19 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
 
   @Override
   @Nonnull
-  public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-    if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-      return holder.cast();
-    }
-    return super.getCapability(capability, facing);
+  public LazyOptional<IFluidHandler> getFluidHandler(@Nullable Direction direction) {
+    return holder.cast();
   }
 
-  @Override
-  public void invalidateCaps() {
-    super.invalidateCaps();
-    holder.invalidate();
-  }
+//  @Override
+//  public void invalidateCaps() {
+//    super.invalidateCaps();
+//    holder.invalidate();
+//  }
 
   @Nonnull
   @Override
-  public IModelData getModelData() {
+  public Object getRenderAttachmentData() {
     return modelData;
   }
 

@@ -1,9 +1,11 @@
 package slimeknights.tconstruct.tools;
 
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.MenuType;
@@ -17,6 +19,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.RegistryObject;
+import slimeknights.mantle.lib.util.RegistryObject;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.mantle.util.SupplierCreativeTab;
@@ -86,6 +89,7 @@ public final class TinkerTools extends TinkerModule {
     BlockSideHitListener.init();
     ModifierLootingHandler.init();
     RandomMaterial.init();
+    commonSetup();
   }
 
   /** Creative tab for all tool items */
@@ -134,8 +138,8 @@ public final class TinkerTools extends TinkerModule {
 
   /* Entities */
   public static final RegistryObject<EntityType<IndestructibleItemEntity>> indestructibleItem = ENTITIES.register("indestructible_item", () ->
-    EntityType.Builder.<IndestructibleItemEntity>of(IndestructibleItemEntity::new, MobCategory.MISC)
-                      .sized(0.25F, 0.25F)
+    FabricEntityTypeBuilder.<IndestructibleItemEntity>create(MobCategory.MISC, IndestructibleItemEntity::new)
+                      .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
                       .fireImmune());
 
   /* Containers */
@@ -146,8 +150,7 @@ public final class TinkerTools extends TinkerModule {
    * Events
    */
 
-  @SubscribeEvent
-  void commonSetup(FMLCommonSetupEvent event) {
+  void commonSetup() {
     EquipmentChangeWatcher.register();
     ToolCapabilityProvider.register(ToolFluidCapability.Provider::new);
     ToolCapabilityProvider.register(ToolInventoryCapability.Provider::new);

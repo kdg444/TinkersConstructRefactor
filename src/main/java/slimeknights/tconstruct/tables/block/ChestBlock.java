@@ -21,7 +21,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
+import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.tables.block.entity.chest.AbstractChestBlockEntity;
 
 import javax.annotation.Nullable;

@@ -4,9 +4,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 import java.util.List;
@@ -44,7 +43,7 @@ public class DamageableMeltingRecipe extends MeltingRecipe {
       // fill byproducts until we run out of space or byproducts
       int itemDamage = input.getDamageValue();
       for (FluidStack fluidStack : byproducts) {
-        handler.fill(scaleOutput(fluidStack, itemDamage, maxDamage), FluidAction.EXECUTE);
+        handler.fill(scaleOutput(fluidStack, itemDamage, maxDamage), false);
       }
     }
   }

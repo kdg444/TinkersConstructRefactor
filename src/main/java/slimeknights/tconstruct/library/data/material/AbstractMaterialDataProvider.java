@@ -1,11 +1,11 @@
 package slimeknights.tconstruct.library.data.material;
 
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.NotCondition;
-import net.minecraftforge.common.crafting.conditions.OrCondition;
-import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
+import net.minecraft.resources.ResourceLocation;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
@@ -90,12 +90,12 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
   /* Base methods */
 
   /** Adds a material to be generated with a condition and redirect data */
-  protected void addMaterial(IMaterial material, @Nullable ICondition condition, MaterialJson.Redirect... redirect) {
+  protected void addMaterial(IMaterial material, @Nullable ConditionJsonProvider condition, MaterialJson.Redirect... redirect) {
     allMaterials.put(material.getIdentifier(), new DataMaterial(material, condition, redirect));
   }
 
   /** Adds JSON to redirect an ID to another ID */
-  protected void addRedirect(MaterialId id, @Nullable ICondition condition, MaterialJson.Redirect... redirect) {
+  protected void addRedirect(MaterialId id, @Nullable ConditionJsonProvider condition, MaterialJson.Redirect... redirect) {
     allMaterials.put(id, new DataMaterial(null, condition, redirect));
   }
 
@@ -107,12 +107,12 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
   /* Material helpers */
 
   /** Conditions on a forge tag existing */
-  protected static ICondition tagExistsCondition(String name) {
-    return new NotCondition(new TagEmptyCondition("forge", name));
+  protected static ConditionJsonProvider tagExistsCondition(String name) {
+    return DefaultResourceConditions.itemTagsPopulated(TagFactory.ITEM.create(new ResourceLocation("c", name)));
   }
 
   /** Creates a normal material with a condition and a redirect */
-  protected void addMaterial(MaterialId location, int tier, int order, boolean craftable, boolean hidden, @Nullable ICondition condition, MaterialJson.Redirect... redirect) {
+  protected void addMaterial(MaterialId location, int tier, int order, boolean craftable, boolean hidden, @Nullable ConditionJsonProvider condition, MaterialJson.Redirect... redirect) {
     addMaterial(new Material(location, tier, order, craftable, hidden), condition, redirect);
   }
 
@@ -123,7 +123,7 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
 
   /** Creates a new compat material */
   protected void addCompatMetalMaterial(MaterialId location, int tier, int order, String ingotName) {
-    ICondition condition = new OrCondition(ConfigEnabledCondition.FORCE_INTEGRATION_MATERIALS, tagExistsCondition("ingots/" + ingotName));
+    ConditionJsonProvider condition = DefaultResourceConditions.or(ConfigEnabledCondition.FORCE_INTEGRATION_MATERIALS, tagExistsCondition("ingots/" + ingotName));
     addMaterial(location, tier, order, false, false, condition);
   }
 
@@ -136,7 +136,7 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
   /* Redirect helpers */
 
   /** Makes a conditional redirect to the given ID */
-  protected MaterialJson.Redirect conditionalRedirect(MaterialId id, @Nullable ICondition condition) {
+  protected MaterialJson.Redirect conditionalRedirect(MaterialId id, @Nullable ConditionJsonProvider condition) {
     return new MaterialJson.Redirect(id, condition);
   }
 
@@ -165,5 +165,5 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
     return new MaterialJson(data.condition, material.isCraftable(), material.getTier(), material.getSortOrder(), material.isHidden(), redirect);
   }
 
-  private record DataMaterial(@Nullable IMaterial material, @Nullable ICondition condition, MaterialJson.Redirect[] redirect) {}
+  private record DataMaterial(@Nullable IMaterial material, @Nullable ConditionJsonProvider condition, MaterialJson.Redirect[] redirect) {}
 }

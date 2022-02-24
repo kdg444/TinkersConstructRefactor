@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.data;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -19,11 +20,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.Tags;
+import me.alphamode.forgetags.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.NotCondition;
 import net.minecraftforge.common.crafting.conditions.TrueCondition;
-import net.minecraftforge.fluids.FluidAttributes;
+import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
 import slimeknights.mantle.recipe.data.CompoundIngredient;
 import slimeknights.mantle.recipe.data.FluidNameIngredient;
 import slimeknights.mantle.recipe.data.ItemNameIngredient;
@@ -90,7 +91,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ModifierRecipeProvider extends BaseRecipeProvider {
-  public ModifierRecipeProvider(DataGenerator generator) {
+  public ModifierRecipeProvider(FabricDataGenerator generator) {
     super(generator);
   }
 
@@ -100,7 +101,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
   }
 
   @Override
-  protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+  protected void generateRecipes(Consumer<FinishedRecipe> consumer) {
     addItemRecipes(consumer);
     addModifierRecipes(consumer);
     addTextureRecipes(consumer);

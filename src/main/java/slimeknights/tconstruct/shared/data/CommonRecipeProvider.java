@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.shared.data;
 
+import me.alphamode.forgetags.Tags;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -12,7 +14,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WeatheringCopper.WeatherState;
-import net.minecraftforge.common.Tags;
 import slimeknights.mantle.recipe.data.ConsumerWrapperBuilder;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.data.BaseRecipeProvider;
@@ -33,7 +34,7 @@ import java.util.Locale;
 import java.util.function.Consumer;
 
 public class CommonRecipeProvider extends BaseRecipeProvider implements ICommonRecipeHelper {
-  public CommonRecipeProvider(DataGenerator generator) {
+  public CommonRecipeProvider(FabricDataGenerator generator) {
     super(generator);
   }
 
@@ -43,7 +44,7 @@ public class CommonRecipeProvider extends BaseRecipeProvider implements ICommonR
   }
 
   @Override
-  protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+  protected void generateRecipes(Consumer<FinishedRecipe> consumer) {
     this.addCommonRecipes(consumer);
     this.addMaterialRecipes(consumer);
   }

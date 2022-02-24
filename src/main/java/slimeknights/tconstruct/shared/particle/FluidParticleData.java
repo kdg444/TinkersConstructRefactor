@@ -15,8 +15,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidAttributes;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 
 /** Particle data for a fluid particle */
 @RequiredArgsConstructor

@@ -19,6 +19,7 @@ import net.minecraft.advancements.critereon.NbtPredicate;
 import net.minecraft.advancements.critereon.PlacedBlockTrigger;
 import net.minecraft.advancements.critereon.PlayerInteractTrigger;
 import net.minecraft.advancements.critereon.TickTrigger;
+import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import net.minecraft.nbt.CompoundTag;
@@ -32,12 +33,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.crafting.ConditionalAdvancement;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 import slimeknights.mantle.data.GenericDataProvider;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
@@ -141,7 +139,7 @@ public class AdvancementsProvider extends GenericDataProvider {
     builder(TinkerTools.travelersGear.get(ArmorSlotType.HELMET).getRenderTool(), resource("tools/travelers_gear"), tinkerStation, FrameType.TASK, builder ->
       TinkerTools.travelersGear.forEach((type, armor) -> builder.addCriterion("crafted_" + type.getSerializedName(), hasItem(armor))));
     builder(TinkerTools.pickaxe.get().getRenderTool(), resource("tools/tool_smith"), tinkerTool, FrameType.CHALLENGE, builder -> {
-      Consumer<Item> with = item -> builder.addCriterion(Objects.requireNonNull(item.getRegistryName()).getPath(), hasItem(item));
+      Consumer<Item> with = item -> builder.addCriterion(Objects.requireNonNull(Registry.ITEM.getKey(item)).getPath(), hasItem(item));
       with.accept(TinkerTools.pickaxe.get());
       with.accept(TinkerTools.mattock.get());
       with.accept(TinkerTools.pickadze.get());
@@ -367,9 +365,9 @@ public class AdvancementsProvider extends GenericDataProvider {
   }
 
   /** Gets a tank filled with the given fluid */
-  private static FluidTank getTankWith(Fluid fluid, int capacity) {
+  private static FluidTank getTankWith(Fluid fluid, long capacity) {
     FluidTank tank = new FluidTank(capacity);
-    tank.fill(new FluidStack(fluid, capacity), FluidAction.EXECUTE);
+    tank.fill(new FluidStack(fluid, capacity), false);
     return tank;
   }
 

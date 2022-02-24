@@ -11,11 +11,12 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
 import io.netty.handler.codec.DecoderException;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.Registry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.GsonHelper;
-import net.minecraftforge.common.crafting.CraftingHelper;
+import slimeknights.mantle.lib.crafting.CraftingHelper;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
 
@@ -106,7 +107,7 @@ public abstract class LayoutIcon {
     @Override
     public JsonObject toJson() {
       JsonObject json = new JsonObject();
-      json.addProperty("item", Objects.requireNonNull(stack.getItem().getRegistryName()).toString());
+      json.addProperty("item", Objects.requireNonNull(Registry.ITEM.getKey(stack.getItem())).toString());
       CompoundTag tag = stack.getTag();
       if (tag != null) {
         json.addProperty("nbt", tag.toString());

@@ -2,10 +2,8 @@ package slimeknights.tconstruct.library.tools.capability;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.Direction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.common.util.LazyOptional;
+import slimeknights.mantle.lib.util.Lazy;
+import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 

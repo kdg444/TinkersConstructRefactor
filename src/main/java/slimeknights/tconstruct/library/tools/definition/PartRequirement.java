@@ -10,12 +10,12 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
 import lombok.Data;
 import lombok.Getter;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
@@ -93,10 +93,10 @@ public abstract class PartRequirement {
       // part item
       if (jsonObject.has("item")) {
         ResourceLocation name = JsonHelper.getResourceLocation(jsonObject, "item");
-        if (!ForgeRegistries.ITEMS.containsKey(name)) {
+        if (!Registry.ITEM.containsKey(name)) {
           throw new JsonSyntaxException("Invalid item '" + name + "' for tool part, does not exist");
         }
-        Item item = Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(name));
+        Item item = Objects.requireNonNull(Registry.ITEM.get(name));
         if (!(item instanceof IToolPart)) {
           throw new JsonSyntaxException("Invalid item '" + name + "' for tool part, must implement IToolPart");
         }

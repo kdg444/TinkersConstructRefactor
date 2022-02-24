@@ -5,6 +5,10 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import lombok.AllArgsConstructor;
+import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
+import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
@@ -15,22 +19,24 @@ import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.ForgeModelBakery;
-import net.minecraftforge.client.model.IModelConfiguration;
-import net.minecraftforge.client.model.IModelLoader;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.geometry.IModelGeometry;
-import net.minecraftforge.fluids.FluidAttributes;
-import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.client.model.RetexturedModel;
 import slimeknights.mantle.client.model.util.ColoredBlockModel;
 import slimeknights.mantle.client.model.util.DynamicBakedWrapper;
 import slimeknights.mantle.client.model.util.SimpleBlockModel;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
+import slimeknights.mantle.lib.model.IModelConfiguration;
+import slimeknights.mantle.lib.model.IModelData;
+import slimeknights.mantle.lib.model.IModelGeometry;
+import slimeknights.mantle.lib.model.IModelLoader;
+import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.smeltery.block.entity.tank.IDisplayFluidListener;
@@ -45,6 +51,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Model that replaces fluid textures with the fluid from model data
@@ -115,15 +122,15 @@ public class FluidTextureModel implements IModelGeometry<FluidTextureModel> {
     /** Retextures a model for the given fluid */
     private BakedModel getRetexturedModel(FluidStack fluid) {
       // setup model baking
-      Function<Material,TextureAtlasSprite> spriteGetter = ForgeModelBakery.defaultTextureGetter();
+      Function<Material,TextureAtlasSprite> spriteGetter = Material::sprite;
       TextureAtlasSprite particle = spriteGetter.apply(owner.resolveTexture("particle"));
-      SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(owner, ItemOverrides.EMPTY).particle(particle);
+      SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(owner.useSmoothLighting(), owner.isSideLit(), owner.isShadedInGui(), owner.getCameraTransforms(), ItemOverrides.EMPTY).particle(particle);
 
       // get fluid details
-      FluidAttributes attributes = fluid.getFluid().getAttributes();
-      int color = attributes.getColor(fluid);
+      FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
+      int color = FluidVariantRendering.getColor(fluid.getType());
       int luminosity = attributes.getLuminosity(fluid);
-      IModelConfiguration textured = new RetexturedModel.RetexturedConfiguration(this.owner, this.fluids, attributes.getStillTexture(fluid));
+      IModelConfiguration textured = new RetexturedModel.RetexturedConfiguration(this.owner, this.fluids, FluidVariantRendering.getSprite(fluid.getType()).getName());
 
       // add in elements
       int size = elements.size();
@@ -143,14 +150,16 @@ public class FluidTextureModel implements IModelGeometry<FluidTextureModel> {
       return this.cache.computeIfAbsent(fluid, this::getRetexturedModel);
     }
 
-    @Nonnull
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, Random random, IModelData data) {
-      FluidStack fluid = data.getData(IDisplayFluidListener.PROPERTY);
-      if (fluid != null && !fluid.isEmpty()) {
-        return getCachedModel(fluid).getQuads(state, direction, random, data);
+    public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
+      if(blockView instanceof RenderAttachedBlockView renderAttachedBlockView && renderAttachedBlockView.getBlockEntityRenderAttachment(pos) instanceof IModelData data) {
+        FluidStack fluid = data.getData(IDisplayFluidListener.PROPERTY);
+        if (fluid != null && !fluid.isEmpty()) {
+          ((FabricBakedModel)getCachedModel(fluid)).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+          return;
+        }
       }
-      return originalModel.getQuads(state, direction, random, data);
+      super.emitBlockQuads(blockView, state, pos, randomSupplier, context);
     }
   }
 

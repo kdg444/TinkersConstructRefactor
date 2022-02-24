@@ -7,8 +7,8 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraftforge.fluids.FluidAttributes;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.client.render.FluidRenderer;
 import slimeknights.tconstruct.shared.particle.FluidParticleData;
 

@@ -5,10 +5,13 @@ import com.google.gson.JsonObject;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.utils.JsonUtils;
 
 import javax.annotation.Nullable;
@@ -23,7 +26,7 @@ import java.util.Map.Entry;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Log4j2
-public class ResourceColorManager implements ISafeManagerReloadListener {
+public class ResourceColorManager implements ISafeManagerReloadListener, IdentifiableResourceReloadListener {
   /** Modifier file to load, has merging behavior but forge prevents multiple mods from loading the same file */
   private static final String COLORS_PATH = "tinkering/colors.json";
   /** Default color so the getter can be nonnull */
@@ -38,7 +41,7 @@ public class ResourceColorManager implements ISafeManagerReloadListener {
    * Initializes this manager, registering it with the resource manager
    * @param manager  Manager
    */
-  public static void init(RegisterClientReloadListenersEvent manager) {
+  public static void init(ResourceManagerHelper manager) {
     manager.registerReloadListener(INSTANCE);
   }
 
@@ -98,5 +101,10 @@ public class ResourceColorManager implements ISafeManagerReloadListener {
   /** Gets an integer color for the given path */
   public static int getColor(String path) {
     return getTextColor(path).getValue();
+  }
+
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("color_manager");
   }
 }

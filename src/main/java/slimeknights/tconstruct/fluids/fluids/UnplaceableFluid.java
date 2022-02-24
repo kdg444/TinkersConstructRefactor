@@ -13,12 +13,13 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
-import net.minecraftforge.fluids.FluidAttributes;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
+import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
 
 import java.util.function.Supplier;
 
 @AllArgsConstructor
-public class UnplaceableFluid extends Fluid {
+public class UnplaceableFluid extends Fluid implements FluidExtensions {
 
   private final Supplier<? extends Item> bucket;
   private final FluidAttributes.Builder builder;
@@ -49,7 +50,7 @@ public class UnplaceableFluid extends Fluid {
   }
 
   @Override
-  protected FluidAttributes createAttributes()
+  public FluidAttributes createAttributes()
   {
     return builder.build(this);
   }

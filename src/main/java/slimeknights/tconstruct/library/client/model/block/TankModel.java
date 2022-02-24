@@ -9,11 +9,17 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
+import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
+import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
@@ -21,6 +27,7 @@ import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -28,22 +35,20 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.BakedModelWrapper;
-import net.minecraftforge.client.model.ForgeModelBakery;
-import net.minecraftforge.client.model.IModelConfiguration;
-import net.minecraftforge.client.model.IModelLoader;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.geometry.IModelGeometry;
-import net.minecraftforge.fluids.FluidAttributes;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 import slimeknights.mantle.client.model.util.ColoredBlockModel;
 import slimeknights.mantle.client.model.util.ExtraTextureConfiguration;
 import slimeknights.mantle.client.model.util.SimpleBlockModel;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
+import slimeknights.mantle.lib.model.IModelConfiguration;
+import slimeknights.mantle.lib.model.IModelData;
+import slimeknights.mantle.lib.model.IModelGeometry;
+import slimeknights.mantle.lib.model.IModelLoader;
+import slimeknights.mantle.lib.render.TransformTypeDependentItemBakedModel;
+import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.model.ModelProperties;
@@ -59,6 +64,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * This model contains a single scalable fluid that can either be statically rendered or rendered in the TESR. It also supports rendering fluids in the item model
@@ -121,26 +127,21 @@ public class TankModel implements IModelGeometry<TankModel> {
   /**
    * Wrapper that swaps the model for the GUI
    */
-  private static class BakedGuiUniqueModel extends BakedModelWrapper<BakedModel> {
+  private static class BakedGuiUniqueModel extends ForwardingBakedModel implements TransformTypeDependentItemBakedModel {
     private final BakedModel gui;
     public BakedGuiUniqueModel(BakedModel base, BakedModel gui) {
-      super(base);
+      wrapped = base;
       this.gui = gui;
     }
 
     /* Swap out GUI model if needed */
 
     @Override
-    public boolean doesHandlePerspectives() {
-      return true;
-    }
-
-    @Override
     public BakedModel handlePerspective(TransformType cameraTransformType, PoseStack mat) {
       if (cameraTransformType == TransformType.GUI) {
-        return gui.handlePerspective(cameraTransformType, mat);
+        return ((TransformTypeDependentItemBakedModel)gui).handlePerspective(cameraTransformType, mat);
       }
-      return originalModel.handlePerspective(cameraTransformType, mat);
+      return ((TransformTypeDependentItemBakedModel)wrapped).handlePerspective(cameraTransformType, mat);
     }
   }
 
@@ -182,9 +183,9 @@ public class TankModel implements IModelGeometry<TankModel> {
      */
     private BakedModel bakeWithFluid(IModelConfiguration owner, SimpleBlockModel baseModel, BlockElement fluid, int color, int luminosity) {
       // setup for baking, using dynamic location and sprite getter
-      Function<Material,TextureAtlasSprite> spriteGetter = ForgeModelBakery.defaultTextureGetter();
+      Function<Material,TextureAtlasSprite> spriteGetter = Material::sprite;
       TextureAtlasSprite particle = spriteGetter.apply(owner.resolveTexture("particle"));
-      SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(owner, ItemOverrides.EMPTY).particle(particle);
+      SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(owner.useSmoothLighting(), owner.isSideLit(), owner.isShadedInGui(), owner.getCameraTransforms(), ItemOverrides.EMPTY).particle(particle);
       // first, add all regular elements
       for (BlockElement element : baseModel.getElements()) {
         SimpleBlockModel.bakePart(builder, owner, element, originalTransforms, spriteGetter, BAKE_LOCATION);
@@ -201,16 +202,16 @@ public class TankModel implements IModelGeometry<TankModel> {
      */
     private BakedModel getModel(FluidStack stack) {
       // fetch fluid data
-      FluidAttributes attributes = stack.getFluid().getAttributes();
-      int color = attributes.getColor(stack);
+      FluidAttributes attributes = ((FluidExtensions)stack.getFluid()).getAttributes();
+      int color = FluidVariantRendering.getColor(stack.getType());
       int luminosity = attributes.getLuminosity(stack);
       Map<String,Material> textures = ImmutableMap.of(
-        "fluid", ModelLoaderRegistry.blockMaterial(attributes.getStillTexture(stack)),
-        "flowing_fluid", ModelLoaderRegistry.blockMaterial(attributes.getFlowingTexture(stack)));
+        "fluid", new Material(TextureAtlas.LOCATION_BLOCKS, FluidVariantRendering.getSprite(stack.getType()).getName()),
+        "flowing_fluid", new Material(TextureAtlas.LOCATION_BLOCKS, FluidVariantRendering.getSprites(stack.getType())[1].getName()));
       IModelConfiguration textured = new ExtraTextureConfiguration(owner, textures);
 
       // add fluid part
-      BlockElement fluid = original.fluid.getPart(stack.getAmount(), attributes.isGaseous(stack));
+      BlockElement fluid = original.fluid.getPart(stack.getAmount(), FluidVariantRendering.fillsFromTop(stack.getType()));
       // bake the model
       BakedModel baked = bakeWithFluid(textured, original.model, fluid, color, luminosity);
 
@@ -244,21 +245,23 @@ public class TankModel implements IModelGeometry<TankModel> {
      * @param capacity  Tank capacity
      * @return  Cached model
      */
-    private BakedModel getCachedModel(FluidStack fluid, int capacity) {
+    private BakedModel getCachedModel(FluidStack fluid, long capacity) {
       int increments = original.fluid.getIncrements();
       return getCachedModel(new FluidStack(fluid, Mth.clamp(fluid.getAmount() * increments / capacity, 1, increments)));
     }
 
-    @Nonnull
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData data) {
-      if ((original.forceModelFluid || Config.CLIENT.tankFluidModel.get()) && data.hasProperty(ModelProperties.FLUID_TANK)) {
-        IFluidTank tank = data.getData(ModelProperties.FLUID_TANK);
-        if (tank != null && !tank.getFluid().isEmpty()) {
-          return getCachedModel(tank.getFluid(), tank.getCapacity()).getQuads(state, side, rand, EmptyModelData.INSTANCE);
+    public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
+      if(blockView instanceof RenderAttachedBlockView renderAttachedBlockView && renderAttachedBlockView.getBlockEntityRenderAttachment(pos) instanceof IModelData data) {
+        if ((original.forceModelFluid || Config.CLIENT.tankFluidModel.get()) && data.hasProperty(ModelProperties.FLUID_TANK)) {
+          FluidTank tank = data.getData(ModelProperties.FLUID_TANK);
+          if (tank != null && !tank.getFluid().isEmpty()) {
+            ((FabricBakedModel)getCachedModel(tank.getFluid(), tank.getCapacity())).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+            return;
+          }
         }
       }
-      return originalModel.getQuads(state, side, rand, data);
+      ((FabricBakedModel)wrapped).emitBlockQuads(blockView, state, pos, randomSupplier, context);
     }
 
     /**

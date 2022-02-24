@@ -2,6 +2,7 @@ package slimeknights.tconstruct.gadgets.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
@@ -16,11 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MapItem;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.RenderItemInFrameEvent;
-import net.minecraftforge.client.event.RenderNameplateEvent;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.Event.Result;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.gadgets.entity.FancyItemFrameEntity;
 import slimeknights.tconstruct.gadgets.entity.FrameType;
@@ -76,11 +72,11 @@ public class FancyItemFrameRenderer<T extends FancyItemFrameEntity> extends Item
     if (frameVisible) {
       matrices.pushPose();
       matrices.translate(-0.5D, -0.5D, -0.5D);
-      BlockRenderDispatcher blockRenderer = this.minecraft.getBlockRenderer();
+      BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
       blockRenderer.getModelRenderer().renderModel(
         matrices.last(), bufferIn.getBuffer(Sheets.cutoutBlockSheet()), null,
         blockRenderer.getBlockModelShaper().getModelManager().getModel(isMap ? LOCATIONS_MODEL_MAP.get(frameType) : LOCATIONS_MODEL.get(frameType)),
-        1.0F, 1.0F, 1.0F, packedLight, OverlayTexture.NO_OVERLAY, EmptyModelData.INSTANCE);
+        1.0F, 1.0F, 1.0F, packedLight, OverlayTexture.NO_OVERLAY);
       matrices.popPose();
     }
 

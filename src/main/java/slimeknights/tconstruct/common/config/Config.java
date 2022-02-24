@@ -1,17 +1,15 @@
 package slimeknights.tconstruct.common.config;
 
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
+import net.minecraftforge.api.ModLoadingContext;
+import net.minecraftforge.api.fml.event.config.ModConfigEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.IConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.config.ModConfigEvent.Reloading;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.commons.lang3.tuple.Pair;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.IOreRate;
@@ -383,16 +381,14 @@ public class Config {
 
   /** Registers any relevant listeners for config */
   public static void init() {
-    ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.commonSpec);
-    ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.clientSpec);
+    ModLoadingContext.registerConfig(TConstruct.MOD_ID, ModConfig.Type.COMMON, Config.commonSpec);
+    ModLoadingContext.registerConfig(TConstruct.MOD_ID, ModConfig.Type.CLIENT, Config.clientSpec);
 
-    IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-    bus.addListener(Config::configChanged);
+    ModConfigEvent.RELOADING.register(Config::configChanged);
   }
 
   /** Called when config reloaded to update cached settings */
-  private static void configChanged(Reloading event) {
-    ModConfig config = event.getConfig();
+  private static void configChanged(ModConfig config) {
     if (config.getModId().equals(TConstruct.MOD_ID)) {
       IConfigSpec<?> spec = config.getSpec();
       if (spec == Config.commonSpec) {

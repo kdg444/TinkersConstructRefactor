@@ -12,8 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeI18n;
-import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.client.book.data.BookData;
 import slimeknights.mantle.client.book.data.content.PageContent;
 import slimeknights.mantle.client.book.data.element.TextComponentData;
@@ -23,6 +21,9 @@ import slimeknights.mantle.client.screen.book.element.BookElement;
 import slimeknights.mantle.client.screen.book.element.ItemElement;
 import slimeknights.mantle.client.screen.book.element.TextComponentElement;
 import slimeknights.mantle.client.screen.book.element.TextElement;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.util.ForgeI18n;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -299,7 +300,7 @@ public class ContentMaterial extends PageContent {
       FluidStack firstFluid = fluids.stream()
                                     .flatMap(recipe -> recipe.getFluids().stream())
                                     .findFirst().orElse(FluidStack.EMPTY);
-      elementItem.tooltip = ImmutableList.of(new TranslatableComponent(CAST_FROM, firstFluid.getFluid().getAttributes().getDisplayName(firstFluid)));
+      elementItem.tooltip = ImmutableList.of(new TranslatableComponent(CAST_FROM, ((FluidExtensions)firstFluid.getFluid()).getAttributes().getDisplayName(firstFluid)));
       displayTools.add(elementItem);
     }
 
@@ -315,7 +316,7 @@ public class ContentMaterial extends PageContent {
                                                                                       .map(part -> part.withMaterial(inputId))
                                                                                       .collect(Collectors.toList()));
         FluidStack firstFluid = composite.getFluids().stream().findFirst().orElse(FluidStack.EMPTY);
-        elementItem.tooltip = ImmutableList.of(new TranslatableComponent(COMPOSITE_FROM, firstFluid.getFluid().getAttributes().getDisplayName(firstFluid), MaterialTooltipCache.getDisplayName(inputId)));
+        elementItem.tooltip = ImmutableList.of(new TranslatableComponent(COMPOSITE_FROM, ((FluidExtensions)firstFluid.getFluid()).getAttributes().getDisplayName(firstFluid), MaterialTooltipCache.getDisplayName(inputId)));
         displayTools.add(elementItem);
       }
     }

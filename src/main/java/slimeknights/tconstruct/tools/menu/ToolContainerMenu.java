@@ -14,6 +14,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import slimeknights.mantle.inventory.EmptyItemHandler;
 import slimeknights.mantle.inventory.SmartItemHandlerSlot;
+import slimeknights.mantle.lib.transfer.item.IItemHandler;
+import slimeknights.mantle.lib.transfer.item.IItemHandlerModifiable;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.tools.TinkerTools;

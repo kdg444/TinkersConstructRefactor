@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.library.data.recipe;
 
+import me.alphamode.forgetags.Tags;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger.TriggerInstance;
 import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -12,7 +14,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.Tags;
 import slimeknights.mantle.registration.object.BuildingBlockObject;
 import slimeknights.mantle.registration.object.WallBuildingBlockObject;
 import slimeknights.mantle.registration.object.WoodBlockObject;
@@ -41,13 +42,13 @@ public interface ICommonRecipeHelper extends IRecipeHelper {
                        .pattern("###")
                        .pattern("###")
                        .unlockedBy("has_item", RecipeProvider.has(small))
-                       .group(Objects.requireNonNull(large.asItem().getRegistryName()).toString())
+                       .group(Objects.requireNonNull(Registry.ITEM.getKey(large.asItem())).toString())
                        .save(consumer, wrap(large.asItem(), folder, String.format("_from_%ss", smallName)));
     // block to ingot
     ShapelessRecipeBuilder.shapeless(small, 9)
                           .requires(large)
                           .unlockedBy("has_item", RecipeProvider.has(large))
-                          .group(Objects.requireNonNull(small.asItem().getRegistryName()).toString())
+                          .group(Objects.requireNonNull(Registry.ITEM.getKey(small.asItem())).toString())
                           .save(consumer, wrap(small.asItem(), folder, String.format("_from_%s", largeName)));
   }
 
@@ -71,13 +72,13 @@ public interface ICommonRecipeHelper extends IRecipeHelper {
                        .pattern("#*#")
                        .pattern("###")
                        .unlockedBy("has_item", RecipeProvider.has(smallItem))
-                       .group(Objects.requireNonNull(largeItem.asItem().getRegistryName()).toString())
+                       .group(Objects.requireNonNull(Registry.ITEM.getKey(largeItem.asItem())).toString())
                        .save(consumer, wrap(largeItem.asItem(), folder, String.format("_from_%ss", smallName)));
     // block to ingot
     ShapelessRecipeBuilder.shapeless(smallItem, 9)
                           .requires(largeItem)
                           .unlockedBy("has_item", RecipeProvider.has(largeItem))
-                          .group(Objects.requireNonNull(smallItem.asItem().getRegistryName()).toString())
+                          .group(Objects.requireNonNull(Registry.ITEM.getKey(smallItem.asItem())).toString())
                           .save(consumer, wrap(smallItem.asItem(), folder, String.format("_from_%s", largeName)));
   }
 
@@ -110,7 +111,7 @@ public interface ICommonRecipeHelper extends IRecipeHelper {
                        .define('B', item)
                        .pattern("BBB")
                        .unlockedBy("has_item", hasBlock)
-                       .group(Objects.requireNonNull(slab.asItem().getRegistryName()).toString())
+                       .group(Objects.requireNonNull(Registry.ITEM.getKey(slab.asItem())).toString())
                        .save(consumer, wrap(item, folder, "_slab"));
     // stairs
     ItemLike stairs = saveing.getStairs();
@@ -120,7 +121,7 @@ public interface ICommonRecipeHelper extends IRecipeHelper {
                        .pattern("BB ")
                        .pattern("BBB")
                        .unlockedBy("has_item", hasBlock)
-                       .group(Objects.requireNonNull(stairs.asItem().getRegistryName()).toString())
+                       .group(Objects.requireNonNull(Registry.ITEM.getKey(stairs.asItem())).toString())
                        .save(consumer, wrap(item, folder, "_stairs"));
 
     // only add stonecutter if relevant
@@ -151,7 +152,7 @@ public interface ICommonRecipeHelper extends IRecipeHelper {
                        .pattern("BBB")
                        .pattern("BBB")
                        .unlockedBy("has_item", hasBlock)
-                       .group(Objects.requireNonNull(wall.asItem().getRegistryName()).toString())
+                       .group(Objects.requireNonNull(Registry.ITEM.getKey(wall.asItem())).toString())
                        .save(consumer, wrap(item, folder, "_wall"));
     // only add stonecutter if relevant
     if (addStonecutter) {

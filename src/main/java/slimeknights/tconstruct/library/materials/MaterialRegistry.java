@@ -2,12 +2,12 @@ package slimeknights.tconstruct.library.materials;
 
 import com.google.common.annotations.VisibleForTesting;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.ServerResources;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.OnDatapackSyncEvent;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.PacketDistributor.PacketTarget;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.players.PlayerList;
+import slimeknights.mantle.lib.event.DataPackReloadCallback;
+import slimeknights.mantle.lib.event.OnDatapackSyncCallback;
 import slimeknights.mantle.network.packet.ISimplePacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.events.MaterialsLoadedEvent;
@@ -28,7 +28,9 @@ import slimeknights.tconstruct.tools.stats.RepairKitStats;
 import slimeknights.tconstruct.tools.stats.SkullStats;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 
 public final class MaterialRegistry {
@@ -55,8 +57,8 @@ public final class MaterialRegistry {
     // create registry instance
     INSTANCE = new MaterialRegistry();
     // add event listeners
-    MinecraftForge.EVENT_BUS.addListener(INSTANCE::addDataPackListeners);
-    MinecraftForge.EVENT_BUS.addListener(INSTANCE::onDatapackSync);
+    DataPackReloadCallback.EVENT.register(INSTANCE::addDataPackListeners);
+    OnDatapackSyncCallback.EVENT.register(INSTANCE::onDatapackSync);
     // on the client, mark materials not fully loaded when the client logs out.
     // this also runs when starting a world in SP, but its early enough that the player login event will correct the state later (see handleLogin method)
     // TODO: is this still needed? disabled as it runs before the world finishes unloading in SP
@@ -181,7 +183,7 @@ public final class MaterialRegistry {
       statsLoaded = false;
       traitsLoaded = false;
       fullyLoaded = true;
-      MinecraftForge.EVENT_BUS.post(new MaterialsLoadedEvent());
+      MaterialsLoadedEvent.EVENT.invoker().onLoad();
     } else {
       fullyLoaded = false;
     }
@@ -190,10 +192,12 @@ public final class MaterialRegistry {
   /* Reloading */
 
   /** Adds the managers as datapack listeners */
-  private void addDataPackListeners(final AddReloadListenerEvent event) {
-    event.addListener(materialManager);
-    event.addListener(materialStatsManager);
-    event.addListener(materialTraitsManager);
+  private List<PreparableReloadListener> addDataPackListeners(final ServerResources event) {
+    List<PreparableReloadListener> reloadListeners = new ArrayList<>();
+    reloadListeners.add(materialManager);
+    reloadListeners.add(materialStatsManager);
+    reloadListeners.add(materialTraitsManager);
+    return reloadListeners;
   }
 
   /** Sends all relevant packets to the given player */
@@ -208,18 +212,17 @@ public final class MaterialRegistry {
       // if the packet is being sent to ourself, skip sending, prevents recreating all material instances in the registry a second time on dedicated servers
       // note it will still send the packet if another client connects in LAN
       fullyLoaded = true;
-      MinecraftForge.EVENT_BUS.post(new MaterialsLoadedEvent());
+      MaterialsLoadedEvent.EVENT.invoker().onLoad();
     } else {
       TinkerNetwork network = TinkerNetwork.getInstance();
-      PacketTarget target = PacketDistributor.PLAYER.with(() -> player);
       for (ISimplePacket packet : packets) {
-        network.send(target, packet);
+        network.sendTo(packet, player);
       }
     }
   }
 
   /** Called when the player logs in to send packets */
-  private void onDatapackSync(OnDatapackSyncEvent event) {
+  private void onDatapackSync(PlayerList playerList, @Nullable ServerPlayer targetedPlayer) {
     ISimplePacket[] packets = {
       materialManager.getUpdatePacket(),
       materialStatsManager.getUpdatePacket(),
@@ -227,12 +230,11 @@ public final class MaterialRegistry {
     };
 
     // send to single player
-    ServerPlayer targetedPlayer = event.getPlayer();
     if (targetedPlayer != null) {
       sendPackets(targetedPlayer, packets);
     } else {
       // send to all players
-      for (ServerPlayer player : event.getPlayerList().getPlayers()) {
+      for (ServerPlayer player : playerList.getPlayers()) {
         sendPackets(player, packets);
       }
     }

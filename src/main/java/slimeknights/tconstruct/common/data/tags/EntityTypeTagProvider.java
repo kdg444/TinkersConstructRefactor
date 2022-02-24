@@ -1,21 +1,19 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.EntityTypeTagsProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.world.TinkerWorld;
 
-public class EntityTypeTagProvider extends EntityTypeTagsProvider {
+public class EntityTypeTagProvider extends FabricTagProvider.EntityTypeTagProvider {
 
-  public EntityTypeTagProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
-    super(generatorIn, TConstruct.MOD_ID, existingFileHelper);
+  public EntityTypeTagProvider(FabricDataGenerator generatorIn) {
+    super(generatorIn);
   }
 
   @Override
-  public void addTags() {
+  public void generateTags() {
     this.tag(TinkerTags.EntityTypes.SLIMES)
         .add(EntityType.SLIME, TinkerWorld.earthSlimeEntity.get(), TinkerWorld.skySlimeEntity.get(), TinkerWorld.enderSlimeEntity.get(), TinkerWorld.terracubeEntity.get());
     this.tag(TinkerTags.EntityTypes.BACON_PRODUCER).add(EntityType.PIG, EntityType.PIGLIN, EntityType.HOGLIN);

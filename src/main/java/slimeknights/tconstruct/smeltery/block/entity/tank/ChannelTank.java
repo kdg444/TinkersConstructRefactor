@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.entity.tank;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
 

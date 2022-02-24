@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.fluid;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.fabricmc.fabric.mixin.transfer.BucketItemAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -16,14 +17,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidAttributes;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
+import slimeknights.mantle.lib.util.LazyOptional;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
+import slimeknights.mantle.lib.transfer.TransferUtil;
+import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.lib.transfer.fluid.EmptyFluidHandler;
+import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
 
 /**
@@ -43,16 +44,16 @@ public class FluidTransferUtil {
    */
   public static FluidStack tryTransfer(IFluidHandler input, IFluidHandler output, int maxFill) {
     // first, figure out how much we can drain
-    FluidStack simulated = input.drain(maxFill, FluidAction.SIMULATE);
+    FluidStack simulated = input.drain(maxFill, true);
     if (!simulated.isEmpty()) {
       // next, find out how much we can fill
-      int simulatedFill = output.fill(simulated, FluidAction.SIMULATE);
+      long simulatedFill = output.fill(simulated, true);
       if (simulatedFill > 0) {
         // actually drain
-        FluidStack drainedFluid = input.drain(simulatedFill, FluidAction.EXECUTE);
+        FluidStack drainedFluid = input.drain(simulatedFill, false);
         if (!drainedFluid.isEmpty()) {
           // acutally fill
-          int actualFill = output.fill(drainedFluid.copy(), FluidAction.EXECUTE);
+          long actualFill = output.fill(drainedFluid.copy(), false);
           if (actualFill != drainedFluid.getAmount()) {
             TConstruct.LOG.error("Lost {} fluid during transfer", drainedFluid.getAmount() - actualFill);
           }
@@ -76,22 +77,22 @@ public class FluidTransferUtil {
   public static boolean interactWithBucket(Level world, BlockPos pos, Player player, InteractionHand hand, Direction hit, Direction offset) {
     ItemStack held = player.getItemInHand(hand);
     if (held.getItem() instanceof BucketItem bucket) {
-      Fluid fluid = bucket.getFluid();
+      Fluid fluid = ((BucketItemAccessor)bucket).fabric_getFluid();
       if (fluid != Fluids.EMPTY) {
         if (!world.isClientSide) {
           BlockEntity te = world.getBlockEntity(pos);
           if (te != null) {
-            te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, hit)
+            TransferUtil.getFluidHandler(te, hit)
               .ifPresent(handler -> {
-                FluidStack fluidStack = new FluidStack(bucket.getFluid(), FluidAttributes.BUCKET_VOLUME);
+                FluidStack fluidStack = new FluidStack(((BucketItemAccessor)bucket).fabric_getFluid(), FluidAttributes.BUCKET_VOLUME);
                 // must empty the whole bucket
-                if (handler.fill(fluidStack, FluidAction.SIMULATE) == FluidAttributes.BUCKET_VOLUME) {
-                  handler.fill(fluidStack, FluidAction.EXECUTE);
+                if (handler.fill(fluidStack, true) == FluidAttributes.BUCKET_VOLUME) {
+                  handler.fill(fluidStack, false);
                   bucket.checkExtraContent(player, world, held, pos.relative(offset));
-                  world.playSound(null, pos, fluid.getAttributes().getEmptySound(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                  world.playSound(null, pos, ((FluidExtensions)fluid).getAttributes().getEmptySound(), SoundSource.BLOCKS, 1.0F, 1.0F);
                   player.displayClientMessage(new TranslatableComponent(KEY_FILLED, FluidAttributes.BUCKET_VOLUME, fluidStack.getDisplayName()), true);
                   if (!player.isCreative()) {
-                    player.setItemInHand(hand, held.getContainerItem());
+                    player.setItemInHand(hand, new ItemStack(held.getItem().getCraftingRemainingItem()));
                   }
                 }
               });
@@ -117,26 +118,26 @@ public class FluidTransferUtil {
     ItemStack stack = player.getItemInHand(hand);
     Direction face = hit.getDirection();
     // fetch capability before copying, bit more work when its a fluid handler, but saves copying time when its not
-    if (!stack.isEmpty() && stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()) {
+    if (!stack.isEmpty() && TransferUtil.getFluidHandlerItem(stack).isPresent()) {
       // only server needs to transfer stuff
       if (!world.isClientSide) {
         BlockEntity te = world.getBlockEntity(pos);
         if (te != null) {
-          LazyOptional<IFluidHandler> teCapability = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, face);
+          LazyOptional<IFluidHandler> teCapability = TransferUtil.getFluidHandler(te, face);
           if (teCapability.isPresent()) {
             IFluidHandler teHandler = teCapability.orElse(EmptyFluidHandler.INSTANCE);
             ItemStack copy = ItemHandlerHelper.copyStackWithSize(stack, 1);
-            copy.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(itemHandler -> {
+            TransferUtil.getFluidHandlerItem(copy).ifPresent(itemHandler -> {
               // first, try filling the TE from the item
               FluidStack transferred = tryTransfer(itemHandler, teHandler, Integer.MAX_VALUE);
               if (!transferred.isEmpty()) {
-                world.playSound(null, pos, transferred.getFluid().getAttributes().getEmptySound(transferred), SoundSource.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, pos, ((FluidExtensions)transferred.getFluid()).getAttributes().getEmptySound(transferred), SoundSource.BLOCKS, 1.0F, 1.0F);
                 player.displayClientMessage(new TranslatableComponent(KEY_FILLED, transferred.getAmount(), transferred.getDisplayName()), true);
               } else {
                 // if that failed, try filling the item handler from the TE
                 transferred = tryTransfer(teHandler, itemHandler, Integer.MAX_VALUE);
                 if (!transferred.isEmpty()) {
-                  world.playSound(null, pos, transferred.getFluid().getAttributes().getFillSound(transferred), SoundSource.BLOCKS, 1.0F, 1.0F);
+                  world.playSound(null, pos, ((FluidExtensions)transferred.getFluid()).getAttributes().getFillSound(transferred), SoundSource.BLOCKS, 1.0F, 1.0F);
                   player.displayClientMessage(new TranslatableComponent(KEY_DRAINED, transferred.getAmount(), transferred.getDisplayName()), true);
                 }
               }

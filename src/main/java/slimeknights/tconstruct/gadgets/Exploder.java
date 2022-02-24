@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.gadgets;
 
 import com.google.common.collect.Lists;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -20,9 +21,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.gadgets.entity.EFLNExplosion;
 import slimeknights.tconstruct.tools.network.EntityMovementChangePacket;
@@ -76,6 +74,7 @@ public class Exploder {
     exploder.handleEntities();
     world.playSound(null, location, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.2F) * 0.7F);
     MinecraftForge.EVENT_BUS.register(exploder);
+    ServerTickEvents.END_WORLD_TICK.register(exploder::onTick);
   }
 
   private void handleEntities() {
@@ -113,9 +112,8 @@ public class Exploder {
     }
   }
 
-  @SubscribeEvent
-  public void onTick(TickEvent.WorldTickEvent event) {
-    if (event.world == this.world && event.phase == TickEvent.Phase.END) {
+  public void onTick(ServerLevel world) {
+    if (world == this.world) {
       if (!this.iteration()) {
         // goodbye world, we're done exploding
         this.finish();
@@ -160,7 +158,7 @@ public class Exploder {
       while (stacksize > 0);
     }
 
-    MinecraftForge.EVENT_BUS.unregister(this);
+//    MinecraftForge.EVENT_BUS.unregister(this);
   }
 
   /**

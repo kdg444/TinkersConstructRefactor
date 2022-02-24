@@ -4,7 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.registries.RegistryObject;
+import slimeknights.mantle.lib.util.RegistryObject;
 import slimeknights.mantle.registration.deferred.BlockDeferredRegister;
 import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
 

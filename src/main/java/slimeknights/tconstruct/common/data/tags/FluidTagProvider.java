@@ -1,23 +1,21 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.FluidTagsProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import slimeknights.mantle.registration.object.FluidObject;
-import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.TinkerTags.Fluids;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 
 @SuppressWarnings("unchecked")
-public class FluidTagProvider extends FluidTagsProvider {
+public class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
 
-  public FluidTagProvider(DataGenerator generatorIn, ExistingFileHelper helper) {
-    super(generatorIn, TConstruct.MOD_ID, helper);
+  public FluidTagProvider(FabricDataGenerator generatorIn) {
+    super(generatorIn);
   }
 
   @Override
-  public void addTags() {
+  public void generateTags() {
     // first, register common tags
     // slime
     tagLocal(TinkerFluids.blood);
@@ -95,30 +93,30 @@ public class FluidTagProvider extends FluidTagsProvider {
 
 
     // tooltips //
-    this.tag(TinkerTags.Fluids.GLASS_TOOLTIPS).addTags(TinkerFluids.moltenGlass.getLocalTag(), TinkerFluids.liquidSoul.getLocalTag(), TinkerFluids.moltenObsidian.getLocalTag());
-    this.tag(TinkerTags.Fluids.SLIME_TOOLTIPS).addTags(TinkerFluids.magma.getForgeTag(), TinkerFluids.blood.getLocalTag(), TinkerFluids.moltenEnder.getForgeTag(), TinkerTags.Fluids.SLIME);
-    this.tag(TinkerTags.Fluids.CLAY_TOOLTIPS).addTags(TinkerFluids.moltenClay.getLocalTag(), TinkerFluids.moltenPorcelain.getLocalTag(), TinkerFluids.searedStone.getLocalTag(), TinkerFluids.scorchedStone.getLocalTag());
-    this.tag(TinkerTags.Fluids.METAL_TOOLTIPS).addTags(
+    this.tag(TinkerTags.Fluids.GLASS_TOOLTIPS).addTag(TinkerFluids.moltenGlass.getLocalTag()).addTag(TinkerFluids.liquidSoul.getLocalTag()).addTag(TinkerFluids.moltenObsidian.getLocalTag());
+    this.tag(TinkerTags.Fluids.SLIME_TOOLTIPS).addTag(TinkerFluids.magma.getForgeTag()).addTag(TinkerFluids.blood.getLocalTag()).addTag(TinkerFluids.moltenEnder.getForgeTag()).addTag(TinkerTags.Fluids.SLIME);
+    this.tag(TinkerTags.Fluids.CLAY_TOOLTIPS).addTag(TinkerFluids.moltenClay.getLocalTag()).addTag(TinkerFluids.moltenPorcelain.getLocalTag()).addTag(TinkerFluids.searedStone.getLocalTag()).addTag(TinkerFluids.scorchedStone.getLocalTag());
+    this.tag(TinkerTags.Fluids.METAL_TOOLTIPS).addTag(
         // vanilla ores
-        TinkerFluids.moltenIron.getForgeTag(), TinkerFluids.moltenGold.getForgeTag(), TinkerFluids.moltenCopper.getForgeTag(), TinkerFluids.moltenCobalt.getForgeTag(), TinkerFluids.moltenDebris.getLocalTag(),
+        TinkerFluids.moltenIron.getForgeTag()).addTag(TinkerFluids.moltenGold.getForgeTag()).addTag(TinkerFluids.moltenCopper.getForgeTag()).addTag(TinkerFluids.moltenCobalt.getForgeTag()).addTag(TinkerFluids.moltenDebris.getLocalTag()).addTag(
         // base alloys
-        TinkerFluids.moltenSlimesteel.getLocalTag(), TinkerFluids.moltenTinkersBronze.getLocalTag(), TinkerFluids.moltenRoseGold.getForgeTag(), TinkerFluids.moltenPigIron.getLocalTag(),
-        TinkerFluids.moltenManyullyn.getForgeTag(), TinkerFluids.moltenHepatizon.getForgeTag(), TinkerFluids.moltenQueensSlime.getLocalTag(), TinkerFluids.moltenNetherite.getForgeTag(),
-        TinkerFluids.moltenSoulsteel.getLocalTag(), TinkerFluids.moltenKnightslime.getLocalTag(),
+        TinkerFluids.moltenSlimesteel.getLocalTag()).addTag(TinkerFluids.moltenTinkersBronze.getLocalTag()).addTag(TinkerFluids.moltenRoseGold.getForgeTag()).addTag(TinkerFluids.moltenPigIron.getLocalTag()).addTag(
+        TinkerFluids.moltenManyullyn.getForgeTag()).addTag(TinkerFluids.moltenHepatizon.getForgeTag()).addTag(TinkerFluids.moltenQueensSlime.getLocalTag()).addTag(TinkerFluids.moltenNetherite.getForgeTag()).addTag(
+        TinkerFluids.moltenSoulsteel.getLocalTag()).addTag(TinkerFluids.moltenKnightslime.getLocalTag()).addTag(
         // compat ores
-        TinkerFluids.moltenTin.getForgeTag(), TinkerFluids.moltenAluminum.getForgeTag(), TinkerFluids.moltenLead.getForgeTag(), TinkerFluids.moltenSilver.getForgeTag(),
-        TinkerFluids.moltenNickel.getForgeTag(), TinkerFluids.moltenZinc.getForgeTag(), TinkerFluids.moltenPlatinum.getForgeTag(),
-        TinkerFluids.moltenTungsten.getForgeTag(), TinkerFluids.moltenOsmium.getForgeTag(), TinkerFluids.moltenUranium.getForgeTag(),
+        TinkerFluids.moltenTin.getForgeTag()).addTag(TinkerFluids.moltenAluminum.getForgeTag()).addTag(TinkerFluids.moltenLead.getForgeTag()).addTag(TinkerFluids.moltenSilver.getForgeTag()).addTag(
+        TinkerFluids.moltenNickel.getForgeTag()).addTag(TinkerFluids.moltenZinc.getForgeTag()).addTag(TinkerFluids.moltenPlatinum.getForgeTag()).addTag(
+        TinkerFluids.moltenTungsten.getForgeTag()).addTag(TinkerFluids.moltenOsmium.getForgeTag()).addTag(TinkerFluids.moltenUranium.getForgeTag()).addTag(
         // compat alloys
-        TinkerFluids.moltenBronze.getForgeTag(), TinkerFluids.moltenBrass.getForgeTag(), TinkerFluids.moltenElectrum.getForgeTag(),
-        TinkerFluids.moltenInvar.getForgeTag(), TinkerFluids.moltenConstantan.getForgeTag(), TinkerFluids.moltenPewter.getForgeTag(), TinkerFluids.moltenSteel.getForgeTag(),
+        TinkerFluids.moltenBronze.getForgeTag()).addTag(TinkerFluids.moltenBrass.getForgeTag()).addTag(TinkerFluids.moltenElectrum.getForgeTag()).addTag(
+        TinkerFluids.moltenInvar.getForgeTag()).addTag(TinkerFluids.moltenConstantan.getForgeTag()).addTag(TinkerFluids.moltenPewter.getForgeTag()).addTag(TinkerFluids.moltenSteel.getForgeTag()).addTag(
         // thermal alloys
-        TinkerFluids.moltenEnderium.getForgeTag(), TinkerFluids.moltenLumium.getForgeTag(), TinkerFluids.moltenSignalum.getForgeTag(),
+        TinkerFluids.moltenEnderium.getForgeTag()).addTag(TinkerFluids.moltenLumium.getForgeTag()).addTag(TinkerFluids.moltenSignalum.getForgeTag()).addTag(
         // mekanism alloys
-        TinkerFluids.moltenRefinedGlowstone.getForgeTag(), TinkerFluids.moltenRefinedObsidian.getForgeTag());
+        TinkerFluids.moltenRefinedGlowstone.getForgeTag()).addTag(TinkerFluids.moltenRefinedObsidian.getForgeTag());
 
-    this.tag(TinkerTags.Fluids.LARGE_GEM_TOOLTIPS).addTags(TinkerFluids.moltenEmerald.getLocalTag(), TinkerFluids.moltenDiamond.getLocalTag());
-    this.tag(Fluids.SMALL_GEM_TOOLTIPS).addTags(TinkerFluids.moltenQuartz.getLocalTag(), TinkerFluids.moltenAmethyst.getLocalTag());
+    this.tag(TinkerTags.Fluids.LARGE_GEM_TOOLTIPS).addTag(TinkerFluids.moltenEmerald.getLocalTag()).addTag(TinkerFluids.moltenDiamond.getLocalTag());
+    this.tag(Fluids.SMALL_GEM_TOOLTIPS).addTag(TinkerFluids.moltenQuartz.getLocalTag()).addTag(TinkerFluids.moltenAmethyst.getLocalTag());
 
     // spilling tags - reduces the number of recipes generated //
     this.tag(TinkerTags.Fluids.CLAY_SPILLING)

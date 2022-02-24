@@ -1,15 +1,15 @@
 package slimeknights.tconstruct.smeltery.block.entity;
 
+import net.fabricmc.api.EnvType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.DistExecutor;
 import slimeknights.mantle.client.model.util.ModelHelper;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.util.EnvExecutor;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.model.block.TankModel.Baked;
 import slimeknights.tconstruct.library.fluid.FluidTankAnimated;
@@ -36,7 +36,7 @@ public interface ITankBlockEntity extends IFluidTankUpdater, FluidUpdatePacket.I
    */
   default int comparatorStrength() {
     FluidTankAnimated tank = getTank();
-    return 15 * tank.getFluidAmount() / tank.getCapacity();
+    return (int) (15 * tank.getFluidAmount() / tank.getCapacity());
   }
 
   /**
@@ -76,15 +76,15 @@ public interface ITankBlockEntity extends IFluidTankUpdater, FluidUpdatePacket.I
   default void updateFluidTo(FluidStack fluid) {
     // update tank fluid
     FluidTankAnimated tank = getTank();
-    int oldAmount = tank.getFluidAmount();
-    int newAmount = fluid.getAmount();
+    long oldAmount = tank.getFluidAmount();
+    long newAmount = fluid.getAmount();
     tank.setFluid(fluid);
 
     // update the tank render offset from the change
     tank.setRenderOffset(tank.getRenderOffset() + newAmount - oldAmount);
 
     // update the block model
-    DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+    EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () -> {
       if (isFluidInModel()) {
         // if the amount change is bigger than a single increment, or we changed whether we have a fluid, update the world renderer
         BlockEntity te = getTE();

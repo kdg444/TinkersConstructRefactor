@@ -4,12 +4,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fluids.FluidAttributes;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
+import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.client.model.fluid.FluidCuboid;
 import slimeknights.mantle.client.render.FluidRenderer;
 import slimeknights.mantle.client.render.MantleRenderTypes;
@@ -62,14 +64,14 @@ public final class RenderUtils {
       return;
     }
 
-    FluidAttributes attributes = fluid.getFluid().getAttributes();
-    TextureAtlasSprite still = FluidRenderer.getBlockSprite(attributes.getStillTexture(fluid));
-    TextureAtlasSprite flowing = FluidRenderer.getBlockSprite(attributes.getFlowingTexture(fluid));
-    boolean isGas = attributes.isGaseous(fluid);
+    FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
+    TextureAtlasSprite still = FluidRenderer.getBlockSprite(FluidVariantRendering.getSprite(fluid.getType()).getName());
+    TextureAtlasSprite flowing = FluidRenderer.getBlockSprite(FluidVariantRendering.getSprites(fluid.getType())[1].getName());
+    boolean isGas = FluidVariantRendering.fillsFromTop(fluid.getType());
     light = FluidRenderer.withBlockLight(light, attributes.getLuminosity(fluid));
 
     // add in fluid opacity if given
-    int color = attributes.getColor(fluid);
+    int color = FluidVariantRendering.getColor(fluid.getType());
     if (opacity < 0xFF) {
       // alpha is top 8 bits, multiply by opacity and divide out remainder
       int alpha = ((color >> 24) & 0xFF) * opacity / 0xFF;
@@ -92,7 +94,7 @@ public final class RenderUtils {
   public static void renderFluidTank(PoseStack matrices, MultiBufferSource buffer, FluidCuboid cube, FluidTankAnimated tank, int light, float partialTicks, boolean flipGas) {
     // render liquid if present
     FluidStack liquid = tank.getFluid();
-    int capacity = tank.getCapacity();
+    long capacity = tank.getCapacity();
     if (!liquid.isEmpty() && capacity > 0) {
       // update render offset
       float offset = tank.getRenderOffset();

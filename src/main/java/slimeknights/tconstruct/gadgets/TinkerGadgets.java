@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.gadgets;
 
-import net.minecraft.data.DataGenerator;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.BlockItem;
@@ -9,16 +11,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.Logger;
 import slimeknights.mantle.item.BlockTooltipItem;
+import slimeknights.mantle.lib.util.RegistryObject;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.mantle.util.SupplierCreativeTab;
@@ -27,7 +25,6 @@ import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.gadgets.block.FoodCakeBlock;
 import slimeknights.tconstruct.gadgets.block.PunjiBlock;
 import slimeknights.tconstruct.gadgets.capability.PiggybackCapability;
-import slimeknights.tconstruct.gadgets.data.GadgetRecipeProvider;
 import slimeknights.tconstruct.gadgets.entity.EflnBallEntity;
 import slimeknights.tconstruct.gadgets.entity.FancyItemFrameEntity;
 import slimeknights.tconstruct.gadgets.entity.FrameType;
@@ -56,6 +53,9 @@ import java.util.function.Function;
  */
 @SuppressWarnings("unused")
 public final class TinkerGadgets extends TinkerModule {
+  public TinkerGadgets() {
+    commonSetup();
+  }
   /** Tab for all special tools added by the mod */
   public static final CreativeModeTab TAB_GADGETS = new SupplierCreativeTab(TConstruct.MOD_ID, "gadgets", () -> new ItemStack(TinkerGadgets.slimeSling.get(SlimeType.EARTH)));
   static final Logger log = Util.getLogger("tinker_gadgets");
@@ -106,45 +106,45 @@ public final class TinkerGadgets extends TinkerModule {
    * Entities
    */
   public static final RegistryObject<EntityType<FancyItemFrameEntity>> itemFrameEntity = ENTITIES.register("fancy_item_frame", () ->
-    EntityType.Builder.<FancyItemFrameEntity>of(
-      FancyItemFrameEntity::new, MobCategory.MISC)
-      .sized(0.5F, 0.5F)
-      .setTrackingRange(10)
-      .setUpdateInterval(Integer.MAX_VALUE)
-      .setCustomClientFactory((spawnEntity, world) -> new FancyItemFrameEntity(TinkerGadgets.itemFrameEntity.get(), world))
-      .setShouldReceiveVelocityUpdates(false)
+    FabricEntityTypeBuilder.<FancyItemFrameEntity>create(
+        MobCategory.MISC, FancyItemFrameEntity::new)
+      .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
+      .trackRangeChunks(10)
+      .trackedUpdateRate(Integer.MAX_VALUE)
+      .entityFactory((spawnEntity, world) -> new FancyItemFrameEntity(TinkerGadgets.itemFrameEntity.get(), world))
+      .forceTrackedVelocityUpdates(false)
   );
   public static final RegistryObject<EntityType<GlowballEntity>> glowBallEntity = ENTITIES.register("glow_ball", () ->
-    EntityType.Builder.<GlowballEntity>of(GlowballEntity::new, MobCategory.MISC)
-      .sized(0.25F, 0.25F)
-      .setTrackingRange(4)
-      .setUpdateInterval(10)
-      .setCustomClientFactory((spawnEntity, world) -> new GlowballEntity(TinkerGadgets.glowBallEntity.get(), world))
-      .setShouldReceiveVelocityUpdates(true)
+    FabricEntityTypeBuilder.<GlowballEntity>create(MobCategory.MISC, GlowballEntity::new)
+      .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+      .trackRangeChunks(4)
+      .trackedUpdateRate(10)
+      .entityFactory((spawnEntity, world) -> new GlowballEntity(TinkerGadgets.glowBallEntity.get(), world))
+      .forceTrackedVelocityUpdates(true)
   );
   public static final RegistryObject<EntityType<EflnBallEntity>> eflnEntity = ENTITIES.register("efln_ball", () ->
-    EntityType.Builder.<EflnBallEntity>of(EflnBallEntity::new, MobCategory.MISC)
-      .sized(0.25F, 0.25F)
-      .setTrackingRange(4)
-      .setUpdateInterval(10)
-      .setCustomClientFactory((spawnEntity, world) -> new EflnBallEntity(TinkerGadgets.eflnEntity.get(), world))
-      .setShouldReceiveVelocityUpdates(true)
+    FabricEntityTypeBuilder.<EflnBallEntity>create(MobCategory.MISC, EflnBallEntity::new)
+      .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+      .trackRangeChunks(4)
+      .trackedUpdateRate(10)
+      .entityFactory((spawnEntity, world) -> new EflnBallEntity(TinkerGadgets.eflnEntity.get(), world))
+      .forceTrackedVelocityUpdates(true)
   );
   public static final RegistryObject<EntityType<QuartzShurikenEntity>> quartzShurikenEntity = ENTITIES.register("quartz_shuriken", () ->
-    EntityType.Builder.<QuartzShurikenEntity>of(QuartzShurikenEntity::new, MobCategory.MISC)
-      .sized(0.25F, 0.25F)
-      .setTrackingRange(4)
-      .setUpdateInterval(10)
-      .setCustomClientFactory((spawnEntity, world) -> new QuartzShurikenEntity(TinkerGadgets.quartzShurikenEntity.get(), world))
-      .setShouldReceiveVelocityUpdates(true)
+    FabricEntityTypeBuilder.<QuartzShurikenEntity>create(MobCategory.MISC, QuartzShurikenEntity::new)
+      .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+      .trackRangeChunks(4)
+      .trackedUpdateRate(10)
+      .entityFactory((spawnEntity, world) -> new QuartzShurikenEntity(TinkerGadgets.quartzShurikenEntity.get(), world))
+      .forceTrackedVelocityUpdates(true)
   );
   public static final RegistryObject<EntityType<FlintShurikenEntity>> flintShurikenEntity = ENTITIES.register("flint_shuriken", () ->
-    EntityType.Builder.<FlintShurikenEntity>of(FlintShurikenEntity::new, MobCategory.MISC)
-      .sized(0.25F, 0.25F)
-      .setTrackingRange(4)
-      .setUpdateInterval(10)
-      .setCustomClientFactory((spawnEntity, world) -> new FlintShurikenEntity(TinkerGadgets.flintShurikenEntity.get(), world))
-      .setShouldReceiveVelocityUpdates(true)
+    FabricEntityTypeBuilder.<FlintShurikenEntity>create(MobCategory.MISC, FlintShurikenEntity::new)
+      .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+      .trackRangeChunks(4)
+      .trackedUpdateRate(10)
+      .entityFactory((spawnEntity, world) -> new FlintShurikenEntity(TinkerGadgets.flintShurikenEntity.get(), world))
+      .forceTrackedVelocityUpdates(true)
   );
 
   /*
@@ -155,20 +155,19 @@ public final class TinkerGadgets extends TinkerModule {
   /*
    * Events
    */
-  @SubscribeEvent
-  void commonSetup(final FMLCommonSetupEvent event) {
+  void commonSetup() {
     PiggybackCapability.register();
-    event.enqueueWork(() -> {
-      cake.forEach(block -> ComposterBlock.add(1.0f, block));
-      ComposterBlock.add(1.0f, magmaCake.get());
-    });
+//    event.enqueueWork(() -> {
+      cake.forEach(block -> CompostingChanceRegistry.INSTANCE.add(block, 1.0f));
+      CompostingChanceRegistry.INSTANCE.add(magmaCake.get(), 1.0f);
+//    });
   }
 
-  @SubscribeEvent
-  void gatherData(final GatherDataEvent event) {
-    if (event.includeServer()) {
-      DataGenerator datagenerator = event.getGenerator();
-      datagenerator.addProvider(new GadgetRecipeProvider(datagenerator));
-    }
-  }
+//  @SubscribeEvent
+//  void gatherData(final GatherDataEvent event) {
+//    if (event.includeServer()) {
+//      DataGenerator datagenerator = event.getGenerator();
+//      datagenerator.addProvider(new GadgetRecipeProvider(datagenerator));
+//    }
+//  }
 }

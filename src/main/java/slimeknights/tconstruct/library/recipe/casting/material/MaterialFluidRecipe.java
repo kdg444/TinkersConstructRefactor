@@ -9,7 +9,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.recipe.ICustomOutputRecipe;
 import slimeknights.mantle.recipe.helper.LoggingRecipeSerializer;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
@@ -62,7 +62,7 @@ public class MaterialFluidRecipe implements ICustomOutputRecipe<ICastingContaine
   }
 
   /** Gets the amount of fluid to cast this recipe */
-  public int getFluidAmount(Fluid fluid) {
+  public long getFluidAmount(Fluid fluid) {
     return this.fluid.getAmount(fluid);
   }
 

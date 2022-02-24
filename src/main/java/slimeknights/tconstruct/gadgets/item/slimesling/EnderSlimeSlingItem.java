@@ -7,7 +7,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.library.events.teleport.SlimeslingTeleportEvent;
 import slimeknights.tconstruct.shared.block.SlimeType;
@@ -63,7 +62,7 @@ public class EnderSlimeSlingItem extends BaseSlimeSlingItem {
       player.getCooldowns().addCooldown(stack.getItem(), 3);
 
       SlimeslingTeleportEvent event = new SlimeslingTeleportEvent(player, furthestPos.getX() + 0.5f, furthestPos.getY(), furthestPos.getZ() + 0.5f, stack);
-      MinecraftForge.EVENT_BUS.post(event);
+      SlimeslingTeleportEvent.EVENT.invoker().onSlimeslingTeleport(event);
       if (!event.isCanceled()) {
         player.teleportTo(event.getTargetX(), event.getTargetY(), event.getTargetZ());
 

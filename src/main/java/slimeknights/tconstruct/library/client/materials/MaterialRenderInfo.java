@@ -3,10 +3,10 @@ package slimeknights.tconstruct.library.client.materials;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 
 import javax.annotation.Nullable;
@@ -105,7 +105,7 @@ public class MaterialRenderInfo {
    * @return  Material instance
    */
   private static Material getMaterial(ResourceLocation texture, String suffix) {
-    return ModelLoaderRegistry.blockMaterial(new ResourceLocation(texture.getNamespace(), texture.getPath() + "_" + suffix));
+    return new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation(texture.getNamespace(), texture.getPath() + "_" + suffix));
   }
 
   /**

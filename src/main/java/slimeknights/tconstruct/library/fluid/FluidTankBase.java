@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.library.fluid;
 
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
+import slimeknights.mantle.lib.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.smeltery.network.FluidUpdatePacket;
 

@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import slimeknights.mantle.item.BlockTooltipItem;
+import slimeknights.mantle.lib.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.fluid.FluidTooltipHandler;
 import slimeknights.tconstruct.library.recipe.FluidValues;

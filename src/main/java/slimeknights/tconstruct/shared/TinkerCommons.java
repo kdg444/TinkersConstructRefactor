@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.shared;
 
+import net.fabricmc.fabric.api.object.builder.v1.advancement.CriterionRegistry;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
@@ -19,15 +20,10 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.Logger;
 import slimeknights.mantle.item.EdibleItem;
+import slimeknights.mantle.lib.event.DataPackReloadCallback;
+import slimeknights.mantle.lib.util.RegistryObject;
 import slimeknights.mantle.registration.object.BuildingBlockObject;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.ItemObject;
@@ -124,14 +120,14 @@ public final class TinkerCommons extends TinkerModule {
 
   /* Slime Balls are edible, believe it or not */
   public static final EnumObject<SlimeType, Item> slimeball = new EnumObject.Builder<SlimeType, Item>(SlimeType.class)
-    .put(SlimeType.EARTH, Items.SLIME_BALL.delegate)
+    .put(SlimeType.EARTH, () -> Items.SLIME_BALL)
     .putAll(ITEMS.registerEnum(SlimeType.TINKER, "slime_ball", type -> new Item(GENERAL_PROPS)))
     .build();
 
   public static final BlockContainerOpenedTrigger CONTAINER_OPENED_TRIGGER = new BlockContainerOpenedTrigger();
 
   public TinkerCommons() {
-    MinecraftForge.EVENT_BUS.addListener(RecipeCacheInvalidator::onReloadListenerReload);
+    DataPackReloadCallback.EVENT.register(RecipeCacheInvalidator::onReloadListenerReload);
   }
 
   @SubscribeEvent
@@ -145,7 +141,7 @@ public final class TinkerCommons extends TinkerModule {
     CraftingHelper.register(ConfigEnabledCondition.SERIALIZER);
     lootConfig = Registry.register(Registry.LOOT_CONDITION_TYPE, ConfigEnabledCondition.ID, new LootItemConditionType(ConfigEnabledCondition.SERIALIZER));
     lootBlockOrEntity = Registry.register(Registry.LOOT_CONDITION_TYPE, BlockOrEntityCondition.ID, new LootItemConditionType(BlockOrEntityCondition.SERIALIZER));
-    CriteriaTriggers.register(CONTAINER_OPENED_TRIGGER);
+    CriterionRegistry.register(CONTAINER_OPENED_TRIGGER);
 
     CraftingHelper.register(TagIntersectionPresentCondition.SERIALIZER);
     CraftingHelper.register(TagDifferencePresentCondition.SERIALIZER);

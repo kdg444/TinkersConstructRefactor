@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import me.alphamode.forgetags.Tags;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -9,13 +11,11 @@ import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import slimeknights.mantle.lib.extensions.TierExtension;
 import slimeknights.mantle.registration.object.BuildingBlockObject;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.MetalItemObject;
 import slimeknights.mantle.registration.object.WoodBlockObject;
-import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.registration.GeodeItemObject;
 import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
@@ -34,6 +34,8 @@ import slimeknights.tconstruct.world.TinkerWorld;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import static me.alphamode.forgetags.Tags.Blocks.NEEDS_GOLD_TOOL;
+import static me.alphamode.forgetags.Tags.Blocks.NEEDS_NETHERITE_TOOL;
 import static net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE;
 import static net.minecraft.tags.BlockTags.MINEABLE_WITH_HOE;
 import static net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE;
@@ -41,18 +43,16 @@ import static net.minecraft.tags.BlockTags.MINEABLE_WITH_SHOVEL;
 import static net.minecraft.tags.BlockTags.NEEDS_DIAMOND_TOOL;
 import static net.minecraft.tags.BlockTags.NEEDS_IRON_TOOL;
 import static net.minecraft.tags.BlockTags.NEEDS_STONE_TOOL;
-import static net.minecraftforge.common.Tags.Blocks.NEEDS_GOLD_TOOL;
-import static net.minecraftforge.common.Tags.Blocks.NEEDS_NETHERITE_TOOL;
 
 @SuppressWarnings("unchecked")
-public class BlockTagProvider extends BlockTagsProvider {
+public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
-  public BlockTagProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
-    super(generatorIn, TConstruct.MOD_ID, existingFileHelper);
+  public BlockTagProvider(FabricDataGenerator generatorIn) {
+    super(generatorIn);
   }
 
   @Override
-  protected void addTags() {
+  protected void generateTags() {
     this.addCommon();
     this.addTools();
     this.addWorld();
@@ -104,7 +104,7 @@ public class BlockTagProvider extends BlockTagsProvider {
         .addTag(Tags.Blocks.STORAGE_BLOCKS_NETHERITE);
     for (SmelteryCompat compat : SmelteryCompat.values()) {
       if (!compat.isOre()) {
-        builder.addOptionalTag(new ResourceLocation("forge", "storage_blocks/" + compat.getName()));
+        builder.addOptionalTag(new ResourceLocation("c", "storage_blocks/" + compat.getName()));
       }
     }
 
@@ -115,7 +115,7 @@ public class BlockTagProvider extends BlockTagsProvider {
     // things the platform connects to on the sides
     this.tag(TinkerTags.Blocks.PLATFORM_CONNECTIONS)
         .add(Blocks.LEVER, Blocks.LADDER, Blocks.IRON_BARS, TinkerCommons.goldBars.get(), Blocks.TRIPWIRE_HOOK, Blocks.WALL_TORCH, Blocks.SOUL_WALL_TORCH, Blocks.REDSTONE_WALL_TORCH, Blocks.REDSTONE_WIRE)
-        .addTags(Tags.Blocks.GLASS_PANES, BlockTags.BUTTONS, Tags.Blocks.FENCES, BlockTags.WALLS, BlockTags.WALL_SIGNS);
+        .addTag(Tags.Blocks.GLASS_PANES).addTag(BlockTags.BUTTONS).addTag(Tags.Blocks.FENCES).addTag(BlockTags.WALLS).addTag(BlockTags.WALL_SIGNS);
 
     // copper platforms
     TagAppender<Block> copperPlatforms = this.tag(TinkerTags.Blocks.COPPER_PLATFORMS);
@@ -136,7 +136,7 @@ public class BlockTagProvider extends BlockTagsProvider {
         .add(Blocks.SUGAR_CANE, Blocks.KELP_PLANT);
     this.tag(TinkerTags.Blocks.HARVESTABLE_CROPS)
         .addTag(BlockTags.CROPS)
-        .addOptionalTag(new ResourceLocation("forge", "crops"))
+        .addOptionalTag(new ResourceLocation("c", "crops"))
         .add(Blocks.NETHER_WART);
     this.tag(TinkerTags.Blocks.HARVESTABLE_INTERACT)
         .add(Blocks.SWEET_BERRY_BUSH);
@@ -338,7 +338,7 @@ public class BlockTagProvider extends BlockTagsProvider {
     // slime
     tagBlocks(MINEABLE_WITH_SHOVEL, TinkerWorld.congealedSlime, TinkerWorld.slimeDirt, TinkerWorld.vanillaSlimeGrass, TinkerWorld.earthSlimeGrass, TinkerWorld.skySlimeGrass, TinkerWorld.enderSlimeGrass, TinkerWorld.ichorSlimeGrass);
     // harvest tiers on shovel blocks
-    TinkerWorld.slimeDirt.forEach((type, block) -> this.tag((Tag.Named<Block>)Objects.requireNonNull(type.getHarvestTier().getTag())).add(block));
+    TinkerWorld.slimeDirt.forEach((type, block) -> this.tag((Tag.Named<Block>)Objects.requireNonNull(((TierExtension)(Object)type.getHarvestTier()).getTag())).add(block));
     for (SlimeType dirt : SlimeType.values()) {
       for (SlimeType grass : SlimeType.values()) {
         Tiers dirtTier = dirt.getHarvestTier();
@@ -350,7 +350,7 @@ public class BlockTagProvider extends BlockTagsProvider {
         } else {
           tier = dirtTier.getLevel() > grassTier.getLevel() ? dirtTier : grassTier;
         }
-        this.tag((Tag.Named<Block>)Objects.requireNonNull(tier.getTag())).add(TinkerWorld.slimeGrass.get(dirt).get(grass));
+        this.tag((Tag.Named<Block>)Objects.requireNonNull(((TierExtension)(Object)tier).getTag())).add(TinkerWorld.slimeGrass.get(dirt).get(grass));
       }
     }
 
@@ -387,27 +387,27 @@ public class BlockTagProvider extends BlockTagsProvider {
 
     // custom tool harvest
     // mattock works on all shovel and natural axe
-    tag(TinkerTags.Blocks.MINABLE_WITH_MATTOCK).addTags(MINEABLE_WITH_SHOVEL, BlockTags.LOGS).add(
+    tag(TinkerTags.Blocks.MINABLE_WITH_MATTOCK).addTag(MINEABLE_WITH_SHOVEL).addTag(BlockTags.LOGS).add(
       Blocks.AZALEA, Blocks.BAMBOO, Blocks.GLOW_LICHEN, Blocks.VINE,
       Blocks.BEE_NEST, Blocks.BEEHIVE,
       Blocks.CARVED_PUMPKIN, Blocks.JACK_O_LANTERN, Blocks.PUMPKIN,
       Blocks.CHORUS_FLOWER, Blocks.CHORUS_PLANT, Blocks.COCOA,
       Blocks.BROWN_MUSHROOM_BLOCK, Blocks.MUSHROOM_STEM, Blocks.RED_MUSHROOM_BLOCK);
     // pickadze is shovel or pickaxe
-    tag(TinkerTags.Blocks.MINABLE_WITH_PICKADZE).addTags(MINEABLE_WITH_SHOVEL, MINEABLE_WITH_PICKAXE);
+    tag(TinkerTags.Blocks.MINABLE_WITH_PICKADZE).addTag(MINEABLE_WITH_SHOVEL).addTag(MINEABLE_WITH_PICKAXE);
     // hand axe has a leaf bonus
-    tag(TinkerTags.Blocks.MINABLE_WITH_HAND_AXE).addTags(MINEABLE_WITH_AXE, BlockTags.LEAVES);
+    tag(TinkerTags.Blocks.MINABLE_WITH_HAND_AXE).addTag(MINEABLE_WITH_AXE).addTag(BlockTags.LEAVES);
     // scythe/kama does hoe or shear blocks
-    tag(TinkerTags.Blocks.MINABLE_WITH_SHEARS).add(Blocks.COBWEB, Blocks.REDSTONE_WIRE, Blocks.TRIPWIRE, Blocks.VINE, Blocks.GLOW_LICHEN).addTags(BlockTags.LEAVES, BlockTags.WOOL);
+    tag(TinkerTags.Blocks.MINABLE_WITH_SHEARS).add(Blocks.COBWEB, Blocks.REDSTONE_WIRE, Blocks.TRIPWIRE, Blocks.VINE, Blocks.GLOW_LICHEN).addTag(BlockTags.LEAVES).addTag(BlockTags.WOOL);
     // scythe/kama does hoe or shear blocks
-    tag(TinkerTags.Blocks.MINABLE_WITH_SCYTHE).addTags(MINEABLE_WITH_HOE, TinkerTags.Blocks.MINABLE_WITH_SHEARS);
+    tag(TinkerTags.Blocks.MINABLE_WITH_SCYTHE).addTag(MINEABLE_WITH_HOE).addTag(TinkerTags.Blocks.MINABLE_WITH_SHEARS);
     // sword list is filled to best ability, but will be a bit inexact as vanilla uses materials, hopefully putting this tag under forge will get people to tag their blocks
     tag(TinkerTags.Blocks.MINABLE_WITH_SWORD).add(Blocks.COBWEB)
       .add(Blocks.COCOA, Blocks.CHORUS_PLANT, Blocks.CHORUS_FLOWER, Blocks.SWEET_BERRY_BUSH, Blocks.VINE, Blocks.MOSS_CARPET, Blocks.MOSS_BLOCK,
            Blocks.BIG_DRIPLEAF, Blocks.BIG_DRIPLEAF_STEM, Blocks.GLOW_LICHEN, Blocks.PUMPKIN, Blocks.CARVED_PUMPKIN, Blocks.MELON)
-      .addTags(BlockTags.LEAVES, BlockTags.SAPLINGS, BlockTags.FLOWERS, BlockTags.CROPS);
+      .addTag(BlockTags.LEAVES).addTag(BlockTags.SAPLINGS).addTag(BlockTags.FLOWERS).addTag(BlockTags.CROPS);
     // dagger does hoe or sword blocks
-    tag(TinkerTags.Blocks.MINABLE_WITH_DAGGER).addTags(MINEABLE_WITH_HOE, TinkerTags.Blocks.MINABLE_WITH_SWORD);
+    tag(TinkerTags.Blocks.MINABLE_WITH_DAGGER).addTag(MINEABLE_WITH_HOE).addTag(TinkerTags.Blocks.MINABLE_WITH_SWORD);
   }
 
   @Override
@@ -509,7 +509,7 @@ public class BlockTagProvider extends BlockTagsProvider {
   private void addGlass(EnumObject<GlassColor,? extends Block> blockObj, String tagPrefix, TagAppender<Block> blockTag) {
     blockObj.forEach((color, block) -> {
       blockTag.add(block);
-      this.tag(BlockTags.createOptional(new ResourceLocation("forge", tagPrefix + color.getSerializedName()))).add(block);
+      this.tag(TagFactory.BLOCK.create(new ResourceLocation("c", tagPrefix + color.getSerializedName()))).add(block);
     });
   }
 

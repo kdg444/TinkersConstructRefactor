@@ -2,13 +2,14 @@ package slimeknights.tconstruct.library.fluid;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.ModList;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.utils.SafeClientAccess;
@@ -69,15 +70,15 @@ public class FluidTooltipHandler {
    * @param amount Amount override
    * @return  Fluid tooltip
    */
-  public static List<Component> getFluidTooltip(FluidStack fluid, int amount) {
+  public static List<Component> getFluidTooltip(FluidStack fluid, long amount) {
     List<Component> tooltip = new ArrayList<>();
     // fluid name, not sure if there is a cleaner way to do this
     tooltip.add(fluid.getDisplayName().plainCopy().withStyle(ChatFormatting.WHITE));
     // material
     appendMaterial(fluid.getFluid(), amount, tooltip);
     // add mod display name
-    ModList.get().getModContainerById(Objects.requireNonNull(fluid.getFluid().getRegistryName()).getNamespace())
-           .map(container -> container.getModInfo().getDisplayName())
+    FabricLoader.getInstance().getModContainer(Objects.requireNonNull(Registry.FLUID.getKey(fluid.getFluid())).getNamespace())
+           .map(container -> container.getMetadata().getName())
            .ifPresent(name -> tooltip.add(new TextComponent(name).withStyle(ChatFormatting.BLUE, ChatFormatting.ITALIC)));
     return tooltip;
   }
@@ -97,7 +98,7 @@ public class FluidTooltipHandler {
    * @param original   Input amount
    * @param tooltip    Tooltip to append information
    */
-  public static void appendMaterial(Fluid fluid, int original, List<Component> tooltip) {
+  public static void appendMaterial(Fluid fluid, long original, List<Component> tooltip) {
     if (appendMaterialNoShift(fluid, original, tooltip)) {
       appendShift(tooltip);
     }
@@ -110,8 +111,8 @@ public class FluidTooltipHandler {
    * @param tooltip    Tooltip to append information
    * @return  True if the amount is not in buckets
    */
-  public static boolean appendMaterialNoShift(Fluid fluid, int original, List<Component> tooltip) {
-    int amount = original;
+  public static boolean appendMaterialNoShift(Fluid fluid, long original, List<Component> tooltip) {
+    long amount = original;
 
     // if holding shift, skip specific units
     if(SafeClientAccess.getTooltipKey() != TooltipKey.SHIFT) {
@@ -178,7 +179,7 @@ public class FluidTooltipHandler {
   }
 
   /** Single entry for text options */
-  private record FluidGuiEntry(String translationKey, int needed) implements Comparable<FluidGuiEntry> {
+  private record FluidGuiEntry(String translationKey, long needed) implements Comparable<FluidGuiEntry> {
     /**
      * Creates a new fluid GUI entry
      * @param translationKey  Base translation name
@@ -193,8 +194,8 @@ public class FluidTooltipHandler {
      * Gets the display text for this fluid entry
      * @return  Display text
      */
-    private int getText(List<Component> tooltip, int amount) {
-      int full = amount / needed;
+    private int getText(List<Component> tooltip, long amount) {
+      long full = amount / needed;
       if (full > 0) {
         tooltip.add(new TranslatableComponent(translationKey, full).withStyle(ChatFormatting.GRAY));
       }

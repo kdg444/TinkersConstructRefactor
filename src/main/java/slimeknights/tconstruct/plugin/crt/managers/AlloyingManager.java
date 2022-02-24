@@ -12,7 +12,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import org.openzen.zencode.java.ZenCodeType;
 import slimeknights.mantle.recipe.FluidIngredient;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;

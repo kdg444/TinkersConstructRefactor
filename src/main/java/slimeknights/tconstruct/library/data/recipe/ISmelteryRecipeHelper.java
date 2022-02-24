@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.data.recipe;
 
+import me.alphamode.forgetags.Tags;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
@@ -7,10 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.ConditionalRecipe;
-import net.minecraftforge.common.crafting.conditions.TrueCondition;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.recipe.data.CompoundIngredient;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.recipe.ingredient.IngredientDifference;
@@ -71,11 +69,11 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
     // not everyone sets size, so treat singular as the fallback, means we want anything in the tag that is not sparse or dense
     if (size == Tags.Items.ORE_RATES_SINGULAR) {
       ingredient = IngredientDifference.difference(baseIngredient, CompoundIngredient.from(Ingredient.of(Tags.Items.ORE_RATES_SPARSE), Ingredient.of(Tags.Items.ORE_RATES_DENSE)));
-      wrapped = withCondition(consumer, new TagDifferencePresentCondition(new ResourceLocation("forge", tagName), Tags.Items.ORE_RATES_SPARSE.getName(), Tags.Items.ORE_RATES_DENSE.getName()));
+      wrapped = withCondition(consumer, new TagDifferencePresentCondition(new ResourceLocation("c", tagName), Tags.Items.ORE_RATES_SPARSE.getName(), Tags.Items.ORE_RATES_DENSE.getName()));
       // size tag means we want an intersection between the tag and that size
     } else if (size != null) {
       ingredient = IngredientIntersection.intersection(baseIngredient, Ingredient.of(size));
-      wrapped = withCondition(consumer, new TagIntersectionPresentCondition(new ResourceLocation("forge", tagName), size.getName()));
+      wrapped = withCondition(consumer, new TagIntersectionPresentCondition(new ResourceLocation("c", tagName), size.getName()));
       // default only need it to be in the tag
     } else {
       ingredient = baseIngredient;

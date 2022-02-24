@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix4f;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
@@ -18,8 +19,9 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.client.screen.ElementScreen;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class GuiUtil {
@@ -111,10 +113,10 @@ public final class GuiUtil {
    * @param height    Tank height
    * @param depth     Tank depth
    */
-  public static void renderFluidTank(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, int amount, int capacity, int x, int y, int width, int height, int depth) {
+  public static void renderFluidTank(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, long amount, long capacity, int x, int y, int width, int height, int depth) {
     if(!stack.isEmpty()) {
       int maxY = y + height;
-      int fluidHeight = Math.min(height * amount / capacity, height);
+      long fluidHeight = Math.min(height * amount / capacity, height);
       renderTiledFluid(matrices, screen, stack, x, maxY - fluidHeight, width, fluidHeight, depth);
     }
   }
@@ -130,11 +132,11 @@ public final class GuiUtil {
    * @param height  Fluid height
    * @param depth   Fluid depth
    */
-  public static void renderTiledFluid(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, int x, int y, int width, int height, int depth) {
+  public static void renderTiledFluid(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, int x, long y, int width, long height, int depth) {
     if (!stack.isEmpty()) {
-      TextureAtlasSprite fluidSprite = screen.getMinecraft().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stack.getFluid().getAttributes().getStillTexture(stack));
-      RenderUtils.setColorRGBA(stack.getFluid().getAttributes().getColor(stack));
-      renderTiledTextureAtlas(matrices, screen, fluidSprite, x, y, width, height, depth, stack.getFluid().getAttributes().isGaseous(stack));
+      TextureAtlasSprite fluidSprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(((FluidExtensions)stack.getFluid()).getAttributes().getStillTexture(stack));
+      RenderUtils.setColorRGBA(((FluidExtensions)stack.getFluid()).getAttributes().getColor(stack));
+      renderTiledTextureAtlas(matrices, screen, fluidSprite, x, y, width, height, depth, ((FluidExtensions)stack.getFluid()).getAttributes().isGaseous(stack));
       RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
   }
@@ -151,7 +153,7 @@ public final class GuiUtil {
    * @param depth       Render depth
    * @param upsideDown  If true, flips the sprite
    */
-  public static void renderTiledTextureAtlas(PoseStack matrices, AbstractContainerScreen<?> screen, TextureAtlasSprite sprite, int x, int y, int width, int height, int depth, boolean upsideDown) {
+  public static void renderTiledTextureAtlas(PoseStack matrices, AbstractContainerScreen<?> screen, TextureAtlasSprite sprite, int x, long y, int width, long height, int depth, boolean upsideDown) {
     // start drawing sprites
     RenderUtils.bindTexture(sprite.atlas().location());
     BufferBuilder builder = Tesselator.getInstance().getBuilder();
@@ -163,9 +165,9 @@ public final class GuiUtil {
     int spriteHeight = sprite.getHeight();
     int spriteWidth = sprite.getWidth();
     int startX = x + screen.leftPos;
-    int startY = y + screen.topPos;
+    long startY = y + screen.topPos;
     do {
-      int renderHeight = Math.min(spriteHeight, height);
+      long renderHeight = Math.min(spriteHeight, height);
       height -= renderHeight;
       float v2 = sprite.getV((16f * renderHeight) / spriteHeight);
 
@@ -211,7 +213,7 @@ public final class GuiUtil {
    * @param v1       Texture V start
    * @param v2       Texture V end
    */
-  private static void buildSquare(Matrix4f matrix, BufferBuilder builder, int x1, int x2, int y1, int y2, int z, float u1, float u2, float v1, float v2) {
+  private static void buildSquare(Matrix4f matrix, BufferBuilder builder, int x1, int x2, long y1, long y2, int z, float u1, float u2, float v1, float v2) {
     builder.vertex(matrix, x1, y2, z).uv(u1, v2).endVertex();
     builder.vertex(matrix, x2, y2, z).uv(u2, v2).endVertex();
     builder.vertex(matrix, x2, y1, z).uv(u2, v1).endVertex();

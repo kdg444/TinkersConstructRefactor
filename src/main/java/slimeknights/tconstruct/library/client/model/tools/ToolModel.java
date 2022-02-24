@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.color.item.ItemColors;
@@ -38,14 +39,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
-import net.minecraftforge.client.model.BakedItemModel;
-import net.minecraftforge.client.model.BakedModelWrapper;
-import net.minecraftforge.client.model.ForgeModelBakery;
-import net.minecraftforge.client.model.IModelConfiguration;
-import net.minecraftforge.client.model.IModelLoader;
-import net.minecraftforge.client.model.PerspectiveMapWrapper;
-import net.minecraftforge.client.model.geometry.IModelGeometry;
+import slimeknights.mantle.client.model.util.BakedItemModel;
 import slimeknights.mantle.client.model.util.MantleItemLayerModel;
+import slimeknights.mantle.lib.model.IModelConfiguration;
+import slimeknights.mantle.lib.model.IModelGeometry;
+import slimeknights.mantle.lib.model.IModelLoader;
+import slimeknights.mantle.lib.render.TransformTypeDependentItemBakedModel;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.mantle.util.ReversedListBuilder;
@@ -423,7 +422,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
     private BakedModel bakeDynamic(List<MaterialVariantId> materials, IToolStackView tool) {
       // bake internal does not require an instance to bake, we can pass in whatever material we want
       // use empty override list as the sub model never calls overrides, and already has a material
-      return bakeInternal(owner, ForgeModelBakery.defaultTextureGetter(), largeTransforms, toolParts, modifierModels, firstModifiers, materials, tool, ItemOverrides.EMPTY);
+      return bakeInternal(owner, Material::sprite, largeTransforms, toolParts, modifierModels, firstModifiers, materials, tool, ItemOverrides.EMPTY);
     }
 
     @Override
@@ -517,10 +516,10 @@ public class ToolModel implements IModelGeometry<ToolModel> {
   }
 
   /** Baked model for large tools in the GUI, small quads */
-  private static class BakedLargeToolGui extends BakedModelWrapper<BakedLargeToolModel> {
+  private static class BakedLargeToolGui extends ForwardingBakedModel implements TransformTypeDependentItemBakedModel {
     private final List<BakedQuad> guiQuads;
     public BakedLargeToolGui(BakedLargeToolModel model, List<BakedQuad> guiQuads) {
-      super(model);
+      wrapped = model;
       this.guiQuads = guiQuads;
     }
 
@@ -531,11 +530,6 @@ public class ToolModel implements IModelGeometry<ToolModel> {
         return guiQuads;
       }
       return ImmutableList.of();
-    }
-
-    @Override
-    public boolean doesHandlePerspectives() {
-      return true;
     }
 
     @Override

@@ -2,25 +2,20 @@ package slimeknights.tconstruct.smeltery.item;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidTank;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandlerItem;
+import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Handler that works with a tank item to adjust its tank in NBT
  */
 @RequiredArgsConstructor
-public class TankItemFluidHandler implements IFluidHandlerItem, ICapabilityProvider {
+public class TankItemFluidHandler implements IFluidHandlerItem {
   private final LazyOptional<IFluidHandlerItem> holder = LazyOptional.of(() -> this);
   @Getter
   private final ItemStack container;
@@ -35,10 +30,10 @@ public class TankItemFluidHandler implements IFluidHandlerItem, ICapabilityProvi
     TankItem.setTank(container, tank);
   }
 
-  @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-    return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.orEmpty(cap, holder);
-  }
+//  @Override
+//  public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
+//    return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.orEmpty(cap, holder);
+//  }
 
   @Override
   public int getTanks() {
@@ -52,7 +47,7 @@ public class TankItemFluidHandler implements IFluidHandlerItem, ICapabilityProvi
   }
 
   @Override
-  public int getTankCapacity(int tank) {
+  public long getTankCapacity(int tank) {
     return TankBlockEntity.getCapacity(container.getItem());
   }
 
@@ -62,10 +57,10 @@ public class TankItemFluidHandler implements IFluidHandlerItem, ICapabilityProvi
   }
 
   @Override
-  public int fill(FluidStack resource, FluidAction action) {
+  public long fill(FluidStack resource, boolean sim) {
     FluidTank tank = getTank();
-    int didFill = tank.fill(resource, action);
-    if (didFill > 0 && action.execute()) {
+    long didFill = tank.fill(resource, sim);
+    if (didFill > 0 && !sim) {
       updateContainer(tank);
     }
     return didFill;
@@ -73,10 +68,10 @@ public class TankItemFluidHandler implements IFluidHandlerItem, ICapabilityProvi
 
   @Nonnull
   @Override
-  public FluidStack drain(FluidStack resource, FluidAction action) {
+  public FluidStack drain(FluidStack resource, boolean sim) {
     FluidTank tank = getTank();
-    FluidStack didDrain = tank.drain(resource, action);
-    if (!didDrain.isEmpty() && action.execute()) {
+    FluidStack didDrain = tank.drain(resource, sim);
+    if (!didDrain.isEmpty() && !sim) {
       updateContainer(tank);
     }
     return didDrain;
@@ -84,10 +79,10 @@ public class TankItemFluidHandler implements IFluidHandlerItem, ICapabilityProvi
 
   @Nonnull
   @Override
-  public FluidStack drain(int maxDrain, FluidAction action) {
+  public FluidStack drain(long maxDrain, boolean sim) {
     FluidTank tank = getTank();
-    FluidStack didDrain = tank.drain(maxDrain, action);
-    if (!didDrain.isEmpty() && action.execute()) {
+    FluidStack didDrain = tank.drain(maxDrain, sim);
+    if (!didDrain.isEmpty() && !sim) {
       updateContainer(tank);
     }
     return didDrain;

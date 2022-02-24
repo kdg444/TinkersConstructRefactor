@@ -7,13 +7,13 @@ import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate.Composite;
 import net.minecraft.advancements.critereon.SerializationContext;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.tconstruct.TConstruct;
 
 import javax.annotation.Nullable;
@@ -31,7 +31,7 @@ public class BlockContainerOpenedTrigger extends SimpleCriterionTrigger<BlockCon
   @Override
   protected Instance createInstance(JsonObject json, Composite entityPredicate, DeserializationContext conditionsParser) {
     ResourceLocation id = new ResourceLocation(GsonHelper.getAsString(json, "type"));
-    BlockEntityType<?> type = ForgeRegistries.BLOCK_ENTITIES.getValue(id);
+    BlockEntityType<?> type = Registry.BLOCK_ENTITY_TYPE.get(id);
     if (type == null) {
       throw new JsonSyntaxException("Unknown tile entity '" + id + "'");
     }
@@ -64,7 +64,7 @@ public class BlockContainerOpenedTrigger extends SimpleCriterionTrigger<BlockCon
     @Override
     public JsonObject serializeToJson(SerializationContext conditions) {
       JsonObject json = super.serializeToJson(conditions);
-      json.addProperty("type", Objects.requireNonNull(type.getRegistryName()).toString());
+      json.addProperty("type", Objects.requireNonNull(Registry.BLOCK_ENTITY_TYPE.getKey(type)).toString());
       return json;
     }
   }

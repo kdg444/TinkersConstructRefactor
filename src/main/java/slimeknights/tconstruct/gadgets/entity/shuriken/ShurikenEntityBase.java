@@ -2,6 +2,7 @@ package slimeknights.tconstruct.gadgets.entity.shuriken;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -12,12 +13,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.network.NetworkHooks;
+import slimeknights.mantle.lib.entity.ExtraSpawnDataEntity;
 
 import javax.annotation.Nonnull;
 
-public abstract class ShurikenEntityBase extends ThrowableItemProjectile implements IEntityAdditionalSpawnData {
+public abstract class ShurikenEntityBase extends ThrowableItemProjectile implements ExtraSpawnDataEntity {
 
   public ShurikenEntityBase(EntityType<? extends ShurikenEntityBase> type, Level worldIn) {
     super(type, worldIn);
@@ -87,6 +87,6 @@ public abstract class ShurikenEntityBase extends ThrowableItemProjectile impleme
   @Nonnull
   @Override
   public Packet<?> getAddEntityPacket() {
-    return NetworkHooks.getEntitySpawningPacket(this);
+    return new ClientboundAddEntityPacket(this);
   }
 }

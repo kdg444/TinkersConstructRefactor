@@ -1,11 +1,14 @@
 package slimeknights.tconstruct.library.client.materials;
 
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraft.server.packs.resources.ResourceManager;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
+import slimeknights.mantle.lib.util.IdentifiableISafeManagerReloadListener;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.ResourceColorManager;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.utils.Util;
@@ -25,16 +28,19 @@ public class MaterialTooltipCache {
   private static final Map<MaterialVariantId,Component> COLORED_DISPLAY_NAME_CACHE = new HashMap<>();
 
   /** Clears all resource pack driven caches */
-  private static final ISafeManagerReloadListener RELOAD_LISTENER = manager -> {
-    COLOR_CACHE.clear();
-    DISPLAY_NAME_CACHE.clear();
-    COLORED_DISPLAY_NAME_CACHE.clear();
+  private static final IdentifiableISafeManagerReloadListener RELOAD_LISTENER = new IdentifiableISafeManagerReloadListener(TConstruct.getResource("tool_materials")) {
+    @Override
+    public void onReloadSafe(ResourceManager resourceManager) {
+      COLOR_CACHE.clear();
+      DISPLAY_NAME_CACHE.clear();
+      COLORED_DISPLAY_NAME_CACHE.clear();
+    }
   };
 
   private MaterialTooltipCache() {}
 
   /** Called during the event to initialize the cache invalidators */
-  public static void init(RegisterClientReloadListenersEvent manager)  {
+  public static void init(ResourceManagerHelper manager)  {
     manager.registerReloadListener(RELOAD_LISTENER);
   }
 

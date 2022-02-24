@@ -9,16 +9,14 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
+import slimeknights.mantle.lib.fluid.SimpleFlowableFluid;
 import slimeknights.tconstruct.shared.block.SlimeType;
 import slimeknights.tconstruct.world.TinkerWorld;
 import slimeknights.tconstruct.world.block.SlimeGrassBlock;
 
 import java.util.Random;
 
-import net.minecraftforge.fluids.ForgeFlowingFluid.Properties;
-
-public abstract class SlimeFluid extends ForgeFlowingFluid {
+public abstract class SlimeFluid extends SimpleFlowableFluid {
 
   protected SlimeFluid(Properties properties) {
     super(properties);

@@ -1,12 +1,12 @@
 package slimeknights.tconstruct.shared.command;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.synchronization.ArgumentTypes;
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.shared.command.argument.MaterialArgument;
 import slimeknights.tconstruct.shared.command.argument.ModifierArgument;
@@ -30,7 +30,7 @@ public class TConstructCommand {
     ArgumentTypes.register(TConstruct.resourceString("material"), MaterialArgument.class, new EmptyArgumentSerializer<>(MaterialArgument::material));
 
     // add command listener
-    MinecraftForge.EVENT_BUS.addListener(TConstructCommand::registerCommand);
+    CommandRegistrationCallback.EVENT.register(TConstructCommand::registerCommand);
   }
 
   /** Registers a sub command for the root Mantle command */
@@ -41,7 +41,7 @@ public class TConstructCommand {
   }
 
   /** Event listener to register the Mantle command */
-  private static void registerCommand(RegisterCommandsEvent event) {
+  private static void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher, boolean dedicated) {
     LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal(TConstruct.MOD_ID);
 
     // sub commands
@@ -52,6 +52,6 @@ public class TConstructCommand {
     register(builder, "generate_part_textures", GeneratePartTexturesCommand::register);
 
     // register final command
-    event.getDispatcher().register(builder);
+    dispatcher.register(builder);
   }
 }

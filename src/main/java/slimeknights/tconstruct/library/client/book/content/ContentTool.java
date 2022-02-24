@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -14,9 +15,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.crafting.IShapedRecipe;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.client.book.data.BookData;
 import slimeknights.mantle.client.book.data.content.PageContent;
 import slimeknights.mantle.client.book.data.element.ImageData;
@@ -25,6 +25,7 @@ import slimeknights.mantle.client.screen.book.BookScreen;
 import slimeknights.mantle.client.screen.book.element.BookElement;
 import slimeknights.mantle.client.screen.book.element.ImageElement;
 import slimeknights.mantle.client.screen.book.element.TextElement;
+import slimeknights.mantle.lib.mixin.accessor.RecipeManagerAccessor;
 import slimeknights.mantle.util.ItemStackList;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.book.elements.TinkerItemElement;
@@ -103,7 +104,7 @@ public class ContentTool extends PageContent {
   @SuppressWarnings("unused")
   public ContentTool(IModifiableDisplay tool) {
     this.tool = tool;
-    this.toolName = Objects.requireNonNull(tool.asItem().getRegistryName()).toString();
+    this.toolName = Objects.requireNonNull(Registry.ITEM.getKey(tool.asItem())).toString();
   }
 
   public IModifiableDisplay getTool() {
@@ -111,7 +112,7 @@ public class ContentTool extends PageContent {
       if (this.toolName == null) {
         this.toolName = this.parent.name;
       }
-      Item tool = ForgeRegistries.ITEMS.getValue(new ResourceLocation(this.toolName));
+      Item tool = Registry.ITEM.get(new ResourceLocation(this.toolName));
       if (tool instanceof IModifiableDisplay) {
         this.tool = (IModifiableDisplay) tool;
       } else {
@@ -138,7 +139,7 @@ public class ContentTool extends PageContent {
       if (required.isEmpty()) {
         // get the stacks for the first crafting table recipe
         Recipe<CraftingContainer> recipe = Optional.ofNullable(Minecraft.getInstance().level)
-                                                   .flatMap(world -> world.getRecipeManager().byType(RecipeType.CRAFTING).values().stream()
+                                                   .flatMap(world -> ((RecipeManagerAccessor)world.getRecipeManager()).callByType(RecipeType.CRAFTING).values().stream()
                                                                           .filter(r -> r.getResultItem().getItem() == getTool().asItem())
                                                                           .findFirst())
                                                    .orElse(null);
@@ -147,9 +148,9 @@ public class ContentTool extends PageContent {
           this.parts = recipe.getIngredients().stream().map(ingredient -> ItemStackList.of(ingredient.getItems())).collect(Collectors.toList());
 
           // if we have a shaped recipe, display slots in order
-          if (recipe instanceof IShapedRecipe<?> shaped) {
-            int width = Mth.clamp(shaped.getRecipeWidth() - 1, 0, 2);
-            this.imgSlots = IMG_SLOTS_SHAPED[Mth.clamp(shaped.getRecipeHeight() - 1, 0, 2)][width];
+          if (recipe instanceof ShapedRecipe shaped) {
+            int width = Mth.clamp(shaped.getWidth() - 1, 0, 2);
+            this.imgSlots = IMG_SLOTS_SHAPED[Mth.clamp(shaped.getHeight() - 1, 0, 2)][width];
             this.slotPos = SLOTS_WIDTH[width];
           }
         } else {

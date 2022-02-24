@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.recipe.casting;
 import lombok.Data;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 
 import java.util.List;
 

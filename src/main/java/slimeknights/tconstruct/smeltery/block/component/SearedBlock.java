@@ -13,12 +13,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import slimeknights.mantle.lib.extensions.BlockExtensions;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.smeltery.block.entity.component.SmelteryComponentBlockEntity;
 
 import javax.annotation.Nullable;
 
-public class SearedBlock extends Block implements EntityBlock {
+public class SearedBlock extends Block implements EntityBlock, BlockExtensions {
   public static final BooleanProperty IN_STRUCTURE = BooleanProperty.create("in_structure");
 
   public SearedBlock(Properties properties) {

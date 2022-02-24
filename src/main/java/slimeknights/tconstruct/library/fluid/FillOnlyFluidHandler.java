@@ -1,11 +1,10 @@
 package slimeknights.tconstruct.library.fluid;
 
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 
 import javax.annotation.Nonnull;
 
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
 
 /**
  * Fluid handler wrapper that only allows filling
@@ -28,7 +27,7 @@ public class FillOnlyFluidHandler implements IFluidHandler {
 	}
 
 	@Override
-	public int getTankCapacity(int tank) {
+	public long getTankCapacity(int tank) {
 		return parent.getTankCapacity(tank);
 	}
 
@@ -38,19 +37,19 @@ public class FillOnlyFluidHandler implements IFluidHandler {
 	}
 
 	@Override
-	public int fill(FluidStack resource, FluidAction action) {
-		return parent.fill(resource, action);
+	public long fill(FluidStack resource, boolean sim) {
+		return parent.fill(resource, sim);
 	}
 
 	@Nonnull
 	@Override
-	public FluidStack drain(FluidStack resource, FluidAction action) {
+	public FluidStack drain(FluidStack resource, boolean sim) {
 		return FluidStack.EMPTY;
 	}
 
 	@Nonnull
 	@Override
-	public FluidStack drain(int maxDrain, FluidAction action) {
+	public FluidStack drain(long maxDrain, boolean sim) {
 		return FluidStack.EMPTY;
 	}
 }

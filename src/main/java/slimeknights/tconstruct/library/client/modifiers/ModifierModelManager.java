@@ -6,16 +6,14 @@ import com.google.gson.JsonObject;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.fml.ModLoader;
-import net.minecraftforge.fml.event.IModBusEvent;
 import slimeknights.mantle.data.IEarlySafeManagerReloadListener;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.TinkerRegistries;
 import slimeknights.tconstruct.library.client.model.tools.MaterialModel;
@@ -37,7 +35,7 @@ import java.util.function.Predicate;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Log4j2
-public class ModifierModelManager implements IEarlySafeManagerReloadListener {
+public class ModifierModelManager implements IEarlySafeManagerReloadListener, IdentifiableResourceReloadListener {
   /** Modifier file to load, has merging behavior but forge prevents multiple mods from loading the same file */
   private static final String VISIBLE_MODIFIERS = "tinkering/modifiers.json";
   /** Instance of this manager */
@@ -56,7 +54,7 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener {
    * Initializes this manager, registering it with the resource manager
    * @param manager  Manager
    */
-  public static void init(RegisterClientReloadListenersEvent manager) {
+  public static void init(ResourceManagerHelper manager) {
     manager.registerReloadListener(INSTANCE);
   }
 
@@ -216,8 +214,13 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener {
     return modelMap.build();
   }
 
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("modifiers");
+  }
+
   /** Event fired when its time to register models */
-  public static class ModifierModelRegistrationEvent extends Event implements IModBusEvent {
+  public static class ModifierModelRegistrationEvent {
     /**
      * Register a unbaked model that modifiers can use
      * @param name   Modifier model name

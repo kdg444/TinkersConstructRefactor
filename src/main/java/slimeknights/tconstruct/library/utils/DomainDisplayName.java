@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.utils;
 
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.common.ForgeI18n;
 import net.minecraftforge.fml.ModList;
@@ -57,7 +58,7 @@ public class DomainDisplayName {
   }
 
   /** Registers the reload listener with the resource manager */
-  public static void addResourceListener(RegisterClientReloadListenersEvent manager) {
+  public static void addResourceListener(ResourceManagerHelper manager) {
     manager.registerReloadListener(RELOAD_LISTENER);
   }
 }

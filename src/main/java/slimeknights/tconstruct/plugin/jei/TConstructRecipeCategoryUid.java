@@ -5,7 +5,7 @@ import slimeknights.tconstruct.TConstruct;
 
 // TODO: constant case
 public class TConstructRecipeCategoryUid {
-  public static final ResourceLocation pluginUid = TConstruct.getResource("jei_plugin");
+  public static final ResourceLocation pluginUid = TConstruct.getResource("rei_plugin");
 
   // casting
   public static final ResourceLocation castingBasin = TConstruct.getResource("casting_basin");

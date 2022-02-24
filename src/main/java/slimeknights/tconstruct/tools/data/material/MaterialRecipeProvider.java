@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.tools.data.material;
 
+import me.alphamode.forgetags.Tags;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.ItemTags;
@@ -7,8 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.fluids.FluidAttributes;
+import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.recipe.ingredient.FluidContainerIngredient;
 import slimeknights.mantle.recipe.ingredient.IngredientDifference;
@@ -27,7 +28,7 @@ import slimeknights.tconstruct.world.TinkerWorld;
 import java.util.function.Consumer;
 
 public class MaterialRecipeProvider extends BaseRecipeProvider implements IMaterialRecipeHelper {
-  public MaterialRecipeProvider(DataGenerator generator) {
+  public MaterialRecipeProvider(FabricDataGenerator generator) {
     super(generator);
   }
 
@@ -37,7 +38,7 @@ public class MaterialRecipeProvider extends BaseRecipeProvider implements IMater
   }
 
   @Override
-  protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+  protected void generateRecipes(Consumer<FinishedRecipe> consumer) {
     addMaterialItems(consumer);
     addMaterialSmeltery(consumer);
   }

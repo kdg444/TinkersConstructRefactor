@@ -4,11 +4,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandlerItem;
+import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.capability.ToolCapabilityProvider.IToolCapabilityProvider;
@@ -67,7 +65,7 @@ public class ToolFluidCapability implements IFluidHandlerItem {
   }
 
   @Override
-  public int getTankCapacity(int tank) {
+  public long getTankCapacity(int tank) {
     return runForTank(tank, 0, IFluidModifier::getTankCapacity);
   }
 
@@ -77,14 +75,14 @@ public class ToolFluidCapability implements IFluidHandlerItem {
   }
 
   @Override
-  public int fill(FluidStack resource, FluidAction action) {
+  public long fill(FluidStack resource, boolean sim) {
     int totalFilled = 0;
     IToolStackView tool = this.tool.get();
     for (ModifierEntry entry : tool.getModifierList()) {
       IFluidModifier fluidModifier = entry.getModifier().getModule(IFluidModifier.class);
       if (fluidModifier != null) {
         // try filling each modifier
-        int filled = fluidModifier.fill(tool, entry.getLevel(), resource, action);
+        int filled = fluidModifier.fill(tool, entry.getLevel(), resource, sim);
         if (filled > 0) {
           // if we filled the entire stack, we are done
           if (filled >= resource.getAmount()) {
@@ -105,14 +103,14 @@ public class ToolFluidCapability implements IFluidHandlerItem {
 
   @Nonnull
   @Override
-  public FluidStack drain(FluidStack resource, FluidAction action) {
+  public FluidStack drain(FluidStack resource, boolean sim) {
     FluidStack drainedSoFar = FluidStack.EMPTY;
     IToolStackView tool = this.tool.get();
     for (ModifierEntry entry : tool.getModifierList()) {
       IFluidModifier fluidModifier = entry.getModifier().getModule(IFluidModifier.class);
       if (fluidModifier != null) {
         // try draining each modifier
-        FluidStack drained = fluidModifier.drain(tool, entry.getLevel(), resource, action);
+        FluidStack drained = fluidModifier.drain(tool, entry.getLevel(), resource, sim);
         if (!drained.isEmpty()) {
           // if we managed to drain something, add it into our current drained stack, and decrease the amount we still want to drain
           if (drainedSoFar.isEmpty()) {
@@ -140,7 +138,7 @@ public class ToolFluidCapability implements IFluidHandlerItem {
 
   @Nonnull
   @Override
-  public FluidStack drain(int maxDrain, FluidAction action) {
+  public FluidStack drain(long maxDrain, boolean sim) {
     FluidStack drainedSoFar = FluidStack.EMPTY;
     FluidStack toDrain = FluidStack.EMPTY;
     IToolStackView tool = this.tool.get();
@@ -233,21 +231,21 @@ public class ToolFluidCapability implements IFluidHandlerItem {
      * @param tool     Tool instance
      * @param level    Modifier level
      * @param resource FluidStack representing the Fluid and maximum amount of fluid to be filled. If you want to store this stack, make a copy
-     * @param action   If SIMULATE, fill will only be simulated.
+     * @param sim   If SIMULATE, fill will only be simulated.
      * @return Amount of resource that was (or would have been, if simulated) filled.
      */
-    int fill(IToolStackView tool, int level, FluidStack resource, FluidAction action);
+    long fill(IToolStackView tool, int level, FluidStack resource, boolean sim);
 
     /**
      * Drains fluid out of tanks, distribution is left entirely to the IFluidHandler.
      * @param tool     Tool instance
      * @param level    Modifier level
      * @param resource FluidStack representing the Fluid and maximum amount of fluid to be drained.
-     * @param action   If SIMULATE, drain will only be simulated.
+     * @param sim   If SIMULATE, drain will only be simulated.
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
-    FluidStack drain(IToolStackView tool, int level, FluidStack resource, FluidAction action);
+    FluidStack drain(IToolStackView tool, int level, FluidStack resource, boolean sim);
 
     /**
      * Drains fluid out of internal tanks, distribution is left entirely to the IFluidHandler.
@@ -258,7 +256,7 @@ public class ToolFluidCapability implements IFluidHandlerItem {
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
-    FluidStack drain(IToolStackView tool, int level, int maxDrain, FluidAction action);
+    FluidStack drain(IToolStackView tool, int level, int maxDrain, boolean sim);
   }
 
   /** Helper to run a function from {@link IFluidModifier} */

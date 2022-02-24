@@ -1,22 +1,17 @@
 package slimeknights.tconstruct.shared;
 
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.font.FontManager;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import slimeknights.tconstruct.TConstruct;
+import slimeknights.mantle.lib.event.ColorHandlersCallback;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.library.client.ResourceColorManager;
 import slimeknights.tconstruct.library.client.book.TinkerBook;
@@ -28,37 +23,43 @@ import slimeknights.tconstruct.shared.client.FluidParticle;
 
 import java.util.function.Consumer;
 
-@EventBusSubscriber(modid = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
 public class CommonsClientEvents extends ClientEventBase {
-  @SubscribeEvent
-  static void addResourceListeners(RegisterClientReloadListenersEvent event) {
+
+  public static void init() {
+    addResourceListeners();
+    clientSetup();
+    registerParticleFactories();
+    ColorHandlersCallback.ITEM.register(CommonsClientEvents::registerColorHandlers);
+  }
+
+  static void addResourceListeners() {
+    ResourceManagerHelper event = ResourceManagerHelper.get(PackType.CLIENT_RESOURCES);
     MaterialRenderInfoLoader.addResourceListener(event);
     DomainDisplayName.addResourceListener(event);
     ResourceColorManager.init(event);
   }
 
-  @SubscribeEvent
-  static void clientSetup(final FMLClientSetupEvent event) {
-    ItemBlockRenderTypes.setRenderLayer(TinkerCommons.glow.get(), RenderType.translucent());
+  static void clientSetup() {
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.glow.get(), RenderType.translucent());
 
     // glass
-    ItemBlockRenderTypes.setRenderLayer(TinkerCommons.clearGlass.get(), RenderType.cutout());
-    ItemBlockRenderTypes.setRenderLayer(TinkerCommons.clearGlassPane.get(), RenderType.cutout());
-    ItemBlockRenderTypes.setRenderLayer(TinkerCommons.clearTintedGlass.get(), RenderType.translucent());
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.clearGlass.get(), RenderType.cutout());
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.clearGlassPane.get(), RenderType.cutout());
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.clearTintedGlass.get(), RenderType.translucent());
     for (ClearStainedGlassBlock.GlassColor color : ClearStainedGlassBlock.GlassColor.values()) {
-      ItemBlockRenderTypes.setRenderLayer(TinkerCommons.clearStainedGlass.get(color), RenderType.translucent());
-      ItemBlockRenderTypes.setRenderLayer(TinkerCommons.clearStainedGlassPane.get(color), RenderType.translucent());
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.clearStainedGlass.get(color), RenderType.translucent());
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.clearStainedGlassPane.get(color), RenderType.translucent());
     }
-    ItemBlockRenderTypes.setRenderLayer(TinkerCommons.soulGlass.get(), RenderType.translucent());
-    ItemBlockRenderTypes.setRenderLayer(TinkerCommons.soulGlassPane.get(), RenderType.translucent());
-    ItemBlockRenderTypes.setRenderLayer(TinkerMaterials.soulsteel.get(), RenderType.translucent());
-    ItemBlockRenderTypes.setRenderLayer(TinkerMaterials.slimesteel.get(), RenderType.translucent());
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.soulGlass.get(), RenderType.translucent());
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.soulGlassPane.get(), RenderType.translucent());
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerMaterials.soulsteel.get(), RenderType.translucent());
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerMaterials.slimesteel.get(), RenderType.translucent());
     RenderType cutout = RenderType.cutout();
-    ItemBlockRenderTypes.setRenderLayer(TinkerCommons.goldBars.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerCommons.goldPlatform.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerCommons.ironPlatform.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerCommons.cobaltPlatform.get(), cutout);
-    Consumer<Block> setCutout = block -> ItemBlockRenderTypes.setRenderLayer(block, cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.goldBars.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.goldPlatform.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.ironPlatform.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerCommons.cobaltPlatform.get(), cutout);
+    Consumer<Block> setCutout = block -> BlockRenderLayerMap.INSTANCE.putBlock(block, cutout);
     TinkerCommons.copperPlatform.forEach(setCutout);
     TinkerCommons.waxedCopperPlatform.forEach(setCutout);
 
@@ -71,11 +72,8 @@ public class CommonsClientEvents extends ClientEventBase {
     TinkerBook.ENCYCLOPEDIA.fontRenderer = unicode;
   }
 
-  @SubscribeEvent
-  static void registerColorHandlers(ColorHandlerEvent.Item event) {
+  static void registerColorHandlers(ItemColors itemColors, BlockColors blockColors) {;
     // colors apply a constant tint to make models easier
-    BlockColors blockColors = event.getBlockColors();
-    ItemColors itemColors = event.getItemColors();
     for (GlassColor color : GlassColor.values()) {
       Block block = TinkerCommons.clearStainedGlass.get(color);
       Block pane = TinkerCommons.clearStainedGlassPane.get(color);
@@ -85,9 +83,8 @@ public class CommonsClientEvents extends ClientEventBase {
     }
   }
 
-  @SubscribeEvent
-  static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
-    Minecraft.getInstance().particleEngine.register(TinkerCommons.fluidParticle.get(), new FluidParticle.Factory());
+  static void registerParticleFactories() {
+    ParticleFactoryRegistry.getInstance().register(TinkerCommons.fluidParticle.get(), new FluidParticle.Factory());
   }
 
   private static Font unicodeRenderer;

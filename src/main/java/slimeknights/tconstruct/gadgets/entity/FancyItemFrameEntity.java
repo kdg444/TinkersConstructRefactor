@@ -23,15 +23,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.network.NetworkHooks;
+import slimeknights.mantle.lib.entity.ExtraSpawnDataEntity;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.library.utils.Util;
 
 import javax.annotation.Nullable;
 
-public class FancyItemFrameEntity extends ItemFrame implements IEntityAdditionalSpawnData {
+public class FancyItemFrameEntity extends ItemFrame implements ExtraSpawnDataEntity {
   private static final int DIAMOND_TIMER = 300;
   private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(FancyItemFrameEntity.class, EntityDataSerializers.INT);
   private static final String TAG_VARIANT = "Variant";

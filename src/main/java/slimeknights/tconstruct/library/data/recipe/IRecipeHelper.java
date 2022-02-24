@@ -1,14 +1,14 @@
 package slimeknights.tconstruct.library.data.recipe;
 
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
 import net.minecraft.tags.Tag.Named;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.NotCondition;
-import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import slimeknights.mantle.lib.util.RegistryHelper;
 import slimeknights.mantle.recipe.data.ConsumerWrapperBuilder;
 
 import java.util.Objects;
@@ -48,8 +48,8 @@ public interface IRecipeHelper {
    * @param prefix  Prefix value
    * @return  Resource location path
    */
-  default ResourceLocation wrap(IForgeRegistryEntry<?> entry, String prefix, String suffix) {
-    ResourceLocation loc = Objects.requireNonNull(entry.getRegistryName());
+  default ResourceLocation wrap(Object entry, String prefix, String suffix) {
+    ResourceLocation loc = Objects.requireNonNull(RegistryHelper.getRegistryKey(entry));
     return modResource(prefix + loc.getPath() + suffix);
   }
 
@@ -59,7 +59,7 @@ public interface IRecipeHelper {
    * @param prefix  Prefix value
    * @return  Resource location path
    */
-  default ResourceLocation wrap(Supplier<? extends IForgeRegistryEntry<?>> entry, String prefix, String suffix) {
+  default ResourceLocation wrap(Supplier<?> entry, String prefix, String suffix) {
     return wrap(entry.get(), prefix, suffix);
   }
 
@@ -69,8 +69,8 @@ public interface IRecipeHelper {
    * @param prefix  Prefix value
    * @return  Resource location path
    */
-  default ResourceLocation prefix(IForgeRegistryEntry<?> entry, String prefix) {
-    ResourceLocation loc = Objects.requireNonNull(entry.getRegistryName());
+  default ResourceLocation prefix(Object entry, String prefix) {
+    ResourceLocation loc = Objects.requireNonNull(RegistryHelper.getRegistryKey(entry));
     return modResource(prefix + loc.getPath());
   }
 
@@ -80,7 +80,7 @@ public interface IRecipeHelper {
    * @param prefix  Prefix value
    * @return  Resource location path
    */
-  default ResourceLocation prefix(Supplier<? extends IForgeRegistryEntry<?>> entry, String prefix) {
+  default ResourceLocation prefix(Supplier<?> entry, String prefix) {
     return prefix(entry.get(), prefix);
   }
 
@@ -94,7 +94,7 @@ public interface IRecipeHelper {
    * @return  Tag instance
    */
   default Named<Item> getTag(String modId, String name) {
-    return ItemTags.bind(modId + ":" + name);
+    return TagFactory.ITEM.create(new ResourceLocation(modId, name));
   }
 
   /**
@@ -102,8 +102,8 @@ public interface IRecipeHelper {
    * @param name  Forge tag name
    * @return  Condition for tag existing
    */
-  default ICondition tagCondition(String name) {
-    return new NotCondition(new TagEmptyCondition("forge", name));
+  default ConditionJsonProvider tagCondition(String name) {
+    return DefaultResourceConditions.itemTagsPopulated(TagFactory.ITEM.create(new ResourceLocation("c", name)));
   }
 
   /**
@@ -112,9 +112,9 @@ public interface IRecipeHelper {
    * @param conditions  Extra conditions
    * @return  Wrapped consumer
    */
-  default Consumer<FinishedRecipe> withCondition(Consumer<FinishedRecipe> consumer, ICondition... conditions) {
+  default Consumer<FinishedRecipe> withCondition(Consumer<FinishedRecipe> consumer, ConditionJsonProvider... conditions) {
     ConsumerWrapperBuilder builder = ConsumerWrapperBuilder.wrap();
-    for (ICondition condition : conditions) {
+    for (ConditionJsonProvider condition : conditions) {
       builder.addCondition(condition);
     }
     return builder.build(consumer);

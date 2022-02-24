@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.library;
 
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryManager;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 
@@ -14,5 +14,5 @@ public class TinkerRegistries {
   public static final ResourceLocation EMPTY = TConstruct.getResource("empty");
 
   /** Register for modifiers */
-  public static final IForgeRegistry<Modifier> MODIFIERS = RegistryManager.ACTIVE.getRegistry(Modifier.class);
+  public static final Registry<Modifier> MODIFIERS = FabricRegistryBuilder.createDefaulted(Modifier.class, TConstruct.getResource("modifiers"), EMPTY);
 }

@@ -9,12 +9,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import slimeknights.mantle.inventory.EmptyItemHandler;
+import slimeknights.mantle.lib.transfer.item.IItemHandler;
+import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
 
 public class DropperRailBlock extends RailBlock {
 

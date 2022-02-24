@@ -1,0 +1,35 @@
+accessWidener v2 named
+
+# Loot table datagen
+
+transitive-accessible field net/minecraft/advancements/critereon/EntityEquipmentPredicate$Builder mainhand Lnet/minecraft/advancements/critereon/ItemPredicate;
+
+# Heads
+transitive-accessible field net/minecraft/world/item/crafting/FireworkStarRecipe SHAPE_BY_ITEM Ljava/util/Map;
+
+# Tile entity type injection
+transitive-accessible field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
+
+# Making things flammable
+transitive-accessible method net/minecraft/world/level/block/FireBlock setFlammable (Lnet/minecraft/world/level/block/Block;II)V
+
+transitive-accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen imageWidth I
+transitive-accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen imageHeight I
+
+# Fabric
+transitive-mutable field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
+transitive-accessible field net/minecraft/data/loot/EntityLoot ENTITY_ON_FIRE Lnet/minecraft/advancements/critereon/EntityPredicate$Builder;
+transitive-accessible field net/minecraft/data/loot/EntityLoot SPECIAL_LOOT_TABLE_TYPES Ljava/util/Set;
+transitive-accessible field net/minecraft/data/loot/EntityLoot map Ljava/util/Map;
+transitive-accessible method net/minecraft/data/loot/EntityLoot add (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/storage/loot/LootTable$Builder;)V
+transitive-accessible method net/minecraft/world/level/block/SkullBlock <init> (Lnet/minecraft/world/level/block/SkullBlock$Type;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
+transitive-accessible method net/minecraft/world/level/block/WallSkullBlock <init> (Lnet/minecraft/world/level/block/SkullBlock$Type;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
+transitive-accessible method net/minecraft/world/level/block/IronBarsBlock <init> (Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
+transitive-accessible method net/minecraft/world/item/crafting/Ingredient$TagValue <init> (Lnet/minecraft/tags/Tag;)V
+transitive-accessible method net/minecraft/world/item/crafting/Ingredient valueFromJson (Lcom/google/gson/JsonObject;)Lnet/minecraft/world/item/crafting/Ingredient$Value;
+transitive-accessible method net/minecraft/world/level/material/Material$Builder notSolidBlocking ()Lnet/minecraft/world/level/material/Material$Builder;
+transitive-accessible method net/minecraft/world/level/material/Material$Builder destroyOnPush ()Lnet/minecraft/world/level/material/Material$Builder;
+transitive-accessible field net/minecraft/client/resources/ClientPackSource BUILT_IN Lnet/minecraft/server/packs/metadata/pack/PackMetadataSection;
+transitive-accessible field net/minecraft/client/Minecraft fontManager Lnet/minecraft/client/gui/font/FontManager;
+transitive-accessible field net/minecraft/client/gui/font/FontManager fontSets Ljava/util/Map;
+

@@ -46,7 +46,7 @@ import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import net.minecraftforge.fml.common.Mod;
 import slimeknights.mantle.loot.function.SetFluidLootFunction;
 import slimeknights.tconstruct.TConstruct;
@@ -67,7 +67,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(modid = TConstruct.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class WorldEvents {
   /** Checks if the biome matches the given categories */
   private static boolean matches(boolean hasNoTypes, @Nullable ResourceKey<Biome> key, BiomeCategory given, @Nullable BiomeCategory check, Type type) {

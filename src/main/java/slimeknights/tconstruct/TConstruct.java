@@ -1,5 +1,7 @@
 package slimeknights.tconstruct;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.ModInitializer;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -23,6 +25,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import slimeknights.mantle.lib.util.EnvExecutor;
 import slimeknights.mantle.registration.RegistrationHelper;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -69,9 +72,7 @@ import java.util.function.Supplier;
  */
 
 @SuppressWarnings("unused")
-@Mod(TConstruct.MOD_ID)
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class TConstruct {
+public class TConstruct implements ModInitializer {
 
   public static final String MOD_ID = "tconstruct";
   public static final Logger LOG = LogManager.getLogger(MOD_ID);
@@ -80,28 +81,28 @@ public class TConstruct {
   /* Instance of this mod, used for grabbing prototype fields */
   public static TConstruct instance;
 
-  public TConstruct() {
+  @Override
+  public void onInitialize() {
     instance = this;
 
     Config.init();
 
     // initialize modules, done this way rather than with annotations to give us control over the order
-    IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
     // base
-    bus.register(new TinkerCommons());
-    bus.register(new TinkerMaterials());
-    bus.register(new TinkerFluids());
-    bus.register(new TinkerGadgets());
+    new TinkerCommons();
+    new TinkerMaterials();
+    new TinkerFluids();
+    new TinkerGadgets();
     // world
-    bus.register(new TinkerWorld());
-    bus.register(new TinkerStructures());
+    new TinkerWorld();
+    new TinkerStructures();
     // tools
-    bus.register(new TinkerTables());
-    bus.register(new TinkerModifiers());
-    bus.register(new TinkerToolParts());
-    bus.register(new TinkerTools());
+   new TinkerTables();
+   new TinkerModifiers();
+   new TinkerToolParts();
+   new TinkerTools();
     // smeltery
-    bus.register(new TinkerSmeltery());
+    new TinkerSmeltery();
 
     // init deferred registers
     TinkerModule.initRegisters();
@@ -109,7 +110,6 @@ public class TConstruct {
     TinkerTags.init();
     // init client logic
     TinkerBookIDs.registerCommandSuggestion();
-    DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> TinkerClient::onConstruct);
     MinecraftForge.EVENT_BUS.register(this);
 //    if (ModList.get().isLoaded("crafttweaker")) {
 //      MinecraftForge.EVENT_BUS.register(new CRTHelper());
@@ -119,10 +119,10 @@ public class TConstruct {
     if (ModList.get().isLoaded("immersiveengineering")) {
       bus.register(new ImmersiveEngineeringPlugin());
     }
+    commonSetup();
   }
 
-  @SubscribeEvent
-  static void commonSetup(final FMLCommonSetupEvent event) {
+  static void commonSetup() {
     MaterialRegistry.init();
     ToolDefinitionLoader.init();
     StationSlotLayoutLoader.init();

@@ -1,8 +1,10 @@
 package slimeknights.tconstruct.common.data.loot;
 
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTablesProvider;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.core.Registry;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -24,7 +26,6 @@ import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.common.loot.CanToolPerformAction;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.loot.function.RetexturedLootFunction;
 import slimeknights.mantle.registration.object.BuildingBlockObject;
 import slimeknights.mantle.registration.object.FenceBuildingBlockObject;
@@ -50,17 +51,17 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class BlockLootTableProvider extends BlockLoot {
+public class BlockLootTableProvider extends FabricBlockLootTablesProvider {
   @Nonnull
-  @Override
-  protected Iterable<Block> getKnownBlocks() {
-    return ForgeRegistries.BLOCKS.getValues().stream()
-                                 .filter((block) -> TConstruct.MOD_ID.equals(Objects.requireNonNull(block.getRegistryName()).getNamespace()))
-                                 .collect(Collectors.toList());
-  }
+//  @Override
+//  protected Iterable<Block> getKnownBlocks() {
+//    return Registry.BLOCK.stream()
+//                                 .filter((block) -> TConstruct.MOD_ID.equals(Objects.requireNonNull(Registry.BLOCK.getKey(block)).getNamespace()))
+//                                 .collect(Collectors.toList());
+//  }
 
   @Override
-  protected void addTables() {
+  protected void generateBlockLootTables() {
     this.addCommon();
     this.addDecorative();
     this.addGadgets();
