@@ -10,11 +10,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import slimeknights.mantle.lib.transfer.item.IItemHandler;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
+import slimeknights.mantle.lib.transfer.item.IItemHandler;
+import slimeknights.mantle.lib.transfer.item.ItemTransferable;
+import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.entity.inventory.HeaterItemHandler;
@@ -24,7 +23,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /** Tile entity for the heater block below the melter */
-public class HeaterBlockEntity extends NameableBlockEntity {
+public class HeaterBlockEntity extends NameableBlockEntity implements ItemTransferable {
   private static final String TAG_ITEM = "item";
   private static final Component TITLE = TConstruct.makeTranslation("gui", "heater");
 
@@ -50,16 +49,13 @@ public class HeaterBlockEntity extends NameableBlockEntity {
 
   @Nonnull
   @Override
-  public <C> LazyOptional<C> getCapability(Capability<C> capability, @Nullable Direction facing) {
-    if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-      return itemCapability.cast();
-    }
-    return super.getCapability(capability, facing);
+  public LazyOptional<IItemHandler> getItemHandler(@org.jetbrains.annotations.Nullable Direction direction) {
+    return itemCapability.cast();
   }
 
-  @Override
+  //  @Override
   public void invalidateCaps() {
-    super.invalidateCaps();
+//    super.invalidateCaps();
     itemCapability.invalidate();
   }
 

@@ -8,7 +8,7 @@ public class FluidTankAnimated extends FluidTankBase<MantleBlockEntity> {
   @Getter @Setter
   private float renderOffset;
 
-  public FluidTankAnimated(int capacity, MantleBlockEntity parent) {
+  public FluidTankAnimated(long capacity, MantleBlockEntity parent) {
     super(capacity, parent);
   }
 }

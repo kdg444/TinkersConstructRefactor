@@ -191,7 +191,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
     ret.setAmount(drainable);
 
     // remove the fluid from the tank
-    if (action.execute()) {
+    if (!sim) {
       fluid.shrink(drainable);
       contained -= drainable;
       // if now empty, remove from the list
@@ -223,7 +223,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
         ret.setAmount(drainable);
 
         // update tank if executing
-        if (action.execute()) {
+        if (!sim) {
           fluid.shrink(drainable);
           contained -= drainable;
           // if now empty, remove from the list

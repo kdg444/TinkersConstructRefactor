@@ -12,9 +12,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
+import slimeknights.mantle.lib.transfer.item.ItemTransferable;
 import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import slimeknights.mantle.lib.transfer.item.IItemHandler;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.tconstruct.tables.block.entity.inventory.IChestItemHandler;
@@ -24,7 +23,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /** Shared base logic for all Tinkers' chest tile entities */
-public abstract class AbstractChestBlockEntity extends NameableBlockEntity {
+public abstract class AbstractChestBlockEntity extends NameableBlockEntity implements ItemTransferable {
   private static final String KEY_ITEMS = "Items";
 
   @Getter
@@ -39,16 +38,13 @@ public abstract class AbstractChestBlockEntity extends NameableBlockEntity {
 
   @Nonnull
   @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-    if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-      return capability.cast();
-    }
-    return super.getCapability(cap, side);
+  public LazyOptional<IItemHandler> getItemHandler(@org.jetbrains.annotations.Nullable Direction direction) {
+    return capability.cast();
   }
 
-  @Override
+  //  @Override
   public void invalidateCaps() {
-    super.invalidateCaps();
+//    super.invalidateCaps();
     capability.invalidate();
   }
 
@@ -73,7 +69,7 @@ public abstract class AbstractChestBlockEntity extends NameableBlockEntity {
     super.saveAdditional(tags);
     // move the items from the serialized result
     // we don't care about the size and need it here for compat with old worlds
-    CompoundTag handlerNBT = itemHandler.serializeNBT();
+    CompoundTag handlerNBT = itemHandler.mantle$serializeNBT();
     tags.put(KEY_ITEMS, handlerNBT.getList(KEY_ITEMS, Tag.TAG_COMPOUND));
   }
 
@@ -82,7 +78,7 @@ public abstract class AbstractChestBlockEntity extends NameableBlockEntity {
     // copy in just the items key for deserializing, don't want to change the size
     CompoundTag handlerNBT = new CompoundTag();
     handlerNBT.put(KEY_ITEMS, tags.getList(KEY_ITEMS, Tag.TAG_COMPOUND));
-    itemHandler.deserializeNBT(handlerNBT);
+    itemHandler.mantle$deserializeNBT(handlerNBT);
   }
 
   @Override

@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.network.NetworkEvent.Context;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.smeltery.block.entity.tank.ISmelteryTankHandler;
@@ -26,7 +25,7 @@ public class SmelteryTankUpdatePacket implements IThreadsafePacket {
     int size = buffer.readVarInt();
     fluids = new ArrayList<>(size);
     for (int i = 0; i < size; i++) {
-      fluids.add(buffer.readFluidStack());
+      fluids.add(FluidStack.fromBuffer(buffer));
     }
   }
 
@@ -35,7 +34,7 @@ public class SmelteryTankUpdatePacket implements IThreadsafePacket {
     buffer.writeBlockPos(pos);
     buffer.writeVarInt(fluids.size());
     for (FluidStack fluid : fluids) {
-      buffer.writeFluidStack(fluid);
+      fluid.toBuffer(buffer);
     }
   }
 

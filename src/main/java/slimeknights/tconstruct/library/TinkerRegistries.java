@@ -14,5 +14,5 @@ public class TinkerRegistries {
   public static final ResourceLocation EMPTY = TConstruct.getResource("empty");
 
   /** Register for modifiers */
-  public static final Registry<Modifier> MODIFIERS = FabricRegistryBuilder.createDefaulted(Modifier.class, TConstruct.getResource("modifiers"), EMPTY);
+  public static final Registry<Modifier> MODIFIERS = FabricRegistryBuilder.createDefaulted(Modifier.class, TConstruct.getResource("modifiers"), EMPTY).buildAndRegister();
 }

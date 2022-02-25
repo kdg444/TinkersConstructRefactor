@@ -3,8 +3,7 @@ package slimeknights.tconstruct.smeltery.block.entity.inventory;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.mantle.lib.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.library.recipe.fuel.IFluidContainer;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 
@@ -15,9 +14,9 @@ import java.util.Optional;
  * Fluid tank wrapper that weakly references a tank from a neighbor
  */
 public class MelterFuelWrapper implements IFluidContainer {
-  private final WeakReference<IFluidTank> tank;
+  private final WeakReference<FluidTank> tank;
 
-  public MelterFuelWrapper(IFluidTank tank) {
+  public MelterFuelWrapper(FluidTank tank) {
     this.tank = new WeakReference<>(tank);
   }
 
@@ -32,7 +31,7 @@ public class MelterFuelWrapper implements IFluidContainer {
   @Override
   public Fluid getFluid() {
     return Optional.ofNullable(tank.get())
-                   .map(IFluidTank::getFluid)
+                   .map(FluidTank::getFluid)
                    .map(FluidStack::getFluid)
                    .orElse(Fluids.EMPTY);
   }
@@ -45,7 +44,7 @@ public class MelterFuelWrapper implements IFluidContainer {
    */
   public FluidStack getFluidStack() {
     return Optional.ofNullable(tank.get())
-                   .map(IFluidTank::getFluid)
+                   .map(FluidTank::getFluid)
                    .orElse(FluidStack.EMPTY);
   }
 
@@ -53,10 +52,10 @@ public class MelterFuelWrapper implements IFluidContainer {
    * Gets the capacity of the contained tank
    * @return  Tank capacity
    */
-  public int getCapacity() {
+  public long getCapacity() {
     return Optional.ofNullable(tank.get())
-                   .map(IFluidTank::getCapacity)
-                   .orElse(0);
+                   .map(FluidTank::getCapacity)
+                   .orElse(0L);
   }
 
   /**
@@ -64,13 +63,13 @@ public class MelterFuelWrapper implements IFluidContainer {
    * @param fuel  Fuel to drain
    * @return  Ticks of fuel units
    */
-  public int consumeFuel(MeltingFuel fuel) {
-    IFluidTank tank = this.tank.get();
+  public long consumeFuel(MeltingFuel fuel) {
+    FluidTank tank = this.tank.get();
     if (tank != null) {
       int amount = fuel.getAmount(this);
       if (amount > 0) {
         // TODO: assert drained valid?
-        int drained = tank.drain(amount, false).getAmount();
+        long drained = tank.drain(amount, false).getAmount();
         int duration = fuel.getDuration();
         if (drained < amount) {
           return duration * drained / amount;

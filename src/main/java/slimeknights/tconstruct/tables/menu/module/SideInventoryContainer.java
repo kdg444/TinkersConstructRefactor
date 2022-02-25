@@ -6,10 +6,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import slimeknights.mantle.lib.transfer.TransferUtil;
 import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import slimeknights.mantle.lib.transfer.item.IItemHandler;
-import net.minecraftforge.items.wrapper.EmptyHandler;
+import slimeknights.mantle.lib.transfer.item.EmptyHandler;
 import slimeknights.mantle.inventory.BaseContainerMenu;
 import slimeknights.mantle.inventory.SmartItemHandlerSlot;
 
@@ -34,7 +34,7 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
     if (tile == null) {
       this.itemHandler = LazyOptional.of(() -> EmptyHandler.INSTANCE);
     } else {
-      this.itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, inventoryDirection);
+      this.itemHandler = TransferUtil.getItemHandler(tile, inventoryDirection);
     }
 
     // slot properties

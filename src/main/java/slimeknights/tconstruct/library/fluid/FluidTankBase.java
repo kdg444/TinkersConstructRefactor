@@ -10,7 +10,7 @@ public class FluidTankBase<T extends MantleBlockEntity> extends FluidTank {
 
   protected T parent;
 
-  public FluidTankBase(int capacity, T parent) {
+  public FluidTankBase(long capacity, T parent) {
     super(capacity);
     this.parent = parent;
   }

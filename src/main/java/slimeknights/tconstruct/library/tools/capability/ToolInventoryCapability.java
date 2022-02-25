@@ -12,7 +12,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import slimeknights.mantle.lib.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import slimeknights.mantle.lib.transfer.item.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import slimeknights.mantle.lib.transfer.item.IItemHandlerModifiable;
 import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
 import net.minecraftforge.network.NetworkHooks;
 import slimeknights.tconstruct.TConstruct;

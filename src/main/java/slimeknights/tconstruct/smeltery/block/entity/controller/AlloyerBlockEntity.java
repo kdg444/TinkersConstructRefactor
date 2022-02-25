@@ -13,9 +13,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
+import slimeknights.mantle.lib.transfer.fluid.FluidTransferable;
 import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.tconstruct.TConstruct;
@@ -39,9 +38,9 @@ import java.util.Collections;
 /**
  * Dedicated alloying block
  */
-public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBlockEntity {
+public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferable {
   /** Max capacity for the tank */
-  private static final int TANK_CAPACITY = TankType.INGOT_TANK.getCapacity();
+  private static final long TANK_CAPACITY = TankType.INGOT_TANK.getCapacity();
   /** Name of the container */
   private static final Component NAME = TConstruct.makeTranslation("gui", "alloyer");
 
@@ -84,16 +83,13 @@ public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBloc
 
   @Nonnull
   @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-    if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-      return tankHolder.cast();
-    }
-    return super.getCapability(capability, facing);
+  public LazyOptional<IFluidHandler> getFluidHandler(@org.jetbrains.annotations.Nullable Direction direction) {
+    return tankHolder.cast();
   }
 
-  @Override
+  //  @Override
   public void invalidateCaps() {
-    super.invalidateCaps();
+//    super.invalidateCaps();
     this.tankHolder.invalidate();
   }
 

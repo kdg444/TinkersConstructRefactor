@@ -13,21 +13,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.ForgeHooks;
-import slimeknights.mantle.lib.util.LazyOptional;
-import slimeknights.mantle.lib.util.NonNullConsumer;
-import net.minecraftforge.common.util.NonNullFunction;
+import slimeknights.mantle.block.entity.MantleBlockEntity;
+import slimeknights.mantle.lib.transfer.TransferUtil;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import net.minecraftforge.items.CapabilityItemHandler;
 import slimeknights.mantle.lib.transfer.item.IItemHandler;
 import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
-import slimeknights.mantle.block.entity.MantleBlockEntity;
+import slimeknights.mantle.lib.util.BurnUtil;
+import slimeknights.mantle.lib.util.LazyOptional;
+import slimeknights.mantle.lib.util.NonNullConsumer;
+import slimeknights.mantle.lib.util.NonNullFunction;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.recipe.RecipeTypes;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelLookup;
 import slimeknights.tconstruct.library.utils.TagUtil;
@@ -160,7 +157,7 @@ public class FuelModule implements ContainerData {
   private int trySolidFuel(IItemHandler handler, boolean consume) {
     for (int i = 0; i < handler.getSlots(); i++) {
       ItemStack stack = handler.getStackInSlot(i);
-      int time = ForgeHooks.getBurnTime(stack, RecipeTypes.FUEL) / 4;
+      int time = BurnUtil.getBurnTime(stack/*, RecipeTypes.FUEL*/) / 4;
       if (time > 0) {
         if (consume) {
           ItemStack extracted = handler.extractItem(i, 1, false);
@@ -170,7 +167,7 @@ public class FuelModule implements ContainerData {
             temperature = SOLID_TEMPERATURE;
             parent.setChangedFast();
             // return the container
-            ItemStack container = extracted.getContainerItem();
+            ItemStack container = new ItemStack(extracted.getItem().getCraftingRemainingItem());
             if (!container.isEmpty()) {
               // if we cannot insert the container back, spit it on the ground
               ItemStack notInserted = ItemHandlerHelper.insertItem(handler, container, false);
@@ -251,7 +248,7 @@ public class FuelModule implements ContainerData {
     BlockEntity te = getLevel().getBlockEntity(pos);
     if (te != null) {
       // if we find a valid cap, try to consume fuel from it
-      LazyOptional<IFluidHandler> capability = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+      LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(te);
       Optional<Integer> temperature = capability.map(tryLiquidFuel(consume));
       if (temperature.isPresent()) {
         itemHandler = null;
@@ -261,7 +258,7 @@ public class FuelModule implements ContainerData {
         return temperature.get();
       } else {
         // if we find a valid item cap, consume fuel from that
-        LazyOptional<IItemHandler> itemCap = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
+        LazyOptional<IItemHandler> itemCap = TransferUtil.getItemHandler(te);
         temperature = itemCap.map(trySolidFuel(consume));
         if (temperature.isPresent()) {
           fluidHandler = null;
@@ -437,12 +434,12 @@ public class FuelModule implements ContainerData {
     if (fluidHandler == null && itemHandler == null) {
       BlockEntity te = getLevel().getBlockEntity(mainTank);
       if (te != null) {
-        LazyOptional<IFluidHandler> fluidCap = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+        LazyOptional<IFluidHandler> fluidCap = TransferUtil.getFluidHandler(te);
         if (fluidCap.isPresent()) {
           fluidHandler = fluidCap;
           fluidHandler.addListener(fluidListener);
         } else {
-          LazyOptional<IItemHandler> itemCap = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
+          LazyOptional<IItemHandler> itemCap = TransferUtil.getItemHandler(te);
           if (itemCap.isPresent()) {
             itemHandler = itemCap;
             itemHandler.addListener(itemListener);
@@ -484,7 +481,7 @@ public class FuelModule implements ContainerData {
           if (!pos.equals(mainTank)) {
             BlockEntity te = world.getBlockEntity(pos);
             if (te != null) {
-              LazyOptional<IFluidHandler> handler = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+              LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(te);
               if (handler.isPresent()) {
                 handler.addListener(displayListener);
                 tankDisplayHandlers.add(handler);
@@ -522,8 +519,8 @@ public class FuelModule implements ContainerData {
     public static final FuelInfo ITEM = new FuelInfo(FluidStack.EMPTY, 0, 0, SOLID_TEMPERATURE);
 
     private final FluidStack fluid;
-    private int totalAmount;
-    private int capacity;
+    private long totalAmount;
+    private long capacity;
     private final int temperature;
 
     /**
@@ -532,7 +529,7 @@ public class FuelModule implements ContainerData {
      * @param capacity  Capacity
      * @return  Fuel info
      */
-    public static FuelInfo of(FluidStack fluid, int capacity, int temperature) {
+    public static FuelInfo of(FluidStack fluid, long capacity, int temperature) {
       if (fluid.isEmpty()) {
         return EMPTY;
       }
@@ -544,7 +541,7 @@ public class FuelModule implements ContainerData {
      * @param amount    Amount to add
      * @param capacity  Capacity to add
      */
-    protected void add(int amount, int capacity) {
+    protected void add(long amount, long capacity) {
       this.totalAmount += amount;
       this.capacity += capacity;
     }

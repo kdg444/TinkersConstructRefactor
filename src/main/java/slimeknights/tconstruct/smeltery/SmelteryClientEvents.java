@@ -1,17 +1,14 @@
 package slimeknights.tconstruct.smeltery;
 
-import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
+import net.minecraft.server.packs.resources.ResourceManager;
 import slimeknights.mantle.client.model.FaucetFluidLoader;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
@@ -33,70 +30,74 @@ import slimeknights.tconstruct.smeltery.client.screen.MelterScreen;
 import slimeknights.tconstruct.smeltery.client.screen.SingleItemScreenFactory;
 
 @SuppressWarnings("unused")
-@EventBusSubscriber(modid= TConstruct.MOD_ID, value= Dist.CLIENT, bus= Bus.MOD)
 public class SmelteryClientEvents extends ClientEventBase {
-  @SubscribeEvent
-  static void addResourceListener(RegisterClientReloadListenersEvent event) {
-    FaucetFluidLoader.initialize(event);
+
+  public static void init() {
+    addResourceListener();
+    registerRenderers();
+    clientSetup();
   }
 
-  @SubscribeEvent
-  static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-    event.registerBlockEntityRenderer(TinkerSmeltery.tank.get(), TankBlockEntityRenderer::new);
-    event.registerBlockEntityRenderer(TinkerSmeltery.faucet.get(), FaucetBlockEntityRenderer::new);
-    event.registerBlockEntityRenderer(TinkerSmeltery.channel.get(), ChannelBlockEntityRenderer::new);
-    event.registerBlockEntityRenderer(TinkerSmeltery.table.get(), CastingBlockEntityRenderer::new);
-    event.registerBlockEntityRenderer(TinkerSmeltery.basin.get(), CastingBlockEntityRenderer::new);
-    event.registerBlockEntityRenderer(TinkerSmeltery.melter.get(), MelterBlockEntityRenderer::new);
-    event.registerBlockEntityRenderer(TinkerSmeltery.alloyer.get(), TankBlockEntityRenderer::new);
-    event.registerBlockEntityRenderer(TinkerSmeltery.smeltery.get(), HeatingStructureBlockEntityRenderer::new);
-    event.registerBlockEntityRenderer(TinkerSmeltery.foundry.get(), HeatingStructureBlockEntityRenderer::new);
+  static void addResourceListener() {
+    ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
+    if (resourceManager instanceof ReloadableResourceManager reloadable)
+      FaucetFluidLoader.initialize(reloadable);
   }
 
-  @SubscribeEvent
-  static void clientSetup(final FMLClientSetupEvent event) {
+  static void registerRenderers() {
+    BlockEntityRendererRegistry.register(TinkerSmeltery.tank.get(), TankBlockEntityRenderer::new);
+    BlockEntityRendererRegistry.register(TinkerSmeltery.faucet.get(), FaucetBlockEntityRenderer::new);
+    BlockEntityRendererRegistry.register(TinkerSmeltery.channel.get(), ChannelBlockEntityRenderer::new);
+    BlockEntityRendererRegistry.register(TinkerSmeltery.table.get(), CastingBlockEntityRenderer::new);
+    BlockEntityRendererRegistry.register(TinkerSmeltery.basin.get(), CastingBlockEntityRenderer::new);
+    BlockEntityRendererRegistry.register(TinkerSmeltery.melter.get(), MelterBlockEntityRenderer::new);
+    BlockEntityRendererRegistry.register(TinkerSmeltery.alloyer.get(), TankBlockEntityRenderer::new);
+    BlockEntityRenderers.register(TinkerSmeltery.smeltery.get(), HeatingStructureBlockEntityRenderer::new);
+    BlockEntityRenderers.register(TinkerSmeltery.foundry.get(), HeatingStructureBlockEntityRenderer::new);
+  }
+
+  static void clientSetup() {
     // render layers
     RenderType cutout = RenderType.cutout();
     // seared
     // casting
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.searedFaucet.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.searedBasin.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.searedTable.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.searedFaucet.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.searedBasin.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.searedTable.get(), cutout);
     // controller
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.searedMelter.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.smelteryController.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.foundryController.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.searedMelter.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.smelteryController.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.foundryController.get(), cutout);
     // peripherals
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.searedDrain.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.searedDuct.get(), cutout);
-    TinkerSmeltery.searedTank.forEach(tank -> ItemBlockRenderTypes.setRenderLayer(tank, cutout));
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.searedLantern.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.searedGlass.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.searedGlassPane.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.searedDrain.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.searedDuct.get(), cutout);
+    TinkerSmeltery.searedTank.forEach(tank -> BlockRenderLayerMap.INSTANCE.putBlock(tank, cutout));
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.searedLantern.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.searedGlass.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.searedGlassPane.get(), cutout);
     // scorched
     // casting
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.scorchedFaucet.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.scorchedBasin.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.scorchedTable.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.scorchedFaucet.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.scorchedBasin.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.scorchedTable.get(), cutout);
     // controller
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.scorchedAlloyer.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.scorchedAlloyer.get(), cutout);
     // peripherals
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.scorchedDrain.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.scorchedDuct.get(), cutout);
-    TinkerSmeltery.scorchedTank.forEach(tank -> ItemBlockRenderTypes.setRenderLayer(tank, cutout));
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.scorchedLantern.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.scorchedGlass.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerSmeltery.scorchedGlassPane.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.scorchedDrain.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.scorchedDuct.get(), cutout);
+    TinkerSmeltery.scorchedTank.forEach(tank -> BlockRenderLayerMap.INSTANCE.putBlock(tank, cutout));
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.scorchedLantern.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.scorchedGlass.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerSmeltery.scorchedGlassPane.get(), cutout);
 
     // screens
-    MenuScreens.register(TinkerSmeltery.melterContainer.get(), MelterScreen::new);
-    MenuScreens.register(TinkerSmeltery.smelteryContainer.get(), HeatingStructureScreen::new);
-    MenuScreens.register(TinkerSmeltery.singleItemContainer.get(), new SingleItemScreenFactory());
-    MenuScreens.register(TinkerSmeltery.alloyerContainer.get(), AlloyerScreen::new);
+    ScreenRegistry.register(TinkerSmeltery.melterContainer.get(), MelterScreen::new);
+    ScreenRegistry.register(TinkerSmeltery.smelteryContainer.get(), HeatingStructureScreen::new);
+    ScreenRegistry.register(TinkerSmeltery.singleItemContainer.get(), new SingleItemScreenFactory());
+    ScreenRegistry.register(TinkerSmeltery.alloyerContainer.get(), AlloyerScreen::new);
   }
 
-  @SubscribeEvent
-  static void registerModelLoaders(ModelRegistryEvent event) {
+  static void registerModelLoaders() {
     ModelLoaderRegistry.registerLoader(TConstruct.getResource("tank"), TankModel.LOADER);
     ModelLoaderRegistry.registerLoader(TConstruct.getResource("casting"), CastingModel.LOADER);
     ModelLoaderRegistry.registerLoader(TConstruct.getResource("melter"), MelterModel.LOADER);

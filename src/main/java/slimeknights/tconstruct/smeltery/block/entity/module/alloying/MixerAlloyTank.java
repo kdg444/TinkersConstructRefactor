@@ -8,15 +8,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import slimeknights.mantle.lib.util.LazyOptional;
-import slimeknights.mantle.lib.util.NonNullConsumer;
-import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import slimeknights.mantle.lib.transfer.fluid.EmptyFluidHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.mantle.inventory.BaseContainerMenu;
+import slimeknights.mantle.lib.transfer.TransferUtil;
+import slimeknights.mantle.lib.transfer.fluid.EmptyFluidHandler;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.lib.util.LazyOptional;
+import slimeknights.mantle.lib.util.NonNullConsumer;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.recipe.alloying.IMutableAlloyTank;
@@ -121,7 +120,7 @@ public class MixerAlloyTank implements IMutableAlloyTank {
   }
 
   @Override
-  public int fill(FluidStack fluidStack) {
+  public long fill(FluidStack fluidStack) {
     return outputTank.fill(fluidStack, false);
   }
 
@@ -145,7 +144,7 @@ public class MixerAlloyTank implements IMutableAlloyTank {
             BlockEntity te = world.getBlockEntity(target);
             if (te != null) {
               // if we found a tank, increment the number of tanks
-              LazyOptional<IFluidHandler> capability = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, direction.getOpposite());
+              LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(te, direction.getOpposite());
               if (capability.isPresent()) {
                 // attach a listener so we know when the side invalidates
                 capability.addListener(listeners.computeIfAbsent(direction, dir -> new WeakConsumerWrapper<>(this, (self, handler) -> {

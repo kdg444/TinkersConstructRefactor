@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery.item;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -13,9 +14,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 
 import javax.annotation.Nullable;
@@ -62,7 +62,7 @@ public class CopperCanItem extends Item {
         FluidStack displayFluid = new FluidStack(fluid, FluidValues.INGOT, fluidTag);
         text = displayFluid.getDisplayName().plainCopy();
       } else {
-        text = new TranslatableComponent(fluid.getAttributes().getTranslationKey());
+        text = new TranslatableComponent(((FluidExtensions)fluid).getAttributes().getTranslationKey());
       }
       tooltip.add(new TranslatableComponent(this.getDescriptionId() + ".contents", text).withStyle(ChatFormatting.GRAY));
     } else {
@@ -84,7 +84,7 @@ public class CopperCanItem extends Item {
       }
     } else {
       CompoundTag nbt = stack.getOrCreateTag();
-      nbt.putString(TAG_FLUID, Objects.requireNonNull(fluid.getFluid().getRegistryName()).toString());
+      nbt.putString(TAG_FLUID, Objects.requireNonNull(Registry.FLUID.getKey(fluid.getFluid())).toString());
       CompoundTag fluidTag = fluid.getTag();
       if (fluidTag != null) {
         nbt.put(TAG_FLUID_TAG, fluidTag.copy());
@@ -100,8 +100,8 @@ public class CopperCanItem extends Item {
     CompoundTag nbt = stack.getTag();
     if (nbt != null) {
       ResourceLocation location = ResourceLocation.tryParse(nbt.getString(TAG_FLUID));
-      if (location != null && ForgeRegistries.FLUIDS.containsKey(location)) {
-        Fluid fluid = ForgeRegistries.FLUIDS.getValue(location);
+      if (location != null && Registry.FLUID.containsKey(location)) {
+        Fluid fluid = Registry.FLUID.get(location);
         if (fluid != null) {
           return fluid;
         }

@@ -14,9 +14,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.Logger;
 import slimeknights.mantle.item.BlockTooltipItem;
 import slimeknights.mantle.lib.util.RegistryObject;
@@ -335,11 +332,11 @@ public final class TinkerSmeltery extends TinkerModule {
   public static final RegistryObject<MenuType<SingleItemContainerMenu>> singleItemContainer = CONTAINERS.register("single_item", SingleItemContainerMenu::new);
   public static final RegistryObject<MenuType<AlloyerContainerMenu>> alloyerContainer = CONTAINERS.register("alloyer", AlloyerContainerMenu::new);
 
-  @SubscribeEvent
-  void gatherData(final GatherDataEvent event) {
-    if (event.includeServer()) {
-      DataGenerator datagenerator = event.getGenerator();
-      datagenerator.addProvider(new SmelteryRecipeProvider(datagenerator));
-    }
-  }
+//  @SubscribeEvent
+//  void gatherData(final GatherDataEvent event) {
+//    if (event.includeServer()) {
+//      DataGenerator datagenerator = event.getGenerator();
+//      datagenerator.addProvider(new SmelteryRecipeProvider(datagenerator));
+//    }
+//  }
 }

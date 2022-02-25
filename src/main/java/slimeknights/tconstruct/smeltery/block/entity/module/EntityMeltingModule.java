@@ -11,9 +11,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import slimeknights.mantle.lib.mixin.accessor.DamageSourceAccessor;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags.EntityTypes;
@@ -34,9 +34,9 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 public class EntityMeltingModule {
   /** Standard damage source for melting most mobs */
-  public static final DamageSource SMELTERY_DAMAGE = new DamageSource(TConstruct.prefix("smeltery_heat")).setIsFire();
+  public static final DamageSource SMELTERY_DAMAGE = ((DamageSourceAccessor)DamageSourceAccessor.mantle$init(TConstruct.prefix("smeltery_heat"))).mantle$setFireDamage();
   /** Special damage source for "absorbing" hot entities */
-  public static final DamageSource SMELTERY_MAGIC = new DamageSource(TConstruct.prefix("smeltery_magic")).setMagic();
+  public static final DamageSource SMELTERY_MAGIC = DamageSourceAccessor.mantle$init(TConstruct.prefix("smeltery_magic")).setMagic();
 
   private final MantleBlockEntity parent;
   private final IFluidHandler tank;

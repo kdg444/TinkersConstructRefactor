@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.smeltery.data;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -1748,15 +1750,15 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     // immersive engineering - casting treated wood
     ItemCastingRecipeBuilder.basinRecipe(ItemNameOutput.fromName(new ResourceLocation("immersiveengineering", "treated_wood_horizontal")))
                             .setCast(ItemTags.PLANKS, true)
-                            .setFluid(FluidTags.bind("forge:creosote"), 125)
+                            .setFluid(TagFactory.FLUID.create(new ResourceLocation("c:creosote")), 125)
                             .setCoolingTime(100)
-                            .save(withCondition(consumer, new ModLoadedCondition("immersiveengineering")), modResource(folder + "immersiveengineering/treated_wood"));
+                            .save(withCondition(consumer, DefaultResourceConditions.allModsLoaded("immersiveengineering")), modResource(folder + "immersiveengineering/treated_wood"));
 
     // ceramics compat: a lot of melting and some casting
     String ceramics = "ceramics";
     String ceramicsFolder = folder + ceramics + "/";
     Function<String,ResourceLocation> ceramicsId = name -> new ResourceLocation(ceramics, name);
-    Consumer<FinishedRecipe> ceramicsConsumer = withCondition(consumer, new ModLoadedCondition(ceramics));
+    Consumer<FinishedRecipe> ceramicsConsumer = withCondition(consumer, DefaultResourceConditions.allModsLoaded(ceramics));
 
     // fill clay and cracked clay buckets
     ContainerFillingRecipeBuilder.tableRecipe(ceramicsId.apply("clay_bucket"), FluidAttributes.BUCKET_VOLUME)
@@ -1788,7 +1790,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                         .save(ceramicsConsumer, modResource(clayFolder + "bricks_2"));
     // 3 bricks
     MeltingRecipeBuilder.melting(CompoundIngredient.from(
-      Ingredient.of(ItemTags.createOptional(ceramicsId.apply("terracotta_cisterns"))),
+      Ingredient.of(TagFactory.ITEM.create(ceramicsId.apply("terracotta_cisterns"))),
       NBTNameIngredient.from(ceramicsId.apply("clay_bucket")),
       NBTNameIngredient.from(ceramicsId.apply("cracked_clay_bucket"))),
                                  new FluidStack(TinkerFluids.moltenClay.get(), FluidValues.SLIMEBALL * 3), 1.67f)
@@ -1850,12 +1852,12 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     ), new FluidStack(TinkerFluids.moltenPorcelain.get(), FluidValues.SLIMEBALL * 2), 1.33f)
                         .save(ceramicsConsumer, modResource(porcelainFolder + "bricks_2"));
     // 3 bricks
-    MeltingRecipeBuilder.melting(Ingredient.of(ItemTags.bind(ceramics + ":porcelain_cisterns")), new FluidStack(TinkerFluids.moltenPorcelain.get(), FluidValues.SLIMEBALL * 3), 1.67f)
+    MeltingRecipeBuilder.melting(Ingredient.of(TagFactory.ITEM.create(new ResourceLocation(ceramics + ":porcelain_cisterns"))), new FluidStack(TinkerFluids.moltenPorcelain.get(), FluidValues.SLIMEBALL * 3), 1.67f)
                         .save(ceramicsConsumer, modResource(porcelainFolder + "bricks_3"));
     // 4 bricks
     MeltingRecipeBuilder.melting(CompoundIngredient.from(
-      Ingredient.of(ItemTags.bind(ceramics + ":porcelain_block")),
-      Ingredient.of(ItemTags.bind(ceramics + ":rainbow_porcelain")),
+      Ingredient.of(TagFactory.ITEM.create(new ResourceLocation(ceramics + ":porcelain_block"))),
+      Ingredient.of(TagFactory.ITEM.create(new ResourceLocation(ceramics + ":rainbow_porcelain"))),
       ItemNameIngredient.from(
         ceramicsId.apply("porcelain_bricks"), ceramicsId.apply("porcelain_bricks_stairs"), ceramicsId.apply("porcelain_bricks_wall"),
         ceramicsId.apply("monochrome_bricks"), ceramicsId.apply("monochrome_bricks_stairs"), ceramicsId.apply("monochrome_bricks_wall"),

@@ -29,10 +29,12 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Transformation;
 import lombok.RequiredArgsConstructor;
 import lombok.With;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.BlockModelRotation;
@@ -48,18 +50,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.CompositeModelState;
-import net.minecraftforge.client.model.ForgeModelBakery;
-import net.minecraftforge.client.model.IModelConfiguration;
-import net.minecraftforge.client.model.IModelLoader;
 import net.minecraftforge.client.model.ItemLayerModel;
 import net.minecraftforge.client.model.ItemMultiLayerBakedModel;
 import net.minecraftforge.client.model.ItemTextureQuadConverter;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.PerspectiveMapWrapper;
-import net.minecraftforge.client.model.geometry.IModelGeometry;
-import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
+import slimeknights.mantle.lib.model.IModelConfiguration;
+import slimeknights.mantle.lib.model.IModelGeometry;
+import slimeknights.mantle.lib.model.IModelLoader;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.FluidValues;
@@ -94,8 +93,8 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
   @Override
   public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
     // fetch fluid sprite and cover sprite
-    FluidAttributes attributes = fluid.getFluid().getAttributes();
-    TextureAtlasSprite fluidSprite = !fluid.isEmpty() ? spriteGetter.apply(ForgeHooksClient.getBlockMaterial(attributes.getStillTexture(fluid))) : null;
+    ResourceLocation stillTexture = FluidVariantRendering.getSprite(fluid.getType()).getName();
+    TextureAtlasSprite fluidSprite = !fluid.isEmpty() ? spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, stillTexture)) : null;
     Material baseLocation = owner.isTexturePresent("base") ? owner.resolveTexture("base") : null;
     TextureAtlasSprite coverSprite = ((!coverIsMask || baseLocation != null) && owner.isTexturePresent("cover")) ? spriteGetter.apply(owner.resolveTexture("cover")) : null;
 
@@ -108,7 +107,7 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
     } else if (!coverIsMask && coverSprite != null) {
       particleSprite = coverSprite;
     } else {
-      particleSprite = spriteGetter.apply(ModelLoaderRegistry.blockMaterial(MissingTextureAtlasSprite.getLocation()));
+      particleSprite = spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, MissingTextureAtlasSprite.getLocation()));
     }
 
     // setup builder
@@ -128,8 +127,8 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
       TextureAtlasSprite templateSprite = spriteGetter.apply(owner.resolveTexture("fluid"));
       if (templateSprite != null) {
         // build liquid layer (inside)
-        int luminosity = applyFluidLuminosity ? attributes.getLuminosity(fluid) : 0;
-        int color = attributes.getColor(fluid);
+        int luminosity = applyFluidLuminosity ? ((FluidExtensions)fluid.getFluid()).getAttributes().getLuminosity(fluid) : 0;
+        int color = FluidVariantRendering.getColor(fluid.getType());
         builder.addQuads(ItemLayerModel.getLayerRenderType(luminosity > 0), ItemTextureQuadConverter.convertTexture(transform, templateSprite, fluidSprite, NORTH_Z_FLUID, Direction.NORTH, color, -1, luminosity));
         builder.addQuads(ItemLayerModel.getLayerRenderType(luminosity > 0), ItemTextureQuadConverter.convertTexture(transform, templateSprite, fluidSprite, SOUTH_Z_FLUID, Direction.SOUTH, color, -1, luminosity));
       }
@@ -190,7 +189,7 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
 
     /** Gets the model directly, for creating the cached models */
     private BakedModel getUncahcedModel(FluidStack fluid) {
-      return this.parent.withFluid(fluid).bake(owner, bakery, ForgeModelBakery.defaultTextureGetter(), BlockModelRotation.X0_Y0, ItemOverrides.EMPTY, BAKE_LOCATION);
+      return this.parent.withFluid(fluid).bake(owner, bakery, Material::sprite, BlockModelRotation.X0_Y0, ItemOverrides.EMPTY, BAKE_LOCATION);
     }
 
     @Override
