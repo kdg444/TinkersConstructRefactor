@@ -4,12 +4,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import slimeknights.tconstruct.TConstruct;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.world.TinkerWorld;
 
@@ -17,25 +15,28 @@ import slimeknights.tconstruct.world.TinkerWorld;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommonsEvents {
 
+  public static void init() {
+    LivingEntityEvents.JUMP.register(CommonsEvents::onLivingJump);
+  }
+
   // Slimy block jump stuff
-  @SubscribeEvent
-  static void onLivingJump(LivingEvent.LivingJumpEvent event) {
-    if (event.getEntity() == null) {
+  static void onLivingJump(LivingEntity entity) {
+    if (entity == null) {
       return;
     }
 
     // check if we jumped from a slime block
-    BlockPos pos = new BlockPos(event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ());
-    if (event.getEntity().getCommandSenderWorld().isEmptyBlock(pos)) {
+    BlockPos pos = new BlockPos(entity.getX(), entity.getY(), entity.getZ());
+    if (entity.getCommandSenderWorld().isEmptyBlock(pos)) {
       pos = pos.below();
     }
-    BlockState state = event.getEntity().getCommandSenderWorld().getBlockState(pos);
+    BlockState state = entity.getCommandSenderWorld().getBlockState(pos);
     Block block = state.getBlock();
 
     if (TinkerWorld.congealedSlime.contains(block)) {
-      bounce(event.getEntity(), 0.25f);
+      bounce(entity, 0.25f);
     } else if (TinkerWorld.slimeDirt.contains(block) || TinkerWorld.vanillaSlimeGrass.contains(block) || TinkerWorld.earthSlimeGrass.contains(block) || TinkerWorld.skySlimeGrass.contains(block) || TinkerWorld.enderSlimeGrass.contains(block) || TinkerWorld.ichorSlimeGrass.contains(block)) {
-      bounce(event.getEntity(), 0.06f);
+      bounce(entity, 0.06f);
     }
   }
 

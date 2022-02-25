@@ -5,35 +5,37 @@ import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import slimeknights.tconstruct.TConstruct;
+import slimeknights.mantle.lib.event.ItemCraftedCallback;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
 //import slimeknights.tconstruct.library.utils.TagUtil;
 //import slimeknights.tconstruct.tools.common.entity.EntityArrow;
 //import slimeknights.tconstruct.tools.tools.Pickaxe;
 
 // TODO: reevaluate
-@Mod.EventBusSubscriber(modid = TConstruct.MOD_ID)
 public final class AchievementEvents {
+
+  public static void init() {
+    LivingEntityEvents.HURT.register(AchievementEvents::onDamageEntity);
+    ItemCraftedCallback.EVENT.register(AchievementEvents::onCraft);
+  }
 
   private static final String ADVANCEMENT_STORY_ROOT = "minecraft:story/root";
   private static final String ADVANCEMENT_STONE_PICK = "minecraft:story/upgrade_tools";
   private static final String ADVANCEMENT_IRON_PICK = "minecraft:story/iron_tools";
   private static final String ADVANCEMENT_SHOOT_ARROW = "minecraft:adventure/shoot_arrow";
 
-  @SubscribeEvent
-  public static void onCraft(PlayerEvent.ItemCraftedEvent event) {
-    if (event.getPlayer() == null || event.getPlayer() instanceof FakePlayer || !(event.getPlayer() instanceof ServerPlayer playerMP) || event.getCrafting().isEmpty()) {
+  public static void onCraft(Player player, ItemStack crafted, Container craftMatrix) {
+    if (player == null || /*event.getPlayer() instanceof FakePlayer ||*/ !(player instanceof ServerPlayer playerMP) || crafted.isEmpty()) {
       return;
     }
-    Item item = event.getCrafting().getItem();
+    Item item = crafted.getItem();
     if (item instanceof BlockItem && ((BlockItem) item).getBlock() == Blocks.CRAFTING_TABLE) {
       grantAdvancement(playerMP, ADVANCEMENT_STORY_ROOT);
     }
@@ -49,12 +51,11 @@ public final class AchievementEvents {
     }*/
   }
 
-  @SubscribeEvent
-  public static void onDamageEntity(LivingHurtEvent event) {
-    DamageSource source = event.getSource();
-    if (source.isProjectile() && !(source.getEntity() instanceof FakePlayer) && source.getEntity() instanceof ServerPlayer) {// && source.getImmediateSource() instanceof EntityArrow) {
+  public static float onDamageEntity(DamageSource source, float amount) {
+    if (source.isProjectile() && /*!(source.getEntity() instanceof FakePlayer) && */source.getEntity() instanceof ServerPlayer) {// && source.getImmediateSource() instanceof EntityArrow) {
       grantAdvancement((ServerPlayer) source.getEntity(), ADVANCEMENT_SHOOT_ARROW);
     }
+    return amount;
   }
 
   private static void grantAdvancement(ServerPlayer playerMP, String advancementResource) {

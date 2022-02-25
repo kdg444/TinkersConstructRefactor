@@ -12,6 +12,7 @@ import slimeknights.tconstruct.library.client.data.spritetransformer.GreyToSprit
 import slimeknights.tconstruct.library.client.data.spritetransformer.IColorMapping;
 import slimeknights.tconstruct.library.client.data.spritetransformer.ISpriteTransformer;
 import slimeknights.tconstruct.library.client.data.spritetransformer.RecolorSpriteTransformer;
+import slimeknights.tconstruct.smeltery.SmelteryClientEvents;
 import slimeknights.tconstruct.tables.client.PatternGuiTextureLoader;
 
 import java.util.function.Consumer;
@@ -40,5 +41,6 @@ public class TinkerClient implements ClientModInitializer {
     FluidClientEvents.clientSetup();
     GadgetClientEvents.init();
     CommonsClientEvents.init();
+    SmelteryClientEvents.init();
   }
 }

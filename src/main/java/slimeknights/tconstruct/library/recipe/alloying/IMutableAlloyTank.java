@@ -13,5 +13,5 @@ public interface IMutableAlloyTank extends IAlloyTank {
   FluidStack drain(int tank, FluidStack fluidStack);
 
   /** Fills the tank with the output */
-  int fill(FluidStack fluidStack);
+  long fill(FluidStack fluidStack);
 }

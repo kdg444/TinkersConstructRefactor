@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.fluids;
 
+import io.github.tropheusj.milk.Milk;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.ForgeMod;
 import slimeknights.mantle.lib.fluid.SimpleFlowableFluid;
 import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
 import slimeknights.mantle.registration.ModelFluidAttributes;
@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public final class TinkerFluids extends TinkerModule {
   public TinkerFluids() {
-    ForgeMod.enableMilkFluid();
+    Milk.enableMilkFluid();
   }
 
   // basic

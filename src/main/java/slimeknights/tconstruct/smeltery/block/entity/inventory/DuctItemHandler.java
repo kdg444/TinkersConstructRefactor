@@ -3,10 +3,9 @@ package slimeknights.tconstruct.smeltery.block.entity.inventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import slimeknights.mantle.inventory.SingleItemHandler;
+import slimeknights.mantle.lib.transfer.TransferUtil;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.network.InventorySlotSyncPacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -44,13 +43,13 @@ public class DuctItemHandler extends SingleItemHandler<DuctBlockEntity> {
   protected boolean isItemValid(ItemStack stack) {
     // the item or its container must be in the tag
     if (!stack.is(TinkerTags.Items.DUCT_CONTAINERS)) {
-      ItemStack container = stack.getContainerItem();
+      ItemStack container = new ItemStack(stack.getItem().getCraftingRemainingItem());
       if (container.isEmpty() || !container.is(TinkerTags.Items.DUCT_CONTAINERS)) {
         return false;
       }
     }
     // the item must contain fluid (no empty cans or buckets)
-    return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
+    return TransferUtil.getFluidHandlerItem(stack)
                 .filter(cap -> !cap.getFluidInTank(0).isEmpty())
                 .isPresent();
   }
@@ -64,7 +63,7 @@ public class DuctItemHandler extends SingleItemHandler<DuctBlockEntity> {
     if (stack.isEmpty()) {
       return FluidStack.EMPTY;
     }
-    return FluidUtil.getFluidHandler(stack)
+    return TransferUtil.getFluidHandlerItem(stack)
                     .map(handler -> handler.getFluidInTank(0))
                     .orElse(FluidStack.EMPTY);
   }

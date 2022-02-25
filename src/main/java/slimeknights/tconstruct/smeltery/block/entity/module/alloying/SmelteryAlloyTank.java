@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import slimeknights.tconstruct.library.recipe.alloying.IMutableAlloyTank;
 import slimeknights.tconstruct.smeltery.block.entity.tank.SmelteryTank;
 
@@ -43,7 +42,7 @@ public class SmelteryAlloyTank implements IMutableAlloyTank {
   }
 
   @Override
-  public int fill(FluidStack fluidStack) {
+  public long fill(FluidStack fluidStack) {
     return handler.fill(fluidStack, false);
   }
 }

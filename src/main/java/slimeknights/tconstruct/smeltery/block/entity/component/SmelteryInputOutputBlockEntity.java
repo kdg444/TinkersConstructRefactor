@@ -50,9 +50,9 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
     }
   }
 
-  @Override
+//  @Override
   public void invalidateCaps() {
-    super.invalidateCaps();
+//    super.invalidateCaps();
     clearHandler();
   }
 

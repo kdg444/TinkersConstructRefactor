@@ -12,7 +12,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandlerItem;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 
 import javax.annotation.Nonnull;
@@ -46,7 +46,7 @@ public class CopperCanFluidHandler implements IFluidHandlerItem, ICapabilityProv
   }
 
   @Override
-  public int getTankCapacity(int tank) {
+  public long getTankCapacity(int tank) {
     return FluidValues.INGOT;
   }
 
@@ -71,13 +71,13 @@ public class CopperCanFluidHandler implements IFluidHandlerItem, ICapabilityProv
   /* Interaction */
 
   @Override
-  public int fill(FluidStack resource, boolean sim) {
+  public long fill(FluidStack resource, boolean sim) {
     // must not be filled, must have enough
     if (getFluid() != Fluids.EMPTY || resource.getAmount() < FluidValues.INGOT) {
       return 0;
     }
     // update fluid and return
-    if (action.execute()) {
+    if (!sim) {
       CopperCanItem.setFluid(container, resource);
     }
     return FluidValues.INGOT;
@@ -97,7 +97,7 @@ public class CopperCanFluidHandler implements IFluidHandlerItem, ICapabilityProv
     }
     // output 1 ingot
     FluidStack output = new FluidStack(fluid, FluidValues.INGOT, getFluidTag());
-    if (action.execute()) {
+    if (!sim) {
       CopperCanItem.setFluid(container, FluidStack.EMPTY);
     }
     return output;
@@ -105,7 +105,7 @@ public class CopperCanFluidHandler implements IFluidHandlerItem, ICapabilityProv
 
   @Nonnull
   @Override
-  public FluidStack drain(int maxDrain, boolean sim) {
+  public FluidStack drain(long maxDrain, boolean sim) {
     // must be draining at least an ingot
     if (maxDrain < FluidValues.INGOT) {
       return FluidStack.EMPTY;
@@ -117,7 +117,7 @@ public class CopperCanFluidHandler implements IFluidHandlerItem, ICapabilityProv
     }
     // output 1 ingot
     FluidStack output = new FluidStack(fluid, FluidValues.INGOT, getFluidTag());
-    if (action.execute()) {
+    if (!sim) {
       CopperCanItem.setFluid(container, FluidStack.EMPTY);
     }
     return output;

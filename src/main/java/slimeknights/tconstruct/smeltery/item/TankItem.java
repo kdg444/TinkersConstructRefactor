@@ -62,13 +62,13 @@ public class TankItem extends BlockTooltipItem {
       FluidTank tank = getFluidTank(stack);
       if (tank.getFluidAmount() > 0) {
         tooltip.add(new TranslatableComponent(KEY_FLUID, tank.getFluid().getDisplayName()).withStyle(ChatFormatting.GRAY));
-        int amount = tank.getFluidAmount();
+        long amount = tank.getFluidAmount();
         TooltipKey key = SafeClientAccess.getTooltipKey();
         if (tank.getCapacity() % FluidValues.INGOT != 0 || key == TooltipKey.SHIFT) {
           tooltip.add(new TranslatableComponent(KEY_MB, amount).withStyle(ChatFormatting.GRAY));
         } else {
-          int ingots = amount / FluidValues.INGOT;
-          int mb = amount % FluidValues.INGOT;
+          long ingots = amount / FluidValues.INGOT;
+          long mb = amount % FluidValues.INGOT;
           if (mb == 0) {
             tooltip.add(new TranslatableComponent(KEY_INGOTS, ingots).withStyle(ChatFormatting.GRAY));
           } else {

@@ -20,16 +20,16 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
-import slimeknights.mantle.lib.model.IModelData;
-import net.minecraftforge.common.capabilities.Capability;
-import slimeknights.mantle.lib.util.LazyOptional;
-import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
-import slimeknights.mantle.lib.transfer.item.IItemHandler;
-import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
+import slimeknights.mantle.lib.block.CustomRenderBoundingBoxBlockEntity;
+import slimeknights.mantle.lib.model.IModelData;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.lib.transfer.item.IItemHandler;
+import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
+import slimeknights.mantle.lib.transfer.item.ItemTransferable;
+import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.common.multiblock.IMasterLogic;
 import slimeknights.tconstruct.common.multiblock.IServantLogic;
@@ -59,7 +59,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public abstract class HeatingStructureBlockEntity extends NameableBlockEntity implements IMasterLogic, ISmelteryTankHandler {
+public abstract class HeatingStructureBlockEntity extends NameableBlockEntity implements IMasterLogic, ISmelteryTankHandler, ItemTransferable, CustomRenderBoundingBoxBlockEntity {
   private static final String TAG_STRUCTURE = "structure";
   private static final String TAG_TANK = "tank";
   private static final String TAG_INVENTORY = "inventory";
@@ -259,21 +259,17 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
 
   /* Capability */
 
-  @Override
+//  @Override
   public void invalidateCaps() {
-    super.invalidateCaps();
+//    super.invalidateCaps();
     this.itemCapability.invalidate();
   }
 
   @Nonnull
   @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-    if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-      return itemCapability.cast();
-    }
-    return super.getCapability(capability, facing);
+  public LazyOptional<IItemHandler> getItemHandler(@org.jetbrains.annotations.Nullable Direction direction) {
+    return itemCapability.cast();
   }
-
 
   /* Structure */
 
@@ -402,7 +398,7 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
       // update ourself
       fluid = IDisplayFluidListener.normalizeFluid(fluid);
       modelData.setData(IDisplayFluidListener.PROPERTY, fluid);
-      this.requestModelDataUpdate();
+//      this.requestModelDataUpdate();
       BlockState state = getBlockState();
       level.sendBlockUpdated(worldPosition, state, state, 48);
       updateListeners(fluid);

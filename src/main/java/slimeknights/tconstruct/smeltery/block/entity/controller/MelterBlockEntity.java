@@ -14,15 +14,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import slimeknights.mantle.lib.model.IModelData;
-import net.minecraftforge.common.capabilities.Capability;
-import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
-import slimeknights.mantle.lib.transfer.item.IItemHandler;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
+import slimeknights.mantle.lib.model.IModelData;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.lib.transfer.item.IItemHandler;
+import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
@@ -113,9 +110,9 @@ public class MelterBlockEntity extends NameableBlockEntity implements ITankBlock
     return super.getCapability(capability, facing);
   }
 
-  @Override
+//  @Override
   public void invalidateCaps() {
-    super.invalidateCaps();
+//    super.invalidateCaps();
     this.tankHolder.invalidate();
     this.inventoryHolder.invalidate();
   }

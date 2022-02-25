@@ -101,40 +101,40 @@ public class WorldClientEvents extends ClientEventBase {
     // render types - slime plants
     for (SlimeType type : SlimeType.values()) {
       if (type != SlimeType.BLOOD) {
-        ItemBlockRenderTypes.setRenderLayer(TinkerWorld.slimeLeaves.get(type), cutoutMipped);
+        BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.slimeLeaves.get(type), cutoutMipped);
       }
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.vanillaSlimeGrass.get(type), cutoutMipped);
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.earthSlimeGrass.get(type), cutoutMipped);
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.skySlimeGrass.get(type), cutoutMipped);
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.enderSlimeGrass.get(type), cutoutMipped);
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.ichorSlimeGrass.get(type), cutoutMipped);
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.slimeFern.get(type), cutout);
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.slimeTallGrass.get(type), cutout);
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.slimeSapling.get(type), cutout);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.vanillaSlimeGrass.get(type), cutoutMipped);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.earthSlimeGrass.get(type), cutoutMipped);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.skySlimeGrass.get(type), cutoutMipped);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.enderSlimeGrass.get(type), cutoutMipped);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.ichorSlimeGrass.get(type), cutoutMipped);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.slimeFern.get(type), cutout);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.slimeTallGrass.get(type), cutout);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.slimeSapling.get(type), cutout);
     }
-    ItemBlockRenderTypes.setRenderLayer(TinkerWorld.enderSlimeVine.get(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerWorld.skySlimeVine.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.enderSlimeVine.get(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.skySlimeVine.get(), cutout);
 
     // render types - slime blocks
     RenderType translucent = RenderType.translucent();
     for (SlimeType type : SlimeType.TINKER) {
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.slime.get(type), translucent);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.slime.get(type), translucent);
     }
 
     // doors
-    ItemBlockRenderTypes.setRenderLayer(TinkerWorld.greenheart.getDoor(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerWorld.greenheart.getTrapdoor(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerWorld.skyroot.getDoor(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerWorld.skyroot.getTrapdoor(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerWorld.bloodshroom.getDoor(), cutout);
-    ItemBlockRenderTypes.setRenderLayer(TinkerWorld.bloodshroom.getTrapdoor(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.greenheart.getDoor(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.greenheart.getTrapdoor(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.skyroot.getDoor(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.skyroot.getTrapdoor(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.bloodshroom.getDoor(), cutout);
+    BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.bloodshroom.getTrapdoor(), cutout);
 
     // geodes
     for (BudSize size : BudSize.values()) {
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.earthGeode.getBud(size), cutout);
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.skyGeode.getBud(size),   cutout);
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.ichorGeode.getBud(size), cutout);
-      ItemBlockRenderTypes.setRenderLayer(TinkerWorld.enderGeode.getBud(size), cutout);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.earthGeode.getBud(size), cutout);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.skyGeode.getBud(size),   cutout);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.ichorGeode.getBud(size), cutout);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.enderGeode.getBud(size), cutout);
     }
 
     // skull textures

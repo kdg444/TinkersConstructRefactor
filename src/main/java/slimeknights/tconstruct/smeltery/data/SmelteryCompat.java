@@ -3,7 +3,7 @@ package slimeknights.tconstruct.smeltery.data;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
+import slimeknights.mantle.lib.fluid.SimpleFlowableFluid;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 
@@ -40,7 +40,7 @@ public enum SmelteryCompat {
 
   @Getter
   private final String name = this.name().toLowerCase(Locale.US);
-  private final FluidObject<? extends ForgeFlowingFluid> fluid;
+  private final FluidObject<? extends SimpleFlowableFluid> fluid;
   @Getter
   private final boolean isOre;
   @Accessors(fluent = true)
@@ -49,7 +49,7 @@ public enum SmelteryCompat {
   @Getter
   private final Byproduct[] byproducts;
 
-  SmelteryCompat(FluidObject<? extends ForgeFlowingFluid> fluid, boolean hasDust) {
+  SmelteryCompat(FluidObject<? extends SimpleFlowableFluid> fluid, boolean hasDust) {
     this.fluid = fluid;
     this.isOre = false;
     this.byproducts = new Byproduct[0];
@@ -57,7 +57,7 @@ public enum SmelteryCompat {
   }
 
   /** Byproducts means its an ore, no byproucts are alloys */
-  SmelteryCompat(FluidObject<? extends ForgeFlowingFluid> fluid, Byproduct... byproducts) {
+  SmelteryCompat(FluidObject<? extends SimpleFlowableFluid> fluid, Byproduct... byproducts) {
     this.fluid = fluid;
     this.isOre = byproducts.length > 0;
     this.byproducts = byproducts;

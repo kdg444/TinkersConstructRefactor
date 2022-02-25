@@ -34,6 +34,8 @@ import slimeknights.tconstruct.library.tools.definition.ToolDefinitionLoader;
 import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
 import slimeknights.tconstruct.library.utils.Util;
 //import slimeknights.tconstruct.plugin.ImmersiveEngineeringPlugin;
+import slimeknights.tconstruct.shared.AchievementEvents;
+import slimeknights.tconstruct.shared.CommonsEvents;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -106,6 +108,8 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
     commonSetup();
     FluidEvents.onFurnaceFuel();
     ToolEvents.init();
+    CommonsEvents.init();
+    AchievementEvents.init();
   }
 
   static void commonSetup() {

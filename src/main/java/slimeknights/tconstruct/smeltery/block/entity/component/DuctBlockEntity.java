@@ -12,13 +12,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import slimeknights.mantle.lib.model.IModelData;
-import net.minecraftforge.common.capabilities.Capability;
-import slimeknights.mantle.lib.util.LazyOptional;
-import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
-import slimeknights.mantle.lib.transfer.item.IItemHandler;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
+import slimeknights.mantle.lib.model.IModelData;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.lib.transfer.item.IItemHandler;
+import slimeknights.mantle.lib.transfer.item.ItemTransferable;
+import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.entity.component.SmelteryInputOutputBlockEntity.SmelteryFluidIO;
@@ -33,7 +32,7 @@ import javax.annotation.Nullable;
 /**
  * Filtered drain tile entity
  */
-public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider {
+public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider, ItemTransferable {
   private static final String TAG_ITEM = "item";
   private static final Component TITLE = TConstruct.makeTranslation("gui", "duct");
 
@@ -70,11 +69,8 @@ public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider {
 
   @Nonnull
   @Override
-  public <C> LazyOptional<C> getCapability(Capability<C> capability, @Nullable Direction facing) {
-    if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-      return itemCapability.cast();
-    }
-    return super.getCapability(capability, facing);
+  public LazyOptional<IItemHandler> getItemHandler(@org.jetbrains.annotations.Nullable Direction direction) {
+    return itemCapability.cast();
   }
 
   @Override
@@ -91,7 +87,7 @@ public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider {
   /** Updates the fluid in model data */
   public void updateFluid() {
     modelData.setData(IDisplayFluidListener.PROPERTY, IDisplayFluidListener.normalizeFluid(itemHandler.getFluid()));
-    requestModelDataUpdate();
+//    requestModelDataUpdate();
     assert level != null;
     BlockState state = getBlockState();
     level.sendBlockUpdated(worldPosition, state, state, 48);

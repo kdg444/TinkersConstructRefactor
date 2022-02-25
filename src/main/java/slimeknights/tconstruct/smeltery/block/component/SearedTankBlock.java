@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import slimeknights.mantle.lib.extensions.BlockExtensions;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.library.fluid.FluidTransferUtil;
@@ -33,8 +34,8 @@ import java.util.Locale;
 
 public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBlock, BlockPickInteractionAware, BlockExtensions {
   @Getter
-  private final int capacity;
-  public SearedTankBlock(Properties properties, int capacity) {
+  private final long capacity;
+  public SearedTankBlock(Properties properties, long capacity) {
     super(properties);
     this.capacity = capacity;
   }
@@ -65,9 +66,9 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
     BlockEntity te = world.getBlockEntity(pos);
     if (te instanceof TankBlockEntity) {
       FluidStack fluid = ((TankBlockEntity) te).getTank().getFluid();
-      return fluid.getFluid().getAttributes().getLuminosity(fluid);
+      return ((FluidExtensions)fluid.getFluid()).getAttributes().getLuminosity(fluid);
     }
-    return BlockExtensions.super.getLightEmission(state, world, pos);
+    return super.getLightEmission(state, world, pos);
   }
 
   @Override
