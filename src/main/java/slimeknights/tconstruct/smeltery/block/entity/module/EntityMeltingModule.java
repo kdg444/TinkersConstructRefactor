@@ -149,7 +149,7 @@ public class EntityMeltingModule {
           // if the entity is successfully damaged, fill the tank with fluid
           if (entity.hurt(entity.fireImmune() ? SMELTERY_MAGIC : SMELTERY_DAMAGE, damage)) {
             // its fine if we don't fill it all, leftover fluid is just lost
-            tank.fill(fluid, FluidAction.EXECUTE);
+            tank.fill(fluid, false);
             melted = true;
           }
         }

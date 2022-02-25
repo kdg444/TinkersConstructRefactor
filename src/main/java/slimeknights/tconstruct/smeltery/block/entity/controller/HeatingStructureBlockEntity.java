@@ -26,7 +26,7 @@ import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
+import slimeknights.mantle.lib.transfer.item.IItemHandler;
 import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.mantle.client.model.data.SinglePropertyData;

@@ -23,14 +23,12 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.capabilities.Capability;
-import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import slimeknights.mantle.lib.transfer.fluid.FluidTransferable;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import slimeknights.mantle.lib.transfer.item.wrapper.SidedInvWrapper;
+import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -53,7 +51,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public abstract class CastingBlockEntity extends TableBlockEntity implements WorldlyContainer, FluidUpdatePacket.IFluidPacketReceiver {
+public abstract class CastingBlockEntity extends TableBlockEntity implements WorldlyContainer, FluidUpdatePacket.IFluidPacketReceiver, FluidTransferable {
   // slots
   public static final int INPUT = 0;
   public static final int OUTPUT = 1;
@@ -109,7 +107,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
   /** Last redstone state of the block */
   private boolean lastRedstone = false;
   /** Last analog signal strength */
-  private int lastAnalogSignal;
+  private long lastAnalogSignal;
 
   protected CastingBlockEntity(BlockEntityType<?> beType, BlockPos pos, BlockState state, RecipeType<ICastingRecipe> castingType, RecipeType<MoldingRecipe> moldingType, Tag<Item> emptyCastTag) {
     super(beType, pos, state, NAME, 2, 1);
@@ -123,11 +121,8 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
   }
 
   @Override
-  @Nonnull
-  public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
-    if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-      return holder.cast();
-    return super.getCapability(capability, facing);
+  public LazyOptional<IFluidHandler> getFluidHandler(@org.jetbrains.annotations.Nullable Direction direction) {
+    return holder.cast();
   }
 
   /**
@@ -360,7 +355,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
   /**
    * Called from CastingFluidHandler.fill()
    * @param fluid   Fluid used in casting
-   * @param action  EXECUTE or SIMULATE
+   * @param sim  EXECUTE or SIMULATE
    * @return        Amount of fluid needed for recipe, used to resize the tank.
    */
   public long initNewCasting(FluidStack fluid, boolean sim) {
@@ -489,7 +484,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
   /** Updates the comparator strength if needed */
   private void updateAnalogSignal() {
     if (level == null || !level.isClientSide) {
-      int newStrength = getAnalogSignal();
+      long newStrength = getAnalogSignal();
       if (newStrength != lastAnalogSignal) {
         lastAnalogSignal = newStrength;
         if (level != null) {
@@ -500,7 +495,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
   }
 
   /** Gets the comparator strength */
-  public int getAnalogSignal() {
+  public long getAnalogSignal() {
     if (isStackInSlot(CastingBlockEntity.OUTPUT)) {
       return 15;
     }
@@ -509,7 +504,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
       return 11 + (timer * 4 / coolingTime);
     }
     // 2 - 9 are fluid between 0 and 99%
-    int capacity = tank.getCapacity();
+    long capacity = tank.getCapacity();
     if (capacity > 0) {
       return 2 + (tank.getFluid().getAmount() * 9 / capacity);
     }

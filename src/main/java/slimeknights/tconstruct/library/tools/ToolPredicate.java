@@ -113,7 +113,7 @@ public class ToolPredicate extends ItemPredicate {
     JsonObject json = new JsonObject();
     json.addProperty("type", ID.toString());
     if (this.item != null) {
-      json.addProperty("item", Objects.requireNonNull(item.getRegistryName()).toString());
+      json.addProperty("item", Objects.requireNonNull(Registry.ITEM.getKey(item)).toString());
     }
     if (this.tag != null) {
       json.addProperty("tag", SerializationTags.getInstance().getIdOrThrow(Registry.ITEM_REGISTRY, this.tag, () -> new IllegalStateException("Unknown item tag")).toString());

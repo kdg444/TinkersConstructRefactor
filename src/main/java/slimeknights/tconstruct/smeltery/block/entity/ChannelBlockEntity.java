@@ -11,15 +11,15 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.Capability;
-import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullConsumer;
-import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import slimeknights.mantle.lib.transfer.fluid.EmptyFluidHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
+import slimeknights.mantle.lib.block.CustomRenderBoundingBoxBlockEntity;
+import slimeknights.mantle.lib.transfer.TransferUtil;
+import slimeknights.mantle.lib.transfer.fluid.EmptyFluidHandler;
+import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import slimeknights.mantle.lib.transfer.fluid.FluidTransferable;
+import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.lib.util.LazyOptional;
+import slimeknights.mantle.lib.util.NonNullConsumer;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.fluid.FillOnlyFluidHandler;
@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * Logic for channel fluid transfer
  */
-public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacketReceiver {
+public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacketReceiver, FluidTransferable, CustomRenderBoundingBoxBlockEntity {
 	/** Channel internal tank */
 	private final ChannelTank tank = new ChannelTank(FaucetBlockEntity.MB_PER_TICK * 3, this);
 	/** Handler to return from channel top */
@@ -58,7 +58,7 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	/** Cache of tanks on all neighboring sides */
 	private final Map<Direction,LazyOptional<IFluidHandler>> neighborTanks = new EnumMap<>(Direction.class);
 	/** Consumers to attach to each of the neighbors */
-	private final Map<Direction,NonNullConsumer<LazyOptional<IFluidHandler>>> neighborConsumers = new EnumMap<>(Direction.class);
+	private final Map<Direction, NonNullConsumer<LazyOptional<IFluidHandler>>> neighborConsumers = new EnumMap<>(Direction.class);
 
   /** Ticker instance for this TE, serverside only */
   public static final BlockEntityTicker<ChannelBlockEntity> SERVER_TICKER = (level, pos, state, self) -> self.tick(state);
@@ -99,31 +99,27 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 
 	/* Fluid handlers */
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction side) {
-		// top side gets the insert direct
-    if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-      if (side == null || side == Direction.UP) {
-        return topHandler.cast();
+  @Override
+  public LazyOptional<IFluidHandler> getFluidHandler(@Nullable Direction side) {
+    if (side == null || side == Direction.UP) {
+      return topHandler.cast();
+    }
+    // side tanks keep track of which side inserts
+    if (side != Direction.DOWN) {
+      ChannelConnection connection = getBlockState().getValue(ChannelBlock.DIRECTION_MAP.get(side));
+      if (connection == ChannelConnection.IN) {
+        return sideHandlers.computeIfAbsent(side, s -> LazyOptional.of(() -> sideTanks.get(s))).cast();
       }
-      // side tanks keep track of which side inserts
-      if (side != Direction.DOWN) {
-        ChannelConnection connection = getBlockState().getValue(ChannelBlock.DIRECTION_MAP.get(side));
-        if (connection == ChannelConnection.IN) {
-          return sideHandlers.computeIfAbsent(side, s -> LazyOptional.of(() -> sideTanks.get(s))).cast();
-        }
-        // for out, return an empty fluid handler so the block we are pouring into knows we support fluids, even though we disallow any interaction
-        // this will get invalidated when the connection goes back to in later
-        if (connection == ChannelConnection.OUT) {
-          return emptySideHandler.computeIfAbsent(side, s -> LazyOptional.of(() -> EmptyFluidHandler.INSTANCE)).cast();
-        }
+      // for out, return an empty fluid handler so the block we are pouring into knows we support fluids, even though we disallow any interaction
+      // this will get invalidated when the connection goes back to in later
+      if (connection == ChannelConnection.OUT) {
+        return emptySideHandler.computeIfAbsent(side, s -> LazyOptional.of(() -> EmptyFluidHandler.INSTANCE)).cast();
       }
     }
+    return null;
+  }
 
-		return super.getCapability(capability, side);
-	}
-
-	/**
+  /**
 	 * Gets the fluid handler directly from a neighbor, skipping the cache
 	 * @param side  Side of the neighbor to fetch
 	 * @return  Fluid handler, or empty
@@ -133,7 +129,7 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 		// must have a TE with a fluid handler
 		BlockEntity te = level.getBlockEntity(worldPosition.relative(side));
 		if (te != null) {
-			LazyOptional<IFluidHandler> handler = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+			LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(te, side.getOpposite());
 			if (handler.isPresent()) {
 				handler.addListener(neighborConsumers.computeIfAbsent(side, s -> new WeakConsumerWrapper<>(this, (self, lazy) -> self.invalidateSide(s, lazy))));
 				return handler;
@@ -191,9 +187,9 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 		}
 	}
 
-	@Override
+//	@Override
 	public void invalidateCaps() {
-		super.invalidateCaps();
+//		super.invalidateCaps();
 		topHandler.invalidate();
 		for (LazyOptional<IFluidHandler> handler : sideHandlers.values()) {
 			if (handler != null) {
@@ -318,7 +314,7 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 			int outputs = countOutputs(state);
 			if(!hasFlown && outputs > 0) {
 				// split the fluid evenly between sides
-				int flowRate = Mth.clamp(tank.getMaxUsable() / outputs, 1, FaucetBlockEntity.MB_PER_TICK);
+				long flowRate = Mth.clamp(tank.getMaxUsable() / outputs, 1, FaucetBlockEntity.MB_PER_TICK);
 				// then transfer on each side
 				for(Direction side : Plane.HORIZONTAL) {
 					trySide(side, flowRate);
@@ -351,7 +347,7 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	 * @param flowRate  Maximum amount to output
 	 * @return  True if the side transferred fluid
 	 */
-	protected boolean trySide(Direction side, int flowRate) {
+	protected boolean trySide(Direction side, long flowRate) {
 		if(tank.isEmpty() || !this.isOutput(side)) {
 			return false;
 		}
@@ -369,17 +365,17 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	 * @param amount   Amount to fill
 	 * @return  True if the side successfully filled something
 	 */
-	protected boolean fill(Direction side, IFluidHandler handler, int amount) {
+	protected boolean fill(Direction side, IFluidHandler handler, long amount) {
 		// make sure we do not allow more than the fluid allows, should not happen but just in case
-		int usable = Math.min(tank.getMaxUsable(), amount);
+		long usable = Math.min(tank.getMaxUsable(), amount);
 		if (usable > 0) {
 			// see how much works
-			FluidStack fluid = tank.drain(usable, FluidAction.SIMULATE);
-			int filled = handler.fill(fluid, FluidAction.SIMULATE);
+			FluidStack fluid = tank.drain(usable, true);
+			long filled = handler.fill(fluid, true);
 			if (filled > 0) {
 				// drain the amount that worked
-				fluid = tank.drain(filled, FluidAction.EXECUTE);
-				handler.fill(fluid, FluidAction.EXECUTE);
+				fluid = tank.drain(filled, false);
+				handler.fill(fluid, false);
 
 				// mark that the side is flowing
 				setFlow(side, true);

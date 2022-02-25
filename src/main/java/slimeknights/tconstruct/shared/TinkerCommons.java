@@ -128,30 +128,30 @@ public final class TinkerCommons extends TinkerModule {
 
   public TinkerCommons() {
     DataPackReloadCallback.EVENT.register(RecipeCacheInvalidator::onReloadListenerReload);
+    commonSetupEvent();
   }
 
-  @SubscribeEvent
-  void commonSetupEvent(FMLCommonSetupEvent event) {
+  void commonSetupEvent() {
     TConstructCommand.init();
     SlimeBounceHandler.init();
+    registerRecipeSerializers();
   }
 
-  @SubscribeEvent
-  void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
-    CraftingHelper.register(ConfigEnabledCondition.SERIALIZER);
+  void registerRecipeSerializers() {
+//    CraftingHelper.register(ConfigEnabledCondition.SERIALIZER);
     lootConfig = Registry.register(Registry.LOOT_CONDITION_TYPE, ConfigEnabledCondition.ID, new LootItemConditionType(ConfigEnabledCondition.SERIALIZER));
     lootBlockOrEntity = Registry.register(Registry.LOOT_CONDITION_TYPE, BlockOrEntityCondition.ID, new LootItemConditionType(BlockOrEntityCondition.SERIALIZER));
     CriterionRegistry.register(CONTAINER_OPENED_TRIGGER);
 
-    CraftingHelper.register(TagIntersectionPresentCondition.SERIALIZER);
-    CraftingHelper.register(TagDifferencePresentCondition.SERIALIZER);
+//    CraftingHelper.register(TagIntersectionPresentCondition.SERIALIZER);
+//    CraftingHelper.register(TagDifferencePresentCondition.SERIALIZER);
   }
 
-  @SubscribeEvent
-  void gatherData(final GatherDataEvent event) {
-    if (event.includeServer()) {
-      DataGenerator datagenerator = event.getGenerator();
-      datagenerator.addProvider(new CommonRecipeProvider(datagenerator));
-    }
-  }
+//  @SubscribeEvent
+//  void gatherData(final GatherDataEvent event) {
+//    if (event.includeServer()) {
+//      DataGenerator datagenerator = event.getGenerator();
+//      datagenerator.addProvider(new CommonRecipeProvider(datagenerator));
+//    }
+//  }
 }

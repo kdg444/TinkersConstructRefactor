@@ -29,8 +29,12 @@ transitive-accessible method net/minecraft/world/item/crafting/Ingredient$TagVal
 transitive-accessible method net/minecraft/world/item/crafting/Ingredient valueFromJson (Lcom/google/gson/JsonObject;)Lnet/minecraft/world/item/crafting/Ingredient$Value;
 transitive-accessible method net/minecraft/world/level/material/Material$Builder notSolidBlocking ()Lnet/minecraft/world/level/material/Material$Builder;
 transitive-accessible method net/minecraft/world/level/material/Material$Builder destroyOnPush ()Lnet/minecraft/world/level/material/Material$Builder;
+transitive-accessible method net/minecraft/resources/ResourceLocation isValidNamespace (Ljava/lang/String;)Z
+transitive-accessible method net/minecraft/network/protocol/game/ClientboundBlockEntityDataPacket <init> (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/entity/BlockEntityType;Lnet/minecraft/nbt/CompoundTag;)V
 transitive-accessible field net/minecraft/client/resources/ClientPackSource BUILT_IN Lnet/minecraft/server/packs/metadata/pack/PackMetadataSection;
 transitive-accessible field net/minecraft/client/Minecraft fontManager Lnet/minecraft/client/gui/font/FontManager;
 transitive-accessible field net/minecraft/client/gui/font/FontManager fontSets Ljava/util/Map;
 transitive-accessible field net/minecraft/world/entity/LivingEntity lastHurt F
+transitive-accessible field net/minecraft/data/loot/BlockLoot NORMAL_LEAVES_SAPLING_CHANCES [F
+transitive-accessible field net/minecraft/data/loot/BlockLoot HAS_NO_SHEARS_OR_SILK_TOUCH Lnet/minecraft/world/level/storage/loot/predicates/LootItemCondition$Builder;
 

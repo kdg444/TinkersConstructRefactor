@@ -1,13 +1,12 @@
 package slimeknights.tconstruct.library.utils;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.server.ServerStoppingEvent;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.common.Sounds;
 
 import java.util.IdentityHashMap;
@@ -19,8 +18,8 @@ public class SlimeBounceHandler {
 
   /** Registers event handlers */
   public static void init() {
-    MinecraftForge.EVENT_BUS.addListener(SlimeBounceHandler::onLivingTick);
-    MinecraftForge.EVENT_BUS.addListener(SlimeBounceHandler::serverStopping);
+    LivingEntityEvents.TICK.register(SlimeBounceHandler::onLivingTick);
+    ServerLifecycleEvents.SERVER_STOPPING.register(SlimeBounceHandler::serverStopping);
   }
 
   /**
@@ -37,10 +36,10 @@ public class SlimeBounceHandler {
    * @param bounce  Bounce amount
    */
   public static void addBounceHandler(LivingEntity entity, double bounce) {
-    // no fake players PlayerTick event
-    if (entity instanceof FakePlayer) {
-      return;
-    }
+    // no fake players PlayerTick event TODO: PORT
+//    if (entity instanceof FakePlayer) {
+//      return;
+//    }
     // update bounce info
     BounceInfo info = BOUNCING_ENTITIES.get(entity);
     if (info == null) {
@@ -57,8 +56,7 @@ public class SlimeBounceHandler {
   }
 
   /** Called on living tick to preserve momentum and bounce */
-  private static void onLivingTick(LivingUpdateEvent event) {
-    LivingEntity entity = event.getEntityLiving();
+  private static void onLivingTick(LivingEntity entity) {
     BounceInfo info = BOUNCING_ENTITIES.get(entity);
 
     // if we have info for this entity, time to work
@@ -126,7 +124,7 @@ public class SlimeBounceHandler {
   }
 
   /** Called on server shutdown to prevent memory leaks */
-  private static void serverStopping(ServerStoppingEvent event) {
+  private static void serverStopping(MinecraftServer server) {
     BOUNCING_ENTITIES.clear();
   }
 

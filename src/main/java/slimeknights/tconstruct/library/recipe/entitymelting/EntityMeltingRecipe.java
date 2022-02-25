@@ -111,7 +111,7 @@ public class EntityMeltingRecipe implements ICustomOutputRecipe<IEmptyContainer>
     @Override
     protected EntityMeltingRecipe fromNetworkSafe(ResourceLocation id, FriendlyByteBuf buffer) {
       EntityIngredient ingredient = EntityIngredient.read(buffer);
-      FluidStack output = buffer.readFluidStack();
+      FluidStack output = FluidStack.fromBuffer(buffer);
       int damage = buffer.readVarInt();
       return new EntityMeltingRecipe(id, ingredient, output, damage);
     }
@@ -119,7 +119,7 @@ public class EntityMeltingRecipe implements ICustomOutputRecipe<IEmptyContainer>
     @Override
     protected void toNetworkSafe(FriendlyByteBuf buffer, EntityMeltingRecipe recipe) {
       recipe.ingredient.write(buffer);
-      buffer.writeFluidStack(recipe.output);
+      recipe.output.toBuffer(buffer);
       buffer.writeVarInt(recipe.damage);
     }
   }

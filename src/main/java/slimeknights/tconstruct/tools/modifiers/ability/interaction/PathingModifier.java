@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolActions;
+import slimeknights.mantle.lib.util.ToolActions;
 
 public class PathingModifier extends BlockTransformModifier {
   public PathingModifier(int priority) {

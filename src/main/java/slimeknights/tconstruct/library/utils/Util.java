@@ -14,8 +14,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeI18n;
-import net.minecraftforge.fml.ModLoadingContext;
+import slimeknights.mantle.lib.util.ForgeI18n;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -51,14 +50,14 @@ public class Util {
     return LogManager.getLogger(TConstruct.MOD_ID + "-" + type);
   }
 
-  /**
-   * Gets the currently active mod, assuming its not Tinkers
-   * @return  Currently active mod ID
-   */
-  public static Optional<String> getCurrentlyActiveExternalMod() {
-    return Optional.ofNullable(ModLoadingContext.get().getActiveContainer().getModId())
-      .filter(activeModId -> !TConstruct.MOD_ID.equals(activeModId));
-  }
+//  /**
+//   * Gets the currently active mod, assuming its not Tinkers
+//   * @return  Currently active mod ID
+//   */
+//  public static Optional<String> getCurrentlyActiveExternalMod() {
+//    return Optional.ofNullable(ModLoadingContext.get().getActiveContainer().getModId())
+//      .filter(activeModId -> !TConstruct.MOD_ID.equals(activeModId));
+//  }
 
   /**
    * Checks if the given key can be translated

@@ -39,11 +39,11 @@ public class SmelteryAlloyTank implements IMutableAlloyTank {
 
   @Override
   public FluidStack drain(int tank, FluidStack fluidStack) {
-    return handler.drain(fluidStack, FluidAction.EXECUTE);
+    return handler.drain(fluidStack, false);
   }
 
   @Override
   public int fill(FluidStack fluidStack) {
-    return handler.fill(fluidStack, FluidAction.EXECUTE);
+    return handler.fill(fluidStack, false);
   }
 }

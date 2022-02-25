@@ -15,14 +15,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.ForgeHooks;
 import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullConsumer;
+import slimeknights.mantle.lib.util.NonNullConsumer;
 import net.minecraftforge.common.util.NonNullFunction;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
+import slimeknights.mantle.lib.transfer.item.IItemHandler;
 import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.mantle.util.WeakConsumerWrapper;
@@ -216,7 +216,7 @@ public class FuelModule implements ContainerData {
       int amount = recipe.getAmount(fluid.getFluid());
       if (fluid.getAmount() >= amount) {
         if (consume) {
-          FluidStack drained = handler.drain(new FluidStack(fluid, amount), FluidAction.EXECUTE);
+          FluidStack drained = handler.drain(new FluidStack(fluid, amount), false);
           if (drained.getAmount() != amount) {
             TConstruct.LOG.error("Invalid amount of fuel drained from tank");
           }

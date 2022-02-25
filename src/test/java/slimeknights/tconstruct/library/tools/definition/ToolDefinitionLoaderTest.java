@@ -6,7 +6,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.block.Blocks;
 import slimeknights.mantle.lib.util.ToolAction;
-import net.minecraftforge.common.ToolActions;
+import slimeknights.mantle.lib.util.ToolActions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import slimeknights.tconstruct.TConstruct;

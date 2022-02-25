@@ -80,7 +80,7 @@ public class AdvancementsProvider extends GenericDataProvider {
   /** Advancment consumer instance */
   protected Consumer<Advancement> advancementConsumer;
   /** Advancment consumer instance */
-  protected BiConsumer<ResourceLocation, ConditionalAdvancement.Builder> conditionalConsumer;
+//  protected BiConsumer<ResourceLocation, ConditionalAdvancement.Builder> conditionalConsumer;
 
   public AdvancementsProvider(DataGenerator generatorIn) {
     super(generatorIn, "advancements");
@@ -169,7 +169,7 @@ public class AdvancementsProvider extends GenericDataProvider {
     Advancement punySmelting = builder(TinkerCommons.punySmelting, resource("smeltery/puny_smelting"), materialsAndYou, FrameType.TASK, builder ->
       builder.addCriterion("crafted_book", hasItem(TinkerCommons.punySmelting)));
     Advancement melter = builder(TinkerSmeltery.searedMelter, resource("smeltery/melter"), punySmelting, FrameType.TASK, builder -> {
-      Consumer<Block> with = block -> builder.addCriterion(Objects.requireNonNull(block.getRegistryName()).getPath(), PlacedBlockTrigger.TriggerInstance.placedBlock(block));
+      Consumer<Block> with = block -> builder.addCriterion(Objects.requireNonNull(Registry.BLOCK.getKey(block)).getPath(), PlacedBlockTrigger.TriggerInstance.placedBlock(block));
       with.accept(TinkerSmeltery.searedMelter.get());
       with.accept(TinkerSmeltery.searedTable.get());
       with.accept(TinkerSmeltery.searedBasin.get());
@@ -213,7 +213,7 @@ public class AdvancementsProvider extends GenericDataProvider {
       builder.requirements(RequirementsStrategy.OR);
     });
     builder(TinkerTools.veinHammer.get().getRenderTool(), resource("smeltery/tool_forge"), anvil, FrameType.CHALLENGE, builder -> {
-      Consumer<Item> with = item -> builder.addCriterion(Objects.requireNonNull(item.getRegistryName()).getPath(), hasItem(item));
+      Consumer<Item> with = item -> builder.addCriterion(Objects.requireNonNull(Registry.ITEM.getKey(item)).getPath(), hasItem(item));
       with.accept(TinkerTools.sledgeHammer.get());
       with.accept(TinkerTools.veinHammer.get());
       with.accept(TinkerTools.excavator.get());
@@ -269,7 +269,7 @@ public class AdvancementsProvider extends GenericDataProvider {
     builder(TinkerCommons.encyclopedia, resource("foundry/encyclopedia"), fantasticFoundry, FrameType.GOAL, builder ->
       builder.addCriterion("crafted_book", hasItem(TinkerCommons.encyclopedia)));
     Advancement alloyer = builder(TinkerSmeltery.scorchedAlloyer, resource("foundry/alloyer"), fantasticFoundry, FrameType.TASK, builder -> {
-      Consumer<Block> with = block -> builder.addCriterion(Objects.requireNonNull(block.getRegistryName()).getPath(), PlacedBlockTrigger.TriggerInstance.placedBlock(block));
+      Consumer<Block> with = block -> builder.addCriterion(Objects.requireNonNull(Registry.BLOCK.getKey(block)).getPath(), PlacedBlockTrigger.TriggerInstance.placedBlock(block));
       with.accept(TinkerSmeltery.scorchedAlloyer.get());
       with.accept(TinkerSmeltery.scorchedFaucet.get());
       with.accept(TinkerSmeltery.scorchedTable.get());
@@ -286,7 +286,7 @@ public class AdvancementsProvider extends GenericDataProvider {
       Consumer<SearedTankBlock> with = block -> {
         CompoundTag nbt = new CompoundTag();
         nbt.put(NBTTags.TANK, getTankWith(TinkerFluids.blazingBlood.get(), block.getCapacity()).writeToNBT(new CompoundTag()));
-        builder.addCriterion(Objects.requireNonNull(block.getRegistryName()).getPath(),
+        builder.addCriterion(Objects.requireNonNull(Registry.BLOCK.getKey(block)).getPath(),
                               InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(block).hasNbt(nbt).build()));
         builder.requirements(RequirementsStrategy.OR);
       };
@@ -300,7 +300,7 @@ public class AdvancementsProvider extends GenericDataProvider {
       Consumer<SearedLanternBlock> with = block -> {
         CompoundTag nbt = new CompoundTag();
         nbt.put(NBTTags.TANK, getTankWith(TinkerFluids.moltenManyullyn.get(), block.getCapacity()).writeToNBT(new CompoundTag()));
-        builder.addCriterion(Objects.requireNonNull(block.getRegistryName()).getPath(),
+        builder.addCriterion(Objects.requireNonNull(Registry.BLOCK.getKey(block)).getPath(),
                               InventoryChangeTrigger.TriggerInstance.hasItems(new ItemPredicate(null, Collections.singleton(block.asItem()), MinMaxBounds.Ints.atLeast(64), MinMaxBounds.Ints.ANY,
                                                                                                 EnchantmentPredicate.NONE, EnchantmentPredicate.NONE, null, new NbtPredicate(nbt))));
         builder.requirements(RequirementsStrategy.OR);
@@ -396,13 +396,13 @@ public class AdvancementsProvider extends GenericDataProvider {
         saveThing(cache, advancement.getId(), advancement.deconstruct().serializeToJson());
       }
     };
-    this.conditionalConsumer = (id, advancement) -> {
-      if (!set.add(id)) {
-        throw new IllegalStateException("Duplicate advancement " + id);
-      } else {
-        saveThing(cache, id, advancement.write());
-      }
-    };
+//    this.conditionalConsumer = (id, advancement) -> {
+//      if (!set.add(id)) {
+//        throw new IllegalStateException("Duplicate advancement " + id);
+//      } else {
+//        saveThing(cache, id, advancement.write());
+//      }
+//    };
     generate();
   }
 
@@ -483,10 +483,10 @@ public class AdvancementsProvider extends GenericDataProvider {
   protected void hiddenBuilder(ResourceLocation name, ConditionJsonProvider condition, Consumer<Advancement.Builder> consumer) {
     Advancement.Builder builder = Advancement.Builder.advancement();
     consumer.accept(builder);
-    ConditionalAdvancement.Builder conditionalBuilder = new ConditionalAdvancement.Builder();
-    conditionalBuilder.addCondition(condition);
-    conditionalBuilder.addAdvancement(builder);
-    conditionalBuilder.write();
-    conditionalConsumer.accept(name, conditionalBuilder);
+//    ConditionalAdvancement.Builder conditionalBuilder = new ConditionalAdvancement.Builder();
+//    conditionalBuilder.addCondition(condition);
+//    conditionalBuilder.addAdvancement(builder);
+//    conditionalBuilder.write();
+//    conditionalConsumer.accept(name, conditionalBuilder);
   }
 }

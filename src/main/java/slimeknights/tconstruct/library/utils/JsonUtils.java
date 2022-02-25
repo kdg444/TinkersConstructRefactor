@@ -4,12 +4,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryEntry;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
 
@@ -68,15 +67,15 @@ public class JsonUtils {
    * @return  Registry value
    * @throws JsonSyntaxException  If something failed to parse
    */
-  public static <T extends IForgeRegistryEntry<T>> T convertToEntry(IForgeRegistry<T> registry, JsonElement element, String key) {
+  public static <T> T convertToEntry(Registry<T> registry, JsonElement element, String key) {
     ResourceLocation name = JsonHelper.convertToResourceLocation(element, key);
     if (registry.containsKey(name)) {
-      T value = registry.getValue(name);
+      T value = registry.get(name);
       if (value != null) {
         return value;
       }
     }
-    throw new JsonSyntaxException("Unknown " + registry.getRegistryName() + " " + name);
+    throw new JsonSyntaxException("Unknown " + registry + " " + name);
   }
 
   /**
@@ -88,7 +87,7 @@ public class JsonUtils {
    * @return  Registry value
    * @throws JsonSyntaxException  If something failed to parse
    */
-  public static <T extends IForgeRegistryEntry<T>> T getAsEntry(IForgeRegistry<T> registry, JsonObject parent, String key) {
+  public static <T> T getAsEntry(Registry<T> registry, JsonObject parent, String key) {
     return convertToEntry(registry, JsonHelper.getElement(parent, key), key);
   }
 

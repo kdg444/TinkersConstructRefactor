@@ -36,7 +36,7 @@ public class DuctTankWrapper implements IFluidHandler {
   /* Interactions */
 
   @Override
-  public int fill(FluidStack resource, FluidAction action) {
+  public int fill(FluidStack resource, boolean sim) {
     if (resource.isEmpty() || !itemHandler.getFluid().isFluidEqual(resource)) {
       return 0;
     }
@@ -44,7 +44,7 @@ public class DuctTankWrapper implements IFluidHandler {
   }
 
   @Override
-  public FluidStack drain(int maxDrain, FluidAction action) {
+  public FluidStack drain(int maxDrain, boolean sim) {
     FluidStack fluid = itemHandler.getFluid();
     if (fluid.isEmpty()) {
       return FluidStack.EMPTY;
@@ -53,7 +53,7 @@ public class DuctTankWrapper implements IFluidHandler {
   }
 
   @Override
-  public FluidStack drain(FluidStack resource, FluidAction action) {
+  public FluidStack drain(FluidStack resource, boolean sim) {
     if (resource.isEmpty() || !itemHandler.getFluid().isFluidEqual(resource)) {
       return FluidStack.EMPTY;
     }

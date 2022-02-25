@@ -136,7 +136,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
   /* Filling and draining */
 
   @Override
-  public int fill(FluidStack resource, FluidAction action) {
+  public int fill(FluidStack resource, boolean sim) {
     // if full or nothing being filled, do nothing
     if (contained >= capacity || resource.isEmpty()) {
       return 0;
@@ -177,7 +177,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
 
   @Nonnull
   @Override
-  public FluidStack drain(int maxDrain, FluidAction action) {
+  public FluidStack drain(int maxDrain, boolean sim) {
     if (fluids.isEmpty()) {
       return FluidStack.EMPTY;
     }
@@ -209,7 +209,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
 
   @Nonnull
   @Override
-  public FluidStack drain(FluidStack toDrain, FluidAction action) {
+  public FluidStack drain(FluidStack toDrain, boolean sim) {
     // search for the resource
     ListIterator<FluidStack> iter = fluids.listIterator();
     while (iter.hasNext()) {

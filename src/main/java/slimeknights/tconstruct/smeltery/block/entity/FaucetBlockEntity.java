@@ -11,12 +11,13 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import slimeknights.mantle.lib.block.CustomRenderBoundingBoxBlockEntity;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
+import slimeknights.mantle.lib.transfer.TransferUtil;
 import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullConsumer;
+import slimeknights.mantle.lib.util.NonNullConsumer;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import slimeknights.mantle.lib.transfer.fluid.EmptyFluidHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.mantle.util.WeakConsumerWrapper;
@@ -27,7 +28,7 @@ import slimeknights.tconstruct.smeltery.network.FaucetActivationPacket;
 
 import static slimeknights.tconstruct.smeltery.block.FaucetBlock.FACING;
 
-public class FaucetBlockEntity extends MantleBlockEntity {
+public class FaucetBlockEntity extends MantleBlockEntity implements CustomRenderBoundingBoxBlockEntity {
   /** amount of MB to extract from the input at a time */
   public static final int PACKET_SIZE = FluidValues.INGOT;
   /** Transfer rate of the faucet */
@@ -83,7 +84,7 @@ public class FaucetBlockEntity extends MantleBlockEntity {
     assert level != null;
     BlockEntity te = level.getBlockEntity(worldPosition.relative(side));
     if (te != null) {
-      LazyOptional<IFluidHandler> handler = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+      LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(te, side.getOpposite());
       if (handler.isPresent()) {
         return handler;
       }
@@ -225,16 +226,16 @@ public class FaucetBlockEntity extends MantleBlockEntity {
     if (inputOptional.isPresent() && outputOptional.isPresent()) {
       // can we drain?
       IFluidHandler input = inputOptional.orElse(EmptyFluidHandler.INSTANCE);
-      FluidStack drained = input.drain(PACKET_SIZE, FluidAction.SIMULATE);
-      if (!drained.isEmpty() && !drained.getFluid().getAttributes().isGaseous(drained)) {
+      FluidStack drained = input.drain(PACKET_SIZE, true);
+      if (!drained.isEmpty() && !((FluidExtensions)drained.getFluid()).getAttributes().isGaseous(drained)) {
         // can we fill
         IFluidHandler output = outputOptional.orElse(EmptyFluidHandler.INSTANCE);
-        int filled = output.fill(drained, FluidAction.SIMULATE);
+        long filled = output.fill(drained, true);
         if (filled > 0) {
           // fill if requested
           if (execute) {
             // drain the liquid and transfer it, buffer the amount for delay
-            this.drained = input.drain(filled, FluidAction.EXECUTE);
+            this.drained = input.drain(filled, false);
 
             // sync to clients if we have changes
             if (faucetState == FaucetState.OFF || !renderFluid.isFluidEqual(drained)) {
@@ -281,7 +282,7 @@ public class FaucetBlockEntity extends MantleBlockEntity {
 
       // can we fill?
       IFluidHandler output = outputOptional.orElse(EmptyFluidHandler.INSTANCE);
-      int filled = output.fill(fillStack, IFluidHandler.FluidAction.SIMULATE);
+      long filled = output.fill(fillStack, true);
       if (filled > 0) {
         // update client if they do not think we have fluid
         if (!renderFluid.isFluidEqual(drained)) {
@@ -291,7 +292,7 @@ public class FaucetBlockEntity extends MantleBlockEntity {
         // transfer it
         this.drained.shrink(filled);
         fillStack.setAmount(filled);
-        output.fill(fillStack, IFluidHandler.FluidAction.EXECUTE);
+        output.fill(fillStack, false);
       }
     }
     else {

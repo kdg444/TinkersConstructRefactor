@@ -1,33 +1,16 @@
 package slimeknights.tconstruct;
 
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
-import net.minecraft.data.DataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.event.RegistryEvent.MissingMappings;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import slimeknights.mantle.lib.util.EnvExecutor;
-import slimeknights.mantle.registration.RegistrationHelper;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
@@ -50,8 +33,7 @@ import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.Tin
 import slimeknights.tconstruct.library.tools.definition.ToolDefinitionLoader;
 import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
 import slimeknights.tconstruct.library.utils.Util;
-import slimeknights.tconstruct.plugin.ImmersiveEngineeringPlugin;
-import slimeknights.tconstruct.shared.TinkerClient;
+//import slimeknights.tconstruct.plugin.ImmersiveEngineeringPlugin;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -75,7 +57,7 @@ import java.util.function.Supplier;
  */
 
 @SuppressWarnings("unused")
-public class TConstruct implements ModInitializer {
+public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
 
   public static final String MOD_ID = "tconstruct";
   public static final Logger LOG = LogManager.getLogger(MOD_ID);
@@ -113,14 +95,13 @@ public class TConstruct implements ModInitializer {
     TinkerTags.init();
     // init client logic
     TinkerBookIDs.registerCommandSuggestion();
-    MinecraftForge.EVENT_BUS.register(this);
 //    if (ModList.get().isLoaded("crafttweaker")) {
 //      MinecraftForge.EVENT_BUS.register(new CRTHelper());
 //    }
 
     // compat
-    if (ModList.get().isLoaded("immersiveengineering")) {
-      bus.register(new ImmersiveEngineeringPlugin());
+    if (FabricLoader.getInstance().isModLoaded("immersiveengineering")) {
+//      new ImmersiveEngineeringPlugin();
     }
     commonSetup();
     FluidEvents.onFurnaceFuel();
@@ -133,22 +114,20 @@ public class TConstruct implements ModInitializer {
     StationSlotLayoutLoader.init();
   }
 
-  @SubscribeEvent
-  static void gatherData(final GatherDataEvent event) {
-    DataGenerator datagenerator = event.getGenerator();
-    ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-    if (event.includeServer()) {
-      BlockTagProvider blockTags = new BlockTagProvider(datagenerator, existingFileHelper);
+  @Override
+  public void onInitializeDataGenerator(FabricDataGenerator datagenerator) {
+//    if (event.includeServer()) {
+      BlockTagProvider blockTags = new BlockTagProvider(datagenerator);
       datagenerator.addProvider(blockTags);
-      datagenerator.addProvider(new ItemTagProvider(datagenerator, blockTags, existingFileHelper));
-      datagenerator.addProvider(new FluidTagProvider(datagenerator, existingFileHelper));
-      datagenerator.addProvider(new EntityTypeTagProvider(datagenerator, existingFileHelper));
-      datagenerator.addProvider(new TileEntityTypeTagProvider(datagenerator, existingFileHelper));
+      datagenerator.addProvider(new ItemTagProvider(datagenerator, blockTags));
+      datagenerator.addProvider(new FluidTagProvider(datagenerator));
+      datagenerator.addProvider(new EntityTypeTagProvider(datagenerator));
+      datagenerator.addProvider(new TileEntityTypeTagProvider(datagenerator));
       datagenerator.addProvider(new TConstructLootTableProvider(datagenerator));
       datagenerator.addProvider(new AdvancementsProvider(datagenerator));
       datagenerator.addProvider(new GlobalLootModifiersProvider(datagenerator));
       //datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.SERVER_DATA, "structures"));
-    }
+//    }
     /*
     if (event.includeClient()) {
       datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.CLIENT_RESOURCES, "book/structures"));
@@ -165,26 +144,26 @@ public class TConstruct implements ModInitializer {
     };
   }
 
-  @SubscribeEvent
-  void missingItems(final MissingMappings<Item> event) {
-    RegistrationHelper.handleMissingMappings(event, MOD_ID, name -> {
-      switch(name) {
-        case "copper_ingot": return Items.COPPER_INGOT;
-        case "blank_cast": return Items.GOLD_INGOT;
-        case "pickaxe_head": return TinkerToolParts.pickHead.get();
-        case "pickaxe_head_cast": return TinkerSmeltery.pickHeadCast.get();
-        case "pickaxe_head_sand_cast": return TinkerSmeltery.pickHeadCast.getSand();
-        case "pickaxe_head_red_sand_cast": return TinkerSmeltery.pickHeadCast.getRedSand();
-      }
-      ItemLike block = missingBlock(name);
-      return block == null ? null : block.asItem();
-    });
-  }
-
-  @SubscribeEvent
-  void missingBlocks(final MissingMappings<Block> event) {
-    RegistrationHelper.handleMissingMappings(event, MOD_ID, TConstruct::missingBlock);
-  }
+//  @SubscribeEvent
+//  void missingItems(final MissingMappings<Item> event) {
+//    RegistrationHelper.handleMissingMappings(event, MOD_ID, name -> {
+//      switch(name) {
+//        case "copper_ingot": return Items.COPPER_INGOT;
+//        case "blank_cast": return Items.GOLD_INGOT;
+//        case "pickaxe_head": return TinkerToolParts.pickHead.get();
+//        case "pickaxe_head_cast": return TinkerSmeltery.pickHeadCast.get();
+//        case "pickaxe_head_sand_cast": return TinkerSmeltery.pickHeadCast.getSand();
+//        case "pickaxe_head_red_sand_cast": return TinkerSmeltery.pickHeadCast.getRedSand();
+//      }
+//      ItemLike block = missingBlock(name);
+//      return block == null ? null : block.asItem();
+//    });
+//  }
+//
+//  @SubscribeEvent
+//  void missingBlocks(final MissingMappings<Block> event) {
+//    RegistrationHelper.handleMissingMappings(event, MOD_ID, TConstruct::missingBlock);
+//  }
 
 
   /* Utils */

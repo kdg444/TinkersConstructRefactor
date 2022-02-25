@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.entity.tank;
 
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.client.model.data.ModelProperty;
+import slimeknights.mantle.lib.model.ModelProperty;
 import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 

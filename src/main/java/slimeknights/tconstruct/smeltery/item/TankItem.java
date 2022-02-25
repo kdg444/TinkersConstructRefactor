@@ -10,7 +10,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import slimeknights.mantle.lib.transfer.fluid.FluidTank;
 import slimeknights.mantle.item.BlockTooltipItem;
 import slimeknights.mantle.lib.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;

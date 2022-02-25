@@ -1,11 +1,12 @@
 package slimeknights.tconstruct.library.utils;
 
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.common.ForgeI18n;
-import net.minecraftforge.fml.ModList;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.server.packs.resources.ResourceManager;
 import org.apache.commons.lang3.text.WordUtils;
-import slimeknights.mantle.data.ISafeManagerReloadListener;
+import slimeknights.mantle.lib.util.ForgeI18n;
+import slimeknights.mantle.lib.util.IdentifiableISafeManagerReloadListener;
+import slimeknights.tconstruct.TConstruct;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,12 @@ public class DomainDisplayName {
   /** Cached pattern for matching a dash or underscore */
   private static final Pattern DASH_UNDERSCORE = Pattern.compile("[_-]");
   /** Reload listener to clear names on resource pack reload */
-  private static final ISafeManagerReloadListener RELOAD_LISTENER = manager -> DISPLAY_NAME_LOOKUP.clear();
+  private static final IdentifiableISafeManagerReloadListener RELOAD_LISTENER = new IdentifiableISafeManagerReloadListener(TConstruct.getResource("domain_display_name")) {
+    @Override
+    public void onReloadSafe(ResourceManager resourceManager) {
+      DISPLAY_NAME_LOOKUP.clear();
+    }
+  };
 
   /**
    * Formats a domain name into title case. For example, "my_pack" becomes "My Pack"
@@ -43,8 +49,8 @@ public class DomainDisplayName {
     }
 
     // that failed? try a mod container lookup
-    return ModList.get().getModContainerById(domain)
-                  .map(container -> container.getModInfo().getDisplayName())
+    return FabricLoader.getInstance().getModContainer(domain)
+                  .map(container -> container.getMetadata().getName())
                   .orElseGet(() -> formatDomainName(domain));
   }
 

@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.common.data.loot;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTablesProvider;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -24,8 +25,8 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraftforge.common.ToolActions;
-import net.minecraftforge.common.loot.CanToolPerformAction;
+import slimeknights.mantle.lib.util.ToolActions;
+import slimeknights.mantle.lib.util.CanToolPerformAction;
 import slimeknights.mantle.loot.function.RetexturedLootFunction;
 import slimeknights.mantle.registration.object.BuildingBlockObject;
 import slimeknights.mantle.registration.object.FenceBuildingBlockObject;
@@ -52,6 +53,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class BlockLootTableProvider extends FabricBlockLootTablesProvider {
+
+  protected BlockLootTableProvider(FabricDataGenerator dataGenerator) {
+    super(dataGenerator);
+  }
+
   @Nonnull
 //  @Override
 //  protected Iterable<Block> getKnownBlocks() {

@@ -1,8 +1,9 @@
 package slimeknights.tconstruct.smeltery.block.entity.tank;
 
 import net.minecraft.nbt.CompoundTag;
+import slimeknights.mantle.lib.extensions.FluidExtensions;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import slimeknights.mantle.lib.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
 
 /** Tank for channel contents */
@@ -20,7 +21,7 @@ public class ChannelTank extends FluidTank {
 	private final ChannelBlockEntity parent;
 
 	public ChannelTank(int capacity, ChannelBlockEntity parent) {
-		super(capacity, fluid -> !fluid.getFluid().getAttributes().isGaseous(fluid));
+		super(capacity, fluid -> !((FluidExtensions)fluid.getFluid()).getAttributes().isGaseous(fluid));
 		this.parent = parent;
 	}
 
@@ -35,15 +36,15 @@ public class ChannelTank extends FluidTank {
 	 * Returns the maximum fluid that can be extracted from this tank
 	 * @return  Max fluid that can be pulled
 	 */
-	public int getMaxUsable() {
+	public long getMaxUsable() {
 		return Math.max(fluid.getAmount() - locked, 0);
 	}
 
 	@Override
-	public int fill(FluidStack resource, FluidAction action) {
+	public long fill(FluidStack resource, boolean sim) {
 		boolean wasEmpty = isEmpty();
-		int amount = super.fill(resource, action);
-		if(action.execute()) {
+		long amount = super.fill(resource, sim);
+		if(!sim) {
 			locked += amount;
 			// if we added something, sync to client
 			if (wasEmpty && !isEmpty()) {
@@ -54,11 +55,11 @@ public class ChannelTank extends FluidTank {
 	}
 
 	@Override
-	public FluidStack drain(int maxDrain, FluidAction action) {
+	public FluidStack drain(long maxDrain, boolean sim) {
 		boolean wasEmpty = isEmpty();
-		FluidStack stack = super.drain(maxDrain, action);
+		FluidStack stack = super.drain(maxDrain, sim);
 		// if we removed something, sync to client
-		if (action.execute() && !wasEmpty && isEmpty()) {
+		if (!sim && !wasEmpty && isEmpty()) {
 			parent.sendFluidUpdate();
 		}
 		return stack;

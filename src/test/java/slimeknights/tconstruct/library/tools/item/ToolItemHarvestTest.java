@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.tools.item;
 
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.ToolActions;
+import slimeknights.mantle.lib.util.ToolActions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

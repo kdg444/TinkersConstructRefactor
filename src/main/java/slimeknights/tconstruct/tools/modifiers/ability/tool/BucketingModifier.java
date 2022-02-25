@@ -108,7 +108,7 @@ public class BucketingModifier extends TankModifier {
         if (sneaking) {
           // must have something to fill
           if (!fluidStack.isEmpty()) {
-            int added = cap.fill(fluidStack, FluidAction.EXECUTE);
+            int added = cap.fill(fluidStack, false);
             if (added > 0) {
               sound = fluidStack.getFluid().getAttributes().getEmptySound(fluidStack);
               fluidStack.shrink(added);
@@ -117,14 +117,14 @@ public class BucketingModifier extends TankModifier {
           }
           // if nothing currently, will drain whatever
         } else if (fluidStack.isEmpty()) {
-          FluidStack drained = cap.drain(getCapacity(tool), FluidAction.EXECUTE);
+          FluidStack drained = cap.drain(getCapacity(tool), false);
           if (!drained.isEmpty()) {
             setFluid(tool, drained);
             sound = drained.getFluid().getAttributes().getFillSound(drained);
           }
         } else {
           // filter drained to be the same as the current fluid
-          FluidStack drained = cap.drain(new FluidStack(fluidStack, getCapacity(tool) - fluidStack.getAmount()), FluidAction.EXECUTE);
+          FluidStack drained = cap.drain(new FluidStack(fluidStack, getCapacity(tool) - fluidStack.getAmount()), false);
           if (!drained.isEmpty() && drained.isFluidEqual(fluidStack)) {
             fluidStack.grow(drained.getAmount());
             setFluid(tool, fluidStack);

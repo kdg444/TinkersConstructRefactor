@@ -1,37 +1,26 @@
 package slimeknights.tconstruct.tools;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.advancements.critereon.ItemPredicate;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
-import net.minecraftforge.registries.RegistryObject;
 import slimeknights.mantle.lib.util.RegistryObject;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.mantle.util.SupplierCreativeTab;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
-import slimeknights.tconstruct.library.client.data.material.GeneratorPartTextureJsonGenerator;
-import slimeknights.tconstruct.library.client.data.material.MaterialPartTextureGenerator;
 import slimeknights.tconstruct.library.json.AddToolDataFunction;
 import slimeknights.tconstruct.library.json.RandomMaterial;
 import slimeknights.tconstruct.library.tools.IndestructibleItemEntity;
 import slimeknights.tconstruct.library.tools.SlotType;
-import slimeknights.tconstruct.library.tools.ToolPredicate;
 import slimeknights.tconstruct.library.tools.capability.ToolCapabilityProvider;
 import slimeknights.tconstruct.library.tools.capability.ToolFluidCapability;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
@@ -59,17 +48,6 @@ import slimeknights.tconstruct.library.tools.helper.ModifierLootingHandler;
 import slimeknights.tconstruct.library.tools.item.ModifiableArmorItem;
 import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.utils.BlockSideHitListener;
-import slimeknights.tconstruct.tools.data.ModifierRecipeProvider;
-import slimeknights.tconstruct.tools.data.StationSlotLayoutProvider;
-import slimeknights.tconstruct.tools.data.ToolDefinitionDataProvider;
-import slimeknights.tconstruct.tools.data.ToolsRecipeProvider;
-import slimeknights.tconstruct.tools.data.material.MaterialDataProvider;
-import slimeknights.tconstruct.tools.data.material.MaterialRecipeProvider;
-import slimeknights.tconstruct.tools.data.material.MaterialRenderInfoProvider;
-import slimeknights.tconstruct.tools.data.material.MaterialStatsDataProvider;
-import slimeknights.tconstruct.tools.data.material.MaterialTraitsDataProvider;
-import slimeknights.tconstruct.tools.data.sprite.TinkerMaterialSpriteProvider;
-import slimeknights.tconstruct.tools.data.sprite.TinkerPartSpriteProvider;
 import slimeknights.tconstruct.tools.item.ArmorSlotType;
 import slimeknights.tconstruct.tools.item.ModifiableSwordItem;
 import slimeknights.tconstruct.tools.item.PlateArmorItem;
@@ -90,6 +68,7 @@ public final class TinkerTools extends TinkerModule {
     ModifierLootingHandler.init();
     RandomMaterial.init();
     commonSetup();
+    registerRecipeSerializers();
   }
 
   /** Creative tab for all tool items */
@@ -133,8 +112,8 @@ public final class TinkerTools extends TinkerModule {
     .build();
 
   /* Particles */
-  public static final RegistryObject<SimpleParticleType> hammerAttackParticle = PARTICLE_TYPES.register("hammer_attack", () -> new SimpleParticleType(true));
-  public static final RegistryObject<SimpleParticleType> axeAttackParticle = PARTICLE_TYPES.register("axe_attack", () -> new SimpleParticleType(true));
+  public static final RegistryObject<SimpleParticleType> hammerAttackParticle = PARTICLE_TYPES.register("hammer_attack", () -> FabricParticleTypes.simple(true));
+  public static final RegistryObject<SimpleParticleType> axeAttackParticle = PARTICLE_TYPES.register("axe_attack", () -> FabricParticleTypes.simple(true));
 
   /* Entities */
   public static final RegistryObject<EntityType<IndestructibleItemEntity>> indestructibleItem = ENTITIES.register("indestructible_item", () ->
@@ -156,9 +135,9 @@ public final class TinkerTools extends TinkerModule {
     ToolCapabilityProvider.register(ToolInventoryCapability.Provider::new);
   }
 
-  @SubscribeEvent
-  void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
-    ItemPredicate.register(ToolPredicate.ID, ToolPredicate::deserialize);
+  void registerRecipeSerializers() {
+    // TODO: PORT
+//    ItemPredicate.register(ToolPredicate.ID, ToolPredicate::deserialize);
     lootAddToolData = Registry.register(Registry.LOOT_FUNCTION_TYPE, AddToolDataFunction.ID, new LootItemFunctionType(AddToolDataFunction.SERIALIZER));
 
     // tool definition components
@@ -184,27 +163,27 @@ public final class TinkerTools extends TinkerModule {
     IWeaponAttack.LOADER.register(TConstruct.getResource("particle"), ParticleWeaponAttack.LOADER);
   }
 
-  @SubscribeEvent
-  void gatherData(final GatherDataEvent event) {
-    DataGenerator generator = event.getGenerator();
-    if (event.includeServer()) {
-      generator.addProvider(new ToolsRecipeProvider(generator));
-      generator.addProvider(new MaterialRecipeProvider(generator));
-      generator.addProvider(new ModifierRecipeProvider(generator));
-      MaterialDataProvider materials = new MaterialDataProvider(generator);
-      generator.addProvider(materials);
-      generator.addProvider(new MaterialStatsDataProvider(generator, materials));
-      generator.addProvider(new MaterialTraitsDataProvider(generator, materials));
-      generator.addProvider(new ToolDefinitionDataProvider(generator));
-      generator.addProvider(new StationSlotLayoutProvider(generator));
-    }
-    if (event.includeClient()) {
-      ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-      TinkerMaterialSpriteProvider materialSprites = new TinkerMaterialSpriteProvider();
-      TinkerPartSpriteProvider partSprites = new TinkerPartSpriteProvider();
-      generator.addProvider(new MaterialRenderInfoProvider(generator, materialSprites));
-      generator.addProvider(new GeneratorPartTextureJsonGenerator(generator, TConstruct.MOD_ID, partSprites));
-      generator.addProvider(new MaterialPartTextureGenerator(generator, existingFileHelper, partSprites, materialSprites));
-    }
-  }
+//  @SubscribeEvent
+//  void gatherData(final GatherDataEvent event) {
+//    DataGenerator generator = event.getGenerator();
+//    if (event.includeServer()) {
+//      generator.addProvider(new ToolsRecipeProvider(generator));
+//      generator.addProvider(new MaterialRecipeProvider(generator));
+//      generator.addProvider(new ModifierRecipeProvider(generator));
+//      MaterialDataProvider materials = new MaterialDataProvider(generator);
+//      generator.addProvider(materials);
+//      generator.addProvider(new MaterialStatsDataProvider(generator, materials));
+//      generator.addProvider(new MaterialTraitsDataProvider(generator, materials));
+//      generator.addProvider(new ToolDefinitionDataProvider(generator));
+//      generator.addProvider(new StationSlotLayoutProvider(generator));
+//    }
+//    if (event.includeClient()) {
+//      ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+//      TinkerMaterialSpriteProvider materialSprites = new TinkerMaterialSpriteProvider();
+//      TinkerPartSpriteProvider partSprites = new TinkerPartSpriteProvider();
+//      generator.addProvider(new MaterialRenderInfoProvider(generator, materialSprites));
+//      generator.addProvider(new GeneratorPartTextureJsonGenerator(generator, TConstruct.MOD_ID, partSprites));
+//      generator.addProvider(new MaterialPartTextureGenerator(generator, existingFileHelper, partSprites, materialSprites));
+//    }
+//  }
 }

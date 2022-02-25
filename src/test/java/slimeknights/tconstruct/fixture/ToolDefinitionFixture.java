@@ -2,7 +2,7 @@ package slimeknights.tconstruct.fixture;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.ToolActions;
+import slimeknights.mantle.lib.util.ToolActions;
 import slimeknights.mantle.lib.util.Lazy;
 import slimeknights.tconstruct.library.tools.definition.IToolStatProvider;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;

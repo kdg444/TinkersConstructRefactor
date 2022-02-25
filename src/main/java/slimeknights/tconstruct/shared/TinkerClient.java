@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.shared;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.minecraftforge.client.event.RecipesUpdatedEvent;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.world.item.crafting.RecipeManager;
+import slimeknights.mantle.lib.event.RecipesUpdatedCallback;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.fluids.FluidClientEvents;
 import slimeknights.tconstruct.gadgets.GadgetClientEvents;
@@ -30,8 +30,8 @@ public class TinkerClient implements ClientModInitializer {
     PatternGuiTextureLoader.init();
 
     // add the recipe cache invalidator to the client
-    Consumer<RecipesUpdatedEvent> recipesUpdated = event -> RecipeCacheInvalidator.reload(true);
-    MinecraftForge.EVENT_BUS.addListener(recipesUpdated);
+    Consumer<RecipeManager> recipesUpdated = event -> RecipeCacheInvalidator.reload(true);
+    RecipesUpdatedCallback.EVENT.register((recipeManager) -> recipesUpdated.accept(recipeManager));
 
     // register datagen serializers
     ISpriteTransformer.SERIALIZER.registerDeserializer(RecolorSpriteTransformer.NAME, RecolorSpriteTransformer.DESERIALIZER);

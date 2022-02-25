@@ -70,7 +70,7 @@ public class MelterFuelWrapper implements IFluidContainer {
       int amount = fuel.getAmount(this);
       if (amount > 0) {
         // TODO: assert drained valid?
-        int drained = tank.drain(amount, FluidAction.EXECUTE).getAmount();
+        int drained = tank.drain(amount, false).getAmount();
         int duration = fuel.getDuration();
         if (drained < amount) {
           return duration * drained / amount;

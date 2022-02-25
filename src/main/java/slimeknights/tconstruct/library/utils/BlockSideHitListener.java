@@ -1,10 +1,15 @@
 package slimeknights.tconstruct.library.utils;
 
-import net.minecraft.world.entity.player.Player;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.Direction;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickBlock;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,18 +28,19 @@ public class BlockSideHitListener {
       return;
     }
     init = true;
-    MinecraftForge.EVENT_BUS.addListener(BlockSideHitListener::onLeftClickBlock);
-    MinecraftForge.EVENT_BUS.addListener(BlockSideHitListener::onLeaveServer);
+    UseBlockCallback.EVENT.register(BlockSideHitListener::onLeftClickBlock);
+    ServerPlayConnectionEvents.DISCONNECT.register(BlockSideHitListener::onLeaveServer);
   }
 
   /** Called when the player left clicks a block to store the face */
-  private static void onLeftClickBlock(LeftClickBlock event) {
-    HIT_FACE.put(event.getPlayer().getUUID(), event.getFace());
+  private static InteractionResult onLeftClickBlock(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
+    HIT_FACE.put(player.getUUID(), hitResult.getDirection());
+    return InteractionResult.PASS;
   }
 
   /** Called when a player leaves the server to clear the face */
-  private static void onLeaveServer(PlayerLoggedOutEvent event) {
-    HIT_FACE.remove(event.getPlayer().getUUID());
+  private static void onLeaveServer(ServerGamePacketListenerImpl handler, MinecraftServer server) {
+    HIT_FACE.remove(handler.getPlayer().getUUID());
   }
 
   /**

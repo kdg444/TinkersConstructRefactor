@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullConsumer;
+import slimeknights.mantle.lib.util.NonNullConsumer;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
@@ -111,18 +111,18 @@ public class MixerAlloyTank implements IMutableAlloyTank {
     if (tank >= currentTanks || tank < 0) {
       return FluidStack.EMPTY;
     }
-    return indexTanks()[tank].drain(fluidStack, FluidAction.EXECUTE);
+    return indexTanks()[tank].drain(fluidStack, false);
   }
 
   @Override
   public boolean canFit(FluidStack fluid, int removed) {
     checkTanks();
-    return outputTank.fill(fluid, FluidAction.SIMULATE) == fluid.getAmount();
+    return outputTank.fill(fluid, true) == fluid.getAmount();
   }
 
   @Override
   public int fill(FluidStack fluidStack) {
-    return outputTank.fill(fluidStack, FluidAction.EXECUTE);
+    return outputTank.fill(fluidStack, false);
   }
 
   /**
