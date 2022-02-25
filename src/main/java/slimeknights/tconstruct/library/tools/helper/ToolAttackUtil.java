@@ -23,13 +23,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.entity.PartEntity;
-import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import slimeknights.mantle.util.OffhandCooldownTracker;
 import slimeknights.mantle.util.SingleKeyMultimap;
 import slimeknights.tconstruct.TConstruct;
@@ -155,12 +153,15 @@ public class ToolAttackUtil {
     LivingEntity targetLiving = null;
     if (targetEntity instanceof LivingEntity) {
       targetLiving = (LivingEntity) targetEntity;
-    } else if (targetEntity instanceof PartEntity) {
-      Entity parent = ((PartEntity<?>) targetEntity).getParent();
-      if (parent instanceof LivingEntity) {
-        targetLiving = (LivingEntity)parent;
-      }
+    } else if(targetEntity instanceof EnderDragonPart dragonPart) {
+      targetLiving = dragonPart.parentMob;
     }
+//    } else if (targetEntity instanceof PartEntity) {
+//      Entity parent = ((PartEntity<?>) targetEntity).getParent();
+//      if (parent instanceof LivingEntity) {
+//        targetLiving = (LivingEntity)parent;
+//      }
+//    }
     Player attackerPlayer = null;
     if (attackerLiving instanceof Player player) {
       attackerPlayer = player;

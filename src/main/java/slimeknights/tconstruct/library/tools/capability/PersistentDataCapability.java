@@ -1,22 +1,22 @@
 package slimeknights.tconstruct.library.tools.capability;
 
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
+import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import slimeknights.mantle.lib.util.Lazy;
 import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.network.SyncPersistentDataPacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -35,16 +35,16 @@ public class PersistentDataCapability {
   /** Capability ID */
   private static final ResourceLocation ID = TConstruct.getResource("persistent_data");
   /** Capability type */
-  public static final Capability<NamespacedNBT> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+  public static final ComponentKey<NamespacedNBT> CAPABILITY = ComponentRegistry.getOrCreate(ID, NamespacedNBT.class);
 
   /** Registers this capability */
   public static void register() {
     FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, PersistentDataCapability::register);
     MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, PersistentDataCapability::attachCapability);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, PlayerEvent.Clone.class, PersistentDataCapability::playerClone);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, PlayerEvent.PlayerRespawnEvent.class, PersistentDataCapability::playerRespawn);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, PlayerEvent.PlayerChangedDimensionEvent.class, PersistentDataCapability::playerChangeDimension);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, PlayerEvent.PlayerLoggedInEvent.class, PersistentDataCapability::playerLoggedIn);
+    ServerPlayerEvents.COPY_FROM.register(PersistentDataCapability::playerClone);
+    ServerPlayerEvents.AFTER_RESPAWN.register(PersistentDataCapability::playerRespawn);
+    ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(PersistentDataCapability::playerChangeDimension);
+    ServerPlayConnectionEvents.JOIN.register(PersistentDataCapability::playerLoggedIn);
   }
 
   /** Registers the capability with the event bus */
@@ -63,32 +63,32 @@ public class PersistentDataCapability {
 
   /** Syncs the data to the given player */
   private static void sync(Player player) {
-    player.getCapability(CAPABILITY).ifPresent(data -> TinkerNetwork.getInstance().sendTo(new SyncPersistentDataPacket(data.getCopy()), player));
+    CAPABILITY.maybeGet(player).ifPresent(data -> TinkerNetwork.getInstance().sendTo(new SyncPersistentDataPacket(data.getCopy()), player));
   }
 
   /** copy caps when the player respawns/returns from the end */
-  private static void playerClone(PlayerEvent.Clone event) {
-    event.getOriginal().getCapability(CAPABILITY).ifPresent(oldData -> {
+  private static void playerClone(ServerPlayer oldPlayer, ServerPlayer newPlayer, boolean alive) {
+    CAPABILITY.maybeGet(oldPlayer).ifPresent(oldData -> {
       CompoundTag nbt = oldData.getCopy();
       if (!nbt.isEmpty()) {
-        event.getPlayer().getCapability(CAPABILITY).ifPresent(newData -> newData.copyFrom(nbt));
+        CAPABILITY.maybeGet(newPlayer).ifPresent(newData -> newData.copyFrom(nbt));
       }
     });
   }
 
   /** sync caps when the player respawns/returns from the end */
-  private static void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-    sync(event.getPlayer());
+  private static void playerRespawn(ServerPlayer oldPlayer, ServerPlayer newPlayer, boolean alive) {
+    sync(newPlayer);
   }
 
   /** sync caps when the player changes dimensions */
-  private static void playerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-    sync(event.getPlayer());
+  private static void playerChangeDimension(ServerPlayer player, ServerLevel origin, ServerLevel destination) {
+    sync(player);
   }
 
   /** sync caps when the player logs in */
-  private static void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-    sync(event.getPlayer());
+  private static void playerLoggedIn(ServerGamePacketListenerImpl handler, PacketSender sender, MinecraftServer server) {
+    sync(handler.getPlayer());
   }
 
   /** Capability provider instance */

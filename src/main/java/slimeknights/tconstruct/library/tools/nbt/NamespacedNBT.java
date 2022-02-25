@@ -115,4 +115,14 @@ public class NamespacedNBT implements INamespacedNBTView {
   public static NamespacedNBT readFromNBT(CompoundTag data) {
     return new NamespacedNBT(data);
   }
+
+  @Override
+  public void readFromNbt(CompoundTag compoundTag) {
+
+  }
+
+  @Override
+  public void writeToNbt(CompoundTag compoundTag) {
+
+  }
 }

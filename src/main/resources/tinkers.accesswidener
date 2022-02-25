@@ -32,4 +32,5 @@ transitive-accessible method net/minecraft/world/level/material/Material$Builder
 transitive-accessible field net/minecraft/client/resources/ClientPackSource BUILT_IN Lnet/minecraft/server/packs/metadata/pack/PackMetadataSection;
 transitive-accessible field net/minecraft/client/Minecraft fontManager Lnet/minecraft/client/gui/font/FontManager;
 transitive-accessible field net/minecraft/client/gui/font/FontManager fontSets Ljava/util/Map;
+transitive-accessible field net/minecraft/world/entity/LivingEntity lastHurt F
 

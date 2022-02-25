@@ -246,7 +246,7 @@ public final class ModifierUtil {
    * @return  Level from the key
    */
   public static int getTotalModifierLevel(LivingEntity living, TinkerDataKey<Integer> key) {
-    return living.getCapability(TinkerDataCapability.CAPABILITY).resolve().map(data -> data.get(key)).orElse(0);
+    return TinkerDataCapability.CAPABILITY.maybeGet(living).map(data -> data.get(key)).orElse(0);
   }
 
   /**
@@ -256,7 +256,7 @@ public final class ModifierUtil {
    * @return  Level from the key
    */
   public static float getTotalModifierFloat(LivingEntity living, TinkerDataKey<Float> key) {
-    return living.getCapability(TinkerDataCapability.CAPABILITY).resolve().map(data -> data.get(key)).orElse(0f);
+    return TinkerDataCapability.CAPABILITY.maybeGet(living).map(data -> data.get(key)).orElse(0f);
   }
 
   /** Checks if the entity has aqua affinity from either enchants or modifiers */

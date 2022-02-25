@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.library.tools.nbt;
 
+import dev.onyxstudios.cca.api.v3.component.Component;
+import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
@@ -9,7 +11,7 @@ import java.util.function.BiFunction;
 /**
  * Read only view of {@link NamespacedNBT}
  */
-public interface INamespacedNBTView {
+public interface INamespacedNBTView extends PlayerComponent<INamespacedNBTView> {
   /**
    * Gets a namespaced key from NBT
    * @param name      Namedspaced key

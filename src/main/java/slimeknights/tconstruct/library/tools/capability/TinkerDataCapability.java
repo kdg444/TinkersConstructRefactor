@@ -1,7 +1,13 @@
 package slimeknights.tconstruct.library.tools.capability;
 
+import dev.onyxstudios.cca.api.v3.component.Component;
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
+import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,13 +34,13 @@ import java.util.function.Supplier;
  * Capability to make it easy for Tinkers to store common data on the player, primarily used for armor
  * Data stored in this capability is not saved to NBT, most often its filled by the relevant equipment events
  */
-public class TinkerDataCapability {
+public class TinkerDataCapability implements EntityComponentInitializer {
   private TinkerDataCapability() {}
 
   /** Capability ID */
   private static final ResourceLocation ID = TConstruct.getResource("modifier_data");
   /** Capability type */
-  public static final Capability<Holder> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+  public static final ComponentKey<Holder> CAPABILITY = ComponentRegistry.getOrCreate(ID, Holder.class);
 
   /** Registers this capability */
   public static void register() {
@@ -48,7 +54,9 @@ public class TinkerDataCapability {
   }
 
   /** Event listener to attach the capability */
-  private static void attachCapability(AttachCapabilitiesEvent<Entity> event) {
+  @Override
+  public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
+    registry.registerFor(LivingEntity.class, CAPABILITY, livingEntity -> new Provider());
     if (event.getObject() instanceof LivingEntity) {
       Provider provider = new Provider();
       event.addCapability(ID, provider);
@@ -60,16 +68,10 @@ public class TinkerDataCapability {
   /* Required methods */
 
   /** Capability provider instance */
-  private static class Provider implements ICapabilityProvider, Runnable {
+  private static class Provider implements Component, Runnable {
     private LazyOptional<Holder> data;
     private Provider() {
       this.data = LazyOptional.of(Holder::new);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-      return CAPABILITY.orEmpty(cap, data);
     }
 
     @Override
@@ -77,6 +79,16 @@ public class TinkerDataCapability {
       // called when capabilities invalidate, create a new cap just in case they are revived later
       data.invalidate();
       data = LazyOptional.of(Holder::new);
+    }
+
+    @Override
+    public void readFromNbt(CompoundTag compoundTag) {
+
+    }
+
+    @Override
+    public void writeToNbt(CompoundTag compoundTag) {
+
     }
   }
 
@@ -114,7 +126,7 @@ public class TinkerDataCapability {
 
 
   /** Data class holding the tinker data */
-  public static class Holder {
+  public static class Holder implements Component {
     private final Map<TinkerDataKey<?>, Object> data = new IdentityHashMap<>();
 
     /**
@@ -172,6 +184,16 @@ public class TinkerDataCapability {
      */
     public boolean contains(TinkerDataKey<?> key) {
       return data.containsKey(key);
+    }
+
+    @Override
+    public void readFromNbt(CompoundTag compoundTag) {
+
+    }
+
+    @Override
+    public void writeToNbt(CompoundTag compoundTag) {
+
     }
   }
 }
