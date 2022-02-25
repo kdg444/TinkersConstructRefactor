@@ -38,6 +38,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import slimeknights.mantle.lib.event.PlayerBreakSpeedCallback;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
@@ -67,10 +68,13 @@ import java.util.Objects;
  * Event subscriber for tool events
  */
 @SuppressWarnings("unused")
-@EventBusSubscriber(modid = TConstruct.MOD_ID, bus = Bus.FORGE)
 public class ToolEvents {
-  @SubscribeEvent
-  static void onBreakSpeed(PlayerEvent.BreakSpeed event) {
+
+  public static void init() {
+    PlayerBreakSpeedCallback.EVENT.register(ToolEvents::onBreakSpeed);
+  }
+
+  static void onBreakSpeed(PlayerBreakSpeedCallback.BreakSpeed event) {
     Player player = event.getPlayer();
 
     // if we are underwater, have the aqua affinity modifier, and are not under the effects of vanilla aqua affinity, cancel the underwater modifier

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.gadgets.capability;
 
 import dev.onyxstudios.cca.api.v3.component.Component;
+import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -20,7 +21,7 @@ import java.util.List;
  * Does not serialize as the world saves the entities already, they just dismounted on logout
  */
 @RequiredArgsConstructor
-public class PiggybackHandler implements Component {
+public class PiggybackHandler implements PlayerComponent<PiggybackHandler> {
 
   /** Player holding this capability */
   @Nullable
@@ -29,14 +30,6 @@ public class PiggybackHandler implements Component {
   private final LazyOptional<PiggybackHandler> capability = LazyOptional.of(() -> this);
   /** Last found list of passengers, used in serialization and syncing */
   private List<Entity> lastPassengers;
-
-  @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-    if (cap == PiggybackCapability.PIGGYBACK) {
-      return capability.cast();
-    }
-    return LazyOptional.empty();
-  }
 
   /**
    * Updates the passengers on the back

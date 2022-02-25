@@ -4,7 +4,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
+import slimeknights.mantle.lib.event.PlayerBreakSpeedCallback.BreakSpeed;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.Modifier;

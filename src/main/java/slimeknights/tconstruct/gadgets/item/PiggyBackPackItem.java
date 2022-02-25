@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import slimeknights.mantle.client.screen.ElementScreen;
 import slimeknights.mantle.item.TooltipItem;
 import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
+import slimeknights.mantle.lib.util.EffectRenderer;
 import slimeknights.tconstruct.common.TinkerEffect;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -167,7 +168,7 @@ public class PiggyBackPackItem extends TooltipItem {
       } else {
         TinkerGadgets.piggyBackpack.get().matchCarriedEntitiesToCount(livingEntityIn, chestArmor.getCount());
         if (!livingEntityIn.getCommandSenderWorld().isClientSide) {
-          livingEntityIn.getCapability(PiggybackCapability.PIGGYBACK, null).ifPresent(PiggybackHandler::updatePassengers);
+          PiggybackCapability.PIGGYBACK.maybeGet(livingEntityIn).ifPresent(PiggybackHandler::updatePassengers);
         }
       }
     }

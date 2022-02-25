@@ -14,7 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Tier;
-import net.minecraftforge.common.TierSortingRegistry;
+import slimeknights.mantle.lib.tiers.TierSortingRegistry;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.library.utils.HarvestTiers;
 import slimeknights.tconstruct.library.utils.Util;

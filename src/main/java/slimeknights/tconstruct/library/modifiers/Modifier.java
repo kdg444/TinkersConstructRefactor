@@ -32,7 +32,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
-import org.apache.logging.log4j.LogManager;
+import slimeknights.mantle.lib.event.PlayerBreakSpeedCallback.BreakSpeed;
 import slimeknights.mantle.lib.util.ToolAction;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.client.ResourceColorManager;
@@ -127,10 +127,10 @@ public class Modifier {
     return Objects.requireNonNull(registryName, "Modifier has null registry name");
   }
 
-  @Override
-  public Class<Modifier> getRegistryType() {
-    return Modifier.class;
-  }
+//  @Override
+//  public Class<Modifier> getRegistryType() {
+//    return Modifier.class;
+//  }
 
 
   /* Tooltips */

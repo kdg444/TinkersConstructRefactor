@@ -12,14 +12,17 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.ServerResources;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.server.players.PlayerList;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.OnDatapackSyncEvent;
+import slimeknights.mantle.lib.event.DataPackReloadCallback;
+import slimeknights.mantle.lib.event.OnDatapackSyncCallback;
+import slimeknights.mantle.lib.util.ToolAction;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.definition.aoe.IAreaOfEffectIterator;
@@ -28,10 +31,12 @@ import slimeknights.tconstruct.library.tools.definition.weapon.IWeaponAttack;
 import slimeknights.tconstruct.library.tools.nbt.MultiplierNBT;
 import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -72,8 +77,8 @@ public class ToolDefinitionLoader extends SimpleJsonResourceReloadListener {
 
   /** Initializes the tool definition loader */
   public static void init() {
-    MinecraftForge.EVENT_BUS.addListener(INSTANCE::addDataPackListeners);
-    MinecraftForge.EVENT_BUS.addListener(INSTANCE::onDatapackSync);
+    DataPackReloadCallback.EVENT.register(INSTANCE::addDataPackListeners);
+    OnDatapackSyncCallback.EVENT.register(INSTANCE::onDatapackSync);
   }
 
   /**
@@ -128,14 +133,14 @@ public class ToolDefinitionLoader extends SimpleJsonResourceReloadListener {
   }
 
   /** Called on datapack sync to send the tool data to all players */
-  private void onDatapackSync(OnDatapackSyncEvent event) {
+  private void onDatapackSync(PlayerList playerList, @Nullable ServerPlayer player) {
     UpdateToolDefinitionDataPacket packet = new UpdateToolDefinitionDataPacket(dataMap);
-    TinkerNetwork.getInstance().sendToPlayerList(event.getPlayer(), event.getPlayerList(), packet);
+    TinkerNetwork.getInstance().sendToPlayerList(player, playerList, packet);
   }
 
   /** Adds the managers as datapack listeners */
-  private void addDataPackListeners(final AddReloadListenerEvent event) {
-    event.addListener(this);
+  private List<PreparableReloadListener> addDataPackListeners(final ServerResources event) {
+    return List.of(this);
   }
 
   /** Registers a tool definition with the loader */

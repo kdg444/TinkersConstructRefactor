@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools;
 
-import net.minecraftforge.common.ToolAction;
+import slimeknights.mantle.lib.util.ToolAction;
 
 /** Custom tool actions defined by the mod */
 public class TinkerToolActions {

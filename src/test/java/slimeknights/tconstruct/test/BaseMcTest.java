@@ -2,7 +2,7 @@ package slimeknights.tconstruct.test;
 
 import net.minecraft.SharedConstants;
 import net.minecraft.server.Bootstrap;
-import net.minecraftforge.common.TierSortingRegistry;
+import slimeknights.mantle.lib.tiers.TierSortingRegistry;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.network.NetworkRegistry;

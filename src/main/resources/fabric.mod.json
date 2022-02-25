@@ -25,7 +25,7 @@
       "slimeknights.tconstruct.shared.TinkerClient"
     ],
     "cardinal-components": [
-
+      "slimeknights.tconstruct.gadgets.capability.PiggybackCapability"
     ]
   },
   "accessWidener": "tinkers.accesswidener",

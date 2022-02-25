@@ -4,11 +4,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import io.netty.handler.codec.DecoderException;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.library.tools.context.ToolAttackContext;
@@ -42,10 +42,10 @@ public class ParticleWeaponAttack implements IWeaponAttack {
     @Override
     public ParticleWeaponAttack deserialize(JsonObject json) {
       ResourceLocation location = JsonHelper.getResourceLocation(json, "particle");
-      if (!ForgeRegistries.PARTICLE_TYPES.containsKey(location)) {
+      if (!Registry.PARTICLE_TYPE.containsKey(location)) {
         throw new JsonSyntaxException("Unknown particle ID " + location);
       }
-      ParticleType<?> type = Objects.requireNonNull(ForgeRegistries.PARTICLE_TYPES.getValue(location));
+      ParticleType<?> type = Objects.requireNonNull(Registry.PARTICLE_TYPE.get(location));
       if (type instanceof SimpleParticleType simple) {
         return new ParticleWeaponAttack(simple);
       }
@@ -54,7 +54,7 @@ public class ParticleWeaponAttack implements IWeaponAttack {
 
     @Override
     public ParticleWeaponAttack fromNetwork(FriendlyByteBuf buffer) {
-      ParticleType<?> type = buffer.readRegistryIdUnsafe(ForgeRegistries.PARTICLE_TYPES);
+      ParticleType<?> type = Registry.PARTICLE_TYPE.get(buffer.readResourceLocation());
       if (type instanceof SimpleParticleType simple) {
         return new ParticleWeaponAttack(simple);
       }
@@ -63,12 +63,12 @@ public class ParticleWeaponAttack implements IWeaponAttack {
 
     @Override
     public void serialize(ParticleWeaponAttack object, JsonObject json) {
-      json.addProperty("particle", Objects.requireNonNull(object.particle.getRegistryName()).toString());
+      json.addProperty("particle", Objects.requireNonNull(Registry.PARTICLE_TYPE.getKey(object.particle)).toString());
     }
 
     @Override
     public void toNetwork(ParticleWeaponAttack object, FriendlyByteBuf buffer) {
-      buffer.writeRegistryIdUnsafe(ForgeRegistries.PARTICLE_TYPES, object.particle);
+      buffer.writeResourceLocation(Registry.PARTICLE_TYPE.getKey(object.particle));
     }
   }
 }

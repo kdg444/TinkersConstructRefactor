@@ -4,7 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.minecraft.world.item.Tier;
-import net.minecraftforge.common.TierSortingRegistry;
+import slimeknights.mantle.lib.tiers.TierSortingRegistry;
 import slimeknights.tconstruct.library.tools.definition.PartRequirement;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinitionData;

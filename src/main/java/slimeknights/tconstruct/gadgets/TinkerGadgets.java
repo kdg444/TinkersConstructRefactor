@@ -156,7 +156,7 @@ public final class TinkerGadgets extends TinkerModule {
    * Events
    */
   void commonSetup() {
-    PiggybackCapability.register();
+//    PiggybackCapability.register();
 //    event.enqueueWork(() -> {
       cake.forEach(block -> CompostingChanceRegistry.INSTANCE.add(block, 1.0f));
       CompostingChanceRegistry.INSTANCE.add(magmaCake.get(), 1.0f);

@@ -1,13 +1,14 @@
 package slimeknights.tconstruct.library.tools.helper;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LootingLevelEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
@@ -30,8 +31,8 @@ public class ModifierLootingHandler {
       return;
     }
     init = true;
-    MinecraftForge.EVENT_BUS.addListener(ModifierLootingHandler::onLooting);
-    MinecraftForge.EVENT_BUS.addListener(ModifierLootingHandler::onLeaveServer);
+    LivingEntityEvents.LOOTING_LEVEL.register(ModifierLootingHandler::onLooting);
+    ServerPlayConnectionEvents.DISCONNECT.register(ModifierLootingHandler::onLeaveServer);
   }
 
   /**
@@ -81,7 +82,7 @@ public class ModifierLootingHandler {
   }
 
   /** Called when a player leaves the server to clear the face */
-  private static void onLeaveServer(PlayerLoggedOutEvent event) {
-    LOOTING_OFFHAND.remove(event.getPlayer().getUUID());
+  private static void onLeaveServer(ServerGamePacketListenerImpl handler, MinecraftServer server) {
+    LOOTING_OFFHAND.remove(handler.getPlayer().getUUID());
   }
 }

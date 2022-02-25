@@ -2,6 +2,7 @@ package slimeknights.tconstruct;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -39,6 +40,7 @@ import slimeknights.tconstruct.common.data.tags.FluidTagProvider;
 import slimeknights.tconstruct.common.data.tags.ItemTagProvider;
 import slimeknights.tconstruct.common.data.tags.TileEntityTypeTagProvider;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
+import slimeknights.tconstruct.fluids.FluidEvents;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.library.TinkerBookIDs;
@@ -57,6 +59,7 @@ import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.TinkerToolParts;
 import slimeknights.tconstruct.tools.TinkerTools;
+import slimeknights.tconstruct.tools.logic.ToolEvents;
 import slimeknights.tconstruct.world.TinkerStructures;
 import slimeknights.tconstruct.world.TinkerWorld;
 
@@ -120,6 +123,8 @@ public class TConstruct implements ModInitializer {
       bus.register(new ImmersiveEngineeringPlugin());
     }
     commonSetup();
+    FluidEvents.onFurnaceFuel();
+    ToolEvents.init();
   }
 
   static void commonSetup() {
