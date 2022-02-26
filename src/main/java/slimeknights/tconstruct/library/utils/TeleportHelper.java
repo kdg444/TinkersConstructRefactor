@@ -4,8 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
+import slimeknights.mantle.lib.util.MantleEvent;
 import slimeknights.tconstruct.common.Sounds;
 
 public class TeleportHelper {
@@ -27,8 +26,8 @@ public class TeleportHelper {
         living.stopRiding();
       }
 
-      EntityTeleportEvent event = factory.create(living, x, y, z);
-      MinecraftForge.EVENT_BUS.post(event);
+      MantleEvent.EntityTeleportEvent event = factory.create(living, x, y, z);
+      event.sendEvent();
       if (!event.isCanceled() && living.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true)) {
         SoundEvent soundevent = Sounds.SLIME_TELEPORT.getSound();
         living.level.playSound(null, posX, posY, posZ, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -42,6 +41,6 @@ public class TeleportHelper {
   /** Predicate to test if the entity can teleport, typically just fires a cancelable event */
   @FunctionalInterface
   public interface ITeleportEventFactory {
-    EntityTeleportEvent create(LivingEntity entity, double x, double y, double z);
+    MantleEvent.EntityTeleportEvent create(LivingEntity entity, double x, double y, double z);
   }
 }

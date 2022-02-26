@@ -1,14 +1,21 @@
 package slimeknights.tconstruct.library.events.teleport;
 
 import lombok.Getter;
+import lombok.Setter;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
-import net.minecraftforge.eventbus.api.Cancelable;
+import slimeknights.mantle.lib.util.MantleEvent;
 import slimeknights.tconstruct.world.entity.EnderSlimeEntity;
 
 /* Fired when an ender slime teleport or teleports another entity */
-@Cancelable
-public class EnderSlimeTeleportEvent extends EntityTeleportEvent.EnderEntity {
+public class EnderSlimeTeleportEvent extends MantleEvent.EntityTeleportEvent {
+
+  public static Event<TeleportEvent> EVENT = EventFactory.createArrayBacked(TeleportEvent.class, callbacks -> event -> {
+    for(TeleportEvent e : callbacks)
+      e.onTeleport(event);
+  });
+
   /** Gets the slime that caused this teleport. If this is the same as {@link #getEntity()} then the slime is teleporting itself */
   @Getter
   private final EnderSlimeEntity slime;
@@ -21,5 +28,15 @@ public class EnderSlimeTeleportEvent extends EntityTeleportEvent.EnderEntity {
   /** Checks if the enderslime is teleporting itself */
   public boolean isTeleportingSelf() {
     return getEntity() == slime;
+  }
+
+  @Override
+  public void sendEvent() {
+    EVENT.invoker().onTeleport(this);
+  }
+
+  @FunctionalInterface
+  public interface TeleportEvent {
+    void onTeleport(EnderSlimeTeleportEvent event);
   }
 }

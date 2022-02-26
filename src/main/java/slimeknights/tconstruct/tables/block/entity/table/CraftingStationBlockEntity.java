@@ -14,9 +14,8 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.ForgeHooks;
+import slimeknights.mantle.lib.event.ItemCraftedCallback;
 import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.event.ForgeEventFactory;
 import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -161,7 +160,7 @@ public class CraftingStationBlockEntity extends RetexturedTableBlockEntity imple
       player.awardRecipes(Collections.singleton(recipe));
     }
     result.onCraftedBy(this.level, player, amount);
-    ForgeEventFactory.firePlayerCraftingEvent(player, result, this.craftingInventory);
+    ItemCraftedCallback.EVENT.invoker().onCraft(player, result, this.craftingInventory);
 
     // update all slots in the inventory
     // remove remaining items

@@ -12,8 +12,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
+import slimeknights.mantle.lib.event.ItemCraftedCallback;
 import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.event.ForgeEventFactory;
 import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.SoundUtils;
@@ -160,7 +160,7 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
 
     // fire crafting events
     result.onCraftedBy(this.level, player, amount);
-    ForgeEventFactory.firePlayerCraftingEvent(player, result, this.inventoryWrapper);
+    ItemCraftedCallback.EVENT.invoker().onCraft(player, result, this.inventoryWrapper);
     this.playCraftSound(player);
 
     // run the recipe, will shrink inputs
