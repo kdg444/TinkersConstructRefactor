@@ -106,6 +106,7 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
 //      new ImmersiveEngineeringPlugin();
     }
     commonSetup();
+    FabricEvents.init();
   }
 
   static void commonSetup() {

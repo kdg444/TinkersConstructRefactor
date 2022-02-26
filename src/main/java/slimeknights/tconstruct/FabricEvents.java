@@ -1,6 +1,7 @@
 package slimeknights.tconstruct;
 
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import slimeknights.tconstruct.fluids.FluidEvents;
 import slimeknights.tconstruct.shared.AchievementEvents;
@@ -20,6 +21,7 @@ public class FabricEvents {
   }
   
   private static class Client {
+    @Environment(EnvType.CLIENT)
     private static void init() {
     
     }
