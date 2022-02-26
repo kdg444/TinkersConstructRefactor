@@ -16,6 +16,7 @@ import slimeknights.mantle.lib.block.CustomRenderBoundingBoxBlockEntity;
 import slimeknights.mantle.lib.model.IModelData;
 import slimeknights.mantle.lib.util.Lazy;
 import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
+import slimeknights.mantle.lib.util.TileEntityHelper;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.shared.block.entity.TableBlockEntity;
 
@@ -101,4 +102,9 @@ public abstract class RetexturedTableBlockEntity extends TableBlockEntity implem
       }
     }
   }
+    
+    @Override
+    public CompoundTag getTileData() {
+        return TileEntityHelper.getExtraCustomData(this);
+    }
 }

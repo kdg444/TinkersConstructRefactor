@@ -106,10 +106,6 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
 //      new ImmersiveEngineeringPlugin();
     }
     commonSetup();
-    FluidEvents.onFurnaceFuel();
-    ToolEvents.init();
-    CommonsEvents.init();
-    AchievementEvents.init();
   }
 
   static void commonSetup() {

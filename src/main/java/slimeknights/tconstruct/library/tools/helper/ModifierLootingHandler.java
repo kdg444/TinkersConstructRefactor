@@ -54,11 +54,11 @@ public class ModifierLootingHandler {
   }
 
   /** Applies the looting bonus for modifiers */
-  private static void onLooting(LootingLevelEvent event) {
+  private static int onLooting(DamageSource damageSource, LivingEntity target, int level) {
     // must be an attacker with our tool
-    DamageSource damageSource = event.getDamageSource();
+//    DamageSource damageSource = event.getDamageSource();
     if (damageSource == null) {
-      return;
+      return 0;
     }
     Entity source = damageSource.getEntity();
     if (source instanceof LivingEntity) {
@@ -67,18 +67,19 @@ public class ModifierLootingHandler {
       LivingEntity holder = ((LivingEntity)source);
       EquipmentSlot slotType = getLootingSlot(holder);
       ItemStack held = holder.getItemBySlot(slotType);
-      int level = event.getLootingLevel();
+//      int level = event.getLootingLevel();
       if (TinkerTags.Items.MODIFIABLE.contains(held.getItem())) {
         ToolStack tool = ToolStack.from(held);
-        level = ModifierUtil.getLootingLevel(tool, holder, event.getEntityLiving(), damageSource);
+        level = ModifierUtil.getLootingLevel(tool, holder, target, damageSource);
         // ignore default looting if we are looting from another slot
       } else if (slotType != EquipmentSlot.MAINHAND) {
         level = 0;
       }
       // boot looting with pants
-      level = ModifierUtil.getLeggingsLootingLevel(holder, event.getEntityLiving(), damageSource, level);
-      event.setLootingLevel(level);
+      level = ModifierUtil.getLeggingsLootingLevel(holder, target, damageSource, level);
+      return level;
     }
+    return 0;
   }
 
   /** Called when a player leaves the server to clear the face */

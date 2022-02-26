@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.item;
 
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -9,22 +10,23 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import slimeknights.mantle.lib.item.CustomMaxCountItem;
 import slimeknights.mantle.lib.transfer.fluid.FluidTank;
 import slimeknights.mantle.item.BlockTooltipItem;
-import slimeknights.mantle.lib.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.fluid.FluidTooltipHandler;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.utils.NBTTags;
 import slimeknights.tconstruct.library.utils.SafeClientAccess;
 import slimeknights.tconstruct.library.utils.TooltipKey;
+import slimeknights.tconstruct.smeltery.TinkerSmeltery;
+import slimeknights.tconstruct.smeltery.block.component.SearedTankBlock;
 import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TankItem extends BlockTooltipItem {
+public class TankItem extends BlockTooltipItem implements CustomMaxCountItem {
   private static final String KEY_FLUID = TConstruct.makeTranslationKey("block", "tank.fluid");
   private static final String KEY_MB = TConstruct.makeTranslationKey("block", "tank.mb");
   private static final String KEY_INGOTS = TConstruct.makeTranslationKey("block", "tank.ingots");
@@ -43,7 +45,7 @@ public class TankItem extends BlockTooltipItem {
     return nbt != null && nbt.contains(NBTTags.TANK, Tag.TAG_COMPOUND);
   }
 
-  @Override
+  @Override // TODO transfer OH NO
   public ItemStack getContainerItem(ItemStack stack) {
     return isFilled(stack) ? new ItemStack(this) : ItemStack.EMPTY;
   }
@@ -51,7 +53,7 @@ public class TankItem extends BlockTooltipItem {
   @Override
   public int getItemStackLimit(ItemStack stack) {
     if (!limitStackSize) {
-      return super.getItemStackLimit(stack);
+      return 64;
     }
     return isFilled(stack) ? 16: 64;
   }
@@ -86,10 +88,19 @@ public class TankItem extends BlockTooltipItem {
     }
   }
 
-  @Nullable
-  @Override
-  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-    return new TankItemFluidHandler(stack);
+//  @Nullable
+//  @Override
+//  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+//    return new TankItemFluidHandler(stack);
+//  }
+  
+  @SuppressWarnings("UnstableApiUsage")
+  public static void initCapabilities() {
+    for (SearedTankBlock block : TinkerSmeltery.searedTank.values()) {
+      FluidStorage.combinedItemApiProvider(block.asItem()).register(ctx -> {
+        return null; // TODO transfer
+      });
+    }
   }
 
   /**

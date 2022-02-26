@@ -84,9 +84,9 @@ public class CraftingStationBlockEntity extends RetexturedTableBlockEntity imple
 
       // if we have a recipe, fetch its result
       if (recipe != null) {
-        ForgeHooks.setCraftingPlayer(player);
+//        ForgeHooks.setCraftingPlayer(player);
         result = recipe.assemble(this.craftingInventory);
-        ForgeHooks.setCraftingPlayer(null);
+//        ForgeHooks.setCraftingPlayer(null);
 
         // sync if the recipe is different
         if (recipe != lastRecipe) {
@@ -96,9 +96,9 @@ public class CraftingStationBlockEntity extends RetexturedTableBlockEntity imple
       }
     }
     else if (this.lastRecipe != null && this.lastRecipe.matches(this.craftingInventory, this.level)) {
-      ForgeHooks.setCraftingPlayer(player);
+//      ForgeHooks.setCraftingPlayer(player);
       result = this.lastRecipe.assemble(this.craftingInventory);
-      ForgeHooks.setCraftingPlayer(null);
+//      ForgeHooks.setCraftingPlayer(null);
     }
     return result;
   }
@@ -109,12 +109,12 @@ public class CraftingStationBlockEntity extends RetexturedTableBlockEntity imple
    * @return  Player sensitive result
    */
   public ItemStack getResultForPlayer(Player player) {
-    ForgeHooks.setCraftingPlayer(player);
+//    ForgeHooks.setCraftingPlayer(player);
     CraftingRecipe recipe = this.lastRecipe; // local variable just to prevent race conditions if the field changes, though that is unlikely
 
     // try matches again now that we have player access
     if (recipe == null || this.level == null || !recipe.matches(craftingInventory, level)) {
-      ForgeHooks.setCraftingPlayer(null);
+//      ForgeHooks.setCraftingPlayer(null);
       return ItemStack.EMPTY;
     }
 
@@ -138,7 +138,7 @@ public class CraftingStationBlockEntity extends RetexturedTableBlockEntity imple
 //    }
 
     ItemStack result = recipe.assemble(craftingInventory);
-    ForgeHooks.setCraftingPlayer(null);
+//    ForgeHooks.setCraftingPlayer(null);
     return result;
   }
 
@@ -164,9 +164,9 @@ public class CraftingStationBlockEntity extends RetexturedTableBlockEntity imple
 
     // update all slots in the inventory
     // remove remaining items
-    ForgeHooks.setCraftingPlayer(player);
+//    ForgeHooks.setCraftingPlayer(player);
     NonNullList<ItemStack> remaining = recipe.getRemainingItems(craftingInventory);
-    ForgeHooks.setCraftingPlayer(null);
+//    ForgeHooks.setCraftingPlayer(null);
     for (int i = 0; i < remaining.size(); ++i) {
       ItemStack original = this.getItem(i);
       ItemStack newStack = remaining.get(i);

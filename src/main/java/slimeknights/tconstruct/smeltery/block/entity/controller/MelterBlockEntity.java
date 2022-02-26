@@ -17,8 +17,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
 import slimeknights.mantle.lib.model.IModelData;
+import slimeknights.mantle.lib.transfer.fluid.FluidTransferable;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.lib.transfer.item.IItemHandler;
+import slimeknights.mantle.lib.transfer.item.ItemTransferable;
 import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -39,7 +41,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collections;
 
-public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity {
+public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferable, ItemTransferable, ChunkUnloadListeningBlockEntity {
 
   /** Max capacity for the tank */
   private static final int TANK_CAPACITY = FluidValues.INGOT * 12;
@@ -98,18 +100,41 @@ public class MelterBlockEntity extends NameableBlockEntity implements ITankBlock
    * Tank methods
    */
 
-  @Nonnull
+//  @Nonnull
+//  @Override
+//  public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
+//    if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+//      return tankHolder.cast();
+//    }
+//    if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+//      return inventoryHolder.cast();
+//    }
+//    return super.getCapability(capability, facing);
+//  }
+  
+  @Nullable
   @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-    if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-      return tankHolder.cast();
-    }
-    if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-      return inventoryHolder.cast();
-    }
-    return super.getCapability(capability, facing);
+  public LazyOptional<IFluidHandler> getFluidHandler(@Nullable Direction direction) {
+    return tankHolder;
   }
-
+  
+  @Nullable
+  @Override
+  public LazyOptional<IItemHandler> getItemHandler(@Nullable Direction direction) {
+    return inventoryHolder;
+  }
+  
+  @Override
+  public void setRemoved() {
+    super.setRemoved();
+    invalidateCaps();
+  }
+  
+  @Override
+  public void onChunkUnload() {
+    invalidateCaps();
+  }
+  
 //  @Override
   public void invalidateCaps() {
 //    super.invalidateCaps();
