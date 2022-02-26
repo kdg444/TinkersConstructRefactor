@@ -353,7 +353,7 @@ public class ToolInventoryCapability implements IItemHandlerModifiable {
     IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).filter(cap -> cap instanceof IItemHandlerModifiable).orElse(null);
     if (handler != null) {
       if (player instanceof ServerPlayer serverPlayer) {
-        NetworkHooks.openGui(serverPlayer, new SimpleMenuProvider(
+        NetworkUtil.openGui(serverPlayer, new SimpleMenuProvider(
           (id, inventory, p) -> new ToolContainerMenu(id, inventory, stack, (IItemHandlerModifiable)handler, slotType),
           TooltipUtil.getDisplayName(stack, tool, definition)
         ), buf -> buf.writeEnum(slotType));

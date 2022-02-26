@@ -36,6 +36,8 @@ transitive-accessible method net/minecraft/client/renderer/LevelRenderer renderS
 transitive-accessible method net/minecraft/world/level/block/Blocks never (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z
 transitive-accessible field net/minecraft/client/resources/ClientPackSource BUILT_IN Lnet/minecraft/server/packs/metadata/pack/PackMetadataSection;
 transitive-accessible field net/minecraft/client/Minecraft fontManager Lnet/minecraft/client/gui/font/FontManager;
+transitive-accessible field net/minecraft/world/inventory/ResultSlot removeCount I
+transitive-accessible field net/minecraft/world/inventory/ResultSlot player Lnet/minecraft/world/entity/player/Player;
 transitive-accessible field net/minecraft/client/gui/font/FontManager fontSets Ljava/util/Map;
 transitive-accessible field net/minecraft/world/entity/LivingEntity lastHurt F
 transitive-accessible field net/minecraft/data/loot/BlockLoot NORMAL_LEAVES_SAPLING_CHANCES [F

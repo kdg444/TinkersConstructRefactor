@@ -9,8 +9,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.NetworkEvent.Context;
-import net.minecraftforge.network.NetworkHooks;
+import slimeknights.mantle.lib.util.NetworkUtil;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.tables.block.ITabbedBlock;
@@ -48,7 +47,7 @@ public class StationTabPacket implements IThreadsafePacket {
       } else {
         MenuProvider provider = state.getMenuProvider(sender.getCommandSenderWorld(), pos);
         if (provider != null) {
-          NetworkHooks.openGui(sender, provider, pos);
+          NetworkUtil.openGui(sender, provider, pos);
         }
       }
 

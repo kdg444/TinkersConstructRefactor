@@ -4,9 +4,9 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.ForgeEventFactory;
 import slimeknights.mantle.inventory.CustomResultSlot;
 import slimeknights.mantle.inventory.IContainerCraftingCustom;
+import slimeknights.mantle.lib.event.ItemCraftedCallback;
 
 import javax.annotation.Nonnull;
 
@@ -28,7 +28,7 @@ public class CraftingResultSlot extends ResultSlot {
   protected void checkTakeAchievements(ItemStack stack) {
     if (this.removeCount > 0) {
       stack.onCraftedBy(this.player.level, this.player, this.removeCount);
-      ForgeEventFactory.firePlayerCraftingEvent(this.player, stack, this.container);
+      ItemCraftedCallback.EVENT.invoker().onCraft(this.player, stack, this.container);
     }
     this.removeCount = 0;
   }

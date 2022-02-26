@@ -117,21 +117,24 @@ public final class TinkerTables extends TinkerModule {
   public static final RegistryObject<SimpleRecipeSerializer<TinkerStationPartSwapping>> tinkerStationPartSwappingSerializer = RECIPE_SERIALIZERS.register("tinker_station_part_swapping", () -> new SimpleRecipeSerializer<>(TinkerStationPartSwapping::new));
   public static final RegistryObject<TinkerStationDamagingRecipe.Serializer> tinkerStationDamagingSerializer = RECIPE_SERIALIZERS.register("tinker_station_damaging", TinkerStationDamagingRecipe.Serializer::new);
 
-  @SubscribeEvent
-  void commonSetup(final FMLCommonSetupEvent event) {
-    event.enqueueWork(() -> {
+  public TinkerTables() {
+    commonSetup();
+  }
+
+  void commonSetup() {
+//    event.enqueueWork(() -> {
       StationSlotLayoutLoader loader = StationSlotLayoutLoader.getInstance();
       loader.registerRequiredLayout(tinkerStation.getRegistryName());
       loader.registerRequiredLayout(tinkersAnvil.getRegistryName());
       loader.registerRequiredLayout(scorchedAnvil.getRegistryName());
-    });
+//    });
   }
 
-  @SubscribeEvent
-  void gatherData(final GatherDataEvent event) {
-    if (event.includeServer()) {
-      DataGenerator datagenerator = event.getGenerator();
-      datagenerator.addProvider(new TableRecipeProvider(datagenerator));
-    }
-  }
+//  @SubscribeEvent
+//  void gatherData(final GatherDataEvent event) {
+//    if (event.includeServer()) {
+//      DataGenerator datagenerator = event.getGenerator();
+//      datagenerator.addProvider(new TableRecipeProvider(datagenerator));
+//    }
+//  }
 }
