@@ -10,9 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.impl.IncrementalModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
@@ -32,7 +30,7 @@ public class FireProtectionModifier extends IncrementalModifier {
   /** Entity data key for the data associated with this modifier */
   private static final TinkerDataKey<FireData> FIRE_DATA = TConstruct.createKey("fire_protection");
   public FireProtectionModifier() {
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, LivingUpdateEvent.class, FireProtectionModifier::livingTick);
+    LivingEntityEvents.TICK.register(FireProtectionModifier::livingTick);
   }
 
   @Override
@@ -131,13 +129,12 @@ public class FireProtectionModifier extends IncrementalModifier {
    * checks each tick if the player has more fire than we remember, if so means they are recently on fire and fire should be reduced
    * does not handle forced fire ticks well, but all vanilla uses of that method are forcing it to 1
    */
-  private static void livingTick(LivingUpdateEvent event) {
+  private static void livingTick(LivingEntity entity) {
     // handled on entity tick as we don't need any tool data, its all cached on the player
     // plus, saves us doing slot checks every tool with the modifier
-    LivingEntity entity = event.getEntityLiving();
     // no need to run clientside
     if (!entity.level.isClientSide && !entity.isSpectator()) {
-      entity.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
+      TinkerDataCapability.CAPABILITY.maybeGet(entity).ifPresent(data -> {
         FireData fireData = data.get(FIRE_DATA);
         if (fireData != null) {
           // if the vanilla level is greater than ours, nothing to do

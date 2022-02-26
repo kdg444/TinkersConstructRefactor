@@ -12,7 +12,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import slimeknights.mantle.lib.entity.ExtraSpawnDataEntity;
-import slimeknights.mantle.lib.event.ExplosionStartCallback;
+import slimeknights.mantle.lib.event.ExplosionEvents;
 import slimeknights.tconstruct.gadgets.Exploder;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
 
@@ -41,7 +41,7 @@ public class EflnBallEntity extends ThrowableItemProjectile implements ExtraSpaw
   protected void onHit(HitResult result) {
     if (!this.level.isClientSide) {
       EFLNExplosion explosion = new EFLNExplosion(this.level, this, null, null, this.getX(), this.getY(), this.getZ(), 6f, false, Explosion.BlockInteraction.NONE);
-      if (!ExplosionStartCallback.EVENT.invoker().onExplosionStart(this.level, explosion)) {
+      if (!ExplosionEvents.START.invoker().onExplosionStart(this.level, explosion)) {
         Exploder.startExplosion(this.level, explosion, this, new BlockPos(this.getX(), this.getY(), this.getZ()), 6f, 6f);
       }
     }

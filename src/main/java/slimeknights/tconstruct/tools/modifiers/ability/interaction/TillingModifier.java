@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 
 import com.mojang.datafixers.util.Pair;
+import net.fabricmc.fabric.mixin.content.registry.HoeItemAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -22,7 +23,7 @@ public class TillingModifier extends BlockTransformModifier {
 
   @Override
   protected boolean transform(UseOnContext context, BlockState original, boolean playSound) {
-    Pair<Predicate<UseOnContext>,Consumer<UseOnContext>> pair = HoeItem.TILLABLES.get(original.getBlock());
+    Pair<Predicate<UseOnContext>,Consumer<UseOnContext>> pair = HoeItemAccessor.getTillingActions().get(original.getBlock());
     if (pair != null && pair.getFirst().test(context)) {
       Level level = context.getLevel();
       BlockPos pos = context.getClickedPos();

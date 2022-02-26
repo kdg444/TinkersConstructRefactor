@@ -2,9 +2,11 @@ package slimeknights.tconstruct.tools.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -13,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.GameType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.FOVModifierEvent;
@@ -24,7 +27,8 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import slimeknights.tconstruct.TConstruct;
+import slimeknights.mantle.lib.event.FOVModifierCallback;
+import slimeknights.mantle.lib.event.RenderHandCallback;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.Icons;
@@ -48,15 +52,23 @@ import slimeknights.tconstruct.tools.modifiers.upgrades.armor.ItemFrameModifier;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /** Modifier event hooks that run client side */
-@EventBusSubscriber(modid = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.FORGE)
 public class ModifierClientEvents {
-  @SubscribeEvent
-  static void onTooltipEvent(ItemTooltipEvent event) {
+
+  public static void init() {
+    ItemTooltipCallback.EVENT.register(ModifierClientEvents::onTooltipEvent);
+
+    RenderHandCallback.EVENT.register(ModifierClientEvents::renderHand);
+    ToolEquipmentChangeEvent.EVENT.register(ModifierClientEvents::equipmentChange);
+    FOVModifierCallback.EVENT.register(ModifierClientEvents::handleZoom);
+  }
+
+  static void onTooltipEvent(ItemStack stack, TooltipFlag context, List<Component> lines) {
     // suppress durability from advanced, we display our own
-    if (event.getItemStack().getItem() instanceof IModifiableDisplay) {
-      event.getToolTip().removeIf(text -> {
+    if (stack.getItem() instanceof IModifiableDisplay) {
+      lines.removeIf(text -> {
         if (text instanceof TranslatableComponent) {
           return ((TranslatableComponent)text).getKey().equals("item.durability");
         }
@@ -66,8 +78,7 @@ public class ModifierClientEvents {
   }
 
   /** Determines whether to render the given hand based on modifiers */
-  @SubscribeEvent
-  static void renderHand(RenderHandEvent event) {
+  static void renderHand(RenderHandCallback.RenderHandEvent event) {
     InteractionHand hand = event.getHand();
     Player player = Minecraft.getInstance().player;
     if (hand != InteractionHand.OFF_HAND || player == null) {
@@ -108,14 +119,15 @@ public class ModifierClientEvents {
   }
 
   /** Handles the zoom modifier zooming */
-  @SubscribeEvent
-  static void handleZoom(FOVModifierEvent event) {
-    event.getEntity().getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
+  static float handleZoom(Player entity, float fov) {
+    AtomicReference<Float> newFov = new AtomicReference<>(fov);
+    TinkerDataCapability.CAPABILITY.maybeGet(entity).ifPresent(data -> {
       FloatMultiplier zoom = data.get(TinkerDataKeys.FOV_MODIFIER);
       if (zoom != null) {
-        event.setNewfov(event.getNewfov() * zoom.getValue());
+        newFov.set(fov * zoom.getValue());
       }
     });
+    return newFov.get();
   }
 
 
@@ -131,11 +143,10 @@ public class ModifierClientEvents {
   private static final List<ItemStack> itemFrames = new ArrayList<>();
 
   /** Update the slot in the first shield slot */
-  @SubscribeEvent
   static void equipmentChange(ToolEquipmentChangeEvent event) {
     EquipmentChangeContext context = event.getContext();
     if (Config.CLIENT.renderShieldSlotItem.get()) {
-      if (event.getEntityLiving() == Minecraft.getInstance().player && context.getChangedSlot() == EquipmentSlot.LEGS) {
+      if (event.getEntity() == Minecraft.getInstance().player && context.getChangedSlot() == EquipmentSlot.LEGS) {
         IToolStackView tool = context.getToolInSlot(EquipmentSlot.LEGS);
         if (tool != null) {
           ShieldStrapModifier modifier = TinkerModifiers.shieldStrap.get();
@@ -150,7 +161,7 @@ public class ModifierClientEvents {
     }
 
     if (Config.CLIENT.renderItemFrame.get()) {
-      if (event.getEntityLiving() == Minecraft.getInstance().player && context.getChangedSlot() == EquipmentSlot.HEAD) {
+      if (event.getEntity() == Minecraft.getInstance().player && context.getChangedSlot() == EquipmentSlot.HEAD) {
         itemFrames.clear();
         IToolStackView tool = context.getToolInSlot(EquipmentSlot.HEAD);
         if (tool != null) {

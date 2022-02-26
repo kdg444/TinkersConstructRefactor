@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.data;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -820,19 +821,20 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                                       .setTools(TinkerTags.Items.CHESTPLATES)
                                       .setInputSalvage(TinkerWorld.slimeDirt.get(SlimeType.ICHOR), 1, 36, false)
                                       .setSlots(SlotType.ABILITY, 1);
-    ConditionalRecipe.builder()
-                     .addCondition(ConfigEnabledCondition.ICHOR_GEODES)
-                     .addRecipe(geodeBuilder::save)
-                     .addCondition(TrueCondition.INSTANCE)
-                     .addRecipe(noGeodeBuilder::save)
-                     .build(consumer, prefix(TinkerModifiers.strength, abilityFolder));
+//    ConditionalRecipe.builder()
+//                     .addCondition(ConfigEnabledCondition.ICHOR_GEODES)
+//                     .addRecipe(geodeBuilder::save)
+//                     .addCondition(TrueCondition.INSTANCE)
+//                     .addRecipe(noGeodeBuilder::save)
+//                     .build(consumer, prefix(TinkerModifiers.strength, abilityFolder));
     // salvage needs to be a second recipe
-    ConditionalRecipe.builder()
-                     .addCondition(ConfigEnabledCondition.ICHOR_GEODES)
-                     .addRecipe(c -> geodeBuilder.saveSalvage(c, TinkerModifiers.strength.getId()))
-                     .addCondition(TrueCondition.INSTANCE)
-                     .addRecipe(c -> noGeodeBuilder.saveSalvage(c, TinkerModifiers.strength.getId()))
-                     .build(consumer, prefix(TinkerModifiers.strength, abilitySalvage));
+    // TODO: PORT
+//    ConditionalRecipe.builder()
+//                     .addCondition(ConfigEnabledCondition.ICHOR_GEODES)
+//                     .addRecipe(c -> geodeBuilder.saveSalvage(c, TinkerModifiers.strength.getId()))
+//                     .addCondition(TrueCondition.INSTANCE)
+//                     .addRecipe(c -> noGeodeBuilder.saveSalvage(c, TinkerModifiers.strength.getId()))
+//                     .build(consumer, prefix(TinkerModifiers.strength, abilitySalvage));
 
     // leggings
     ModifierRecipeBuilder.modifier(TinkerModifiers.pockets.get())
@@ -1246,7 +1248,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
     // compatability
     String theOneProbe = "theoneprobe";
     ResourceLocation probe = new ResourceLocation(theOneProbe, "probe");
-    Consumer<FinishedRecipe> topConsumer = withCondition(consumer, modLoaded(theOneProbe));
+    Consumer<FinishedRecipe> topConsumer = withCondition(consumer, DefaultResourceConditions.allModsLoaded(theOneProbe));
     ModifierRecipeBuilder.modifier(TinkerModifiers.theOneProbe.get())
                          .setTools(ingredientFromTags(TinkerTags.Items.HELMETS, TinkerTags.Items.HELD))
                          .addInput(ItemNameIngredient.from(probe))

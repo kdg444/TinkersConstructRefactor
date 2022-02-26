@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
@@ -23,12 +25,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.DrawSelectionEvent;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.tools.definition.aoe.IAreaOfEffectIterator;
 import slimeknights.tconstruct.library.tools.helper.ToolHarvestLogic;
@@ -37,10 +33,13 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import java.util.Iterator;
 
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(modid = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ToolRenderEvents {
   /** Maximum number of blocks from the iterator to render */
   private static final int MAX_BLOCKS = 60;
+
+  public static void init() {
+    WorldRenderEvents.LAST.register(ToolRenderEvents::renderBlockDamageProgress);
+  }
 
   /**
    * Renders the outline on the extra blocks
@@ -107,8 +106,7 @@ public class ToolRenderEvents {
   }
 
   /** Renders the block damage process on the extra blocks */
-  @SubscribeEvent
-  static void renderBlockDamageProgress(RenderLevelLastEvent event) {
+  static void renderBlockDamageProgress(WorldRenderContext context) {
     // validate required variables are set
     MultiPlayerGameMode controller = Minecraft.getInstance().gameMode;
     if (controller == null || !controller.isDestroying()) {
@@ -158,9 +156,9 @@ public class ToolRenderEvents {
     }
 
     // set up buffers
-    PoseStack matrices = event.getPoseStack();
+    PoseStack matrices = context.matrixStack();
     matrices.pushPose();
-    MultiBufferSource.BufferSource vertices = event.getLevelRenderer().renderBuffers.crumblingBufferSource();
+    MultiBufferSource.BufferSource vertices = context.worldRenderer().renderBuffers.crumblingBufferSource();
     VertexConsumer vertexBuilder = vertices.getBuffer(ModelBakery.DESTROY_TYPES.get(progress.getProgress()));
 
     // finally, render the blocks

@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.tools.logic;
 
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
+import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -14,6 +16,7 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import slimeknights.mantle.lib.event.PlayerTickEndCallback;
 import slimeknights.mantle.lib.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -43,7 +46,7 @@ public class EquipmentChangeWatcher {
   /** Capability ID */
   private static final ResourceLocation ID = TConstruct.getResource("equipment_watcher");
   /** Capability type */
-  public static final Capability<PlayerLastEquipment> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+  public static final ComponentKey<PlayerLastEquipment> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 
   /** Registers this capability */
   public static void register() {
@@ -54,7 +57,7 @@ public class EquipmentChangeWatcher {
 
     // only need to use the cap and the player tick on the client
     if (FMLEnvironment.dist == Dist.CLIENT) {
-      MinecraftForge.EVENT_BUS.addListener(EquipmentChangeWatcher::onPlayerTick);
+      PlayerTickEndCallback.EVENT.register(EquipmentChangeWatcher::onPlayerTick);
       MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EquipmentChangeWatcher::attachCapability);
     }
   }
@@ -78,10 +81,10 @@ public class EquipmentChangeWatcher {
   }
 
   /** Client side modifier hooks */
-  private static void onPlayerTick(PlayerTickEvent event) {
+  private static void onPlayerTick(Player player) {
     // only run for client side players every 5 ticks
-    if (event.phase == Phase.END && event.side == LogicalSide.CLIENT && event.player.tickCount % 5 == 0) {
-      event.player.getCapability(CAPABILITY).ifPresent(PlayerLastEquipment::update);
+    if (player.level.isClientSide && player.tickCount % 5 == 0) {
+      CAPABILITY.maybeGet(player).ifPresent(PlayerLastEquipment::update);
     }
   }
 
@@ -126,7 +129,7 @@ public class EquipmentChangeWatcher {
   /* Required methods */
 
   /** Data class that runs actual update logic */
-  protected static class PlayerLastEquipment implements ICapabilityProvider, Runnable {
+  protected static class PlayerLastEquipment implements PlayerComponent<PlayerLastEquipment>, Runnable {
     @Nullable
     private final Player player;
     private final Map<EquipmentSlot,ItemStack> lastItems = new EnumMap<>(EquipmentSlot.class);

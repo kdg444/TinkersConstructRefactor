@@ -9,11 +9,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.world.ExplosionEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
+import slimeknights.mantle.lib.event.ExplosionEvents;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
@@ -31,8 +30,8 @@ public class BlastProtectionModifier extends AbstractProtectionModifier<BlastDat
   private static final TinkerDataKey<BlastData> BLAST_DATA = TConstruct.createKey("blast_protection");
   public BlastProtectionModifier() {
     super(BLAST_DATA);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, ExplosionEvent.Detonate.class, BlastProtectionModifier::onExplosionDetonate);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, LivingUpdateEvent.class, BlastProtectionModifier::livingTick);
+    ExplosionEvents.DETONATE.register(BlastProtectionModifier::onExplosionDetonate);
+    LivingEntityEvents.TICK.register(BlastProtectionModifier::livingTick);
   }
 
   @Override
@@ -59,14 +58,13 @@ public class BlastProtectionModifier extends AbstractProtectionModifier<BlastDat
   }
 
   /** On explosion, checks if any blast protected entity is involved, if so marks them for knockback update next tick */
-  private static void onExplosionDetonate(ExplosionEvent.Detonate event) {
-    Explosion explosion = event.getExplosion();
-    Vec3 center = explosion.getPosition();
+  private static void onExplosionDetonate(Level world, Explosion explosion, List<Entity> list, double d) {
+    Vec3 center = new Vec3(explosion.x, explosion.y, explosion.z);
     float diameter = explosion.radius * 2;
     // search the entities for someone protection by blast protection
-    for (Entity entity : event.getAffectedEntities()) {
+    for (Entity entity : list) {
       if (!entity.ignoreExplosion()) {
-        entity.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
+        TinkerDataCapability.CAPABILITY.maybeGet(entity).ifPresent(data -> {
           // if the entity has blast protection and the blast protection level is bigger than vanilla, time to process
           BlastData blastData = data.get(BLAST_DATA);
           if (blastData != null && blastData.getMax() > 0) {
@@ -88,10 +86,9 @@ public class BlastProtectionModifier extends AbstractProtectionModifier<BlastDat
   }
 
   /** If the entity is marked for knockback update, adjust velocity */
-  private static void livingTick(LivingUpdateEvent event) {
-    LivingEntity living = event.getEntityLiving();
+  private static void livingTick(LivingEntity living) {
     if (!living.level.isClientSide && !living.isSpectator()) {
-      living.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
+      TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> {
         BlastData blastData = data.get(BLAST_DATA);
         if (blastData != null && blastData.wasKnockback) {
           blastData.wasKnockback = false;

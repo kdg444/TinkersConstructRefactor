@@ -21,7 +21,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.eventbus.api.Event.Result;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.events.TinkerToolEvent.ToolHarvestEvent;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -163,7 +162,7 @@ public class HarvestAbilityModifier extends InteractionModifier.SingleUse {
       world.setBlockAndUpdate(pos, replant);
       state.spawnAfterBreak(world, pos, stack);
       // set block state will not play sounds, destory block will
-      world.playSound(null, pos, state.getSoundType(world, pos, player).getBreakSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
+      world.playSound(null, pos, state.getSoundType(/*world, pos, player*/).getBreakSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
     } else {
       world.destroyBlock(pos, false);
     }
@@ -194,9 +193,9 @@ public class HarvestAbilityModifier extends InteractionModifier.SingleUse {
     }
     // try harvest event
     boolean didHarvest = false;
-    Result result = new ToolHarvestEvent(tool, context, world, state, pos, slotType).fire();
-    if (result != Result.DEFAULT) {
-      didHarvest = result == Result.ALLOW;
+    InteractionResult result = new ToolHarvestEvent(tool, context, world, state, pos, slotType).fire();
+    if (result != InteractionResult.PASS) {
+      didHarvest = result == InteractionResult.SUCCESS;
 
       // crops that work based on right click interact (berry bushes)
     } else if (TinkerTags.Blocks.HARVESTABLE_INTERACT.contains(block)) {
