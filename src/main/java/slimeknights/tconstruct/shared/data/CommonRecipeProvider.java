@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.shared.data;
 
+import me.alphamode.forgetags.DyeUtil;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.data.DataGenerator;
@@ -162,7 +163,7 @@ public class CommonRecipeProvider extends BaseRecipeProvider implements ICommonR
       Block block = TinkerCommons.clearStainedGlass.get(color);
       ShapedRecipeBuilder.shaped(block, 8)
                          .define('#', TinkerCommons.clearGlass)
-                         .define('X', color.getDye().getTag())
+                         .define('X', DyeUtil.getDyeTag(color.getDye()))
                          .pattern("###")
                          .pattern("#X#")
                          .pattern("###")
@@ -179,7 +180,7 @@ public class CommonRecipeProvider extends BaseRecipeProvider implements ICommonR
                          .save(consumer, prefix(pane, folder));
       ShapedRecipeBuilder.shaped(pane, 8)
                          .define('#', TinkerCommons.clearGlassPane)
-                         .define('X', color.getDye().getTag())
+                         .define('X', DyeUtil.getDyeTag(color.getDye()))
                          .pattern("###")
                          .pattern("#X#")
                          .pattern("###")

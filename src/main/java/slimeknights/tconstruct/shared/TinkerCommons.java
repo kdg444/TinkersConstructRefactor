@@ -2,13 +2,10 @@ package slimeknights.tconstruct.shared;
 
 import net.fabricmc.fabric.api.object.builder.v1.advancement.CriterionRegistry;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GlassBlock;
@@ -48,7 +45,6 @@ import slimeknights.tconstruct.shared.block.SlimeType;
 import slimeknights.tconstruct.shared.block.WaxedPlatformBlock;
 import slimeknights.tconstruct.shared.block.WeatheringPlatformBlock;
 import slimeknights.tconstruct.shared.command.TConstructCommand;
-import slimeknights.tconstruct.shared.data.CommonRecipeProvider;
 import slimeknights.tconstruct.shared.inventory.BlockContainerOpenedTrigger;
 import slimeknights.tconstruct.shared.item.TinkerBookItem;
 import slimeknights.tconstruct.shared.item.TinkerBookItem.BookType;
@@ -140,13 +136,13 @@ public final class TinkerCommons extends TinkerModule {
   }
 
   void registerRecipeSerializers() {
-    ResourceConditions.register(ConfigEnabledCondition.ID, TinkerConditons::isConfigEnabled);
+    ResourceConditions.register(ConfigEnabledCondition.ID, TinkerConditons::isConfigEnabledPredicate);
     lootConfig = Registry.register(Registry.LOOT_CONDITION_TYPE, ConfigEnabledCondition.ID, new LootItemConditionType(ConfigEnabledCondition.SERIALIZER));
     lootBlockOrEntity = Registry.register(Registry.LOOT_CONDITION_TYPE, BlockOrEntityCondition.ID, new LootItemConditionType(BlockOrEntityCondition.SERIALIZER));
     CriterionRegistry.register(CONTAINER_OPENED_TRIGGER);
 
-//    CraftingHelper.register(TagIntersectionPresentCondition.SERIALIZER);
-//    CraftingHelper.register(TagDifferencePresentCondition.SERIALIZER);
+    ResourceConditions.register(TagIntersectionPresentCondition.NAME, TinkerConditons::tagIntersectionPresentPredicate);
+    ResourceConditions.register(TagDifferencePresentCondition.NAME, TinkerConditons::tagDifferencePresentPredicate);
   }
 
 //  @SubscribeEvent

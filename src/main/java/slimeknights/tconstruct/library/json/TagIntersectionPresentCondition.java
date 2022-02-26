@@ -3,15 +3,13 @@ package slimeknights.tconstruct.library.json;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.SerializationTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagCollection;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
-import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
 
 import java.util.Arrays;
@@ -19,9 +17,8 @@ import java.util.List;
 
 /** Condition requiring that items exist in the intersection of all required item tags */
 @RequiredArgsConstructor
-public class TagIntersectionPresentCondition implements ICondition {
-  private static final ResourceLocation NAME = TConstruct.getResource("tag_intersection_present");
-  public static final Serializer SERIALIZER = new Serializer();
+public class TagIntersectionPresentCondition implements ConditionJsonProvider {
+  public static final ResourceLocation NAME = TConstruct.getResource("tag_intersection_present");
 
   private final List<ResourceLocation> names;
   public TagIntersectionPresentCondition(ResourceLocation... names) {
@@ -29,11 +26,10 @@ public class TagIntersectionPresentCondition implements ICondition {
   }
 
   @Override
-  public ResourceLocation getID() {
+  public ResourceLocation getConditionId() {
     return NAME;
   }
 
-  @Override
   public boolean test() {
     TagCollection<Item> itemTags = SerializationTags.getInstance().getOrEmpty(Registry.ITEM_REGISTRY);
     List<Tag<Item>> tags = names.stream().map(itemTags::getTagOrEmpty).toList();
@@ -65,24 +61,12 @@ public class TagIntersectionPresentCondition implements ICondition {
     return false;
   }
 
-  private static class Serializer implements IConditionSerializer<TagIntersectionPresentCondition> {
-    @Override
-    public void write(JsonObject json, TagIntersectionPresentCondition value) {
-      JsonArray names = new JsonArray();
-      for (ResourceLocation name : value.names) {
-        names.add(name.toString());
-      }
-      json.add("tags", names);
+  @Override
+  public void writeParameters(JsonObject json) {
+    JsonArray names = new JsonArray();
+    for (ResourceLocation name : this.names) {
+      names.add(name.toString());
     }
-
-    @Override
-    public TagIntersectionPresentCondition read(JsonObject json) {
-      return new TagIntersectionPresentCondition(JsonHelper.parseList(json, "tags", JsonHelper::convertToResourceLocation));
-    }
-
-    @Override
-    public ResourceLocation getID() {
-      return NAME;
-    }
+    json.add("tags", names);
   }
 }
