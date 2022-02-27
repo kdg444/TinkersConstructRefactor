@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.entity.controller;
 
+import io.github.fabricators_of_create.porting_lib.extensions.ChunkUnloadListeningBlockEntity;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
@@ -131,7 +132,7 @@ public class MelterBlockEntity extends NameableBlockEntity implements ITankBlock
   }
   
   @Override
-  public void onChunkUnload() {
+  public void onChunkUnloaded() {
     invalidateCaps();
   }
   

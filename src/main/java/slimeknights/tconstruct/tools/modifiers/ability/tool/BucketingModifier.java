@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.tool;
 
+import net.fabricmc.fabric.mixin.transfer.BucketItemAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -27,12 +28,11 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
+import slimeknights.mantle.lib.transfer.TransferUtil;
 import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.impl.TankModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataKeys;
@@ -92,7 +92,7 @@ public class BucketingModifier extends TankModifier {
       return InteractionResult.PASS;
     }
     Direction face = context.getClickedFace();
-    LazyOptional<IFluidHandler> capability = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, face);
+    LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(te, face);
     if (!capability.isPresent()) {
       return InteractionResult.PASS;
     }
@@ -108,7 +108,7 @@ public class BucketingModifier extends TankModifier {
         if (sneaking) {
           // must have something to fill
           if (!fluidStack.isEmpty()) {
-            int added = cap.fill(fluidStack, false);
+            long added = cap.fill(fluidStack, false);
             if (added > 0) {
               sound = fluidStack.getFluid().getAttributes().getEmptySound(fluidStack);
               fluidStack.shrink(added);
@@ -241,7 +241,7 @@ public class BucketingModifier extends TankModifier {
       //Fluid pickedUpFluid = bucketPickup.takeLiquid(world, target, state);
       ItemStack bucket = bucketPickup.pickupBlock(world, target, state);
       if (!bucket.isEmpty() && bucket.getItem() instanceof BucketItem bucketItem) {
-        Fluid pickedUpFluid = bucketItem.getFluid();
+        Fluid pickedUpFluid = ((BucketItemAccessor)bucketItem).fabric_getFluid();
         if (pickedUpFluid != Fluids.EMPTY) {
           player.playSound(pickedUpFluid.getAttributes().getFillSound(fluidStack), 1.0F, 1.0F);
           // set the fluid if empty, increase the fluid if filled

@@ -1,31 +1,22 @@
 package slimeknights.tconstruct.tools;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraft.world.entity.player.Player;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
+import slimeknights.mantle.lib.event.ColorHandlersCallback;
+import slimeknights.mantle.lib.event.PlayerTickEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -58,7 +49,6 @@ import slimeknights.tconstruct.tools.network.TinkerControlPacket;
 import static slimeknights.tconstruct.library.client.model.tools.ToolModel.registerItemColors;
 
 @SuppressWarnings("unused")
-@EventBusSubscriber(modid = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
 public class ToolClientEvents extends ClientEventBase {
   /** Keybinding for interacting using a helmet */
   private static final KeyMapping HELMET_INTERACT = new KeyMapping(TConstruct.makeTranslationKey("key", "helmet_interact"), KeyConflictContext.IN_GAME, InputConstants.getKey("key.keyboard.z"), "key.categories.tconstruct");
@@ -67,7 +57,7 @@ public class ToolClientEvents extends ClientEventBase {
 
   /** Listener to clear modifier cache */
   private static final ISafeManagerReloadListener MODIFIER_RELOAD_LISTENER = manager -> {
-    for (Modifier modifier : TinkerRegistries.MODIFIERS.getValues()) {
+    for (Modifier modifier : TinkerRegistries.MODIFIERS) {
       modifier.clearCache(PackType.CLIENT_RESOURCES);
     }
   };
@@ -89,7 +79,6 @@ public class ToolClientEvents extends ClientEventBase {
     ModelLoaderRegistry.registerLoader(TConstruct.getResource("tool"), ToolModel.LOADER);
   }
 
-  @SubscribeEvent
   static void registerModifierModels(ModifierModelRegistrationEvent event) {
     event.registerModel(TConstruct.getResource("normal"), NormalModifierModel.UNBAKED_INSTANCE);
     event.registerModel(TConstruct.getResource("breakable"), BreakableModifierModel.UNBAKED_INSTANCE);
@@ -100,33 +89,33 @@ public class ToolClientEvents extends ClientEventBase {
     event.registerModel(TConstruct.getResource("breakable_dyed"), BreakableDyedModifierModel.UNBAKED_INSTANCE);
   }
 
-  @SubscribeEvent
-  static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-    event.registerEntityRenderer(TinkerTools.indestructibleItem.get(), ItemEntityRenderer::new);
+  static void registerRenderers() {
+    EntityRendererRegistry.register(TinkerTools.indestructibleItem.get(), ItemEntityRenderer::new);
   }
 
-  @SubscribeEvent
-  static void clientSetupEvent(FMLClientSetupEvent event) {
-    MinecraftForge.EVENT_BUS.addListener(ToolClientEvents::handleKeyBindings);
+  public static void clientSetupEvent() {
+    PlayerTickEvents.START.register(ToolClientEvents::handleKeyBindings);
     ArmorModelHelper.init();
 
     // keybinds
-    ClientRegistry.registerKeyBinding(HELMET_INTERACT);
-    ClientRegistry.registerKeyBinding(LEGGINGS_INTERACT);
+    KeyBindingHelper.registerKeyBinding(HELMET_INTERACT);
+    KeyBindingHelper.registerKeyBinding(LEGGINGS_INTERACT);
 
     // screens
-    MenuScreens.register(TinkerTools.toolContainer.get(), ToolContainerScreen::new);
+    ScreenRegistry.register(TinkerTools.toolContainer.get(), ToolContainerScreen::new);
+
+    registerRenderers();
+    registerParticleFactories();
+    ColorHandlersCallback.ITEM.register(ToolClientEvents::itemColors);
+    ModifierModelRegistrationEvent.EVENT.register(ToolClientEvents::registerModifierModels);
   }
 
-  @SubscribeEvent
-  static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
-    Minecraft.getInstance().particleEngine.register(TinkerTools.hammerAttackParticle.get(), HammerAttackParticle.Factory::new);
-    Minecraft.getInstance().particleEngine.register(TinkerTools.axeAttackParticle.get(), AxeAttackParticle.Factory::new);
+  static void registerParticleFactories() {
+    ParticleFactoryRegistry.getInstance().register(TinkerTools.hammerAttackParticle.get(), HammerAttackParticle.Factory::new);
+    ParticleFactoryRegistry.getInstance().register(TinkerTools.axeAttackParticle.get(), AxeAttackParticle.Factory::new);
   }
 
-  @SubscribeEvent
-  static void itemColors(ColorHandlerEvent.Item event) {
-    final ItemColors colors = event.getItemColors();
+  static void itemColors(ItemColors colors, BlockColors blockColors) {
 
     // tint tool textures for fallback
     // rock
@@ -158,15 +147,15 @@ public class ToolClientEvents extends ClientEventBase {
   private static boolean wasLeggingsInteracting = false;
 
   /** Called on player tick to handle keybinding presses */
-  private static void handleKeyBindings(PlayerTickEvent event) {
+  private static void handleKeyBindings(Player player) {
     Minecraft minecraft = Minecraft.getInstance();
-    if (minecraft.player != null && minecraft.player == event.player && event.phase == Phase.START && event.side == LogicalSide.CLIENT && !minecraft.player.isSpectator()) {
+    if (minecraft.player != null && minecraft.player == player && player.level.isClientSide() && !minecraft.player.isSpectator()) {
 
       // jumping in mid air for double jump
       // ensure we pressed the key since the last tick, holding should not use all your jumps at once
       boolean isJumping = minecraft.options.keyJump.isDown();
       if (!wasJumping && isJumping) {
-        if (DoubleJumpModifier.extraJump(event.player)) {
+        if (DoubleJumpModifier.extraJump(player)) {
           TinkerNetwork.getInstance().sendToServer(TinkerControlPacket.DOUBLE_JUMP);
         }
       }
@@ -175,12 +164,12 @@ public class ToolClientEvents extends ClientEventBase {
       // helmet interaction
       boolean isHelmetInteracting = HELMET_INTERACT.isDown();
       if (!wasHelmetInteracting && isHelmetInteracting) {
-        if (InteractionHandler.startArmorInteract(event.player, EquipmentSlot.HEAD)) {
+        if (InteractionHandler.startArmorInteract(player, EquipmentSlot.HEAD)) {
           TinkerNetwork.getInstance().sendToServer(TinkerControlPacket.START_HELMET_INTERACT);
         }
       }
       if (wasHelmetInteracting && !isHelmetInteracting) {
-        if (InteractionHandler.stopArmorInteract(event.player, EquipmentSlot.HEAD)) {
+        if (InteractionHandler.stopArmorInteract(player, EquipmentSlot.HEAD)) {
           TinkerNetwork.getInstance().sendToServer(TinkerControlPacket.STOP_HELMET_INTERACT);
         }
       }
@@ -188,12 +177,12 @@ public class ToolClientEvents extends ClientEventBase {
       // leggings interaction
       boolean isLeggingsInteract = LEGGINGS_INTERACT.isDown();
       if (!wasLeggingsInteracting && isLeggingsInteract) {
-        if (InteractionHandler.startArmorInteract(event.player, EquipmentSlot.LEGS)) {
+        if (InteractionHandler.startArmorInteract(player, EquipmentSlot.LEGS)) {
           TinkerNetwork.getInstance().sendToServer(TinkerControlPacket.START_LEGGINGS_INTERACT);
         }
       }
       if (wasLeggingsInteracting && !isLeggingsInteract) {
-        if (InteractionHandler.stopArmorInteract(event.player, EquipmentSlot.LEGS)) {
+        if (InteractionHandler.stopArmorInteract(player, EquipmentSlot.LEGS)) {
           TinkerNetwork.getInstance().sendToServer(TinkerControlPacket.STOP_LEGGINGS_INTERACT);
         }
       }

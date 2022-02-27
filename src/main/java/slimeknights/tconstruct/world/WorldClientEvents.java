@@ -1,5 +1,8 @@
 package slimeknights.tconstruct.world;
 
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
@@ -20,6 +23,7 @@ import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import slimeknights.mantle.lib.event.ColorHandlersCallback;
 import slimeknights.mantle.lib.util.Lazy;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -53,12 +57,11 @@ public class WorldClientEvents extends ClientEventBase {
     }
   }
 
-  @SubscribeEvent
-  static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
+  static void registerParticleFactories() {
     ParticleEngine engine = Minecraft.getInstance().particleEngine;
-    engine.register(TinkerWorld.skySlimeParticle.get(), new SlimeParticle.Factory(SlimeType.SKY));
-    engine.register(TinkerWorld.enderSlimeParticle.get(), new SlimeParticle.Factory(SlimeType.ENDER));
-    engine.register(TinkerWorld.terracubeParticle.get(), new SlimeParticle.Factory(Items.CLAY_BALL));
+    ParticleFactoryRegistry.getInstance().register(TinkerWorld.skySlimeParticle.get(), new SlimeParticle.Factory(SlimeType.SKY));
+    ParticleFactoryRegistry.getInstance().register(TinkerWorld.enderSlimeParticle.get(), new SlimeParticle.Factory(SlimeType.ENDER));
+    ParticleFactoryRegistry.getInstance().register(TinkerWorld.terracubeParticle.get(), new SlimeParticle.Factory(Items.CLAY_BALL));
   }
 
   @SubscribeEvent
@@ -85,12 +88,11 @@ public class WorldClientEvents extends ClientEventBase {
     registerLayerDefinition(event, TinkerHeadType.ZOMBIFIED_PIGLIN, piglinHead);
   }
 
-  @SubscribeEvent
-  static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-    event.registerEntityRenderer(TinkerWorld.earthSlimeEntity.get(), SlimeRenderer::new);
-    event.registerEntityRenderer(TinkerWorld.skySlimeEntity.get(), TinkerSlimeRenderer.SKY_SLIME_FACTORY);
-    event.registerEntityRenderer(TinkerWorld.enderSlimeEntity.get(), TinkerSlimeRenderer.ENDER_SLIME_FACTORY);
-    event.registerEntityRenderer(TinkerWorld.terracubeEntity.get(), TerracubeRenderer::new);
+  static void registerRenderers() {
+    EntityRendererRegistry.register(TinkerWorld.earthSlimeEntity.get(), SlimeRenderer::new);
+    EntityRendererRegistry.register(TinkerWorld.skySlimeEntity.get(), TinkerSlimeRenderer.SKY_SLIME_FACTORY);
+    EntityRendererRegistry.register(TinkerWorld.enderSlimeEntity.get(), TinkerSlimeRenderer.ENDER_SLIME_FACTORY);
+    EntityRendererRegistry.register(TinkerWorld.terracubeEntity.get(), TerracubeRenderer::new);
   }
 
   @SubscribeEvent
@@ -138,7 +140,7 @@ public class WorldClientEvents extends ClientEventBase {
     }
 
     // skull textures
-    event.enqueueWork(() -> {
+//    event.enqueueWork(() -> {
       registerHeadModel(TinkerHeadType.BLAZE, MaterialIds.blazingBone, new ResourceLocation("textures/entity/blaze.png"));
       registerHeadModel(TinkerHeadType.ENDERMAN, MaterialIds.enderPearl, TConstruct.getResource("textures/entity/skull/enderman.png"));
       SlimeskullArmorModel.registerHeadModel(MaterialIds.gunpowder, ModelLayers.CREEPER_HEAD, new ResourceLocation("textures/entity/creeper/creeper.png"));
@@ -157,12 +159,14 @@ public class WorldClientEvents extends ClientEventBase {
       registerHeadModel(TinkerHeadType.PIGLIN, MaterialIds.gold, new ResourceLocation("textures/entity/piglin/piglin.png"));
       registerHeadModel(TinkerHeadType.PIGLIN_BRUTE, MaterialIds.roseGold, new ResourceLocation("textures/entity/piglin/piglin_brute.png"));
       registerHeadModel(TinkerHeadType.ZOMBIFIED_PIGLIN, MaterialIds.pigIron, new ResourceLocation("textures/entity/piglin/zombified_piglin.png"));
-    });
+//    });
+
+    registerParticleFactories();
+    registerRenderers();
+    ColorHandlersCallback.BLOCK.register(WorldClientEvents::registerBlockColorHandlers);
   }
 
-  @SubscribeEvent
-  static void registerBlockColorHandlers(ColorHandlerEvent.Block event) {
-    BlockColors blockColors = event.getBlockColors();
+  static void registerBlockColorHandlers(BlockColors blockColors) {
 
     // slime plants - blocks
     for (SlimeType type : SlimeType.values()) {

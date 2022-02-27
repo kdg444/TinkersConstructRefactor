@@ -11,10 +11,9 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.IForgeShearable;
+import slimeknights.mantle.lib.extensions.IShearable;
 import slimeknights.mantle.lib.util.ToolAction;
 import slimeknights.mantle.lib.util.ToolActions;
-import net.minecraftforge.eventbus.api.Event.Result;
 import slimeknights.tconstruct.library.events.TinkerToolEvent.ToolShearEvent;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.hooks.IShearModifier;
@@ -132,7 +131,7 @@ public class ShearsAbilityModifier extends InteractionModifier.SingleUse {
       return result == Result.ALLOW;
     }
     // fallback to forge shearable
-    if (entity instanceof IForgeShearable target && target.isShearable(itemStack, world, entity.blockPosition())) {
+    if (entity instanceof IShearable target && target.isShearable(itemStack, world, entity.blockPosition())) {
       if (!world.isClientSide) {
         target.onSheared(player, itemStack, world, entity.blockPosition(), fortune)
               .forEach(stack -> ModifierUtil.dropItem(entity, stack));

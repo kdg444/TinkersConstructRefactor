@@ -3,9 +3,8 @@ package slimeknights.tconstruct.tools.modifiers.ability.armor;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
+import slimeknights.mantle.lib.event.LivingEntityEvents.LivingFallEvent;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
@@ -17,12 +16,12 @@ public class BouncyModifier extends TotalArmorLevelModifier {
   private static final TinkerDataKey<Integer> BOUNCY = TConstruct.createKey("bouncy");
   public BouncyModifier() {
     super(BOUNCY, true);
-    MinecraftForge.EVENT_BUS.addListener(BouncyModifier::onFall);
+    LivingEntityEvents.FALL.register(BouncyModifier::onFall);
   }
 
   /** Called when an entity lands to handle the event */
   private static void onFall(LivingFallEvent event) {
-    LivingEntity living = event.getEntityLiving();
+    LivingEntity living = (LivingEntity) event.getEntity();
     // using fall distance as the event distance could be reduced by jump boost
     if (living == null || living.fallDistance <= 2f) {
       return;

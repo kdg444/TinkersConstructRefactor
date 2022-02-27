@@ -57,7 +57,7 @@ public class DragonbornModifier extends AbstractProtectionModifier<ModifierMaxLe
       LivingEntity living = event.getEntityLiving();
 
       // check dragonborn first, faster check
-      living.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
+      TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> {
         ModifierMaxLevel dragonborn = data.get(DRAGONBORN);
         if (dragonborn != null) {
           float max = dragonborn.getMax();

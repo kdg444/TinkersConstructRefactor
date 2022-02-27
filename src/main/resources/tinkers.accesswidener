@@ -33,8 +33,15 @@ transitive-accessible method net/minecraft/resources/ResourceLocation isValidNam
 transitive-accessible method net/minecraft/network/protocol/game/ClientboundBlockEntityDataPacket <init> (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/entity/BlockEntityType;Lnet/minecraft/nbt/CompoundTag;)V
 transitive-accessible method net/minecraft/world/entity/player/Player closeContainer ()V
 transitive-accessible method net/minecraft/client/renderer/LevelRenderer renderShape (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/phys/shapes/VoxelShape;DDDFFFF)V
+transitive-accessible method net/minecraft/client/renderer/LevelRenderer renderHitOutline (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)V
 transitive-accessible method net/minecraft/world/level/block/Blocks never (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z
 transitive-accessible method net/minecraft/client/renderer/ItemInHandRenderer renderPlayerArm (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IFFLnet/minecraft/world/entity/HumanoidArm;)V
+transitive-accessible method net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$Formula calculateNewCount (Ljava/util/Random;II)I
+transitive-accessible method net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$FormulaDeserializer deserialize (Lcom/google/gson/JsonObject;Lcom/google/gson/JsonDeserializationContext;)Lnet/minecraft/world/level/storage/loot/functions/ApplyBonusCount$Formula;
+transitive-accessible method net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$OreDrops <init> ()V
+transitive-accessible field net/minecraft/world/level/storage/loot/functions/ApplyBonusCount FORMULAS Ljava/util/Map;
+transitive-accessible field net/minecraft/client/renderer/LevelRenderer renderBuffers Lnet/minecraft/client/renderer/RenderBuffers;
+transitive-accessible field net/minecraft/client/renderer/LevelRenderer destroyingBlocks Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
 transitive-accessible field net/minecraft/client/resources/ClientPackSource BUILT_IN Lnet/minecraft/server/packs/metadata/pack/PackMetadataSection;
 transitive-accessible field net/minecraft/client/Minecraft fontManager Lnet/minecraft/client/gui/font/FontManager;
 transitive-accessible field net/minecraft/world/inventory/ResultSlot removeCount I
@@ -52,4 +59,9 @@ transitive-accessible field net/minecraft/world/level/Explosion y D
 transitive-accessible field net/minecraft/world/level/Explosion z D
 transitive-accessible field net/minecraft/world/level/Explosion radius F
 transitive-accessible class net/minecraft/client/renderer/RenderStateShard$TextureStateShard
+transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$BinomialWithBonusCount
+transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$Formula
+transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$FormulaDeserializer
+transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$OreDrops
+transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$UniformBonusCount
 

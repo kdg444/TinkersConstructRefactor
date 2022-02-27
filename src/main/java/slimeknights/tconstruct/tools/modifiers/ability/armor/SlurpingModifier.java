@@ -6,9 +6,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
+import slimeknights.mantle.lib.event.PlayerTickEvents;
 import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.tconstruct.TConstruct;
@@ -32,7 +30,7 @@ public class SlurpingModifier extends TankModifier implements IArmorInteractModi
   private static final TinkerDataKey<SlurpingInfo> SLURP_FINISH_TIME = TConstruct.createKey("slurping_finish");
   public SlurpingModifier() {
     super(FluidAttributes.BUCKET_VOLUME);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, PlayerTickEvent.class, this::playerTick);
+    PlayerTickEvents.END.register(this::playerTick);
   }
 
   @Override
@@ -43,7 +41,7 @@ public class SlurpingModifier extends TankModifier implements IArmorInteractModi
         // if we have a recipe, start drinking
         SpillingRecipe recipe = SpillingRecipeLookup.findRecipe(player.getCommandSenderWorld().getRecipeManager(), fluid.getFluid());
         if (recipe != null) {
-          player.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> data.put(SLURP_FINISH_TIME, new SlurpingInfo(fluid, player.tickCount + 20)));
+          TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> data.put(SLURP_FINISH_TIME, new SlurpingInfo(fluid, player.tickCount + 20)));
           return true;
         }
       }
@@ -71,12 +69,11 @@ public class SlurpingModifier extends TankModifier implements IArmorInteractModi
   }
 
   /** Called on player tick to update drinking */
-  private void playerTick(PlayerTickEvent event) {
-    Player player = event.player;
+  private void playerTick(Player player) {
     if (player.isSpectator()) {
       return;
     }
-    player.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
+    TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> {
       // if drinking
       SlurpingInfo info = data.get(SLURP_FINISH_TIME);
       if (info != null) {
@@ -118,7 +115,7 @@ public class SlurpingModifier extends TankModifier implements IArmorInteractModi
 
   @Override
   public void stopArmorInteract(IToolStackView tool, int level, Player player, EquipmentSlot slot) {
-    player.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> data.remove(SLURP_FINISH_TIME));
+    TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> data.remove(SLURP_FINISH_TIME));
   }
 
   @SuppressWarnings("unchecked")

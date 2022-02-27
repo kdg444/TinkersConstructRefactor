@@ -6,13 +6,17 @@ import com.google.gson.JsonObject;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import slimeknights.mantle.data.IEarlySafeManagerReloadListener;
+import slimeknights.mantle.lib.util.MantleEvent;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.TinkerRegistries;
@@ -86,7 +90,7 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener, Id
   public void onReloadSafe(ResourceManager manager) {
     // fire an event so people can register loaders, was the easiest way to do so after modifiers are registered but before models load
     if (!eventFired) {
-      ModLoader.get().postEvent(new ModifierModelRegistrationEvent());
+      new ModifierModelRegistrationEvent().sendEvent();
       eventFired = true;
     }
 
@@ -107,7 +111,7 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener, Id
           log.error("Skipping invalid modifier key " + key + " as it is not a valid resource location");
         } else {
           // ensure its a valid modifier and not already parsed
-          Modifier modifier = TinkerRegistries.MODIFIERS.getValue(name);
+          Modifier modifier = TinkerRegistries.MODIFIERS.get(name);
           if (modifier == null || modifier == TinkerModifiers.empty.get()) {
             log.error("Skipping unknown modifier " + key);
           } else if (!models.containsKey(modifier)) {
@@ -147,7 +151,7 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener, Id
    * @return  Path to the modifier
    */
   private static Material getModifierTexture(ResourceLocation modifierRoot, ResourceLocation modifierId, String suffix) {
-    return ForgeHooksClient.getBlockMaterial(new ResourceLocation(modifierRoot.getNamespace(), modifierRoot.getPath() + modifierId.getNamespace() + "_" + modifierId.getPath() + suffix));
+    return new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation(modifierRoot.getNamespace(), modifierRoot.getPath() + modifierId.getNamespace() + "_" + modifierId.getPath() + suffix));
   }
 
   /**
@@ -198,7 +202,7 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener, Id
                                                   : MaterialModel.getTextureAdder(textures, Config.CLIENT.logMissingModifierTextures.get());
 
     // load each modifier
-    for (Modifier modifier : TinkerRegistries.MODIFIERS.getValues()) {
+    for (Modifier modifier : TinkerRegistries.MODIFIERS) {
       IUnbakedModifierModel model = modifierModels.get(modifier);
       if (model != null) {
         IBakedModifierModel toolModel = model.forTool(
@@ -220,7 +224,13 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener, Id
   }
 
   /** Event fired when its time to register models */
-  public static class ModifierModelRegistrationEvent {
+  public static class ModifierModelRegistrationEvent extends MantleEvent {
+
+    public static Event<ModifierModels> EVENT = EventFactory.createArrayBacked(ModifierModels.class, callbacks -> modifierModels -> {
+      for(ModifierModels e : callbacks)
+        e.registerModels(modifierModels);
+    });
+
     /**
      * Register a unbaked model that modifiers can use
      * @param name   Modifier model name
@@ -228,6 +238,16 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener, Id
      */
     public void registerModel(ResourceLocation name, IUnbakedModifierModel model) {
       MODIFIER_MODEL_OPTIONS.put(name, model);
+    }
+
+    @Override
+    public void sendEvent() {
+      EVENT.invoker().registerModels(this);
+    }
+
+    @FunctionalInterface
+    public interface ModifierModels {
+      void registerModels(ModifierModelRegistrationEvent event);
     }
   }
 }

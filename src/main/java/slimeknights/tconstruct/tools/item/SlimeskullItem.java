@@ -5,7 +5,6 @@ import net.minecraft.client.model.Model;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.IItemRenderProperties;
 import slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial;
 import slimeknights.tconstruct.tools.client.SlimeskullArmorModel;
 
@@ -18,14 +17,15 @@ public class SlimeskullItem extends SlimesuitItem {
     super(material, ArmorSlotType.HELMET, properties);
   }
 
-  @Override
-  public void initializeClient(Consumer<IItemRenderProperties> consumer) {
-    consumer.accept(new IItemRenderProperties() {
-      @Nonnull
-      @Override
-      public Model getBaseArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-        return SlimeskullArmorModel.getModel(itemStack, _default);
-      }
-    });
-  }
+//  TODO: PORT
+//  @Override
+//  public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+//    consumer.accept(new IItemRenderProperties() {
+//      @Nonnull
+//      @Override
+//      public Model getBaseArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
+//        return SlimeskullArmorModel.getModel(itemStack, _default);
+//      }
+//    });
+//  }
 }

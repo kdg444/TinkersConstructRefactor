@@ -27,7 +27,7 @@ public class ZoomModifier extends SingleUseModifier implements IArmorInteractMod
   public boolean startArmorInteract(IToolStackView tool, int level, Player player, EquipmentSlot slot) {
     if (player.isShiftKeyDown()) {
       if (player.level.isClientSide()) {
-        player.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).set(ZOOM, 0.1f));
+        TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).set(ZOOM, 0.1f));
       }
       return true;
     }
@@ -37,7 +37,7 @@ public class ZoomModifier extends SingleUseModifier implements IArmorInteractMod
   @Override
   public void stopArmorInteract(IToolStackView tool, int level, Player player, EquipmentSlot slot) {
     if (player.level.isClientSide()) {
-      player.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).remove(ZOOM));
+      TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).remove(ZOOM));
     }
   }
 

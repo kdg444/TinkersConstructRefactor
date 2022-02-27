@@ -25,6 +25,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
+import slimeknights.mantle.lib.event.DrawSelectionEvents;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.tools.definition.aoe.IAreaOfEffectIterator;
 import slimeknights.tconstruct.library.tools.helper.ToolHarvestLogic;
@@ -38,6 +39,7 @@ public class ToolRenderEvents {
   private static final int MAX_BLOCKS = 60;
 
   public static void init() {
+    DrawSelectionEvents.BLOCK.register(ToolRenderEvents::renderBlockHighlights);
     WorldRenderEvents.LAST.register(ToolRenderEvents::renderBlockDamageProgress);
   }
 
@@ -46,42 +48,39 @@ public class ToolRenderEvents {
    *
    * @param event the highlight event
    */
-  @SubscribeEvent
-  static void renderBlockHighlights(DrawSelectionEvent.HighlightBlock event) {
+  static boolean renderBlockHighlights(LevelRenderer worldRender, Camera info, HitResult target, float partialTicks, PoseStack matrices, MultiBufferSource buffer) {
     Level world = Minecraft.getInstance().level;
     Player player = Minecraft.getInstance().player;
     if (world == null || player == null) {
-      return;
+      return false;
     }
     // must have the right tags
     ItemStack stack = player.getMainHandItem();
     if (stack.isEmpty() || !TinkerTags.Items.HARVEST.contains(stack.getItem())) {
-      return;
+      return false;
     }
     // must be targeting a block
     HitResult result = Minecraft.getInstance().hitResult;
     if (result == null || result.getType() != Type.BLOCK) {
-      return;
+      return false;
     }
     // must not be broken, must be right interface
     ToolStack tool = ToolStack.from(stack);
     if (tool.isBroken()) {
-      return;
+      return false;
     }
-    BlockHitResult blockTrace = event.getTarget();
+    BlockHitResult blockTrace = (BlockHitResult) target;
     BlockPos origin = blockTrace.getBlockPos();
     BlockState state = world.getBlockState(origin);
     if (!ToolHarvestLogic.isEffective(tool, state)) {
-      return;
+      return false;
     }
     Iterator<BlockPos> extraBlocks = tool.getDefinition().getData().getAOE().getBlocks(tool, stack, player, world.getBlockState(origin), world, origin, blockTrace.getDirection(), IAreaOfEffectIterator.AOEMatchType.BREAKING).iterator();
     if (!extraBlocks.hasNext()) {
-      return;
+      return false;
     }
 
     // set up renderer
-    LevelRenderer worldRender = event.getLevelRenderer();
-    PoseStack matrices = event.getPoseStack();
     MultiBufferSource.BufferSource buffers = worldRender.renderBuffers.bufferSource();
     VertexConsumer vertexBuilder = buffers.getBuffer(RenderType.lines());
     matrices.pushPose();
@@ -103,6 +102,7 @@ public class ToolRenderEvents {
     } while(rendered < MAX_BLOCKS && extraBlocks.hasNext());
     matrices.popPose();
     buffers.endBatch();
+    return false;
   }
 
   /** Renders the block damage process on the extra blocks */

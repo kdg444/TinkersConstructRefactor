@@ -1,14 +1,12 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.armor;
 
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
@@ -18,7 +16,7 @@ public class RespirationModifier extends TotalArmorLevelModifier {
   private static final TinkerDataKey<Integer> RESPIRATION = TConstruct.createKey("respiration");
   public RespirationModifier() {
     super(RESPIRATION);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, LivingUpdateEvent.class, RespirationModifier::livingTick);
+    LivingEntityEvents.TICK.register(RespirationModifier::livingTick);
   }
 
   /** Big mess of conditions from living tick for when air goes down */
@@ -32,12 +30,11 @@ public class RespirationModifier extends TotalArmorLevelModifier {
   }
 
   /** Called before air is lost to add an air buffer */
-  private static void livingTick(LivingUpdateEvent event) {
-    LivingEntity living = event.getEntityLiving();
+  private static void livingTick(LivingEntity living) {
     if (living.isSpectator()) {
       return;
     }
-    living.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
+    TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> {
       int respiration = data.get(RESPIRATION, 0);
       int air = living.getAirSupply();
       // vanilla has a chance of not losing air with the effect, easiest to implement is just giving some air back

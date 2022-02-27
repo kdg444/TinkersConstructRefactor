@@ -10,7 +10,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.library.events.teleport.EnderportingTeleportEvent;
 import slimeknights.tconstruct.library.modifiers.impl.SingleUseModifier;
@@ -55,7 +54,7 @@ public class EnderportingModifier extends SingleUseModifier {
     if (!didCollide) {
       // actual teleport
       EnderportingTeleportEvent event = new EnderportingTeleportEvent(living, x, y, z);
-      MinecraftForge.EVENT_BUS.post(event);
+      event.sendEvent();
       if (!event.isCanceled()) {
         // this logic only runs serverside, so need to use the server controller logic to move the player
         if (living instanceof ServerPlayer playerMP) {

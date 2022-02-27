@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.data;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -22,15 +23,11 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import me.alphamode.forgetags.Tags;
-import net.minecraftforge.common.crafting.ConditionalRecipe;
-import net.minecraftforge.common.crafting.conditions.NotCondition;
-import net.minecraftforge.common.crafting.conditions.TrueCondition;
 import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
 import slimeknights.mantle.recipe.data.CompoundIngredient;
 import slimeknights.mantle.recipe.data.FluidNameIngredient;
 import slimeknights.mantle.recipe.data.ItemNameIngredient;
 import slimeknights.mantle.recipe.data.ItemNameOutput;
-import slimeknights.mantle.recipe.helper.FluidTagEmptyCondition;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.recipe.ingredient.EntityIngredient;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
@@ -1486,11 +1483,11 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                          .save(consumer, prefix(TinkerFluids.moltenUranium, folder));
 
     // potion fluid compat
-    ResourceLocation potionTag = new ResourceLocation("forge", "potion");
+    ResourceLocation potionTag = new ResourceLocation("c", "potion");
     // standard potion is 250 mb, but we want a smaller number. For the effects, we really want to divide into 4 pieces
-    SpillingRecipeBuilder.forFluid(FluidIngredient.of(FluidTags.createOptional(potionTag), FluidAttributes.BUCKET_VOLUME / 8))
+    SpillingRecipeBuilder.forFluid(FluidIngredient.of(TagFactory.FLUID.create(potionTag), FluidAttributes.BUCKET_VOLUME / 8))
                          .addEffect(new PotionFluidEffect(0.5f, TagPredicate.ANY))
-                         .save(withCondition(consumer, new NotCondition(new FluidTagEmptyCondition(potionTag))), modResource(folder + "potion_fluid"));
+                         .save(withCondition(consumer, DefaultResourceConditions.fluidTagsPopulated(TagFactory.FLUID.create(potionTag))), modResource(folder + "potion_fluid"));
 
     // create has three types of bottles stored on their fluid, react to it to boost
     Function<String,TagPredicate> createBottle = value -> {
@@ -1503,7 +1500,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                          .addEffect(new PotionFluidEffect(0.25f, createBottle.apply("REGULAR")))
                          .addEffect(new PotionFluidEffect(0.5f, createBottle.apply("SPLASH")))
                          .addEffect(new PotionFluidEffect(1f, createBottle.apply("LINGERING")))
-                         .save(withCondition(consumer, modLoaded(create)), modResource(folder + "create_potion_fluid"));
+                         .save(withCondition(consumer, DefaultResourceConditions.allModsLoaded(create)), modResource(folder + "create_potion_fluid"));
 
   }
 
@@ -1514,7 +1511,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
 
   /** Adds recipes for a plate armor texture with a custom tag */
   private void plateTexture(Consumer<FinishedRecipe> consumer, Ingredient tool, MaterialVariantId material, String tag, boolean optional, String folder) {
-    Ingredient ingot = Ingredient.of(ItemTags.createOptional(new ResourceLocation("forge", tag)));
+    Ingredient ingot = Ingredient.of(TagFactory.ITEM.create(new ResourceLocation("c", tag)));
     if (optional) {
       consumer = withCondition(consumer, tagCondition(tag));
     }

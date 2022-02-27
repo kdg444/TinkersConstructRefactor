@@ -6,11 +6,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlot.Type;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.impl.SingleUseModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
@@ -21,13 +20,14 @@ import slimeknights.tconstruct.library.tools.item.ModifiableArmorItem;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Random;
 
 public class ChrysophiliteModifier extends SingleUseModifier {
   public static final ComputableDataKey<TotalGold> TOTAL_GOLD = TConstruct.createKey("chrysophilite", TotalGold::new);
   public ChrysophiliteModifier() {
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, LivingDropsEvent.class, ChrysophiliteModifier::onLivingDrops);
+    LivingEntityEvents.DROPS.register(ChrysophiliteModifier::onLivingDrops);
   }
 
   @Override
@@ -80,20 +80,18 @@ public class ChrysophiliteModifier extends SingleUseModifier {
   /** Gets the level of the modifier on an entity */
   public static int getTotalGold(@Nullable Entity entity) {
     return Optional.ofNullable(entity)
-                   .flatMap(e -> e.getCapability(TinkerDataCapability.CAPABILITY).resolve())
+                   .flatMap(e -> TinkerDataCapability.CAPABILITY.maybeGet(e))
                    .map(data -> data.get(ChrysophiliteModifier.TOTAL_GOLD))
                    .map(TotalGold::getTotalGold)
                    .orElse(0);
   }
 
   /** Causes more gold armor to drop */
-  private static void onLivingDrops(LivingDropsEvent event) {
-    DamageSource source = event.getSource();
+  private static boolean onLivingDrops(LivingEntity target, DamageSource source, Collection<ItemEntity> drops) {
     if (source != null) {
       int gold = getTotalGold(source.getEntity());
       if (gold > 0) {
         float extraChance = 0.04f * gold;
-        LivingEntity target = event.getEntityLiving();
         // check each slot for gold
         for (EquipmentSlot slot : EquipmentSlot.values()) {
           ItemStack stack = target.getItemBySlot(slot);
@@ -106,7 +104,7 @@ public class ChrysophiliteModifier extends SingleUseModifier {
               stack.setDamageValue(stack.getMaxDamage() - random.nextInt(1 + random.nextInt(Math.max(stack.getMaxDamage() - 3, 1))));
             }
             // remove stack to prevent further drops
-            event.getDrops().add(target.spawnAtLocation(stack));
+            drops.add(target.spawnAtLocation(stack));
             target.setItemSlot(slot, ItemStack.EMPTY);
           }
         }

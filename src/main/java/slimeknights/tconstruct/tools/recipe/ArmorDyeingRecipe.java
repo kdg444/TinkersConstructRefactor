@@ -2,8 +2,10 @@ package slimeknights.tconstruct.tools.recipe;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.util.TagUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.alphamode.forgetags.DyeUtil;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.Tags.Items;
+import me.alphamode.forgetags.Tags.Items;
 import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.recipe.helper.LoggingRecipeSerializer;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -87,7 +89,7 @@ public class ArmorDyeingRecipe implements ITinkerStationRecipe, IMultiRecipe<IDi
     for (int i = 0; i < inv.getInputCount(); i++) {
       ItemStack stack = inv.getInput(i);
       if (!stack.isEmpty()) {
-        DyeColor dye = DyeColor.getColor(stack);
+        DyeColor dye = TagUtil.getColorFromStack(stack);
         if (dye != null) {
           float[] color = dye.getTextureDiffuseColors();
           int r = (int)(color[0] * 255);
@@ -240,7 +242,7 @@ public class ArmorDyeingRecipe implements ITinkerStationRecipe, IMultiRecipe<IDi
       this.displayResult = result;
       ImmutableList.Builder<List<ItemStack>> builder = ImmutableList.builder();
       builder.add(tools);
-      builder.add(color.getTag().getValues().stream().map(ItemStack::new).toList());
+      builder.add(DyeUtil.getDyeTag(color).getValues().stream().map(ItemStack::new).toList());
       displayItems = builder.build();
 
       ResourceLocation id = result.getModifier().getId();

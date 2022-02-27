@@ -11,6 +11,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -49,7 +51,7 @@ public class MaterialManager extends SimpleJsonResourceReloadListener {
   public static final String FOLDER = "tinkering/materials/definition";
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
-    .registerTypeAdapter(ICondition.class, new ConditionSerializer())
+//    .registerTypeAdapter(ICondition.class, new ConditionSerializer())
     .setPrettyPrinting()
     .disableHtmlEscaping()
     .create();
@@ -175,8 +177,8 @@ public class MaterialManager extends SimpleJsonResourceReloadListener {
     try {
       MaterialJson materialJson = GSON.fromJson(jsonObject, MaterialJson.class);
       // condition
-      ICondition condition = materialJson.getCondition();
-      if (condition != null && !condition.test()) {
+      ConditionJsonProvider condition = materialJson.getCondition();
+      if (condition != null && !ResourceConditions.get(condition.getConditionId()).test(jsonObject)) {
         log.debug("Skipped loading material {} as it did not match the condition", materialId);
         return null;
       }
@@ -185,8 +187,8 @@ public class MaterialManager extends SimpleJsonResourceReloadListener {
       MaterialJson.Redirect[] redirectsJson = materialJson.getRedirect();
       if (redirectsJson != null) {
         for (MaterialJson.Redirect redirect : redirectsJson) {
-          ICondition redirectCondition = redirect.getCondition();
-          if (redirectCondition == null || redirectCondition.test()) {
+          ConditionJsonProvider redirectCondition = redirect.getCondition();
+          if (redirectCondition == null || ResourceConditions.get(redirectCondition.getConditionId()).test(jsonObject)) {
             MaterialId redirectTarget = new MaterialId(redirect.getId());
             log.debug("Redirecting material {} to {}", materialId, redirectTarget);
             redirects.put(new MaterialId(materialId), redirectTarget);
@@ -210,15 +212,15 @@ public class MaterialManager extends SimpleJsonResourceReloadListener {
     }
   }
 
-  private static class ConditionSerializer implements JsonDeserializer<ICondition>, JsonSerializer<ICondition> {
-    @Override
-    public ICondition deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-      return CraftingHelper.getCondition(GsonHelper.convertToJsonObject(json, "condition"));
-    }
-
-    @Override
-    public JsonElement serialize(ICondition condition, Type type, JsonSerializationContext context) {
-      return CraftingHelper.serialize(condition);
-    }
-  }
+//  private static class ConditionSerializer implements JsonDeserializer<ICondition>, JsonSerializer<ICondition> {
+//    @Override
+//    public ICondition deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+//      return CraftingHelper.getCondition(GsonHelper.convertToJsonObject(json, "condition"));
+//    }
+//
+//    @Override
+//    public JsonElement serialize(ICondition condition, Type type, JsonSerializationContext context) {
+//      return CraftingHelper.serialize(condition);
+//    }
+//  }
 }

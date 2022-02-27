@@ -15,6 +15,7 @@ import slimeknights.tconstruct.library.client.data.spritetransformer.RecolorSpri
 import slimeknights.tconstruct.smeltery.SmelteryClientEvents;
 import slimeknights.tconstruct.tables.TableClientEvents;
 import slimeknights.tconstruct.tables.client.PatternGuiTextureLoader;
+import slimeknights.tconstruct.tools.ToolClientEvents;
 import slimeknights.tconstruct.tools.client.ModifierClientEvents;
 import slimeknights.tconstruct.tools.client.ToolRenderEvents;
 
@@ -48,5 +49,6 @@ public class TinkerClient implements ClientModInitializer {
     TableClientEvents.init();
     ModifierClientEvents.init();
     ToolRenderEvents.init();
+    ToolClientEvents.clientSetupEvent();
   }
 }

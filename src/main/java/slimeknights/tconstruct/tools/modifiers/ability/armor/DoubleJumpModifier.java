@@ -5,9 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
@@ -26,7 +24,7 @@ public class DoubleJumpModifier extends TotalArmorLevelModifier {
 
   public DoubleJumpModifier() {
     super(EXTRA_JUMPS);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, DoubleJumpModifier::onLand);
+    LivingEntityEvents.FALL.register(DoubleJumpModifier::onLand);
   }
 
   @Override
@@ -55,9 +53,9 @@ public class DoubleJumpModifier extends TotalArmorLevelModifier {
     // validate preconditions, no using when swimming, elytra, or on the ground
     if (!entity.isOnGround() && !entity.onClimbable() && !entity.isInWaterOrBubble()) {
       // determine modifier level
-      int maxJumps = entity.getCapability(TinkerDataCapability.CAPABILITY).resolve().map(data -> data.get(EXTRA_JUMPS)).orElse(0);
+      int maxJumps = TinkerDataCapability.CAPABILITY.maybeGet(entity).map(data -> data.get(EXTRA_JUMPS)).orElse(0);
       if (maxJumps > 0) {
-        return entity.getCapability(PersistentDataCapability.CAPABILITY).filter(data -> {
+        return PersistentDataCapability.CAPABILITY.maybeGet(entity).filter(data -> {
           int jumps = data.getInt(JUMPS);
           if (jumps < maxJumps) {
             entity.jumpFromGround();
@@ -77,7 +75,7 @@ public class DoubleJumpModifier extends TotalArmorLevelModifier {
   }
 
   /** Event handler to reset the number of times we have jumpped in mid air */
-  private static void onLand(LivingFallEvent event) {
-    event.getEntity().getCapability(PersistentDataCapability.CAPABILITY).ifPresent(data -> data.remove(JUMPS));
+  private static void onLand(LivingEntityEvents.LivingFallEvent event) {
+    PersistentDataCapability.CAPABILITY.maybeGet(event.getEntity()).ifPresent(data -> data.remove(JUMPS));
   }
 }
