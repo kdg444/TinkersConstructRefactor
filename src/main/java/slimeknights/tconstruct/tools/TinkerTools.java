@@ -130,7 +130,7 @@ public final class TinkerTools extends TinkerModule {
    */
 
   void commonSetup() {
-    EquipmentChangeWatcher.register();
+//    EquipmentChangeWatcher.register();
     ToolCapabilityProvider.register(ToolFluidCapability.Provider::new);
     ToolCapabilityProvider.register(ToolInventoryCapability.Provider::new);
   }

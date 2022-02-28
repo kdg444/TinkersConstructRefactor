@@ -65,6 +65,7 @@ public class EquipmentChangeWatcher implements EntityComponentInitializer {
   /** Event listener to attach the capability */
   @Override
   public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
+    register();
     registry.registerForPlayers(CAPABILITY, player -> {
         if (player.getCommandSenderWorld().isClientSide) {
           return new PlayerLastEquipment(player);
