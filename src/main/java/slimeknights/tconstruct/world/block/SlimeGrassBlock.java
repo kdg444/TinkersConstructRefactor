@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.lighting.LayerLightEngine;
+import slimeknights.mantle.lib.util.LevelUtil;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.shared.block.SlimeType;
 import slimeknights.tconstruct.world.TinkerWorld;
@@ -122,7 +123,7 @@ public class SlimeGrassBlock extends SnowyDirtBlock implements BonemealableBlock
   public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
     // based on vanilla logic, reimplemented to remove dirt hardcode
     // prevent loading unloaded chunks
-    if (!world.isAreaLoaded(pos, 3)) return;
+    if (!LevelUtil.isAreaLoaded(world, pos, 3)) return;
 
     // if this is no longer valid grass, destroy
     if (!isValidPos(state, world, pos)) {

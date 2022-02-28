@@ -37,7 +37,7 @@ public class MomentumModifier extends Modifier {
   @Override
   public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (isEffective) {
-      event.setNewSpeed(event.getNewSpeed() * (1 + getBonus(event.getEntityLiving(), level)));
+      event.setNewSpeed(event.getNewSpeed() * (1 + getBonus(event.getPlayer(), level))); // TODO: PORT getEntityLiving?
     }
   }
 

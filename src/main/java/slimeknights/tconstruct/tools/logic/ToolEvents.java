@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
@@ -94,9 +95,9 @@ public class ToolEvents {
           for (ModifierEntry entry : tool.getModifierList()) {
             entry.getModifier().onBreakSpeed(tool, entry.getLevel(), event, direction, isEffective, miningSpeedModifier);
             // if any modifier cancels mining, stop right here
-            if (event.isCanceled()) {
-              return;
-            }
+//            if (event.isCanceled()) { TODO: PORT (allow canceling?)
+//              return;
+//            }
           }
         }
       }
@@ -112,7 +113,7 @@ public class ToolEvents {
 
   static void onHarvest(ToolHarvestEvent event) {
     // prevent processing if already processed
-    if (event.getResult() != Result.DEFAULT) {
+    if (event.getResult() != InteractionResult.PASS) {
       return;
     }
     BlockState state = event.getState();
@@ -141,7 +142,7 @@ public class ToolEvents {
         0.05D,
         0.05D * facing.getStepZ() + world.random.nextDouble() * 0.02D);
       world.addFreshEntity(itemEntity);
-      event.setResult(Result.ALLOW);
+      event.setResult(InteractionResult.SUCCESS);
     }
 
     // hives: get the honey
@@ -161,9 +162,9 @@ public class ToolEvents {
         } else {
           beehive.resetHoneyLevel(world, state, pos);
         }
-        event.setResult(Result.ALLOW);
+        event.setResult(InteractionResult.SUCCESS);
       } else {
-        event.setResult(Result.DENY);
+        event.setResult(InteractionResult.FAIL);
       }
     }
   }
@@ -358,7 +359,7 @@ public class ToolEvents {
       return current;
     }
 //    LivingEntity living = event.getEntityLiving();
-    living.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
+    TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> {
       // mob disguise
       Multiset<EntityType<?>> disguises = data.get(MobDisguiseModifier.DISGUISES);
       if (disguises != null && disguises.contains(lookingEntity.getType())) {

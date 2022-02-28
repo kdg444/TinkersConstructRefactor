@@ -51,7 +51,7 @@ public class EffectSpillingEffect implements ISpillingEffect {
       if (!Registry.MOB_EFFECT.containsKey(id)) {
         throw new JsonSyntaxException("Unknown effect " + id);
       }
-      MobEffect effect = Objects.requireNonNull(Registry.MOB_EFFECT.getValue(id));
+      MobEffect effect = Objects.requireNonNull(Registry.MOB_EFFECT.get(id));
       int time = GsonHelper.getAsInt(json, "time");
       int level = GsonHelper.getAsInt(json, "level", 1);
       return new EffectSpillingEffect(effect, time, level);

@@ -2,7 +2,9 @@ package slimeknights.tconstruct.world;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
@@ -11,24 +13,15 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.client.renderer.entity.SlimeRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import slimeknights.mantle.lib.event.ColorHandlersCallback;
 import slimeknights.mantle.lib.util.Lazy;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
@@ -47,13 +40,11 @@ import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
-@EventBusSubscriber(modid=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
 public class WorldClientEvents extends ClientEventBase {
-  @SubscribeEvent
-  static void addResourceListener(RegisterClientReloadListenersEvent event) {
-    event.registerReloadListener(SkullModelHelper.LISTENER);
+  static void addResourceListener() {
+    ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(SkullModelHelper.LISTENER);
     for (SlimeType type : SlimeType.values()) {
-      event.registerReloadListener(new SlimeColorReloadListener(type));
+      ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SlimeColorReloadListener(type));
     }
   }
 
@@ -64,39 +55,37 @@ public class WorldClientEvents extends ClientEventBase {
     ParticleFactoryRegistry.getInstance().register(TinkerWorld.terracubeParticle.get(), new SlimeParticle.Factory(Items.CLAY_BALL));
   }
 
-  @SubscribeEvent
-  static void registerRenderers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+  static void registerRenderers() {
     Supplier<LayerDefinition> normalHead = Lazy.of(SkullModel::createMobHeadLayer);
     Supplier<LayerDefinition> headOverlayCustom = Lazy.of(() -> SkullModelHelper.createHeadHatLayer(0, 16, 32, 32));
-    registerLayerDefinition(event, TinkerHeadType.BLAZE, normalHead);
-    registerLayerDefinition(event, TinkerHeadType.ENDERMAN, Lazy.of(() -> SkullModelHelper.createHeadLayer(0, 0, 32, 16)));
-    registerLayerDefinition(event, TinkerHeadType.STRAY, headOverlayCustom);
+    registerLayerDefinition(TinkerHeadType.BLAZE, normalHead);
+    registerLayerDefinition(TinkerHeadType.ENDERMAN, Lazy.of(() -> SkullModelHelper.createHeadLayer(0, 0, 32, 16)));
+    registerLayerDefinition(TinkerHeadType.STRAY, headOverlayCustom);
 
     // zombie
-    registerLayerDefinition(event, TinkerHeadType.HUSK, Lazy.of(() -> SkullModelHelper.createHeadLayer(0, 0, 64, 64)));
-    registerLayerDefinition(event, TinkerHeadType.DROWNED, headOverlayCustom);
+    registerLayerDefinition(TinkerHeadType.HUSK, Lazy.of(() -> SkullModelHelper.createHeadLayer(0, 0, 64, 64)));
+    registerLayerDefinition(TinkerHeadType.DROWNED, headOverlayCustom);
 
     // spiders
     Supplier<LayerDefinition> spiderHead = Lazy.of(() -> SkullModelHelper.createHeadLayer(32, 4, 64, 32));
-    registerLayerDefinition(event, TinkerHeadType.SPIDER, spiderHead);
-    registerLayerDefinition(event, TinkerHeadType.CAVE_SPIDER, spiderHead);
+    registerLayerDefinition(TinkerHeadType.SPIDER, spiderHead);
+    registerLayerDefinition(TinkerHeadType.CAVE_SPIDER, spiderHead);
 
     // piglin
     Supplier<LayerDefinition> piglinHead = Lazy.of(SkullModelHelper::createPiglinHead);
-    registerLayerDefinition(event, TinkerHeadType.PIGLIN, piglinHead);
-    registerLayerDefinition(event, TinkerHeadType.PIGLIN_BRUTE, piglinHead);
-    registerLayerDefinition(event, TinkerHeadType.ZOMBIFIED_PIGLIN, piglinHead);
+    registerLayerDefinition(TinkerHeadType.PIGLIN, piglinHead);
+    registerLayerDefinition(TinkerHeadType.PIGLIN_BRUTE, piglinHead);
+    registerLayerDefinition(TinkerHeadType.ZOMBIFIED_PIGLIN, piglinHead);
   }
 
-  static void registerRenderers() {
+  static void registerRenderersSlime() {
     EntityRendererRegistry.register(TinkerWorld.earthSlimeEntity.get(), SlimeRenderer::new);
     EntityRendererRegistry.register(TinkerWorld.skySlimeEntity.get(), TinkerSlimeRenderer.SKY_SLIME_FACTORY);
     EntityRendererRegistry.register(TinkerWorld.enderSlimeEntity.get(), TinkerSlimeRenderer.ENDER_SLIME_FACTORY);
     EntityRendererRegistry.register(TinkerWorld.terracubeEntity.get(), TerracubeRenderer::new);
   }
 
-  @SubscribeEvent
-  static void clientSetup(FMLClientSetupEvent event) {
+  public static void clientSetup() {
     RenderType cutout = RenderType.cutout();
     RenderType cutoutMipped = RenderType.cutoutMipped();
 
@@ -161,9 +150,12 @@ public class WorldClientEvents extends ClientEventBase {
       registerHeadModel(TinkerHeadType.ZOMBIFIED_PIGLIN, MaterialIds.pigIron, new ResourceLocation("textures/entity/piglin/zombified_piglin.png"));
 //    });
 
+    addResourceListener();
     registerParticleFactories();
     registerRenderers();
+    registerRenderersSlime();
     ColorHandlersCallback.BLOCK.register(WorldClientEvents::registerBlockColorHandlers);
+    ColorHandlersCallback.ITEM.register(WorldClientEvents::registerItemColorHandlers);
   }
 
   static void registerBlockColorHandlers(BlockColors blockColors) {
@@ -191,10 +183,7 @@ public class WorldClientEvents extends ClientEventBase {
       TinkerWorld.enderSlimeVine.get());
   }
 
-  @SubscribeEvent
-  static void registerItemColorHandlers(ColorHandlerEvent.Item event) {
-    BlockColors blockColors = event.getBlockColors();
-    ItemColors itemColors = event.getItemColors();
+  static void registerItemColorHandlers(ItemColors itemColors, BlockColors blockColors) {
     // slime grass items
     registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.vanillaSlimeGrass);
     registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.earthSlimeGrass);
@@ -244,7 +233,7 @@ public class WorldClientEvents extends ClientEventBase {
   }
 
   /** Register a head layer definition with forge */
-  private static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event, TinkerHeadType head, Supplier<LayerDefinition> supplier) {
-    event.registerLayerDefinition(SkullModelHelper.HEAD_LAYERS.get(head), supplier);
+  private static void registerLayerDefinition(TinkerHeadType head, Supplier<LayerDefinition> supplier) {
+    EntityModelLayerRegistry.registerModelLayer(SkullModelHelper.HEAD_LAYERS.get(head), supplier::get);
   }
 }

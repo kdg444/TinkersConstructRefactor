@@ -159,7 +159,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     this.tag(Tags.Blocks.STORAGE_BLOCKS).addTag(TinkerTags.Blocks.RAW_BLOCK_COBALT);
 
     // vanilla made cut copper dumb, so untag it in forge
-    this.tag(Tags.Blocks.STORAGE_BLOCKS_COPPER).remove(Blocks.CUT_COPPER);
+    this.tag(Tags.Blocks.STORAGE_BLOCKS_COPPER)/*.remove(Blocks.CUT_COPPER)*/; // TODO: PORT
 
     // allow the enderman to hold more blocks
     TagsProvider.TagAppender<Block> endermanHoldable = this.tag(BlockTags.ENDERMAN_HOLDABLE);

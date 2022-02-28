@@ -26,7 +26,7 @@ public class BoonOfSssssModifier extends TotalArmorLevelModifier {
       IToolStackView replacement = context.getReplacementTool();
       if (replacement == null || replacement.getModifierLevel(this) == 0) {
         // cure effects using the helmet
-        context.getEntity().curePotionEffects(new ItemStack(tool.getItem()));
+//        context.getEntity().curePotionEffects(new ItemStack(tool.getItem())); TODO: PORT
       }
     }
   }
@@ -34,11 +34,11 @@ public class BoonOfSssssModifier extends TotalArmorLevelModifier {
   /** Called when the potion effects start to apply this effect */
   private static void onPotionStart(PotionEvents.PotionAddedEvent event) {
     MobEffectInstance newEffect = event.getPotionEffect();
-    if (newEffect.getEffect().isBeneficial() && !newEffect.getCurativeItems().isEmpty()) {
+    if (newEffect.getEffect().isBeneficial() /*&& !newEffect.getCurativeItems().isEmpty()*/) { // TODO: PORT
       LivingEntity living = (LivingEntity) event.getEntity();
       if (ModifierUtil.getTotalModifierLevel(living, POTENT_POTIONS) > 0) {
         newEffect.duration *= 1.25f;
-        newEffect.getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));
+//        newEffect.getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem())); TODO: PORT
       }
     }
   }

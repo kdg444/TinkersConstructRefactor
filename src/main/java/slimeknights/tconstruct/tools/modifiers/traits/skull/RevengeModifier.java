@@ -20,8 +20,8 @@ public class RevengeModifier extends SingleUseModifier {
     LivingEntity living = context.getEntity();
     if (trueSource != null && trueSource != living) { // no making yourself mad with slurping or self-destruct or alike
       MobEffectInstance effect = new MobEffectInstance(MobEffects.DAMAGE_BOOST, 300);
-      effect.getCurativeItems().clear();
-      effect.getCurativeItems().add(new ItemStack(living.getItemBySlot(slotType).getItem()));
+//      effect.getCurativeItems().clear(); TODO: PORT
+//      effect.getCurativeItems().add(new ItemStack(living.getItemBySlot(slotType).getItem()));
       living.addEffect(effect);
     }
   }
@@ -33,7 +33,7 @@ public class RevengeModifier extends SingleUseModifier {
       IToolStackView replacement = context.getReplacementTool();
       if (replacement == null || replacement.getModifierLevel(this) == 0) {
         // cure effects using the helmet
-        context.getEntity().curePotionEffects(new ItemStack(tool.getItem()));
+//        context.getEntity().curePotionEffects(new ItemStack(tool.getItem())); TODO: PORT
       }
     }
   }

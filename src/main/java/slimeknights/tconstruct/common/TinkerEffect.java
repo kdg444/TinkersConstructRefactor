@@ -26,7 +26,7 @@ public class TinkerEffect extends MobEffect {
 
   /* Visibility */
 
-  @Override
+//  @Override TODO: PORT
   public void initializeClient(Consumer<EffectRenderer> consumer) {
     consumer.accept(new EffectRenderer() {
       @Override

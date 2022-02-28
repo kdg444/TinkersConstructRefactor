@@ -126,9 +126,9 @@ public class ShearsAbilityModifier extends InteractionModifier.SingleUse {
    */
   private static boolean shearEntity(ItemStack itemStack, IToolStackView tool, Level world, Player player, Entity entity, int fortune) {
     // event to override entity shearing
-    Result result = new ToolShearEvent(itemStack, tool, world, player, entity, fortune).fire();
-    if (result != Result.DEFAULT) {
-      return result == Result.ALLOW;
+    InteractionResult result = new ToolShearEvent(itemStack, tool, world, player, entity, fortune).fire();
+    if (result != InteractionResult.PASS) {
+      return result == InteractionResult.SUCCESS;
     }
     // fallback to forge shearable
     if (entity instanceof IShearable target && target.isShearable(itemStack, world, entity.blockPosition())) {

@@ -24,6 +24,9 @@ transitive-mutable field net/minecraft/world/level/storage/loot/LootPool entries
 transitive-mutable field net/minecraft/world/level/levelgen/StructureSettings structureConfig Ljava/util/Map;
 transitive-accessible field net/minecraft/world/level/levelgen/StructureSettings structureConfig Ljava/util/Map;
 transitive-accessible field net/minecraft/world/level/levelgen/StructureSettings configuredStructures Lcom/google/common/collect/ImmutableMap;
+transitive-accessible field net/minecraft/world/item/ArmorItem ARMOR_MODIFIER_UUID_PER_SLOT [Ljava/util/UUID;
+transitive-accessible field net/minecraft/client/renderer/blockentity/SkullBlockRenderer SKIN_BY_TYPE Ljava/util/Map;
+transitive-accessible field net/minecraft/client/model/geom/ModelLayers ALL_MODELS Ljava/util/Set;
 transitive-accessible field net/minecraft/world/level/storage/loot/LootPool entries [Lnet/minecraft/world/level/storage/loot/entries/LootPoolEntryContainer;
 transitive-accessible field net/minecraft/world/level/storage/loot/LootTable pools [Lnet/minecraft/world/level/storage/loot/LootPool;
 transitive-accessible field net/minecraft/data/loot/EntityLoot ENTITY_ON_FIRE Lnet/minecraft/advancements/critereon/EntityPredicate$Builder;
@@ -38,6 +41,7 @@ transitive-accessible method net/minecraft/world/item/crafting/Ingredient valueF
 transitive-accessible method net/minecraft/world/level/material/Material$Builder notSolidBlocking ()Lnet/minecraft/world/level/material/Material$Builder;
 transitive-accessible method net/minecraft/world/level/material/Material$Builder destroyOnPush ()Lnet/minecraft/world/level/material/Material$Builder;
 transitive-accessible method net/minecraft/resources/ResourceLocation isValidNamespace (Ljava/lang/String;)Z
+transitive-accessible method net/minecraft/resources/ResourceLocation isValidPath (Ljava/lang/String;)Z
 transitive-accessible method net/minecraft/network/protocol/game/ClientboundBlockEntityDataPacket <init> (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/entity/BlockEntityType;Lnet/minecraft/nbt/CompoundTag;)V
 transitive-accessible method net/minecraft/world/entity/player/Player closeContainer ()V
 transitive-accessible method net/minecraft/client/renderer/LevelRenderer renderShape (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/phys/shapes/VoxelShape;DDDFFFF)V
@@ -70,6 +74,9 @@ transitive-accessible field net/minecraft/world/level/Explosion x D
 transitive-accessible field net/minecraft/world/level/Explosion y D
 transitive-accessible field net/minecraft/world/level/Explosion z D
 transitive-accessible field net/minecraft/world/level/Explosion radius F
+transitive-accessible field net/minecraft/world/level/Explosion toBlow Ljava/util/List;
+transitive-accessible field net/minecraft/world/level/Explosion blockInteraction Lnet/minecraft/world/level/Explosion$BlockInteraction;
+transitive-mutable field net/minecraft/world/level/Explosion blockInteraction Lnet/minecraft/world/level/Explosion$BlockInteraction;
 transitive-accessible class net/minecraft/client/renderer/RenderStateShard$TextureStateShard
 transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$BinomialWithBonusCount
 transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$Formula
@@ -77,3 +84,53 @@ transitive-accessible class net/minecraft/world/level/storage/loot/functions/App
 transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$OreDrops
 transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$UniformBonusCount
 
+transitive-accessible method net/minecraft/world/level/block/BeehiveBlock angerNearbyBees (Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V
+transitive-accessible method net/minecraft/world/level/block/BeehiveBlock hiveContainsBees (Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Z
+transitive-accessible method net/minecraft/world/item/context/UseOnContext getHitResult ()Lnet/minecraft/world/phys/BlockHitResult;
+transitive-accessible method net/minecraft/client/particle/BreakingItemParticle <init> (Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDDLnet/minecraft/world/item/ItemStack;)V
+transitive-accessible field net/minecraft/world/entity/decoration/ItemFrame DATA_ROTATION Lnet/minecraft/network/syncher/EntityDataAccessor;
+transitive-accessible field net/minecraft/world/level/Explosion level Lnet/minecraft/world/level/Level;
+transitive-accessible field net/minecraft/world/level/Explosion source Lnet/minecraft/world/entity/Entity;
+transitive-accessible field net/minecraft/client/gui/screens/Screen renderables Ljava/util/List;
+
+transitive-accessible class net/minecraft/client/renderer/block/model/ItemTransform$Deserializer
+transitive-accessible field net/minecraft/client/renderer/block/model/ItemTransform$Deserializer DEFAULT_ROTATION Lcom/mojang/math/Vector3f;
+transitive-accessible field net/minecraft/client/renderer/block/model/ItemTransform$Deserializer DEFAULT_TRANSLATION Lcom/mojang/math/Vector3f;
+transitive-accessible field net/minecraft/client/renderer/block/model/ItemTransform$Deserializer DEFAULT_SCALE Lcom/mojang/math/Vector3f;
+
+transitive-accessible field net/minecraft/client/renderer/block/model/BlockModel$GuiLight name Ljava/lang/String;
+
+transitive-accessible field net/minecraft/world/item/Item BASE_ATTACK_DAMAGE_UUID Ljava/util/UUID;
+transitive-accessible field net/minecraft/world/item/Item BASE_ATTACK_SPEED_UUID Ljava/util/UUID;
+
+transitive-accessible method net/minecraft/world/damagesource/DamageSource bypassArmor ()Lnet/minecraft/world/damagesource/DamageSource;
+
+transitive-accessible method net/minecraft/world/level/biome/Biome getTemperature (Lnet/minecraft/core/BlockPos;)F
+
+transitive-accessible field net/minecraft/client/renderer/entity/layers/CustomHeadLayer skullModels Ljava/util/Map;
+transitive-mutable field net/minecraft/client/renderer/entity/layers/CustomHeadLayer skullModels Ljava/util/Map;
+
+transitive-accessible field net/minecraft/client/renderer/blockentity/SkullBlockRenderer modelByType Ljava/util/Map;
+transitive-mutable field net/minecraft/client/renderer/blockentity/SkullBlockRenderer modelByType Ljava/util/Map;
+
+transitive-accessible field net/minecraft/client/renderer/entity/ItemRenderer blockEntityRenderer Lnet/minecraft/client/renderer/BlockEntityWithoutLevelRenderer;
+transitive-accessible field net/minecraft/client/renderer/BlockEntityWithoutLevelRenderer skullModels Ljava/util/Map;
+
+transitive-accessible field net/minecraft/client/renderer/blockentity/BlockEntityRenderDispatcher renderers Ljava/util/Map;
+transitive-accessible field net/minecraft/client/renderer/entity/EntityRenderDispatcher renderers Ljava/util/Map;
+transitive-accessible field net/minecraft/client/renderer/entity/EntityRenderDispatcher playerRenderers Ljava/util/Map;
+
+transitive-accessible field net/minecraft/client/resources/model/ModelManager bakedRegistry Ljava/util/Map;
+
+transitive-accessible field net/minecraft/client/renderer/entity/ItemFrameRenderer minecraft Lnet/minecraft/client/Minecraft;
+transitive-accessible field net/minecraft/client/renderer/entity/ItemFrameRenderer itemRenderer Lnet/minecraft/client/renderer/entity/ItemRenderer;
+
+transitive-accessible field net/minecraft/client/renderer/entity/LivingEntityRenderer layers Ljava/util/List;
+
+transitive-accessible method net/minecraft/world/level/levelgen/feature/HugeFungusFeature placeStem (Lnet/minecraft/world/level/LevelAccessor;Ljava/util/Random;Lnet/minecraft/world/level/levelgen/feature/HugeFungusConfiguration;Lnet/minecraft/core/BlockPos;IZ)V
+transitive-accessible method net/minecraft/world/level/levelgen/feature/HugeFungusFeature placeHat (Lnet/minecraft/world/level/LevelAccessor;Ljava/util/Random;Lnet/minecraft/world/level/levelgen/feature/HugeFungusConfiguration;Lnet/minecraft/core/BlockPos;IZ)V
+
+transitive-accessible field net/minecraft/world/item/context/BlockPlaceContext replaceClicked Z
+transitive-accessible method net/minecraft/world/item/context/BlockPlaceContext <init> (Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/phys/BlockHitResult;)V
+
+transitive-accessible method net/minecraft/client/renderer/block/model/BlockElement uvsByFace (Lnet/minecraft/core/Direction;)[F

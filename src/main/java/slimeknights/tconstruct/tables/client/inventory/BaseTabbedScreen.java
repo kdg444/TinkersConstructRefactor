@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tables.client.inventory;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -53,7 +54,11 @@ public class BaseTabbedScreen<TILE extends BlockEntity, CONTAINER extends Tabbed
         for (Pair<BlockPos, BlockState> pair : container.stationBlocks) {
           BlockState state = pair.getRight();
           BlockPos blockPos = pair.getLeft();
-          ItemStack stack = state.getBlock().getCloneItemStack(state, null, world, blockPos, playerInventory.player);
+          ItemStack stack;
+          if(state.getBlock() instanceof BlockPickInteractionAware pickBlock)
+            stack = pickBlock.getPickedStack(state, world, blockPos, playerInventory.player, null);
+          else
+            stack= state.getBlock().getCloneItemStack(world, blockPos, state);
           this.tabsScreen.addTab(stack, blockPos);
         }
       }

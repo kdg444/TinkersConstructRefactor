@@ -191,7 +191,7 @@ public class AlloyRecipe implements ICustomOutputRecipe<IAlloyTank> {
       }
 
       // add the output
-      int filled = inv.fill(output.copy());
+      long filled = inv.fill(output.copy());
       if (filled != output.getAmount()) {
         TConstruct.LOG.error("Filled only {} for recipe {}", filled, id);
       }

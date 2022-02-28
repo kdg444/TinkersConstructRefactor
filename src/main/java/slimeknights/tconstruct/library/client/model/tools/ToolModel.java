@@ -24,6 +24,7 @@ import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
@@ -307,7 +308,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
     }
 
     // bake model - while the transform may not be identity, it never has rotation so its safe to say untransformed
-    ImmutableMap<TransformType, Transformation> transformMap = Maps.immutableEnumMap(PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform()));
+    ImmutableMap<TransformType, Transformation> transformMap = null;//Maps.immutableEnumMap(PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform()));
 
     // large models use a custom model here
     if (largeTransforms != null) {
@@ -461,7 +462,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
   }
 
   /** Baked model for large tools, has separate quads in GUIs */
-  private static class BakedLargeToolModel implements BakedModel {
+  private static class BakedLargeToolModel implements BakedModel, TransformTypeDependentItemBakedModel {
     private final ImmutableList<BakedQuad> largeQuads;
     @Getter
     private final TextureAtlasSprite particleIcon;
@@ -492,9 +493,9 @@ public class ToolModel implements IModelGeometry<ToolModel> {
     @Override
     public BakedModel handlePerspective(TransformType type, PoseStack mat) {
       if (type == TransformType.GUI) {
-        return this.guiModel.handlePerspective(type, mat);
+        return ((TransformTypeDependentItemBakedModel)this.guiModel).handlePerspective(type, mat);
       }
-      return PerspectiveMapWrapper.handlePerspective(this, transforms, type, mat);
+      return null;//PerspectiveMapWrapper.handlePerspective(this, transforms, type, mat);
     }
 
     /* Misc properties */
@@ -512,6 +513,11 @@ public class ToolModel implements IModelGeometry<ToolModel> {
     @Override
     public boolean isCustomRenderer() {
       return false;
+    }
+
+    @Override
+    public ItemTransforms getTransforms() {
+      return ItemTransforms.NO_TRANSFORMS;
     }
   }
 
@@ -534,7 +540,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
 
     @Override
     public BakedModel handlePerspective(TransformType transform, PoseStack mat) {
-      return PerspectiveMapWrapper.handlePerspective(this, originalModel.transforms, transform, mat);
+      return null;//PerspectiveMapWrapper.handlePerspective(this, originalModel.transforms, transform, mat);
     }
   }
 

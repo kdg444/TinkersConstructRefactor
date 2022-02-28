@@ -9,6 +9,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.state.BlockState;
+import slimeknights.mantle.lib.event.ItemCraftedCallback;
+import slimeknights.mantle.lib.mixin.accessor.RecipeManagerAccessor;
 import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -80,7 +82,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
         sortedButtons = Collections.emptyList();
       } else {
         // fetch all recipes that can match these inputs, the map ensures the patterns are unique
-        recipes = level.getRecipeManager().byType(RecipeTypes.PART_BUILDER).values().stream()
+        recipes = ((RecipeManagerAccessor)level.getRecipeManager()).callByType(RecipeTypes.PART_BUILDER).values().stream()
                        .filter(r -> r instanceof IPartBuilderRecipe)
                        .map(r -> (IPartBuilderRecipe)r)
                        .filter(r -> r.partialMatch(inventoryWrapper))
@@ -235,7 +237,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
   private void shrinkSlot(int slot, int amount, Player player) {
     ItemStack stack = getItem(slot);
     if (!stack.isEmpty()) {
-      ItemStack container = stack.getContainerItem().copy();
+      ItemStack container = new ItemStack(stack.getItem().getCraftingRemainingItem()); // TODO: PORT?
       if (amount > 0) {
         container.setCount(container.getCount() * amount);
       }
@@ -261,7 +263,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
 
     // we are definitely crafting at this point
     result.onCraftedBy(this.level, player, amount);
-    ForgeEventFactory.firePlayerCraftingEvent(player, result, this.inventoryWrapper);
+    ItemCraftedCallback.EVENT.invoker().onCraft(player, result, this.inventoryWrapper);
     this.playCraftSound(player);
 
     // give the player any leftovers

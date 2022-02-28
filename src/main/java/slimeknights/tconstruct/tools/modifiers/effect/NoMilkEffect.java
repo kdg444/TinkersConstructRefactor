@@ -13,7 +13,7 @@ public class NoMilkEffect extends TinkerEffect {
     super(typeIn, color, show);
   }
 
-  @Override
+//  @Override TODO: PORT
   public List<ItemStack> getCurativeItems() {
     return new ArrayList<>();
   }

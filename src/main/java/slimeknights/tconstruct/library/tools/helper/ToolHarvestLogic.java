@@ -122,7 +122,7 @@ public class ToolHarvestLogic {
     ServerLevel world = context.getWorld();
     BlockPos pos = context.getPos();
     GameType type = player.gameMode.getGameModeForPlayer();
-    int exp = ForgeHooks.onBlockBreakEvent(world, type, player, pos);
+    int exp = 0;//ForgeHooks.onBlockBreakEvent(world, type, player, pos); TODO: PORT
     if (exp == -1) {
       return false;
     }

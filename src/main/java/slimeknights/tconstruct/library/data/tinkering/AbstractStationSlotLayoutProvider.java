@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.data.tinkering;
 
+import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
@@ -44,12 +45,12 @@ public abstract class AbstractStationSlotLayoutProvider extends GenericDataProvi
 
   /** Defines the given ID as a item layout */
   protected StationSlotLayout.Builder define(ItemLike item) {
-    return define(Objects.requireNonNull(item.asItem().getRegistryName()));
+    return define(Objects.requireNonNull(Registry.ITEM.getKey(item.asItem())));
   }
 
   /** Defines the given ID as a tool layout, sets icon and name */
   protected StationSlotLayout.Builder defineModifiable(IModifiableDisplay item) {
-    return define(Objects.requireNonNull(item.asItem().getRegistryName()))
+    return define(Objects.requireNonNull(Registry.ITEM.getKey(item.asItem())))
       .translationKey(item.asItem().getDescriptionId())
       .icon(item.getRenderTool());
   }

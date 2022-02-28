@@ -36,6 +36,7 @@ public class SmelteryClientEvents extends ClientEventBase {
     addResourceListener();
     registerRenderers();
     clientSetup();
+    registerModelLoaders();
   }
 
   static void addResourceListener() {
@@ -98,11 +99,11 @@ public class SmelteryClientEvents extends ClientEventBase {
   }
 
   static void registerModelLoaders() {
-    ModelLoaderRegistry.registerLoader(TConstruct.getResource("tank"), TankModel.LOADER);
-    ModelLoaderRegistry.registerLoader(TConstruct.getResource("casting"), CastingModel.LOADER);
-    ModelLoaderRegistry.registerLoader(TConstruct.getResource("melter"), MelterModel.LOADER);
-    ModelLoaderRegistry.registerLoader(TConstruct.getResource("channel"), ChannelModel.LOADER);
-    ModelLoaderRegistry.registerLoader(TConstruct.getResource("fluid_texture"), FluidTextureModel.LOADER);
-    ModelLoaderRegistry.registerLoader(TConstruct.getResource("copper_can"), CopperCanModel.LOADER);
+//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("tank"), TankModel.LOADER); TODO: PORT
+//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("casting"), CastingModel.LOADER);
+//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("melter"), MelterModel.LOADER);
+//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("channel"), ChannelModel.LOADER);
+//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("fluid_texture"), FluidTextureModel.LOADER);
+//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("copper_can"), CopperCanModel.LOADER);
   }
 }

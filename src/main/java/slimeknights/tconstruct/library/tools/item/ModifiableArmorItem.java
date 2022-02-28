@@ -27,7 +27,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import slimeknights.mantle.lib.util.ToolAction;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.hooks.IElytraFlightModifier;
@@ -77,7 +76,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   /* Basic properties */
 
-  @Override
+//  @Override
   public int getItemStackLimit(ItemStack stack) {
     return 1;
   }
@@ -87,17 +86,17 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return false;
   }
 
-  @Override
+//  @Override
   public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
     return false;
   }
 
-  @Override
+//  @Override
   public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-    return enchantment.isCurse() && super.canApplyAtEnchantingTable(stack, enchantment);
+    return enchantment.isCurse() /*&& super.canApplyAtEnchantingTable(stack, enchantment)*/; //TODO: PORT
   }
 
-  @Override
+//  @Override
   public boolean makesPiglinsNeutral(ItemStack stack, LivingEntity wearer) {
     return ModifierUtil.checkVolatileFlag(stack, PIGLIN_NEUTRAL);
   }
@@ -110,11 +109,11 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   /* Loading */
 
-  @Nullable
-  @Override
-  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-    return new ToolCapabilityProvider(stack);
-  }
+//  @Nullable TODO: PORT
+//  @Override
+//  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+//    return new ToolCapabilityProvider(stack);
+//  }
 
   @Override
   public void verifyTagAfterLoad(CompoundTag nbt) {
@@ -155,12 +154,12 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   /* Indestructible items */
 
-  @Override
+//  @Override
   public boolean hasCustomEntity(ItemStack stack) {
     return ModifierUtil.checkVolatileFlag(stack, INDESTRUCTIBLE_ENTITY);
   }
 
-  @Override
+//  @Override
   public Entity createEntity(Level level, Entity original, ItemStack stack) {
     if (ModifierUtil.checkVolatileFlag(stack, INDESTRUCTIBLE_ENTITY)) {
       IndestructibleItemEntity entity = new IndestructibleItemEntity(level, original.getX(), original.getY(), original.getZ(), stack);
@@ -173,7 +172,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   /* Damage/Durability */
 
-  @Override
+//  @Override
   public boolean isRepairable(ItemStack stack) {
     // handle in the tinker station
     return false;
@@ -184,7 +183,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return true;
   }
 
-  @Override
+//  @Override
   public int getMaxDamage(ItemStack stack) {
     if (!canBeDepleted()) {
       return 0;
@@ -195,7 +194,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return tool.isBroken() ? durability + 1 : durability;
   }
 
-  @Override
+//  @Override
   public int getDamage(ItemStack stack) {
     if (!canBeDepleted()) {
       return 0;
@@ -203,14 +202,14 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return ToolStack.from(stack).getDamage();
   }
 
-  @Override
+//  @Override
   public void setDamage(ItemStack stack, int damage) {
     if (canBeDepleted()) {
       ToolStack.from(stack).setDamage(damage);
     }
   }
 
-  @Override
+//  @Override
   public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T damager, Consumer<T> onBroken) {
     // We basically emulate Itemstack.damageItem here. We always return 0 to skip the handling in ItemStack.
     // If we don't tools ignore our damage logic
@@ -275,7 +274,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return builder.build();
   }
 
-  @Override
+//  @Override
   public Multimap<Attribute,AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
     CompoundTag nbt = stack.getTag();
     if (slot != getSlot() || nbt == null) {
@@ -287,12 +286,12 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   /* Elytra */
 
-  @Override
+//  @Override
   public boolean canElytraFly(ItemStack stack, LivingEntity entity) {
     return slot == EquipmentSlot.CHEST && !ToolDamageUtil.isBroken(stack) && ModifierUtil.checkVolatileFlag(stack, ELYTRA);
   }
 
-  @Override
+//  @Override
   public boolean elytraFlightTick(ItemStack stack, LivingEntity entity, int flightTicks) {
     if (slot == EquipmentSlot.CHEST) {
       ToolStack tool = ToolStack.from(stack);

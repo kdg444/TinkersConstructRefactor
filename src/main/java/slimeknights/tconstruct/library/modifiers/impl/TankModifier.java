@@ -223,7 +223,7 @@ public class TankModifier extends Modifier {
     }
 
     @Override
-    public int getTankCapacity(IToolStackView tool, int level, int tank) {
+    public long getTankCapacity(IToolStackView tool, int level, int tank) {
       return isOwner(tool) ? getCapacity(tool) : 0;
     }
 

@@ -14,7 +14,7 @@ public class PlagueModifier extends SingleUseModifier {
     if (isDirectDamage && !source.isProjectile()) {
       // copy all negative effects to target
       for (MobEffectInstance effect : context.getEntity().getActiveEffects()) {
-        if (!effect.getEffect().isBeneficial() && !effect.getCurativeItems().isEmpty()) {
+        if (!effect.getEffect().isBeneficial() /*&& !effect.getCurativeItems().isEmpty()*/) { // TODO: PORT
           target.addEffect(new MobEffectInstance(effect));
         }
       }

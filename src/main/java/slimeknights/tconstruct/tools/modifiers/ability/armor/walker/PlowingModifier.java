@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor.walker;
 
 import com.mojang.datafixers.util.Pair;
+import net.fabricmc.fabric.mixin.content.registry.HoeItemAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
@@ -42,7 +43,7 @@ public class PlowingModifier extends AbstractWalkerModifier {
   protected void walkOn(IToolStackView tool, int level, LivingEntity living, Level world, BlockPos target, MutableBlockPos mutable) {
     if (world.isEmptyBlock(target)) {
       mutable.set(target.getX(), target.getY() - 1, target.getZ());
-      Pair<Predicate<UseOnContext>,Consumer<UseOnContext>> pair = HoeItem.TILLABLES.get(world.getBlockState(mutable).getBlock());
+      Pair<Predicate<UseOnContext>,Consumer<UseOnContext>> pair = HoeItemAccessor.getTillingActions().get(world.getBlockState(mutable).getBlock());
       if (pair != null) {
         // prepare context, reused to save effort as only the position changes
         if (context == null) {

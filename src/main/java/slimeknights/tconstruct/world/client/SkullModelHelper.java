@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import slimeknights.mantle.lib.util.IdentifiableISafeManagerReloadListener;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
 import slimeknights.tconstruct.world.TinkerHeadType;
@@ -34,7 +35,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /** Helps with creation and registration of skull block models */
-public class SkullModelHelper implements ISafeManagerReloadListener {
+public class SkullModelHelper extends IdentifiableISafeManagerReloadListener {
   /** Map of head type to model layer location for each head type */
   public static final Map<TinkerHeadType,ModelLayerLocation> HEAD_LAYERS = Arrays.stream(TinkerHeadType.values()).collect(
     Collectors.toMap(Function.identity(), type -> new ModelLayerLocation(TConstruct.getResource(type.getSerializedName() + "_head"), "main"), (a, b) -> a, () -> new EnumMap<>(TinkerHeadType.class)));
@@ -42,7 +43,7 @@ public class SkullModelHelper implements ISafeManagerReloadListener {
   /** Resource reload listener */
   public static final SkullModelHelper LISTENER = new SkullModelHelper();
 
-  private SkullModelHelper() {}
+  private SkullModelHelper() {super(TConstruct.getResource("skull_model_helper"));}
 
   /** Injects the extra skulls into the given map */
   private static ImmutableMap<SkullBlock.Type,SkullModelBase> inject(EntityModelSet modelSet, Map<SkullBlock.Type,SkullModelBase> original) {
@@ -78,11 +79,11 @@ public class SkullModelHelper implements ISafeManagerReloadListener {
       injectEntityLayers(modelSet, entity);
     }
     // player renderers
-    for (EntityRenderer<?> entity : entityRenderDispatcher.getSkinMap().values()) {
+    for (EntityRenderer<?> entity : entityRenderDispatcher.playerRenderers.values()) {
       injectEntityLayers(modelSet, entity);
     }
     // finally, block entity without level renderer, it exists in either blocks or items so does not matter which we choose
-    BlockEntityWithoutLevelRenderer bewlr = mc.getItemRenderer().getBlockEntityRenderer();
+    BlockEntityWithoutLevelRenderer bewlr = mc.getItemRenderer().blockEntityRenderer;
     bewlr.skullModels = inject(modelSet, bewlr.skullModels);
   }
 

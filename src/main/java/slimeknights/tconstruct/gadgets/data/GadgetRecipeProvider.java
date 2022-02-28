@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.gadgets.data;
 
 import me.alphamode.forgetags.Tags;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -28,7 +28,7 @@ import slimeknights.tconstruct.world.TinkerWorld;
 import java.util.function.Consumer;
 
 public class GadgetRecipeProvider extends BaseRecipeProvider {
-  public GadgetRecipeProvider(DataGenerator generator) {
+  public GadgetRecipeProvider(FabricDataGenerator generator) {
     super(generator);
   }
 

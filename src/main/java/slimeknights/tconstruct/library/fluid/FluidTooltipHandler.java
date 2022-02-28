@@ -162,7 +162,7 @@ public class FluidTooltipHandler {
    * @param amount   Fluid amount
    * @param tooltip  Tooltip to append information
    */
-  public static void appendIngots(int amount, List<Component> tooltip) {
+  public static void appendIngots(long amount, List<Component> tooltip) {
     amount = INGOT.getText(tooltip, amount);
     appendBuckets(amount, tooltip);
   }
@@ -172,7 +172,7 @@ public class FluidTooltipHandler {
    * @param amount     Fluid amount
    * @param tooltip  Tooltip to append information
    */
-  public static void appendBuckets(int amount, List<Component> tooltip) {
+  public static void appendBuckets(long amount, List<Component> tooltip) {
     amount = KILOBUCKET.getText(tooltip, amount);
     amount = BUCKET.getText(tooltip, amount);
     MILLIBUCKET.getText(tooltip, amount);
@@ -185,7 +185,7 @@ public class FluidTooltipHandler {
      * @param translationKey  Base translation name
      * @param needed          Amount needed
      */
-    private FluidGuiEntry(String translationKey, int needed) {
+    private FluidGuiEntry(String translationKey, long needed) {
       this.translationKey = TConstruct.makeTranslationKey("gui", "fluid." + translationKey);
       this.needed = needed;
     }
@@ -194,7 +194,7 @@ public class FluidTooltipHandler {
      * Gets the display text for this fluid entry
      * @return  Display text
      */
-    private int getText(List<Component> tooltip, long amount) {
+    private long getText(List<Component> tooltip, long amount) {
       long full = amount / needed;
       if (full > 0) {
         tooltip.add(new TranslatableComponent(translationKey, full).withStyle(ChatFormatting.GRAY));
@@ -206,7 +206,7 @@ public class FluidTooltipHandler {
     public int compareTo(FluidGuiEntry other) {
       if (this.needed != other.needed) {
         // reverse order so highest sorts first
-        return Integer.compare(other.needed, this.needed);
+        return Long.compare(other.needed, this.needed);
       }
       // fallback to translation key, so ingot sorts before pane if both are present
       return this.translationKey.compareTo(other.translationKey);

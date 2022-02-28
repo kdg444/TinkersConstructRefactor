@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.recipe.modifiers.spilling;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
@@ -51,7 +52,7 @@ public class SpillingRecipeBuilder extends AbstractRecipeBuilder<SpillingRecipeB
 
   @Override
   public void save(Consumer<FinishedRecipe> consumer) {
-    save(consumer, Objects.requireNonNull(fluid.getFluids().get(0).getFluid().getRegistryName()));
+    save(consumer, Objects.requireNonNull(Registry.FLUID.getKey(fluid.getFluids().get(0).getFluid())));
   }
 
   @Override

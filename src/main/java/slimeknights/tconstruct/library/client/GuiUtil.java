@@ -98,7 +98,7 @@ public final class GuiUtil {
    * @param height    Tank height
    * @param depth     Tank depth
    */
-  public static void renderFluidTank(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, int capacity, int x, int y, int width, int height, int depth) {
+  public static void renderFluidTank(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, long capacity, int x, int y, int width, int height, int depth) {
     renderFluidTank(matrices, screen, stack, stack.getAmount(), capacity, x, y, width, height, depth);
   }
 

@@ -17,7 +17,7 @@ public class SlimeDirtBlock extends Block {
     super(properties);
   }
 
-  @Override
+//  @Override TODO: PORT
   public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {
     // can sustain both slimeplants and normal plants
     return plantable.getPlantType(world, pos) == TinkerWorld.SLIME_PLANT_TYPE || plantable.getPlantType(world, pos) == PlantType.PLAINS;

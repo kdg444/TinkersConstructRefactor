@@ -7,6 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -131,7 +132,7 @@ public class FancyItemFrameEntity extends ItemFrame implements ExtraSpawnDataEnt
     }
   }
 
-  @Override
+//  @Override
   protected void setRotation(int rotationIn, boolean updateComparator) {
     this.rotationTimer = 0;
     // diamond goes 0-8 rotation, no modulo and needs to sync with client
@@ -179,7 +180,7 @@ public class FancyItemFrameEntity extends ItemFrame implements ExtraSpawnDataEnt
     return super.spawnAtLocation(stack, offset);
   }
 
-  @Override
+//  @Override
   public ItemStack getPickedResult(HitResult target) {
     ItemStack held = this.getItem();
     if (held.isEmpty()) {
@@ -234,7 +235,7 @@ public class FancyItemFrameEntity extends ItemFrame implements ExtraSpawnDataEnt
 
   @Override
   public Packet<?> getAddEntityPacket() {
-    return NetworkHooks.getEntitySpawningPacket(this);
+    return new ClientboundAddEntityPacket(this);
   }
 
   @Override

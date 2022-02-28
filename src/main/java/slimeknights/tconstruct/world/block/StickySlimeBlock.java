@@ -15,17 +15,17 @@ public class StickySlimeBlock extends SlimeBlock {
     this.stickyPredicate = stickyPredicate;
   }
 
-  @Override
+//  @Override TODO: PORT
   public boolean isSlimeBlock(BlockState state) {
     return true;
   }
 
-  @Override
+//  @Override
   public boolean isStickyBlock(BlockState state) {
     return true;
   }
 
-  @Override
+//  @Override
   public boolean canStickTo(BlockState state, BlockState other) {
     return stickyPredicate.test(state, other);
   }

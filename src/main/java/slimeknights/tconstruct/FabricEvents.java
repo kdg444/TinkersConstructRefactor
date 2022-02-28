@@ -7,6 +7,7 @@ import slimeknights.tconstruct.fluids.FluidEvents;
 import slimeknights.tconstruct.shared.AchievementEvents;
 import slimeknights.tconstruct.shared.CommonsEvents;
 import slimeknights.tconstruct.tools.logic.ToolEvents;
+import slimeknights.tconstruct.world.WorldClientEvents;
 
 public class FabricEvents {
   public static void init() {
@@ -23,7 +24,7 @@ public class FabricEvents {
   private static class Client {
     @Environment(EnvType.CLIENT)
     private static void init() {
-    
+      WorldClientEvents.clientSetup();
     }
   }
 }

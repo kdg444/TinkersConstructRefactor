@@ -7,6 +7,8 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import slimeknights.mantle.lib.block.CustomDataPacketHandlingBlockEntity;
+import slimeknights.mantle.lib.block.CustomUpdateTagHandlingBlockEntity;
 import slimeknights.mantle.lib.model.IModelData;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
@@ -23,7 +25,7 @@ import java.util.Objects;
 /**
  * Fluid IO extension to display controller fluid
  */
-public class DrainBlockEntity extends SmelteryFluidIO implements IDisplayFluidListener {
+public class DrainBlockEntity extends SmelteryFluidIO implements IDisplayFluidListener, CustomUpdateTagHandlingBlockEntity, CustomDataPacketHandlingBlockEntity {
   @Getter
   private final IModelData modelData = new SinglePropertyData<>(IDisplayFluidListener.PROPERTY);
   @Getter
@@ -43,7 +45,7 @@ public class DrainBlockEntity extends SmelteryFluidIO implements IDisplayFluidLi
       // no need to copy as the fluid was copied by the caller
       displayFluid = fluid;
       modelData.setData(IDisplayFluidListener.PROPERTY, displayFluid);
-      requestModelDataUpdate();
+//      requestModelDataUpdate(); TODO: PORT?
       assert level != null;
       BlockState state = getBlockState();
       level.sendBlockUpdated(worldPosition, state, state, 48);
@@ -77,7 +79,7 @@ public class DrainBlockEntity extends SmelteryFluidIO implements IDisplayFluidLi
   @Override
   public void handleUpdateTag(CompoundTag tag) {
     BlockPos oldMaster = getMasterPos();
-    super.handleUpdateTag(tag);
+    CustomUpdateTagHandlingBlockEntity.super.handleUpdateTag(tag);
     if (!Objects.equals(oldMaster, getMasterPos())) {
       attachFluidListener();
     }

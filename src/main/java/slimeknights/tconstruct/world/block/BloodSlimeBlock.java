@@ -12,12 +12,12 @@ public class BloodSlimeBlock extends SlimeBlock {
     super(properties);
   }
 
-  @Override
+//  @Override TODO: PORT
   public boolean isSlimeBlock(BlockState state) {
     return true;
   }
 
-  @Override
+//  @Override TODO: PORT
   public boolean canStickTo(BlockState state, BlockState other) {
     return TinkerWorld.slime.contains(other.getBlock());
   }

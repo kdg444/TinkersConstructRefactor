@@ -155,7 +155,7 @@ public abstract class PartRequirement {
     @Override
     public JsonObject serialize() {
       JsonObject jsonObject = new JsonObject();
-      jsonObject.addProperty("item", Objects.requireNonNull(part.asItem().getRegistryName()).toString());
+      jsonObject.addProperty("item", Objects.requireNonNull(Registry.ITEM.getKey(part.asItem())).toString());
       if (getWeight() != 1) {
         jsonObject.addProperty("weight", getWeight());
       }

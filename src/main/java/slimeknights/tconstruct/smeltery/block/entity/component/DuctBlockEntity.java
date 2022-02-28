@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.entity.component;
 
+
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,6 +14,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
+import slimeknights.mantle.lib.block.CustomUpdateTagHandlingBlockEntity;
 import slimeknights.mantle.lib.model.IModelData;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.lib.transfer.item.IItemHandler;
@@ -32,7 +34,7 @@ import javax.annotation.Nullable;
 /**
  * Filtered drain tile entity
  */
-public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider, ItemTransferable {
+public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider, ItemTransferable, CustomUpdateTagHandlingBlockEntity {
   private static final String TAG_ITEM = "item";
   private static final Component TITLE = TConstruct.makeTranslation("gui", "duct");
 
@@ -111,7 +113,7 @@ public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider, It
 
   @Override
   public void handleUpdateTag(CompoundTag tag) {
-    super.handleUpdateTag(tag);
+    CustomUpdateTagHandlingBlockEntity.super.handleUpdateTag(tag);
     if (level != null && level.isClientSide) {
       updateFluid();
     }

@@ -51,9 +51,9 @@ import static slimeknights.tconstruct.library.client.model.tools.ToolModel.regis
 @SuppressWarnings("unused")
 public class ToolClientEvents extends ClientEventBase {
   /** Keybinding for interacting using a helmet */
-  private static final KeyMapping HELMET_INTERACT = new KeyMapping(TConstruct.makeTranslationKey("key", "helmet_interact"), KeyConflictContext.IN_GAME, InputConstants.getKey("key.keyboard.z"), "key.categories.tconstruct");
+  private static final KeyMapping HELMET_INTERACT = new KeyMapping(TConstruct.makeTranslationKey("key", "helmet_interact")/*, KeyConflictContext.IN_GAME*/, InputConstants.getKey("key.keyboard.z").getValue(), "key.categories.tconstruct");
   /** Keybinding for interacting using leggings */
-  private static final KeyMapping LEGGINGS_INTERACT = new KeyMapping(TConstruct.makeTranslationKey("key", "leggings_interact"), KeyConflictContext.IN_GAME, InputConstants.getKey("key.keyboard.i"), "key.categories.tconstruct");
+  private static final KeyMapping LEGGINGS_INTERACT = new KeyMapping(TConstruct.makeTranslationKey("key", "leggings_interact")/*, KeyConflictContext.IN_GAME*/, InputConstants.getKey("key.keyboard.i").getValue(), "key.categories.tconstruct");
 
   /** Listener to clear modifier cache */
   private static final ISafeManagerReloadListener MODIFIER_RELOAD_LISTENER = manager -> {
@@ -62,22 +62,22 @@ public class ToolClientEvents extends ClientEventBase {
     }
   };
 
-  @SubscribeEvent
-  static void addResourceListener(RegisterClientReloadListenersEvent manager) {
-    ModifierModelManager.init(manager);
-    MaterialTooltipCache.init(manager);
-    manager.registerReloadListener(MODIFIER_RELOAD_LISTENER);
-    manager.registerReloadListener(PlateArmorModel.RELOAD_LISTENER);
-    manager.registerReloadListener(SlimeskullArmorModel.RELOAD_LISTENER);
-    manager.registerReloadListener(SlimelytraArmorModel.RELOAD_LISTENER);
-    manager.registerReloadListener(HarvestTiers.RELOAD_LISTENER);
-  }
+//  @SubscribeEvent TODO: PORT
+//  static void addResourceListener(RegisterClientReloadListenersEvent manager) {
+//    ModifierModelManager.init(manager);
+//    MaterialTooltipCache.init(manager);
+//    manager.registerReloadListener(MODIFIER_RELOAD_LISTENER);
+//    manager.registerReloadListener(PlateArmorModel.RELOAD_LISTENER);
+//    manager.registerReloadListener(SlimeskullArmorModel.RELOAD_LISTENER);
+//    manager.registerReloadListener(SlimelytraArmorModel.RELOAD_LISTENER);
+//    manager.registerReloadListener(HarvestTiers.RELOAD_LISTENER);
+//  }
 
-  @SubscribeEvent
-  static void registerModelLoaders(ModelRegistryEvent event) {
-    ModelLoaderRegistry.registerLoader(TConstruct.getResource("material"), MaterialModel.LOADER);
-    ModelLoaderRegistry.registerLoader(TConstruct.getResource("tool"), ToolModel.LOADER);
-  }
+//  @SubscribeEvent TODO: PORT
+//  static void registerModelLoaders(ModelRegistryEvent event) {
+//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("material"), MaterialModel.LOADER);
+//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("tool"), ToolModel.LOADER);
+//  }
 
   static void registerModifierModels(ModifierModelRegistrationEvent event) {
     event.registerModel(TConstruct.getResource("normal"), NormalModifierModel.UNBAKED_INSTANCE);

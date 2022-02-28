@@ -160,12 +160,12 @@ public class MeltingRecipe implements IMeltingRecipe {
     protected void toNetworkSafe(FriendlyByteBuf buffer, T recipe) {
       buffer.writeUtf(recipe.group);
       recipe.input.toNetwork(buffer);
-      recipe.output.writeToPacket(buffer);
+      recipe.output.toBuffer(buffer);
       buffer.writeInt(recipe.temperature);
       buffer.writeVarInt(recipe.time);
       buffer.writeVarInt(recipe.byproducts.size());
       for (FluidStack fluidStack : recipe.byproducts) {
-        fluidStack.writeToPacket(buffer);
+        fluidStack.toBuffer(buffer);
       }
     }
   }

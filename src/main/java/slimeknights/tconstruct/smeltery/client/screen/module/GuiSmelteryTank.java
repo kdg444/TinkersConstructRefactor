@@ -150,18 +150,18 @@ public class GuiSmelteryTank {
       int hovered = tank.getContained() == 0 ? -1 : getFluidFromMouse(calcLiquidHeights(false), checkY);
       List<Component> tooltip;
       if (hovered == -1) {
-        BiConsumer<Integer, List<Component>> formatter = Screen.hasShiftDown() ? FluidTooltipHandler::appendBuckets : FluidTooltipHandler::appendIngots;
+        BiConsumer<Long, List<Component>> formatter = Screen.hasShiftDown() ? FluidTooltipHandler::appendBuckets : FluidTooltipHandler::appendIngots;
 
         tooltip = new ArrayList<>();
         tooltip.add(new TranslatableComponent(TOOLTIP_CAPACITY));
 
         formatter.accept(tank.getCapacity(), tooltip);
-        int remaining = tank.getRemainingSpace();
+        long remaining = tank.getRemainingSpace();
         if (remaining > 0) {
           tooltip.add(new TranslatableComponent(TOOLTIP_AVAILABLE));
           formatter.accept(remaining, tooltip);
         }
-        int used = tank.getContained();
+        long used = tank.getContained();
         if (used > 0) {
           tooltip.add(new TranslatableComponent(TOOLTIP_USED));
           formatter.accept(used, tooltip);
@@ -216,7 +216,7 @@ public class GuiSmelteryTank {
    * @param min      Minimum amount of height for a fluid. A fluid can never have less than this value height returned
    * @return Array with heights corresponding to input-list liquids
    */
-  public static int[] calcLiquidHeights(List<FluidStack> liquids, int capacity, int height, int min) {
+  public static int[] calcLiquidHeights(List<FluidStack> liquids, long capacity, int height, int min) {
     int[] fluidHeights = new int[liquids.size()];
 
     int totalFluidAmount = 0;

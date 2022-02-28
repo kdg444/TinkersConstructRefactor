@@ -43,9 +43,9 @@ public class SoulSpeedModifier extends Modifier implements IArmorWalkModifier {
     if (living.level.isEmptyBlock(pos)) {
       BlockPos below = pos.below();
       BlockState blockstate = living.level.getBlockState(below);
-      if (blockstate.collisionExtendsVertically(living.level, below, living)) {
-        return below;
-      }
+//      if (blockstate.collisionExtendsVertically(living.level, below, living)) { TODO: PORT
+//        return below;
+//      }
     }
 
     return pos;

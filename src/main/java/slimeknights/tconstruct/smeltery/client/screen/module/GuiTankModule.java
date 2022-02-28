@@ -42,7 +42,7 @@ public class GuiTankModule {
    * Gets the height of the fluid in pixels
    * @return  Fluid height
    */
-  private int getFluidHeight() {
+  private long getFluidHeight() {
     return height * tank.getFluidInTank(TANK_INDEX).getAmount() / tank.getTankCapacity(TANK_INDEX);
   }
 
@@ -63,15 +63,15 @@ public class GuiTankModule {
   public void highlightHoveredFluid(PoseStack matrices, int checkX, int checkY) {
     // highlight hovered fluid
     if (isHovered(checkX, checkY)) {
-      int fluidHeight = getFluidHeight();
-      int middle = y + height - fluidHeight;
+      long fluidHeight = getFluidHeight();
+      long middle = y + height - fluidHeight;
 
       // highlight just fluid
       if (checkY > middle) {
-        GuiUtil.renderHighlight(matrices, x, middle, width, fluidHeight);
+        GuiUtil.renderHighlight(matrices, x, (int) middle, width, (int) fluidHeight);
       } else {
         // or highlight empty
-        GuiUtil.renderHighlight(matrices, x, y, width, height - fluidHeight);
+        GuiUtil.renderHighlight(matrices, x, y, width, (int) (height - fluidHeight));
       }
     }
   }
@@ -88,8 +88,8 @@ public class GuiTankModule {
 
     if (isHovered(checkX, checkY)) {
       FluidStack fluid = tank.getFluidInTank(TANK_INDEX);
-      int amount = fluid.getAmount();
-      int capacity = tank.getTankCapacity(TANK_INDEX);
+      long amount = fluid.getAmount();
+      long capacity = tank.getTankCapacity(TANK_INDEX);
 
       // if hovering over the fluid, display with name
       final List<Component> tooltip;
@@ -97,7 +97,7 @@ public class GuiTankModule {
         tooltip = FluidTooltipHandler.getFluidTooltip(fluid);
       } else {
         // function to call for amounts
-        BiConsumer<Integer, List<Component>> formatter = Screen.hasShiftDown()
+        BiConsumer<Long, List<Component>> formatter = Screen.hasShiftDown()
                                                               ? FluidTooltipHandler::appendBuckets
                                                               : FluidTooltipHandler::appendIngots;
 

@@ -62,7 +62,7 @@ public class EFLNExplosion extends Explosion {
             BlockState blockstate = this.level.getBlockState(blockpos);
 
             FluidState ifluidstate = this.level.getFluidState(blockpos);
-            float f2 = Math.max(blockstate.getExplosionResistance(this.level, blockpos, this), ifluidstate.getExplosionResistance(this.level, blockpos, this));
+            float f2 = Math.max(/*blockstate.getExplosionResistance(this.level, blockpos, this)*/blockstate.getBlock().getExplosionResistance(), ifluidstate.getExplosionResistance(/*this.level, blockpos, this*/)); // TODO: PORT
             if (this.source != null) {
               f2 = this.source.getBlockExplosionResistance(this, this.level, blockpos, blockstate, ifluidstate, f2);
             }
@@ -100,7 +100,7 @@ public class EFLNExplosion extends Explosion {
 
         this.level.getProfiler().push("explosion_blocks");
 
-        if (blockstate.canDropFromExplosion(this.level, blockpos, this) && this.level instanceof ServerLevel) {
+        if (/*blockstate.canDropFromExplosion(this.level, blockpos, this) &&*/ this.level instanceof ServerLevel) { // TODO: PORT
           BlockEntity tileentity = blockstate.hasBlockEntity() ? this.level.getBlockEntity(blockpos) : null;
           LootContext.Builder builder = (new LootContext.Builder((ServerLevel) this.level)).withRandom(this.level.random).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(blockpos)).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, tileentity).withOptionalParameter(LootContextParams.THIS_ENTITY, this.source);
 
@@ -111,7 +111,7 @@ public class EFLNExplosion extends Explosion {
           blockstate.getDrops(builder).forEach((stack) -> addStack(arrayList, stack, blockpos1));
         }
 
-        blockstate.onBlockExploded(this.level, blockpos, this);
+//        blockstate.onBlockExploded(this.level, blockpos, this); TODO: PORT
         this.level.getProfiler().pop();
       }
     }

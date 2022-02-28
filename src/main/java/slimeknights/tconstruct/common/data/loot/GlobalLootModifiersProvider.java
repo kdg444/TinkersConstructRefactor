@@ -38,7 +38,7 @@ public class GlobalLootModifiersProvider extends GlobalLootModifierProvider {
   protected void start() {
     ReplaceItemLootModifier.builder(Ingredient.of(Items.BONE), ItemOutput.fromItem(TinkerMaterials.necroticBone))
 //                           .addCondition(LootTableIdCondition.builder(new ResourceLocation("entities/wither_skeleton")).build()) Todo: port
-                           .addCondition(ConfigEnabledCondition.WITHER_BONE_DROP)
+//                           .addCondition(ConfigEnabledCondition.WITHER_BONE_DROP) TODO: PORT
                            .build("wither_bone", this);
 
     // generic modifier hook

@@ -69,14 +69,14 @@ public class OffhandAttackModifier extends SingleUseModifier {
   @Override
   public void onEquip(IToolStackView tool, int level, EquipmentChangeContext context) {
     if (!tool.isBroken() && context.getChangedSlot() == EquipmentSlot.OFFHAND) {
-      context.getEntity().getCapability(OffhandCooldownTracker.CAPABILITY).ifPresent(cap -> cap.setEnabled(true));
+      OffhandCooldownTracker.CAPABILITY.maybeGet(context.getEntity()).ifPresent(cap -> cap.setEnabled(true));
     }
   }
 
   @Override
   public void onUnequip(IToolStackView tool, int level, EquipmentChangeContext context) {
     if (!tool.isBroken() && context.getChangedSlot() == EquipmentSlot.OFFHAND) {
-      context.getEntity().getCapability(OffhandCooldownTracker.CAPABILITY).ifPresent(cap -> cap.setEnabled(false));
+      OffhandCooldownTracker.CAPABILITY.maybeGet(context.getEntity()).ifPresent(cap -> cap.setEnabled(false));
     }
   }
 }

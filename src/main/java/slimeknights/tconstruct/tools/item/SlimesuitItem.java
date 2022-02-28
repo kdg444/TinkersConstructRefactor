@@ -53,7 +53,7 @@ public class SlimesuitItem extends ModifiableArmorItem {
   }
 
   @Nullable
-  @Override
+//  @Override TODO: PORT
   public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
     String material = getMaterial(stack);
     if (slot == EquipmentSlot.LEGS) {

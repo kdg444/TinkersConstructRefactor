@@ -30,7 +30,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
   private int capacity;
   /** Current amount of fluid in the tank */
   @Getter
-  private int contained;
+  private long contained;
 
   public SmelteryTank(T parent) {
     fluids = Lists.newArrayList();
@@ -65,7 +65,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
    * Gets the maximum amount of space in the smeltery tank
    * @return  Tank capacity
    */
-  public int getCapacity() {
+  public long getCapacity() {
     return capacity;
   }
 
@@ -73,7 +73,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
    * Gets the amount of empty space in the tank
    * @return  Remaining space in the tank
    */
-  public int getRemainingSpace() {
+  public long getRemainingSpace() {
     if (contained >= capacity) {
       return 0;
     }
@@ -106,12 +106,12 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
   }
 
   @Override
-  public int getTankCapacity(int tank) {
+  public long getTankCapacity(int tank) {
     if (tank < 0) {
       return 0;
     }
     // index of the tank size means the "empty" segment
-    int remaining = capacity - contained;
+    long remaining = capacity - contained;
     if (tank == fluids.size()) {
       return remaining;
     }
@@ -136,21 +136,21 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
   /* Filling and draining */
 
   @Override
-  public int fill(FluidStack resource, boolean sim) {
+  public long fill(FluidStack resource, boolean sim) {
     // if full or nothing being filled, do nothing
     if (contained >= capacity || resource.isEmpty()) {
       return 0;
     }
 
     // determine how much we can fill
-    int usable = Math.min(capacity - contained, resource.getAmount());
+    long usable = Math.min(capacity - contained, resource.getAmount());
     // could be negative if the smeltery size changes then you try filling it
     if (usable <= 0) {
       return 0;
     }
 
     // done here if just simulating
-    if (action.simulate()) {
+    if (sim) {
       return usable;
     }
 
@@ -177,14 +177,14 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
 
   @Nonnull
   @Override
-  public FluidStack drain(int maxDrain, boolean sim) {
+  public FluidStack drain(long maxDrain, boolean sim) {
     if (fluids.isEmpty()) {
       return FluidStack.EMPTY;
     }
 
     // simply drain the first one
     FluidStack fluid = fluids.get(0);
-    int drainable = Math.min(maxDrain, fluid.getAmount());
+    long drainable = Math.min(maxDrain, fluid.getAmount());
 
     // copy contained fluid to return for accuracy
     FluidStack ret = fluid.copy();
@@ -216,7 +216,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
       FluidStack fluid = iter.next();
       if (fluid.isFluidEqual(toDrain)) {
         // if found, determine how much we can drain
-        int drainable = Math.min(toDrain.getAmount(), fluid.getAmount());
+        long drainable = Math.min(toDrain.getAmount(), fluid.getAmount());
 
         // copy contained fluid to return for accuracy
         FluidStack ret = fluid.copy();
@@ -256,7 +256,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
     FluidStack oldFirst = getFluidInTank(0);
     this.fluids.clear();
     this.fluids.addAll(fluids);
-    contained = fluids.stream().mapToInt(FluidStack::getAmount).reduce(0, Integer::sum);
+    contained = fluids.stream().mapToLong(FluidStack::getAmount).reduce(0, Long::sum);
     FluidStack newFirst = getFluidInTank(0);
     if (!oldFirst.isFluidEqual(newFirst)) {
       parent.notifyFluidsChanged(FluidChange.ORDER_CHANGED, newFirst);

@@ -1,16 +1,21 @@
 package slimeknights.tconstruct.tools.logic;
 
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
+import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import slimeknights.mantle.lib.event.EntityEvents;
 import slimeknights.mantle.lib.event.PlayerTickEvents;
 import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.TConstruct;
@@ -27,25 +32,25 @@ import java.util.Map;
 /**
  * Capability to make it easy for modifiers to store common data on the player, primarily used for armor
  */
-public class EquipmentChangeWatcher {
+public class EquipmentChangeWatcher implements EntityComponentInitializer {
   private EquipmentChangeWatcher() {}
 
   /** Capability ID */
   private static final ResourceLocation ID = TConstruct.getResource("equipment_watcher");
   /** Capability type */
-  public static final ComponentKey<PlayerLastEquipment> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+  public static final ComponentKey<PlayerLastEquipment> CAPABILITY = ComponentRegistry.getOrCreate(ID, PlayerLastEquipment.class);
 
   /** Registers this capability */
   public static void register() {
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, event -> event.register(PlayerLastEquipment.class));
+//    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, event -> event.register(PlayerLastEquipment.class));
 
     // equipment change is used on both sides
-    MinecraftForge.EVENT_BUS.addListener(EquipmentChangeWatcher::onEquipmentChange);
+//    MinecraftForge.EVENT_BUS.addListener(EquipmentChangeWatcher::onEquipmentChange);
 
     // only need to use the cap and the player tick on the client
     if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
       PlayerTickEvents.END.register(EquipmentChangeWatcher::onPlayerTick);
-      MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EquipmentChangeWatcher::attachCapability);
+//      MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EquipmentChangeWatcher::attachCapability);
     }
   }
 
@@ -53,18 +58,23 @@ public class EquipmentChangeWatcher {
   /* Events */
 
   /** Serverside modifier hooks */
-  private static void onEquipmentChange(LivingEquipmentChangeEvent event) {
-    runModifierHooks(event.getEntityLiving(), event.getSlot(), event.getFrom(), event.getTo());
-  }
+//  private static void onEquipmentChange(LivingEquipmentChangeEvent event) {
+//    runModifierHooks(event.getEntityLiving(), event.getSlot(), event.getFrom(), event.getTo());
+//  }
 
   /** Event listener to attach the capability */
-  private static void attachCapability(AttachCapabilitiesEvent<Entity> event) {
-    Entity entity = event.getObject();
-    if (entity.getCommandSenderWorld().isClientSide && entity instanceof Player) {
-      PlayerLastEquipment provider = new PlayerLastEquipment((Player) entity);
-      event.addCapability(ID, provider);
-      event.addListener(provider);
-    }
+  @Override
+  public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
+    registry.registerForPlayers(CAPABILITY, player -> {
+        if (player.getCommandSenderWorld().isClientSide) {
+          return new PlayerLastEquipment(player);
+        }
+      return null;
+    });
+    EntityEvents.ON_REMOVE.register((entity, reason) -> {
+      if(entity instanceof Player player)
+        player.getComponent(CAPABILITY).run();
+    });
   }
 
   /** Client side modifier hooks */
@@ -110,7 +120,7 @@ public class EquipmentChangeWatcher {
       }
     }
     // fire event for modifiers that want to watch equipment when not equipped
-    MinecraftForge.EVENT_BUS.post(new ToolEquipmentChangeEvent(context));
+    new ToolEquipmentChangeEvent(context).sendEvent();
   }
 
   /* Required methods */
@@ -152,10 +162,20 @@ public class EquipmentChangeWatcher {
       capability = LazyOptional.of(() -> this);
     }
 
-    @Nonnull
+//    @Nonnull
+//    @Override
+//    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+//      return CAPABILITY.orEmpty(cap, capability);
+//    }
+
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-      return CAPABILITY.orEmpty(cap, capability);
+    public void readFromNbt(CompoundTag tag) {
+
+    }
+
+    @Override
+    public void writeToNbt(CompoundTag tag) {
+
     }
   }
 }

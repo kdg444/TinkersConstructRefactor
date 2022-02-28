@@ -66,7 +66,7 @@ public class MelterFuelWrapper implements IFluidContainer {
   public long consumeFuel(MeltingFuel fuel) {
     FluidTank tank = this.tank.get();
     if (tank != null) {
-      int amount = fuel.getAmount(this);
+      long amount = fuel.getAmount(this);
       if (amount > 0) {
         // TODO: assert drained valid?
         long drained = tank.drain(amount, false).getAmount();

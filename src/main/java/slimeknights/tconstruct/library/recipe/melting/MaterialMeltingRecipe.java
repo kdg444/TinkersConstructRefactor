@@ -117,7 +117,7 @@ public class MaterialMeltingRecipe implements IMeltingRecipe, IMultiRecipe<Melti
     protected MaterialMeltingRecipe fromNetworkSafe(ResourceLocation id, FriendlyByteBuf buffer) {
       MaterialVariantId inputId = MaterialVariantId.parse(buffer.readUtf(Short.MAX_VALUE));
       int temperature = buffer.readInt();
-      FluidStack output = FluidStack.readFromPacket(buffer);
+      FluidStack output = FluidStack.fromBuffer(buffer);
       return new MaterialMeltingRecipe(id, inputId, temperature, output);
     }
 
@@ -125,7 +125,7 @@ public class MaterialMeltingRecipe implements IMeltingRecipe, IMultiRecipe<Melti
     protected void toNetworkSafe(FriendlyByteBuf buffer, MaterialMeltingRecipe recipe) {
       buffer.writeUtf(recipe.input.getVariant().toString());
       buffer.writeInt(recipe.temperature);
-      recipe.result.writeToPacket(buffer);
+      recipe.result.toBuffer(buffer);
     }
   }
 }

@@ -2,11 +2,14 @@ package slimeknights.tconstruct.library.client.modifiers;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.math.Transformation;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluid;
+import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -81,12 +84,12 @@ public class FluidModifierModel extends NormalModifierModel {
           ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
           builder.addAll(quads);
           FluidAttributes attributes = fluid.getFluid().getAttributes();
-          TextureAtlasSprite fluidSprite = spriteGetter.apply(ForgeHooksClient.getBlockMaterial(attributes.getStillTexture(fluid)));
+          TextureAtlasSprite fluidSprite = spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, FluidVariantRendering.getSprite(fluid.getType()).getName()));
           int color = attributes.getColor(fluid);
           int luminosity = attributes.getLuminosity(fluid);
           TextureAtlasSprite templateSprite = spriteGetter.apply(template);
-          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 7.498f / 16f, Direction.NORTH, color, -1, luminosity));
-          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 8.502f / 16f, Direction.SOUTH, color, -1, luminosity));
+//          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 7.498f / 16f, Direction.NORTH, color, -1, luminosity)); TODO: PORT
+//          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 8.502f / 16f, Direction.SOUTH, color, -1, luminosity));
           quads = builder.build();
         }
       }

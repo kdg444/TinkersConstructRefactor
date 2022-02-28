@@ -100,7 +100,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     this.tag(TinkerTags.Items.NUGGETS_NETHERITE).add(TinkerMaterials.netheriteNugget.get());
     this.tag(TinkerTags.Items.NUGGETS_NETHERITE_SCRAP).add(TinkerMaterials.debrisNugget.get());
     // vanilla made cut copper dumb, so untag it in forge
-    this.tag(Tags.Items.STORAGE_BLOCKS_COPPER).remove(Blocks.CUT_COPPER.asItem());
+    this.tag(Tags.Items.STORAGE_BLOCKS_COPPER)/*.remove(Blocks.CUT_COPPER.asItem())*/; // TODO: PORT
 
     // ores
     addMetalTags(TinkerMaterials.cobalt);
@@ -288,12 +288,12 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     this.tag(TinkerTags.Items.VARIANT_PLANKS)
         .add(Items.OAK_PLANKS, Items.SPRUCE_PLANKS, Items.BIRCH_PLANKS, Items.JUNGLE_PLANKS, Items.DARK_OAK_PLANKS, Items.ACACIA_PLANKS, Items.CRIMSON_PLANKS, Items.WARPED_PLANKS)
         .addTag(TinkerTags.Items.SLIMY_PLANKS);
-    this.tag(TinkerTags.Items.VARIANT_LOGS).addTags(ItemTags.OAK_LOGS, ItemTags.SPRUCE_LOGS, ItemTags.BIRCH_LOGS, ItemTags.JUNGLE_LOGS, ItemTags.DARK_OAK_LOGS, ItemTags.ACACIA_LOGS, ItemTags.CRIMSON_STEMS, ItemTags.WARPED_STEMS, TinkerTags.Items.SLIMY_LOGS);
+    this.tag(TinkerTags.Items.VARIANT_LOGS).addTag(ItemTags.OAK_LOGS).addTag(ItemTags.SPRUCE_LOGS).addTag(ItemTags.BIRCH_LOGS).addTag(ItemTags.JUNGLE_LOGS).addTag(ItemTags.DARK_OAK_LOGS).addTag(ItemTags.ACACIA_LOGS).addTag(ItemTags.CRIMSON_STEMS).addTag(ItemTags.WARPED_STEMS).addTag(TinkerTags.Items.SLIMY_LOGS);
 
     // part builder
     this.tag(TinkerTags.Items.DEFAULT_PATTERNS).add(TinkerTables.pattern.get());
     this.tag(TinkerTags.Items.REUSABLE_PATTERNS).addTag(TinkerTags.Items.GOLD_CASTS);
-    this.tag(TinkerTags.Items.PATTERNS).addTags(TinkerTags.Items.DEFAULT_PATTERNS, TinkerTags.Items.REUSABLE_PATTERNS);
+    this.tag(TinkerTags.Items.PATTERNS).addTag(TinkerTags.Items.DEFAULT_PATTERNS).addTag(TinkerTags.Items.REUSABLE_PATTERNS);
   }
 
   private void addSmeltery() {

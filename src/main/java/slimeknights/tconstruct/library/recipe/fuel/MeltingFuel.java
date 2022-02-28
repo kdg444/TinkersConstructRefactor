@@ -68,7 +68,7 @@ public class MeltingFuel implements ICustomOutputRecipe<IFluidContainer> {
    * @param inv  Inventory instance
    * @return  Amount of fluid consumed
    */
-  public int getAmount(IFluidContainer inv) {
+  public long getAmount(IFluidContainer inv) {
     return getAmount(inv.getFluid());
   }
 
@@ -77,7 +77,7 @@ public class MeltingFuel implements ICustomOutputRecipe<IFluidContainer> {
    * @param fluid  Fluid
    * @return  Amount of fluid consumed
    */
-  public int getAmount(Fluid fluid) {
+  public long getAmount(Fluid fluid) {
     return input.getAmount(fluid);
   }
 

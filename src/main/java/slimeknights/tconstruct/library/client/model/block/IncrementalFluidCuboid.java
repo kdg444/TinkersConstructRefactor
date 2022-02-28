@@ -10,7 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.GsonHelper;
 import slimeknights.mantle.client.model.fluid.FluidCuboid;
 import slimeknights.mantle.client.model.util.ModelHelper;
-import slimeknights.mantle.lib.mixin.accessor.Vector3fAccessor;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -41,10 +40,10 @@ public class IncrementalFluidCuboid extends FluidCuboid {
     float maxY = to.y();
     if (gas) {
       from = from.copy();
-      ((Vector3fAccessor)(Object)from).setY(maxY + (amount * (minY - maxY) / increments));
+      from.setY(maxY + (amount * (minY - maxY) / increments));
     } else {
       to = to.copy();
-      ((Vector3fAccessor)(Object)to).setY(minY + (amount * (maxY - minY) / increments));
+      to.setY(minY + (amount * (maxY - minY) / increments));
     }
 
     // create faces based on face data

@@ -73,7 +73,7 @@ public class ChrysophiliteModifier extends SingleUseModifier {
       return tool.getVolatileData().getBoolean(ModifiableArmorItem.PIGLIN_NEUTRAL);
     } else {
       LivingEntity living = context.getEntity();
-      return living.getItemBySlot(slotType).makesPiglinsNeutral(living);
+      return false/*living.getItemBySlot(slotType).makesPiglinsNeutral(living)*/; // TODO: PORT
     }
   }
 
@@ -98,7 +98,7 @@ public class ChrysophiliteModifier extends SingleUseModifier {
           Random random = target.getRandom();
           // if the stack is gold, and it drops, we get it
           // don't have to worry about checking if it already dropped, the stacks are removed on drop
-          if (!stack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(stack) && stack.makesPiglinsNeutral(target) && random.nextFloat() < extraChance) {
+          if (!stack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(stack) /*&& stack.makesPiglinsNeutral(target)*/ && random.nextFloat() < extraChance) { // TODO: PORT
             // mobs damage items, its kinda weird
             if (stack.isDamageableItem()) {
               stack.setDamageValue(stack.getMaxDamage() - random.nextInt(1 + random.nextInt(Math.max(stack.getMaxDamage() - 3, 1))));
@@ -110,6 +110,7 @@ public class ChrysophiliteModifier extends SingleUseModifier {
         }
       }
     }
+    return false;
   }
 
   /** Tracker to count how many slots contain gold */

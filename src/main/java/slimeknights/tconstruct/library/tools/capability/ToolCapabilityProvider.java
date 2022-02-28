@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /** Capability provider for tool stacks, returns the proper cap for  */
-public class ToolCapabilityProvider implements ICapabilityProvider {
+public class ToolCapabilityProvider /*implements ICapabilityProvider*/ {
   private static final List<BiFunction<ItemStack,Supplier<? extends IToolStackView>,IToolCapabilityProvider>> PROVIDER_CONSTRUCTORS = new ArrayList<>();
 
   private final Lazy<ToolStack> tool;
@@ -27,8 +27,8 @@ public class ToolCapabilityProvider implements ICapabilityProvider {
     this.providers = PROVIDER_CONSTRUCTORS.stream().map(con -> con.apply(stack, tool)).filter(Objects::nonNull).collect(Collectors.toList());
   }
 
-  @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
+//  @Override TODO: PORT
+  public <T> LazyOptional<T> getCapability(Class<T> cap, @Nullable Direction side) {
     // clear the tool cache, as it may have changed since the last time a cap was fetched
     ToolStack toolStack = tool.get();
     toolStack.clearCache();

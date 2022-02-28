@@ -32,7 +32,7 @@ public class GlowingModifier extends InteractionModifier.SingleUse {
           if (ToolDamageUtil.damage(tool, 10, player, context.getItemInHand()) && player != null) {
             player.broadcastBreakEvent(slotType);
           }
-          world.playSound(null, pos, world.getBlockState(pos).getSoundType(world, pos, player).getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
+          world.playSound(null, pos, world.getBlockState(pos).getSoundType(/*world, pos, player*/).getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f); // TODO: PORT
         }
       }
       return InteractionResult.sidedSuccess(context.getLevel().isClientSide);

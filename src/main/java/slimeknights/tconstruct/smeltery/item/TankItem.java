@@ -45,7 +45,7 @@ public class TankItem extends BlockTooltipItem implements CustomMaxCountItem {
     return nbt != null && nbt.contains(NBTTags.TANK, Tag.TAG_COMPOUND);
   }
 
-  @Override // TODO transfer OH NO
+//  @Override // TODO transfer OH NO TODO: PORT
   public ItemStack getContainerItem(ItemStack stack) {
     return isFilled(stack) ? new ItemStack(this) : ItemStack.EMPTY;
   }

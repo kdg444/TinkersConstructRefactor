@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.tools.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.item.UseFirstBehaviorItem;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -66,7 +67,7 @@ import java.util.function.Consumer;
  * A standard modifiable item which implements melee hooks
  * This class handles how all the modifier hooks and display data for items made out of different materials
  */
-public class ModifiableItem extends Item implements IModifiableDisplay {
+public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem {
   /** Tool definition for the given tool */
   @Getter
   private final ToolDefinition toolDefinition;
@@ -82,7 +83,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
 
   /* Basic properties */
 
-  @Override
+//  @Override
   public int getItemStackLimit(ItemStack stack) {
     return 1;
   }
@@ -92,24 +93,24 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
     return false;
   }
 
-  @Override
+//  @Override
   public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
     return false;
   }
 
-  @Override
+//  @Override
   public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-    return enchantment.isCurse() && super.canApplyAtEnchantingTable(stack, enchantment);
+    return enchantment.isCurse() /*&& super.canApplyAtEnchantingTable(stack, enchantment)*/; // TODO: PORT
   }
 
 
   /* Loading */
 
-  @Nullable
-  @Override
-  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-    return new ToolCapabilityProvider(stack);
-  }
+//  @Nullable TODO: PORT
+//  @Override
+//  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+//    return new ToolCapabilityProvider(stack);
+//  }
 
   @Override
   public void verifyTagAfterLoad(CompoundTag nbt) {
@@ -140,12 +141,12 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
 
   /* Indestructible items */
 
-  @Override
+//  @Override
   public boolean hasCustomEntity(ItemStack stack) {
     return IndestructibleItemEntity.hasCustomEntity(stack);
   }
 
-  @Override
+//  @Override
   public Entity createEntity(Level world, Entity original, ItemStack stack) {
     return IndestructibleItemEntity.createFrom(world, original, stack);
   }
@@ -153,7 +154,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
 
   /* Damage/Durability */
 
-  @Override
+//  @Override
   public boolean isRepairable(ItemStack stack) {
     // handle in the tinker station
     return false;
@@ -164,7 +165,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
     return true;
   }
 
-  @Override
+//  @Override
   public int getMaxDamage(ItemStack stack) {
     if (!canBeDepleted()) {
       return 0;
@@ -175,7 +176,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
     return tool.isBroken() ? durability + 1 : durability;
   }
 
-  @Override
+//  @Override
   public int getDamage(ItemStack stack) {
     if (!canBeDepleted()) {
       return 0;
@@ -183,14 +184,14 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
     return ToolStack.from(stack).getDamage();
   }
 
-  @Override
+//  @Override
   public void setDamage(ItemStack stack, int damage) {
     if (canBeDepleted()) {
       ToolStack.from(stack).setDamage(damage);
     }
   }
 
-  @Override
+//  @Override
   public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T damager, Consumer<T> onBroken) {
     // We basically emulate Itemstack.damageItem here. We always return 0 to skip the handling in ItemStack.
     // If we don't tools ignore our damage logic
@@ -222,7 +223,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
 
   /* Attacking */
 
-  @Override
+//  @Override
   public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
     return ToolAttackUtil.attackEntity(stack, player, entity);
   }
@@ -250,7 +251,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
     return builder.build();
   }
 
-  @Override
+//  @Override
   public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
     CompoundTag nbt = stack.getTag();
     if (nbt == null || slot.getType() != Type.HAND) {
@@ -259,7 +260,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
     return getAttributeModifiers(ToolStack.from(stack), slot);
   }
 
-  @Override
+//  @Override
   public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
     return !ToolDamageUtil.isBroken(stack) && toolDefinition.getData().canPerformAction(TinkerToolActions.SHIELD_DISABLE);
   }
@@ -267,7 +268,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
 
   /* Harvest logic */
 
-  @Override
+//  @Override
   public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
     return ToolHarvestLogic.isEffective(ToolStack.from(stack), state);
   }
@@ -296,7 +297,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
     return ToolHarvestLogic.getDestroySpeed(stack, state);
   }
 
-  @Override
+//  @Override
   public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, Player player) {
     return ToolHarvestLogic.handleBlockBreak(stack, pos, player);
 
@@ -515,7 +516,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
 
   /* Misc */
 
-  @Override
+//  @Override
   public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
     return shouldCauseReequipAnimation(oldStack, newStack, false);
   }

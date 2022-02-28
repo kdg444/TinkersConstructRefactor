@@ -25,7 +25,7 @@ public class CureEffectsSpillingEffect implements ISpillingEffect {
   public void applyEffects(FluidStack fluid, float scale, ToolAttackContext context) {
     LivingEntity target = context.getLivingTarget();
     if (target != null) {
-      target.curePotionEffects(stack);
+//      target.curePotionEffects(stack); TODO: PORT
     }
   }
 

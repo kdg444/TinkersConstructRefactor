@@ -13,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
+import slimeknights.mantle.lib.mixin.accessor.DamageSourceAccessor;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.recipe.ingredient.EntityIngredient;
@@ -84,7 +85,7 @@ public class DamageSpillingEffect implements ISpillingEffect {
     FIRE {
       @Override
       public void apply(DamageSource source) {
-        source.setIsFire();
+        ((DamageSourceAccessor)source).mantle$setFireDamage();
       }
     },
     MAGIC {
@@ -102,7 +103,7 @@ public class DamageSpillingEffect implements ISpillingEffect {
     PIERCING {
       @Override
       public void apply(DamageSource source) {
-        source.bypassArmor();
+        ((DamageSourceAccessor)source).mantle$setDamageBypassesArmor();
       }
     };
 

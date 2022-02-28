@@ -20,8 +20,8 @@ public class ChannelSideTank extends FillOnlyFluidHandler {
 	}
 
 	@Override
-	public int fill(FluidStack resource, boolean sim) {
-		int filled = super.fill(resource, action);
+	public long fill(FluidStack resource, boolean sim) {
+		long filled = super.fill(resource, sim);
 		if (!sim && filled > 0) {
 			channel.setFlow(side, true);
 		}

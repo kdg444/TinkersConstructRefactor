@@ -47,7 +47,7 @@ public class MagicProtectionModifier extends AbstractProtectionModifier<Modifier
 
   private static void onPotionStart(PotionEvents.PotionAddedEvent event) {
     MobEffectInstance newEffect = event.getPotionEffect();
-    if (!newEffect.getEffect().isBeneficial() && !newEffect.getCurativeItems().isEmpty()) {
+    if (!newEffect.getEffect().isBeneficial() /*&& !newEffect.getCurativeItems().isEmpty()*/) { // TODO: PORT
       LivingEntity living = (LivingEntity) event.getEntity();
       TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> {
         ModifierMaxLevel magicData = data.get(MAGIC_DATA);

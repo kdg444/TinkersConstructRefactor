@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.recipe.casting.container;
 
 import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
+import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -31,7 +32,7 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
    * @return  Builder instance
    */
   public static ContainerFillingRecipeBuilder castingRecipe(ItemLike result, int fluidAmount, ContainerFillingRecipeSerializer<?> recipeSerializer) {
-    return new ContainerFillingRecipeBuilder(Objects.requireNonNull(result.asItem().getRegistryName()), fluidAmount, recipeSerializer);
+    return new ContainerFillingRecipeBuilder(Objects.requireNonNull(Registry.ITEM.getKey(result.asItem())), fluidAmount, recipeSerializer);
   }
 
   /**

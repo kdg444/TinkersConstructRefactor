@@ -64,7 +64,7 @@ public class EquipmentContext {
   /** Gets the tinker data capability */
   public LazyOptional<TinkerDataCapability.Holder> getTinkerData() {
     if (tinkerData == null) {
-      tinkerData = entity.getCapability(TinkerDataCapability.CAPABILITY);
+      tinkerData = LazyOptional.of(() -> entity.getComponent(TinkerDataCapability.CAPABILITY));
     }
     return tinkerData;
   }

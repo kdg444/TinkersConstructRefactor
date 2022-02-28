@@ -50,7 +50,7 @@ public class ToolContainerMenu extends AbstractContainerMenu {
     ItemStack stack = inventory.player.getItemBySlot(slotType);
     // TODO: PORT
     // FAPI does not have the ability to search for item storages in items. Oh no.
-    IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).filter(cap -> cap instanceof IItemHandlerModifiable).orElse(EmptyItemHandler.INSTANCE);
+    IItemHandler handler = null;//stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).filter(cap -> cap instanceof IItemHandlerModifiable).orElse(EmptyItemHandler.INSTANCE);
     return new ToolContainerMenu(TinkerTools.toolContainer.get(), id, inventory, stack, handler, slotType);
   }
 

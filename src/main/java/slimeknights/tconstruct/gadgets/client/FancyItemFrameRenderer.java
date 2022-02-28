@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemFrameRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -50,11 +51,11 @@ public class FancyItemFrameRenderer<T extends FancyItemFrameEntity> extends Item
     FrameType frameType = frame.getFrameType();
 
     // base entity rendering logic, since calling super gives us the item frame renderer
-    RenderNameplateEvent renderNameplate = new RenderNameplateEvent(frame, frame.getDisplayName(), this, matrices, bufferIn, packedLight, partialTicks);
-    MinecraftForge.EVENT_BUS.post(renderNameplate);
-    if (renderNameplate.getResult() == Result.ALLOW || (renderNameplate.getResult() != Result.DENY && this.shouldShowName(frame))) {
-      this.renderNameTag(frame, renderNameplate.getContent(), matrices, bufferIn, packedLight);
-    }
+//    RenderNameplateEvent renderNameplate = new RenderNameplateEvent(frame, frame.getDisplayName(), this, matrices, bufferIn, packedLight, partialTicks); TODO: PORT
+//    MinecraftForge.EVENT_BUS.post(renderNameplate);
+//    if (renderNameplate.getResult() == Result.ALLOW || (renderNameplate.getResult() != Result.DENY && this.shouldShowName(frame))) {
+//      this.renderNameTag(frame, renderNameplate.getContent(), matrices, bufferIn, packedLight);
+//    }
 
     // orient the renderer
     matrices.pushPose();
@@ -73,9 +74,10 @@ public class FancyItemFrameRenderer<T extends FancyItemFrameEntity> extends Item
       matrices.pushPose();
       matrices.translate(-0.5D, -0.5D, -0.5D);
       BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
+      ModelManager modelManager = blockRenderer.getBlockModelShaper().getModelManager();
       blockRenderer.getModelRenderer().renderModel(
         matrices.last(), bufferIn.getBuffer(Sheets.cutoutBlockSheet()), null,
-        blockRenderer.getBlockModelShaper().getModelManager().getModel(isMap ? LOCATIONS_MODEL_MAP.get(frameType) : LOCATIONS_MODEL.get(frameType)),
+        modelManager.bakedRegistry.getOrDefault(isMap ? LOCATIONS_MODEL_MAP.get(frameType) : LOCATIONS_MODEL.get(frameType), modelManager.getMissingModel()),
         1.0F, 1.0F, 1.0F, packedLight, OverlayTexture.NO_OVERLAY);
       matrices.popPose();
     }
@@ -99,7 +101,7 @@ public class FancyItemFrameRenderer<T extends FancyItemFrameEntity> extends Item
         int rotation = mapdata != null ? (frameRotation + 2) % 4 * 2 : frameRotation;
         matrices.mulPose(Vector3f.ZP.rotationDegrees(rotation * 360f / 8f));
       }
-      if (!MinecraftForge.EVENT_BUS.post(new RenderItemInFrameEvent(frame, this, matrices, bufferIn, packedLight))) {
+//      if (!MinecraftForge.EVENT_BUS.post(new RenderItemInFrameEvent(frame, this, matrices, bufferIn, packedLight))) {
         if (mapdata != null) {
           matrices.scale(0.0078125F, 0.0078125F, 0.0078125F);
           matrices.translate(-64.0D, -64.0D, -1.0D);
@@ -113,7 +115,7 @@ public class FancyItemFrameRenderer<T extends FancyItemFrameEntity> extends Item
           int light = frameType == FrameType.MANYULLYN ? 0x00F000F0 : packedLight;
           this.itemRenderer.renderStatic(stack, ItemTransforms.TransformType.FIXED, light, OverlayTexture.NO_OVERLAY, matrices, bufferIn, frame.getId());
         }
-      }
+//      }
     }
 
     matrices.popPose();

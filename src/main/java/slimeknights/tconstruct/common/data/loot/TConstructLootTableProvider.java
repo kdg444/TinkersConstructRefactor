@@ -21,18 +21,18 @@ import java.util.function.Supplier;
 public class TConstructLootTableProvider extends LootTableProvider {
 
   private LootTableProvider x;
-  private final List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> lootTables = ImmutableList.of(Pair.of(BlockLootTableProvider::new, LootContextParamSets.BLOCK), Pair.of(AdvancementLootTableProvider::new, LootContextParamSets.ADVANCEMENT_REWARD), Pair.of(EntityLootTableProvider::new, LootContextParamSets.ENTITY));
+//  private final List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> lootTables = ImmutableList.of(Pair.of(BlockLootTableProvider::new, LootContextParamSets.BLOCK), Pair.of(AdvancementLootTableProvider::new, LootContextParamSets.ADVANCEMENT_REWARD), Pair.of(EntityLootTableProvider::new, LootContextParamSets.ENTITY));
 
   public TConstructLootTableProvider(DataGenerator gen) {
     super(gen);
   }
 
-  @Override
-  protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
-    return lootTables;
-  }
+//  @Override
+//  protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
+//    return lootTables;
+//  }
 
-  @Override
+//  @Override
   protected void validate(Map<ResourceLocation,LootTable> map, ValidationContext validationtracker) {
     map.forEach((loc, table) -> LootTables.validate(validationtracker, loc, table));
     // Remove vanilla's tables, which we also loaded so we can redirect stuff to them.

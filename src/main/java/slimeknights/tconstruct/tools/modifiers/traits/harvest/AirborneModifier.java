@@ -14,7 +14,7 @@ public class AirborneModifier extends SingleUseModifier {
   @Override
   public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     // the speed is reduced when not on the ground, cancel out
-    if (!event.getEntity().isOnGround()) {
+    if (!event.getPlayer().isOnGround()) { // TODO: PORT? getPlayer used to be getEntity idk if they are the same
       event.setNewSpeed(event.getNewSpeed() * 5);
     }
   }

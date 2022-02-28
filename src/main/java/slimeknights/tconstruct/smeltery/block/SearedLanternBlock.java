@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery.block;
 
 import lombok.Getter;
+import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,9 +24,9 @@ import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity.I
 
 import javax.annotation.Nullable;
 
-public class SearedLanternBlock extends LanternBlock implements ITankBlock, EntityBlock {
+public class SearedLanternBlock extends LanternBlock implements ITankBlock, EntityBlock, BlockPickInteractionAware {
   @Getter
-  private final int capacity;
+  private final long capacity;
   public SearedLanternBlock(Properties properties, int capacity) {
     super(properties);
     this.capacity = capacity;
@@ -70,7 +71,7 @@ public class SearedLanternBlock extends LanternBlock implements ITankBlock, Enti
   }
 
   @Override
-  public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+  public ItemStack getPickedStack(BlockState state, BlockGetter world, BlockPos pos, @org.jetbrains.annotations.Nullable Player player, @org.jetbrains.annotations.Nullable HitResult result) {
     ItemStack stack = new ItemStack(this);
     BlockEntityHelper.get(TankBlockEntity.class, world, pos).ifPresent(te -> te.setTankTag(stack));
     return stack;

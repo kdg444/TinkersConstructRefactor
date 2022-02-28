@@ -33,17 +33,17 @@ public class CopperCanItem extends Item {
     super(properties);
   }
 
-  @Override
-  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-    return new CopperCanFluidHandler(stack);
-  }
+//  @Override TODO: PORT
+//  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+//    return new CopperCanFluidHandler(stack);
+//  }
 
-  @Override
+//  @Override
   public boolean hasContainerItem(ItemStack stack) {
     return getFluid(stack) != Fluids.EMPTY;
   }
 
-  @Override
+//  @Override
   public ItemStack getContainerItem(ItemStack stack) {
     Fluid fluid = getFluid(stack);
     if (fluid != Fluids.EMPTY) {

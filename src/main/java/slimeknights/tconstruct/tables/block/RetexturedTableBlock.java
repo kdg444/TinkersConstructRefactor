@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tables.block;
 
+import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -12,7 +13,7 @@ import slimeknights.mantle.block.RetexturedBlock;
 
 import javax.annotation.Nullable;
 
-public abstract class RetexturedTableBlock extends TabbedTableBlock {
+public abstract class RetexturedTableBlock extends TabbedTableBlock implements BlockPickInteractionAware {
   public RetexturedTableBlock(Properties builder) {
     super(builder);
   }
@@ -24,7 +25,7 @@ public abstract class RetexturedTableBlock extends TabbedTableBlock {
   }
 
   @Override
-  public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+  public ItemStack getPickedStack(BlockState state, BlockGetter world, BlockPos pos, @org.jetbrains.annotations.Nullable Player player, @org.jetbrains.annotations.Nullable HitResult result) {
     return RetexturedBlock.getPickBlock(world, pos, state);
   }
 }

@@ -23,7 +23,7 @@ public class DuctTankWrapper implements IFluidHandler {
   }
 
   @Override
-  public int getTankCapacity(int tank) {
+  public long getTankCapacity(int tank) {
     return parent.getTankCapacity(tank);
   }
 
@@ -36,20 +36,20 @@ public class DuctTankWrapper implements IFluidHandler {
   /* Interactions */
 
   @Override
-  public int fill(FluidStack resource, boolean sim) {
+  public long fill(FluidStack resource, boolean sim) {
     if (resource.isEmpty() || !itemHandler.getFluid().isFluidEqual(resource)) {
       return 0;
     }
-    return parent.fill(resource, action);
+    return parent.fill(resource, sim);
   }
 
   @Override
-  public FluidStack drain(int maxDrain, boolean sim) {
+  public FluidStack drain(long maxDrain, boolean sim) {
     FluidStack fluid = itemHandler.getFluid();
     if (fluid.isEmpty()) {
       return FluidStack.EMPTY;
     }
-    return parent.drain(new FluidStack(fluid, maxDrain), action);
+    return parent.drain(new FluidStack(fluid, maxDrain), sim);
   }
 
   @Override
@@ -57,6 +57,6 @@ public class DuctTankWrapper implements IFluidHandler {
     if (resource.isEmpty() || !itemHandler.getFluid().isFluidEqual(resource)) {
       return FluidStack.EMPTY;
     }
-    return parent.drain(resource, action);
+    return parent.drain(resource, sim);
   }
 }

@@ -51,8 +51,8 @@ public class SpillingRecipe implements ICustomOutputRecipe<IEmptyContainer> {
    * @return  Fluid stack after applying this recipe
    */
   public FluidStack applyEffects(FluidStack fluid, int level, ToolAttackContext context) {
-    int needed = ingredient.getAmount(fluid.getFluid());
-    int maxFluid = level * needed;
+    long needed = ingredient.getAmount(fluid.getFluid());
+    long maxFluid = level * needed;
     float scale = level;
     if (fluid.getAmount() < maxFluid) {
       scale = fluid.getAmount() / (float)maxFluid;

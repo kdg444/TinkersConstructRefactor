@@ -92,17 +92,17 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
               .save(wrapped, location);
     } else {
       // multiple options, will need a conditonal recipe
-      ConditionalRecipe.Builder builder = ConditionalRecipe.builder();
+//      ConditionalRecipe.Builder builder = ConditionalRecipe.builder();
       boolean alwaysPresent = false;
       for (IByproduct byproduct : byproducts) {
         // found an always present byproduct? no need to tag and we are done
         alwaysPresent = byproduct.isAlwaysPresent();
         if (alwaysPresent) {
-          builder.addCondition(TrueCondition.INSTANCE);
+//          builder.addCondition(TrueCondition.INSTANCE);
         } else {
-          builder.addCondition(tagCondition("ingots/" + byproduct.getName()));
+//          builder.addCondition(tagCondition("ingots/" + byproduct.getName()));
         }
-        builder.addRecipe(supplier.get().addByproduct(new FluidStack(byproduct.getFluid(), (int)(byproduct.getAmount() * byproductScale)))::save);
+//        builder.addRecipe(supplier.get().addByproduct(new FluidStack(byproduct.getFluid(), (int)(byproduct.getAmount() * byproductScale)))::save);
 
         if (alwaysPresent) {
           break;
@@ -110,10 +110,10 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
       }
       // not always present? add a recipe with no byproducts as a final fallback
       if (!alwaysPresent) {
-        builder.addCondition(TrueCondition.INSTANCE);
-        builder.addRecipe(supplier.get()::save);
+//        builder.addCondition(TrueCondition.INSTANCE);
+//        builder.addRecipe(supplier.get()::save);
       }
-      builder.build(wrapped, location);
+//      builder.build(wrapped, location);
     }
   }
 

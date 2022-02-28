@@ -27,7 +27,7 @@ public class UnarmedModifier extends OffhandAttackModifier {
   @Override
   public void onEquip(IToolStackView tool, int level, EquipmentChangeContext context) {
     if (!tool.isBroken() && context.getChangedSlot().getType() == Type.ARMOR) {
-      context.getEntity().getCapability(OffhandCooldownTracker.CAPABILITY).ifPresent(cap -> cap.setEnabled(true));
+      OffhandCooldownTracker.CAPABILITY.maybeGet(context.getEntity()).ifPresent(cap -> cap.setEnabled(true));
       ModifierUtil.addTotalArmorModifierLevel(tool, context, TinkerDataKeys.SHOW_EMPTY_OFFHAND, 1);
     }
   }
@@ -35,7 +35,7 @@ public class UnarmedModifier extends OffhandAttackModifier {
   @Override
   public void onUnequip(IToolStackView tool, int level, EquipmentChangeContext context) {
     if (!tool.isBroken() && context.getChangedSlot().getType() == Type.ARMOR) {
-      context.getEntity().getCapability(OffhandCooldownTracker.CAPABILITY).ifPresent(cap -> cap.setEnabled(false));
+      OffhandCooldownTracker.CAPABILITY.maybeGet(context.getEntity()).ifPresent(cap -> cap.setEnabled(false));
       ModifierUtil.addTotalArmorModifierLevel(tool, context, TinkerDataKeys.SHOW_EMPTY_OFFHAND, -1);
     }
   }

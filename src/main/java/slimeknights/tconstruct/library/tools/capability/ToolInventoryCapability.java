@@ -84,7 +84,7 @@ public class ToolInventoryCapability implements IItemHandlerModifiable {
 
   /** If true, the given stack is blacklisted from being stored in a tool */
   public static boolean isBlacklisted(ItemStack stack) {
-    return TinkerTags.Items.TOOL_INVENTORY_BLACKLIST.contains(stack.getItem()) || stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent();
+    return TinkerTags.Items.TOOL_INVENTORY_BLACKLIST.contains(stack.getItem()) /*|| stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()*/; // TODO: PORT
   }
 
   @Override
@@ -348,7 +348,7 @@ public class ToolInventoryCapability implements IItemHandlerModifiable {
 
   /** Opens the tool inventory container if an inventory is present on the given tool */
   public static InteractionResult tryOpenContainer(ItemStack stack, @Nullable IToolStackView tool, ToolDefinition definition, Player player, EquipmentSlot slotType) {
-    IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).filter(cap -> cap instanceof IItemHandlerModifiable).orElse(null);
+    IItemHandler handler = null;//stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).filter(cap -> cap instanceof IItemHandlerModifiable).orElse(null); TODO: PORT
     if (handler != null) {
       if (player instanceof ServerPlayer serverPlayer) {
         NetworkUtil.openGui(serverPlayer, new SimpleMenuProvider(

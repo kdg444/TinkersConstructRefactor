@@ -55,7 +55,7 @@ public abstract class CompositeCastingRecipe extends MaterialCastingRecipe {
         })
         .map(recipe -> {
           List<FluidStack> fluids = resizeFluids(recipe.getFluids());
-          int fluidAmount = fluids.stream().mapToInt(FluidStack::getAmount).max().orElse(0);
+          long fluidAmount = fluids.stream().mapToLong(FluidStack::getAmount).max().orElse(0);
           return new DisplayCastingRecipe(type, Collections.singletonList(result.withMaterial(Objects.requireNonNull(recipe.getInput()).getVariant())), fluids, result.withMaterial(recipe.getOutput().getId()),
                                           ICastingRecipe.calcCoolingTime(recipe.getTemperature(), itemCost * fluidAmount), consumed);
         })

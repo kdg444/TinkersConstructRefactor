@@ -87,7 +87,7 @@ public class MeltingModifier extends TankModifier {
       // fluid must match tank fluid
       if (!output.isEmpty() && (current.isEmpty() || current.isFluidEqual(output))) {
         // determine how many copies we can melt
-        int maxCopies = Math.min((capacity - current.getAmount()) / output.getAmount(), stack.getCount());
+        long maxCopies = Math.min((capacity - current.getAmount()) / output.getAmount(), stack.getCount());
 
         // if it fits in the tank, remove
         if (maxCopies > 0) {
@@ -96,7 +96,7 @@ public class MeltingModifier extends TankModifier {
           if (!filled.isEmpty()) {
             current = filled;
             // decrease items dropped
-            stack.shrink(maxCopies);
+            stack.shrink((int) maxCopies);
             if (stack.isEmpty()) {
               iterator.remove();
             }
@@ -125,7 +125,7 @@ public class MeltingModifier extends TankModifier {
           damagePerOutput = 2;
         }
         // recipe amount determines how much we get per hit, up to twice the recipe damage
-        int fluidAmount;
+        long fluidAmount;
         if (damageDealt < damagePerOutput * 2) {
           fluidAmount = (int)(output.getAmount() * damageDealt / damagePerOutput);
         } else {

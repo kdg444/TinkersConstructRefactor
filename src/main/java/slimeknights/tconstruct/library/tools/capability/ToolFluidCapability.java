@@ -66,7 +66,7 @@ public class ToolFluidCapability implements IFluidHandlerItem {
 
   @Override
   public long getTankCapacity(int tank) {
-    return runForTank(tank, 0, IFluidModifier::getTankCapacity);
+    return runForTank(tank, 0L, IFluidModifier::getTankCapacity);
   }
 
   @Override
@@ -210,7 +210,7 @@ public class ToolFluidCapability implements IFluidHandlerItem {
      * @param tank   Tank index
      * @return  Fluid in the given tank
      */
-    default int getTankCapacity(IToolStackView tool, int level, int tank) {
+    default long getTankCapacity(IToolStackView tool, int level, int tank) {
       return 0;
     }
 
@@ -252,7 +252,7 @@ public class ToolFluidCapability implements IFluidHandlerItem {
      * @param tool     Tool instance
      * @param level    Modifier level
      * @param maxDrain Maximum amount of fluid to drain.
-     * @param action   If SIMULATE, drain will only be simulated.
+     * @param sim   If SIMULATE, drain will only be simulated.
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */

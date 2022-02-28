@@ -166,95 +166,95 @@ public class ModifierClientEvents {
   }
 
   /** Render the item in the first shield slot */
-  @SubscribeEvent
-  static void renderHotbar(RenderGameOverlayEvent.PostLayer event) {
-    Minecraft mc = Minecraft.getInstance();
-    if (mc.options.hideGui) {
-      return;
-    }
-    IIngameOverlay overlay = event.getOverlay();
-    if (overlay != ForgeIngameGui.HOTBAR_ELEMENT) {
-      return;
-    }
-    boolean renderShield = Config.CLIENT.renderShieldSlotItem.get() && !nextOffhand.isEmpty();
-    boolean renderItemFrame = Config.CLIENT.renderItemFrame.get() && !itemFrames.isEmpty();
-    if (!renderItemFrame && !renderShield) {
-      return;
-    }
-    MultiPlayerGameMode playerController = Minecraft.getInstance().gameMode;
-    if (playerController != null && playerController.getPlayerMode() != GameType.SPECTATOR) {
-      Player player = Minecraft.getInstance().player;
-      if (player != null && player == mc.getCameraEntity()) {
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-
-        int scaledWidth = mc.getWindow().getGuiScaledWidth();
-        int scaledHeight = mc.getWindow().getGuiScaledHeight();
-        PoseStack matrixStack = event.getMatrixStack();
-        float partialTicks = event.getPartialTicks();
-
-        // want just above the normal hotbar item
-        if (renderShield) {
-          RenderSystem.setShaderTexture(0, Icons.ICONS);
-          int x = scaledWidth / 2 + (player.getMainArm().getOpposite() == HumanoidArm.LEFT ? -117 : 101);
-          int y = scaledHeight - 38;
-          Screen.blit(matrixStack, x - 3, y - 3, player.getOffhandItem().isEmpty() ? 211 : 189, 0, SLOT_BACKGROUND_SIZE, SLOT_BACKGROUND_SIZE, 256, 256);
-          mc.gui.renderSlot(x, y, partialTicks, player, nextOffhand, 11);
-        }
-
-        if (renderItemFrame) {
-          // determine how many items need to be rendered
-          int columns = Config.CLIENT.itemsPerRow.get();
-          int count = itemFrames.size();
-          // need to split items over multiple lines potentially
-          int rows = count / columns;
-          int inLastRow = count % columns;
-          // if we have an exact number, means we should have full in last row
-          if (inLastRow == 0) {
-            inLastRow = columns;
-          } else {
-            // we have an incomplete row that was not counted
-            rows++;
-          }
-          // determine placement of the items
-          Orientation2D location = Config.CLIENT.itemFrameLocation.get();
-          Orientation1D xOrientation = location.getX();
-          Orientation1D yOrientation = location.getY();
-          int xStart = xOrientation.align(scaledWidth - SLOT_BACKGROUND_SIZE * columns) + Config.CLIENT.itemFrameXOffset.get();
-          int yStart = yOrientation.align(scaledHeight - SLOT_BACKGROUND_SIZE * rows) + Config.CLIENT.itemFrameYOffset.get();
-
-          // draw backgrounds
-          RenderSystem.setShaderTexture(0, Icons.ICONS);
-          int lastRow = rows - 1;
-          for (int r = 0; r < lastRow; r++) {
-            for (int c = 0; c < columns; c++) {
-              Screen.blit(matrixStack, xStart + c * SLOT_BACKGROUND_SIZE, yStart + r * SLOT_BACKGROUND_SIZE, 167, 0, SLOT_BACKGROUND_SIZE, SLOT_BACKGROUND_SIZE, 256, 256);
-            }
-          }
-          // last row will be aligned in the direction of x orientation (center, left, or right)
-          int lastRowOffset = xOrientation.align((columns - inLastRow) * 2) * SLOT_BACKGROUND_SIZE / 2;
-          for (int c = 0; c < inLastRow; c++) {
-            Screen.blit(matrixStack, xStart + c * SLOT_BACKGROUND_SIZE + lastRowOffset, yStart + lastRow * SLOT_BACKGROUND_SIZE, 167, 0, SLOT_BACKGROUND_SIZE, SLOT_BACKGROUND_SIZE, 256, 256);
-          }
-
-          // draw items
-          int i = 0;
-          xStart += 3; yStart += 3; // offset from item start instead of frame start
-          for (int r = 0; r < lastRow; r++) {
-            for (int c = 0; c < columns; c++) {
-              mc.gui.renderSlot(xStart + c * SLOT_BACKGROUND_SIZE, yStart + r * SLOT_BACKGROUND_SIZE, partialTicks, player, itemFrames.get(i), i);
-              i++;
-            }
-          }
-          // align last row
-          for (int c = 0; c < inLastRow; c++) {
-            mc.gui.renderSlot(xStart + c * SLOT_BACKGROUND_SIZE + lastRowOffset, yStart + lastRow * SLOT_BACKGROUND_SIZE, partialTicks, player, itemFrames.get(i), i);
-            i++;
-          }
-        }
-
-        RenderSystem.disableBlend();
-      }
-    }
-  }
+//  @SubscribeEvent TODO: PORT
+//  static void renderHotbar(RenderGameOverlayEvent.PostLayer event) {
+//    Minecraft mc = Minecraft.getInstance();
+//    if (mc.options.hideGui) {
+//      return;
+//    }
+//    IIngameOverlay overlay = event.getOverlay();
+//    if (overlay != ForgeIngameGui.HOTBAR_ELEMENT) {
+//      return;
+//    }
+//    boolean renderShield = Config.CLIENT.renderShieldSlotItem.get() && !nextOffhand.isEmpty();
+//    boolean renderItemFrame = Config.CLIENT.renderItemFrame.get() && !itemFrames.isEmpty();
+//    if (!renderItemFrame && !renderShield) {
+//      return;
+//    }
+//    MultiPlayerGameMode playerController = Minecraft.getInstance().gameMode;
+//    if (playerController != null && playerController.getPlayerMode() != GameType.SPECTATOR) {
+//      Player player = Minecraft.getInstance().player;
+//      if (player != null && player == mc.getCameraEntity()) {
+//        RenderSystem.enableBlend();
+//        RenderSystem.defaultBlendFunc();
+//
+//        int scaledWidth = mc.getWindow().getGuiScaledWidth();
+//        int scaledHeight = mc.getWindow().getGuiScaledHeight();
+//        PoseStack matrixStack = event.getMatrixStack();
+//        float partialTicks = event.getPartialTicks();
+//
+//        // want just above the normal hotbar item
+//        if (renderShield) {
+//          RenderSystem.setShaderTexture(0, Icons.ICONS);
+//          int x = scaledWidth / 2 + (player.getMainArm().getOpposite() == HumanoidArm.LEFT ? -117 : 101);
+//          int y = scaledHeight - 38;
+//          Screen.blit(matrixStack, x - 3, y - 3, player.getOffhandItem().isEmpty() ? 211 : 189, 0, SLOT_BACKGROUND_SIZE, SLOT_BACKGROUND_SIZE, 256, 256);
+//          mc.gui.renderSlot(x, y, partialTicks, player, nextOffhand, 11);
+//        }
+//
+//        if (renderItemFrame) {
+//          // determine how many items need to be rendered
+//          int columns = Config.CLIENT.itemsPerRow.get();
+//          int count = itemFrames.size();
+//          // need to split items over multiple lines potentially
+//          int rows = count / columns;
+//          int inLastRow = count % columns;
+//          // if we have an exact number, means we should have full in last row
+//          if (inLastRow == 0) {
+//            inLastRow = columns;
+//          } else {
+//            // we have an incomplete row that was not counted
+//            rows++;
+//          }
+//          // determine placement of the items
+//          Orientation2D location = Config.CLIENT.itemFrameLocation.get();
+//          Orientation1D xOrientation = location.getX();
+//          Orientation1D yOrientation = location.getY();
+//          int xStart = xOrientation.align(scaledWidth - SLOT_BACKGROUND_SIZE * columns) + Config.CLIENT.itemFrameXOffset.get();
+//          int yStart = yOrientation.align(scaledHeight - SLOT_BACKGROUND_SIZE * rows) + Config.CLIENT.itemFrameYOffset.get();
+//
+//          // draw backgrounds
+//          RenderSystem.setShaderTexture(0, Icons.ICONS);
+//          int lastRow = rows - 1;
+//          for (int r = 0; r < lastRow; r++) {
+//            for (int c = 0; c < columns; c++) {
+//              Screen.blit(matrixStack, xStart + c * SLOT_BACKGROUND_SIZE, yStart + r * SLOT_BACKGROUND_SIZE, 167, 0, SLOT_BACKGROUND_SIZE, SLOT_BACKGROUND_SIZE, 256, 256);
+//            }
+//          }
+//          // last row will be aligned in the direction of x orientation (center, left, or right)
+//          int lastRowOffset = xOrientation.align((columns - inLastRow) * 2) * SLOT_BACKGROUND_SIZE / 2;
+//          for (int c = 0; c < inLastRow; c++) {
+//            Screen.blit(matrixStack, xStart + c * SLOT_BACKGROUND_SIZE + lastRowOffset, yStart + lastRow * SLOT_BACKGROUND_SIZE, 167, 0, SLOT_BACKGROUND_SIZE, SLOT_BACKGROUND_SIZE, 256, 256);
+//          }
+//
+//          // draw items
+//          int i = 0;
+//          xStart += 3; yStart += 3; // offset from item start instead of frame start
+//          for (int r = 0; r < lastRow; r++) {
+//            for (int c = 0; c < columns; c++) {
+//              mc.gui.renderSlot(xStart + c * SLOT_BACKGROUND_SIZE, yStart + r * SLOT_BACKGROUND_SIZE, partialTicks, player, itemFrames.get(i), i);
+//              i++;
+//            }
+//          }
+//          // align last row
+//          for (int c = 0; c < inLastRow; c++) {
+//            mc.gui.renderSlot(xStart + c * SLOT_BACKGROUND_SIZE + lastRowOffset, yStart + lastRow * SLOT_BACKGROUND_SIZE, partialTicks, player, itemFrames.get(i), i);
+//            i++;
+//          }
+//        }
+//
+//        RenderSystem.disableBlend();
+//      }
+//    }
+//  }
 }

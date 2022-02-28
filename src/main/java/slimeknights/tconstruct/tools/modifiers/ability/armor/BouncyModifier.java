@@ -43,7 +43,7 @@ public class BouncyModifier extends TotalArmorLevelModifier {
     Vec3 motion = living.getDeltaMovement();
     if (living instanceof ServerPlayer) {
       // velocity is lost on server players, but we dont have to defer the bounce
-      double gravity = living.getAttributeValue(ForgeMod.ENTITY_GRAVITY.get());
+      double gravity = 1;//living.getAttributeValue(ForgeMod.ENTITY_GRAVITY.get()); TODO: PORT
       double time = Math.sqrt(living.fallDistance / gravity);
       double velocity = gravity * time;
       living.setDeltaMovement(motion.x / 0.95f, velocity, motion.z / 0.95f);

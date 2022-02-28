@@ -128,7 +128,7 @@ public class MaterialItem extends Item implements IMaterialItem {
   }
 
   @Nullable
-  @Override
+//  @Override
   public String getCreatorModId(ItemStack stack) {
     MaterialVariantId material = getMaterial(stack);
     if (!IMaterial.UNKNOWN_ID.equals(material)) {

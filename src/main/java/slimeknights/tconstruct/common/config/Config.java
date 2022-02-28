@@ -446,7 +446,7 @@ public class Config {
     }
 
     @Override
-    public int applyOreBoost(OreRateType rate, int amount) {
+    public long applyOreBoost(OreRateType rate, long amount) {
       return switch (rate) {
         case METAL -> amount * nuggetsPerMetal.get() / 9;
         case GEM -> amount * shardsPerGem.get() / 4;

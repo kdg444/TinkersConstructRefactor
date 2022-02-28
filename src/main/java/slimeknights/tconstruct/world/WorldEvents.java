@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.minecraft.core.Registry;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -45,19 +47,8 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
-import net.minecraftforge.common.world.MobSpawnSettingsBuilder;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingVisibilityEvent;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import net.minecraftforge.fml.common.Mod;
 import slimeknights.mantle.loot.function.SetFluidLootFunction;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
@@ -74,26 +65,29 @@ import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 
 @SuppressWarnings("unused")
 public class WorldEvents {
   /** Checks if the biome matches the given categories */
-  private static boolean matches(boolean hasNoTypes, @Nullable ResourceKey<Biome> key, BiomeCategory given, @Nullable BiomeCategory check, Type type) {
-    if (hasNoTypes || key == null) {
-      // check of null means not none, the nether/end checks were done earlier
-      if (check == null) {
-        return given != BiomeCategory.NONE;
-      }
-      return given == check;
-    }
-    // we have a key, require matching all the given types
-    return BiomeDictionary.hasType(key, type);
-  }
+//  private static boolean matches(boolean hasNoTypes, @Nullable ResourceKey<Biome> key, BiomeCategory given, @Nullable BiomeCategory check, Type type) {
+//    if (hasNoTypes || key == null) {
+//      // check of null means not none, the nether/end checks were done earlier
+//      if (check == null) {
+//        return given != BiomeCategory.NONE;
+//      }
+//      return given == check;
+//    }
+//    // we have a key, require matching all the given types
+//    return BiomeDictionary.hasType(key, type);
+//  }
 
   public static void init() {
     LootTableLoadingCallback.EVENT.register(WorldEvents::onLootTableLoad);
     ServerLifecycleEvents.SERVER_STARTING.register(WorldEvents::serverStarting);
+    ServerWorldEvents.LOAD.register(WorldEvents::onWorldLoad);
+    LivingEntityEvents.DROPS.register(WorldEvents::creeperKill);
   }
 
   static void onBiomeLoad() {
@@ -156,7 +150,7 @@ public class WorldEvents {
 
   /**
    * Injects an entry into a loot pool
-   * @param event      Loot table event
+   * @param lootTable      Loot table event
    * @param poolName   Pool name
    * @param entries    Entry to inject
    */
@@ -191,25 +185,25 @@ public class WorldEvents {
         // sky
         case "chests/simple_dungeon":
           if (Config.COMMON.slimyLootChests.get()) {
-            injectInto(event, "pool1", makeSeed(SlimeType.EARTH, 3), makeSeed(SlimeType.SKY, 7));
-            injectInto(event, "main", makeSapling(SlimeType.EARTH, 3), makeSapling(SlimeType.SKY, 7));
+            injectInto(manager.get(name), "pool1", makeSeed(SlimeType.EARTH, 3), makeSeed(SlimeType.SKY, 7));
+            injectInto(manager.get(name), "main", makeSapling(SlimeType.EARTH, 3), makeSapling(SlimeType.SKY, 7));
           }
           break;
         // ichor
         case "chests/nether_bridge":
           if (Config.COMMON.slimyLootChests.get()) {
-            injectInto(event, "main", makeSeed(SlimeType.BLOOD, 5));
+            injectInto(manager.get(name), "main", makeSeed(SlimeType.BLOOD, 5));
           }
           break;
         case "chests/bastion_bridge":
           if (Config.COMMON.slimyLootChests.get()) {
-            injectInto(event, "pool2", makeSapling(SlimeType.BLOOD, 1));
+            injectInto(manager.get(name), "pool2", makeSapling(SlimeType.BLOOD, 1));
           }
           break;
         // ender
         case "chests/end_city_treasure":
           if (Config.COMMON.slimyLootChests.get()) {
-            injectInto(event, "main", makeSeed(SlimeType.ENDER, 5), makeSapling(SlimeType.ENDER, 3));
+            injectInto(manager.get(name), "main", makeSeed(SlimeType.ENDER, 5), makeSapling(SlimeType.ENDER, 3));
           }
           break;
 
@@ -217,7 +211,7 @@ public class WorldEvents {
         case "gameplay/piglin_bartering": {
           int weight = Config.COMMON.barterBlazingBlood.get();
           if (weight > 0) {
-            injectInto(event, "main", LootItem.lootTableItem(TinkerSmeltery.scorchedLantern).setWeight(weight)
+            injectInto(manager.get(name), "main", LootItem.lootTableItem(TinkerSmeltery.scorchedLantern).setWeight(weight)
                                               .apply(SetFluidLootFunction.builder(new FluidStack(TinkerFluids.blazingBlood.get(), FluidValues.LANTERN_CAPACITY)))
                                               .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 4)))
                                               .build());
@@ -232,14 +226,14 @@ public class WorldEvents {
             RandomMaterial randomHead = RandomMaterial.random(HeadMaterialStats.ID).tier(1).build();
             RandomMaterial firstHandle = RandomMaterial.firstWithStat(HandleMaterialStats.ID); // should be wood
             RandomMaterial randomBinding = RandomMaterial.random(ExtraMaterialStats.ID).tier(1).build();
-            injectInto(event, "main", LootItem.lootTableItem(TinkerTools.handAxe.get())
+            injectInto(manager.get(name), "main", LootItem.lootTableItem(TinkerTools.handAxe.get())
                                               .setWeight(weight)
                                               .apply(AddToolDataFunction.builder()
                                                                .addMaterial(randomHead)
                                                                .addMaterial(firstHandle)
                                                                .addMaterial(randomBinding))
                                               .build());
-            injectInto(event, "pool1", LootItem.lootTableItem(TinkerTools.pickaxe.get())
+            injectInto(manager.get(name), "pool1", LootItem.lootTableItem(TinkerTools.pickaxe.get())
                                                .setWeight(weight)
                                                .apply(AddToolDataFunction.builder()
                                                                .addMaterial(randomHead)
@@ -276,9 +270,8 @@ public class WorldEvents {
     }
   }
 
-  @SubscribeEvent
-  static void onWorldLoad(WorldEvent.Load event) {
-    if (event.getWorld() instanceof ServerLevel server) {
+  static void onWorldLoad(MinecraftServer minecraftServer, ServerLevel server) {
+//    if (event.getWorld() instanceof ServerLevel server) {
       ChunkGenerator generator = server.getChunkSource().getGenerator();
 
       // Skip superflat worlds to prevent issues with it. Plus, users don't want structures clogging up their superflat worlds.
@@ -306,43 +299,42 @@ public class WorldEvents {
       if (Config.COMMON.forceSlimeIslands.get()) {
         TinkerStructures.addStructureConfiguration((feature, configuration) -> tryPut(settings, feature, configuration));
       }
-    }
+//    }
   }
 
 
   /* Heads */
 
-  @SubscribeEvent
-  static void livingVisibility(LivingVisibilityEvent event) {
-    Entity lookingEntity = event.getLookingEntity();
-    if (lookingEntity == null) {
-      return;
-    }
-    LivingEntity entity = event.getEntityLiving();
-    ItemStack helmet = entity.getItemBySlot(EquipmentSlot.HEAD);
-    Item item = helmet.getItem();
-    if (item != Items.AIR && TinkerWorld.headItems.contains(item)) {
-      if (lookingEntity.getType() == ((TinkerHeadType)((SkullBlock)((BlockItem)item).getBlock()).getType()).getType()) {
-        event.modifyVisibility(0.5f);
-      }
-    }
-  }
+//  @SubscribeEvent TODO: PORT
+//  static void livingVisibility(LivingVisibilityEvent event) {
+//    Entity lookingEntity = event.getLookingEntity();
+//    if (lookingEntity == null) {
+//      return;
+//    }
+//    LivingEntity entity = event.getEntityLiving();
+//    ItemStack helmet = entity.getItemBySlot(EquipmentSlot.HEAD);
+//    Item item = helmet.getItem();
+//    if (item != Items.AIR && TinkerWorld.headItems.contains(item)) {
+//      if (lookingEntity.getType() == ((TinkerHeadType)((SkullBlock)((BlockItem)item).getBlock()).getType()).getType()) {
+//        event.modifyVisibility(0.5f);
+//      }
+//    }
+//  }
 
-  @SubscribeEvent
-  static void creeperKill(LivingDropsEvent event) {
-    DamageSource source = event.getSource();
+  static boolean creeperKill(LivingEntity target, DamageSource source, Collection<ItemEntity> drops) {
     if (source != null) {
       Entity entity = source.getEntity();
       if (entity instanceof Creeper creeper) {
         if (creeper.canDropMobsSkull()) {
-          LivingEntity dying = event.getEntityLiving();
+          LivingEntity dying = target;
           TinkerHeadType headType = TinkerHeadType.fromEntityType(dying.getType());
           if (headType != null && Config.COMMON.headDrops.get(headType).get()) {
             creeper.increaseDroppedSkulls();
-            event.getDrops().add(dying.spawnAtLocation(TinkerWorld.heads.get(headType)));
+            drops.add(dying.spawnAtLocation(TinkerWorld.heads.get(headType)));
           }
         }
       }
     }
+    return false;
   }
 }

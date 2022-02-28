@@ -18,7 +18,7 @@ import java.util.function.BiFunction;
  */
 @EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class NamespacedNBT implements INamespacedNBTView, PlayerComponent<NamespacedNBT> {
+public class NamespacedNBT implements INamespacedNBTView {
   /** Compound representing modifier data */
   @Getter(AccessLevel.PROTECTED)
   private CompoundTag data;
@@ -122,8 +122,8 @@ public class NamespacedNBT implements INamespacedNBTView, PlayerComponent<Namesp
   @Override
   public void readFromNbt(CompoundTag compoundTag) {
     compoundTag.put("data", data);
-    capability.invalidate();
-    capability = LazyOptional.of(() -> NamespacedNBT.readFromNBT(nbt.get()));
+//    capability.invalidate();
+//    capability = LazyOptional.of(() -> NamespacedNBT.readFromNBT(nbt.get()));
   }
 
   @Override

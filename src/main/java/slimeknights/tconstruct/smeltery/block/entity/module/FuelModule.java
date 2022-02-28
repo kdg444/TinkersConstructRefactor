@@ -210,7 +210,7 @@ public class FuelModule implements ContainerData {
     FluidStack fluid = handler.getFluidInTank(0);
     MeltingFuel recipe = findRecipe(fluid.getFluid());
     if (recipe != null) {
-      int amount = recipe.getAmount(fluid.getFluid());
+      long amount = recipe.getAmount(fluid.getFluid());
       if (fluid.getAmount() >= amount) {
         if (consume) {
           FluidStack drained = handler.drain(new FluidStack(fluid, amount), false);

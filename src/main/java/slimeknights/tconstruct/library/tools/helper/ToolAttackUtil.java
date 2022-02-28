@@ -223,11 +223,11 @@ public class ToolAttackUtil {
     if (!isExtraAttack) {
       float criticalModifier = isCritical ? 1.5f : 1.0f;
       if (attackerPlayer != null) {
-        CriticalHitEvent hitResult = ForgeHooks.getCriticalHit(attackerPlayer, targetEntity, isCritical, isCritical ? 1.5F : 1.0F);
-        isCritical = hitResult != null;
-        if (isCritical) {
-          criticalModifier = hitResult.getDamageModifier();
-        }
+//        CriticalHitEvent hitResult = ForgeHooks.getCriticalHit(attackerPlayer, targetEntity, isCritical, isCritical ? 1.5F : 1.0F); TODO: PORT
+//        isCritical = hitResult != null;
+//        if (isCritical) {
+//          criticalModifier = hitResult.getDamageModifier();
+//        }
       }
       if (isCritical) {
         damage *= criticalModifier;

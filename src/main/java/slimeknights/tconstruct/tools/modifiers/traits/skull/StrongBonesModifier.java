@@ -27,7 +27,7 @@ public class StrongBonesModifier extends TotalArmorLevelModifier {
   public static final TinkerDataKey<Integer> CALCIFIABLE = TConstruct.createKey("calcifable");
   public StrongBonesModifier() {
     super(STRONG_BONES, true);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, LivingEntityUseItemEvent.Finish.class, StrongBonesModifier::onItemFinishUse);
+//    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, LivingEntityUseItemEvent.Finish.class, StrongBonesModifier::onItemFinishUse);
   }
 
   @Override
@@ -37,30 +37,30 @@ public class StrongBonesModifier extends TotalArmorLevelModifier {
       IToolStackView replacement = context.getReplacementTool();
       if (replacement == null || replacement.getModifierLevel(this) == 0) {
         // cure effects using the helmet
-        context.getEntity().curePotionEffects(new ItemStack(tool.getItem()));
+//        context.getEntity().curePotionEffects(new ItemStack(tool.getItem())); TODO: PORT
       }
     }
   }
 
-  private static void drinkMilk(LivingEntity living, int duration) {
-    if (ModifierUtil.getTotalModifierLevel(living, STRONG_BONES) > 0) {
-      MobEffectInstance effect = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration);
-      effect.getCurativeItems().clear();
-      effect.getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));
-      living.addEffect(effect);
-    }
-    if (ModifierUtil.getTotalModifierLevel(living, CALCIFIABLE) > 0) {
-      TinkerModifiers.calcifiedEffect.get().apply(living, duration, 0, true);
-    }
-  }
+//  private static void drinkMilk(LivingEntity living, int duration) { TODO: PORT
+//    if (ModifierUtil.getTotalModifierLevel(living, STRONG_BONES) > 0) {
+//      MobEffectInstance effect = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration);
+//      effect.getCurativeItems().clear();
+//      effect.getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));
+//      living.addEffect(effect);
+//    }
+//    if (ModifierUtil.getTotalModifierLevel(living, CALCIFIABLE) > 0) {
+//      TinkerModifiers.calcifiedEffect.get().apply(living, duration, 0, true);
+//    }
+//  }
 
   /** Called when you finish drinking milk */
-  private static void onItemFinishUse(LivingEntityUseItemEvent.Finish event) {
-    LivingEntity living = event.getEntityLiving();
-    if (event.getItem().getItem() == Items.MILK_BUCKET) {
-      drinkMilk(living, 1200);
-    }
-  }
+//  private static void onItemFinishUse(LivingEntityUseItemEvent.Finish event) { TODO: PORT
+//    LivingEntity living = event.getEntityLiving();
+//    if (event.getItem().getItem() == Items.MILK_BUCKET) {
+//      drinkMilk(living, 1200);
+//    }
+//  }
 
   /** Spilling effect hook */
   public static class SpillingEffect implements ISpillingEffect {
@@ -70,7 +70,7 @@ public class StrongBonesModifier extends TotalArmorLevelModifier {
     public void applyEffects(FluidStack fluid, float scale, ToolAttackContext context) {
       LivingEntity target = context.getLivingTarget();
       if (target != null) {
-        drinkMilk(target, (int)(400 * scale));
+//        drinkMilk(target, (int)(400 * scale)); TODO: PORT
       }
     }
 

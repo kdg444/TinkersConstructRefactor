@@ -31,7 +31,7 @@ public class SeveringModifier extends Modifier {
         List<SeveringRecipe> recipes = SeveringRecipeCache.findRecipe(context.getLevel().getRecipeManager(), entity.getType());
         if (!recipes.isEmpty()) {
           // 5% chance per level, bonus 5% per level of looting
-          float chance = (level + context.getLootingModifier()) * 0.05f;
+          float chance = (level /*+ context.getLootingModifier()*/) * 0.05f; // TODO: PORT
           // double chance for mobs such as ender dragons and the wither
           if (TinkerTags.EntityTypes.RARE_MOBS.contains(entity.getType())) {
             chance *= 2;

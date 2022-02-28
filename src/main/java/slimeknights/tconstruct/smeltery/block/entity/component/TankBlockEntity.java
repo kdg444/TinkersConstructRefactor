@@ -179,6 +179,6 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
   /** Interface for blocks to return their capacity */
   public interface ITankBlock {
     /** Gets the capacity for this tank */
-    int getCapacity();
+    long getCapacity();
   }
 }

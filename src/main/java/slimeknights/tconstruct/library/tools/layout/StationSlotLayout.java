@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -242,7 +243,7 @@ public class StationSlotLayout {
 
     /** Adds an input as the given item */
     public Builder addInputItem(ItemLike item, int x, int y) {
-      return addInputItem(new Pattern(Objects.requireNonNull(item.asItem().getRegistryName())), item, x, y);
+      return addInputItem(new Pattern(Objects.requireNonNull(Registry.ITEM.getKey(item.asItem()))), item, x, y);
     }
 
     /** Builds a station slot layout */

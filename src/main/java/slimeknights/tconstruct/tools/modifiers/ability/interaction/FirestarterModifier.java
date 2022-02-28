@@ -69,7 +69,7 @@ public class FirestarterModifier extends InteractionModifier.SingleUse {
 
     // ignite the TNT
     if (state.getBlock() instanceof TntBlock tnt) {
-      tnt.onCaughtFire(state, world, pos, sideHit, player);
+//      tnt.onCaughtFire(state, world, pos, sideHit, player); TODO: PORT
       world.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
       return true;
     }

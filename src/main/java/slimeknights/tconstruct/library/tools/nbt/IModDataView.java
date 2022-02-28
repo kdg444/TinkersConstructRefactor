@@ -13,6 +13,16 @@ public interface IModDataView extends INamespacedNBTView {
   /** Empty variant of mod data */
   IModDataView EMPTY = new IModDataView() {
     @Override
+    public void readFromNbt(CompoundTag tag) {
+
+    }
+
+    @Override
+    public void writeToNbt(CompoundTag tag) {
+
+    }
+
+    @Override
     public int getSlots(SlotType type) {
       return 0;
     }

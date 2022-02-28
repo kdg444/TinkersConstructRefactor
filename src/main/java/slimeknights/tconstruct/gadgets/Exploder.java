@@ -21,6 +21,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import slimeknights.mantle.lib.event.ExplosionEvents;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.gadgets.entity.EFLNExplosion;
 import slimeknights.tconstruct.tools.network.EntityMovementChangePacket;
@@ -73,7 +74,7 @@ public class Exploder {
     Exploder exploder = new Exploder(world, explosion, entity, location, r, explosionStrength, Math.max(50, (int) (r * r * r / 10d)));
     exploder.handleEntities();
     world.playSound(null, location, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.2F) * 0.7F);
-    MinecraftForge.EVENT_BUS.register(exploder);
+//    MinecraftForge.EVENT_BUS.register(exploder); TODO: PORT
     ServerTickEvents.END_WORLD_TICK.register(exploder::onTick);
   }
 
@@ -94,7 +95,7 @@ public class Exploder {
         this.z + this.r + 1),
       predicate
     );
-    net.minecraftforge.event.ForgeEventFactory.onExplosionDetonate(this.world, this.explosion, list, this.r * 2);
+    ExplosionEvents.DETONATE.invoker().onDetonate(this.world, this.explosion, list, this.r * 2);
 
     for (Entity entity : list) {
       // move it away from the center depending on distance and explosion strength
@@ -182,7 +183,7 @@ public class Exploder {
           // explosion "strength" at the current position
           double f = this.explosionStrength * (1f - d / this.rr);
 
-          float f2 = Math.max(blockState.getExplosionResistance(this.world, blockpos, this.explosion), ifluidstate.getExplosionResistance(this.world, blockpos, this.explosion));
+          float f2 = 0;//Math.max(blockState.getExplosionResistance(this.world, blockpos, this.explosion), ifluidstate.getExplosionResistance(this.world, blockpos, this.explosion)); TODO: PORT
           if (this.exploder != null) {
             f2 = this.exploder.getBlockExplosionResistance(this.explosion, this.world, blockpos, blockState, ifluidstate, f2);
           }
@@ -200,7 +201,7 @@ public class Exploder {
       this.step();
     }
 
-    net.minecraftforge.event.ForgeEventFactory.onExplosionDetonate(this.world, this.explosion, Collections.emptyList(), this.r * 2);
+    ExplosionEvents.DETONATE.invoker().onDetonate(this.world, this.explosion, Collections.emptyList(), this.r * 2);
 
     this.explosion.getToBlow().forEach(this::explodeBlock);
 
@@ -236,7 +237,7 @@ public class Exploder {
   private void explodeBlock(BlockPos blockpos) {
     BlockState blockstate = this.world.getBlockState(blockpos);
 
-    if (!this.world.isClientSide && blockstate.canDropFromExplosion(this.world, blockpos, this.explosion)) {
+    if (!this.world.isClientSide /*&& blockstate.canDropFromExplosion(this.world, blockpos, this.explosion)*/) { // TODO: PORT
       BlockEntity tileentity = blockstate.hasBlockEntity() ? this.world.getBlockEntity(blockpos) : null;
       LootContext.Builder builder = (new LootContext.Builder((ServerLevel) this.world)).withRandom(this.world.random).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(blockpos)).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, tileentity);
 
@@ -250,7 +251,7 @@ public class Exploder {
       }
     }
 
-    blockstate.onBlockExploded(this.world, blockpos, this.explosion);
+//    blockstate.onBlockExploded(this.world, blockpos, this.explosion); TODO: PORT
   }
 
 }

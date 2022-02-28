@@ -76,7 +76,7 @@ public class ContentModifier extends PageContent {
       if (this.modifierID == null) {
         this.modifierID = this.parent.name;
       }
-      this.modifier = Objects.requireNonNull(TinkerRegistries.MODIFIERS.getValue(new ModifierId(this.modifierID)));
+      this.modifier = Objects.requireNonNull(TinkerRegistries.MODIFIERS.get(new ModifierId(this.modifierID)));
     }
     return this.modifier;
   }
