@@ -8,6 +8,7 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.world.TinkerWorld;
 
@@ -32,11 +33,13 @@ public class SkySlimeEntity extends Slime {
     if (isSuppressingBounce()) {
       return super.causeFallDamage(distance, damageMultiplier * 0.2f, source);
     }
-    float[] ret = ForgeHooks.onLivingFall(this, distance, damageMultiplier);
-    if (ret == null) {
-      return false;
-    }
-    distance = ret[0];
+    LivingEntityEvents.LivingFallEvent fallEvent = new LivingEntityEvents.LivingFallEvent(this, distance, damageMultiplier);
+//    float[] ret = LivingEntityEvents.FALL.invoker().onFall(fallEvent);
+    fallEvent.sendEvent();
+//    if (ret == null) {
+//      return false;
+//    }
+    distance = fallEvent.getDistance();//ret[0];
     if (distance > 2) {
       // invert Y motion, boost X and Z slightly
       Vec3 motion = getDeltaMovement();

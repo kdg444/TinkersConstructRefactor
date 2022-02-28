@@ -18,6 +18,14 @@ transitive-accessible field net/minecraft/client/gui/screens/inventory/AbstractC
 
 # Fabric
 transitive-mutable field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
+transitive-mutable field net/minecraft/world/level/levelgen/StructureSettings DEFAULTS Lcom/google/common/collect/ImmutableMap;
+transitive-mutable field net/minecraft/world/level/levelgen/StructureSettings configuredStructures Lcom/google/common/collect/ImmutableMap;
+transitive-mutable field net/minecraft/world/level/storage/loot/LootPool entries [Lnet/minecraft/world/level/storage/loot/entries/LootPoolEntryContainer;
+transitive-mutable field net/minecraft/world/level/levelgen/StructureSettings structureConfig Ljava/util/Map;
+transitive-accessible field net/minecraft/world/level/levelgen/StructureSettings structureConfig Ljava/util/Map;
+transitive-accessible field net/minecraft/world/level/levelgen/StructureSettings configuredStructures Lcom/google/common/collect/ImmutableMap;
+transitive-accessible field net/minecraft/world/level/storage/loot/LootPool entries [Lnet/minecraft/world/level/storage/loot/entries/LootPoolEntryContainer;
+transitive-accessible field net/minecraft/world/level/storage/loot/LootTable pools [Lnet/minecraft/world/level/storage/loot/LootPool;
 transitive-accessible field net/minecraft/data/loot/EntityLoot ENTITY_ON_FIRE Lnet/minecraft/advancements/critereon/EntityPredicate$Builder;
 transitive-accessible field net/minecraft/data/loot/EntityLoot SPECIAL_LOOT_TABLE_TYPES Ljava/util/Set;
 transitive-accessible field net/minecraft/data/loot/EntityLoot map Ljava/util/Map;
@@ -35,17 +43,21 @@ transitive-accessible method net/minecraft/world/entity/player/Player closeConta
 transitive-accessible method net/minecraft/client/renderer/LevelRenderer renderShape (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/phys/shapes/VoxelShape;DDDFFFF)V
 transitive-accessible method net/minecraft/client/renderer/LevelRenderer renderHitOutline (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)V
 transitive-accessible method net/minecraft/world/level/block/Blocks never (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z
+transitive-accessible method net/minecraft/world/level/block/Block popExperience (Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;I)V
 transitive-accessible method net/minecraft/client/renderer/ItemInHandRenderer renderPlayerArm (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IFFLnet/minecraft/world/entity/HumanoidArm;)V
+transitive-accessible method net/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType <init> (Lcom/mojang/serialization/Codec;)V
 transitive-accessible method net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$Formula calculateNewCount (Ljava/util/Random;II)I
 transitive-accessible method net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$FormulaDeserializer deserialize (Lcom/google/gson/JsonObject;Lcom/google/gson/JsonDeserializationContext;)Lnet/minecraft/world/level/storage/loot/functions/ApplyBonusCount$Formula;
 transitive-accessible method net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$OreDrops <init> ()V
 transitive-accessible field net/minecraft/world/level/storage/loot/functions/ApplyBonusCount FORMULAS Ljava/util/Map;
+transitive-accessible field net/minecraft/world/effect/MobEffectInstance duration I
 transitive-accessible field net/minecraft/client/renderer/LevelRenderer renderBuffers Lnet/minecraft/client/renderer/RenderBuffers;
 transitive-accessible field net/minecraft/client/renderer/LevelRenderer destroyingBlocks Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
 transitive-accessible field net/minecraft/client/resources/ClientPackSource BUILT_IN Lnet/minecraft/server/packs/metadata/pack/PackMetadataSection;
 transitive-accessible field net/minecraft/client/Minecraft fontManager Lnet/minecraft/client/gui/font/FontManager;
 transitive-accessible field net/minecraft/world/inventory/ResultSlot removeCount I
 transitive-accessible field net/minecraft/world/inventory/ResultSlot player Lnet/minecraft/world/entity/player/Player;
+transitive-accessible field net/minecraft/world/entity/Entity wasEyeInWater Z
 transitive-accessible field net/minecraft/client/gui/font/FontManager fontSets Ljava/util/Map;
 transitive-accessible field net/minecraft/world/entity/LivingEntity lastHurt F
 transitive-accessible field net/minecraft/data/loot/BlockLoot NORMAL_LEAVES_SAPLING_CHANCES [F

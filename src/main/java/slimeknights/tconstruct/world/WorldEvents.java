@@ -2,10 +2,18 @@ package slimeknights.tconstruct.world;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Lists;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
+import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -31,6 +39,8 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
@@ -81,60 +91,64 @@ public class WorldEvents {
     return BiomeDictionary.hasType(key, type);
   }
 
-  @SubscribeEvent
-  static void onBiomeLoad(BiomeLoadingEvent event) {
-    BiomeGenerationSettingsBuilder generation = event.getGeneration();
-    MobSpawnSettingsBuilder spawns = event.getSpawns();
+  public static void init() {
+    LootTableLoadingCallback.EVENT.register(WorldEvents::onLootTableLoad);
+    ServerLifecycleEvents.SERVER_STARTING.register(WorldEvents::serverStarting);
+  }
+
+  static void onBiomeLoad() {
+//    BiomeGenerationSettingsBuilder generation = event.getGeneration();
+//    MobSpawnSettingsBuilder spawns = event.getSpawns();
 
     // setup for biome checks
-    BiomeCategory category = event.getCategory();
-    ResourceLocation name = event.getName();
-    ResourceKey<Biome> key = name == null ? null : ResourceKey.create(Registry.BIOME_REGISTRY, name);
-    boolean hasNoTypes = key == null || !BiomeDictionary.hasAnyType(key);
+//    BiomeCategory category = event.getCategory();
+//    ResourceLocation name = event.getName();
+//    ResourceKey<Biome> key = name == null ? null : ResourceKey.create(Registry.BIOME_REGISTRY, name);
+//    boolean hasNoTypes = key == null || !BiomeDictionary.hasAnyType(key);
 
     // nether - any biome is fine
-    if (matches(hasNoTypes, key, category, BiomeCategory.NETHER, Type.NETHER)) {
+//    if (matches(hasNoTypes, key, category, BiomeCategory.NETHER, Type.NETHER)) {
       if (Config.COMMON.generateCobalt.get()) {
-        generation.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, TinkerWorld.COBALT_ORE_FEATURE_SMALL);
-        generation.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, TinkerWorld.COBALT_ORE_FEATURE_LARGE);
+        BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Decoration.UNDERGROUND_DECORATION, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, TConstruct.getResource("cobalt_ore_small")));
+        BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Decoration.UNDERGROUND_DECORATION, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, TConstruct.getResource("cobalt_ore_large")));
       }
       // ichor can be anywhere
       if (Config.COMMON.ichorGeodes.get()) {
-        generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.ichorGeode.getPlacedGeode());
+//        generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.ichorGeode.getPlacedGeode()); TODO: PORT
       }
-    }
+//    }
     // end, mostly do stuff in the outer islands
-    else if (matches(hasNoTypes, key, category, BiomeCategory.THEEND, Type.END)) {
+//    else if (matches(hasNoTypes, key, category, BiomeCategory.THEEND, Type.END)) {
       // slime spawns anywhere, uses the grass
-      spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(TinkerWorld.enderSlimeEntity.get(), 10, 2, 4));
+      BiomeModifications.addSpawn(BiomeSelectors.foundInTheEnd(), MobCategory.MONSTER, TinkerWorld.enderSlimeEntity.get(), 10, 2, 4);
       // geodes only on outer islands
-      if (Config.COMMON.enderGeodes.get() && key != null && !Biomes.THE_END.equals(key)) {
-        generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.enderGeode.getPlacedGeode());
-      }
-    }
+//      if (Config.COMMON.enderGeodes.get() && key != null && !Biomes.THE_END.equals(key)) {
+//        generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.enderGeode.getPlacedGeode()); TODO: PORT
+//      }
+//    }
     // overworld gets tricky
-    else if (matches(hasNoTypes, key, category, null, Type.OVERWORLD)) {
+//    else if (matches(hasNoTypes, key, category, null, Type.OVERWORLD)) {
       // slime spawns anywhere, uses the grass
-      spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(TinkerWorld.earthSlimeEntity.get(), 100, 2, 4));
-      spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(TinkerWorld.skySlimeEntity.get(), 100, 2, 4));
+      BiomeModifications.addSpawn(BiomeSelectors.foundInOverworld(), MobCategory.MONSTER, TinkerWorld.earthSlimeEntity.get(), 100, 2, 4);
+      BiomeModifications.addSpawn(BiomeSelectors.foundInOverworld(), MobCategory.MONSTER, TinkerWorld.skySlimeEntity.get(), 100, 2, 4);
 
       // earth spawns anywhere, sky does not spawn in ocean (looks weird)
       if (Config.COMMON.earthGeodes.get()) {
-        generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.earthGeode.getPlacedGeode());
+//        generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.earthGeode.getPlacedGeode()); TODO: PORT
       }
       // sky spawn in non-oceans, they look funny in the ocean as they spawn so high
       if (Config.COMMON.skyGeodes.get()) {
-        boolean add;
-        if (hasNoTypes) {
-          add = category != BiomeCategory.OCEAN && category != BiomeCategory.BEACH && category != BiomeCategory.RIVER;
-        } else {
-          add = !BiomeDictionary.hasType(key, Type.WATER) && !BiomeDictionary.hasType(key, Type.BEACH);
-        }
-        if (add) {
-          generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.skyGeode.getPlacedGeode());
-        }
+//        boolean add; TODO: PORT
+//        if (hasNoTypes) {
+//          add = category != BiomeCategory.OCEAN && category != BiomeCategory.BEACH && category != BiomeCategory.RIVER;
+//        } else {
+//          add = !BiomeDictionary.hasType(key, Type.WATER) && !BiomeDictionary.hasType(key, Type.BEACH);
+//        }
+//        if (add) {
+//          generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.skyGeode.getPlacedGeode());
+//        }
       }
-    }
+//    }
   }
 
 
@@ -146,14 +160,18 @@ public class WorldEvents {
    * @param poolName   Pool name
    * @param entries    Entry to inject
    */
-  private static void injectInto(LootTableLoadEvent event, String poolName, LootPoolEntryContainer... entries) {
-    LootPool pool = event.getTable().getPool(poolName);
+  private static void injectInto(LootTable lootTable, String poolName, LootPoolEntryContainer... entries) {
+    LootPool pool = getPool(lootTable, poolName);
     //noinspection ConstantConditions method is annotated wrongly
     if (pool != null) {
       int oldLength = pool.entries.length;
       pool.entries = Arrays.copyOf(pool.entries, oldLength + entries.length);
       System.arraycopy(entries, 0, pool.entries, oldLength, entries.length);
     }
+  }
+
+  public static LootPool getPool(LootTable table, String name) {
+    return Lists.newArrayList(table.pools).stream().filter(e -> name.equals(/*e.name*/"")).findFirst().orElse(null); // TODO: PORT
   }
 
   /** Makes a seed injection loot entry */
@@ -167,9 +185,7 @@ public class WorldEvents {
     return LootItem.lootTableItem(TinkerWorld.slimeSapling.get(type)).setWeight(weight).build();
   }
 
-  @SubscribeEvent
-  static void onLootTableLoad(LootTableLoadEvent event) {
-    ResourceLocation name = event.getName();
+  static void onLootTableLoad(ResourceManager resourceManager, LootTables manager, ResourceLocation name, FabricLootSupplierBuilder supplier, LootTableLoadingCallback.LootTableSetter setter) {
     if ("minecraft".equals(name.getNamespace())) {
       switch (name.getPath()) {
         // sky
@@ -237,8 +253,7 @@ public class WorldEvents {
     }
   }
 
-  @SubscribeEvent
-  static void serverStarting(ServerAboutToStartEvent event) {
+  static void serverStarting(MinecraftServer server) {
     TinkerStructures.addDefaultStructureBiomes();
   }
 

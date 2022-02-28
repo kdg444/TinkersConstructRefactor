@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.library.tools.nbt;
 
+import dev.onyxstudios.cca.api.v3.component.Component;
+import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -7,6 +9,7 @@ import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import slimeknights.mantle.lib.util.LazyOptional;
 
 import java.util.function.BiFunction;
 
@@ -15,10 +18,10 @@ import java.util.function.BiFunction;
  */
 @EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class NamespacedNBT implements INamespacedNBTView {
+public class NamespacedNBT implements INamespacedNBTView, PlayerComponent<NamespacedNBT> {
   /** Compound representing modifier data */
   @Getter(AccessLevel.PROTECTED)
-  private final CompoundTag data;
+  private CompoundTag data;
 
   /**
    * Creates a new mod data containing empty data
@@ -118,11 +121,13 @@ public class NamespacedNBT implements INamespacedNBTView {
 
   @Override
   public void readFromNbt(CompoundTag compoundTag) {
-
+    compoundTag.put("data", data);
+    capability.invalidate();
+    capability = LazyOptional.of(() -> NamespacedNBT.readFromNBT(nbt.get()));
   }
 
   @Override
   public void writeToNbt(CompoundTag compoundTag) {
-
+    data = compoundTag.getCompound("data");
   }
 }

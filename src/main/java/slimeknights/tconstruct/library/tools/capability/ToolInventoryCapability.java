@@ -319,8 +319,8 @@ public class ToolInventoryCapability implements IItemHandlerModifiable {
     }
 
     @Override
-    public <T> LazyOptional<T> getCapability(IToolStackView tool, Capability<T> cap) {
-      if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && tool.getVolatileData().getInt(TOTAL_SLOTS) > 0) {
+    public <T> LazyOptional<T> getCapability(IToolStackView tool, Class<T> cap) {
+      if (cap == IItemHandler.class && tool.getVolatileData().getInt(TOTAL_SLOTS) > 0) {
         return handler.cast();
       }
       return LazyOptional.empty();

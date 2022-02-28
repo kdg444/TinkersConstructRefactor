@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.general;
 
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -12,7 +13,7 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 public class ExperiencedModifier extends Modifier {
   public ExperiencedModifier() {
-    MinecraftForge.EVENT_BUS.addListener(this::onEntityKill);
+    LivingEntityEvents.EXPERIENCE_DROP.register(this::onEntityKill);
     MinecraftForge.EVENT_BUS.addListener(this::beforeBlockBreak);
   }
 
@@ -51,8 +52,7 @@ public class ExperiencedModifier extends Modifier {
    * Event handled locally as its pretty specialized
    * @param event  Event
    */
-  private void onEntityKill(LivingExperienceDropEvent event) {
-    Player player = event.getAttackingPlayer();
+  private int onEntityKill(int amount, Player player) {
     if (player != null) {
       int level = 0;
       // held tool
@@ -62,8 +62,9 @@ public class ExperiencedModifier extends Modifier {
       tool = getHeldTool(player, EquipmentSlot.LEGS);
       if (tool != null) level += tool.getModifierLevel(this);
       if (level > 0) {
-        event.setDroppedExperience(boost(event.getDroppedExperience(), level));
+       return boost(event.getDroppedExperience(), level);
       }
     }
+    return amount;
   }
 }

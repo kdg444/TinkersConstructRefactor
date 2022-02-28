@@ -82,7 +82,7 @@ public class ToolFluidCapability implements IFluidHandlerItem {
       IFluidModifier fluidModifier = entry.getModifier().getModule(IFluidModifier.class);
       if (fluidModifier != null) {
         // try filling each modifier
-        int filled = fluidModifier.fill(tool, entry.getLevel(), resource, sim);
+        long filled = fluidModifier.fill(tool, entry.getLevel(), resource, sim);
         if (filled > 0) {
           // if we filled the entire stack, we are done
           if (filled >= resource.getAmount()) {
@@ -148,7 +148,7 @@ public class ToolFluidCapability implements IFluidHandlerItem {
         // try draining each modifier
         // if we have no drained anything yet, use the type insensitive hook
         if (toDrain.isEmpty()) {
-          FluidStack drained = fluidModifier.drain(tool, entry.getLevel(), maxDrain, action);
+          FluidStack drained = fluidModifier.drain(tool, entry.getLevel(), maxDrain, sim);
           if (!drained.isEmpty()) {
             // if we finished draining, we are done, otherwise try again later with the type senstive hooks
             maxDrain -= drained.getAmount();
@@ -161,7 +161,7 @@ public class ToolFluidCapability implements IFluidHandlerItem {
           }
         } else {
           // if we already drained some fluid, type sensitive and increase our results
-          FluidStack drained = fluidModifier.drain(tool, entry.getLevel(), toDrain, action);
+          FluidStack drained = fluidModifier.drain(tool, entry.getLevel(), toDrain, sim);
           if (!drained.isEmpty()) {
             drainedSoFar.grow(drained.getAmount());
             toDrain.shrink(drained.getAmount());
@@ -256,7 +256,7 @@ public class ToolFluidCapability implements IFluidHandlerItem {
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
-    FluidStack drain(IToolStackView tool, int level, int maxDrain, boolean sim);
+    FluidStack drain(IToolStackView tool, int level, long maxDrain, boolean sim);
   }
 
   /** Helper to run a function from {@link IFluidModifier} */
@@ -273,8 +273,8 @@ public class ToolFluidCapability implements IFluidHandlerItem {
     }
 
     @Override
-    public <T> LazyOptional<T> getCapability(IToolStackView tool, Capability<T> cap) {
-      if (cap == CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY && tool.getVolatileData().getInt(TOTAL_TANKS) > 0) {
+    public <T> LazyOptional<T> getCapability(IToolStackView tool, Class<T> cap) {
+      if (cap == IFluidHandlerItem.class && tool.getVolatileData().getInt(TOTAL_TANKS) > 0) {
         return fluidCap.cast();
       }
       return LazyOptional.empty();

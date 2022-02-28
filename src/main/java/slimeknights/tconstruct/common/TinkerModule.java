@@ -31,6 +31,7 @@ import slimeknights.mantle.util.SupplierCreativeTab;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.registration.BlockDeferredRegisterExtension;
 import slimeknights.tconstruct.common.registration.ItemDeferredRegisterExtension;
+import slimeknights.tconstruct.library.TinkerRegistries;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.block.SlimeType;
@@ -64,7 +65,7 @@ public abstract class TinkerModule {
   protected static final MantleRegistry<BlockStateProviderType<?>> BLOCK_STATE_PROVIDER_TYPES = MantleRegistry.create(Registry.BLOCKSTATE_PROVIDER_TYPES, TConstruct.MOD_ID);
   protected static final MantleRegistry<RecipeSerializer<?>> RECIPE_SERIALIZERS = MantleRegistry.create(Registry.RECIPE_SERIALIZER, TConstruct.MOD_ID);
   protected static final MantleRegistry<ParticleType<?>> PARTICLE_TYPES = MantleRegistry.create(Registry.PARTICLE_TYPE, TConstruct.MOD_ID);
-  protected static final MantleRegistry<Modifier> MODIFIERS = MantleRegistry.create(Modifier.class, TConstruct.MOD_ID);
+  protected static final MantleRegistry<Modifier> MODIFIERS = MantleRegistry.create(TinkerRegistries.MODIFIERS, TConstruct.MOD_ID);
   protected static final MantleRegistry<GlobalLootModifierSerializer> GLOBAL_LOOT_MODIFIERS = MantleRegistry.create(LootModifierManager.SERIALIZER, TConstruct.MOD_ID);
 
   /** Creative tab for items that do not fit in another tab */

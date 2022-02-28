@@ -53,7 +53,7 @@ public class ToolCapabilityProvider implements ICapabilityProvider {
   @FunctionalInterface
   public interface IToolCapabilityProvider {
     /** Gets a capability on the given tool */
-    <T> LazyOptional<T> getCapability(IToolStackView tool, Capability<T> cap);
+    <T> LazyOptional<T> getCapability(IToolStackView tool, Class<T> cap);
 
     /** Called to clear the cache of the provider */
     default void clearCache() {}

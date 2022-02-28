@@ -20,12 +20,6 @@ import net.minecraft.world.level.levelgen.feature.StructurePieceType.StructureTe
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.Logger;
 import slimeknights.mantle.lib.util.RegistryObject;
 import slimeknights.tconstruct.common.TinkerModule;
@@ -120,11 +114,14 @@ public final class TinkerStructures extends TinkerModule {
   public static final RegistryObject<StructureFeature<NoneFeatureConfiguration>> endSlimeIsland = STRUCTURE_FEATURES.register("end_slime_island", EnderSlimeIslandStructure::new);
   public static ConfiguredStructureFeature<NoneFeatureConfiguration, ? extends StructureFeature<NoneFeatureConfiguration>> configuredEndSlimeIsland;
 
-  @SubscribeEvent
-  void onFeaturesRegistry(RegistryEvent.Register<StructureFeature<?>> event) {
+  void onFeaturesRegistry() {
     slimeIslandPiece = Registry.register(Registry.STRUCTURE_PIECE, resource("slime_island_piece"), (StructureTemplateType)SlimeIslandPiece::new);
   }
 
+  public TinkerStructures() {
+    onFeaturesRegistry();
+    commonSetup();
+  }
 
   /*
    * Structure Biomes
@@ -132,12 +129,12 @@ public final class TinkerStructures extends TinkerModule {
 
   /** Gets all biomes that are not registered with the biome dictionary and matches the given predicate */
   private static Stream<ResourceKey<Biome>> getBiomes(Registry<Biome> biomeRegistry, Predicate<BiomeCategory> categoryPredicate) {
-    return biomeRegistry.entrySet().stream().filter(biome -> !BiomeDictionary.hasAnyType(biome.getKey()) && categoryPredicate.test(biome.getValue().getBiomeCategory())).map(Entry::getKey);
+    return null;//biomeRegistry.entrySet().stream().filter(biome -> !BiomeDictionary.hasAnyType(biome.getKey()) && categoryPredicate.test(biome.getValue().getBiomeCategory())).map(Entry::getKey);
   }
 
   /** Clay island biomes - overworld but not forest or underground */
   static ImmutableMultimap<ConfiguredStructureFeature<?,?>,ResourceKey<Biome>> getClayIslandBiomes(@Nullable Registry<Biome> biomeRegistry) {
-    Stream<ResourceKey<Biome>> biomes = BiomeDictionary.getBiomes(Type.OVERWORLD).stream().filter(biome -> !BiomeDictionary.hasType(biome, Type.FOREST) && !BiomeDictionary.hasType(biome, Type.UNDERGROUND) && !BiomeDictionary.hasType(biome, Type.JUNGLE));
+    Stream<ResourceKey<Biome>> biomes = null;//BiomeDictionary.getBiomes(Type.OVERWORLD).stream().filter(biome -> !BiomeDictionary.hasType(biome, Type.FOREST) && !BiomeDictionary.hasType(biome, Type.UNDERGROUND) && !BiomeDictionary.hasType(biome, Type.JUNGLE));
     if (biomeRegistry != null) {
       biomes = Stream.concat(biomes, getBiomes(biomeRegistry, category -> category != BiomeCategory.NETHER && category != BiomeCategory.THEEND && category != BiomeCategory.NONE && category != BiomeCategory.UNDERGROUND && category != BiomeCategory.FOREST && category != BiomeCategory.JUNGLE));
     }
@@ -146,7 +143,7 @@ public final class TinkerStructures extends TinkerModule {
 
   /** Sky island biomes - overworld but not underground */
   static ImmutableMultimap<ConfiguredStructureFeature<?,?>,ResourceKey<Biome>> getSkyIslandBiomes(@Nullable Registry<Biome> biomeRegistry) {
-    Stream<ResourceKey<Biome>> biomes = BiomeDictionary.getBiomes(Type.OVERWORLD).stream().filter(biome -> !BiomeDictionary.hasType(biome, Type.UNDERGROUND));
+    Stream<ResourceKey<Biome>> biomes = null;//BiomeDictionary.getBiomes(Type.OVERWORLD).stream().filter(biome -> !BiomeDictionary.hasType(biome, Type.UNDERGROUND));
     if (biomeRegistry != null) {
       biomes = Stream.concat(biomes, getBiomes(biomeRegistry, category -> category != BiomeCategory.NETHER && category != BiomeCategory.THEEND && category != BiomeCategory.NONE && category != BiomeCategory.UNDERGROUND));
     }
@@ -155,7 +152,7 @@ public final class TinkerStructures extends TinkerModule {
 
   /** Earth island biomes - overworld ocean */
   static ImmutableMultimap<ConfiguredStructureFeature<?,?>,ResourceKey<Biome>> getEarthIslandBiomes(@Nullable Registry<Biome> biomeRegistry) {
-    Stream<ResourceKey<Biome>> biomes = BiomeDictionary.getBiomes(Type.OVERWORLD).stream().filter(biome -> BiomeDictionary.hasType(biome, Type.OCEAN));
+    Stream<ResourceKey<Biome>> biomes = null;//BiomeDictionary.getBiomes(Type.OVERWORLD).stream().filter(biome -> BiomeDictionary.hasType(biome, Type.OCEAN));
     if (biomeRegistry != null) {
       biomes = Stream.concat(biomes, getBiomes(biomeRegistry, category -> category == BiomeCategory.OCEAN));
     }
@@ -164,7 +161,7 @@ public final class TinkerStructures extends TinkerModule {
 
   /** Blood island biomes - simply nether */
   static ImmutableMultimap<ConfiguredStructureFeature<?,?>,ResourceKey<Biome>> getBloodIslandBiomes(@Nullable Registry<Biome> biomeRegistry) {
-    Collection<ResourceKey<Biome>> biomes = BiomeDictionary.getBiomes(Type.NETHER);
+    Collection<ResourceKey<Biome>> biomes = null;//BiomeDictionary.getBiomes(Type.NETHER);
     if (biomeRegistry != null) {
       biomes = Stream.concat(biomes.stream(), getBiomes(biomeRegistry, category -> category == BiomeCategory.NETHER)).toList();
     }
@@ -173,7 +170,7 @@ public final class TinkerStructures extends TinkerModule {
 
   /** End island biomes - end but no the end biome */
   static ImmutableMultimap<ConfiguredStructureFeature<?,?>,ResourceKey<Biome>> getEnderIslandBIomes(@Nullable Registry<Biome> biomeRegistry) {
-    Stream<ResourceKey<Biome>> biomes = BiomeDictionary.getBiomes(Type.END).stream();
+    Stream<ResourceKey<Biome>> biomes = null;//BiomeDictionary.getBiomes(Type.END).stream();
     if (biomeRegistry != null) {
       biomes = Stream.concat(biomes, getBiomes(biomeRegistry, category -> category == BiomeCategory.THEEND));
     }
@@ -208,7 +205,7 @@ public final class TinkerStructures extends TinkerModule {
 
   /** Adds the structure to the structure map */
   private static void addStructureToMap(StructureFeature<?> structure) {
-    StructureFeature.STRUCTURES_REGISTRY.put(Objects.requireNonNull(structure.getRegistryName()).toString(), structure);
+    StructureFeature.STRUCTURES_REGISTRY.put(Objects.requireNonNull(Registry.STRUCTURE_FEATURE.getKey(structure)).toString(), structure);
   }
 
   /** Adds the settings to the given dimension */
@@ -286,21 +283,20 @@ public final class TinkerStructures extends TinkerModule {
   /**
    * Feature configuration
    */
-  @SubscribeEvent
-  void commonSetup(FMLCommonSetupEvent event) {
-    event.enqueueWork(() -> {
+  void commonSetup() {
+//    event.enqueueWork(() -> {
       addStructureToMap(earthSlimeIsland.get());
       addStructureToMap(skySlimeIsland.get());
       addStructureToMap(clayIsland.get());
       addStructureToMap(bloodIsland.get());
       addStructureToMap(endSlimeIsland.get());
-    });
+//    });
 
     // mark ready, so the config can also call that method
     structureSettingsReady = true;
-    event.enqueueWork(TinkerStructures::addStructureSeparation);
+    addStructureSeparation();
 
-    event.enqueueWork(() -> {
+//    event.enqueueWork(() -> {
       configuredEarthSlimeIsland = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, resource("earth_slime_island"), earthSlimeIsland.get().configured(NoneFeatureConfiguration.INSTANCE));
       configuredSkySlimeIsland = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, resource("sky_slime_island"), skySlimeIsland.get().configured(NoneFeatureConfiguration.INSTANCE));
       configuredClayIsland = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, resource("clay_island"), clayIsland.get().configured(NoneFeatureConfiguration.INSTANCE));
@@ -386,6 +382,6 @@ public final class TinkerStructures extends TinkerModule {
             TinkerWorld.slimeLeaves.get(SlimeType.ICHOR).defaultBlockState(),
             TinkerWorld.congealedSlime.get(SlimeType.ICHOR).defaultBlockState(),
             false)));
-    });
+//    });
   }
 }

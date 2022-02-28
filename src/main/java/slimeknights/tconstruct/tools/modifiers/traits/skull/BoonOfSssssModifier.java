@@ -4,9 +4,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.PotionEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
+import slimeknights.mantle.lib.event.PotionEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
@@ -18,7 +16,7 @@ public class BoonOfSssssModifier extends TotalArmorLevelModifier {
   private static final TinkerDataKey<Integer> POTENT_POTIONS = TConstruct.createKey("boon_of_sssss");
   public BoonOfSssssModifier() {
     super(POTENT_POTIONS, true);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, PotionEvent.PotionAddedEvent.class, BoonOfSssssModifier::onPotionStart);
+    PotionEvents.POTION_ADDED.register(BoonOfSssssModifier::onPotionStart);
   }
 
   @Override
@@ -34,10 +32,10 @@ public class BoonOfSssssModifier extends TotalArmorLevelModifier {
   }
 
   /** Called when the potion effects start to apply this effect */
-  private static void onPotionStart(PotionEvent.PotionAddedEvent event) {
+  private static void onPotionStart(PotionEvents.PotionAddedEvent event) {
     MobEffectInstance newEffect = event.getPotionEffect();
     if (newEffect.getEffect().isBeneficial() && !newEffect.getCurativeItems().isEmpty()) {
-      LivingEntity living = event.getEntityLiving();
+      LivingEntity living = (LivingEntity) event.getEntity();
       if (ModifierUtil.getTotalModifierLevel(living, POTENT_POTIONS) > 0) {
         newEffect.duration *= 1.25f;
         newEffect.getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));

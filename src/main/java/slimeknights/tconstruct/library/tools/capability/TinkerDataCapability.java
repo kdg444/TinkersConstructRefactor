@@ -11,16 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import slimeknights.mantle.lib.util.LazyOptional;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import slimeknights.tconstruct.TConstruct;
 
 import javax.annotation.Nonnull;
@@ -44,53 +35,48 @@ public class TinkerDataCapability implements EntityComponentInitializer {
 
   /** Registers this capability */
   public static void register() {
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, TinkerDataCapability::register);
-    MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, TinkerDataCapability::attachCapability);
-  }
-
-  /** Registers the capability with the event bus */
-  private static void register(RegisterCapabilitiesEvent event) {
-    event.register(Holder.class);
+//    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, TinkerDataCapability::register);
+//    MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, TinkerDataCapability::attachCapability);
   }
 
   /** Event listener to attach the capability */
   @Override
   public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-    registry.registerFor(LivingEntity.class, CAPABILITY, livingEntity -> new Provider());
-    if (event.getObject() instanceof LivingEntity) {
-      Provider provider = new Provider();
-      event.addCapability(ID, provider);
-      event.addListener(provider);
-    }
+    registry.registerFor(LivingEntity.class, CAPABILITY, livingEntity -> new Holder());
+//    if (event.getObject() instanceof LivingEntity) {
+//      Provider provider = new Provider();
+//      event.addCapability(ID, provider);
+//      event.addListener(provider);
+//    }
   }
 
 
   /* Required methods */
 
-  /** Capability provider instance */
-  private static class Provider implements Component, Runnable {
-    private LazyOptional<Holder> data;
-    private Provider() {
-      this.data = LazyOptional.of(Holder::new);
-    }
-
-    @Override
-    public void run() {
-      // called when capabilities invalidate, create a new cap just in case they are revived later
-      data.invalidate();
-      data = LazyOptional.of(Holder::new);
-    }
-
-    @Override
-    public void readFromNbt(CompoundTag compoundTag) {
-
-    }
-
-    @Override
-    public void writeToNbt(CompoundTag compoundTag) {
-
-    }
-  }
+//  /** Capability provider instance */
+//  private static class Provider implements Component, Runnable {
+//    private LazyOptional<Holder> data;
+//    private Provider() {
+//      this.data = LazyOptional.of(Holder::new);
+//    }
+//
+//    @Override
+//    public void run() {
+//      // called when capabilities invalidate, create a new cap just in case they are revived later
+//      data.invalidate();
+//      data = LazyOptional.of(Holder::new);
+//    }
+//
+//    @Override
+//    public void readFromNbt(CompoundTag compoundTag) {
+//
+//    }
+//
+//    @Override
+//    public void writeToNbt(CompoundTag compoundTag) {
+//
+//    }
+//  }
 
   /** Class for generic keys */
   @SuppressWarnings("unused")

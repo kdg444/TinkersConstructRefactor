@@ -20,6 +20,7 @@ import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerEffect;
 import slimeknights.tconstruct.common.TinkerModule;
+import slimeknights.tconstruct.library.TinkerRegistries;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.impl.ExtraModifier;
 import slimeknights.tconstruct.library.modifiers.impl.ExtraModifier.ModifierSource;
@@ -219,7 +220,7 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings("unused")
 public final class TinkerModifiers extends TinkerModule {
-  protected static final Supplier<Registry<Modifier>> MODIFIER_REGISTRY = MODIFIERS.makeRegistry("modifiers", () -> new RegistryBuilder<Modifier>().setType(Modifier.class).setDefaultKey(TConstruct.getResource("empty")));
+  protected static final Supplier<Registry<Modifier>> MODIFIER_REGISTRY = () -> TinkerRegistries.MODIFIERS;//MODIFIERS.makeRegistry("modifiers", () -> new RegistryBuilder<Modifier>().setType(Modifier.class).setDefaultKey(TConstruct.getResource("empty")));
 
   /*
    * Blocks
@@ -538,8 +539,7 @@ public final class TinkerModifiers extends TinkerModule {
    * Events
    */
 
-  @SubscribeEvent
-  void registerSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
+  void registerSerializers() {
     ISpillingEffect.LOADER.register(TConstruct.getResource("cure_effects"),   CureEffectsSpillingEffect.LOADER);
     ISpillingEffect.LOADER.register(TConstruct.getResource("damage"),         DamageSpillingEffect.LOADER);
     ISpillingEffect.LOADER.register(TConstruct.getResource("effect"),         EffectSpillingEffect.LOADER);
@@ -551,15 +551,19 @@ public final class TinkerModifiers extends TinkerModule {
     ISpillingEffect.LOADER.register(TConstruct.getResource("calcified"),      StrongBonesModifier.SPILLING_EFFECT_LOADER);
   }
 
-  @SubscribeEvent
-  void commonSetup(final FMLCommonSetupEvent event) {
+  void commonSetup() {
     TinkerDataCapability.register();
     PersistentDataCapability.register();
   }
 
-  @SubscribeEvent
-  void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
+  void registerRecipeSerializers() {
     chrysophiliteLootCondition = Registry.register(Registry.LOOT_CONDITION_TYPE, ChrysophiliteLootCondition.ID, new LootItemConditionType(ChrysophiliteLootCondition.SERIALIZER));
     chrysophiliteBonusFunction = Registry.register(Registry.LOOT_FUNCTION_TYPE, ChrysophiliteBonusFunction.ID, new LootItemFunctionType(ChrysophiliteBonusFunction.SERIALIZER));
+  }
+
+  public TinkerModifiers() {
+    registerRecipeSerializers();
+    commonSetup();
+    registerRecipeSerializers();
   }
 }

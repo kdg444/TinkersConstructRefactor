@@ -5,7 +5,6 @@ import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.ModLoader;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.shared.block.SlimeType;
 
@@ -27,9 +26,9 @@ public class SlimeColorReloadListener extends SimplePreparableReloadListener<int
    */
   @Override
   protected int[] prepare(ResourceManager resourceManager, ProfilerFiller profiler) {
-    if (!ModLoader.isLoadingStateValid()) {
-      return new int[0];
-    }
+//    if (!ModLoader.isLoadingStateValid()) { TODO: PORT?
+//      return new int[0];
+//    }
     try {
       return LegacyStuffWrapper.getPixels(resourceManager, path);
     } catch (IOException ioexception) {

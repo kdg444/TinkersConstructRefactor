@@ -73,7 +73,7 @@ public class ModifierEntry implements Comparable<ModifierEntry> {
    * @return  Read entry
    */
   public static ModifierEntry read(FriendlyByteBuf buffer) {
-    return new ModifierEntry(buffer.readRegistryIdUnsafe(TinkerRegistries.MODIFIERS), buffer.readVarInt());
+    return new ModifierEntry(TinkerRegistries.MODIFIERS.get(buffer.readResourceLocation()), buffer.readVarInt());
   }
 
   /**
@@ -81,7 +81,7 @@ public class ModifierEntry implements Comparable<ModifierEntry> {
    * @param buffer  Buffer instance
    */
   public void write(FriendlyByteBuf buffer) {
-    buffer.writeRegistryIdUnsafe(TinkerRegistries.MODIFIERS, modifier);
+    buffer.writeResourceLocation(TinkerRegistries.MODIFIERS.getKey(modifier));
     buffer.writeVarInt(level);
   }
 

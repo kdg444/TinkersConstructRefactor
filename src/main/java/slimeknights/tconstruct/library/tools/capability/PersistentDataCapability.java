@@ -1,7 +1,10 @@
 package slimeknights.tconstruct.library.tools.capability;
 
+import dev.onyxstudios.cca.api.v3.component.ComponentContainer;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
@@ -15,6 +18,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import slimeknights.mantle.lib.event.EntityEvents;
 import slimeknights.mantle.lib.util.Lazy;
 import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.TConstruct;
@@ -29,7 +33,7 @@ import javax.annotation.Nullable;
  * Capability to store persistent NBT data on an entity. For players, this is automatically synced to the client on load, but not during gameplay.
  * Persists after death, will reassess if we need some data to not persist death
  */
-public class PersistentDataCapability {
+public class PersistentDataCapability implements EntityComponentInitializer {
   private PersistentDataCapability() {}
 
   /** Capability ID */
@@ -39,26 +43,24 @@ public class PersistentDataCapability {
 
   /** Registers this capability */
   public static void register() {
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, PersistentDataCapability::register);
-    MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, PersistentDataCapability::attachCapability);
+//    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, PersistentDataCapability::register);
+//    MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, PersistentDataCapability::attachCapability);
     ServerPlayerEvents.COPY_FROM.register(PersistentDataCapability::playerClone);
     ServerPlayerEvents.AFTER_RESPAWN.register(PersistentDataCapability::playerRespawn);
     ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(PersistentDataCapability::playerChangeDimension);
     ServerPlayConnectionEvents.JOIN.register(PersistentDataCapability::playerLoggedIn);
   }
 
-  /** Registers the capability with the event bus */
-  private static void register(RegisterCapabilitiesEvent event) {
-    event.register(NamespacedNBT.class);
-  }
-
   /** Event listener to attach the capability */
-  private static void attachCapability(AttachCapabilitiesEvent<Entity> event) {
-    if (event.getObject() instanceof Player) {
-      Provider provider = new Provider();
-      event.addCapability(ID, provider);
-      event.addListener(provider);
-    }
+  @Override
+  public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
+    registry.registerForPlayers(CAPABILITY, player -> new NamespacedNBT());
+//    EntityEvents.ON_REMOVE.register((entity, reason) -> );
+//    if (event.getObject() instanceof Player) {
+//      Provider provider = new Provider();
+//      event.addCapability(ID, provider);
+//      event.addListener(provider);
+//    }
   }
 
   /** Syncs the data to the given player */
@@ -91,37 +93,42 @@ public class PersistentDataCapability {
     sync(handler.getPlayer());
   }
 
-  /** Capability provider instance */
-  private static class Provider implements ICapabilitySerializable<CompoundTag>, Runnable {
-    private Lazy<CompoundTag> nbt;
-    private LazyOptional<NamespacedNBT> capability;
-    private Provider() {
-      this.nbt = Lazy.of(CompoundTag::new);
-      this.capability = LazyOptional.of(() -> NamespacedNBT.readFromNBT(nbt.get()));
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-      return CAPABILITY.orEmpty(cap, capability);
-    }
-
-    @Override
-    public void run() {
-      // called when capabilities invalidate, create a new cap just in case they are revived later
-      capability.invalidate();
-      capability = LazyOptional.of(() -> NamespacedNBT.readFromNBT(nbt.get()));
-    }
-
-    @Override
-    public CompoundTag serializeNBT() {
-      return nbt.get().copy();
-    }
-
-    @Override
-    public void deserializeNBT(CompoundTag nbt) {
-      this.nbt = Lazy.of(() -> nbt);
-      run();
-    }
-  }
+//  /** Capability provider instance */
+//  private static class Provider extends ComponentKey<NamespacedNBT> implements Runnable {
+//    private Lazy<CompoundTag> nbt;
+//    private LazyOptional<NamespacedNBT> capability;
+//    private Provider() {
+//      this.nbt = Lazy.of(CompoundTag::new);
+//      this.capability = LazyOptional.of(() -> NamespacedNBT.readFromNBT(nbt.get()));
+//    }
+//
+//    @Override
+//    public @Nullable NamespacedNBT getInternal(ComponentContainer container) {
+//      return null;
+//    }
+//
+//    @Nonnull
+//    @Override
+//    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
+//      return CAPABILITY.orEmpty(cap, capability);
+//    }
+//
+//    @Override
+//    public void run() {
+//      // called when capabilities invalidate, create a new cap just in case they are revived later
+//      capability.invalidate();
+//      capability = LazyOptional.of(() -> NamespacedNBT.readFromNBT(nbt.get()));
+//    }
+//
+//    @Override
+//    public CompoundTag serializeNBT() {
+//      return nbt.get().copy();
+//    }
+//
+//    @Override
+//    public void deserializeNBT(CompoundTag nbt) {
+//      this.nbt = Lazy.of(() -> nbt);
+//      run();
+//    }
+//  }
 }

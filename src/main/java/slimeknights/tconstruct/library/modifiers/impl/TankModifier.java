@@ -270,7 +270,7 @@ public class TankModifier extends Modifier {
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, int level, int maxDrain, boolean sim) {
+    public FluidStack drain(IToolStackView tool, int level, long maxDrain, boolean sim) {
       if (maxDrain > 0 && isOwner(tool)) {
         // fluid type mismatches
         FluidStack current = getFluid(tool);
