@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.smeltery.block.entity.controller;
 
-import io.github.fabricators_of_create.porting_lib.extensions.ChunkUnloadListeningBlockEntity;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
@@ -17,6 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
+import slimeknights.mantle.lib.extensions.ChunkUnloadListeningBlockEntity;
 import slimeknights.mantle.lib.model.IModelData;
 import slimeknights.mantle.lib.transfer.fluid.FluidTransferable;
 import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;

@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
-import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.DamageSourceAccessor;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -12,6 +11,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Explosion;
 import slimeknights.mantle.lib.event.PlayerTickEvents;
+import slimeknights.mantle.lib.mixin.accessor.DamageSourceAccessor;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.hooks.IArmorInteractModifier;
 import slimeknights.tconstruct.library.modifiers.impl.SingleUseModifier;
@@ -26,7 +26,7 @@ import java.util.UUID;
 public class SelfDestructiveModifier extends SingleUseModifier implements IArmorInteractModifier {
   private static final AttributeModifier SPEED_MODIFIER = new AttributeModifier(UUID.fromString("68ee3026-1d50-4eb4-914e-a8b05fbfdb71"), TConstruct.prefix("self_destruct_slowdown"), -0.9f, Operation.MULTIPLY_TOTAL);
   /** Self damage source */
-  private static final DamageSource SELF_DESTRUCT = ((DamageSourceAccessor)(DamageSourceAccessor.port_lib$init(TConstruct.prefix("self_destruct")))).port_lib$setDamageBypassesArmor().setExplosion();
+  private static final DamageSource SELF_DESTRUCT = ((DamageSourceAccessor)(DamageSourceAccessor.mantle$init(TConstruct.prefix("self_destruct")))).mantle$setDamageBypassesArmor().setExplosion();
   /** Key for the time the fuse finises */
   private static final TinkerDataKey<Integer> FUSE_FINISH = TConstruct.createKey("self_destruct_finish");
 

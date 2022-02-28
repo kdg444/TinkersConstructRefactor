@@ -1,8 +1,6 @@
 package slimeknights.tconstruct.tools.logic;
 
 import com.google.common.collect.Multiset;
-import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
-import io.github.fabricators_of_create.porting_lib.util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -33,7 +31,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.apache.logging.log4j.core.Filter.Result;
 import org.jetbrains.annotations.Nullable;
+import slimeknights.mantle.lib.event.LivingEntityEvents;
 import slimeknights.mantle.lib.event.PlayerBreakSpeedCallback;
+import slimeknights.mantle.lib.util.EntityHelper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.events.TinkerToolEvent.ToolHarvestEvent;
@@ -67,8 +67,8 @@ public class ToolEvents {
   public static void init() {
     PlayerBreakSpeedCallback.EVENT.register(ToolEvents::onBreakSpeed);
     ToolHarvestEvent.EVENT.register(ToolEvents::onHarvest);
-    LivingEntityEvents.HURT.register(ToolEvents::enderDragonDamage);
-    LivingEntityEvents.HURT.register(ToolEvents::livingAttack);
+    LivingEntityEvents.ACTUALLY_HURT.register(ToolEvents::enderDragonDamage);
+    LivingEntityEvents.ACTUALLY_HURT.register(ToolEvents::livingAttack);
     LivingEntityEvents.ACTUALLY_HURT.register(ToolEvents::livingHurt);
     LivingEntityEvents.TICK.register(ToolEvents::livingWalk);
   }

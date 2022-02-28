@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.library.tools.capability;
 
-import io.github.fabricators_of_create.porting_lib.util.NetworkUtil;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,6 +12,7 @@ import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.mantle.lib.transfer.item.IItemHandler;
 import slimeknights.mantle.lib.transfer.item.IItemHandlerModifiable;
 import slimeknights.mantle.lib.transfer.item.ItemHandlerHelper;
+import slimeknights.mantle.lib.util.NetworkUtil;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;

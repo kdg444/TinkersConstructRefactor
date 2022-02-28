@@ -2,7 +2,6 @@ package slimeknights.tconstruct.tools.recipe;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.util.TagUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.alphamode.forgetags.DyeUtil;
@@ -16,6 +15,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import me.alphamode.forgetags.Tags.Items;
+import slimeknights.mantle.lib.util.TagUtil;
 import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.recipe.helper.LoggingRecipeSerializer;
 import slimeknights.tconstruct.library.modifiers.Modifier;
