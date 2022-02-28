@@ -105,6 +105,9 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:1.18.22")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.22")
 
+    // mockito (no idea what this is)
+    testCompileOnly("org.mockito:mockito-core:2.23.4")
+
     // dependencies
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
     modImplementation(include("slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"))

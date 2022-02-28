@@ -25,7 +25,10 @@
       "slimeknights.tconstruct.shared.TinkerClient"
     ],
     "cardinal-components": [
-      "slimeknights.tconstruct.gadgets.capability.PiggybackCapability"
+      "slimeknights.tconstruct.gadgets.capability.PiggybackCapability",
+      "slimeknights.tconstruct.tools.logic.EquipmentChangeWatcher",
+      "slimeknights.tconstruct.library.tools.capability.TinkerDataCapability",
+      "slimeknights.tconstruct.library.tools.capability.PersistentDataCapability"
     ]
   },
   "accessWidener": "tinkers.accesswidener",

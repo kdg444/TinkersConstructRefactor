@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.fixture;
 
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.tconstruct.library.tools.part.ToolPartItem;
 import slimeknights.tconstruct.tools.stats.ExtraMaterialStats;
 import slimeknights.tconstruct.tools.stats.HandleMaterialStats;
@@ -26,10 +26,10 @@ public class MaterialItemFixture {
       return;
     }
     init = true;
-    ForgeRegistries.ITEMS.register(MATERIAL_ITEM.setRegistryName(new ResourceLocation("test", "test_material")));
-    ForgeRegistries.ITEMS.register(MATERIAL_ITEM_2.setRegistryName(new ResourceLocation("test", "test_material_2")));
-    ForgeRegistries.ITEMS.register(MATERIAL_ITEM_HEAD.setRegistryName(new ResourceLocation("test", "test_head")));
-    ForgeRegistries.ITEMS.register(MATERIAL_ITEM_HANDLE.setRegistryName(new ResourceLocation("test", "test_handle")));
-    ForgeRegistries.ITEMS.register(MATERIAL_ITEM_EXTRA.setRegistryName(new ResourceLocation("test", "test_extra")));
+    Registry.register(Registry.ITEM, new ResourceLocation("test", "test_material"), MATERIAL_ITEM);
+    Registry.register(Registry.ITEM, new ResourceLocation("test", "test_material_2"), MATERIAL_ITEM_2);
+    Registry.register(Registry.ITEM, new ResourceLocation("test", "test_head"), MATERIAL_ITEM_HEAD);
+    Registry.register(Registry.ITEM, new ResourceLocation("test", "test_handle"), MATERIAL_ITEM_HANDLE);
+    Registry.register(Registry.ITEM, new ResourceLocation("test", "test_extra"), MATERIAL_ITEM_EXTRA);
   }
 }

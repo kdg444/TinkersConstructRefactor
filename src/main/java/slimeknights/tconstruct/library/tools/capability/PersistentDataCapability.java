@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.library.tools.capability;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentContainer;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
@@ -9,25 +8,17 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import slimeknights.mantle.lib.event.EntityEvents;
-import slimeknights.mantle.lib.util.Lazy;
-import slimeknights.mantle.lib.util.LazyOptional;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.network.SyncPersistentDataPacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.tools.nbt.NamespacedNBT;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Capability to store persistent NBT data on an entity. For players, this is automatically synced to the client on load, but not during gameplay.
@@ -54,6 +45,7 @@ public class PersistentDataCapability implements EntityComponentInitializer {
   /** Event listener to attach the capability */
   @Override
   public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
+    register();
     registry.registerForPlayers(CAPABILITY, player -> new NamespacedNBT());
 //    EntityEvents.ON_REMOVE.register((entity, reason) -> );
 //    if (event.getObject() instanceof Player) {

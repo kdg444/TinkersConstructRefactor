@@ -552,8 +552,8 @@ public final class TinkerModifiers extends TinkerModule {
   }
 
   void commonSetup() {
-    TinkerDataCapability.register();
-    PersistentDataCapability.register();
+//    TinkerDataCapability.register();
+//    PersistentDataCapability.register();
   }
 
   void registerRecipeSerializers() {
@@ -564,6 +564,6 @@ public final class TinkerModifiers extends TinkerModule {
   public TinkerModifiers() {
     registerRecipeSerializers();
     commonSetup();
-    registerRecipeSerializers();
+    registerSerializers();
   }
 }

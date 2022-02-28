@@ -120,7 +120,7 @@ public final class TinkerStructures extends TinkerModule {
 
   public TinkerStructures() {
     onFeaturesRegistry();
-    commonSetup();
+//    commonSetup(); TODO: PORT
   }
 
   /*
