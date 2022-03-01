@@ -26,7 +26,6 @@ import java.util.function.Supplier;
  * Data stored in this capability is not saved to NBT, most often its filled by the relevant equipment events
  */
 public class TinkerDataCapability implements EntityComponentInitializer {
-  private TinkerDataCapability() {}
 
   /** Capability ID */
   private static final ResourceLocation ID = TConstruct.getResource("modifier_data");

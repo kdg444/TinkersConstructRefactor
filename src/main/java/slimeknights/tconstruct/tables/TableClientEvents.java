@@ -20,6 +20,8 @@ public class TableClientEvents extends ClientEventBase {
 
   public static void init() {
     registerModelLoader();
+    registerRenderers();
+    setupClient();
     ColorHandlersCallback.BLOCK.register(TableClientEvents::registerBlockColors);
     ColorHandlersCallback.ITEM.register(TableClientEvents::registerItemColors);
   }

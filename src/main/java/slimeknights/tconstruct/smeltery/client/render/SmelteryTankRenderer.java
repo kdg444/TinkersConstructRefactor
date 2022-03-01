@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
@@ -109,10 +110,10 @@ public class SmelteryTankRenderer {
     }
     // fluid attributes
     FluidAttributes attributes = fluid.getFluid().getAttributes();
-    TextureAtlasSprite still = FluidRenderer.getBlockSprite(attributes.getStillTexture(fluid));
-    int color = attributes.getColor(fluid);
+    TextureAtlasSprite still = FluidRenderer.getBlockSprite(/*FluidVariantRendering.getSprite(fluid.getType()).getName()*/attributes.getFlowingTexture(fluid));
+    int color = attributes.getColor(fluid);//FluidVariantRendering.getColor(fluid.getType());
     brightness = FluidRenderer.withBlockLight(brightness, attributes.getLuminosity(fluid));
-    boolean upsideDown = attributes.isGaseous(fluid);
+    boolean upsideDown = attributes.isGaseous(fluid);//FluidVariantRendering.fillsFromTop(fluid.getType());
 
     // the liquid can stretch over more blocks than the subtracted height is if yMin's decimal is bigger than yMax's decimal (causing UV over 1)
     // ignoring the decimals prevents this, as yd then equals exactly how many ints are between the two

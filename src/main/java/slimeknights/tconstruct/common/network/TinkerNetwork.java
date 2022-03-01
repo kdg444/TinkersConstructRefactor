@@ -3,6 +3,7 @@ package slimeknights.tconstruct.common.network;
 import me.pepperbell.simplenetworking.NetworkDirection;
 import me.pepperbell.simplenetworking.S2CPacket;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -117,9 +118,9 @@ public class TinkerNetwork extends NetworkWrapper {
    * @param world     World instance
    * @param position  Target position
    */
-  public void sendToClientsAround(Object msg, @Nullable LevelAccessor world, BlockPos position) {
+  public void sendToClientsAround(S2CPacket msg, @Nullable LevelAccessor world, BlockPos position) {
     if (world instanceof ServerLevel server) {
-      sendToClientsAround(msg, server, position);
+      network.sendToClientsAround(msg, server, new Vec3i(position.getX(), position.getY(), position.getZ()), 20);
     }
   }
 
@@ -149,7 +150,7 @@ public class TinkerNetwork extends NetworkWrapper {
    * @param playerList      Player list to use if main player is null
    * @param msg             Message to send
    */
-  public void sendToPlayerList(@Nullable ServerPlayer targetedPlayer, PlayerList playerList, Object msg) {
+  public void sendToPlayerList(@Nullable ServerPlayer targetedPlayer, PlayerList playerList, S2CPacket msg) {
     if (targetedPlayer != null) {
       sendTo(msg, targetedPlayer);
     } else {

@@ -39,7 +39,10 @@
   },
   "custom": {
     "cardinal-components": [
-      "mantle:offhand_cooldown"
+      "tconstruct:piggyback",
+      "tconstruct:equipment_watcher",
+      "tconstruct:persistent_data",
+      "tconstruct:modifier_data"
     ],
     "banner": "Mantle.png"
   }

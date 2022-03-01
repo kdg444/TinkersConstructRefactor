@@ -25,7 +25,6 @@ import slimeknights.tconstruct.library.tools.nbt.NamespacedNBT;
  * Persists after death, will reassess if we need some data to not persist death
  */
 public class PersistentDataCapability implements EntityComponentInitializer {
-  private PersistentDataCapability() {}
 
   /** Capability ID */
   private static final ResourceLocation ID = TConstruct.getResource("persistent_data");

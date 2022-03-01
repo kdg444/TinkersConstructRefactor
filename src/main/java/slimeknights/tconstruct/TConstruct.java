@@ -1,16 +1,22 @@
 package slimeknights.tconstruct;
 
+import com.mojang.datafixers.DataFixerBuilder;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import slimeknights.mantle.lib.event.RegisterDataFixerCallback;
+import slimeknights.mantle.registration.RegistrationHelper;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
@@ -107,6 +113,8 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
     }
     commonSetup();
     FabricEvents.init();
+    RegisterDataFixerCallback.EVENT.register(this::missingBlocks);
+    RegisterDataFixerCallback.EVENT.register(this::missingItems);
   }
 
   static void commonSetup() {
@@ -137,34 +145,32 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
   }
 
   @Nullable
-  private static Block missingBlock(String name) {
+  private static String missingBlock(String name) {
     return switch (name) {
-      case "copper_block" -> Blocks.COPPER_BLOCK;
-      case "copper_ore" -> Blocks.COPPER_ORE;
+      case MOD_ID + ":copper_block" -> Blocks.COPPER_BLOCK.getRegistryName().toString();
+      case  MOD_ID + ":copper_ore" -> Blocks.COPPER_ORE.getRegistryName().toString();
       default -> null;
     };
   }
 
-//  @SubscribeEvent
-//  void missingItems(final MissingMappings<Item> event) {
-//    RegistrationHelper.handleMissingMappings(event, MOD_ID, name -> {
-//      switch(name) {
-//        case "copper_ingot": return Items.COPPER_INGOT;
-//        case "blank_cast": return Items.GOLD_INGOT;
-//        case "pickaxe_head": return TinkerToolParts.pickHead.get();
-//        case "pickaxe_head_cast": return TinkerSmeltery.pickHeadCast.get();
-//        case "pickaxe_head_sand_cast": return TinkerSmeltery.pickHeadCast.getSand();
-//        case "pickaxe_head_red_sand_cast": return TinkerSmeltery.pickHeadCast.getRedSand();
-//      }
-//      ItemLike block = missingBlock(name);
-//      return block == null ? null : block.asItem();
-//    });
-//  }
-//
-//  @SubscribeEvent
-//  void missingBlocks(final MissingMappings<Block> event) {
-//    RegistrationHelper.handleMissingMappings(event, MOD_ID, TConstruct::missingBlock);
-//  }
+  void missingItems(DataFixerBuilder builder) {
+    RegistrationHelper.handleMissingMappingsBlock(builder, name -> {
+      switch(name) {
+        case "copper_ingot": return Items.COPPER_INGOT.getRegistryName().toString();
+        case "blank_cast": return Items.GOLD_INGOT.getRegistryName().toString();
+        case "pickaxe_head": return TinkerToolParts.pickHead.get().getRegistryName().toString();
+        case "pickaxe_head_cast": return TinkerSmeltery.pickHeadCast.get().getRegistryName().toString();
+        case "pickaxe_head_sand_cast": return TinkerSmeltery.pickHeadCast.getSand().getRegistryName().toString();
+        case "pickaxe_head_red_sand_cast": return TinkerSmeltery.pickHeadCast.getRedSand().getRegistryName().toString();
+      }
+      ItemLike block = Registry.BLOCK.get(new ResourceLocation(missingBlock(name)));
+      return block == null ? null : block.asItem().getRegistryName().toString();
+    });
+  }
+
+  void missingBlocks(DataFixerBuilder builder) {
+    RegistrationHelper.handleMissingMappingsBlock(builder, TConstruct::missingBlock);
+  }
 
 
   /* Utils */

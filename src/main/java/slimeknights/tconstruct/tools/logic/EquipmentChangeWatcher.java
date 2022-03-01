@@ -33,7 +33,6 @@ import java.util.Map;
  * Capability to make it easy for modifiers to store common data on the player, primarily used for armor
  */
 public class EquipmentChangeWatcher implements EntityComponentInitializer {
-  private EquipmentChangeWatcher() {}
 
   /** Capability ID */
   private static final ResourceLocation ID = TConstruct.getResource("equipment_watcher");
@@ -67,10 +66,10 @@ public class EquipmentChangeWatcher implements EntityComponentInitializer {
   public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
     register();
     registry.registerForPlayers(CAPABILITY, player -> {
-        if (player.getCommandSenderWorld().isClientSide) {
+//        if (player.getCommandSenderWorld().isClientSide) {
           return new PlayerLastEquipment(player);
-        }
-      return null;
+//        }
+//      return null;
     });
     EntityEvents.ON_REMOVE.register((entity, reason) -> {
       if(entity instanceof Player player)

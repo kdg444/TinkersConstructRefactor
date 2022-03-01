@@ -12,8 +12,6 @@ public class PiggybackCapability implements EntityComponentInitializer {
   private static final ResourceLocation ID = TConstruct.getResource("piggyback");
   public static final ComponentKey<PiggybackHandler> PIGGYBACK = ComponentRegistry.getOrCreate(ID, PiggybackHandler.class);
 
-  private PiggybackCapability() {}
-
   /** Event listener to attach the capability */
   @Override
   public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
