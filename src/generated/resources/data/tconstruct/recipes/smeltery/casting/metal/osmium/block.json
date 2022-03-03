@@ -3,18 +3,18 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/osmium",
+        "tag": "c:storage_blocks/osmium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_osmium",
+    "tag": "c:molten_osmium",
     "amount": 810
   },
   "result": {
-    "tag": "forge:storage_blocks/osmium"
+    "tag": "c:storage_blocks/osmium"
   },
   "cooling_time": 197
 }

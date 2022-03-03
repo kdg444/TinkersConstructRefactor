@@ -9,7 +9,7 @@
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/netherite_scrap"
+    "tag": "c:nuggets/netherite_scrap"
   },
   "cooling_time": 24
 }

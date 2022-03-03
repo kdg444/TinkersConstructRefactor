@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:potion",
+        "tag": "c:potion",
         "type": "mantle:fluid_tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:potion",
+    "tag": "c:potion",
     "amount": 125
   },
   "effects": [

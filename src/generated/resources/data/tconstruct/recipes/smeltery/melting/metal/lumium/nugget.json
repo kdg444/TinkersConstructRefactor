@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/lumium",
+        "tag": "c:nuggets/lumium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:nuggets/lumium"
+    "tag": "c:nuggets/lumium"
   },
   "result": {
     "fluid": "tconstruct:molten_lumium",

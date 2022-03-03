@@ -5,11 +5,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_silicon_bronze",
+    "tag": "c:molten_silicon_bronze",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/silicon_bronze"
+    "tag": "c:ingots/silicon_bronze"
   },
   "cooling_time": 57
 }

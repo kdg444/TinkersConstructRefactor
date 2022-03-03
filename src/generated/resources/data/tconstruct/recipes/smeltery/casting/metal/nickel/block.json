@@ -3,18 +3,18 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/nickel",
+        "tag": "c:storage_blocks/nickel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_nickel",
+    "tag": "c:molten_nickel",
     "amount": 810
   },
   "result": {
-    "tag": "forge:storage_blocks/nickel"
+    "tag": "c:storage_blocks/nickel"
   },
   "cooling_time": 194
 }

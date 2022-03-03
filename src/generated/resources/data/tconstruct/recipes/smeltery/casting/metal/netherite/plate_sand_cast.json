@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/netherite",
+        "tag": "c:plates/netherite",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_netherite",
+    "tag": "c:molten_netherite",
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/netherite"
+    "tag": "c:plates/netherite"
   },
   "cooling_time": 74
 }

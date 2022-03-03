@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/signalum",
+        "tag": "c:nuggets/signalum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/nugget"
   },
   "fluid": {
-    "tag": "forge:molten_signalum",
+    "tag": "c:molten_signalum",
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/signalum"
+    "tag": "c:nuggets/signalum"
   },
   "cooling_time": 23
 }

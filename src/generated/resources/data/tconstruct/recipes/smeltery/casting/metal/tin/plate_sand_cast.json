@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/tin",
+        "tag": "c:plates/tin",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_tin",
+    "tag": "c:molten_tin",
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/tin"
+    "tag": "c:plates/tin"
   },
   "cooling_time": 39
 }

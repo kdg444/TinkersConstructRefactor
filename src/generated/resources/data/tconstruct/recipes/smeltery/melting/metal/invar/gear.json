@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/invar",
+        "tag": "c:gears/invar",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:gears/invar"
+    "tag": "c:gears/invar"
   },
   "result": {
     "fluid": "tconstruct:molten_invar",

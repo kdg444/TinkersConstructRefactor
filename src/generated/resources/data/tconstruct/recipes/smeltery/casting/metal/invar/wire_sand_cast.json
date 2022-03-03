@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/invar",
+        "tag": "c:wires/invar",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_invar",
+    "tag": "c:molten_invar",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/invar"
+    "tag": "c:wires/invar"
   },
   "cooling_time": 45
 }

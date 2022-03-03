@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_clusters/tungsten",
+        "tag": "c:geore_clusters/tungsten",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_clusters/tungsten"
+    "tag": "c:geore_clusters/tungsten"
   },
   "result": {
     "fluid": "tconstruct:molten_tungsten",

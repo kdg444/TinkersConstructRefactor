@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:dusts/cobalt",
+        "tag": "c:dusts/cobalt",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:dusts/cobalt"
+    "tag": "c:dusts/cobalt"
   },
   "result": {
     "fluid": "tconstruct:molten_cobalt",

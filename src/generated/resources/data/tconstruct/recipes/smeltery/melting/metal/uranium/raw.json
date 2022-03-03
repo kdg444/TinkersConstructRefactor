@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:raw_materials/uranium",
+        "tag": "c:raw_materials/uranium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,7 +14,7 @@
       "conditions": [
         {
           "value": {
-            "tag": "forge:ingots/lead",
+            "tag": "c:ingots/lead",
             "type": "forge:tag_empty"
           },
           "type": "forge:not"
@@ -24,7 +24,7 @@
         "type": "tconstruct:ore_melting",
         "rate": "metal",
         "ingredient": {
-          "tag": "forge:raw_materials/uranium"
+          "tag": "c:raw_materials/uranium"
         },
         "result": {
           "fluid": "tconstruct:molten_uranium",
@@ -50,7 +50,7 @@
         "type": "tconstruct:ore_melting",
         "rate": "metal",
         "ingredient": {
-          "tag": "forge:raw_materials/uranium"
+          "tag": "c:raw_materials/uranium"
         },
         "result": {
           "fluid": "tconstruct:molten_uranium",

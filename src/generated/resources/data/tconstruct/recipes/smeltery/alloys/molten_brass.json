@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/brass",
+        "tag": "c:ingots/brass",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     },
     {
       "value": {
-        "tag": "forge:ingots/zinc",
+        "tag": "c:ingots/zinc",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -18,11 +18,11 @@
   ],
   "inputs": [
     {
-      "tag": "forge:molten_copper",
+      "tag": "c:molten_copper",
       "amount": 90
     },
     {
-      "tag": "forge:molten_zinc",
+      "tag": "c:molten_zinc",
       "amount": 90
     }
   ],

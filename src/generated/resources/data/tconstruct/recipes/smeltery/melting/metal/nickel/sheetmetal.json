@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:sheetmetals/nickel",
+        "tag": "c:sheetmetals/nickel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:sheetmetals/nickel"
+    "tag": "c:sheetmetals/nickel"
   },
   "result": {
     "fluid": "tconstruct:molten_nickel",

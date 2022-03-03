@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:raw_materials/tungsten",
+        "tag": "c:raw_materials/tungsten",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,7 +14,7 @@
       "conditions": [
         {
           "value": {
-            "tag": "forge:ingots/platinum",
+            "tag": "c:ingots/platinum",
             "type": "forge:tag_empty"
           },
           "type": "forge:not"
@@ -24,7 +24,7 @@
         "type": "tconstruct:ore_melting",
         "rate": "metal",
         "ingredient": {
-          "tag": "forge:raw_materials/tungsten"
+          "tag": "c:raw_materials/tungsten"
         },
         "result": {
           "fluid": "tconstruct:molten_tungsten",
@@ -50,7 +50,7 @@
         "type": "tconstruct:ore_melting",
         "rate": "metal",
         "ingredient": {
-          "tag": "forge:raw_materials/tungsten"
+          "tag": "c:raw_materials/tungsten"
         },
         "result": {
           "fluid": "tconstruct:molten_tungsten",

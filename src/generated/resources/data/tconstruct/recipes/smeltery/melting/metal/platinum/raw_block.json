@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/raw_platinum",
+        "tag": "c:storage_blocks/raw_platinum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -11,7 +11,7 @@
   ],
   "rate": "metal",
   "ingredient": {
-    "tag": "forge:storage_blocks/raw_platinum"
+    "tag": "c:storage_blocks/raw_platinum"
   },
   "result": {
     "fluid": "tconstruct:molten_platinum",

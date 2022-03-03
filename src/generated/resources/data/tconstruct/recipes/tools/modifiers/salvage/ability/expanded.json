@@ -14,7 +14,7 @@
       "chance": 0.9
     },
     {
-      "tag": "forge:ingots/silicon_bronze"
+      "tag": "c:ingots/silicon_bronze"
     },
     {
       "item": "minecraft:piston",

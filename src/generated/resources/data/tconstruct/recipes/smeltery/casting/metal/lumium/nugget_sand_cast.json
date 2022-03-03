@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/lumium",
+        "tag": "c:nuggets/lumium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_lumium",
+    "tag": "c:molten_lumium",
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/lumium"
+    "tag": "c:nuggets/lumium"
   },
   "cooling_time": 23
 }

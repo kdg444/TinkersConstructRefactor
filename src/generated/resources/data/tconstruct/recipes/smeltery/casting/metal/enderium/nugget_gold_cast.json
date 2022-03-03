@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/enderium",
+        "tag": "c:nuggets/enderium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/nugget"
   },
   "fluid": {
-    "tag": "forge:molten_enderium",
+    "tag": "c:molten_enderium",
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/enderium"
+    "tag": "c:nuggets/enderium"
   },
   "cooling_time": 25
 }

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins/constantan",
+        "tag": "c:coins/constantan",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_constantan",
+    "tag": "c:molten_constantan",
     "amount": 30
   },
   "result": {
-    "tag": "forge:coins/constantan"
+    "tag": "c:coins/constantan"
   },
   "cooling_time": 37
 }

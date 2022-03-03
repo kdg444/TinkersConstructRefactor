@@ -5,7 +5,7 @@
       "conditions": [
         {
           "value": {
-            "tag": "forge:ingots/nickel",
+            "tag": "c:ingots/nickel",
             "type": "forge:tag_empty"
           },
           "type": "forge:not"
@@ -15,7 +15,7 @@
         "type": "tconstruct:ore_melting",
         "rate": "metal",
         "ingredient": {
-          "tag": "forge:raw_materials/iron"
+          "tag": "c:raw_materials/iron"
         },
         "result": {
           "fluid": "tconstruct:molten_iron",
@@ -41,7 +41,7 @@
         "type": "tconstruct:ore_melting",
         "rate": "metal",
         "ingredient": {
-          "tag": "forge:raw_materials/iron"
+          "tag": "c:raw_materials/iron"
         },
         "result": {
           "fluid": "tconstruct:molten_iron",

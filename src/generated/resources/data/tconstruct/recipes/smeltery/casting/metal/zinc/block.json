@@ -3,18 +3,18 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/zinc",
+        "tag": "c:storage_blocks/zinc",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_zinc",
+    "tag": "c:molten_zinc",
     "amount": 810
   },
   "result": {
-    "tag": "forge:storage_blocks/zinc"
+    "tag": "c:storage_blocks/zinc"
   },
   "cooling_time": 141
 }

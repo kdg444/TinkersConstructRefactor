@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/signalum",
+        "tag": "c:ingots/signalum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/ingot"
   },
   "fluid": {
-    "tag": "forge:molten_signalum",
+    "tag": "c:molten_signalum",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/signalum"
+    "tag": "c:ingots/signalum"
   },
   "cooling_time": 70
 }

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins/netherite",
+        "tag": "c:coins/netherite",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:coins/netherite"
+    "tag": "c:coins/netherite"
   },
   "result": {
     "fluid": "tconstruct:molten_netherite",

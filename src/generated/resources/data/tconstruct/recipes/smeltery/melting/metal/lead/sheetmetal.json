@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:sheetmetals/lead",
+        "tag": "c:sheetmetals/lead",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:sheetmetals/lead"
+    "tag": "c:sheetmetals/lead"
   },
   "result": {
     "fluid": "tconstruct:molten_lead",

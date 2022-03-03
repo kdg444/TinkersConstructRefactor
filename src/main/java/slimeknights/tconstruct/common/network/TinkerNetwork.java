@@ -2,6 +2,8 @@ package slimeknights.tconstruct.common.network;
 
 import me.pepperbell.simplenetworking.NetworkDirection;
 import me.pepperbell.simplenetworking.S2CPacket;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.protocol.Packet;
@@ -10,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.LevelAccessor;
+import slimeknights.mantle.lib.util.EnvExecutor;
 import slimeknights.mantle.network.NetworkWrapper;
 import slimeknights.mantle.network.packet.ISimplePacket;
 import slimeknights.tconstruct.TConstruct;
@@ -65,6 +68,10 @@ public class TinkerNetwork extends NetworkWrapper {
       return;
     }
     instance = new TinkerNetwork();
+    instance.network.initServerListener();
+    if(FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+      instance.network.initClientListener();
+
 
     // shared
     instance.registerPacket(InventorySlotSyncPacket.class, InventorySlotSyncPacket::new, NetworkDirection.PLAY_TO_CLIENT);

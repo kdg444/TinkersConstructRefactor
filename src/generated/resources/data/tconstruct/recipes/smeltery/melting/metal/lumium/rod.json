@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/lumium",
+        "tag": "c:rods/lumium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:rods/lumium"
+    "tag": "c:rods/lumium"
   },
   "result": {
     "fluid": "tconstruct:molten_lumium",

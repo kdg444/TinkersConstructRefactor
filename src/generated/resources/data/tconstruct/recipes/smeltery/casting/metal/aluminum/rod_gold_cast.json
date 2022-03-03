@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/aluminum",
+        "tag": "c:rods/aluminum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/rod"
   },
   "fluid": {
-    "tag": "forge:molten_aluminum",
+    "tag": "c:molten_aluminum",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/aluminum"
+    "tag": "c:rods/aluminum"
   },
   "cooling_time": 33
 }

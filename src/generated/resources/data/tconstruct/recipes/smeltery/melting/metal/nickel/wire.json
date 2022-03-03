@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/nickel",
+        "tag": "c:wires/nickel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:wires/nickel"
+    "tag": "c:wires/nickel"
   },
   "result": {
     "fluid": "tconstruct:molten_nickel",

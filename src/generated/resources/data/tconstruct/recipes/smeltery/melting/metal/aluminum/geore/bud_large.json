@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_large_buds/aluminum",
+        "tag": "c:geore_large_buds/aluminum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_large_buds/aluminum"
+    "tag": "c:geore_large_buds/aluminum"
   },
   "result": {
     "fluid": "tconstruct:molten_aluminum",

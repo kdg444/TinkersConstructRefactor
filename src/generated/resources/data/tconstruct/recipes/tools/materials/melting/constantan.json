@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/constantan",
+        "tag": "c:ingots/constantan",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"

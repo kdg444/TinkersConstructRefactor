@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/osmium",
+        "tag": "c:ingots/osmium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/ingot"
   },
   "fluid": {
-    "tag": "forge:molten_osmium",
+    "tag": "c:molten_osmium",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/osmium"
+    "tag": "c:ingots/osmium"
   },
   "cooling_time": 66
 }

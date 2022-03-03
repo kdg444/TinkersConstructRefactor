@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_clusters/iron",
+        "tag": "c:geore_clusters/iron",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_clusters/iron"
+    "tag": "c:geore_clusters/iron"
   },
   "result": {
     "fluid": "tconstruct:molten_iron",

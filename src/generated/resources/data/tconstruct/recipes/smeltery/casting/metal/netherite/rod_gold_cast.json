@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/netherite",
+        "tag": "c:rods/netherite",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/rod"
   },
   "fluid": {
-    "tag": "forge:molten_netherite",
+    "tag": "c:molten_netherite",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/netherite"
+    "tag": "c:rods/netherite"
   },
   "cooling_time": 52
 }

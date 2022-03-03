@@ -16,7 +16,9 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
 import slimeknights.mantle.lib.event.ColorHandlersCallback;
+import slimeknights.mantle.lib.event.ModelLoadCallback;
 import slimeknights.mantle.lib.event.PlayerTickEvents;
+import slimeknights.mantle.lib.model.ModelLoaderRegistry;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -73,11 +75,10 @@ public class ToolClientEvents extends ClientEventBase {
 //    manager.registerReloadListener(HarvestTiers.RELOAD_LISTENER);
 //  }
 
-//  @SubscribeEvent TODO: PORT
-//  static void registerModelLoaders(ModelRegistryEvent event) {
-//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("material"), MaterialModel.LOADER);
-//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("tool"), ToolModel.LOADER);
-//  }
+  static void registerModelLoaders() {
+    ModelLoaderRegistry.registerLoader(TConstruct.getResource("material"), MaterialModel.LOADER);
+    ModelLoaderRegistry.registerLoader(TConstruct.getResource("tool"), ToolModel.LOADER);
+  }
 
   static void registerModifierModels(ModifierModelRegistrationEvent event) {
     event.registerModel(TConstruct.getResource("normal"), NormalModifierModel.UNBAKED_INSTANCE);
@@ -106,6 +107,7 @@ public class ToolClientEvents extends ClientEventBase {
 
     registerRenderers();
     registerParticleFactories();
+    ModelLoadCallback.EVENT.register(ToolClientEvents::registerModelLoaders);
     ColorHandlersCallback.ITEM.register(ToolClientEvents::itemColors);
     ModifierModelRegistrationEvent.EVENT.register(ToolClientEvents::registerModifierModels);
   }

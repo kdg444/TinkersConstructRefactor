@@ -3,18 +3,18 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/signalum",
+        "tag": "c:storage_blocks/signalum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_signalum",
+    "tag": "c:molten_signalum",
     "amount": 810
   },
   "result": {
-    "tag": "forge:storage_blocks/signalum"
+    "tag": "c:storage_blocks/signalum"
   },
   "cooling_time": 210
 }

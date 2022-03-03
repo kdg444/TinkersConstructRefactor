@@ -1,7 +1,7 @@
 {
   "type": "tconstruct:casting_table",
   "fluid": {
-    "tag": "forge:molten_gold",
+    "tag": "c:molten_gold",
     "amount": 30
   },
   "result": "tconstruct:gold_bars",

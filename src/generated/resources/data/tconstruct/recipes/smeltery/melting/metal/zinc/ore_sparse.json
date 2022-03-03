@@ -14,7 +14,7 @@
       "conditions": [
         {
           "value": {
-            "tag": "forge:ingots/tin",
+            "tag": "c:ingots/tin",
             "type": "forge:tag_empty"
           },
           "type": "forge:not"
@@ -27,10 +27,10 @@
           "type": "mantle:intersection",
           "ingredients": [
             {
-              "tag": "forge:ores/zinc"
+              "tag": "c:ores/zinc"
             },
             {
-              "tag": "forge:ore_rates/sparse"
+              "tag": "c:ore_rates/sparse"
             }
           ]
         },
@@ -61,10 +61,10 @@
           "type": "mantle:intersection",
           "ingredients": [
             {
-              "tag": "forge:ores/zinc"
+              "tag": "c:ores/zinc"
             },
             {
-              "tag": "forge:ore_rates/sparse"
+              "tag": "c:ore_rates/sparse"
             }
           ]
         },

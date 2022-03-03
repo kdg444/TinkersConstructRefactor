@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/manyullyn",
+        "tag": "c:rods/manyullyn",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/rod"
   },
   "fluid": {
-    "tag": "forge:molten_manyullyn",
+    "tag": "c:molten_manyullyn",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/manyullyn"
+    "tag": "c:rods/manyullyn"
   },
   "cooling_time": 51
 }

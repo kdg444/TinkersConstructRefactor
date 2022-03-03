@@ -16,7 +16,7 @@
       "item": "minecraft:quartz"
     },
     "G": {
-      "tag": "forge:glass/colorless"
+      "tag": "c:glass/colorless"
     },
     "W": {
       "tag": "minecraft:wooden_slabs"

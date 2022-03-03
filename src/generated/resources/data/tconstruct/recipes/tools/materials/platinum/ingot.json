@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/platinum",
+        "tag": "c:ingots/platinum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:ingots/platinum"
+    "tag": "c:ingots/platinum"
   },
   "value": 1,
   "needed": 1,

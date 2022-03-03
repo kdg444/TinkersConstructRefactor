@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:dusts/soulsteel",
+        "tag": "c:dusts/soulsteel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:dusts/soulsteel"
+    "tag": "c:dusts/soulsteel"
   },
   "result": {
     "fluid": "tconstruct:molten_soulsteel",

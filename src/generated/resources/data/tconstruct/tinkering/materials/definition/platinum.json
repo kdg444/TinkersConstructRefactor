@@ -7,7 +7,7 @@
       },
       {
         "value": {
-          "tag": "forge:ingots/platinum",
+          "tag": "c:ingots/platinum",
           "type": "forge:tag_empty"
         },
         "type": "forge:not"

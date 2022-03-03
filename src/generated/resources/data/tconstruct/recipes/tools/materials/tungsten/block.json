@@ -3,19 +3,19 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/tungsten",
+        "tag": "c:storage_blocks/tungsten",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:storage_blocks/tungsten"
+    "tag": "c:storage_blocks/tungsten"
   },
   "value": 9,
   "needed": 1,
   "material": "tconstruct:tungsten",
   "leftover": {
-    "tag": "forge:ingots/tungsten"
+    "tag": "c:ingots/tungsten"
   }
 }

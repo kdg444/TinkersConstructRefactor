@@ -14,10 +14,10 @@
     "type": "mantle:intersection",
     "ingredients": [
       {
-        "tag": "forge:ores/quartz"
+        "tag": "c:ores/quartz"
       },
       {
-        "tag": "forge:ore_rates/dense"
+        "tag": "c:ore_rates/dense"
       }
     ]
   },

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_shards/emerald",
+        "tag": "c:geore_shards/emerald",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_shards/emerald"
+    "tag": "c:geore_shards/emerald"
   },
   "result": {
     "fluid": "tconstruct:molten_emerald",

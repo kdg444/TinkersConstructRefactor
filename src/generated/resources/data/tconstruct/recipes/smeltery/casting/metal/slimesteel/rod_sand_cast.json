@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/slimesteel",
+        "tag": "c:rods/slimesteel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -18,7 +18,7 @@
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/slimesteel"
+    "tag": "c:rods/slimesteel"
   },
   "cooling_time": 45
 }

@@ -5,10 +5,10 @@
       "item": "minecraft:leather"
     },
     {
-      "tag": "forge:ingots/netherite_scrap"
+      "tag": "c:ingots/netherite_scrap"
     },
     {
-      "tag": "forge:slimeball/ichor"
+      "tag": "c:slimeball/ichor"
     }
   ],
   "tools": {

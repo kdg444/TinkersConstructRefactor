@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins/electrum",
+        "tag": "c:coins/electrum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_electrum",
+    "tag": "c:molten_electrum",
     "amount": 30
   },
   "result": {
-    "tag": "forge:coins/electrum"
+    "tag": "c:coins/electrum"
   },
   "cooling_time": 34
 }

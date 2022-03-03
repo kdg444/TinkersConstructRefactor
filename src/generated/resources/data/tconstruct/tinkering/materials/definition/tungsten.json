@@ -7,7 +7,7 @@
       },
       {
         "value": {
-          "tag": "forge:ingots/tungsten",
+          "tag": "c:ingots/tungsten",
           "type": "forge:tag_empty"
         },
         "type": "forge:not"

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/bronze",
+        "tag": "c:ingots/bronze",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:ingots/bronze"
+    "tag": "c:ingots/bronze"
   },
   "result": {
     "fluid": "tconstruct:molten_bronze",

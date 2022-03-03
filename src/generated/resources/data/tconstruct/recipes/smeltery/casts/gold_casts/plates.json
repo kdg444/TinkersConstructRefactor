@@ -3,19 +3,19 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates",
+        "tag": "c:plates",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "cast": {
-    "tag": "forge:plates"
+    "tag": "c:plates"
   },
   "cast_consumed": true,
   "switch_slots": true,
   "fluid": {
-    "tag": "forge:molten_gold",
+    "tag": "c:molten_gold",
     "amount": 90
   },
   "result": "tconstruct:plate_cast",

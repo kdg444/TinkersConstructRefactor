@@ -7,10 +7,10 @@
   ],
   "key": {
     "s": {
-      "tag": "forge:string"
+      "tag": "c:string"
     },
     "g": {
-      "tag": "forge:ingots/rose_gold"
+      "tag": "c:ingots/rose_gold"
     }
   },
   "result": {

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins",
+        "tag": "c:coins",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,7 +13,7 @@
     "item": "tconstruct:blank_red_sand_cast"
   },
   "pattern": {
-    "tag": "forge:coins"
+    "tag": "c:coins"
   },
   "result": "tconstruct:coin_red_sand_cast"
 }

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/manyullyn",
+        "tag": "c:wires/manyullyn",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_manyullyn",
+    "tag": "c:molten_manyullyn",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/manyullyn"
+    "tag": "c:wires/manyullyn"
   },
   "cooling_time": 51
 }

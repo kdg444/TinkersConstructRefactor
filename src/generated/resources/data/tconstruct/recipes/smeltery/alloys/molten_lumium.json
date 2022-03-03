@@ -3,28 +3,28 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/lumium",
+        "tag": "c:ingots/lumium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     },
     {
       "value": {
-        "tag": "forge:ingots/tin",
+        "tag": "c:ingots/tin",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     },
     {
       "value": {
-        "tag": "forge:ingots/silver",
+        "tag": "c:ingots/silver",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     },
     {
       "value": {
-        "tag": "forge:glowstone",
+        "tag": "c:glowstone",
         "type": "mantle:fluid_tag_empty"
       },
       "type": "forge:not"
@@ -32,15 +32,15 @@
   ],
   "inputs": [
     {
-      "tag": "forge:molten_tin",
+      "tag": "c:molten_tin",
       "amount": 270
     },
     {
-      "tag": "forge:molten_silver",
+      "tag": "c:molten_silver",
       "amount": 90
     },
     {
-      "tag": "forge:glowstone",
+      "tag": "c:glowstone",
       "amount": 500
     }
   ],

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_shards/nickel",
+        "tag": "c:geore_shards/nickel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_shards/nickel"
+    "tag": "c:geore_shards/nickel"
   },
   "result": {
     "fluid": "tconstruct:molten_nickel",

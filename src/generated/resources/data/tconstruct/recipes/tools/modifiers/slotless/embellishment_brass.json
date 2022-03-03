@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/brass",
+        "tag": "c:ingots/brass",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -11,13 +11,13 @@
   ],
   "inputs": [
     {
-      "tag": "forge:ingots/brass"
+      "tag": "c:ingots/brass"
     },
     {
-      "tag": "forge:ingots/brass"
+      "tag": "c:ingots/brass"
     },
     {
-      "tag": "forge:ingots/brass"
+      "tag": "c:ingots/brass"
     }
   ],
   "tools": [

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/lumium",
+        "tag": "c:gears/lumium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_lumium",
+    "tag": "c:molten_lumium",
     "amount": 360
   },
   "result": {
-    "tag": "forge:gears/lumium"
+    "tag": "c:gears/lumium"
   },
   "cooling_time": 136
 }

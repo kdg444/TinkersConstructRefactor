@@ -7,21 +7,21 @@
       },
       {
         "value": {
-          "tag": "forge:ingots/aluminum",
+          "tag": "c:ingots/aluminum",
           "type": "forge:tag_empty"
         },
         "type": "forge:not"
       },
       {
         "value": {
-          "tag": "forge:ingots/tin",
+          "tag": "c:ingots/tin",
           "type": "forge:tag_empty"
         },
         "type": "forge:not"
       },
       {
         "value": {
-          "tag": "forge:ingots/zinc",
+          "tag": "c:ingots/zinc",
           "type": "forge:tag_empty"
         },
         "type": "forge:not"

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_shards/iron",
+        "tag": "c:geore_shards/iron",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_shards/iron"
+    "tag": "c:geore_shards/iron"
   },
   "result": {
     "fluid": "tconstruct:molten_iron",

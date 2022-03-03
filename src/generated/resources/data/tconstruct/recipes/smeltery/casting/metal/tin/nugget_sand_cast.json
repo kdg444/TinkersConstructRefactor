@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/tin",
+        "tag": "c:nuggets/tin",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_tin",
+    "tag": "c:molten_tin",
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/tin"
+    "tag": "c:nuggets/tin"
   },
   "cooling_time": 13
 }

@@ -14,10 +14,10 @@
     "type": "mantle:intersection",
     "ingredients": [
       {
-        "tag": "forge:ores/emerald"
+        "tag": "c:ores/emerald"
       },
       {
-        "tag": "forge:ore_rates/dense"
+        "tag": "c:ore_rates/dense"
       }
     ]
   },

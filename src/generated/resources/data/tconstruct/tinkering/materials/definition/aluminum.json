@@ -7,7 +7,7 @@
       },
       {
         "value": {
-          "tag": "forge:ingots/aluminum",
+          "tag": "c:ingots/aluminum",
           "type": "forge:tag_empty"
         },
         "type": "forge:not"

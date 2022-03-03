@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/lead",
+        "tag": "c:nuggets/lead",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/nugget"
   },
   "fluid": {
-    "tag": "forge:molten_lead",
+    "tag": "c:molten_lead",
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/lead"
+    "tag": "c:nuggets/lead"
   },
   "cooling_time": 14
 }

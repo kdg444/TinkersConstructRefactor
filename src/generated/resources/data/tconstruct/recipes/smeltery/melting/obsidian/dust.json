@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:dusts/obsidian",
+        "tag": "c:dusts/obsidian",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:dusts/obsidian"
+    "tag": "c:dusts/obsidian"
   },
   "result": {
     "fluid": "tconstruct:molten_obsidian",

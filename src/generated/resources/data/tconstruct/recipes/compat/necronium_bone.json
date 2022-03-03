@@ -3,18 +3,18 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/uranium",
+        "tag": "c:ingots/uranium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "cast": {
-    "tag": "forge:wither_bones"
+    "tag": "c:wither_bones"
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_uranium",
+    "tag": "c:molten_uranium",
     "amount": 90
   },
   "result": "tconstruct:necronium_bone",

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/tungsten",
+        "tag": "c:ingots/tungsten",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_tungsten",
+    "tag": "c:molten_tungsten",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/tungsten"
+    "tag": "c:ingots/tungsten"
   },
   "cooling_time": 65
 }

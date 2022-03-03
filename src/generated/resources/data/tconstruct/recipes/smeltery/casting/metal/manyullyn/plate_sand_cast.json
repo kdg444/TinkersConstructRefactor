@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/manyullyn",
+        "tag": "c:plates/manyullyn",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_manyullyn",
+    "tag": "c:molten_manyullyn",
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/manyullyn"
+    "tag": "c:plates/manyullyn"
   },
   "cooling_time": 72
 }

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/invar",
+        "tag": "c:rods/invar",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:rods/invar"
+    "tag": "c:rods/invar"
   },
   "result": {
     "fluid": "tconstruct:molten_invar",

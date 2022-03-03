@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:sheetmetals/rose_gold",
+        "tag": "c:sheetmetals/rose_gold",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:sheetmetals/rose_gold"
+    "tag": "c:sheetmetals/rose_gold"
   },
   "result": {
     "fluid": "tconstruct:molten_rose_gold",

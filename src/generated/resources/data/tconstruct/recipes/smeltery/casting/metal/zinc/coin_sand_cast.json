@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins/zinc",
+        "tag": "c:coins/zinc",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_zinc",
+    "tag": "c:molten_zinc",
     "amount": 30
   },
   "result": {
-    "tag": "forge:coins/zinc"
+    "tag": "c:coins/zinc"
   },
   "cooling_time": 27
 }

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/lumium",
+        "tag": "c:storage_blocks/lumium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:storage_blocks/lumium"
+    "tag": "c:storage_blocks/lumium"
   },
   "result": {
     "fluid": "tconstruct:molten_lumium",

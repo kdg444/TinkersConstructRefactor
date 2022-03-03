@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/refined_glowstone",
+        "tag": "c:plates/refined_glowstone",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_refined_glowstone",
+    "tag": "c:molten_refined_glowstone",
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/refined_glowstone"
+    "tag": "c:plates/refined_glowstone"
   },
   "cooling_time": 61
 }

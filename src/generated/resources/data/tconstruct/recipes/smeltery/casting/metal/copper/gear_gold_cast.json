@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/copper",
+        "tag": "c:gears/copper",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/gear"
   },
   "fluid": {
-    "tag": "forge:molten_copper",
+    "tag": "c:molten_copper",
     "amount": 360
   },
   "result": {
-    "tag": "forge:gears/copper"
+    "tag": "c:gears/copper"
   },
   "cooling_time": 100
 }

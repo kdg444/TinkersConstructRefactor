@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/copper",
+        "tag": "c:rods/copper",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/rod"
   },
   "fluid": {
-    "tag": "forge:molten_copper",
+    "tag": "c:molten_copper",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/copper"
+    "tag": "c:rods/copper"
   },
   "cooling_time": 35
 }

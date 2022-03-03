@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_blocks/cobalt",
+        "tag": "c:geore_blocks/cobalt",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_blocks/cobalt"
+    "tag": "c:geore_blocks/cobalt"
   },
   "result": {
     "fluid": "tconstruct:molten_cobalt",

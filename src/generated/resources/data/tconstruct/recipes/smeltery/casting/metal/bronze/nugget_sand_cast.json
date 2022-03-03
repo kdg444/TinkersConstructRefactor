@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/bronze",
+        "tag": "c:nuggets/bronze",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_bronze",
+    "tag": "c:molten_bronze",
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/bronze"
+    "tag": "c:nuggets/bronze"
   },
   "cooling_time": 19
 }

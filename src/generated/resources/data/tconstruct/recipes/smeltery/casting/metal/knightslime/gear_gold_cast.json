@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/knightslime",
+        "tag": "c:gears/knightslime",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -17,7 +17,7 @@
     "amount": 360
   },
   "result": {
-    "tag": "forge:gears/knightslime"
+    "tag": "c:gears/knightslime"
   },
   "cooling_time": 140
 }

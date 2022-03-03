@@ -8,7 +8,7 @@
   ],
   "key": {
     "e": {
-      "tag": "forge:nuggets/gold"
+      "tag": "c:nuggets/gold"
     },
     "M": {
       "item": "tconstruct:obsidian_pane"

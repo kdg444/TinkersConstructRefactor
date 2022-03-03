@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/osmium",
+        "tag": "c:plates/osmium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:plates/osmium"
+    "tag": "c:plates/osmium"
   },
   "result": {
     "fluid": "tconstruct:molten_osmium",

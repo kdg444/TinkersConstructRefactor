@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/gold",
+        "tag": "c:rods/gold",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_gold",
+    "tag": "c:molten_gold",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/gold"
+    "tag": "c:rods/gold"
   },
   "cooling_time": 40
 }

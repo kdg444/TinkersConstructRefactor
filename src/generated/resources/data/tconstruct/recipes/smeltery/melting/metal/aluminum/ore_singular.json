@@ -14,14 +14,14 @@
   "ingredient": {
     "type": "mantle:difference",
     "base": {
-      "tag": "forge:ores/aluminum"
+      "tag": "c:ores/aluminum"
     },
     "subtracted": [
       {
-        "tag": "forge:ore_rates/sparse"
+        "tag": "c:ore_rates/sparse"
       },
       {
-        "tag": "forge:ore_rates/dense"
+        "tag": "c:ore_rates/dense"
       }
     ]
   },

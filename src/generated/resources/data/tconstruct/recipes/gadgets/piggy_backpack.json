@@ -6,7 +6,7 @@
   ],
   "key": {
     "P": {
-      "tag": "forge:ingots/pig_iron"
+      "tag": "c:ingots/pig_iron"
     },
     "S": {
       "item": "minecraft:saddle"

@@ -7,7 +7,11 @@ import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import slimeknights.mantle.lib.event.ColorHandlersCallback;
+import slimeknights.mantle.lib.event.ModelLoadCallback;
+import slimeknights.mantle.lib.model.ModelLoaderRegistry;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
+import slimeknights.tconstruct.library.client.model.block.TableModel;
 import slimeknights.tconstruct.tables.block.entity.chest.TinkersChestBlockEntity;
 import slimeknights.tconstruct.tables.client.TableTileEntityRenderer;
 import slimeknights.tconstruct.tables.client.inventory.CraftingStationScreen;
@@ -19,7 +23,7 @@ import slimeknights.tconstruct.tables.client.inventory.TinkerStationScreen;
 public class TableClientEvents extends ClientEventBase {
 
   public static void init() {
-    registerModelLoader();
+    ModelLoadCallback.EVENT.register(TableClientEvents::registerModelLoader);
     registerRenderers();
     setupClient();
     ColorHandlersCallback.BLOCK.register(TableClientEvents::registerBlockColors);
@@ -27,7 +31,7 @@ public class TableClientEvents extends ClientEventBase {
   }
 
   static void registerModelLoader() {
-//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("table"), TableModel.LOADER);
+    ModelLoaderRegistry.registerLoader(TConstruct.getResource("table"), TableModel.LOADER);
   }
 
   static void registerRenderers() {

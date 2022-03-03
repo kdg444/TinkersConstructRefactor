@@ -51,9 +51,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import slimeknights.mantle.lib.extensions.FluidExtensions;
+import slimeknights.mantle.lib.model.CompositeModelState;
 import slimeknights.mantle.lib.model.IModelConfiguration;
 import slimeknights.mantle.lib.model.IModelGeometry;
 import slimeknights.mantle.lib.model.IModelLoader;
+import slimeknights.mantle.lib.model.PerspectiveMapWrapper;
 import slimeknights.mantle.lib.transfer.fluid.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.FluidValues;
@@ -107,7 +109,7 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
 
     // setup builder
     ModelState transformsFromModel = owner.getCombinedTransform(); // TODO: PORT
-//    ImmutableMap<TransformType,Transformation> transformMap = PerspectiveMapWrapper.getTransforms(new CompositeModelState(transformsFromModel, modelTransform));
+    ImmutableMap<TransformType,Transformation> transformMap = PerspectiveMapWrapper.getTransforms(new CompositeModelState(transformsFromModel, modelTransform));
 //    ItemMultiLayerBakedModel.Builder builder = ItemMultiLayerBakedModel.builder(owner, particleSprite, new ContainedFluidOverrideHandler(overrides, bakery, owner, this), transformMap);
     Transformation transform = modelTransform.getRotation();
 

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/lumium",
+        "tag": "c:gears/lumium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:gears/lumium"
+    "tag": "c:gears/lumium"
   },
   "result": {
     "fluid": "tconstruct:molten_lumium",

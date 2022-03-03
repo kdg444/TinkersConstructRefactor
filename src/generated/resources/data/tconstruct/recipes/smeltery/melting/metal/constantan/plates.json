@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/constantan",
+        "tag": "c:plates/constantan",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:plates/constantan"
+    "tag": "c:plates/constantan"
   },
   "result": {
     "fluid": "tconstruct:molten_constantan",

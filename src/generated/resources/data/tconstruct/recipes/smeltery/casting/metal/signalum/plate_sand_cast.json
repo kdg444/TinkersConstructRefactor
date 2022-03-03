@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/signalum",
+        "tag": "c:plates/signalum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_signalum",
+    "tag": "c:molten_signalum",
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/signalum"
+    "tag": "c:plates/signalum"
   },
   "cooling_time": 70
 }

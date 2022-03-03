@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/copper",
+        "tag": "c:plates/copper",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:plates/copper"
+    "tag": "c:plates/copper"
   },
   "result": {
     "fluid": "tconstruct:molten_copper",

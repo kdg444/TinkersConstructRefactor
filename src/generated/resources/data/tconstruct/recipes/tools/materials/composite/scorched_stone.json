@@ -2,7 +2,7 @@
   "type": "tconstruct:material_fluid",
   "input": "tconstruct:flint",
   "fluid": {
-    "tag": "forge:magma",
+    "tag": "c:magma",
     "amount": 250
   },
   "temperature": 300,

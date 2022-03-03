@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/hepatizon",
+        "tag": "c:gears/hepatizon",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/gear"
   },
   "fluid": {
-    "tag": "forge:molten_hepatizon",
+    "tag": "c:molten_hepatizon",
     "amount": 360
   },
   "result": {
-    "tag": "forge:gears/hepatizon"
+    "tag": "c:gears/hepatizon"
   },
   "cooling_time": 155
 }

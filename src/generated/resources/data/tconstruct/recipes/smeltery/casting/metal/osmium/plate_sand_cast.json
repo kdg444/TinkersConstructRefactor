@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/osmium",
+        "tag": "c:plates/osmium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_osmium",
+    "tag": "c:molten_osmium",
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/osmium"
+    "tag": "c:plates/osmium"
   },
   "cooling_time": 66
 }

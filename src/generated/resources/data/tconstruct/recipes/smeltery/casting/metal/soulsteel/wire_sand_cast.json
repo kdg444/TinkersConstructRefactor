@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/soulsteel",
+        "tag": "c:wires/soulsteel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -18,7 +18,7 @@
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/soulsteel"
+    "tag": "c:wires/soulsteel"
   },
   "cooling_time": 51
 }

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/lead",
+        "tag": "c:ingots/lead",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:ingots/lead"
+    "tag": "c:ingots/lead"
   },
   "result": {
     "fluid": "tconstruct:molten_lead",

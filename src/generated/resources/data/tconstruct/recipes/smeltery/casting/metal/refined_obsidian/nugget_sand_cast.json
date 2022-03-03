@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/refined_obsidian",
+        "tag": "c:nuggets/refined_obsidian",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_refined_obsidian",
+    "tag": "c:molten_refined_obsidian",
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/refined_obsidian"
+    "tag": "c:nuggets/refined_obsidian"
   },
   "cooling_time": 27
 }

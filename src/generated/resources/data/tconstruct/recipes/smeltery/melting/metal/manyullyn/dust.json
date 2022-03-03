@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:dusts/manyullyn",
+        "tag": "c:dusts/manyullyn",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:dusts/manyullyn"
+    "tag": "c:dusts/manyullyn"
   },
   "result": {
     "fluid": "tconstruct:molten_manyullyn",

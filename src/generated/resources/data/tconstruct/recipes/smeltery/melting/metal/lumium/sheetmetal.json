@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:sheetmetals/lumium",
+        "tag": "c:sheetmetals/lumium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:sheetmetals/lumium"
+    "tag": "c:sheetmetals/lumium"
   },
   "result": {
     "fluid": "tconstruct:molten_lumium",

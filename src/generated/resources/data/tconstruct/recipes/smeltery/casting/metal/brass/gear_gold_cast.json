@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/brass",
+        "tag": "c:gears/brass",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/gear"
   },
   "fluid": {
-    "tag": "forge:molten_brass",
+    "tag": "c:molten_brass",
     "amount": 360
   },
   "result": {
-    "tag": "forge:gears/brass"
+    "tag": "c:gears/brass"
   },
   "cooling_time": 107
 }

@@ -19,7 +19,7 @@
       "item": "minecraft:ender_eye"
     },
     "G": {
-      "tag": "forge:glass/colorless"
+      "tag": "c:glass/colorless"
     }
   },
   "result": {

@@ -14,10 +14,10 @@
     "type": "mantle:intersection",
     "ingredients": [
       {
-        "tag": "forge:ores/diamond"
+        "tag": "c:ores/diamond"
       },
       {
-        "tag": "forge:ore_rates/sparse"
+        "tag": "c:ore_rates/sparse"
       }
     ]
   },

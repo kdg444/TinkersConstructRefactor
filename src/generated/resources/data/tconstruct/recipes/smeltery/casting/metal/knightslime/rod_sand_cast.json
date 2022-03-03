@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/knightslime",
+        "tag": "c:rods/knightslime",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -18,7 +18,7 @@
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/knightslime"
+    "tag": "c:rods/knightslime"
   },
   "cooling_time": 49
 }

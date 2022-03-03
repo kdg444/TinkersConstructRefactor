@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_shards/quartz",
+        "tag": "c:geore_shards/quartz",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_shards/quartz"
+    "tag": "c:geore_shards/quartz"
   },
   "result": {
     "fluid": "tconstruct:molten_quartz",

@@ -14,14 +14,14 @@
   "ingredient": {
     "type": "mantle:difference",
     "base": {
-      "tag": "forge:ores/copper"
+      "tag": "c:ores/copper"
     },
     "subtracted": [
       {
-        "tag": "forge:ore_rates/sparse"
+        "tag": "c:ore_rates/sparse"
       },
       {
-        "tag": "forge:ore_rates/dense"
+        "tag": "c:ore_rates/dense"
       }
     ]
   },

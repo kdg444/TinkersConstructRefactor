@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/nickel",
+        "tag": "c:rods/nickel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_nickel",
+    "tag": "c:molten_nickel",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/nickel"
+    "tag": "c:rods/nickel"
   },
   "cooling_time": 46
 }

@@ -7,7 +7,7 @@
       },
       {
         "value": {
-          "tag": "forge:ingots/tin",
+          "tag": "c:ingots/tin",
           "type": "forge:tag_empty"
         },
         "type": "forge:not"

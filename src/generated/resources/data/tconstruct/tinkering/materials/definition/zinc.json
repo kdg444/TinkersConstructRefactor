@@ -7,7 +7,7 @@
       },
       {
         "value": {
-          "tag": "forge:ingots/zinc",
+          "tag": "c:ingots/zinc",
           "type": "forge:tag_empty"
         },
         "type": "forge:not"

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/constantan",
+        "tag": "c:rods/constantan",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/rod"
   },
   "fluid": {
-    "tag": "forge:molten_constantan",
+    "tag": "c:molten_constantan",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/constantan"
+    "tag": "c:rods/constantan"
   },
   "cooling_time": 45
 }

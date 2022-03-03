@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/signalum",
+        "tag": "c:nuggets/signalum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:nuggets/signalum"
+    "tag": "c:nuggets/signalum"
   },
   "result": {
     "fluid": "tconstruct:molten_signalum",

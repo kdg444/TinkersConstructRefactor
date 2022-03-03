@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/platinum",
+        "tag": "c:gears/platinum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_platinum",
+    "tag": "c:molten_platinum",
     "amount": 360
   },
   "result": {
-    "tag": "forge:gears/platinum"
+    "tag": "c:gears/platinum"
   },
   "cooling_time": 131
 }

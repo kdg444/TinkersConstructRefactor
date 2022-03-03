@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_medium_buds/osmium",
+        "tag": "c:geore_medium_buds/osmium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_medium_buds/osmium"
+    "tag": "c:geore_medium_buds/osmium"
   },
   "result": {
     "fluid": "tconstruct:molten_osmium",

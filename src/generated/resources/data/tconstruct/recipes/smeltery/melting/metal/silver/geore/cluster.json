@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_clusters/silver",
+        "tag": "c:geore_clusters/silver",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_clusters/silver"
+    "tag": "c:geore_clusters/silver"
   },
   "result": {
     "fluid": "tconstruct:molten_silver",

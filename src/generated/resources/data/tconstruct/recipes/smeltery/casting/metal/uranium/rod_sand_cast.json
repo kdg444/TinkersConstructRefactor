@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/uranium",
+        "tag": "c:rods/uranium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_uranium",
+    "tag": "c:molten_uranium",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/uranium"
+    "tag": "c:rods/uranium"
   },
   "cooling_time": 43
 }

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/pewter",
+        "tag": "c:rods/pewter",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_pewter",
+    "tag": "c:molten_pewter",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/pewter"
+    "tag": "c:rods/pewter"
   },
   "cooling_time": 33
 }

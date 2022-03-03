@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/brick",
+        "tag": "c:plates/brick",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -17,7 +17,7 @@
     "amount": 250
   },
   "result": {
-    "tag": "forge:plates/brick"
+    "tag": "c:plates/brick"
   },
   "cooling_time": 80
 }

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:sheetmetals/invar",
+        "tag": "c:sheetmetals/invar",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:sheetmetals/invar"
+    "tag": "c:sheetmetals/invar"
   },
   "result": {
     "fluid": "tconstruct:molten_invar",

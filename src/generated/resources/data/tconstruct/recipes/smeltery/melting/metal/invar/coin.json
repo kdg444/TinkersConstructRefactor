@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins/invar",
+        "tag": "c:coins/invar",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:coins/invar"
+    "tag": "c:coins/invar"
   },
   "result": {
     "fluid": "tconstruct:molten_invar",

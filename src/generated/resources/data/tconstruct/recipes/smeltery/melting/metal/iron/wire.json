@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/iron",
+        "tag": "c:wires/iron",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:wires/iron"
+    "tag": "c:wires/iron"
   },
   "result": {
     "fluid": "tconstruct:molten_iron",

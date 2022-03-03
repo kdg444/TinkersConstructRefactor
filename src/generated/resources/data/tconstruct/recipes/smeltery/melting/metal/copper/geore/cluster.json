@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_clusters/copper",
+        "tag": "c:geore_clusters/copper",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_clusters/copper"
+    "tag": "c:geore_clusters/copper"
   },
   "result": {
     "fluid": "tconstruct:molten_copper",

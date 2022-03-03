@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/invar",
+        "tag": "c:plates/invar",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/plate"
   },
   "fluid": {
-    "tag": "forge:molten_invar",
+    "tag": "c:molten_invar",
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/invar"
+    "tag": "c:plates/invar"
   },
   "cooling_time": 63
 }

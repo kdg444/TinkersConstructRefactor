@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/platinum",
+        "tag": "c:wires/platinum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:wires/platinum"
+    "tag": "c:wires/platinum"
   },
   "result": {
     "fluid": "tconstruct:molten_platinum",

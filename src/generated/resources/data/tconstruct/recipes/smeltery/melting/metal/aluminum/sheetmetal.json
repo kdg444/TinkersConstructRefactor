@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:sheetmetals/aluminum",
+        "tag": "c:sheetmetals/aluminum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:sheetmetals/aluminum"
+    "tag": "c:sheetmetals/aluminum"
   },
   "result": {
     "fluid": "tconstruct:molten_aluminum",

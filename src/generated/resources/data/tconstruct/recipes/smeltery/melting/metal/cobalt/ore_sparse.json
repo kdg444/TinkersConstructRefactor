@@ -14,10 +14,10 @@
     "type": "mantle:intersection",
     "ingredients": [
       {
-        "tag": "forge:ores/cobalt"
+        "tag": "c:ores/cobalt"
       },
       {
-        "tag": "forge:ore_rates/sparse"
+        "tag": "c:ore_rates/sparse"
       }
     ]
   },

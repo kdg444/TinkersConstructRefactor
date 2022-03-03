@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/steel",
+        "tag": "c:ingots/steel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_steel",
+    "tag": "c:molten_steel",
     "amount": 90
   },
   "temperature": 950,

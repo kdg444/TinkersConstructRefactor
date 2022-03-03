@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_large_buds/copper",
+        "tag": "c:geore_large_buds/copper",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_large_buds/copper"
+    "tag": "c:geore_large_buds/copper"
   },
   "result": {
     "fluid": "tconstruct:molten_copper",

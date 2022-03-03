@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/steel",
+        "tag": "c:ingots/steel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/ingot"
   },
   "fluid": {
-    "tag": "forge:molten_steel",
+    "tag": "c:molten_steel",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/steel"
+    "tag": "c:ingots/steel"
   },
   "cooling_time": 65
 }

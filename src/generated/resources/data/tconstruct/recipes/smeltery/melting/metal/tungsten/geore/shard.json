@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_shards/tungsten",
+        "tag": "c:geore_shards/tungsten",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_shards/tungsten"
+    "tag": "c:geore_shards/tungsten"
   },
   "result": {
     "fluid": "tconstruct:molten_tungsten",

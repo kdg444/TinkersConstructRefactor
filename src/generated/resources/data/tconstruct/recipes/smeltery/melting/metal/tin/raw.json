@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:raw_materials/tin",
+        "tag": "c:raw_materials/tin",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -11,7 +11,7 @@
   ],
   "rate": "metal",
   "ingredient": {
-    "tag": "forge:raw_materials/tin"
+    "tag": "c:raw_materials/tin"
   },
   "result": {
     "fluid": "tconstruct:molten_tin",

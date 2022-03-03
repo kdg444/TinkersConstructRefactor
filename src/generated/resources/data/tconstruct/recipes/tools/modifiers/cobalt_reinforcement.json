@@ -5,7 +5,7 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_cobalt",
+    "tag": "c:molten_cobalt",
     "amount": 30
   },
   "result": "tconstruct:cobalt_reinforcement",

@@ -3,18 +3,18 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/aluminum",
+        "tag": "c:storage_blocks/aluminum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_aluminum",
+    "tag": "c:molten_aluminum",
     "amount": 810
   },
   "result": {
-    "tag": "forge:storage_blocks/aluminum"
+    "tag": "c:storage_blocks/aluminum"
   },
   "cooling_time": 141
 }

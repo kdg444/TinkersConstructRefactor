@@ -38,6 +38,7 @@ import slimeknights.mantle.client.model.util.MantleItemLayerModel;
 import slimeknights.mantle.lib.model.IModelConfiguration;
 import slimeknights.mantle.lib.model.IModelGeometry;
 import slimeknights.mantle.lib.model.IModelLoader;
+import slimeknights.mantle.lib.model.PerspectiveMapWrapper;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfo;
@@ -216,7 +217,7 @@ public class MaterialModel implements IModelGeometry<MaterialModel> {
     TextureAtlasSprite particle = getPartQuads(mutableList::setValue, owner, spriteGetter, transform, "texture", index, material);
 
     // bake model - while the transform may not be identity, it never has rotation so its safe to say untransformed
-    ImmutableMap<ItemTransforms.TransformType, Transformation> transformMap = Maps.immutableEnumMap(Maps.newEnumMap(ItemTransforms.TransformType.class));//PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform());
+    ImmutableMap<ItemTransforms.TransformType, Transformation> transformMap = PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform());
     return new BakedItemModel(mutableList.getValue(), particle, Maps.immutableEnumMap(transformMap), overrides, true, owner.isSideLit());
   }
 

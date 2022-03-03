@@ -10,7 +10,7 @@
       "item": "tconstruct:scorched_brick"
     },
     "G": {
-      "tag": "forge:gems/quartz"
+      "tag": "c:gems/quartz"
     }
   },
   "result": {

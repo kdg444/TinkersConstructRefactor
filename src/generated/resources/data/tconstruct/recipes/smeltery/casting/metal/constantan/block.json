@@ -3,18 +3,18 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/constantan",
+        "tag": "c:storage_blocks/constantan",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_constantan",
+    "tag": "c:molten_constantan",
     "amount": 810
   },
   "result": {
-    "tag": "forge:storage_blocks/constantan"
+    "tag": "c:storage_blocks/constantan"
   },
   "cooling_time": 192
 }

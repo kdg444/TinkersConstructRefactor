@@ -3,19 +3,19 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/osmium",
+        "tag": "c:storage_blocks/osmium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:storage_blocks/osmium"
+    "tag": "c:storage_blocks/osmium"
   },
   "value": 9,
   "needed": 1,
   "material": "tconstruct:osmium",
   "leftover": {
-    "tag": "forge:ingots/osmium"
+    "tag": "c:ingots/osmium"
   }
 }

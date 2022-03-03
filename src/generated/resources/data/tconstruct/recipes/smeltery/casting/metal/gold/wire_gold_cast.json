@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/gold",
+        "tag": "c:wires/gold",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/wire"
   },
   "fluid": {
-    "tag": "forge:molten_gold",
+    "tag": "c:molten_gold",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/gold"
+    "tag": "c:wires/gold"
   },
   "cooling_time": 40
 }

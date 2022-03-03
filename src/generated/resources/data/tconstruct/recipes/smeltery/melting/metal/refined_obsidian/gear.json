@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/refined_obsidian",
+        "tag": "c:gears/refined_obsidian",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:gears/refined_obsidian"
+    "tag": "c:gears/refined_obsidian"
   },
   "result": {
     "fluid": "tconstruct:molten_refined_obsidian",

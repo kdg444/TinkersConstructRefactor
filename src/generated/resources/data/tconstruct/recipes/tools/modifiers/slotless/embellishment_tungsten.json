@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/tungsten",
+        "tag": "c:ingots/tungsten",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -11,13 +11,13 @@
   ],
   "inputs": [
     {
-      "tag": "forge:ingots/tungsten"
+      "tag": "c:ingots/tungsten"
     },
     {
-      "tag": "forge:ingots/tungsten"
+      "tag": "c:ingots/tungsten"
     },
     {
-      "tag": "forge:ingots/tungsten"
+      "tag": "c:ingots/tungsten"
     }
   ],
   "tools": [

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_large_buds/lead",
+        "tag": "c:geore_large_buds/lead",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_large_buds/lead"
+    "tag": "c:geore_large_buds/lead"
   },
   "result": {
     "fluid": "tconstruct:molten_lead",

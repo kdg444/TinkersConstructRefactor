@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/uranium",
+        "tag": "c:wires/uranium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:wires/uranium"
+    "tag": "c:wires/uranium"
   },
   "result": {
     "fluid": "tconstruct:molten_uranium",

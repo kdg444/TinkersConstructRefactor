@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/constantan",
+        "tag": "c:ingots/constantan",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_constantan",
+    "tag": "c:molten_constantan",
     "amount": 90
   },
   "temperature": 920,

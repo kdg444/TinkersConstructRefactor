@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/aluminum",
+        "tag": "c:ingots/aluminum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_aluminum",
+    "tag": "c:molten_aluminum",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/aluminum"
+    "tag": "c:ingots/aluminum"
   },
   "cooling_time": 47
 }

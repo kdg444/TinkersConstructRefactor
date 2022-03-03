@@ -138,6 +138,8 @@ public class TankModel implements IModelGeometry<TankModel> {
 
     @Override
     public BakedModel handlePerspective(TransformType cameraTransformType, PoseStack mat) {
+      if(!(gui instanceof TransformTypeDependentItemBakedModel) || !(wrapped instanceof TransformTypeDependentItemBakedModel)) // TODO: PORT?
+        return wrapped;
       if (cameraTransformType == TransformType.GUI) {
         return ((TransformTypeDependentItemBakedModel)gui).handlePerspective(cameraTransformType, mat);
       }

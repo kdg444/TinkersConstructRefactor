@@ -11,10 +11,10 @@
       "item": "minecraft:shulker_shell"
     },
     {
-      "tag": "forge:ingots/netherite"
+      "tag": "c:ingots/netherite"
     },
     {
-      "tag": "forge:ingots/netherite"
+      "tag": "c:ingots/netherite"
     }
   ],
   "tools": {

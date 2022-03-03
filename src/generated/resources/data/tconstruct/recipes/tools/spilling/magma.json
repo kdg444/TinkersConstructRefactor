@@ -1,7 +1,7 @@
 {
   "type": "tconstruct:spilling",
   "fluid": {
-    "tag": "forge:magma",
+    "tag": "c:magma",
     "amount": 50
   },
   "effects": [

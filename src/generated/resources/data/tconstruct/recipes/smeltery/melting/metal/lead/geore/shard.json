@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_shards/lead",
+        "tag": "c:geore_shards/lead",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_shards/lead"
+    "tag": "c:geore_shards/lead"
   },
   "result": {
     "fluid": "tconstruct:molten_lead",

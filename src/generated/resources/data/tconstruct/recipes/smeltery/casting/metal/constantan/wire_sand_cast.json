@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/constantan",
+        "tag": "c:wires/constantan",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_constantan",
+    "tag": "c:molten_constantan",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/constantan"
+    "tag": "c:wires/constantan"
   },
   "cooling_time": 45
 }

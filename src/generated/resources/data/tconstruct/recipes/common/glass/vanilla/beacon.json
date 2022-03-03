@@ -16,7 +16,7 @@
       "item": "minecraft:nether_star"
     },
     "G": {
-      "tag": "forge:glass/colorless"
+      "tag": "c:glass/colorless"
     },
     "O": {
       "item": "minecraft:obsidian"

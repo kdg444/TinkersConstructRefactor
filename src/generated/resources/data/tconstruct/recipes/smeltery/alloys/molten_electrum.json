@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/electrum",
+        "tag": "c:ingots/electrum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     },
     {
       "value": {
-        "tag": "forge:ingots/silver",
+        "tag": "c:ingots/silver",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -18,11 +18,11 @@
   ],
   "inputs": [
     {
-      "tag": "forge:molten_gold",
+      "tag": "c:molten_gold",
       "amount": 90
     },
     {
-      "tag": "forge:molten_silver",
+      "tag": "c:molten_silver",
       "amount": 90
     }
   ],

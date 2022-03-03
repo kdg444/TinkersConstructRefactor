@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_large_buds/nickel",
+        "tag": "c:geore_large_buds/nickel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_large_buds/nickel"
+    "tag": "c:geore_large_buds/nickel"
   },
   "result": {
     "fluid": "tconstruct:molten_nickel",

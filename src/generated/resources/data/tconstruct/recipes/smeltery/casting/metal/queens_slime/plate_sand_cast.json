@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/queens_slime",
+        "tag": "c:plates/queens_slime",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -18,7 +18,7 @@
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/queens_slime"
+    "tag": "c:plates/queens_slime"
   },
   "cooling_time": 71
 }

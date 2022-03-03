@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/aluminum",
+        "tag": "c:ingots/aluminum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -11,7 +11,7 @@
   ],
   "input": "tconstruct:rock",
   "fluid": {
-    "tag": "forge:molten_aluminum",
+    "tag": "c:molten_aluminum",
     "amount": 90
   },
   "temperature": 425,

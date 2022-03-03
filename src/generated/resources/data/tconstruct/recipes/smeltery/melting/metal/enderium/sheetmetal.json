@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:sheetmetals/enderium",
+        "tag": "c:sheetmetals/enderium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:sheetmetals/enderium"
+    "tag": "c:sheetmetals/enderium"
   },
   "result": {
     "fluid": "tconstruct:molten_enderium",

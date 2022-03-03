@@ -3,18 +3,18 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/silver",
+        "tag": "c:storage_blocks/silver",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_silver",
+    "tag": "c:molten_silver",
     "amount": 810
   },
   "result": {
-    "tag": "forge:storage_blocks/silver"
+    "tag": "c:storage_blocks/silver"
   },
   "cooling_time": 179
 }

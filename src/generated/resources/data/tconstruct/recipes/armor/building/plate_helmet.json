@@ -6,7 +6,7 @@
   ],
   "key": {
     "m": {
-      "tag": "forge:ingots/cobalt"
+      "tag": "c:ingots/cobalt"
     },
     "c": {
       "item": "minecraft:chain"

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_blocks/copper",
+        "tag": "c:geore_blocks/copper",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_blocks/copper"
+    "tag": "c:geore_blocks/copper"
   },
   "result": {
     "fluid": "tconstruct:molten_copper",

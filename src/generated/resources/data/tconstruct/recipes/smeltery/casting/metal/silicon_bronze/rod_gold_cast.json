@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/silicon_bronze",
+        "tag": "c:rods/silicon_bronze",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/rod"
   },
   "fluid": {
-    "tag": "forge:molten_silicon_bronze",
+    "tag": "c:molten_silicon_bronze",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/silicon_bronze"
+    "tag": "c:rods/silicon_bronze"
   },
   "cooling_time": 40
 }

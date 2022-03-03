@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/signalum",
+        "tag": "c:rods/signalum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:rods/signalum"
+    "tag": "c:rods/signalum"
   },
   "result": {
     "fluid": "tconstruct:molten_signalum",

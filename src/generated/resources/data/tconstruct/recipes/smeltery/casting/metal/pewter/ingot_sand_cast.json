@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/pewter",
+        "tag": "c:ingots/pewter",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_pewter",
+    "tag": "c:molten_pewter",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/pewter"
+    "tag": "c:ingots/pewter"
   },
   "cooling_time": 46
 }

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/zinc",
+        "tag": "c:ingots/zinc",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -11,13 +11,13 @@
   ],
   "inputs": [
     {
-      "tag": "forge:ingots/zinc"
+      "tag": "c:ingots/zinc"
     },
     {
-      "tag": "forge:ingots/zinc"
+      "tag": "c:ingots/zinc"
     },
     {
-      "tag": "forge:ingots/zinc"
+      "tag": "c:ingots/zinc"
     }
   ],
   "tools": [

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/enderium",
+        "tag": "c:wires/enderium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_enderium",
+    "tag": "c:molten_enderium",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/enderium"
+    "tag": "c:wires/enderium"
   },
   "cooling_time": 54
 }

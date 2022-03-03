@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/electrum",
+        "tag": "c:ingots/electrum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/ingot"
   },
   "fluid": {
-    "tag": "forge:molten_electrum",
+    "tag": "c:molten_electrum",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/electrum"
+    "tag": "c:ingots/electrum"
   },
   "cooling_time": 59
 }

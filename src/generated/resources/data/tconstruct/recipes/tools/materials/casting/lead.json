@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/lead",
+        "tag": "c:ingots/lead",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_lead",
+    "tag": "c:molten_lead",
     "amount": 90
   },
   "temperature": 330,

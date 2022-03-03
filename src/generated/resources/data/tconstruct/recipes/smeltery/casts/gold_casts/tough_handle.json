@@ -7,7 +7,7 @@
   "cast_consumed": true,
   "switch_slots": true,
   "fluid": {
-    "tag": "forge:molten_gold",
+    "tag": "c:molten_gold",
     "amount": 90
   },
   "result": "tconstruct:tough_handle_cast",

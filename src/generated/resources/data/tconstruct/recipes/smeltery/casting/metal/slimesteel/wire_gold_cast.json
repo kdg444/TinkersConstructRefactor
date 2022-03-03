@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/slimesteel",
+        "tag": "c:wires/slimesteel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -17,7 +17,7 @@
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/slimesteel"
+    "tag": "c:wires/slimesteel"
   },
   "cooling_time": 45
 }

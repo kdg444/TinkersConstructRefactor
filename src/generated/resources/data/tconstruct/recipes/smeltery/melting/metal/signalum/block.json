@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/signalum",
+        "tag": "c:storage_blocks/signalum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:storage_blocks/signalum"
+    "tag": "c:storage_blocks/signalum"
   },
   "result": {
     "fluid": "tconstruct:molten_signalum",

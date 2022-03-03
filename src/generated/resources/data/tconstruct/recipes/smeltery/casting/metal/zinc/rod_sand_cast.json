@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/zinc",
+        "tag": "c:rods/zinc",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_zinc",
+    "tag": "c:molten_zinc",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/zinc"
+    "tag": "c:rods/zinc"
   },
   "cooling_time": 33
 }

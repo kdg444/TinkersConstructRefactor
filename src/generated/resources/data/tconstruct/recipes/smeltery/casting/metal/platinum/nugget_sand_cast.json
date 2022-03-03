@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/platinum",
+        "tag": "c:nuggets/platinum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_platinum",
+    "tag": "c:molten_platinum",
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/platinum"
+    "tag": "c:nuggets/platinum"
   },
   "cooling_time": 22
 }

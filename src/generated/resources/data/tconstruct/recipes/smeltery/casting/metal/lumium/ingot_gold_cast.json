@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/lumium",
+        "tag": "c:ingots/lumium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/ingot"
   },
   "fluid": {
-    "tag": "forge:molten_lumium",
+    "tag": "c:molten_lumium",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/lumium"
+    "tag": "c:ingots/lumium"
   },
   "cooling_time": 68
 }

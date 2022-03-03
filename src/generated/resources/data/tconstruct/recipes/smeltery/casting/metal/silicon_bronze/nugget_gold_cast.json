@@ -4,11 +4,11 @@
     "tag": "tconstruct:casts/multi_use/nugget"
   },
   "fluid": {
-    "tag": "forge:molten_silicon_bronze",
+    "tag": "c:molten_silicon_bronze",
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/silicon_bronze"
+    "tag": "c:nuggets/silicon_bronze"
   },
   "cooling_time": 19
 }

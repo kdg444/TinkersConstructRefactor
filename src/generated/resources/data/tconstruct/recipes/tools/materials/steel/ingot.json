@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/steel",
+        "tag": "c:ingots/steel",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:ingots/steel"
+    "tag": "c:ingots/steel"
   },
   "value": 1,
   "needed": 1,

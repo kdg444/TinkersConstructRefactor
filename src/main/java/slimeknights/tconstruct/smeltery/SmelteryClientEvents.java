@@ -10,6 +10,8 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import slimeknights.mantle.client.model.FaucetFluidLoader;
+import slimeknights.mantle.lib.event.ModelLoadCallback;
+import slimeknights.mantle.lib.model.ModelLoaderRegistry;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.library.client.model.block.CastingModel;
@@ -36,7 +38,7 @@ public class SmelteryClientEvents extends ClientEventBase {
     addResourceListener();
     registerRenderers();
     clientSetup();
-    registerModelLoaders();
+    ModelLoadCallback.EVENT.register(SmelteryClientEvents::registerModelLoaders);
   }
 
   static void addResourceListener() {
@@ -99,11 +101,11 @@ public class SmelteryClientEvents extends ClientEventBase {
   }
 
   static void registerModelLoaders() {
-//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("tank"), TankModel.LOADER); TODO: PORT
-//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("casting"), CastingModel.LOADER);
-//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("melter"), MelterModel.LOADER);
-//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("channel"), ChannelModel.LOADER);
-//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("fluid_texture"), FluidTextureModel.LOADER);
-//    ModelLoaderRegistry.registerLoader(TConstruct.getResource("copper_can"), CopperCanModel.LOADER);
+    ModelLoaderRegistry.registerLoader(TConstruct.getResource("tank"), TankModel.LOADER);
+    ModelLoaderRegistry.registerLoader(TConstruct.getResource("casting"), CastingModel.LOADER);
+    ModelLoaderRegistry.registerLoader(TConstruct.getResource("melter"), MelterModel.LOADER);
+    ModelLoaderRegistry.registerLoader(TConstruct.getResource("channel"), ChannelModel.LOADER);
+    ModelLoaderRegistry.registerLoader(TConstruct.getResource("fluid_texture"), FluidTextureModel.LOADER);
+    ModelLoaderRegistry.registerLoader(TConstruct.getResource("copper_can"), CopperCanModel.LOADER);
   }
 }

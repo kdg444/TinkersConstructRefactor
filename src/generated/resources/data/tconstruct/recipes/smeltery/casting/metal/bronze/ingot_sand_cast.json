@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/bronze",
+        "tag": "c:ingots/bronze",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_bronze",
+    "tag": "c:molten_bronze",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/bronze"
+    "tag": "c:ingots/bronze"
   },
   "cooling_time": 57
 }

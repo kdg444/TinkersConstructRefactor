@@ -8,7 +8,7 @@
   ],
   "key": {
     "#": {
-      "tag": "forge:nuggets/netherite"
+      "tag": "c:nuggets/netherite"
     },
     "*": {
       "item": "tconstruct:netherite_nugget"

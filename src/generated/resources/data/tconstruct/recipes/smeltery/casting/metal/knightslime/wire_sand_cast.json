@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/knightslime",
+        "tag": "c:wires/knightslime",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -18,7 +18,7 @@
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/knightslime"
+    "tag": "c:wires/knightslime"
   },
   "cooling_time": 49
 }

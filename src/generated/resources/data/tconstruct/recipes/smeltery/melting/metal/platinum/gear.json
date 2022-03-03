@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/platinum",
+        "tag": "c:gears/platinum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:gears/platinum"
+    "tag": "c:gears/platinum"
   },
   "result": {
     "fluid": "tconstruct:molten_platinum",

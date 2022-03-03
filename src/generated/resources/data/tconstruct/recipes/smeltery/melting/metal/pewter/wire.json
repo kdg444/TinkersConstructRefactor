@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/pewter",
+        "tag": "c:wires/pewter",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:wires/pewter"
+    "tag": "c:wires/pewter"
   },
   "result": {
     "fluid": "tconstruct:molten_pewter",

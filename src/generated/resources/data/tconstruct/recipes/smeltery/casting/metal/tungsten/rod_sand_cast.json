@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/tungsten",
+        "tag": "c:rods/tungsten",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_tungsten",
+    "tag": "c:molten_tungsten",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/tungsten"
+    "tag": "c:rods/tungsten"
   },
   "cooling_time": 46
 }

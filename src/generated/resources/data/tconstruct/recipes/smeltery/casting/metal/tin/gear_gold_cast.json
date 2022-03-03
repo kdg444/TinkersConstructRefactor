@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/tin",
+        "tag": "c:gears/tin",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/gear"
   },
   "fluid": {
-    "tag": "forge:molten_tin",
+    "tag": "c:molten_tin",
     "amount": 360
   },
   "result": {
-    "tag": "forge:gears/tin"
+    "tag": "c:gears/tin"
   },
   "cooling_time": 78
 }

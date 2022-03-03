@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins/pig_iron",
+        "tag": "c:coins/pig_iron",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -17,7 +17,7 @@
     "amount": 30
   },
   "result": {
-    "tag": "forge:coins/pig_iron"
+    "tag": "c:coins/pig_iron"
   },
   "cooling_time": 35
 }

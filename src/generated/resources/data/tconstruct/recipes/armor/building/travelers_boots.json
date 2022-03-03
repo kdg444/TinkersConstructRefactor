@@ -6,10 +6,10 @@
   ],
   "key": {
     "c": {
-      "tag": "forge:ingots/copper"
+      "tag": "c:ingots/copper"
     },
     "l": {
-      "tag": "forge:leather"
+      "tag": "c:leather"
     }
   },
   "result": {

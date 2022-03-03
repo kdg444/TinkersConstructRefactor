@@ -4,7 +4,7 @@
     {
       "type": "mantle:difference",
       "base": {
-        "tag": "forge:heads"
+        "tag": "c:heads"
       },
       "subtracted": {
         "item": "minecraft:dragon_head"

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/silver",
+        "tag": "c:rods/silver",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_silver",
+    "tag": "c:molten_silver",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/silver"
+    "tag": "c:rods/silver"
   },
   "cooling_time": 42
 }

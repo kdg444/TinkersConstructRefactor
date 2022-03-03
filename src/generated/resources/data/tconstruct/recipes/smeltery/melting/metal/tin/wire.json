@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/tin",
+        "tag": "c:wires/tin",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:wires/tin"
+    "tag": "c:wires/tin"
   },
   "result": {
     "fluid": "tconstruct:molten_tin",

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/invar",
+        "tag": "c:ingots/invar",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -11,13 +11,13 @@
   ],
   "inputs": [
     {
-      "tag": "forge:ingots/invar"
+      "tag": "c:ingots/invar"
     },
     {
-      "tag": "forge:ingots/invar"
+      "tag": "c:ingots/invar"
     },
     {
-      "tag": "forge:ingots/invar"
+      "tag": "c:ingots/invar"
     }
   ],
   "tools": [

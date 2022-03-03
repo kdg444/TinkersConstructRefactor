@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/iron",
+        "tag": "c:gears/iron",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:gears/iron"
+    "tag": "c:gears/iron"
   },
   "result": {
     "fluid": "tconstruct:molten_iron",

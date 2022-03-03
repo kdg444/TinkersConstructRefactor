@@ -227,7 +227,7 @@ public class FaucetBlockEntity extends MantleBlockEntity implements CustomRender
       // can we drain?
       IFluidHandler input = inputOptional.orElse(EmptyFluidHandler.INSTANCE);
       FluidStack drained = input.drain(PACKET_SIZE, true);
-      if (!drained.isEmpty() && !((FluidExtensions)drained.getFluid()).getAttributes().isGaseous(drained)) {
+      if (!drained.isEmpty() && !drained.getFluid().getAttributes().isGaseous(drained)) {
         // can we fill
         IFluidHandler output = outputOptional.orElse(EmptyFluidHandler.INSTANCE);
         long filled = output.fill(drained, true);

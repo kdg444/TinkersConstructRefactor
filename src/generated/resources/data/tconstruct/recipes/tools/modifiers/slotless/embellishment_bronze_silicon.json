@@ -2,13 +2,13 @@
   "type": "tconstruct:swappable_modifier",
   "inputs": [
     {
-      "tag": "forge:ingots/silicon_bronze"
+      "tag": "c:ingots/silicon_bronze"
     },
     {
-      "tag": "forge:ingots/silicon_bronze"
+      "tag": "c:ingots/silicon_bronze"
     },
     {
-      "tag": "forge:ingots/silicon_bronze"
+      "tag": "c:ingots/silicon_bronze"
     }
   ],
   "tools": [

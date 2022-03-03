@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins/rose_gold",
+        "tag": "c:coins/rose_gold",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_rose_gold",
+    "tag": "c:molten_rose_gold",
     "amount": 30
   },
   "result": {
-    "tag": "forge:coins/rose_gold"
+    "tag": "c:coins/rose_gold"
   },
   "cooling_time": 30
 }

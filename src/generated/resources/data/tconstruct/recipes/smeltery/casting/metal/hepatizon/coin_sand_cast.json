@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins/hepatizon",
+        "tag": "c:coins/hepatizon",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_hepatizon",
+    "tag": "c:molten_hepatizon",
     "amount": 30
   },
   "result": {
-    "tag": "forge:coins/hepatizon"
+    "tag": "c:coins/hepatizon"
   },
   "cooling_time": 45
 }

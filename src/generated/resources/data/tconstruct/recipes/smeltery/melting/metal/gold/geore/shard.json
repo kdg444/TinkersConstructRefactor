@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_shards/gold",
+        "tag": "c:geore_shards/gold",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_shards/gold"
+    "tag": "c:geore_shards/gold"
   },
   "result": {
     "fluid": "tconstruct:molten_gold",

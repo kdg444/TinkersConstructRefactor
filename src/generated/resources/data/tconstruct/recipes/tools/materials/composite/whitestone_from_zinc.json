@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/zinc",
+        "tag": "c:ingots/zinc",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -11,7 +11,7 @@
   ],
   "input": "tconstruct:rock",
   "fluid": {
-    "tag": "forge:molten_zinc",
+    "tag": "c:molten_zinc",
     "amount": 90
   },
   "temperature": 420,

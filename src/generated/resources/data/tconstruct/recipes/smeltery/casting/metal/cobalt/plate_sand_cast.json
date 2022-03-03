@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/cobalt",
+        "tag": "c:plates/cobalt",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_cobalt",
+    "tag": "c:molten_cobalt",
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/cobalt"
+    "tag": "c:plates/cobalt"
   },
   "cooling_time": 65
 }

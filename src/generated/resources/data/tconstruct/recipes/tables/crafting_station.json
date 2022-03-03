@@ -12,7 +12,7 @@
       "type": "mantle:difference",
       "base": [
         {
-          "tag": "forge:workbenches"
+          "tag": "c:workbenches"
         },
         {
           "tag": "tconstruct:tables"

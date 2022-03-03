@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:rods/brass",
+        "tag": "c:rods/brass",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_brass",
+    "tag": "c:molten_brass",
     "amount": 45
   },
   "result": {
-    "tag": "forge:rods/brass"
+    "tag": "c:rods/brass"
   },
   "cooling_time": 38
 }

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/tin",
+        "tag": "c:wires/tin",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_tin",
+    "tag": "c:molten_tin",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/tin"
+    "tag": "c:wires/tin"
   },
   "cooling_time": 28
 }

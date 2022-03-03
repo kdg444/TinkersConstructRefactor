@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/hepatizon",
+        "tag": "c:plates/hepatizon",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_hepatizon",
+    "tag": "c:molten_hepatizon",
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/hepatizon"
+    "tag": "c:plates/hepatizon"
   },
   "cooling_time": 78
 }

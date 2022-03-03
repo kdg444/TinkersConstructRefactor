@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/enderium",
+        "tag": "c:gears/enderium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/gear"
   },
   "fluid": {
-    "tag": "forge:molten_enderium",
+    "tag": "c:molten_enderium",
     "amount": 360
   },
   "result": {
-    "tag": "forge:gears/enderium"
+    "tag": "c:gears/enderium"
   },
   "cooling_time": 152
 }

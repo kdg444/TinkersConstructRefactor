@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/tin",
+        "tag": "c:plates/tin",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:plates/tin"
+    "tag": "c:plates/tin"
   },
   "result": {
     "fluid": "tconstruct:molten_tin",

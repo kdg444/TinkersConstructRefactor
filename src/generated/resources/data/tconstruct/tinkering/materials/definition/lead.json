@@ -7,7 +7,7 @@
       },
       {
         "value": {
-          "tag": "forge:ingots/lead",
+          "tag": "c:ingots/lead",
           "type": "forge:tag_empty"
         },
         "type": "forge:not"

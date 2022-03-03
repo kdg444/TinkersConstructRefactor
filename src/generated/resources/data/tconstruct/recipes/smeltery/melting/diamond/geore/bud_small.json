@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_small_buds/diamond",
+        "tag": "c:geore_small_buds/diamond",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_small_buds/diamond"
+    "tag": "c:geore_small_buds/diamond"
   },
   "result": {
     "fluid": "tconstruct:molten_diamond",

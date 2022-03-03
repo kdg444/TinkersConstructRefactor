@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/copper",
+        "tag": "c:plates/copper",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/plate"
   },
   "fluid": {
-    "tag": "forge:molten_copper",
+    "tag": "c:molten_copper",
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/copper"
+    "tag": "c:plates/copper"
   },
   "cooling_time": 50
 }

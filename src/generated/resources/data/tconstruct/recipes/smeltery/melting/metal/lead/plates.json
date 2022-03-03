@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/lead",
+        "tag": "c:plates/lead",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:plates/lead"
+    "tag": "c:plates/lead"
   },
   "result": {
     "fluid": "tconstruct:molten_lead",

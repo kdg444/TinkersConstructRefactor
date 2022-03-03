@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/invar",
+        "tag": "c:ingots/invar",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:ingots/invar"
+    "tag": "c:ingots/invar"
   },
   "value": 1,
   "needed": 1,

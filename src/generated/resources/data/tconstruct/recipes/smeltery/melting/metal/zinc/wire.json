@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/zinc",
+        "tag": "c:wires/zinc",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:wires/zinc"
+    "tag": "c:wires/zinc"
   },
   "result": {
     "fluid": "tconstruct:molten_zinc",

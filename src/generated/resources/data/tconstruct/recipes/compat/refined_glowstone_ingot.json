@@ -3,21 +3,21 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/refined_glowstone",
+        "tag": "c:ingots/refined_glowstone",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     },
     {
       "value": {
-        "tag": "forge:ingots/osmium",
+        "tag": "c:ingots/osmium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "cast": {
-    "tag": "forge:dusts/glowstone"
+    "tag": "c:dusts/glowstone"
   },
   "cast_consumed": true,
   "fluid": {
@@ -25,7 +25,7 @@
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/refined_glowstone"
+    "tag": "c:ingots/refined_glowstone"
   },
   "cooling_time": 66
 }

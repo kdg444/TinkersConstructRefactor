@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/zinc",
+        "tag": "c:gears/zinc",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:gears/zinc"
+    "tag": "c:gears/zinc"
   },
   "result": {
     "fluid": "tconstruct:molten_zinc",

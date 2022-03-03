@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/lead",
+        "tag": "c:wires/lead",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/wire"
   },
   "fluid": {
-    "tag": "forge:molten_lead",
+    "tag": "c:molten_lead",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/lead"
+    "tag": "c:wires/lead"
   },
   "cooling_time": 31
 }

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:gears/tungsten",
+        "tag": "c:gears/tungsten",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/gear"
   },
   "fluid": {
-    "tag": "forge:molten_tungsten",
+    "tag": "c:molten_tungsten",
     "amount": 360
   },
   "result": {
-    "tag": "forge:gears/tungsten"
+    "tag": "c:gears/tungsten"
   },
   "cooling_time": 130
 }

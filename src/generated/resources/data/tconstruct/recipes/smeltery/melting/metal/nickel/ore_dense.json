@@ -14,7 +14,7 @@
       "conditions": [
         {
           "value": {
-            "tag": "forge:ingots/platinum",
+            "tag": "c:ingots/platinum",
             "type": "forge:tag_empty"
           },
           "type": "forge:not"
@@ -27,10 +27,10 @@
           "type": "mantle:intersection",
           "ingredients": [
             {
-              "tag": "forge:ores/nickel"
+              "tag": "c:ores/nickel"
             },
             {
-              "tag": "forge:ore_rates/dense"
+              "tag": "c:ore_rates/dense"
             }
           ]
         },
@@ -61,10 +61,10 @@
           "type": "mantle:intersection",
           "ingredients": [
             {
-              "tag": "forge:ores/nickel"
+              "tag": "c:ores/nickel"
             },
             {
-              "tag": "forge:ore_rates/dense"
+              "tag": "c:ore_rates/dense"
             }
           ]
         },

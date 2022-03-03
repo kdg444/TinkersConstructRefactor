@@ -16,7 +16,7 @@
       "item": "minecraft:string"
     },
     "O": {
-      "tag": "forge:slimeballs"
+      "tag": "c:slimeballs"
     }
   },
   "result": {

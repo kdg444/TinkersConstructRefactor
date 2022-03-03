@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_clusters/lead",
+        "tag": "c:geore_clusters/lead",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_clusters/lead"
+    "tag": "c:geore_clusters/lead"
   },
   "result": {
     "fluid": "tconstruct:molten_lead",

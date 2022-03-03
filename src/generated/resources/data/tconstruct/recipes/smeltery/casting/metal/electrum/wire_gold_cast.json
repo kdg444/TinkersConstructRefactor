@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/electrum",
+        "tag": "c:wires/electrum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/wire"
   },
   "fluid": {
-    "tag": "forge:molten_electrum",
+    "tag": "c:molten_electrum",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/electrum"
+    "tag": "c:wires/electrum"
   },
   "cooling_time": 42
 }

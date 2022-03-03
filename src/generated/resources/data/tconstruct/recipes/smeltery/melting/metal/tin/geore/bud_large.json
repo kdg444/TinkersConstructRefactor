@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_large_buds/tin",
+        "tag": "c:geore_large_buds/tin",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_large_buds/tin"
+    "tag": "c:geore_large_buds/tin"
   },
   "result": {
     "fluid": "tconstruct:molten_tin",

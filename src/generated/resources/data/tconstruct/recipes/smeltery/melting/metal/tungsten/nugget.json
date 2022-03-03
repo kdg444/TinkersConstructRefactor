@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/tungsten",
+        "tag": "c:nuggets/tungsten",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:nuggets/tungsten"
+    "tag": "c:nuggets/tungsten"
   },
   "result": {
     "fluid": "tconstruct:molten_tungsten",

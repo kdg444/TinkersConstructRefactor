@@ -45,6 +45,7 @@ import slimeknights.mantle.client.model.util.MantleItemLayerModel;
 import slimeknights.mantle.lib.model.IModelConfiguration;
 import slimeknights.mantle.lib.model.IModelGeometry;
 import slimeknights.mantle.lib.model.IModelLoader;
+import slimeknights.mantle.lib.model.PerspectiveMapWrapper;
 import slimeknights.mantle.lib.render.TransformTypeDependentItemBakedModel;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.mantle.util.JsonHelper;
@@ -308,7 +309,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
     }
 
     // bake model - while the transform may not be identity, it never has rotation so its safe to say untransformed
-    ImmutableMap<TransformType, Transformation> transformMap = null;//Maps.immutableEnumMap(PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform()));
+    ImmutableMap<TransformType, Transformation> transformMap = Maps.immutableEnumMap(PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform()));
 
     // large models use a custom model here
     if (largeTransforms != null) {
@@ -495,7 +496,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
       if (type == TransformType.GUI) {
         return ((TransformTypeDependentItemBakedModel)this.guiModel).handlePerspective(type, mat);
       }
-      return null;//PerspectiveMapWrapper.handlePerspective(this, transforms, type, mat);
+      return PerspectiveMapWrapper.handlePerspective(this, transforms, type, mat);
     }
 
     /* Misc properties */
@@ -540,7 +541,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
 
     @Override
     public BakedModel handlePerspective(TransformType transform, PoseStack mat) {
-      return null;//PerspectiveMapWrapper.handlePerspective(this, originalModel.transforms, transform, mat);
+      return PerspectiveMapWrapper.handlePerspective(this, ((BakedLargeToolModel)wrapped).transforms, transform, mat);
     }
   }
 

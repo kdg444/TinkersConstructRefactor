@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/electrum",
+        "tag": "c:ingots/electrum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:ingots/electrum"
+    "tag": "c:ingots/electrum"
   },
   "value": 1,
   "needed": 1,

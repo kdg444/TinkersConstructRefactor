@@ -11,7 +11,7 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:creosote",
+    "tag": "c:creosote",
     "amount": 125
   },
   "result": "immersiveengineering:treated_wood_horizontal",

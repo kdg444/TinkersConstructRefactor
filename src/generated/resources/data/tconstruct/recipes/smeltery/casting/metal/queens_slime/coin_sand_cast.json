@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins/queens_slime",
+        "tag": "c:coins/queens_slime",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -18,7 +18,7 @@
     "amount": 30
   },
   "result": {
-    "tag": "forge:coins/queens_slime"
+    "tag": "c:coins/queens_slime"
   },
   "cooling_time": 41
 }

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:plates/lumium",
+        "tag": "c:plates/lumium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -14,11 +14,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_lumium",
+    "tag": "c:molten_lumium",
     "amount": 90
   },
   "result": {
-    "tag": "forge:plates/lumium"
+    "tag": "c:plates/lumium"
   },
   "cooling_time": 68
 }

@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/pewter",
+        "tag": "c:wires/pewter",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/wire"
   },
   "fluid": {
-    "tag": "forge:molten_pewter",
+    "tag": "c:molten_pewter",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/pewter"
+    "tag": "c:wires/pewter"
   },
   "cooling_time": 33
 }

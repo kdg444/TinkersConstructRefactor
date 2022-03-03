@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/osmium",
+        "tag": "c:ingots/osmium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -11,13 +11,13 @@
   ],
   "inputs": [
     {
-      "tag": "forge:ingots/osmium"
+      "tag": "c:ingots/osmium"
     },
     {
-      "tag": "forge:ingots/osmium"
+      "tag": "c:ingots/osmium"
     },
     {
-      "tag": "forge:ingots/osmium"
+      "tag": "c:ingots/osmium"
     }
   ],
   "tools": [

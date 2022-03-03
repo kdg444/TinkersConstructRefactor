@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/aluminum",
+        "tag": "c:wires/aluminum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/wire"
   },
   "fluid": {
-    "tag": "forge:molten_aluminum",
+    "tag": "c:molten_aluminum",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/aluminum"
+    "tag": "c:wires/aluminum"
   },
   "cooling_time": 33
 }

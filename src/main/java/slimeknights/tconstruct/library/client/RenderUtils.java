@@ -64,9 +64,9 @@ public final class RenderUtils {
       return;
     }
 
-    FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
-    TextureAtlasSprite still = FluidRenderer.getBlockSprite(FluidVariantRendering.getSprite(fluid.getType()).getName());
-    TextureAtlasSprite flowing = FluidRenderer.getBlockSprite(FluidVariantRendering.getSprites(fluid.getType())[1].getName());
+    FluidAttributes attributes = fluid.getFluid().getAttributes();
+    TextureAtlasSprite still = /*FluidRenderer.getBlockSprite(*/FluidVariantRendering.getSprite(fluid.getType())/*.getName())*/;
+    TextureAtlasSprite flowing = /*FluidRenderer.getBlockSprite(*/FluidVariantRendering.getSprites(fluid.getType())[1]/*.getName())*/;
     boolean isGas = FluidVariantRendering.fillsFromTop(fluid.getType());
     light = FluidRenderer.withBlockLight(light, attributes.getLuminosity(fluid));
 

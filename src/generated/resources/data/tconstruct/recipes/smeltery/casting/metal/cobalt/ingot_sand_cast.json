@@ -5,11 +5,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_cobalt",
+    "tag": "c:molten_cobalt",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/cobalt"
+    "tag": "c:ingots/cobalt"
   },
   "cooling_time": 65
 }

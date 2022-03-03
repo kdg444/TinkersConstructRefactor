@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:nuggets/constantan",
+        "tag": "c:nuggets/constantan",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/nugget"
   },
   "fluid": {
-    "tag": "forge:molten_constantan",
+    "tag": "c:molten_constantan",
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/constantan"
+    "tag": "c:nuggets/constantan"
   },
   "cooling_time": 21
 }

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:geore_small_buds/uranium",
+        "tag": "c:geore_small_buds/uranium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:geore_small_buds/uranium"
+    "tag": "c:geore_small_buds/uranium"
   },
   "result": {
     "fluid": "tconstruct:molten_uranium",

@@ -3,18 +3,18 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/platinum",
+        "tag": "c:storage_blocks/platinum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_platinum",
+    "tag": "c:molten_platinum",
     "amount": 810
   },
   "result": {
-    "tag": "forge:storage_blocks/platinum"
+    "tag": "c:storage_blocks/platinum"
   },
   "cooling_time": 196
 }

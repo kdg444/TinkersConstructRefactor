@@ -3,18 +3,18 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:storage_blocks/lumium",
+        "tag": "c:storage_blocks/lumium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "fluid": {
-    "tag": "forge:molten_lumium",
+    "tag": "c:molten_lumium",
     "amount": 810
   },
   "result": {
-    "tag": "forge:storage_blocks/lumium"
+    "tag": "c:storage_blocks/lumium"
   },
   "cooling_time": 203
 }

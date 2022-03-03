@@ -4,11 +4,11 @@
     "tag": "tconstruct:casts/multi_use/nugget"
   },
   "fluid": {
-    "tag": "forge:molten_netherite",
+    "tag": "c:molten_netherite",
     "amount": 10
   },
   "result": {
-    "tag": "forge:nuggets/netherite"
+    "tag": "c:nuggets/netherite"
   },
   "cooling_time": 25
 }

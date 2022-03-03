@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/refined_obsidian",
+        "tag": "c:wires/refined_obsidian",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/wire"
   },
   "fluid": {
-    "tag": "forge:molten_refined_obsidian",
+    "tag": "c:molten_refined_obsidian",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/refined_obsidian"
+    "tag": "c:wires/refined_obsidian"
   },
   "cooling_time": 56
 }

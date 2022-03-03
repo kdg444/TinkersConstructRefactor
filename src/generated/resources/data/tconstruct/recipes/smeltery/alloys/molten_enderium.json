@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/enderium",
+        "tag": "c:ingots/enderium",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     },
     {
       "value": {
-        "tag": "forge:ingots/lead",
+        "tag": "c:ingots/lead",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -18,7 +18,7 @@
   ],
   "inputs": [
     {
-      "tag": "forge:molten_lead",
+      "tag": "c:molten_lead",
       "amount": 270
     },
     {
@@ -26,7 +26,7 @@
       "amount": 100
     },
     {
-      "tag": "forge:ender",
+      "tag": "c:ender",
       "amount": 500
     }
   ],

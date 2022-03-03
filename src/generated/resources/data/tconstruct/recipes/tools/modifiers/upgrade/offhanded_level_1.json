@@ -8,7 +8,7 @@
       "item": "minecraft:phantom_membrane"
     },
     {
-      "tag": "forge:slimeball/ichor"
+      "tag": "c:slimeball/ichor"
     }
   ],
   "tools": {

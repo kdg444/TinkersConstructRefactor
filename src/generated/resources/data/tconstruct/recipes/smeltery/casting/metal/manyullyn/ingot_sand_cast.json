@@ -5,11 +5,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:molten_manyullyn",
+    "tag": "c:molten_manyullyn",
     "amount": 90
   },
   "result": {
-    "tag": "forge:ingots/manyullyn"
+    "tag": "c:ingots/manyullyn"
   },
   "cooling_time": 72
 }

@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/tungsten",
+        "tag": "c:ingots/tungsten",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:ingots/tungsten"
+    "tag": "c:ingots/tungsten"
   },
   "value": 1,
   "needed": 1,

@@ -4,7 +4,7 @@
     "tag": "tconstruct:casts/multi_use/ingot"
   },
   "fluid": {
-    "tag": "forge:molten_netherite",
+    "tag": "c:molten_netherite",
     "amount": 90
   },
   "result": "minecraft:netherite_ingot",

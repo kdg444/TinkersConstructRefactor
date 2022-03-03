@@ -2,7 +2,7 @@
   "type": "tconstruct:crafting_modifier_repair",
   "modifier": "tconstruct:stringy",
   "ingredient": {
-    "tag": "forge:string"
+    "tag": "c:string"
   },
   "repair_amount": 25
 }

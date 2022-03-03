@@ -20,7 +20,7 @@
       "chance": 0.65
     },
     {
-      "tag": "forge:ingots/rose_gold",
+      "tag": "c:ingots/rose_gold",
       "min": 2,
       "max": 2
     }
