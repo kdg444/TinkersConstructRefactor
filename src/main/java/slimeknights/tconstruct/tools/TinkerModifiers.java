@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools;
 
+import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.core.Registry;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -562,6 +563,7 @@ public final class TinkerModifiers extends TinkerModule {
   }
 
   public TinkerModifiers() {
+    RegistryEntryAddedCallback.event(TinkerRegistries.MODIFIERS).register(((rawId, id, modifier) -> modifier.setRegistryName(id)));
     registerRecipeSerializers();
     commonSetup();
     registerSerializers();

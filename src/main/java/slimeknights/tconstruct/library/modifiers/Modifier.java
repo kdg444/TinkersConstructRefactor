@@ -34,7 +34,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 import slimeknights.mantle.lib.event.PlayerBreakSpeedCallback.BreakSpeed;
 import slimeknights.mantle.lib.util.ToolAction;
-import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.client.ResourceColorManager;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ValidatedResult;
@@ -105,27 +104,26 @@ public class Modifier {
 
   /* Registry methods */
 
-//  @Override
-//  public final Modifier setRegistryName(ResourceLocation name) {
-//    if (registryName != null) {
-//      throw new IllegalStateException("Attempted to set registry name with existing registry name! New: " + name + " Old: " + registryName);
-//    }
-//    // check mod container, should be the active mod
-//    // don't want mods registering stuff in Tinkers namespace, or Minecraft
+  public final Modifier setRegistryName(ResourceLocation name) {
+    if (registryName != null) {
+      throw new IllegalStateException("Attempted to set registry name with existing registry name! New: " + name + " Old: " + registryName);
+    }
+    // check mod container, should be the active mod
+    // don't want mods registering stuff in Tinkers namespace, or Minecraft
 //    String activeMod = ModLoadingContext.get().getActiveNamespace();
 //    if (!name.getNamespace().equals(activeMod)) {
 //      LogManager.getLogger().info("Potentially Dangerous alternative prefix for name `{}`, expected `{}`. This could be a intended override, but in most cases indicates a broken mod.", name, activeMod);
 //    }
-//    this.registryName = new ModifierId(name);
-//    return this;
-//  }
+    this.registryName = new ModifierId(name);
+    return this;
+  }
 
   /**
    * Gets the modifier ID. Unlike {@link #getRegistryName()}, this method must be nonnull
    * @return  Modifier ID
    */
   public ModifierId getId() {
-    return registryName != null ? registryName : new ModifierId(TConstruct.prefix("empty"));//Objects.requireNonNull(registryName, "Modifier has null registry name"); TODO: PORT
+    return Objects.requireNonNull(registryName, "Modifier has null registry name");
   }
 
 //  @Override
