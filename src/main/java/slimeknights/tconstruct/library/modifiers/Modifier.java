@@ -34,6 +34,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 import slimeknights.mantle.lib.event.PlayerBreakSpeedCallback.BreakSpeed;
 import slimeknights.mantle.lib.util.ToolAction;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.client.ResourceColorManager;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ValidatedResult;
@@ -124,7 +125,7 @@ public class Modifier {
    * @return  Modifier ID
    */
   public ModifierId getId() {
-    return Objects.requireNonNull(registryName, "Modifier has null registry name");
+    return registryName != null ? registryName : new ModifierId(TConstruct.prefix("empty"));//Objects.requireNonNull(registryName, "Modifier has null registry name"); TODO: PORT
   }
 
 //  @Override

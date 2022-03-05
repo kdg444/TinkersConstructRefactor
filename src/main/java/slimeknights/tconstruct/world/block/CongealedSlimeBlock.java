@@ -16,10 +16,11 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import slimeknights.mantle.lib.block.CustomPathNodeTypeBlock;
 
 import javax.annotation.Nullable;
 
-public class CongealedSlimeBlock extends Block {
+public class CongealedSlimeBlock extends Block implements CustomPathNodeTypeBlock {
 
   private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 15, 15);
   public CongealedSlimeBlock(Properties properties) {

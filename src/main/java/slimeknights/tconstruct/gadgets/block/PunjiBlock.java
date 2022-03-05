@@ -28,11 +28,12 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import slimeknights.mantle.lib.block.CustomPathNodeTypeBlock;
 import slimeknights.mantle.lib.extensions.BlockExtensions;
 
 import javax.annotation.Nullable;
 
-public class PunjiBlock extends Block implements BlockExtensions {
+public class PunjiBlock extends Block implements CustomPathNodeTypeBlock {
 
   public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
