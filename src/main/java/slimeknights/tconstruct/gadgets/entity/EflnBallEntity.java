@@ -11,8 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import slimeknights.mantle.lib.entity.ExtraSpawnDataEntity;
-import slimeknights.mantle.lib.event.ExplosionEvents;
+import io.github.fabricators_of_create.porting_lib.entity.ExtraSpawnDataEntity;
 import slimeknights.tconstruct.gadgets.Exploder;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
 

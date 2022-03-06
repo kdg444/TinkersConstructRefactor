@@ -1,10 +1,10 @@
 package slimeknights.tconstruct.library.utils;
 
+import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import slimeknights.mantle.lib.util.MantleEvent;
 import slimeknights.tconstruct.common.Sounds;
 
 public class TeleportHelper {
@@ -41,6 +41,6 @@ public class TeleportHelper {
   /** Predicate to test if the entity can teleport, typically just fires a cancelable event */
   @FunctionalInterface
   public interface ITeleportEventFactory {
-    MantleEvent.EntityTeleportEvent create(LivingEntity entity, double x, double y, double z);
+    Event<?> create(LivingEntity entity, double x, double y, double z);
   }
 }

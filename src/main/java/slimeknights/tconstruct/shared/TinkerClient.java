@@ -2,7 +2,6 @@ package slimeknights.tconstruct.shared;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.world.item.crafting.RecipeManager;
-import slimeknights.mantle.lib.event.RecipesUpdatedCallback;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.fluids.FluidClientEvents;
 import slimeknights.tconstruct.gadgets.GadgetClientEvents;

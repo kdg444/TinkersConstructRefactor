@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.controller;
 
+import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -19,13 +20,12 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import slimeknights.mantle.block.InventoryBlock;
-import slimeknights.mantle.lib.extensions.BlockExtensions;
 import slimeknights.tconstruct.smeltery.block.component.SearedBlock;
 
 import javax.annotation.Nullable;
 
 /** Shared logic for all multiblock structure controllers */
-public abstract class ControllerBlock extends InventoryBlock implements BlockExtensions {
+public abstract class ControllerBlock extends InventoryBlock implements CustomPathNodeTypeBlock {
   public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
   public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
   public static final BooleanProperty IN_STRUCTURE = SearedBlock.IN_STRUCTURE;

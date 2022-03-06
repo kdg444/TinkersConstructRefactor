@@ -2,16 +2,14 @@ package slimeknights.tconstruct.shared;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.font.FontManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Block;
-import slimeknights.mantle.lib.event.ColorHandlersCallback;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.library.client.ResourceColorManager;
 import slimeknights.tconstruct.library.client.book.TinkerBook;
@@ -29,7 +27,7 @@ public class CommonsClientEvents extends ClientEventBase {
     addResourceListeners();
     clientSetup();
     registerParticleFactories();
-    ColorHandlersCallback.ITEM.register(CommonsClientEvents::registerColorHandlers);
+    CommonsClientEvents.registerColorHandlers();
   }
 
   static void addResourceListeners() {
@@ -72,14 +70,14 @@ public class CommonsClientEvents extends ClientEventBase {
     TinkerBook.ENCYCLOPEDIA.fontRenderer = unicode;
   }
 
-  static void registerColorHandlers(ItemColors itemColors, BlockColors blockColors) {;
+  static void registerColorHandlers() {
     // colors apply a constant tint to make models easier
     for (GlassColor color : GlassColor.values()) {
       Block block = TinkerCommons.clearStainedGlass.get(color);
       Block pane = TinkerCommons.clearStainedGlassPane.get(color);
-      blockColors.register((state, reader, pos, index) -> color.getColor(), block, pane);
-      registerBlockItemColorAlias(blockColors, itemColors, block);
-      registerBlockItemColorAlias(blockColors, itemColors, pane);
+      ColorProviderRegistry.BLOCK.register((state, reader, pos, index) -> color.getColor(), block, pane);
+      registerBlockItemColorAlias(block);
+      registerBlockItemColorAlias(pane);
     }
   }
 

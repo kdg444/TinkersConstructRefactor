@@ -1,12 +1,12 @@
 package slimeknights.tconstruct.library.utils;
 
 import com.google.common.collect.Maps;
+import io.github.fabricators_of_create.porting_lib.util.TierSortingRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
-import slimeknights.mantle.lib.tiers.TierSortingRegistry;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.ResourceColorManager;

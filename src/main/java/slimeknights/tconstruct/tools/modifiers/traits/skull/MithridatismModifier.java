@@ -1,9 +1,10 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import slimeknights.mantle.lib.event.PotionEvents;
+import io.github.fabricators_of_create.porting_lib.event.PotionEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
@@ -17,9 +18,10 @@ public class MithridatismModifier extends TotalArmorLevelModifier {
   }
 
   /** Prevents poison on the entity */
-  private static void isPotionApplicable(PotionEvents.PotionApplicableEvent event) {
-    if (event.getPotionEffect().getEffect() == MobEffects.POISON && ModifierUtil.getTotalModifierLevel((LivingEntity) event.getEntity(), MITHRIDATISM) > 0) {
-      event.setResult(InteractionResult.FAIL);
+  private static InteractionResult isPotionApplicable(LivingEntity entity, MobEffectInstance effect) {
+    if (effect.getEffect() == MobEffects.POISON && ModifierUtil.getTotalModifierLevel(entity, MITHRIDATISM) > 0) {
+      return InteractionResult.FAIL;
     }
+    return InteractionResult.PASS;
   }
 }

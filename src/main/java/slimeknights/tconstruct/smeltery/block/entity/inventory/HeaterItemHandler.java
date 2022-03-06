@@ -3,7 +3,7 @@ package slimeknights.tconstruct.smeltery.block.entity.inventory;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.mantle.inventory.SingleItemHandler;
-import slimeknights.mantle.lib.util.BurnUtil;
+import io.github.fabricators_of_create.porting_lib.util.BurnUtil;
 import slimeknights.tconstruct.library.recipe.RecipeTypes;
 
 /**

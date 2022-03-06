@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.stats;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import io.github.fabricators_of_create.porting_lib.util.TierSortingRegistry;
 import lombok.Getter;
 import lombok.ToString;
 import net.minecraft.network.FriendlyByteBuf;
@@ -9,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
-import slimeknights.mantle.lib.tiers.TierSortingRegistry;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.materials.stats.BaseMaterialStats;
 import slimeknights.tconstruct.library.materials.stats.IRepairableMaterialStats;

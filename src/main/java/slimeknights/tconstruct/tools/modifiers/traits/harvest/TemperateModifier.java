@@ -2,7 +2,7 @@ package slimeknights.tconstruct.tools.modifiers.traits.harvest;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import slimeknights.mantle.lib.event.PlayerBreakSpeedCallback.BreakSpeed;
+import io.github.fabricators_of_create.porting_lib.event.PlayerBreakSpeedCallback.BreakSpeed;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 

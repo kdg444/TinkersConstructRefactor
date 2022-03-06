@@ -1,7 +1,8 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.armor;
 
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents.Fall.FallInfo;
 import net.minecraft.world.entity.LivingEntity;
-import slimeknights.mantle.lib.event.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.impl.IncrementalArmorLevelModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
@@ -16,11 +17,11 @@ public class LeapingModifier extends IncrementalArmorLevelModifier {
   }
 
   /** Reduce fall distance for fall damage */
-  private static void onLivingFall(LivingEntityEvents.LivingFallEvent event) {
-    LivingEntity entity = (LivingEntity) event.getEntity();
+  private static void onLivingFall(FallInfo event) {
+    LivingEntity entity = event.entity;
     float boost = ModifierUtil.getTotalModifierFloat(entity, LEAPING);
     if (boost > 0) {
-      event.setDistance(Math.max(event.getDistance() - boost, 0));
+      event.distance = Math.max(event.distance - boost, 0);
     }
   }
 

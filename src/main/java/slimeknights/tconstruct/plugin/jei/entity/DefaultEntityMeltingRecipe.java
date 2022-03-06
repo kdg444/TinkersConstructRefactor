@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.core.Registry;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import slimeknights.mantle.lib.util.Lazy;
+import io.github.fabricators_of_create.porting_lib.util.Lazy;
 import slimeknights.mantle.recipe.ingredient.EntityIngredient;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;

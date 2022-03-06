@@ -18,9 +18,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import slimeknights.mantle.lib.extensions.BlockExtensions;
-import slimeknights.mantle.lib.extensions.FluidExtensions;
-import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.library.fluid.FluidTransferUtil;
 import slimeknights.tconstruct.library.recipe.FluidValues;
@@ -32,7 +31,7 @@ import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity.I
 import javax.annotation.Nullable;
 import java.util.Locale;
 
-public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBlock, BlockPickInteractionAware, BlockExtensions {
+public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBlock, BlockPickInteractionAware {
   @Getter
   private final long capacity;
   public SearedTankBlock(Properties properties, long capacity) {
@@ -61,12 +60,14 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
     return super.use(state, world, pos, player, hand, hit);
   }
 
+  // FIXME PORT - Create needs to use a blockstate property for this because it's just not possible to mixin to all the places that use this.
+  // we will need to do the same.
   @Override
   public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
     BlockEntity te = world.getBlockEntity(pos);
     if (te instanceof TankBlockEntity) {
       FluidStack fluid = ((TankBlockEntity) te).getTank().getFluid();
-      return ((FluidExtensions)fluid.getFluid()).getAttributes().getLuminosity(fluid);
+      return fluid.getFluid().getAttributes().getLuminosity(fluid);
     }
     return super.getLightEmission(state, world, pos);
   }

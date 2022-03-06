@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.component;
 
+import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +20,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import slimeknights.mantle.block.InventoryBlock;
-import slimeknights.mantle.lib.extensions.BlockExtensions;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.smeltery.block.entity.component.DuctBlockEntity;
 import slimeknights.tconstruct.smeltery.block.entity.component.SmelteryComponentBlockEntity;
@@ -27,7 +27,7 @@ import slimeknights.tconstruct.smeltery.block.entity.component.SmelteryComponent
 import javax.annotation.Nullable;
 
 /** Filtering drain block, have to reimplement either inventory block logic or seared block logic unfortunately */
-public class SearedDuctBlock extends InventoryBlock implements BlockExtensions {
+public class SearedDuctBlock extends InventoryBlock implements CustomPathNodeTypeBlock {
   public static final BooleanProperty IN_STRUCTURE = SearedBlock.IN_STRUCTURE;
   public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
   public SearedDuctBlock(Properties properties) {

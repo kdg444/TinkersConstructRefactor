@@ -1,13 +1,13 @@
 package slimeknights.tconstruct.library.tools.definition.harvest;
 
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.util.TierSortingRegistry;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import slimeknights.mantle.lib.tiers.TierSortingRegistry;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.tconstruct.library.json.LazyTag;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;

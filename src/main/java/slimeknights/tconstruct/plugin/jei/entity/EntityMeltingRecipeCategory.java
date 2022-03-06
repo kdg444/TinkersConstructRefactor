@@ -24,7 +24,7 @@
 //import net.minecraft.world.entity.EntityType;
 //import net.minecraft.world.item.ItemStack;
 //import net.minecraftforge.common.ForgeSpawnEggItem;
-//import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+//import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 //import slimeknights.tconstruct.TConstruct;
 //import slimeknights.tconstruct.library.fluid.FluidTooltipHandler;
 //import slimeknights.tconstruct.library.recipe.FluidValues;

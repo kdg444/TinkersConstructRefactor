@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.gadgets.block;
 
 import com.google.common.collect.ImmutableMap;
+import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -28,11 +29,10 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import slimeknights.mantle.lib.extensions.BlockExtensions;
 
 import javax.annotation.Nullable;
 
-public class PunjiBlock extends Block implements BlockExtensions {
+public class PunjiBlock extends Block implements CustomPathNodeTypeBlock {
 
   public static final DirectionProperty FACING = BlockStateProperties.FACING;
 

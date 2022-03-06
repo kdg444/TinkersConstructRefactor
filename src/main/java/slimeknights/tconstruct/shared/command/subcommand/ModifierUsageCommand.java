@@ -3,14 +3,13 @@ package slimeknights.tconstruct.shared.command.subcommand;
 import com.google.common.collect.HashMultimap;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.RecipeManagerAccessor;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import slimeknights.mantle.command.MantleCommand;
-import slimeknights.mantle.lib.mixin.accessor.RecipeManagerAccessor;
-import slimeknights.mantle.lib.util.TablePrinter;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.TinkerRegistries;
@@ -68,7 +67,7 @@ public class ModifierUsageCommand {
 
   private static int runForType(CommandContext<CommandSourceStack> context, ModifierUsages filter, @Nullable OptionalSlotType slotFilter) {
     // recipe modifiers are used in a displayable modifier recipe
-    HashMultimap<SlotType,Modifier> recipeModifiers = ((RecipeManagerAccessor)context.getSource().getLevel().getRecipeManager()).callByType(RecipeTypes.TINKER_STATION).values().stream()
+    HashMultimap<SlotType,Modifier> recipeModifiers = ((RecipeManagerAccessor)context.getSource().getLevel().getRecipeManager()).port_lib$byType(RecipeTypes.TINKER_STATION).values().stream()
                                                              .filter(r -> r instanceof IModifierRecipe)
                                                              .map(r -> (IModifierRecipe) r)
                                                              .collect(Collector.of(HashMultimap::create, (map, r) -> map.put(r.getSlotType(), r.getModifier()), (m1, m2) -> {

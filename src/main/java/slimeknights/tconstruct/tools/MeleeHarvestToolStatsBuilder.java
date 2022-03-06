@@ -1,10 +1,10 @@
 package slimeknights.tconstruct.tools;
 
 import com.google.common.annotations.VisibleForTesting;
+import io.github.fabricators_of_create.porting_lib.util.TierSortingRegistry;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.minecraft.world.item.Tier;
-import slimeknights.mantle.lib.tiers.TierSortingRegistry;
 import slimeknights.tconstruct.library.tools.definition.PartRequirement;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinitionData;

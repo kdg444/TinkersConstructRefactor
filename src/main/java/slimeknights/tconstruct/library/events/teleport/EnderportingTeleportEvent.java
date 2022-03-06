@@ -3,7 +3,6 @@ package slimeknights.tconstruct.library.events.teleport;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.world.entity.LivingEntity;
-import slimeknights.mantle.lib.util.MantleEvent;
 
 /** Event fired when an entity teleports using the enderporting modifier */
 public class EnderportingTeleportEvent extends MantleEvent.EntityTeleportEvent {

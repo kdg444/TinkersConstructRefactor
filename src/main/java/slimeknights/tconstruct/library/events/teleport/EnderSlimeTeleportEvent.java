@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.world.entity.LivingEntity;
-import slimeknights.mantle.lib.util.MantleEvent;
+import io.github.fabricators_of_create.porting_lib.util.MantleEvent;
 import slimeknights.tconstruct.world.entity.EnderSlimeEntity;
 
 /* Fired when an ender slime teleport or teleports another entity */

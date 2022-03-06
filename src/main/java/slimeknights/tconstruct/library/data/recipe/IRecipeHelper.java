@@ -8,7 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.tags.Tag.Named;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.resources.ResourceLocation;
-import slimeknights.mantle.lib.util.RegistryHelper;
+import io.github.fabricators_of_create.porting_lib.util.RegistryHelper;
 import slimeknights.mantle.recipe.data.ConsumerWrapperBuilder;
 
 import java.util.Objects;

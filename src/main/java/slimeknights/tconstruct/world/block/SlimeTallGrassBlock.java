@@ -14,8 +14,8 @@ import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import slimeknights.mantle.lib.util.PlantType;
-import slimeknights.mantle.lib.extensions.IShearable;
+import io.github.fabricators_of_create.porting_lib.util.PlantType;
+import io.github.fabricators_of_create.porting_lib.extensions.IShearable;
 import slimeknights.tconstruct.shared.block.SlimeType;
 import slimeknights.tconstruct.world.TinkerWorld;
 

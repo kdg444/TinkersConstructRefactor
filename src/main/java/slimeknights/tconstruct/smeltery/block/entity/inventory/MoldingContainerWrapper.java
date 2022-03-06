@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.minecraft.world.item.ItemStack;
-import slimeknights.mantle.lib.transfer.item.IItemHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
 import slimeknights.tconstruct.library.recipe.molding.IMoldingContainer;
 
 /** Wrapper around an item handler for the sake of use as a molding inventory */

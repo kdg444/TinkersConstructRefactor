@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
@@ -32,7 +33,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.apache.logging.log4j.core.Filter.Result;
 import org.jetbrains.annotations.Nullable;
-import slimeknights.mantle.lib.event.PlayerBreakSpeedCallback;
+import io.github.fabricators_of_create.porting_lib.event.PlayerBreakSpeedCallback;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.events.TinkerToolEvent.ToolHarvestEvent;
@@ -112,7 +113,7 @@ public class ToolEvents {
 
   static void onHarvest(ToolHarvestEvent event) {
     // prevent processing if already processed
-    if (event.getResult() != Result.DEFAULT) {
+    if (event.getResult() != InteractionResult.PASS) {
       return;
     }
     BlockState state = event.getState();
@@ -141,7 +142,7 @@ public class ToolEvents {
         0.05D,
         0.05D * facing.getStepZ() + world.random.nextDouble() * 0.02D);
       world.addFreshEntity(itemEntity);
-      event.setResult(Result.ALLOW);
+      event.setResult(InteractionResult.SUCCESS);
     }
 
     // hives: get the honey
@@ -161,9 +162,9 @@ public class ToolEvents {
         } else {
           beehive.resetHoneyLevel(world, state, pos);
         }
-        event.setResult(Result.ALLOW);
+        event.setResult(InteractionResult.SUCCESS);
       } else {
-        event.setResult(Result.DENY);
+        event.setResult(InteractionResult.FAIL);
       }
     }
   }

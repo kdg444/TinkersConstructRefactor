@@ -1,10 +1,10 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents.Fall.FallInfo;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
-import slimeknights.mantle.lib.event.LivingEntityEvents;
-import slimeknights.mantle.lib.event.LivingEntityEvents.LivingFallEvent;
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
@@ -20,8 +20,8 @@ public class BouncyModifier extends TotalArmorLevelModifier {
   }
 
   /** Called when an entity lands to handle the event */
-  private static void onFall(LivingFallEvent event) {
-    LivingEntity living = (LivingEntity) event.getEntity();
+  private static void onFall(FallInfo event) {
+    LivingEntity living = event.entity;
     // using fall distance as the event distance could be reduced by jump boost
     if (living == null || living.fallDistance <= 2f) {
       return;
@@ -33,10 +33,10 @@ public class BouncyModifier extends TotalArmorLevelModifier {
 
     // reduced fall damage when crouching
     if (living.isSuppressingBounce()) {
-      event.setDamageMultiplier(0.5f);
+      event.damageMultiplier = 0.5f;
       return;
     } else {
-      event.setDamageMultiplier(0.0f);
+      event.damageMultiplier = 0.0f;
     }
 
     // server players behave differently than non-server players, they have no velocity during the event, so we need to reverse engineer it
@@ -58,10 +58,10 @@ public class BouncyModifier extends TotalArmorLevelModifier {
       SlimeBounceHandler.addBounceHandler(living, living.getDeltaMovement().y);
     }
     // update airborn status
-    event.setDistance(0.0F);
+    event.distance = 0.0F;
     if (!living.level.isClientSide) {
       living.hasImpulse = true;
-      event.setCanceled(true);
+      event.canceled = true;
       living.setOnGround(false); // need to be on ground for server to process this event
     }
     living.playSound(Sounds.SLIMY_BOUNCE.getSound(), 1f, 1f);
