@@ -1,11 +1,13 @@
 package slimeknights.tconstruct.tools;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import io.github.fabricators_of_create.porting_lib.event.ModelLoadCallback;
 import io.github.fabricators_of_create.porting_lib.model.ModelLoaderRegistry;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
@@ -13,9 +15,12 @@ import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
+import slimeknights.mantle.data.fabric.IdentifiableISafeManagerReloadListener;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -50,30 +55,31 @@ import static slimeknights.tconstruct.library.client.model.tools.ToolModel.regis
 @SuppressWarnings("unused")
 public class ToolClientEvents extends ClientEventBase {
   /** Keybinding for interacting using a helmet */
-  private static final KeyMapping HELMET_INTERACT = new KeyMapping(TConstruct.makeTranslationKey("key", "helmet_interact"), KeyConflictContext.IN_GAME, InputConstants.getKey("key.keyboard.z"), "key.categories.tconstruct");
+  private static final KeyMapping HELMET_INTERACT = new KeyMapping(TConstruct.makeTranslationKey("key", "helmet_interact")/*, KeyConflictContext.IN_GAME*/, InputConstants.getKey("key.keyboard.z").getValue(), "key.categories.tconstruct");
   /** Keybinding for interacting using leggings */
-  private static final KeyMapping LEGGINGS_INTERACT = new KeyMapping(TConstruct.makeTranslationKey("key", "leggings_interact"), KeyConflictContext.IN_GAME, InputConstants.getKey("key.keyboard.i"), "key.categories.tconstruct");
+  private static final KeyMapping LEGGINGS_INTERACT = new KeyMapping(TConstruct.makeTranslationKey("key", "leggings_interact")/*, KeyConflictContext.IN_GAME*/, InputConstants.getKey("key.keyboard.i").getValue(), "key.categories.tconstruct");
 
   /** Listener to clear modifier cache */
-  private static final ISafeManagerReloadListener MODIFIER_RELOAD_LISTENER = manager -> {
-    for (Modifier modifier : TinkerRegistries.MODIFIERS) {
-      modifier.clearCache(PackType.CLIENT_RESOURCES);
+  private static final IdentifiableISafeManagerReloadListener MODIFIER_RELOAD_LISTENER = new IdentifiableISafeManagerReloadListener(TConstruct.getResource("modifier_reload_listener")) {
+    @Override
+    public void onReloadSafe(ResourceManager manager) {
+      for (Modifier modifier : TinkerRegistries.MODIFIERS) {
+        modifier.clearCache(PackType.CLIENT_RESOURCES);
+      }
     }
   };
 
-  @SubscribeEvent
-  static void addResourceListener(RegisterClientReloadListenersEvent manager) {
-    ModifierModelManager.init(manager);
-    MaterialTooltipCache.init(manager);
-    manager.registerReloadListener(MODIFIER_RELOAD_LISTENER);
-    manager.registerReloadListener(PlateArmorModel.RELOAD_LISTENER);
-    manager.registerReloadListener(SlimeskullArmorModel.RELOAD_LISTENER);
-    manager.registerReloadListener(SlimelytraArmorModel.RELOAD_LISTENER);
-    manager.registerReloadListener(HarvestTiers.RELOAD_LISTENER);
+  static void addResourceListener() {
+    ModifierModelManager.init(ResourceManagerHelper.get(PackType.CLIENT_RESOURCES));
+    MaterialTooltipCache.init(ResourceManagerHelper.get(PackType.CLIENT_RESOURCES));
+    ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(MODIFIER_RELOAD_LISTENER);
+    ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(PlateArmorModel.RELOAD_LISTENER);
+    ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(SlimeskullArmorModel.RELOAD_LISTENER);
+    ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(SlimelytraArmorModel.RELOAD_LISTENER);
+    ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(HarvestTiers.RELOAD_LISTENER);
   }
 
-  @SubscribeEvent
-  static void registerModelLoaders(ModelRegistryEvent event) {
+  static void registerModelLoaders(ResourceManager manager, BlockColors colors, ProfilerFiller profiler, int mipLevel) {
     ModelLoaderRegistry.registerLoader(TConstruct.getResource("material"), MaterialModel.LOADER);
     ModelLoaderRegistry.registerLoader(TConstruct.getResource("tool"), ToolModel.LOADER);
   }
@@ -105,8 +111,10 @@ public class ToolClientEvents extends ClientEventBase {
 
     registerRenderers();
     registerParticleFactories();
-    ColorHandlersCallback.ITEM.register(ToolClientEvents::itemColors);
+    itemColors();
+    addResourceListener();
     ModifierModelRegistrationEvent.EVENT.register(ToolClientEvents::registerModifierModels);
+    ModelLoadCallback.EVENT.register(ToolClientEvents::registerModelLoaders);
   }
 
   static void registerParticleFactories() {
@@ -114,27 +122,27 @@ public class ToolClientEvents extends ClientEventBase {
     ParticleFactoryRegistry.getInstance().register(TinkerTools.axeAttackParticle.get(), AxeAttackParticle.Factory::new);
   }
 
-  static void itemColors(ItemColors colors, BlockColors blockColors) {
+  static void itemColors() {
 
     // tint tool textures for fallback
     // rock
-    registerItemColors(colors, TinkerTools.pickaxe);
-    registerItemColors(colors, TinkerTools.sledgeHammer);
-    registerItemColors(colors, TinkerTools.veinHammer);
+    registerItemColors(TinkerTools.pickaxe);
+    registerItemColors(TinkerTools.sledgeHammer);
+    registerItemColors(TinkerTools.veinHammer);
     // dirt
-    registerItemColors(colors, TinkerTools.mattock);
-    registerItemColors(colors, TinkerTools.pickadze);
-    registerItemColors(colors, TinkerTools.excavator);
+    registerItemColors(TinkerTools.mattock);
+    registerItemColors(TinkerTools.pickadze);
+    registerItemColors(TinkerTools.excavator);
     // wood
-    registerItemColors(colors, TinkerTools.handAxe);
-    registerItemColors(colors, TinkerTools.broadAxe);
+    registerItemColors(TinkerTools.handAxe);
+    registerItemColors(TinkerTools.broadAxe);
     // scythe
-    registerItemColors(colors, TinkerTools.kama);
-    registerItemColors(colors, TinkerTools.scythe);
+    registerItemColors(TinkerTools.kama);
+    registerItemColors(TinkerTools.scythe);
     // weapon
-    registerItemColors(colors, TinkerTools.dagger);
-    registerItemColors(colors, TinkerTools.sword);
-    registerItemColors(colors, TinkerTools.cleaver);
+    registerItemColors(TinkerTools.dagger);
+    registerItemColors(TinkerTools.sword);
+    registerItemColors(TinkerTools.cleaver);
   }
 
   // values to check if a key was being pressed last tick, safe as a static value as we only care about a single player client side

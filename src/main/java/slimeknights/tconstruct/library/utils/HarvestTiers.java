@@ -5,9 +5,11 @@ import io.github.fabricators_of_create.porting_lib.util.TierSortingRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
+import slimeknights.mantle.data.fabric.IdentifiableISafeManagerReloadListener;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.ResourceColorManager;
 
@@ -23,7 +25,12 @@ public class HarvestTiers {
   /** Cache of name for each tier */
   private static final Map<Tier, Component> harvestLevelNames = Maps.newHashMap();
   /** Listener to clear name cache so we get new colors */
-  public static final ISafeManagerReloadListener RELOAD_LISTENER = manager -> harvestLevelNames.clear();
+  public static final IdentifiableISafeManagerReloadListener RELOAD_LISTENER = new IdentifiableISafeManagerReloadListener(TConstruct.getResource("harvest_tier_cache")) {
+    @Override
+    public void onReloadSafe(ResourceManager manager) {
+      harvestLevelNames.clear();
+    }
+  };
 
   /** Makes a translation key for the given name */
   private static MutableComponent makeLevelKey(Tier tier) {

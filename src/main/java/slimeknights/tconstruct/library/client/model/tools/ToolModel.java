@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
@@ -118,8 +119,8 @@ public class ToolModel implements IModelGeometry<ToolModel> {
    * @param colors  Item colors instance
    * @param item    Material item
    */
-  public static void registerItemColors(ItemColors colors, Supplier<? extends IModifiable> item) {
-    colors.register(ToolModel.COLOR_HANDLER, item.get());
+  public static void registerItemColors(Supplier<? extends IModifiable> item) {
+    ColorProviderRegistry.ITEM.register(ToolModel.COLOR_HANDLER, item.get());
   }
 
   /** List of tool parts in this model */

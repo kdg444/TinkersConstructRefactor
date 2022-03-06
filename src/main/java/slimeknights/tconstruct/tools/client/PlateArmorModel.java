@@ -7,9 +7,11 @@ import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
+import slimeknights.mantle.data.fabric.IdentifiableISafeManagerReloadListener;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
@@ -45,9 +47,12 @@ public class PlateArmorModel extends Model {
   private static final Function<String,RenderType> LEG_GETTER = mat -> RenderType.entityCutoutNoCullZOffset(getArmorTexture(mat, 2));
 
   /** Listener to clear caches */
-  public static final ISafeManagerReloadListener RELOAD_LISTENER = manager -> {
-    ARMOR_RENDER_CACHE.clear();
-    LEG_RENDER_CACHE.clear();
+  public static final IdentifiableISafeManagerReloadListener RELOAD_LISTENER = new IdentifiableISafeManagerReloadListener(TConstruct.getResource("plate_armor_model")) {
+    @Override
+    public void onReloadSafe(ResourceManager manager) {
+      ARMOR_RENDER_CACHE.clear();
+      LEG_RENDER_CACHE.clear();
+    }
   };
 
   /**

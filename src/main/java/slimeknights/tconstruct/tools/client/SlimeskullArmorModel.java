@@ -13,8 +13,11 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
+import slimeknights.mantle.data.fabric.IdentifiableISafeManagerReloadListener;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
@@ -31,7 +34,12 @@ public class SlimeskullArmorModel extends Model {
   private static final SlimeskullArmorModel INSTANCE = new SlimeskullArmorModel();
 
   /** Listener to clear caches */
-  public static final ISafeManagerReloadListener RELOAD_LISTENER = manager -> HEAD_MODELS = null;
+  public static final IdentifiableISafeManagerReloadListener RELOAD_LISTENER = new IdentifiableISafeManagerReloadListener(TConstruct.getResource("slime_skull_cache")) {
+    @Override
+    public void onReloadSafe(ResourceManager manager) {
+      HEAD_MODELS = null;
+    }
+  };
 
   /**
    * Gets the model for a given entity
