@@ -1,28 +1,17 @@
 package slimeknights.tconstruct.library.events.teleport;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import io.github.fabricators_of_create.porting_lib.event.EntityTeleportCallback;
+import io.github.fabricators_of_create.porting_lib.event.EntityTeleportCallback.EntityTeleportEvent;
 import net.minecraft.world.entity.Entity;
-import io.github.fabricators_of_create.porting_lib.util.MantleEvent;
 
 /** Event fired when an entity teleports via the spilling effect */
-public class SpillingTeleportEvent extends MantleEvent.EntityTeleportEvent {
-  public static Event<TeleportSpilling> EVENT = EventFactory.createArrayBacked(TeleportSpilling.class, callbacks -> event -> {
-    for(TeleportSpilling e : callbacks)
-      e.onTeleport(event);
-  });
-
+public class SpillingTeleportEvent extends EntityTeleportEvent {
   public SpillingTeleportEvent(Entity entity, double targetX, double targetY, double targetZ) {
     super(entity, targetX, targetY, targetZ);
   }
 
   @Override
   public void sendEvent() {
-    EVENT.invoker().onTeleport(this);
-  }
-
-  @FunctionalInterface
-  public interface TeleportSpilling {
-    void onTeleport(SpillingTeleportEvent event);
+    EntityTeleportCallback.EVENT.invoker().onTeleport(this);
   }
 }
