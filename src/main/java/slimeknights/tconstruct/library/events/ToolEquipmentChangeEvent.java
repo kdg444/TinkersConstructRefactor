@@ -1,13 +1,13 @@
 package slimeknights.tconstruct.library.events;
 
+import io.github.fabricators_of_create.porting_lib.event.EntityEvent;
 import lombok.Getter;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import io.github.fabricators_of_create.porting_lib.util.MantleEvent;
 import slimeknights.tconstruct.library.tools.context.EquipmentChangeContext;
 
 /** Event fired at the end of {@link EquipmentChangeContext}, contains parsed Tinker Tools for all armor and also fires on the client */
-public class ToolEquipmentChangeEvent extends MantleEvent.EntityEvent {
+public class ToolEquipmentChangeEvent extends EntityEvent {
   public static Event<ToolEquip> EVENT = EventFactory.createArrayBacked(ToolEquip.class, callbacks -> event -> {
     for(ToolEquip e : callbacks)
       e.onToolEquip(event);

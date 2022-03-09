@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.library.utils;
 
-import io.github.fabricators_of_create.porting_lib.event.EntityTeleportCallback.EntityTeleportEvent;
-import net.fabricmc.fabric.api.event.Event;
+import io.github.fabricators_of_create.porting_lib.event.EntityEvents;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -27,7 +26,7 @@ public class TeleportHelper {
         living.stopRiding();
       }
 
-      EntityTeleportEvent event = factory.create(living, x, y, z);
+      EntityEvents.Teleport.EntityTeleportEvent event = factory.create(living, x, y, z);
       event.sendEvent();
       if (!event.isCanceled() && living.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true)) {
         SoundEvent soundevent = Sounds.SLIME_TELEPORT.getSound();
@@ -42,6 +41,6 @@ public class TeleportHelper {
   /** Predicate to test if the entity can teleport, typically just fires a cancelable event */
   @FunctionalInterface
   public interface ITeleportEventFactory {
-    EntityTeleportEvent create(LivingEntity entity, double x, double y, double z);
+    EntityEvents.Teleport.EntityTeleportEvent create(LivingEntity entity, double x, double y, double z);
   }
 }

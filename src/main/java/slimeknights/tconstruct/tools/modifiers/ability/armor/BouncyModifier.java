@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
-import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents.Fall.FallInfo;
+import io.github.fabricators_of_create.porting_lib.attributes.PortingLibAttributes;
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents.Fall.FallEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -20,8 +21,8 @@ public class BouncyModifier extends TotalArmorLevelModifier {
   }
 
   /** Called when an entity lands to handle the event */
-  private static void onFall(FallInfo event) {
-    LivingEntity living = event.entity;
+  private static void onFall(FallEvent event) {
+    LivingEntity living = (LivingEntity) event.getEntity();
     // using fall distance as the event distance could be reduced by jump boost
     if (living == null || living.fallDistance <= 2f) {
       return;
@@ -33,17 +34,17 @@ public class BouncyModifier extends TotalArmorLevelModifier {
 
     // reduced fall damage when crouching
     if (living.isSuppressingBounce()) {
-      event.damageMultiplier = 0.5f;
+      event.setDamageMultiplier(0.5f);
       return;
     } else {
-      event.damageMultiplier = 0.0f;
+      event.setDamageMultiplier(0.0f);
     }
 
     // server players behave differently than non-server players, they have no velocity during the event, so we need to reverse engineer it
     Vec3 motion = living.getDeltaMovement();
     if (living instanceof ServerPlayer) {
       // velocity is lost on server players, but we dont have to defer the bounce
-      double gravity = living.getAttributeValue(ForgeMod.ENTITY_GRAVITY.get());
+      double gravity = living.getAttributeValue(PortingLibAttributes.ENTITY_GRAVITY);
       double time = Math.sqrt(living.fallDistance / gravity);
       double velocity = gravity * time;
       living.setDeltaMovement(motion.x / 0.95f, velocity, motion.z / 0.95f);
@@ -58,10 +59,10 @@ public class BouncyModifier extends TotalArmorLevelModifier {
       SlimeBounceHandler.addBounceHandler(living, living.getDeltaMovement().y);
     }
     // update airborn status
-    event.distance = 0.0F;
+    event.setDistance(0.0F);
     if (!living.level.isClientSide) {
       living.hasImpulse = true;
-      event.canceled = true;
+      event.setCanceled(true);
       living.setOnGround(false); // need to be on ground for server to process this event
     }
     living.playSound(Sounds.SLIMY_BOUNCE.getSound(), 1f, 1f);

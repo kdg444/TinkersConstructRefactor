@@ -2,7 +2,10 @@ package slimeknights.tconstruct.world;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
@@ -16,6 +19,7 @@ import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.client.renderer.entity.SlimeRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.Items;
 import io.github.fabricators_of_create.porting_lib.util.Lazy;
 import slimeknights.tconstruct.TConstruct;
@@ -36,13 +40,12 @@ import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
-@EventBusSubscriber(modid=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
 public class WorldClientEvents extends ClientEventBase {
-  @SubscribeEvent
-  static void addResourceListener(RegisterClientReloadListenersEvent event) {
-    event.registerReloadListener(SkullModelHelper.LISTENER);
+
+  static void addResourceListener() {
+    ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(SkullModelHelper.LISTENER);
     for (SlimeType type : SlimeType.values()) {
-      event.registerReloadListener(new SlimeColorReloadListener(type));
+      ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SlimeColorReloadListener(type));
     }
   }
 
@@ -53,39 +56,37 @@ public class WorldClientEvents extends ClientEventBase {
     ParticleFactoryRegistry.getInstance().register(TinkerWorld.terracubeParticle.get(), new SlimeParticle.Factory(Items.CLAY_BALL));
   }
 
-  @SubscribeEvent
-  static void registerRenderers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+  static void registerRenderers() {
     Supplier<LayerDefinition> normalHead = Lazy.of(SkullModel::createMobHeadLayer);
     Supplier<LayerDefinition> headOverlayCustom = Lazy.of(() -> SkullModelHelper.createHeadHatLayer(0, 16, 32, 32));
-    registerLayerDefinition(event, TinkerHeadType.BLAZE, normalHead);
-    registerLayerDefinition(event, TinkerHeadType.ENDERMAN, Lazy.of(() -> SkullModelHelper.createHeadLayer(0, 0, 32, 16)));
-    registerLayerDefinition(event, TinkerHeadType.STRAY, headOverlayCustom);
+    registerLayerDefinition(TinkerHeadType.BLAZE, normalHead);
+    registerLayerDefinition(TinkerHeadType.ENDERMAN, Lazy.of(() -> SkullModelHelper.createHeadLayer(0, 0, 32, 16)));
+    registerLayerDefinition(TinkerHeadType.STRAY, headOverlayCustom);
 
     // zombie
-    registerLayerDefinition(event, TinkerHeadType.HUSK, Lazy.of(() -> SkullModelHelper.createHeadLayer(0, 0, 64, 64)));
-    registerLayerDefinition(event, TinkerHeadType.DROWNED, headOverlayCustom);
+    registerLayerDefinition(TinkerHeadType.HUSK, Lazy.of(() -> SkullModelHelper.createHeadLayer(0, 0, 64, 64)));
+    registerLayerDefinition(TinkerHeadType.DROWNED, headOverlayCustom);
 
     // spiders
     Supplier<LayerDefinition> spiderHead = Lazy.of(() -> SkullModelHelper.createHeadLayer(32, 4, 64, 32));
-    registerLayerDefinition(event, TinkerHeadType.SPIDER, spiderHead);
-    registerLayerDefinition(event, TinkerHeadType.CAVE_SPIDER, spiderHead);
+    registerLayerDefinition(TinkerHeadType.SPIDER, spiderHead);
+    registerLayerDefinition(TinkerHeadType.CAVE_SPIDER, spiderHead);
 
     // piglin
     Supplier<LayerDefinition> piglinHead = Lazy.of(SkullModelHelper::createPiglinHead);
-    registerLayerDefinition(event, TinkerHeadType.PIGLIN, piglinHead);
-    registerLayerDefinition(event, TinkerHeadType.PIGLIN_BRUTE, piglinHead);
-    registerLayerDefinition(event, TinkerHeadType.ZOMBIFIED_PIGLIN, piglinHead);
+    registerLayerDefinition(TinkerHeadType.PIGLIN, piglinHead);
+    registerLayerDefinition(TinkerHeadType.PIGLIN_BRUTE, piglinHead);
+    registerLayerDefinition(TinkerHeadType.ZOMBIFIED_PIGLIN, piglinHead);
   }
 
-  static void registerRenderers() {
+  static void registerRenderersSlime() {
     EntityRendererRegistry.register(TinkerWorld.earthSlimeEntity.get(), SlimeRenderer::new);
     EntityRendererRegistry.register(TinkerWorld.skySlimeEntity.get(), TinkerSlimeRenderer.SKY_SLIME_FACTORY);
     EntityRendererRegistry.register(TinkerWorld.enderSlimeEntity.get(), TinkerSlimeRenderer.ENDER_SLIME_FACTORY);
     EntityRendererRegistry.register(TinkerWorld.terracubeEntity.get(), TerracubeRenderer::new);
   }
 
-  @SubscribeEvent
-  static void clientSetup(FMLClientSetupEvent event) {
+  public static void clientSetup() {
     RenderType cutout = RenderType.cutout();
     RenderType cutoutMipped = RenderType.cutoutMipped();
 
@@ -152,50 +153,49 @@ public class WorldClientEvents extends ClientEventBase {
 
     registerParticleFactories();
     registerRenderers();
-    ColorHandlersCallback.BLOCK.register(WorldClientEvents::registerBlockColorHandlers);
+    registerRenderersSlime();
+    addResourceListener();
+    WorldClientEvents.registerBlockColorHandlers();
   }
 
-  static void registerBlockColorHandlers(BlockColors blockColors) {
+  static void registerBlockColorHandlers() {
 
     // slime plants - blocks
     for (SlimeType type : SlimeType.values()) {
-      blockColors.register(
+      ColorProviderRegistry.BLOCK.register(
         (state, reader, pos, index) -> getSlimeColorByPos(pos, type, null),
         TinkerWorld.vanillaSlimeGrass.get(type), TinkerWorld.earthSlimeGrass.get(type), TinkerWorld.skySlimeGrass.get(type),
         TinkerWorld.enderSlimeGrass.get(type), TinkerWorld.ichorSlimeGrass.get(type));
-      blockColors.register(
+      ColorProviderRegistry.BLOCK.register(
         (state, reader, pos, index) -> getSlimeColorByPos(pos, type, SlimeColorizer.LOOP_OFFSET),
         TinkerWorld.slimeLeaves.get(type));
-      blockColors.register(
+      ColorProviderRegistry.BLOCK.register(
         (state, reader, pos, index) -> getSlimeColorByPos(pos, type, null),
         TinkerWorld.slimeFern.get(type), TinkerWorld.slimeTallGrass.get(type));
     }
 
     // vines
-    blockColors.register(
+    ColorProviderRegistry.BLOCK.register(
       (state, reader, pos, index) -> getSlimeColorByPos(pos, SlimeType.SKY, SlimeColorizer.LOOP_OFFSET),
       TinkerWorld.skySlimeVine.get());
-    blockColors.register(
+    ColorProviderRegistry.BLOCK.register(
       (state, reader, pos, index) -> getSlimeColorByPos(pos, SlimeType.ENDER, SlimeColorizer.LOOP_OFFSET),
       TinkerWorld.enderSlimeVine.get());
   }
 
-  @SubscribeEvent
-  static void registerItemColorHandlers(ColorHandlerEvent.Item event) {
-    BlockColors blockColors = event.getBlockColors();
-    ItemColors itemColors = event.getItemColors();
+  static void registerItemColorHandlers(ItemColors itemColors, BlockColors blockColors) {
     // slime grass items
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.vanillaSlimeGrass);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.earthSlimeGrass);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.skySlimeGrass);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.enderSlimeGrass);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.ichorSlimeGrass);
+    registerBlockItemColorAlias(TinkerWorld.vanillaSlimeGrass);
+    registerBlockItemColorAlias(TinkerWorld.earthSlimeGrass);
+    registerBlockItemColorAlias(TinkerWorld.skySlimeGrass);
+    registerBlockItemColorAlias(TinkerWorld.enderSlimeGrass);
+    registerBlockItemColorAlias(TinkerWorld.ichorSlimeGrass);
     // plant items
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.slimeLeaves);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.slimeFern);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.slimeTallGrass);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.skySlimeVine);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.enderSlimeVine);
+    registerBlockItemColorAlias(TinkerWorld.slimeLeaves);
+    registerBlockItemColorAlias(TinkerWorld.slimeFern);
+    registerBlockItemColorAlias(TinkerWorld.slimeTallGrass);
+    registerBlockItemColorAlias(TinkerWorld.skySlimeVine);
+    registerBlockItemColorAlias(TinkerWorld.enderSlimeVine);
   }
 
   /**
@@ -233,7 +233,7 @@ public class WorldClientEvents extends ClientEventBase {
   }
 
   /** Register a head layer definition with forge */
-  private static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event, TinkerHeadType head, Supplier<LayerDefinition> supplier) {
-    event.registerLayerDefinition(SkullModelHelper.HEAD_LAYERS.get(head), supplier);
+  private static void registerLayerDefinition(TinkerHeadType head, Supplier<LayerDefinition> supplier) {
+    EntityModelLayerRegistry.registerModelLayer(SkullModelHelper.HEAD_LAYERS.get(head), supplier::get);
   }
 }

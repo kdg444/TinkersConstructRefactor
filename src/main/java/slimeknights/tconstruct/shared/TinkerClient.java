@@ -17,6 +17,7 @@ import slimeknights.tconstruct.tables.client.PatternGuiTextureLoader;
 import slimeknights.tconstruct.tools.ToolClientEvents;
 import slimeknights.tconstruct.tools.client.ModifierClientEvents;
 import slimeknights.tconstruct.tools.client.ToolRenderEvents;
+import slimeknights.tconstruct.world.WorldClientEvents;
 
 import java.util.function.Consumer;
 
@@ -49,5 +50,6 @@ public class TinkerClient implements ClientModInitializer {
     ModifierClientEvents.init();
     ToolRenderEvents.init();
     ToolClientEvents.clientSetupEvent();
+    WorldClientEvents.clientSetup();
   }
 }

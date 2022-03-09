@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.events;
 
+import io.github.fabricators_of_create.porting_lib.event.BaseEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.fabricmc.fabric.api.event.Event;
@@ -21,7 +22,7 @@ import javax.annotation.Nullable;
 
 @AllArgsConstructor
 @Getter
-public abstract class TinkerToolEvent extends MantleEvent {
+public abstract class TinkerToolEvent extends BaseEvent {
   private final ItemStack stack;
   private final IToolStackView tool;
   public TinkerToolEvent(ItemStack stack) {

@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.world.client;
 
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.client.resources.LegacyStuffWrapper;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -13,7 +14,7 @@ import java.io.IOException;
 /**
  * Color reload listener for all slime foliage types
  */
-public class SlimeColorReloadListener extends SimplePreparableReloadListener<int[]> {
+public class SlimeColorReloadListener extends SimplePreparableReloadListener<int[]> implements IdentifiableResourceReloadListener {
   private final SlimeType color;
   private final ResourceLocation path;
   public SlimeColorReloadListener(SlimeType color) {
@@ -42,5 +43,10 @@ public class SlimeColorReloadListener extends SimplePreparableReloadListener<int
     if (buffer.length != 0) {
       SlimeColorizer.setGrassColor(color, buffer);
     }
+  }
+
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("slime_color_reload_listener");
   }
 }
