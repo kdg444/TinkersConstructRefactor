@@ -65,10 +65,10 @@ public final class TinkerFluids extends TinkerModule {
   public static final FluidObject<SimpleFlowableFluid> moltenCopper = FLUIDS.register("molten_copper", hotBuilder().temperature( 800), Material.LAVA, 12);
   public static final FluidObject<SimpleFlowableFluid> moltenCobalt = FLUIDS.register("molten_cobalt", hotBuilder().temperature(1250), Material.LAVA,  8);
   // alloys
-  public static final FluidObject<SimpleFlowableFluid> moltenSlimesteel    = FLUIDS.register("molten_slimesteel",     hotBuilder().temperature(1200), Material.LAVA, 10);
-  public static final FluidObject<SimpleFlowableFluid> moltenTinkersBronze = FLUIDS.register("molten_tinkers_bronze", "molten_silicon_bronze", hotBuilder().temperature(1000), Material.LAVA, 12);
-  public static final FluidObject<SimpleFlowableFluid> moltenRoseGold      = FLUIDS.register("molten_rose_gold",      hotBuilder().temperature( 850), Material.LAVA, 12);
-  public static final FluidObject<SimpleFlowableFluid> moltenPigIron       = FLUIDS.register("molten_pig_iron",       hotBuilder().temperature(1111), Material.LAVA, 10);
+  public static final FluidObject<SimpleFlowableFluid> moltenSlimesteel     = FLUIDS.register("molten_slimesteel",      hotBuilder().temperature(1200), Material.LAVA, 10);
+  public static final FluidObject<SimpleFlowableFluid> moltenAmethystBronze = FLUIDS.register("molten_amethyst_bronze", hotBuilder().temperature(1120), Material.LAVA, 12);
+  public static final FluidObject<SimpleFlowableFluid> moltenRoseGold       = FLUIDS.register("molten_rose_gold",       hotBuilder().temperature( 850), Material.LAVA, 12);
+  public static final FluidObject<SimpleFlowableFluid> moltenPigIron        = FLUIDS.register("molten_pig_iron",        hotBuilder().temperature(1111), Material.LAVA, 10);
 
   public static final FluidObject<SimpleFlowableFluid> moltenManyullyn   = FLUIDS.register("molten_manyullyn",    hotBuilder().temperature(1500), Material.LAVA, 11);
   public static final FluidObject<SimpleFlowableFluid> moltenHepatizon   = FLUIDS.register("molten_hepatizon",    hotBuilder().temperature(1700), Material.LAVA,  8);

@@ -21,12 +21,11 @@ public class MaterialDataProvider extends AbstractMaterialDataProvider {
   @Override
   protected void addMaterials() {
     // tier 1
-    addMaterial(MaterialIds.wood,  1, ORDER_GENERAL, true);
-    addMaterial(MaterialIds.rock,  1, ORDER_HARVEST, true);
-    addMaterial(MaterialIds.flint, 1, ORDER_WEAPON,  true);
-    addMaterial(MaterialIds.bone,  1, ORDER_SPECIAL, true);
-    // tier 1 - nether
-    addMaterial(MaterialIds.necroticBone,  1, ORDER_SPECIAL, true);
+    addMaterial(MaterialIds.wood,   1, ORDER_GENERAL, true);
+    addMaterial(MaterialIds.rock,   1, ORDER_HARVEST, true);
+    addMaterial(MaterialIds.flint,  1, ORDER_WEAPON,  true);
+    addMaterial(MaterialIds.copper, 1, ORDER_SPECIAL, true);
+    addMaterial(MaterialIds.bone,   1, ORDER_SPECIAL, true);
     // tier 1 - binding
     addMaterial(MaterialIds.string,  1, ORDER_BINDING, true);
     addMaterial(MaterialIds.leather, 1, ORDER_BINDING, true);
@@ -34,22 +33,22 @@ public class MaterialDataProvider extends AbstractMaterialDataProvider {
 
     // tier 2
     addMaterial(MaterialIds.iron,        2, ORDER_GENERAL, false);
-    addMaterial(MaterialIds.copper,      2, ORDER_HARVEST, true);
-    addMaterial(MaterialIds.searedStone, 2, ORDER_WEAPON,  false);
+    addMaterial(MaterialIds.searedStone, 2, ORDER_HARVEST, false);
+    addMaterial(MaterialIds.bloodbone,   2, ORDER_WEAPON,  false);
     addMaterial(MaterialIds.slimewood,   2, ORDER_SPECIAL, true);
-    addMaterial(MaterialIds.bloodbone,   2, ORDER_SPECIAL, false);
     // tier 2 - nether
     addMaterial(MaterialIds.scorchedStone, 2, ORDER_NETHER, false);
+    addMaterial(MaterialIds.necroticBone,  2, ORDER_NETHER, true);
     // tier 2 - binding
     addMaterial(MaterialIds.chain,        2, ORDER_BINDING, true);
     addMaterial(MaterialIds.skyslimeVine, 2, ORDER_BINDING, true);
 
     // tier 3
-    addMaterial(MaterialIds.slimesteel, 3, ORDER_GENERAL, false);
-    addMaterial(MaterialIds.bronze,     3, ORDER_HARVEST, false);
-    addMaterial(MaterialIds.nahuatl,    3, ORDER_WEAPON,  false);
-    addMaterial(MaterialIds.roseGold,   3, ORDER_SPECIAL, false);
-    addMaterial(MaterialIds.pigIron,    3, ORDER_SPECIAL, false);
+    addMaterial(MaterialIds.slimesteel,     3, ORDER_GENERAL, false);
+    addMaterial(MaterialIds.amethystBronze, 3, ORDER_HARVEST, false);
+    addMaterial(MaterialIds.nahuatl,        3, ORDER_WEAPON,  false);
+    addMaterial(MaterialIds.roseGold,       3, ORDER_SPECIAL, false);
+    addMaterial(MaterialIds.pigIron,        3, ORDER_SPECIAL, false);
     // tier 3 (nether)
     addMaterial(MaterialIds.cobalt, 3, ORDER_NETHER, false);
 
@@ -79,6 +78,7 @@ public class MaterialDataProvider extends AbstractMaterialDataProvider {
     addMaterial(MaterialIds.whitestone, 2, ORDER_COMPAT + ORDER_SPECIAL, false, false, condition);
     // tier 3 (mod integration)
     addCompatMetalMaterial(MaterialIds.steel,           3, ORDER_COMPAT + ORDER_GENERAL);
+    addCompatMetalMaterial(MaterialIds.bronze,          3, ORDER_COMPAT + ORDER_HARVEST);
     addCompatMetalMaterial(MaterialIds.constantan,      3, ORDER_COMPAT + ORDER_HARVEST);
     addCompatMetalMaterial(MaterialIds.invar,           3, ORDER_COMPAT + ORDER_WEAPON);
     addCompatMetalMaterial(MaterialIds.necronium,       3, ORDER_COMPAT + ORDER_WEAPON, "uranium");

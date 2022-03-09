@@ -47,7 +47,7 @@ public class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
     tagLocal(TinkerFluids.moltenDebris);
     // alloys
     tagLocal(TinkerFluids.moltenSlimesteel);
-    tagAll(TinkerFluids.moltenTinkersBronze);
+    tagAll(TinkerFluids.moltenAmethystBronze);
     tagAll(TinkerFluids.moltenRoseGold);
     tagLocal(TinkerFluids.moltenPigIron);
     // nether alloys
@@ -100,7 +100,7 @@ public class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
         // vanilla ores
         TinkerFluids.moltenIron.getForgeTag()).addTag(TinkerFluids.moltenGold.getForgeTag()).addTag(TinkerFluids.moltenCopper.getForgeTag()).addTag(TinkerFluids.moltenCobalt.getForgeTag()).addTag(TinkerFluids.moltenDebris.getLocalTag()).addTag(
         // base alloys
-        TinkerFluids.moltenSlimesteel.getLocalTag()).addTag(TinkerFluids.moltenTinkersBronze.getLocalTag()).addTag(TinkerFluids.moltenRoseGold.getForgeTag()).addTag(TinkerFluids.moltenPigIron.getLocalTag()).addTag(
+        TinkerFluids.moltenSlimesteel.getLocalTag()).addTag(TinkerFluids.moltenAmethystBronze.getLocalTag()).addTag(TinkerFluids.moltenRoseGold.getForgeTag()).addTag(TinkerFluids.moltenPigIron.getLocalTag()).addTag(
         TinkerFluids.moltenManyullyn.getForgeTag()).addTag(TinkerFluids.moltenHepatizon.getForgeTag()).addTag(TinkerFluids.moltenQueensSlime.getLocalTag()).addTag(TinkerFluids.moltenNetherite.getForgeTag()).addTag(
         TinkerFluids.moltenSoulsteel.getLocalTag()).addTag(TinkerFluids.moltenKnightslime.getLocalTag()).addTag(
         // compat ores
@@ -143,7 +143,7 @@ public class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
         .addTag(TinkerFluids.moltenQuartz.getLocalTag())
         .addTag(TinkerFluids.moltenEmerald.getLocalTag())
         .addTag(TinkerFluids.moltenCobalt.getForgeTag())
-        .addTag(TinkerFluids.moltenTinkersBronze.getLocalTag())
+        .addTag(TinkerFluids.moltenAmethystBronze.getLocalTag())
         .addTag(TinkerFluids.moltenRoseGold.getForgeTag())
         .addTag(TinkerFluids.moltenSlimesteel.getLocalTag())
         .addTag(TinkerFluids.moltenBronze.getForgeTag())

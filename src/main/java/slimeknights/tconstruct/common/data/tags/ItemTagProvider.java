@@ -106,7 +106,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     addMetalTags(TinkerMaterials.cobalt);
     // tier 3
     addMetalTags(TinkerMaterials.slimesteel);
-    addMetalTags(TinkerMaterials.tinkersBronze);
+    addMetalTags(TinkerMaterials.amethystBronze);
     addMetalTags(TinkerMaterials.roseGold);
     addMetalTags(TinkerMaterials.pigIron);
     // tier 4
@@ -169,6 +169,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     this.copy(TinkerTags.Blocks.ORES_COBALT, TinkerTags.Items.ORES_COBALT);
     this.copy(TinkerTags.Blocks.RAW_BLOCK_COBALT, TinkerTags.Items.RAW_BLOCK_COBALT);
     this.tag(TinkerTags.Items.RAW_COBALT).add(TinkerWorld.rawCobalt.get());
+    this.tag(Tags.Items.RAW_MATERIALS).addTag(TinkerTags.Items.RAW_COBALT);
 
     // wood
     this.copy(BlockTags.NON_FLAMMABLE_WOOD, ItemTags.NON_FLAMMABLE_WOOD);
@@ -215,7 +216,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     addToolTags(TinkerTools.sword,   MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, SWORD, AOE);
     addToolTags(TinkerTools.cleaver, MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, TWO_HANDED, SWORD, AOE);
     // specialized
-    addToolTags(TinkerTools.flintAndBronze, DURABILITY, MELEE, ONE_HANDED, AOE);
+    addToolTags(TinkerTools.flintAndBrick, DURABILITY, MELEE, ONE_HANDED, AOE);
 
     // armor
     addArmorTags(TinkerTools.travelersGear, DURABILITY);
@@ -294,6 +295,15 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     this.tag(TinkerTags.Items.DEFAULT_PATTERNS).add(TinkerTables.pattern.get());
     this.tag(TinkerTags.Items.REUSABLE_PATTERNS).addTag(TinkerTags.Items.GOLD_CASTS);
     this.tag(TinkerTags.Items.PATTERNS).addTags(TinkerTags.Items.DEFAULT_PATTERNS, TinkerTags.Items.REUSABLE_PATTERNS);
+
+    // stone
+    this.copy(TinkerTags.Blocks.STONE,      TinkerTags.Items.STONE);
+    this.copy(TinkerTags.Blocks.GRANITE,    TinkerTags.Items.GRANITE);
+    this.copy(TinkerTags.Blocks.DIORITE,    TinkerTags.Items.DIORITE);
+    this.copy(TinkerTags.Blocks.ANDESITE,   TinkerTags.Items.ANDESITE);
+    this.copy(TinkerTags.Blocks.BLACKSTONE, TinkerTags.Items.BLACKSTONE);
+    this.copy(TinkerTags.Blocks.DEEPSLATE,  TinkerTags.Items.DEEPSLATE);
+    this.copy(TinkerTags.Blocks.BASALT,     TinkerTags.Items.BASALT);
   }
 
   private void addSmeltery() {
