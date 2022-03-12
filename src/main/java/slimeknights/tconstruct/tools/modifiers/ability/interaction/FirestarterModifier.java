@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.common.ToolAction;
+import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import slimeknights.tconstruct.library.modifiers.impl.InteractionModifier;
 import slimeknights.tconstruct.library.tools.definition.aoe.CircleAOEIterator;
 import slimeknights.tconstruct.library.tools.definition.aoe.IAreaOfEffectIterator;
