@@ -1,21 +1,12 @@
 package slimeknights.tconstruct.library.events.teleport;
 
+import io.github.fabricators_of_create.porting_lib.event.EntityEvents;
 import lombok.Getter;
-import lombok.Setter;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.world.entity.LivingEntity;
-import slimeknights.mantle.lib.util.MantleEvent;
 import slimeknights.tconstruct.world.entity.EnderSlimeEntity;
 
 /* Fired when an ender slime teleport or teleports another entity */
-public class EnderSlimeTeleportEvent extends MantleEvent.EntityTeleportEvent {
-
-  public static Event<TeleportEvent> EVENT = EventFactory.createArrayBacked(TeleportEvent.class, callbacks -> event -> {
-    for(TeleportEvent e : callbacks)
-      e.onTeleport(event);
-  });
-
+public class EnderSlimeTeleportEvent extends EntityEvents.Teleport.EntityTeleportEvent {
   /** Gets the slime that caused this teleport. If this is the same as {@link #getEntity()} then the slime is teleporting itself */
   @Getter
   private final EnderSlimeEntity slime;
@@ -32,11 +23,6 @@ public class EnderSlimeTeleportEvent extends MantleEvent.EntityTeleportEvent {
 
   @Override
   public void sendEvent() {
-    EVENT.invoker().onTeleport(this);
-  }
-
-  @FunctionalInterface
-  public interface TeleportEvent {
-    void onTeleport(EnderSlimeTeleportEvent event);
+    EntityEvents.TELEPORT.invoker().onTeleport(this);
   }
 }

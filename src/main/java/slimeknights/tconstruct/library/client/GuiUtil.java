@@ -20,8 +20,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import slimeknights.mantle.client.screen.ElementScreen;
-import slimeknights.mantle.lib.extensions.FluidExtensions;
-import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class GuiUtil {

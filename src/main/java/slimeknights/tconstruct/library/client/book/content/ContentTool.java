@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.client.book.content;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gson.annotations.SerializedName;
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.RecipeManagerAccessor;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
@@ -25,7 +26,6 @@ import slimeknights.mantle.client.screen.book.BookScreen;
 import slimeknights.mantle.client.screen.book.element.BookElement;
 import slimeknights.mantle.client.screen.book.element.ImageElement;
 import slimeknights.mantle.client.screen.book.element.TextElement;
-import slimeknights.mantle.lib.mixin.accessor.RecipeManagerAccessor;
 import slimeknights.mantle.util.ItemStackList;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.book.elements.TinkerItemElement;
@@ -139,7 +139,7 @@ public class ContentTool extends PageContent {
       if (required.isEmpty()) {
         // get the stacks for the first crafting table recipe
         Recipe<CraftingContainer> recipe = Optional.ofNullable(Minecraft.getInstance().level)
-                                                   .flatMap(world -> ((RecipeManagerAccessor)world.getRecipeManager()).callByType(RecipeType.CRAFTING).values().stream()
+                                                   .flatMap(world -> ((RecipeManagerAccessor)world.getRecipeManager()).port_lib$byType(RecipeType.CRAFTING).values().stream()
                                                                           .filter(r -> r.getResultItem().getItem() == getTool().asItem())
                                                                           .findFirst())
                                                    .orElse(null);

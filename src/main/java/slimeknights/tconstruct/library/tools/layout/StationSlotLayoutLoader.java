@@ -22,8 +22,8 @@ import net.minecraft.server.players.PlayerList;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Ingredient;
-import slimeknights.mantle.lib.event.DataPackReloadCallback;
-import slimeknights.mantle.lib.event.OnDatapackSyncCallback;
+import io.github.fabricators_of_create.porting_lib.event.DataPackReloadCallback;
+import io.github.fabricators_of_create.porting_lib.event.OnDatapackSyncCallback;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
 

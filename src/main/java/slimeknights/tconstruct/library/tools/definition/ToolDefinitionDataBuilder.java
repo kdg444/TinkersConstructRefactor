@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.level.block.Block;
-import slimeknights.mantle.lib.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;

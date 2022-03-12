@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.events;
 
+import io.github.fabricators_of_create.porting_lib.event.BaseEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.fabricmc.fabric.api.event.Event;
@@ -14,7 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import slimeknights.mantle.lib.util.MantleEvent;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 
 @AllArgsConstructor
 @Getter
-public abstract class TinkerToolEvent extends MantleEvent {
+public abstract class TinkerToolEvent extends BaseEvent {
   private final ItemStack stack;
   private final IToolStackView tool;
   public TinkerToolEvent(ItemStack stack) {
@@ -31,7 +31,7 @@ public abstract class TinkerToolEvent extends MantleEvent {
   }
 
   /**
-   * Event fired when a kama tries to harvest a crop. Set result to {@link Result#ALLOW} if you handled the harvest yourself. Set the result to {@link Result#DENY} if the block cannot be harvested.
+   * Event fired when a kama tries to harvest a crop. Set result to {@link InteractionResult#SUCCESS} if you handled the harvest yourself. Set the result to {@link InteractionResult#FAIL} if the block cannot be harvested.
    */
   @Getter
   public static class ToolHarvestEvent extends TinkerToolEvent {

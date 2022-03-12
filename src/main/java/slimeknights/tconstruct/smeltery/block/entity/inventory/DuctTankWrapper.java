@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.smeltery.block.entity.inventory;
 
 import lombok.AllArgsConstructor;
-import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
 
 @AllArgsConstructor
 public class DuctTankWrapper implements IFluidHandler {

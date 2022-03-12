@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import slimeknights.mantle.data.ResourceValidator;
-import slimeknights.mantle.lib.event.TextureStitchCallback;
 
 import java.util.function.Consumer;
 

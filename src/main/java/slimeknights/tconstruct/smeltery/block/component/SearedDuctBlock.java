@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.component;
 
+import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;

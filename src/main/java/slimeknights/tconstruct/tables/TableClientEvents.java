@@ -1,15 +1,10 @@
 package slimeknights.tconstruct.tables;
 
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
-import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import slimeknights.mantle.lib.event.ColorHandlersCallback;
-import slimeknights.mantle.lib.event.ModelLoadCallback;
-import slimeknights.mantle.lib.model.ModelLoaderRegistry;
-import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.library.client.model.block.TableModel;
 import slimeknights.tconstruct.tables.block.entity.chest.TinkersChestBlockEntity;
@@ -26,8 +21,8 @@ public class TableClientEvents extends ClientEventBase {
     ModelLoadCallback.EVENT.register(TableClientEvents::registerModelLoader);
     registerRenderers();
     setupClient();
-    ColorHandlersCallback.BLOCK.register(TableClientEvents::registerBlockColors);
-    ColorHandlersCallback.ITEM.register(TableClientEvents::registerItemColors);
+    TableClientEvents.registerBlockColors();
+    TableClientEvents.registerItemColors();
   }
 
   static void registerModelLoader() {
@@ -47,8 +42,8 @@ public class TableClientEvents extends ClientEventBase {
     ScreenRegistry.register(TinkerTables.tinkerChestContainer.get(), TinkerChestScreen::new);
   }
 
-  static void registerBlockColors(BlockColors blockColors) {
-    blockColors.register((state, world, pos, index) -> {
+  static void registerBlockColors() {
+    ColorProviderRegistry.BLOCK.register((state, world, pos, index) -> {
       if (world != null && pos != null) {
         BlockEntity te = world.getBlockEntity(pos);
         if (te instanceof TinkersChestBlockEntity) {
@@ -59,7 +54,7 @@ public class TableClientEvents extends ClientEventBase {
     }, TinkerTables.tinkersChest.get());
   }
 
-  static void registerItemColors(ItemColors itemColors, BlockColors blockColors) {
-    itemColors.register((stack, index) -> ((DyeableLeatherItem)stack.getItem()).getColor(stack), TinkerTables.tinkersChest.asItem());
+  static void registerItemColors() {
+    ColorProviderRegistry.ITEM.register((stack, index) -> ((DyeableLeatherItem)stack.getItem()).getColor(stack), TinkerTables.tinkersChest.asItem());
   }
 }

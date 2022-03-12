@@ -2,7 +2,6 @@ package slimeknights.tconstruct.shared;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.world.item.crafting.RecipeManager;
-import slimeknights.mantle.lib.event.RecipesUpdatedCallback;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.fluids.FluidClientEvents;
 import slimeknights.tconstruct.gadgets.GadgetClientEvents;
@@ -18,6 +17,7 @@ import slimeknights.tconstruct.tables.client.PatternGuiTextureLoader;
 import slimeknights.tconstruct.tools.ToolClientEvents;
 import slimeknights.tconstruct.tools.client.ModifierClientEvents;
 import slimeknights.tconstruct.tools.client.ToolRenderEvents;
+import slimeknights.tconstruct.world.WorldClientEvents;
 
 import java.util.function.Consumer;
 
@@ -50,5 +50,6 @@ public class TinkerClient implements ClientModInitializer {
     ModifierClientEvents.init();
     ToolRenderEvents.init();
     ToolClientEvents.clientSetupEvent();
+    WorldClientEvents.clientSetup();
   }
 }

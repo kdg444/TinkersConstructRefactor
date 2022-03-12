@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.recipe.modifiers.spilling.effects;
 
-import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.data.GenericLoaderRegistry.SingletonLoader;
 import slimeknights.tconstruct.library.tools.context.ToolAttackContext;

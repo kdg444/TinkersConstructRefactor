@@ -32,7 +32,7 @@ import org.apache.commons.lang3.mutable.MutableDouble;
 import org.apache.logging.log4j.core.Filter.Result;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.lib.event.LivingEntityEvents;
-import slimeknights.mantle.lib.event.PlayerBreakSpeedCallback;
+import io.github.fabricators_of_create.porting_lib.event.PlayerBreakSpeedCallback;
 import slimeknights.mantle.lib.util.EntityHelper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;

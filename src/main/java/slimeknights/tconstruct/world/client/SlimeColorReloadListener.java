@@ -47,6 +47,6 @@ public class SlimeColorReloadListener extends SimplePreparableReloadListener<int
 
   @Override
   public ResourceLocation getFabricId() {
-    return TConstruct.getResource("slime_color");
+    return TConstruct.getResource("slime_color_reload_listener");
   }
 }

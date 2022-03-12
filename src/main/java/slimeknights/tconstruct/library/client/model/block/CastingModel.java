@@ -16,8 +16,8 @@ import slimeknights.mantle.client.model.fluid.FluidCuboid;
 import slimeknights.mantle.client.model.inventory.InventoryModel;
 import slimeknights.mantle.client.model.inventory.ModelItem;
 import slimeknights.mantle.client.model.util.SimpleBlockModel;
-import slimeknights.mantle.lib.model.IModelConfiguration;
-import slimeknights.mantle.lib.model.IModelLoader;
+import io.github.fabricators_of_create.porting_lib.model.IModelConfiguration;
+import io.github.fabricators_of_create.porting_lib.model.IModelLoader;
 
 import java.util.List;
 import java.util.function.Function;

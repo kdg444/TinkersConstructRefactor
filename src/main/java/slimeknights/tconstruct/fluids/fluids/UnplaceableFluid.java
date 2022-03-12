@@ -13,8 +13,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
-import slimeknights.mantle.lib.extensions.FluidExtensions;
-import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
 
 import java.util.function.Supplier;
 

@@ -1,10 +1,11 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
+import io.github.fabricators_of_create.porting_lib.attributes.PortingLibAttributes;
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents.Fall.FallEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
-import slimeknights.mantle.lib.event.LivingEntityEvents;
-import slimeknights.mantle.lib.event.LivingEntityEvents.LivingFallEvent;
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
@@ -20,7 +21,7 @@ public class BouncyModifier extends TotalArmorLevelModifier {
   }
 
   /** Called when an entity lands to handle the event */
-  private static void onFall(LivingFallEvent event) {
+  private static void onFall(FallEvent event) {
     LivingEntity living = (LivingEntity) event.getEntity();
     // using fall distance as the event distance could be reduced by jump boost
     if (living == null || living.fallDistance <= 2f) {
@@ -43,7 +44,7 @@ public class BouncyModifier extends TotalArmorLevelModifier {
     Vec3 motion = living.getDeltaMovement();
     if (living instanceof ServerPlayer) {
       // velocity is lost on server players, but we dont have to defer the bounce
-      double gravity = 1;//living.getAttributeValue(ForgeMod.ENTITY_GRAVITY.get()); TODO: PORT
+      double gravity = living.getAttributeValue(PortingLibAttributes.ENTITY_GRAVITY);
       double time = Math.sqrt(living.fallDistance / gravity);
       double velocity = gravity * time;
       living.setDeltaMovement(motion.x / 0.95f, velocity, motion.z / 0.95f);

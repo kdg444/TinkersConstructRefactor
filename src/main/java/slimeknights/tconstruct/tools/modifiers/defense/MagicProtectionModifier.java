@@ -3,11 +3,12 @@ package slimeknights.tconstruct.tools.modifiers.defense;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
-import slimeknights.mantle.lib.event.PotionEvents;
+import io.github.fabricators_of_create.porting_lib.event.PotionEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
@@ -45,12 +46,10 @@ public class MagicProtectionModifier extends AbstractProtectionModifier<Modifier
     return new ModifierMaxLevel();
   }
 
-  private static void onPotionStart(PotionEvents.PotionAddedEvent event) {
-    MobEffectInstance newEffect = event.getPotionEffect();
-    if(newEffect == null) // TODO: REMOVE ONCE BELOW IS FIXED
-      return;
-    if (!newEffect.getEffect().isBeneficial() /*&& !newEffect.getCurativeItems().isEmpty()*/) { // TODO: PORT
-      LivingEntity living = (LivingEntity) event.getEntity();
+  private static void onPotionStart(LivingEntity living, MobEffectInstance newEffect, MobEffectInstance oldEffect, @Nullable Entity source) {
+//    MobEffectInstance newEffect = event.getPotionEffect();
+    if (!newEffect.getEffect().isBeneficial()) {
+//      LivingEntity living = (LivingEntity) event.getEntity();
       TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> {
         ModifierMaxLevel magicData = data.get(MAGIC_DATA);
         if (magicData != null) {

@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.controller;
 
+import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;

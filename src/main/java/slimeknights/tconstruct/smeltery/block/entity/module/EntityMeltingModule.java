@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.entity.module;
 
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.DamageSourceAccessor;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
@@ -11,9 +12,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import slimeknights.mantle.lib.mixin.accessor.DamageSourceAccessor;
-import slimeknights.mantle.lib.transfer.fluid.FluidStack;
-import slimeknights.mantle.lib.transfer.fluid.IFluidHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags.EntityTypes;
@@ -34,9 +34,9 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 public class EntityMeltingModule {
   /** Standard damage source for melting most mobs */
-  public static final DamageSource SMELTERY_DAMAGE = ((DamageSourceAccessor)DamageSourceAccessor.mantle$init(TConstruct.prefix("smeltery_heat"))).mantle$setFireDamage();
+  public static final DamageSource SMELTERY_DAMAGE = ((DamageSourceAccessor)DamageSourceAccessor.port_lib$init(TConstruct.prefix("smeltery_heat"))).port_lib$setFireDamage();
   /** Special damage source for "absorbing" hot entities */
-  public static final DamageSource SMELTERY_MAGIC = DamageSourceAccessor.mantle$init(TConstruct.prefix("smeltery_magic")).setMagic();
+  public static final DamageSource SMELTERY_MAGIC = DamageSourceAccessor.port_lib$init(TConstruct.prefix("smeltery_magic")).setMagic();
 
   private final MantleBlockEntity parent;
   private final IFluidHandler tank;

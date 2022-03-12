@@ -23,7 +23,7 @@
 //import net.minecraft.resources.ResourceLocation;
 //import net.minecraft.world.item.ItemStack;
 //import net.minecraft.world.level.block.Block;
-//import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+//import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 //import slimeknights.tconstruct.TConstruct;
 //import slimeknights.tconstruct.library.client.GuiUtil;
 //import slimeknights.tconstruct.library.fluid.FluidTooltipHandler;

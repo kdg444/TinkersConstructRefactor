@@ -3,8 +3,8 @@ package slimeknights.tconstruct.smeltery.data;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minecraft.world.item.Item;
-import slimeknights.mantle.lib.fluid.SimpleFlowableFluid;
 import slimeknights.mantle.registration.object.FluidObject;
+import slimeknights.mantle.util.SimpleFlowableFluid;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 
 import java.util.Locale;

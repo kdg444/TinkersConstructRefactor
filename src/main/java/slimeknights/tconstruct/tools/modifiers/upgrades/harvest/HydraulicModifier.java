@@ -6,7 +6,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
-import slimeknights.mantle.lib.event.PlayerBreakSpeedCallback.BreakSpeed;
+import io.github.fabricators_of_create.porting_lib.event.PlayerBreakSpeedCallback.BreakSpeed;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.impl.IncrementalModifier;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;

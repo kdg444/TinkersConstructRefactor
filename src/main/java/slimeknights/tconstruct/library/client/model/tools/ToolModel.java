@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
@@ -42,11 +43,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import slimeknights.mantle.client.model.util.BakedItemModel;
 import slimeknights.mantle.client.model.util.MantleItemLayerModel;
-import slimeknights.mantle.lib.model.IModelConfiguration;
-import slimeknights.mantle.lib.model.IModelGeometry;
-import slimeknights.mantle.lib.model.IModelLoader;
-import slimeknights.mantle.lib.model.PerspectiveMapWrapper;
-import slimeknights.mantle.lib.render.TransformTypeDependentItemBakedModel;
+import io.github.fabricators_of_create.porting_lib.model.IModelConfiguration;
+import io.github.fabricators_of_create.porting_lib.model.IModelGeometry;
+import io.github.fabricators_of_create.porting_lib.model.IModelLoader;
+import io.github.fabricators_of_create.porting_lib.render.TransformTypeDependentItemBakedModel;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.mantle.util.ReversedListBuilder;
@@ -120,8 +120,8 @@ public class ToolModel implements IModelGeometry<ToolModel> {
    * @param colors  Item colors instance
    * @param item    Material item
    */
-  public static void registerItemColors(ItemColors colors, Supplier<? extends IModifiable> item) {
-    colors.register(ToolModel.COLOR_HANDLER, item.get());
+  public static void registerItemColors(Supplier<? extends IModifiable> item) {
+    ColorProviderRegistry.ITEM.register(ToolModel.COLOR_HANDLER, item.get());
   }
 
   /** List of tool parts in this model */

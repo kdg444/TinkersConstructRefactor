@@ -157,39 +157,41 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
     };
   }
 
-  void missingItems(DataFixerBuilder builder) {
-    RegistrationHelper.handleMissingMappingsBlock(builder, name -> {
-      switch(name) {
-        case "copper_ingot": return Items.COPPER_INGOT.getRegistryName().toString();
-        case "blank_cast": return Items.GOLD_INGOT.getRegistryName().toString();
-        case "pickaxe_head": return TinkerToolParts.pickHead.get().getRegistryName().toString();
-        case "pickaxe_head_cast": return TinkerSmeltery.pickHeadCast.get().getRegistryName().toString();
-        case "pickaxe_head_sand_cast": return TinkerSmeltery.pickHeadCast.getSand().getRegistryName().toString();
-        case "pickaxe_head_red_sand_cast": return TinkerSmeltery.pickHeadCast.getRedSand().getRegistryName().toString();
-        // tinker bronze -> amethyst bronze
-        case "tinkers_bronze_ingot": TinkerMaterials.amethystBronze.getIngot();
-        case "tinkers_bronze_nugget": TinkerMaterials.amethystBronze.getNugget();
-        case "molten_tinkers_bronze_bucket": return TinkerFluids.moltenAmethystBronze.asItem();
-        case "flint_and_bronze": TinkerTools.flintAndBrick.get();
-      }
-      ItemLike block = Registry.BLOCK.get(new ResourceLocation(missingBlock(name)));
-      return block == null ? null : block.asItem().getRegistryName().toString();
-    });
-  }
-
-  void missingBlocks(DataFixerBuilder builder) {
-    RegistrationHelper.handleMissingMappingsBlock(builder, TConstruct::missingBlock);
-  }
-
-  @SubscribeEvent
-  void missingFluid(final MissingMappings<Fluid> event) {
-    RegistrationHelper.handleMissingMappings(event, MOD_ID, name -> switch (name) {
-      // tinker bronze -> amethyst bronze
-      case "molten_tinkers_bronze" -> TinkerFluids.moltenAmethystBronze.get();
-      case "flowing_molten_tinkers_bronze" -> TinkerFluids.moltenAmethystBronze.getFlowing();
-      default -> null;
-    });
-  }
+//  @SubscribeEvent
+//  void missingItems(final MissingMappings<Item> event) {
+//    RegistrationHelper.handleMissingMappings(event, MOD_ID, name -> {
+//      switch(name) {
+//        case "copper_ingot": return Items.COPPER_INGOT;
+//        case "blank_cast": return Items.GOLD_INGOT;
+//        case "pickaxe_head": return TinkerToolParts.pickHead.get();
+//        case "pickaxe_head_cast": return TinkerSmeltery.pickHeadCast.get();
+//        case "pickaxe_head_sand_cast": return TinkerSmeltery.pickHeadCast.getSand();
+//        case "pickaxe_head_red_sand_cast": return TinkerSmeltery.pickHeadCast.getRedSand();
+//        // tinker bronze -> amethyst bronze
+//        case "tinkers_bronze_ingot": TinkerMaterials.amethystBronze.getIngot();
+//        case "tinkers_bronze_nugget": TinkerMaterials.amethystBronze.getNugget();
+//        case "molten_tinkers_bronze_bucket": return TinkerFluids.moltenAmethystBronze.asItem();
+//        case "flint_and_bronze": TinkerTools.flintAndBrick.get();
+//      }
+//      ItemLike block = missingBlock(name);
+//      return block == null ? null : block.asItem();
+//    });
+//  }
+//
+//  @SubscribeEvent
+//  void missingBlocks(final MissingMappings<Block> event) {
+//    RegistrationHelper.handleMissingMappings(event, MOD_ID, TConstruct::missingBlock);
+//  }
+//
+//  @SubscribeEvent
+//  void missingFluid(final MissingMappings<Fluid> event) {
+//    RegistrationHelper.handleMissingMappings(event, MOD_ID, name -> switch (name) {
+//      // tinker bronze -> amethyst bronze
+//      case "molten_tinkers_bronze" -> TinkerFluids.moltenAmethystBronze.get();
+//      case "flowing_molten_tinkers_bronze" -> TinkerFluids.moltenAmethystBronze.getFlowing();
+//      default -> null;
+//    });
+//  }
 
   @SubscribeEvent
   void missingModifier(final MissingMappings<Modifier> event) {

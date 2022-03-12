@@ -35,8 +35,8 @@
 //import net.minecraft.world.item.crafting.RecipeType;
 //import net.minecraft.world.level.ItemLike;
 //import net.minecraft.world.level.material.Fluid;
-//import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
-//import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+//import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
+//import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 //import net.minecraftforge.fml.ModList;
 //import slimeknights.mantle.item.RetexturedBlockItem;
 //import slimeknights.mantle.recipe.helper.RecipeHelper;

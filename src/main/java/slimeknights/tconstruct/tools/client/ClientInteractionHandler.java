@@ -6,13 +6,15 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
-import slimeknights.mantle.lib.event.MouseButtonCallback;
+import io.github.fabricators_of_create.porting_lib.event.MouseButtonCallback;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.tools.logic.InteractionHandler;
 import slimeknights.tconstruct.tools.network.OnChestplateUsePacket;
+
+import java.awt.event.InputEvent;
 
 /**
  * Client side interaction hooks

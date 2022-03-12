@@ -7,7 +7,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import slimeknights.mantle.lib.util.EffectRenderer;
+import io.github.fabricators_of_create.porting_lib.util.EffectRenderer;
 
 import java.util.function.Consumer;
 

@@ -1,28 +1,16 @@
 package slimeknights.tconstruct.library.events.teleport;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import io.github.fabricators_of_create.porting_lib.event.EntityEvents;
 import net.minecraft.world.entity.LivingEntity;
-import slimeknights.mantle.lib.util.MantleEvent;
 
 /** Event fired when an entity teleports using the enderporting modifier */
-public class EnderportingTeleportEvent extends MantleEvent.EntityTeleportEvent {
-  public static Event<Teleport> EVENT = EventFactory.createArrayBacked(Teleport.class, callbacks -> event -> {
-    for(Teleport e : callbacks)
-      e.onTeleport(event);
-  });
-
+public class EnderportingTeleportEvent extends EntityEvents.Teleport.EntityTeleportEvent {
   public EnderportingTeleportEvent(LivingEntity entity, double targetX, double targetY, double targetZ) {
     super(entity, targetX, targetY, targetZ);
   }
 
   @Override
   public void sendEvent() {
-    EVENT.invoker().onTeleport(this);
-  }
-
-  @FunctionalInterface
-  public interface Teleport {
-    void onTeleport(EnderportingTeleportEvent event);
+    EntityEvents.TELEPORT.invoker().onTeleport(this);
   }
 }

@@ -5,8 +5,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import slimeknights.mantle.lib.util.IPlantable;
-import slimeknights.mantle.lib.util.PlantType;
+import io.github.fabricators_of_create.porting_lib.util.IPlantable;
+import io.github.fabricators_of_create.porting_lib.util.PlantType;
 import slimeknights.tconstruct.world.TinkerWorld;
 
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;

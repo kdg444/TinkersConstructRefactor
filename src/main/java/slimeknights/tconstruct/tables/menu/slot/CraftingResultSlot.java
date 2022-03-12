@@ -6,7 +6,7 @@ import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.inventory.CustomResultSlot;
 import slimeknights.mantle.inventory.IContainerCraftingCustom;
-import slimeknights.mantle.lib.event.ItemCraftedCallback;
+import io.github.fabricators_of_create.porting_lib.event.ItemCraftedCallback;
 
 import javax.annotation.Nonnull;
 

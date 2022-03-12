@@ -16,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import slimeknights.mantle.data.IEarlySafeManagerReloadListener;
-import slimeknights.mantle.lib.util.MantleEvent;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.TinkerRegistries;
@@ -224,7 +223,7 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener, Id
   }
 
   /** Event fired when its time to register models */
-  public static class ModifierModelRegistrationEvent extends MantleEvent {
+  public static class ModifierModelRegistrationEvent {
 
     public static Event<ModifierModels> EVENT = EventFactory.createArrayBacked(ModifierModels.class, callbacks -> modifierModels -> {
       for(ModifierModels e : callbacks)
@@ -240,7 +239,6 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener, Id
       MODIFIER_MODEL_OPTIONS.put(name, model);
     }
 
-    @Override
     public void sendEvent() {
       EVENT.invoker().registerModels(this);
     }

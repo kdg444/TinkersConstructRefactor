@@ -2,6 +2,7 @@ package slimeknights.tconstruct.world;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -20,8 +21,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.Items;
-import slimeknights.mantle.lib.event.ColorHandlersCallback;
-import slimeknights.mantle.lib.util.Lazy;
+import io.github.fabricators_of_create.porting_lib.util.Lazy;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
@@ -154,48 +154,48 @@ public class WorldClientEvents extends ClientEventBase {
     registerParticleFactories();
     registerRenderers();
     registerRenderersSlime();
-    ColorHandlersCallback.BLOCK.register(WorldClientEvents::registerBlockColorHandlers);
-    ColorHandlersCallback.ITEM.register(WorldClientEvents::registerItemColorHandlers);
+    addResourceListener();
+    WorldClientEvents.registerBlockColorHandlers();
   }
 
-  static void registerBlockColorHandlers(BlockColors blockColors) {
+  static void registerBlockColorHandlers() {
 
     // slime plants - blocks
     for (SlimeType type : SlimeType.values()) {
-      blockColors.register(
+      ColorProviderRegistry.BLOCK.register(
         (state, reader, pos, index) -> getSlimeColorByPos(pos, type, null),
         TinkerWorld.vanillaSlimeGrass.get(type), TinkerWorld.earthSlimeGrass.get(type), TinkerWorld.skySlimeGrass.get(type),
         TinkerWorld.enderSlimeGrass.get(type), TinkerWorld.ichorSlimeGrass.get(type));
-      blockColors.register(
+      ColorProviderRegistry.BLOCK.register(
         (state, reader, pos, index) -> getSlimeColorByPos(pos, type, SlimeColorizer.LOOP_OFFSET),
         TinkerWorld.slimeLeaves.get(type));
-      blockColors.register(
+      ColorProviderRegistry.BLOCK.register(
         (state, reader, pos, index) -> getSlimeColorByPos(pos, type, null),
         TinkerWorld.slimeFern.get(type), TinkerWorld.slimeTallGrass.get(type));
     }
 
     // vines
-    blockColors.register(
+    ColorProviderRegistry.BLOCK.register(
       (state, reader, pos, index) -> getSlimeColorByPos(pos, SlimeType.SKY, SlimeColorizer.LOOP_OFFSET),
       TinkerWorld.skySlimeVine.get());
-    blockColors.register(
+    ColorProviderRegistry.BLOCK.register(
       (state, reader, pos, index) -> getSlimeColorByPos(pos, SlimeType.ENDER, SlimeColorizer.LOOP_OFFSET),
       TinkerWorld.enderSlimeVine.get());
   }
 
   static void registerItemColorHandlers(ItemColors itemColors, BlockColors blockColors) {
     // slime grass items
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.vanillaSlimeGrass);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.earthSlimeGrass);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.skySlimeGrass);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.enderSlimeGrass);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.ichorSlimeGrass);
+    registerBlockItemColorAlias(TinkerWorld.vanillaSlimeGrass);
+    registerBlockItemColorAlias(TinkerWorld.earthSlimeGrass);
+    registerBlockItemColorAlias(TinkerWorld.skySlimeGrass);
+    registerBlockItemColorAlias(TinkerWorld.enderSlimeGrass);
+    registerBlockItemColorAlias(TinkerWorld.ichorSlimeGrass);
     // plant items
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.slimeLeaves);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.slimeFern);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.slimeTallGrass);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.skySlimeVine);
-    registerBlockItemColorAlias(blockColors, itemColors, TinkerWorld.enderSlimeVine);
+    registerBlockItemColorAlias(TinkerWorld.slimeLeaves);
+    registerBlockItemColorAlias(TinkerWorld.slimeFern);
+    registerBlockItemColorAlias(TinkerWorld.slimeTallGrass);
+    registerBlockItemColorAlias(TinkerWorld.skySlimeVine);
+    registerBlockItemColorAlias(TinkerWorld.enderSlimeVine);
   }
 
   /**

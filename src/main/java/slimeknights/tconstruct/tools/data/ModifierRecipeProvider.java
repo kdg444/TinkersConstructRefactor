@@ -23,7 +23,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import me.alphamode.forgetags.Tags;
-import slimeknights.mantle.lib.transfer.fluid.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
 import slimeknights.mantle.recipe.data.CompoundIngredient;
 import slimeknights.mantle.recipe.data.FluidNameIngredient;
 import slimeknights.mantle.recipe.data.ItemNameIngredient;

@@ -2,7 +2,7 @@ package slimeknights.tconstruct.smeltery.block.entity.tank;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
-import slimeknights.mantle.lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 import slimeknights.tconstruct.library.fluid.FillOnlyFluidHandler;
 import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
 

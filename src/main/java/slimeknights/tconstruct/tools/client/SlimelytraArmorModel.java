@@ -10,9 +10,12 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
+import slimeknights.mantle.data.fabric.IdentifiableISafeManagerReloadListener;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.tools.data.material.MaterialIds;
 import slimeknights.tconstruct.tools.item.SlimesuitItem;
 
@@ -31,9 +34,12 @@ public class SlimelytraArmorModel extends Model {
   private static final Function<String,RenderType> WING_GETTER = mat -> RenderType.entityCutoutNoCullZOffset(new ResourceLocation(SlimesuitItem.makeArmorTexture(mat, "wings")));
 
   /** Called on resource reload to clear the model caches */
-  public static final ISafeManagerReloadListener RELOAD_LISTENER = manager -> {
-    INSTANCE.elytraModel = null;
-    WING_RENDER_CACHE.clear();
+  public static final IdentifiableISafeManagerReloadListener RELOAD_LISTENER = new IdentifiableISafeManagerReloadListener(TConstruct.getResource("slime_elytra_cache")) {
+    @Override
+    public void onReloadSafe(ResourceManager manager) {
+      INSTANCE.elytraModel = null;
+      WING_RENDER_CACHE.clear();
+    }
   };
 
   /**
