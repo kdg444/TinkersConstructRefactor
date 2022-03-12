@@ -94,7 +94,7 @@ public class BlockLootTableProvider extends FabricBlockLootTablesProvider {
     this.dropSelf(TinkerMaterials.cobalt.get());
     // tier 3
     this.dropSelf(TinkerMaterials.slimesteel.get());
-    this.dropSelf(TinkerMaterials.tinkersBronze.get());
+    this.dropSelf(TinkerMaterials.amethystBronze.get());
     this.dropSelf(TinkerMaterials.roseGold.get());
     this.dropSelf(TinkerMaterials.pigIron.get());
     // tier 4
