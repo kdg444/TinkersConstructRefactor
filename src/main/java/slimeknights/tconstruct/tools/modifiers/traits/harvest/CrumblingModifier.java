@@ -1,10 +1,10 @@
 package slimeknights.tconstruct.tools.modifiers.traits.harvest;
 
+import io.github.fabricators_of_create.porting_lib.event.PlayerBreakSpeedCallback;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
@@ -16,9 +16,9 @@ import java.util.List;
 
 public class CrumblingModifier extends Modifier {
   @Override
-  public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
-    if (!event.getState().requiresCorrectToolForDrops()) {
-      event.setNewSpeed(event.getNewSpeed() + (level * 0.25f * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier));
+  public void onBreakSpeed(IToolStackView tool, int level, PlayerBreakSpeedCallback.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+    if (!event.state.requiresCorrectToolForDrops()) {
+      event.newSpeed = event.newSpeed + (level * 0.25f * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier);
     }
   }
 

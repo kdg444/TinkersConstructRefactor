@@ -45,7 +45,7 @@ public class BlockTransformWalkerModifier extends AbstractWalkerModifier {
     if (material.isReplaceable() || material == Material.PLANT) {
       mutable.set(target.getX(), target.getY() - 1, target.getZ());
       BlockState original = world.getBlockState(mutable);
-      BlockState transformed = original.getToolModifiedState(world, mutable, (Player)living, living.getItemBySlot(EquipmentSlot.FEET), action);
+      BlockState transformed = original;//original.getToolModifiedState(world, mutable, (Player)living, living.getItemBySlot(EquipmentSlot.FEET), action); TODO: PORT
       if (transformed != null) {
         world.setBlock(mutable, transformed, Block.UPDATE_ALL_IMMEDIATE);
         world.destroyBlock(target, true);

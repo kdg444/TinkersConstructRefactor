@@ -2,6 +2,6 @@
   "replace": false,
   "values": [
     "#minecraft:mineable/hoe",
-    "#forge:mineable/shears"
+    "#c:mineable/shears"
   ]
 }

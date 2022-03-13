@@ -79,7 +79,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
    * @return  Capability from parent, or empty if absent
    */
   protected LazyOptional<T> getCapability(BlockEntity parent) {
-    LazyOptional<T> handler = TransferUtil.getHandler(parent, null, capability);
+    LazyOptional<T> handler = (LazyOptional<T>) TransferUtil.getHandler(parent, null, capability); // TODO: PORT this shouldnt need to be casted?
     if (handler.isPresent()) {
       handler.addListener(listener);
 

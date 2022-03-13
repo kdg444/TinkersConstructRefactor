@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#forge:raw_materials/cobalt"
+    "#c:ores/cobalt"
   ]
 }

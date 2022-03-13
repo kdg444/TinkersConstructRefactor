@@ -69,7 +69,7 @@ public abstract class AbstractChestBlockEntity extends NameableBlockEntity imple
     super.saveAdditional(tags);
     // move the items from the serialized result
     // we don't care about the size and need it here for compat with old worlds
-    CompoundTag handlerNBT = itemHandler.mantle$serializeNBT();
+    CompoundTag handlerNBT = itemHandler.serializeNBT();
     tags.put(KEY_ITEMS, handlerNBT.getList(KEY_ITEMS, Tag.TAG_COMPOUND));
   }
 
@@ -78,7 +78,7 @@ public abstract class AbstractChestBlockEntity extends NameableBlockEntity imple
     // copy in just the items key for deserializing, don't want to change the size
     CompoundTag handlerNBT = new CompoundTag();
     handlerNBT.put(KEY_ITEMS, tags.getList(KEY_ITEMS, Tag.TAG_COMPOUND));
-    itemHandler.mantle$deserializeNBT(handlerNBT);
+    itemHandler.deserializeNBT(handlerNBT);
   }
 
   @Override

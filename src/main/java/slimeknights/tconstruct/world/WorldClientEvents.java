@@ -154,8 +154,8 @@ public class WorldClientEvents extends ClientEventBase {
     registerParticleFactories();
     registerRenderers();
     registerRenderersSlime();
-    addResourceListener();
     WorldClientEvents.registerBlockColorHandlers();
+    WorldClientEvents.registerItemColorHandlers();
   }
 
   static void registerBlockColorHandlers() {
@@ -183,7 +183,7 @@ public class WorldClientEvents extends ClientEventBase {
       TinkerWorld.enderSlimeVine.get());
   }
 
-  static void registerItemColorHandlers(ItemColors itemColors, BlockColors blockColors) {
+  static void registerItemColorHandlers() {
     // slime grass items
     registerBlockItemColorAlias(TinkerWorld.vanillaSlimeGrass);
     registerBlockItemColorAlias(TinkerWorld.earthSlimeGrass);

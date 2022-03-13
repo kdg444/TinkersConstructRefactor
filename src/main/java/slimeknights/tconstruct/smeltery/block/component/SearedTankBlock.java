@@ -62,14 +62,15 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
 
   // FIXME PORT - Create needs to use a blockstate property for this because it's just not possible to mixin to all the places that use this.
   // we will need to do the same.
-  @Override
+//  @Override TODO: PORT
   public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
     BlockEntity te = world.getBlockEntity(pos);
     if (te instanceof TankBlockEntity) {
       FluidStack fluid = ((TankBlockEntity) te).getTank().getFluid();
       return fluid.getFluid().getAttributes().getLuminosity(fluid);
     }
-    return super.getLightEmission(state, world, pos);
+    return 0;
+//    return super.getLightEmission(state, world, pos);
   }
 
   @Override

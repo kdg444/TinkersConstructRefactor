@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.recipe.modifiers.spilling.effects;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.DamageSourceAccessor;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
-import slimeknights.mantle.lib.mixin.accessor.DamageSourceAccessor;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.recipe.ingredient.EntityIngredient;
@@ -85,7 +85,7 @@ public class DamageSpillingEffect implements ISpillingEffect {
     FIRE {
       @Override
       public void apply(DamageSource source) {
-        ((DamageSourceAccessor)source).mantle$setFireDamage();
+        ((DamageSourceAccessor)source).port_lib$setFireDamage();
       }
     },
     MAGIC {
@@ -103,7 +103,7 @@ public class DamageSpillingEffect implements ISpillingEffect {
     PIERCING {
       @Override
       public void apply(DamageSource source) {
-        ((DamageSourceAccessor)source).mantle$setDamageBypassesArmor();
+        ((DamageSourceAccessor)source).port_lib$setDamageBypassesArmor();
       }
     };
 

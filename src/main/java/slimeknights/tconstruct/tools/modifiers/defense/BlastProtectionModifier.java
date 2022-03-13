@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.defense;
 
+import io.github.fabricators_of_create.porting_lib.event.common.ExplosionEvents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;

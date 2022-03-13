@@ -37,8 +37,8 @@ public class DwarvenModifier extends Modifier {
     if (!isEffective) {
       return;
     }
-    float boost = getBoost(event.getPlayer().level, event.getPos().getY(), level);
-    event.setNewSpeed(event.getNewSpeed() + (boost * miningSpeedModifier * tool.getMultiplier(ToolStats.MINING_SPEED)));
+    float boost = getBoost(event.player.level, event.pos.getY(), level);
+    event.newSpeed = event.newSpeed + (boost * miningSpeedModifier * tool.getMultiplier(ToolStats.MINING_SPEED));
   }
 
   @Override

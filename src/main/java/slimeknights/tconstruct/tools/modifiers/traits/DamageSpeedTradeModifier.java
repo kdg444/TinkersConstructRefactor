@@ -73,7 +73,7 @@ public class DamageSpeedTradeModifier extends Modifier {
   @Override
   public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (isEffective) {
-      event.setNewSpeed((float)(event.getNewSpeed() * (1 - getMultiplier(tool, level))));
+      event.newSpeed = (float)(event.newSpeed * (1 - getMultiplier(tool, level)));
     }
   }
 }

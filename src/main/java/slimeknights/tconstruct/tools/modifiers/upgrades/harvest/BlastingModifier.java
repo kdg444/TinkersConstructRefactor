@@ -23,13 +23,13 @@ public class BlastingModifier extends IncrementalModifier {
   @Override
   public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (isEffective) {
-      float blastResistance = event.getState().getBlock().getExplosionResistance();
+      float blastResistance = event.state.getBlock().getExplosionResistance();
 
       // formula makes a boost of 9 at a hardness of 3 (most ores), boost of 3 at a hardness of 4.5, and a boost of 1 at hardness of 6 (stone)
       double boost = level * (Math.min(10f, Math.pow(3f, (6f - blastResistance)/1.5f))) * miningSpeedModifier;
       // factor in tool definition to prevent this being too strong on hammers
       boost *= tool.getMultiplier(ToolStats.MINING_SPEED);
-      event.setNewSpeed(event.getNewSpeed() + (float)boost);
+      event.newSpeed = event.newSpeed + (float)boost;
     }
   }
 

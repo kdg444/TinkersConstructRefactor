@@ -23,7 +23,7 @@ public class WaxedPlatformBlock extends PlatformBlock {
     return state.is(TinkerTags.Blocks.COPPER_PLATFORMS);
   }
 
-  @Override
+//  @Override TODO: PORT
   public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
     if (ToolActions.AXE_WAX_OFF.equals(toolAction)) {
       return TinkerCommons.copperPlatform.get(age).withPropertiesOf(state);

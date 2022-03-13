@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.tools.helper;
 
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.ListTag;
@@ -100,7 +101,7 @@ public class ToolHarvestLogic {
     ServerLevel world = context.getWorld();
     BlockPos pos = context.getPos();
     if (removed == null) {
-      removed = state.onDestroyedByPlayer(world, pos, context.getPlayer(), context.canHarvest(), world.getFluidState(pos));
+      removed = !PlayerBlockBreakEvents.BEFORE.invoker().beforeBlockBreak(world, context.getPlayer(), pos, context.getState(), null); // state.onDestroyedByPlayer(world, pos, context.getPlayer(), context.canHarvest(), world.getFluidState(pos)); TODO: PORT?
     }
     // if removed by anything, finally destroy it
     if (removed) {
@@ -218,7 +219,7 @@ public class ToolHarvestLogic {
     } else {
       // add in harvest info
       ToolHarvestContext context = new ToolHarvestContext(world, serverPlayer, state, pos, sideHit,
-                                                          !player.isCreative() && state.canHarvestBlock(world, pos, player),
+                                                          !player.isCreative()/* && state.canHarvestBlock(world, pos, player) TODO: PORT*/,
                                                           isEffective(tool, state));
 
       // add enchants

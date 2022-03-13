@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.tools.logic;
 
 import com.google.common.collect.Multiset;
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -31,9 +33,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.apache.logging.log4j.core.Filter.Result;
 import org.jetbrains.annotations.Nullable;
-import slimeknights.mantle.lib.event.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.event.PlayerBreakSpeedCallback;
-import slimeknights.mantle.lib.util.EntityHelper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.events.TinkerToolEvent.ToolHarvestEvent;
@@ -74,11 +74,11 @@ public class ToolEvents {
   }
 
   static void onBreakSpeed(PlayerBreakSpeedCallback.BreakSpeed event) {
-    Player player = event.getPlayer();
+    Player player = event.player;
 
     // if we are underwater, have the aqua affinity modifier, and are not under the effects of vanilla aqua affinity, cancel the underwater modifier
     if (player.isEyeInFluid(FluidTags.WATER) && ModifierUtil.getTotalModifierLevel(player, TinkerDataKeys.AQUA_AFFINITY) > 0 && !EnchantmentHelper.hasAquaAffinity(player)) {
-      event.setNewSpeed(event.getNewSpeed() * 5);
+      event.newSpeed= event.newSpeed * 5;
     }
 
     // tool break speed hook
@@ -90,7 +90,7 @@ public class ToolEvents {
         if (!modifiers.isEmpty()) {
           // modifiers using additive boosts may want info on the original boosts provided
           float miningSpeedModifier = Modifier.getMiningModifier(player);
-          boolean isEffective = stack.isCorrectToolForDrops(event.getState());
+          boolean isEffective = stack.isCorrectToolForDrops(event.state);
           Direction direction = BlockSideHitListener.getSideHit(player);
           for (ModifierEntry entry : tool.getModifierList()) {
             entry.getModifier().onBreakSpeed(tool, entry.getLevel(), event, direction, isEffective, miningSpeedModifier);
@@ -107,7 +107,7 @@ public class ToolEvents {
     float armorHaste = ModifierUtil.getTotalModifierFloat(player, HasteModifier.HASTE);
     if (armorHaste > 0) {
       // adds in 10% per level
-      event.setNewSpeed(event.getNewSpeed() * (1 + 0.1f * armorHaste));
+      event.newSpeed = event.newSpeed * (1 + 0.1f * armorHaste);
     }
   }
 

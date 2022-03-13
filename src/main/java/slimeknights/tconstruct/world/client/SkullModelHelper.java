@@ -25,7 +25,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import slimeknights.mantle.lib.util.IdentifiableISafeManagerReloadListener;
+import slimeknights.mantle.data.fabric.IdentifiableISafeManagerReloadListener;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.mantle.data.ISafeManagerReloadListener;
 import slimeknights.tconstruct.world.TinkerHeadType;
@@ -37,7 +37,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /** Helps with creation and registration of skull block models */
-public class SkullModelHelper implements ISafeManagerReloadListener, IdentifiableResourceReloadListener {
+public class SkullModelHelper extends IdentifiableISafeManagerReloadListener {
   /** Map of head type to model layer location for each head type */
   public static final Map<TinkerHeadType,ModelLayerLocation> HEAD_LAYERS = Arrays.stream(TinkerHeadType.values()).collect(
     Collectors.toMap(Function.identity(), type -> new ModelLayerLocation(TConstruct.getResource(type.getSerializedName() + "_head"), "main"), (a, b) -> a, () -> new EnumMap<>(TinkerHeadType.class)));

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.gadgets;
 
 import com.google.common.collect.Lists;
+import io.github.fabricators_of_create.porting_lib.event.common.ExplosionEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import slimeknights.mantle.lib.event.ExplosionEvents;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.gadgets.entity.EFLNExplosion;
 import slimeknights.tconstruct.tools.network.EntityMovementChangePacket;

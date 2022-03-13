@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tables.client;
 
+import io.github.fabricators_of_create.porting_lib.event.client.TextureStitchCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;

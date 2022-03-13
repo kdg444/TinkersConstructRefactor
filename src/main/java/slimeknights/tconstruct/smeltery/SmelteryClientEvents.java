@@ -1,17 +1,19 @@
 package slimeknights.tconstruct.smeltery;
 
+import io.github.fabricators_of_create.porting_lib.event.ModelLoadCallback;
+import io.github.fabricators_of_create.porting_lib.model.ModelLoaderRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
 import slimeknights.mantle.client.model.FaucetFluidLoader;
-import slimeknights.mantle.lib.event.ModelLoadCallback;
-import slimeknights.mantle.lib.model.ModelLoaderRegistry;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.library.client.model.block.CastingModel;
@@ -100,7 +102,7 @@ public class SmelteryClientEvents extends ClientEventBase {
     ScreenRegistry.register(TinkerSmeltery.alloyerContainer.get(), AlloyerScreen::new);
   }
 
-  static void registerModelLoaders() {
+  static void registerModelLoaders(ResourceManager manager, BlockColors colors, ProfilerFiller profiler, int mipLevel) {
     ModelLoaderRegistry.registerLoader(TConstruct.getResource("tank"), TankModel.LOADER);
     ModelLoaderRegistry.registerLoader(TConstruct.getResource("casting"), CastingModel.LOADER);
     ModelLoaderRegistry.registerLoader(TConstruct.getResource("melter"), MelterModel.LOADER);

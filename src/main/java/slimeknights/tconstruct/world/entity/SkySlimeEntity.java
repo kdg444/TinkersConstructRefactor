@@ -32,7 +32,7 @@ public class SkySlimeEntity extends Slime {
     if (isSuppressingBounce()) {
       return super.causeFallDamage(distance, damageMultiplier * 0.2f, source);
     }
-    LivingEntityEvents.LivingFallEvent fallEvent = new LivingEntityEvents.LivingFallEvent(this, distance, damageMultiplier);
+    LivingEntityEvents.Fall.FallEvent fallEvent = new LivingEntityEvents.Fall.FallEvent(this, source, distance, damageMultiplier);
 //    float[] ret = LivingEntityEvents.FALL.invoker().onFall(fallEvent);
     fallEvent.sendEvent();
 //    if (ret == null) {

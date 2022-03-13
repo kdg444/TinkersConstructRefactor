@@ -143,7 +143,7 @@ public class BlockTransformModifier extends InteractionModifier.SingleUse {
 
     // normal action transform
     Player player = context.getPlayer();
-    BlockState transformed = original.getToolModifiedState(level, pos, player, context.getItemInHand(), action);
+    BlockState transformed = original;//original.getToolModifiedState(level, pos, player, context.getItemInHand(), action); TODO: PORT
     if (transformed != null) {
       if (playSound) {
         level.playSound(player, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);

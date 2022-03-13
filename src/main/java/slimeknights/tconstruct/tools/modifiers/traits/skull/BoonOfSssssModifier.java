@@ -29,7 +29,7 @@ public class BoonOfSssssModifier extends TotalArmorLevelModifier {
       IToolStackView replacement = context.getReplacementTool();
       if (replacement == null || replacement.getModifierLevel(this) == 0) {
         // cure effects using the helmet
-        context.getEntity().curePotionEffects(new ItemStack(tool.getItem()));
+//        context.getEntity().curePotionEffects(new ItemStack(tool.getItem())); TODO: PORT
       }
     }
   }

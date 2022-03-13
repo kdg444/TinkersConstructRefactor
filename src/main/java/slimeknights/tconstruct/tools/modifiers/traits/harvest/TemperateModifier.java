@@ -31,7 +31,7 @@ public class TemperateModifier extends Modifier {
   public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (isEffective) {
       // temperature ranges from 0 to 1.25. Division makes it 0 to 0.125 per level
-      event.setNewSpeed(event.getNewSpeed() + (getBonus(event.getPlayer(), event.getPos(), level) * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier));
+      event.newSpeed = event.newSpeed + (getBonus(event.player, event.pos, level) * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier);
     }
   }
 

@@ -177,7 +177,7 @@ public class MaterialManager extends SimpleJsonResourceReloadListener {
     try {
       MaterialJson materialJson = GSON.fromJson(jsonObject, MaterialJson.class);
       // condition
-      ConditionJsonProvider condition = materialJson.getCondition();
+      ConditionJsonProvider condition = null;//materialJson.getCondition();
       if (condition != null && !ResourceConditions.get(condition.getConditionId()).test(jsonObject)) {
         log.debug("Skipped loading material {} as it did not match the condition", materialId);
         return null;

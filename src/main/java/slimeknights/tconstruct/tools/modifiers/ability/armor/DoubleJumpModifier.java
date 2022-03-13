@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
-import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents.Fall.FallInfo;
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents.Fall.FallEvent;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -76,7 +76,7 @@ public class DoubleJumpModifier extends TotalArmorLevelModifier {
   }
 
   /** Event handler to reset the number of times we have jumpped in mid air */
-  private static void onLand(FallInfo event) {
-    PersistentDataCapability.CAPABILITY.maybeGet(event.entity).ifPresent(data -> data.remove(JUMPS));
+  private static void onLand(FallEvent event) {
+    PersistentDataCapability.CAPABILITY.maybeGet(event.getEntity()).ifPresent(data -> data.remove(JUMPS));
   }
 }

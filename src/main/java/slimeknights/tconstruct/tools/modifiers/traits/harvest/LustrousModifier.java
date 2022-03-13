@@ -24,10 +24,10 @@ public class LustrousModifier extends Modifier {
 
   @Override
   public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
-    Block block = event.getState().getBlock();
+    Block block = event.state.getBlock();
     if (isEffective && (Tags.Blocks.ORES.contains(block) || Tags.Blocks.STORAGE_BLOCKS.contains(block))) {
       // grants +8 mining speed per level against ores
-      event.setNewSpeed(event.getNewSpeed() + (level * 8 * tool.getMultiplier(ToolStats.MINING_SPEED)));
+      event.newSpeed = event.newSpeed + (level * 8 * tool.getMultiplier(ToolStats.MINING_SPEED));
     }
   }
 

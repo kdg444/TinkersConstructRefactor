@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.world.block;
 
+import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -16,7 +17,6 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import slimeknights.mantle.lib.block.CustomPathNodeTypeBlock;
 
 import javax.annotation.Nullable;
 
@@ -91,7 +91,7 @@ public class CongealedSlimeBlock extends Block implements CustomPathNodeTypeBloc
             entityIn.setDeltaMovement(new Vec3(velocity * Math.signum(direction.x()), motion.y(), motion.z()));
             entityIn.hurtMarked = true;
             if (velocity > 0.1) {
-              worldIn.playSound(null, pos, getSoundType(state, worldIn, pos, entityIn).getStepSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
+              worldIn.playSound(null, pos, getSoundType(state/*, worldIn, pos, entityIn TODO: PORT?*/).getStepSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
             }
           }
         } else {
@@ -99,7 +99,7 @@ public class CongealedSlimeBlock extends Block implements CustomPathNodeTypeBloc
             entityIn.setDeltaMovement(new Vec3(motion.x(), motion.y(), velocity * Math.signum(direction.z())));
             entityIn.hurtMarked = true;
             if (velocity > 0.1) {
-              worldIn.playSound(null, pos, getSoundType(state, worldIn, pos, entityIn).getStepSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
+              worldIn.playSound(null, pos, getSoundType(state/*, worldIn, pos, entityIn*/).getStepSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
             }
           }
         }

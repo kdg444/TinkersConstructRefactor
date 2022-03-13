@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.shared;
 
+import io.github.fabricators_of_create.porting_lib.event.common.RecipesUpdatedCallback;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.world.item.crafting.RecipeManager;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;

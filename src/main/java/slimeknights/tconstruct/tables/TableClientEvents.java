@@ -1,10 +1,16 @@
 package slimeknights.tconstruct.tables;
 
+import io.github.fabricators_of_create.porting_lib.event.ModelLoadCallback;
+import io.github.fabricators_of_create.porting_lib.model.ModelLoaderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.library.client.model.block.TableModel;
 import slimeknights.tconstruct.tables.block.entity.chest.TinkersChestBlockEntity;
@@ -25,7 +31,7 @@ public class TableClientEvents extends ClientEventBase {
     TableClientEvents.registerItemColors();
   }
 
-  static void registerModelLoader() {
+  static void registerModelLoader(ResourceManager manager, BlockColors colors, ProfilerFiller profiler, int mipLevel) {
     ModelLoaderRegistry.registerLoader(TConstruct.getResource("table"), TableModel.LOADER);
   }
 

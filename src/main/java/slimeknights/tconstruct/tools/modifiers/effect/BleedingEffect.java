@@ -1,12 +1,12 @@
 package slimeknights.tconstruct.tools.modifiers.effect;
 
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.DamageSourceAccessor;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.server.level.ServerLevel;
-import slimeknights.mantle.lib.mixin.accessor.DamageSourceAccessor;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.tools.helper.ToolAttackUtil;
 import slimeknights.tconstruct.tools.modifiers.traits.melee.LaceratingModifier;
@@ -35,7 +35,7 @@ public class BleedingEffect extends NoMilkEffect {
       source = new EntityDamageSource(SOURCE_KEY, lastAttacker);
     }
     else {
-      source = DamageSourceAccessor.mantle$init(SOURCE_KEY);
+      source = DamageSourceAccessor.port_lib$init(SOURCE_KEY);
     }
 
     // perform damage

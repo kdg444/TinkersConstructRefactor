@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import slimeknights.mantle.lib.event.RegisterDataFixerCallback;
 import slimeknights.mantle.registration.RegistrationHelper;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -53,6 +52,7 @@ import slimeknights.tconstruct.tools.TinkerTools;
 import slimeknights.tconstruct.tools.logic.ToolEvents;
 import slimeknights.tconstruct.world.TinkerStructures;
 import slimeknights.tconstruct.world.TinkerWorld;
+import slimeknights.tconstruct.world.WorldEvents;
 
 import javax.annotation.Nullable;
 import java.util.Locale;
@@ -89,7 +89,7 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
     new TinkerGadgets();
     // world
     new TinkerWorld();
-    new TinkerStructures();
+    TinkerStructures structures = new TinkerStructures();
     // tools
    new TinkerTables();
    new TinkerModifiers();
@@ -100,8 +100,13 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
 
     // init deferred registers
     TinkerModule.initRegisters();
-    TinkerNetwork.setup();
     TinkerTags.init();
+    WorldEvents.init();
+    structures.commonSetup();
+    TinkerNetwork.setup();
+
+
+
     // init client logic
     TinkerBookIDs.registerCommandSuggestion();
 //    if (ModList.get().isLoaded("crafttweaker")) {
@@ -114,8 +119,8 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
     }
     commonSetup();
     FabricEvents.init();
-    RegisterDataFixerCallback.EVENT.register(this::missingBlocks);
-    RegisterDataFixerCallback.EVENT.register(this::missingItems);
+//    RegisterDataFixerCallback.EVENT.register(this::missingBlocks); TODO: PORT
+//    RegisterDataFixerCallback.EVENT.register(this::missingItems);
   }
 
   static void commonSetup() {
@@ -145,17 +150,17 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
     */
   }
 
-  @Nullable
-  private static String missingBlock(String name) {
-    return switch (name) {
-      case MOD_ID + ":copper_block" -> Blocks.COPPER_BLOCK.getRegistryName().toString();
-      case  MOD_ID + ":copper_ore" -> Blocks.COPPER_ORE.getRegistryName().toString();
-      // tinker bronze -> amethyst bronze
-      case "tinkers_bronze_block" -> TinkerMaterials.amethystBronze.get();
-      case "molten_tinkers_bronze_fluid" -> TinkerFluids.moltenAmethystBronze.getBlock();
-      default -> null;
-    };
-  }
+//  @Nullable
+//  private static String missingBlock(String name) {
+//    return switch (name) {
+//      case MOD_ID + ":copper_block" -> Blocks.COPPER_BLOCK.getRegistryName().toString();
+//      case  MOD_ID + ":copper_ore" -> Blocks.COPPER_ORE.getRegistryName().toString();
+//      // tinker bronze -> amethyst bronze
+//      case "tinkers_bronze_block" -> TinkerMaterials.amethystBronze.get();
+//      case "molten_tinkers_bronze_fluid" -> TinkerFluids.moltenAmethystBronze.getBlock();
+//      default -> null;
+//    };
+//  }
 
 //  @SubscribeEvent
 //  void missingItems(final MissingMappings<Item> event) {
@@ -193,10 +198,10 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
 //    });
 //  }
 
-  @SubscribeEvent
-  void missingModifier(final MissingMappings<Modifier> event) {
-    RegistrationHelper.handleMissingMappings(event, MOD_ID, name -> "maintained_2".equals(name) ? TinkerModifiers.maintained.get() : null);
-  }
+//  @SubscribeEvent
+//  void missingModifier(final MissingMappings<Modifier> event) {
+//    RegistrationHelper.handleMissingMappings(event, MOD_ID, name -> "maintained_2".equals(name) ? TinkerModifiers.maintained.get() : null);
+//  }
 
 
   /* Utils */

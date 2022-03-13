@@ -41,7 +41,7 @@ public class HydraulicModifier extends IncrementalModifier {
     if (!isEffective) {
       return;
     }
-    Player player = event.getPlayer();
+    Player player = event.player;
     float bonus = getBonus(player);
     if (bonus > 0) {
       // if not enchanted with aqua affinity, multiply by 5 to cancel out the effects of water
@@ -49,7 +49,7 @@ public class HydraulicModifier extends IncrementalModifier {
         bonus *= 5;
       }
       bonus *= getScaledLevel(tool, level) * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier;
-      event.setNewSpeed(event.getNewSpeed() + bonus);
+      event.newSpeed = event.newSpeed + bonus;
     }
   }
 

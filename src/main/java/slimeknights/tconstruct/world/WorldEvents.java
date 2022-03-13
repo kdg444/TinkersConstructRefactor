@@ -3,6 +3,9 @@ package slimeknights.tconstruct.world;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Lists;
+import io.github.fabricators_of_create.porting_lib.biomee.BiomeDictionary;
+import io.github.fabricators_of_create.porting_lib.biomee.BiomeDictionary.Type;
+import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -47,7 +50,6 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import slimeknights.mantle.lib.event.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.loot.function.SetFluidLootFunction;
 import slimeknights.tconstruct.TConstruct;
@@ -71,23 +73,24 @@ import java.util.HashMap;
 @SuppressWarnings("unused")
 public class WorldEvents {
   /** Checks if the biome matches the given categories */
-//  private static boolean matches(boolean hasNoTypes, @Nullable ResourceKey<Biome> key, BiomeCategory given, @Nullable BiomeCategory check, Type type) {
-//    if (hasNoTypes || key == null) {
-//      // check of null means not none, the nether/end checks were done earlier
-//      if (check == null) {
-//        return given != BiomeCategory.NONE;
-//      }
-//      return given == check;
-//    }
-//    // we have a key, require matching all the given types
-//    return BiomeDictionary.hasType(key, type);
-//  }
+  private static boolean matches(boolean hasNoTypes, @Nullable ResourceKey<Biome> key, BiomeCategory given, @Nullable BiomeCategory check, Type type) {
+    if (hasNoTypes || key == null) {
+      // check of null means not none, the nether/end checks were done earlier
+      if (check == null) {
+        return given != BiomeCategory.NONE;
+      }
+      return given == check;
+    }
+    // we have a key, require matching all the given types
+    return BiomeDictionary.hasType(key, type);
+  }
 
   public static void init() {
     LootTableLoadingCallback.EVENT.register(WorldEvents::onLootTableLoad);
     ServerLifecycleEvents.SERVER_STARTING.register(WorldEvents::serverStarting);
     ServerWorldEvents.LOAD.register(WorldEvents::onWorldLoad);
     LivingEntityEvents.DROPS.register(WorldEvents::creeperKill);
+    onBiomeLoad();
   }
 
   static void onBiomeLoad() {

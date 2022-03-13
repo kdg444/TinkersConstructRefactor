@@ -12,7 +12,6 @@ import net.minecraft.world.level.Level;
 
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import slimeknights.mantle.inventory.EmptyItemHandler;
-import slimeknights.mantle.lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 

@@ -38,7 +38,7 @@ public class SearedLanternBlock extends LanternBlock implements ITankBlock, Enti
     return new LanternBlockEntity(pos, state, this);
   }
 
-  @Override
+//  @Override TODO: PORT
   public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
     BlockEntity te = world.getBlockEntity(pos);
     if (te instanceof TankBlockEntity) {

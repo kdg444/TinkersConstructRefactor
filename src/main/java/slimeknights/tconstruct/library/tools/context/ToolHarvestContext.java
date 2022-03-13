@@ -74,6 +74,6 @@ public class ToolHarvestContext {
 
   /** Creates a copy of this context for the given position */
   public ToolHarvestContext forPosition(BlockPos pos, BlockState state) {
-    return new ToolHarvestContext(this.world, this.living, this.player, state, pos, this.sideHit, state.canHarvestBlock(world, pos, player), true, true, this.targetedPos, this.targetedState);
+    return new ToolHarvestContext(this.world, this.living, this.player, state, pos, this.sideHit, /*state.canHarvestBlock(world, pos, player) TODO: PORT*/true, true, true, this.targetedPos, this.targetedState);
   }
 }

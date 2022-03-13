@@ -8,8 +8,8 @@ import javax.annotation.Nullable;
 
 @Data
 public class MaterialJson {
-  @Nullable
-  private final ConditionJsonProvider condition;
+//  @Nullable
+//  private final ConditionJsonProvider condition;
   @Nullable
   private final Boolean craftable;
   @Nullable

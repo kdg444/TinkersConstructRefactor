@@ -27,12 +27,12 @@ public class LightspeedModifier extends IncrementalModifier {
     if (!isEffective) {
       return;
     }
-    BlockPos pos = event.getPos();
+    BlockPos pos = event.pos;
     if (pos != null) {
-      int light = event.getPlayer().getCommandSenderWorld().getBrightness(LightLayer.BLOCK, pos.relative(sideHit));
+      int light = event.player.getCommandSenderWorld().getBrightness(LightLayer.BLOCK, pos.relative(sideHit));
       // bonus is +9 mining speed at light level 15, +3 at light level 10, +1 at light level 5
       float boost = (float)(level * Math.pow(3, (light - 5) / 5f) * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier);
-      event.setNewSpeed(event.getNewSpeed() + boost);
+      event.newSpeed = event.newSpeed + boost;
     }
   }
 

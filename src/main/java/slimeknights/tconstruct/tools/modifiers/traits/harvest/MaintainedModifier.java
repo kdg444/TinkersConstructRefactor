@@ -57,7 +57,7 @@ public class MaintainedModifier extends Modifier {
   @Override
   public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (isEffective) {
-      event.setNewSpeed(event.getNewSpeed() + (getTotalBoost(tool, level) * miningSpeedModifier * tool.getMultiplier(ToolStats.MINING_SPEED)));
+      event.newSpeed = event.newSpeed + (getTotalBoost(tool, level) * miningSpeedModifier * tool.getMultiplier(ToolStats.MINING_SPEED));
     }
   }
 }

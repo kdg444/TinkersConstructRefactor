@@ -54,7 +54,7 @@ public class ModifierLootingHandler {
   }
 
   /** Applies the looting bonus for modifiers */
-  private static int onLooting(DamageSource damageSource, LivingEntity target, int level) {
+  private static int onLooting(DamageSource damageSource, LivingEntity target, int level, boolean recentlyHit) {
     // must be an attacker with our tool
 //    DamageSource damageSource = event.getDamageSource();
     if (damageSource == null) {

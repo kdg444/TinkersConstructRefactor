@@ -46,7 +46,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    */
   default void tagMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, int amount, String tagName, float factor, String recipePath, boolean isOptional) {
     Consumer<FinishedRecipe> wrapped = isOptional ? withCondition(consumer, tagCondition(tagName)) : consumer;
-    MeltingRecipeBuilder.melting(Ingredient.of(getTag("forge", tagName)), fluid, amount, factor)
+    MeltingRecipeBuilder.melting(Ingredient.of(getTag("c", tagName)), fluid, amount, factor)
                         .save(wrapped, modResource(recipePath));
   }
 
@@ -64,7 +64,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    */
   default void oreMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, int amount, String tagName, @Nullable Tag.Named<Item> size, float factor, String recipePath, boolean isOptional, OreRateType oreRate, float byproductScale, IByproduct... byproducts) {
     Consumer<FinishedRecipe> wrapped;
-    Ingredient baseIngredient = Ingredient.of(getTag("forge", tagName));
+    Ingredient baseIngredient = Ingredient.of(getTag("c", tagName));
     Ingredient ingredient;
     // not everyone sets size, so treat singular as the fallback, means we want anything in the tag that is not sparse or dense
     if (size == Tags.Items.ORE_RATES_SINGULAR) {
@@ -289,7 +289,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
     if (optional) {
       consumer = withCondition(consumer, tagCondition(tagName));
     }
-    castingWithCast(consumer, fluid, forgeTag, amount, cast, ItemOutput.fromTag(getTag("forge", tagName), 1), recipeName);
+    castingWithCast(consumer, fluid, forgeTag, amount, cast, ItemOutput.fromTag(getTag("c", tagName), 1), recipeName);
   }
 
   /**
@@ -462,7 +462,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
     tagCasting(consumer, fluid, true, FluidValues.INGOT / 2, TinkerSmeltery.rodCast, "rods/" + name, folder + name + "/rod", true);
     tagCasting(consumer, fluid, true, FluidValues.INGOT / 2, TinkerSmeltery.wireCast, "wires/" + name, folder + name + "/wire", true);
     // block
-    Tag<Item> block = getTag("forge", "storage_blocks/" + name);
+    Tag<Item> block = getTag("c", "storage_blocks/" + name);
     Consumer<FinishedRecipe> wrapped = forceStandard ? consumer : withCondition(consumer, tagCondition("storage_blocks/" + name));
     ItemCastingRecipeBuilder.basinRecipe(block)
                             .setFluidAndTime(fluid, true, FluidValues.METAL_BLOCK)

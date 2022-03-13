@@ -16,15 +16,15 @@ public class FabricEvents {
     CommonsEvents.init();
     AchievementEvents.init();
     
-    if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-      Client.init();
-    }
+//    if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+//      Client.init();
+//    }
   }
   
-  private static class Client {
-    @Environment(EnvType.CLIENT)
-    private static void init() {
-      WorldClientEvents.clientSetup();
-    }
-  }
+//  private static class Client {
+//    @Environment(EnvType.CLIENT)
+//    private static void init() {
+//      WorldClientEvents.clientSetup();
+//    }
+//  }
 }

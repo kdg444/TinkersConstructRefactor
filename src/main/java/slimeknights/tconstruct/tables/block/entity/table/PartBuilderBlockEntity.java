@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.tables.block.entity.table;
 
+import io.github.fabricators_of_create.porting_lib.event.ItemCraftedCallback;
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.RecipeManagerAccessor;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -9,8 +11,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.state.BlockState;
-import slimeknights.mantle.lib.event.ItemCraftedCallback;
-import slimeknights.mantle.lib.mixin.accessor.RecipeManagerAccessor;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -82,7 +82,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
         sortedButtons = Collections.emptyList();
       } else {
         // fetch all recipes that can match these inputs, the map ensures the patterns are unique
-        recipes = ((RecipeManagerAccessor)level.getRecipeManager()).callByType(RecipeTypes.PART_BUILDER).values().stream()
+        recipes = ((RecipeManagerAccessor)level.getRecipeManager()).port_lib$byType(RecipeTypes.PART_BUILDER).values().stream()
                        .filter(r -> r instanceof IPartBuilderRecipe)
                        .map(r -> (IPartBuilderRecipe)r)
                        .filter(r -> r.partialMatch(inventoryWrapper))
