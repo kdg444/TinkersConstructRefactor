@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.item;
 
+import io.github.fabricators_of_create.porting_lib.util.ArmorTextureItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -17,7 +18,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 /** This item applies the correct texture for a given material */
-public class SlimesuitItem extends ModifiableArmorItem {
+public class SlimesuitItem extends ModifiableArmorItem implements ArmorTextureItem {
   /** Cache of armor texture names */
   private static final Map<String,String> ARMOR_TEXTURE_CACHE = new HashMap<>();
   /** Cache of leg texture names */
@@ -53,7 +54,7 @@ public class SlimesuitItem extends ModifiableArmorItem {
   }
 
   @Nullable
-//  @Override TODO: PORT
+  @Override
   public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
     String material = getMaterial(stack);
     if (slot == EquipmentSlot.LEGS) {

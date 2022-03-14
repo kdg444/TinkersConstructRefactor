@@ -1,101 +1,92 @@
-//package slimeknights.tconstruct.plugin.jei;
-//
-//import com.mojang.blaze3d.vertex.PoseStack;
-//import lombok.Getter;
-//import mezz.jei.api.constants.VanillaTypes;
-//import mezz.jei.api.gui.IRecipeLayout;
-//import mezz.jei.api.gui.drawable.IDrawable;
-//import mezz.jei.api.gui.drawable.IDrawableAnimated.StartDirection;
-//import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
-//import mezz.jei.api.gui.ingredient.ITooltipCallback;
-//import mezz.jei.api.helpers.IGuiHelper;
-//import mezz.jei.api.ingredients.IIngredients;
-//import mezz.jei.api.recipe.category.IRecipeCategory;
-//import net.minecraft.ChatFormatting;
-//import net.minecraft.client.Minecraft;
-//import net.minecraft.client.gui.Font;
-//import net.minecraft.client.resources.language.I18n;
-//import net.minecraft.network.chat.Component;
-//import net.minecraft.network.chat.TranslatableComponent;
-//import net.minecraft.resources.ResourceLocation;
-//import net.minecraft.world.item.ItemStack;
-//import net.minecraft.world.level.material.Fluid;
-//import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
-//import slimeknights.tconstruct.TConstruct;
-//import slimeknights.tconstruct.library.fluid.FluidTooltipHandler;
-//import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
-//import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
-//import slimeknights.tconstruct.smeltery.TinkerSmeltery;
-//
-//import java.awt.Color;
-//import java.util.List;
-//
-///**
-// * Alloy recipe category for JEI display
-// */
-//public class AlloyRecipeCategory implements IRecipeCategory<AlloyRecipe>, ITooltipCallback<FluidStack> {
-//  private static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/alloy.png");
-//  private static final Component TITLE = TConstruct.makeTranslation("jei", "alloy.title");
-//  private static final String KEY_TEMPERATURE = TConstruct.makeTranslationKey("jei", "temperature");
-//
+package slimeknights.tconstruct.plugin.jei;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import lombok.Getter;
+import me.shedaniel.rei.api.client.gui.Renderer;
+import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.util.EntryStacks;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.library.fluid.FluidTooltipHandler;
+import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
+import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
+import slimeknights.tconstruct.plugin.TinkersDisplay;
+import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
+import slimeknights.tconstruct.smeltery.TinkerSmeltery;
+
+import java.awt.Color;
+import java.util.List;
+
+/**
+ * Alloy recipe category for JEI display
+ */
+public class AlloyRecipeCategory extends AbstractTinkersCategory<AlloyRecipe>/*, ITooltipCallback<FluidStack>*/ {
+  private static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/alloy.png");
+  private static final Component TITLE = TConstruct.makeTranslation("jei", "alloy.title");
+  private static final String KEY_TEMPERATURE = TConstruct.makeTranslationKey("jei", "temperature");
+
 //  @Getter
 //  private final IDrawable background;
-//  @Getter
-//  private final IDrawable icon;
+  @Getter
+  private final Renderer icon;
 //  private final IDrawable arrow;
 //  private final IDrawable tank;
-//
-//  public AlloyRecipeCategory(IGuiHelper helper) {
+
+  public AlloyRecipeCategory() {
 //    this.background = helper.createDrawable(BACKGROUND_LOC, 0, 0, 172, 62);
-//    this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(TinkerSmeltery.smelteryController));
+    this.icon = EntryStacks.of(new ItemStack(TinkerSmeltery.smelteryController));
 //    this.arrow = helper.drawableBuilder(BACKGROUND_LOC, 172, 0, 24, 17).buildAnimated(200, StartDirection.LEFT, false);
 //    this.tank = helper.createDrawable(BACKGROUND_LOC, 172, 17, 16, 16);
-//  }
-//
-//  @Override
-//  public ResourceLocation getUid() {
-//    return TConstructRecipeCategoryUid.alloy;
-//  }
-//
-//  @Override
-//  public Class<? extends AlloyRecipe> getRecipeClass() {
-//    return AlloyRecipe.class;
-//  }
-//
-//  @Override
-//  public Component getTitle() {
-//    return TITLE;
-//  }
-//
+  }
+
+  @Override
+  public CategoryIdentifier<TinkersDisplay<AlloyRecipe>> getCategoryIdentifier() {
+    return TConstructRecipeCategoryUid.alloy;
+  }
+
+  @Override
+  public Component getTitle() {
+    return TITLE;
+  }
+
 //  @Override
 //  public void setIngredients(AlloyRecipe recipe, IIngredients ingredients) {
 //    ingredients.setInputLists(VanillaTypes.FLUID, recipe.getDisplayInputs());
 //    ingredients.setInputIngredients(recipe.getIngredients());
 //    ingredients.setOutput(VanillaTypes.FLUID, recipe.getOutput());
 //  }
-//
-//  @Override
-//  public void draw(AlloyRecipe recipe, PoseStack matrices, double mouseX, double mouseY) {
+
+  @Override
+  public void draw(AlloyRecipe recipe, PoseStack matrices, double mouseX, double mouseY) {
 //    arrow.draw(matrices, 90, 21);
-//    // temperature info
-//    Font fontRenderer = Minecraft.getInstance().font;
-//    String tempString = I18n.get(KEY_TEMPERATURE, recipe.getTemperature());
-//    int x = 102 - (fontRenderer.width(tempString) / 2);
-//    fontRenderer.draw(matrices, tempString, x, 5, Color.GRAY.getRGB());
-//  }
-//
-//  /**
-//   * Draws a variable number of fluids
-//   * @param fluidGroup   JEI fluid group
-//   * @param x            X start
-//   * @param y            Y start
-//   * @param totalWidth   Total width
-//   * @param height       Tank height
-//   * @param fluids       List of fluids to draw
-//   * @param indexOffset  Amount to offset the index by
-//   * @param minAmount    Minimum tank size
-//   * @return Max amount based on fluids
-//   */
+    // temperature info
+    Font fontRenderer = Minecraft.getInstance().font;
+    String tempString = I18n.get(KEY_TEMPERATURE, recipe.getTemperature());
+    int x = 102 - (fontRenderer.width(tempString) / 2);
+    fontRenderer.draw(matrices, tempString, x, 5, Color.GRAY.getRGB());
+  }
+
+  /**
+   * Draws a variable number of fluids
+   * @param fluidGroup   JEI fluid group
+   * @param x            X start
+   * @param y            Y start
+   * @param totalWidth   Total width
+   * @param height       Tank height
+   * @param fluids       List of fluids to draw
+   * @param indexOffset  Amount to offset the index by
+   * @param minAmount    Minimum tank size
+   * @return Max amount based on fluids
+   */
 //  public static int drawVariableFluids(IGuiFluidStackGroup fluidGroup, int indexOffset, boolean isInput, int x, int y, int totalWidth, int height, List<List<FluidStack>> fluids, int minAmount) {
 //    int count = fluids.size();
 //    int maxAmount = minAmount;
@@ -121,7 +112,7 @@
 //    }
 //    return maxAmount;
 //  }
-//
+
 //  @Override
 //  public void setRecipe(IRecipeLayout layout, AlloyRecipe recipe, IIngredients ingredients) {
 //    // inputs
@@ -137,25 +128,25 @@
 //    fluids.init(1, true, 94, 43, 16, 16, 1, false, tank);
 //    fluids.set(1, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
 //  }
-//
+
 //  @Override
-//  public void onTooltip(int index, boolean input, FluidStack stack, List<Component> list) {
-//    Fluid fluid = stack.getFluid();
-//    if (fluid != null) {
-//      Component name = list.get(0);
-//      Component modId = list.get(list.size() - 1);
-//      list.clear();
-//      list.add(name);
-//
-//      // add amount to inputs
-//      if (index != 1) {
-//        FluidTooltipHandler.appendMaterial(stack, list);
-//      } else {
-//        // add temperature to fuels
-//        MeltingFuelHandler.getTemperature(stack.getFluid())
-//                          .ifPresent(temperature -> list.add(new TranslatableComponent(KEY_TEMPERATURE, temperature).withStyle(ChatFormatting.GRAY)));
-//      }
-//      list.add(modId);
-//    }
-//  }
-//}
+  public void onTooltip(int index, boolean input, FluidStack stack, List<Component> list) {
+    Fluid fluid = stack.getFluid();
+    if (fluid != null) {
+      Component name = list.get(0);
+      Component modId = list.get(list.size() - 1);
+      list.clear();
+      list.add(name);
+
+      // add amount to inputs
+      if (index != 1) {
+        FluidTooltipHandler.appendMaterial(stack, list);
+      } else {
+        // add temperature to fuels
+        MeltingFuelHandler.getTemperature(stack.getFluid())
+                          .ifPresent(temperature -> list.add(new TranslatableComponent(KEY_TEMPERATURE, temperature).withStyle(ChatFormatting.GRAY)));
+      }
+      list.add(modId);
+    }
+  }
+}

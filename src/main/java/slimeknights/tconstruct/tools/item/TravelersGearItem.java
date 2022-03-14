@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.item;
 
+import io.github.fabricators_of_create.porting_lib.util.ArmorTextureItem;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.world.entity.Entity;
@@ -17,7 +18,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
-public class TravelersGearItem extends ModifiableArmorItem {
+public class TravelersGearItem extends ModifiableArmorItem implements ArmorTextureItem {
   /** Golden texture for armor */
   private static final String GOLDEN_ARMOR = TConstruct.resourceString("textures/models/armor/travelers_golden_1.png");
   /** Golden texture for leggings */
@@ -28,14 +29,14 @@ public class TravelersGearItem extends ModifiableArmorItem {
   }
 
   // TODO: PORT
-//  @Nullable
-//  @Override
-//  public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-//    if (ModifierUtil.getModifierLevel(stack, TinkerModifiers.golden.get()) > 0) {
-//      return slot == EquipmentSlot.LEGS ? GOLDEN_LEGS : GOLDEN_ARMOR;
-//    }
-//    return null;
-//  }
+  @Nullable
+  @Override
+  public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+    if (ModifierUtil.getModifierLevel(stack, TinkerModifiers.golden.get()) > 0) {
+      return slot == EquipmentSlot.LEGS ? GOLDEN_LEGS : GOLDEN_ARMOR;
+    }
+    return null;
+  }
 //
 //  @Override
 //  public void initializeClient(Consumer<IItemRenderProperties> consumer) {

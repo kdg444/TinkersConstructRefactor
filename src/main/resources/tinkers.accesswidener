@@ -107,6 +107,8 @@ transitive-accessible method net/minecraft/world/damagesource/DamageSource bypas
 
 transitive-accessible method net/minecraft/world/level/biome/Biome getTemperature (Lnet/minecraft/core/BlockPos;)F
 
+transitive-accessible field net/minecraft/client/renderer/entity/layers/HumanoidArmorLayer ARMOR_LOCATION_CACHE Ljava/util/Map;
+
 transitive-accessible field net/minecraft/client/renderer/entity/layers/CustomHeadLayer skullModels Ljava/util/Map;
 transitive-mutable field net/minecraft/client/renderer/entity/layers/CustomHeadLayer skullModels Ljava/util/Map;
 

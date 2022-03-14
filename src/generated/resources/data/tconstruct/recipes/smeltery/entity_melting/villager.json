@@ -1,7 +1,7 @@
 {
   "type": "tconstruct:entity_melting",
   "entity": {
-    "tag": "forge:villagers"
+    "tag": "c:villagers"
   },
   "result": {
     "fluid": "tconstruct:molten_emerald",

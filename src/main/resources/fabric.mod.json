@@ -29,6 +29,9 @@
       "slimeknights.tconstruct.tools.logic.EquipmentChangeWatcher",
       "slimeknights.tconstruct.library.tools.capability.TinkerDataCapability",
       "slimeknights.tconstruct.library.tools.capability.PersistentDataCapability"
+    ],
+    "rei": [
+      "slimeknights.tconstruct.plugin.jei.JEIPlugin"
     ]
   },
   "accessWidener": "tinkers.accesswidener",

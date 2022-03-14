@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.client;
 
+import io.github.fabricators_of_create.porting_lib.event.client.LivingEntityRenderEvents;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,8 +16,11 @@ public class ArmorModelHelper {
   /** Iniitalizes the wrapper */
   public static void init() {
     // register listeners to set and clear the buffer
-//    MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, RenderLivingEvent.Pre.class, event -> buffer = event.getMultiBufferSource()); TODO: PORT
-//    MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, RenderLivingEvent.Post.class, event -> buffer = null);
+    LivingEntityRenderEvents.PRE.register((entity, renderer, partialRenderTick, matrixStack, buffers, light) ->{
+      buffer = buffers;
+      return false;
+    });
+    LivingEntityRenderEvents.POST.register((entity, renderer, partialRenderTick, matrixStack, buffers, light) -> buffer = null);
   }
 
   /** Handles the unchecked cast to copy entity model properties */
