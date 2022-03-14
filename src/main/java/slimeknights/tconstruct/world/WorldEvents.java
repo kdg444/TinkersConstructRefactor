@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -111,7 +112,7 @@ public class WorldEvents {
       }
       // ichor can be anywhere
       if (Config.COMMON.ichorGeodes.get()) {
-//        generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.ichorGeode.getPlacedGeode()); TODO: PORT
+        BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.LOCAL_MODIFICATIONS, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, BuiltinRegistries.PLACED_FEATURE.getKey(TinkerWorld.ichorGeode.getPlacedGeode())));
       }
 //    }
     // end, mostly do stuff in the outer islands
@@ -119,9 +120,9 @@ public class WorldEvents {
       // slime spawns anywhere, uses the grass
       BiomeModifications.addSpawn(BiomeSelectors.foundInTheEnd(), MobCategory.MONSTER, TinkerWorld.enderSlimeEntity.get(), 10, 2, 4);
       // geodes only on outer islands
-//      if (Config.COMMON.enderGeodes.get() && key != null && !Biomes.THE_END.equals(key)) {
-//        generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.enderGeode.getPlacedGeode()); TODO: PORT
-//      }
+      if (Config.COMMON.enderGeodes.get()/* && key != null && !Biomes.THE_END.equals(key)*/) {
+        BiomeModifications.addFeature(BiomeSelectors.foundInTheEnd(), Decoration.LOCAL_MODIFICATIONS, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, BuiltinRegistries.PLACED_FEATURE.getKey(TinkerWorld.enderGeode.getPlacedGeode())));
+      }
 //    }
     // overworld gets tricky
 //    else if (matches(hasNoTypes, key, category, null, Type.OVERWORLD)) {
@@ -131,7 +132,7 @@ public class WorldEvents {
 
       // earth spawns anywhere, sky does not spawn in ocean (looks weird)
       if (Config.COMMON.earthGeodes.get()) {
-//        generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.earthGeode.getPlacedGeode()); TODO: PORT
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), Decoration.LOCAL_MODIFICATIONS, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, BuiltinRegistries.PLACED_FEATURE.getKey(TinkerWorld.earthGeode.getPlacedGeode())));
       }
       // sky spawn in non-oceans, they look funny in the ocean as they spawn so high
       if (Config.COMMON.skyGeodes.get()) {
@@ -142,7 +143,7 @@ public class WorldEvents {
 //          add = !BiomeDictionary.hasType(key, Type.WATER) && !BiomeDictionary.hasType(key, Type.BEACH);
 //        }
 //        if (add) {
-//          generation.addFeature(Decoration.LOCAL_MODIFICATIONS, TinkerWorld.skyGeode.getPlacedGeode());
+        BiomeModifications.addFeature(BiomeSelectors.excludeByKey(Biomes.OCEAN, Biomes.COLD_OCEAN, Biomes.BEACH, Biomes.RIVER), Decoration.LOCAL_MODIFICATIONS, ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, BuiltinRegistries.PLACED_FEATURE.getKey(TinkerWorld.skyGeode.getPlacedGeode())));
 //        }
       }
 //    }
