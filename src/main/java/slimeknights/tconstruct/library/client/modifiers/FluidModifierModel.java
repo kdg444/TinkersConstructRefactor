@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.client.modifiers;
 import com.google.common.collect.ImmutableList;
 import com.mojang.math.Transformation;
 import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.model.ItemTextureQuadConverter;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -89,8 +90,8 @@ public class FluidModifierModel extends NormalModifierModel {
           int color = attributes.getColor(fluid);
           int luminosity = attributes.getLuminosity(fluid);
           TextureAtlasSprite templateSprite = spriteGetter.apply(template);
-//          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 7.498f / 16f, Direction.NORTH, color, -1, luminosity)); TODO: PORT
-//          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 8.502f / 16f, Direction.SOUTH, color, -1, luminosity));
+          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 7.498f / 16f, Direction.NORTH, color, -1, luminosity));
+          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 8.502f / 16f, Direction.SOUTH, color, -1, luminosity));
           quads = builder.build();
         }
       }

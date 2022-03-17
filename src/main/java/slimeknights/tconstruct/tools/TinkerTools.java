@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.tools;
 
+import io.github.fabricators_of_create.porting_lib.util.ItemPredicateRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.EntityDimensions;
@@ -21,6 +23,7 @@ import slimeknights.tconstruct.library.json.AddToolDataFunction;
 import slimeknights.tconstruct.library.json.RandomMaterial;
 import slimeknights.tconstruct.library.tools.IndestructibleItemEntity;
 import slimeknights.tconstruct.library.tools.SlotType;
+import slimeknights.tconstruct.library.tools.ToolPredicate;
 import slimeknights.tconstruct.library.tools.capability.ToolCapabilityProvider;
 import slimeknights.tconstruct.library.tools.capability.ToolFluidCapability;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
@@ -136,8 +139,7 @@ public final class TinkerTools extends TinkerModule {
   }
 
   void registerRecipeSerializers() {
-    // TODO: PORT
-//    ItemPredicate.register(ToolPredicate.ID, ToolPredicate::deserialize);
+    ItemPredicateRegistry.register(ToolPredicate.ID, ToolPredicate::deserialize);
     lootAddToolData = Registry.register(Registry.LOOT_FUNCTION_TYPE, AddToolDataFunction.ID, new LootItemFunctionType(AddToolDataFunction.SERIALIZER));
 
     // tool definition components

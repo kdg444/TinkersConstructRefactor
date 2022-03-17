@@ -4,6 +4,10 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
 import io.github.fabricators_of_create.porting_lib.item.UseFirstBehaviorItem;
+import io.github.fabricators_of_create.porting_lib.util.AttributeModiferItem;
+import io.github.fabricators_of_create.porting_lib.util.CorrectToolItem;
+import io.github.fabricators_of_create.porting_lib.util.DamagableItem;
+import io.github.fabricators_of_create.porting_lib.util.ShieldBlockItem;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -68,7 +72,7 @@ import java.util.function.Consumer;
  * A standard modifiable item which implements melee hooks
  * This class handles how all the modifier hooks and display data for items made out of different materials
  */
-public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, ItemExtensions {
+public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, ItemExtensions, CorrectToolItem, AttributeModiferItem, DamagableItem, ShieldBlockItem {
   /** Tool definition for the given tool */
   @Getter
   private final ToolDefinition toolDefinition;
@@ -166,7 +170,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     return true;
   }
 
-//  @Override
+  @Override
   public int getMaxDamage(ItemStack stack) {
     if (!canBeDepleted()) {
       return 0;
@@ -177,7 +181,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     return tool.isBroken() ? durability + 1 : durability;
   }
 
-//  @Override
+  @Override
   public int getDamage(ItemStack stack) {
     if (!canBeDepleted()) {
       return 0;
@@ -185,7 +189,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     return ToolStack.from(stack).getDamage();
   }
 
-//  @Override
+  @Override
   public void setDamage(ItemStack stack, int damage) {
     if (canBeDepleted()) {
       ToolStack.from(stack).setDamage(damage);
@@ -224,7 +228,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   /* Attacking */
 
-//  @Override
+  @Override
   public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
     return ToolAttackUtil.attackEntity(stack, player, entity);
   }
@@ -252,7 +256,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     return builder.build();
   }
 
-//  @Override
+  @Override
   public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
     CompoundTag nbt = stack.getTag();
     if (nbt == null || slot.getType() != Type.HAND) {
@@ -261,7 +265,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     return getAttributeModifiers(ToolStack.from(stack), slot);
   }
 
-//  @Override
+  @Override
   public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
     return !ToolDamageUtil.isBroken(stack) && toolDefinition.getData().canPerformAction(TinkerToolActions.SHIELD_DISABLE);
   }
@@ -269,7 +273,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   /* Harvest logic */
 
-//  @Override
+  @Override
   public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
     return ToolHarvestLogic.isEffective(ToolStack.from(stack), state);
   }
@@ -298,7 +302,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     return ToolHarvestLogic.getDestroySpeed(stack, state);
   }
 
-//  @Override
+  @Override
   public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, Player player) {
     return ToolHarvestLogic.handleBlockBreak(stack, pos, player);
 
