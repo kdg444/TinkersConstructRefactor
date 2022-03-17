@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.melting;
 
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -36,7 +37,7 @@ public class MaterialMeltingRecipeBuilder extends AbstractRecipeBuilder<Material
 
   /** Creates a recipe using the fluids temperature */
   public static MaterialMeltingRecipeBuilder material(MaterialVariantId materialId, FluidStack result) {
-    return material(materialId, result.getFluid().getAttributes().getTemperature(result) - 300, result);
+    return material(materialId, ((FluidExtensions)result.getFluid()).getAttributes().getTemperature(result) - 300, result);
   }
 
   /** Creates a recipe using the fluids temperature */

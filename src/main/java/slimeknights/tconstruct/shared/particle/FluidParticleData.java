@@ -4,6 +4,7 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.serialization.Codec;
+import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Registry;
@@ -58,9 +59,9 @@ public class FluidParticleData implements ParticleOptions {
   @Override
   public String writeToString() {
     StringBuilder builder = new StringBuilder();
-    builder.append(getType().getRegistryName());
+    builder.append(((RegistryNameProvider)getType()).getRegistryName());
     builder.append(" ");
-    builder.append(fluid.getFluid().getRegistryName());
+    builder.append(((RegistryNameProvider)fluid.getFluid()).getRegistryName());
     CompoundTag nbt = fluid.getTag();
     if (nbt != null) {
       builder.append(nbt);

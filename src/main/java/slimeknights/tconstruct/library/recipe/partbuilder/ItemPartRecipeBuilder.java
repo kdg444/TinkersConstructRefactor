@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.partbuilder;
 
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -28,7 +29,7 @@ public class ItemPartRecipeBuilder extends AbstractRecipeBuilder<ItemPartRecipeB
 
   @Override
   public void save(Consumer<FinishedRecipe> consumer) {
-    save(consumer, Objects.requireNonNull(result.get().getItem().getRegistryName()));
+    save(consumer, Objects.requireNonNull(((RegistryNameProvider)result.get().getItem()).getRegistryName()));
   }
 
   @Override

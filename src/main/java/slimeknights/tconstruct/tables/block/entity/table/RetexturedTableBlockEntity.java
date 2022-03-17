@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tables.block.entity.table;
 
+import io.github.fabricators_of_create.porting_lib.extensions.BlockEntityExtensions;
 import lombok.Getter;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -104,6 +105,6 @@ public abstract class RetexturedTableBlockEntity extends TableBlockEntity implem
     
     @Override
     public CompoundTag getTileData() {
-        return getExtraCustomData();
+        return ((BlockEntityExtensions)this).getExtraCustomData();
     }
 }

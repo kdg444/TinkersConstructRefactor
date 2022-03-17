@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.tools.part;
 
+import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -134,7 +135,7 @@ public class MaterialItem extends Item implements IMaterialItem {
     if (!IMaterial.UNKNOWN_ID.equals(material)) {
       return material.getId().getNamespace();
     }
-    ResourceLocation id = getRegistryName();
+    ResourceLocation id = ((RegistryNameProvider)this).getRegistryName();
     return id == null ? null : id.getNamespace();
   }
 

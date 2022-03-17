@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.common.data.tags;
 
+import io.github.fabricators_of_create.porting_lib.extensions.TierExtensions;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -346,7 +347,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     // slime
     tagBlocks(MINEABLE_WITH_SHOVEL, TinkerWorld.congealedSlime, TinkerWorld.slimeDirt, TinkerWorld.vanillaSlimeGrass, TinkerWorld.earthSlimeGrass, TinkerWorld.skySlimeGrass, TinkerWorld.enderSlimeGrass, TinkerWorld.ichorSlimeGrass);
     // harvest tiers on shovel blocks
-    TinkerWorld.slimeDirt.forEach((type, block) -> this.tag((Tag.Named<Block>)Objects.requireNonNull(type.getHarvestTier().getTag())).add(block));
+    TinkerWorld.slimeDirt.forEach((type, block) -> this.tag((Tag.Named<Block>)Objects.requireNonNull(((TierExtensions)(Object)type.getHarvestTier()).getTag())).add(block));
     for (SlimeType dirt : SlimeType.values()) {
       for (SlimeType grass : SlimeType.values()) {
         Tiers dirtTier = dirt.getHarvestTier();
@@ -358,7 +359,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
         } else {
           tier = dirtTier.getLevel() > grassTier.getLevel() ? dirtTier : grassTier;
         }
-        this.tag((Tag.Named<Block>)Objects.requireNonNull(tier.getTag())).add(TinkerWorld.slimeGrass.get(dirt).get(grass));
+        this.tag((Tag.Named<Block>)Objects.requireNonNull(((TierExtensions)(Object)tier).getTag())).add(TinkerWorld.slimeGrass.get(dirt).get(grass));
       }
     }
 

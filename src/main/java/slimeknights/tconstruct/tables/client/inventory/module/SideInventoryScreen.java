@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tables.client.inventory.module;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import io.github.fabricators_of_create.porting_lib.extensions.SlotExtensions;
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -94,7 +95,7 @@ public class SideInventoryScreen<P extends MultiModuleScreen<?>, C extends Abstr
 
   @Override
   public boolean shouldDrawSlot(Slot slot) {
-    if (slot.getSlotIndex() >= this.slotCount) {
+    if (((SlotExtensions)slot).getSlotIndex() >= this.slotCount) {
       return false;
     }
 
@@ -103,7 +104,7 @@ public class SideInventoryScreen<P extends MultiModuleScreen<?>, C extends Abstr
       return true;
     }
 
-    return this.firstSlotId <= slot.getSlotIndex() && this.lastSlotId > slot.getSlotIndex();
+    return this.firstSlotId <= ((SlotExtensions)slot).getSlotIndex() && this.lastSlotId > ((SlotExtensions)slot).getSlotIndex();
   }
 
   @Override
@@ -225,7 +226,7 @@ public class SideInventoryScreen<P extends MultiModuleScreen<?>, C extends Abstr
     for (Slot slot : this.menu.slots) {
       if (this.shouldDrawSlot(slot)) {
         // calc position of the slot
-        int offset = slot.getSlotIndex() - this.firstSlotId;
+        int offset = ((SlotExtensions)slot).getSlotIndex() - this.firstSlotId;
         int x = (offset % this.columns) * this.slot.w;
         int y = (offset / this.columns) * this.slot.h;
 

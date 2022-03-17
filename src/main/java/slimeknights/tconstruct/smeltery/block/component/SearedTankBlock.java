@@ -67,7 +67,7 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
     BlockEntity te = world.getBlockEntity(pos);
     if (te instanceof TankBlockEntity) {
       FluidStack fluid = ((TankBlockEntity) te).getTank().getFluid();
-      return fluid.getFluid().getAttributes().getLuminosity(fluid);
+      return ((FluidExtensions)fluid.getFluid()).getAttributes().getLuminosity(fluid);
     }
     return 0;
 //    return super.getLightEmission(state, world, pos);

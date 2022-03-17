@@ -2,6 +2,7 @@ package slimeknights.tconstruct.smeltery.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -51,7 +52,7 @@ public class FaucetBlockEntityRenderer implements BlockEntityRenderer<FaucetBloc
       boolean isRotated = RenderingHelper.applyRotation(matrices, direction);
 
       // fluid props
-      FluidAttributes attributes = renderFluid.getFluid().getAttributes();
+      FluidAttributes attributes = ((FluidExtensions)renderFluid.getFluid()).getAttributes();
       int color = attributes.getColor(renderFluid);
       Function<ResourceLocation, TextureAtlasSprite> spriteGetter = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS);
       TextureAtlasSprite still = spriteGetter.apply(attributes.getStillTexture(renderFluid));

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.casting.material;
 
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +31,7 @@ public class CompositeCastingRecipeBuilder extends AbstractRecipeBuilder<Composi
 
   @Override
   public void save(Consumer<FinishedRecipe> consumer) {
-    save(consumer, Objects.requireNonNull(result.asItem().getRegistryName()));
+    save(consumer, Objects.requireNonNull(((RegistryNameProvider)result.asItem()).getRegistryName()));
   }
 
   @Override
@@ -49,7 +50,7 @@ public class CompositeCastingRecipeBuilder extends AbstractRecipeBuilder<Composi
       if (!group.isEmpty()) {
         json.addProperty("group", group);
       }
-      json.addProperty("result", Objects.requireNonNull(result.asItem().getRegistryName()).toString());
+      json.addProperty("result", Objects.requireNonNull(((RegistryNameProvider)result.asItem()).getRegistryName()).toString());
       json.addProperty("item_cost", itemCost);
     }
 

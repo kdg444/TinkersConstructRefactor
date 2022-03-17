@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.casting.material;
 
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -44,7 +45,7 @@ public class MaterialFluidRecipeBuilder extends AbstractRecipeBuilder<MaterialFl
   public MaterialFluidRecipeBuilder setFluidAndTemp(FluidStack fluidStack) {
     this.fluid = FluidIngredient.of(fluidStack);
     if (this.temperature == -1) {
-      this.temperature = fluidStack.getFluid().getAttributes().getTemperature(fluidStack) - 300;
+      this.temperature = ((FluidExtensions)fluidStack.getFluid()).getAttributes().getTemperature(fluidStack) - 300;
     }
     return this;
   }

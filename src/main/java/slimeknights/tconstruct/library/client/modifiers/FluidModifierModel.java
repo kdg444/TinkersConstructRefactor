@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.client.modifiers;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.math.Transformation;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -83,7 +84,7 @@ public class FluidModifierModel extends NormalModifierModel {
           // finally, build (mostly based on bucket model)
           ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
           builder.addAll(quads);
-          FluidAttributes attributes = fluid.getFluid().getAttributes();
+          FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
           TextureAtlasSprite fluidSprite = spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, FluidVariantRendering.getSprite(fluid.getType()).getName()));
           int color = attributes.getColor(fluid);
           int luminosity = attributes.getLuminosity(fluid);

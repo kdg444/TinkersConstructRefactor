@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.tools.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
 import io.github.fabricators_of_create.porting_lib.item.UseFirstBehaviorItem;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
@@ -67,7 +68,7 @@ import java.util.function.Consumer;
  * A standard modifiable item which implements melee hooks
  * This class handles how all the modifier hooks and display data for items made out of different materials
  */
-public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem {
+public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, ItemExtensions {
   /** Tool definition for the given tool */
   @Getter
   private final ToolDefinition toolDefinition;

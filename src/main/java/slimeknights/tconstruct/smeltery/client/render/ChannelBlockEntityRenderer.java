@@ -2,6 +2,7 @@ package slimeknights.tconstruct.smeltery.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
@@ -47,7 +48,7 @@ public class ChannelBlockEntityRenderer implements BlockEntityRenderer<ChannelBl
 		}
 
 		// fluid attributes
-		FluidAttributes attributes = fluid.getFluid().getAttributes();
+		FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
 		TextureAtlasSprite still = FluidRenderer.getBlockSprite(attributes.getStillTexture(fluid));
 		TextureAtlasSprite flowing = FluidRenderer.getBlockSprite(attributes.getFlowingTexture(fluid));
 		VertexConsumer builder = buffer.getBuffer(MantleRenderTypes.FLUID);

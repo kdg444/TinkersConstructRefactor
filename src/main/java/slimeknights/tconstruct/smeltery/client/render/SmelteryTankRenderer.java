@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.extensions.Vector3fExtensions;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -109,7 +111,7 @@ public class SmelteryTankRenderer {
       return;
     }
     // fluid attributes
-    FluidAttributes attributes = fluid.getFluid().getAttributes();
+    FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
     TextureAtlasSprite still = FluidRenderer.getBlockSprite(/*FluidVariantRendering.getSprite(fluid.getType()).getName()*/attributes.getFlowingTexture(fluid));
     int color = attributes.getColor(fluid);//FluidVariantRendering.getColor(fluid.getType());
     brightness = FluidRenderer.withBlockLight(brightness, attributes.getLuminosity(fluid));
@@ -141,7 +143,7 @@ public class SmelteryTankRenderer {
           if (y == yd) FluidRenderer.putTexturedQuad(builder, matrix, still, from, to, Direction.UP,    color, brightness, rotation, false);
           if (y == 0) {
             // increase Y position slightly to prevent z fighting on neighboring fluids
-            from.setY(from.y() + 0.001f);
+            ((Vector3fExtensions)(Object)from).setY(from.y() + 0.001f);
             FluidRenderer.putTexturedQuad(builder, matrix, still,   from, to, Direction.DOWN,  color, brightness, rotation, false);
           }
         }

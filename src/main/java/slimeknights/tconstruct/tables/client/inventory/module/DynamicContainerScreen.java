@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tables.client.inventory.module;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import io.github.fabricators_of_create.porting_lib.extensions.SlotExtensions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -144,7 +145,7 @@ public class DynamicContainerScreen extends ModuleScreen {
       return true;
     }
 
-    int index = slot.getSlotIndex();
+    int index = ((SlotExtensions)slot).getSlotIndex();
 
     return (this.firstSlotId <= index && this.lastSlotId > index); // inside visible area
     //|| indexStart > index || indexEnd <= index; // or not our concern
@@ -161,7 +162,7 @@ public class DynamicContainerScreen extends ModuleScreen {
       for (Slot slot : this.container.slots) {
         if (this.shouldDrawSlot(slot)) {
           // calc position of the slot
-          int offset = slot.getSlotIndex() - this.firstSlotId;
+          int offset = ((SlotExtensions)slot).getSlotIndex() - this.firstSlotId;
           int x = (offset % this.columns) * DynamicContainerScreen.slot.w;
           int y = (offset / this.columns) * DynamicContainerScreen.slot.h;
 

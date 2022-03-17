@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tables.client.inventory.module;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import io.github.fabricators_of_create.porting_lib.extensions.SlotExtensions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
@@ -58,7 +59,7 @@ public class ScalingChestScreen<T extends BlockEntity> extends DynamicContainerS
 
   @Override
   public boolean shouldDrawSlot(Slot slot) {
-    if (slot.getSlotIndex() >= this.scaling.getVisualSize()) {
+    if (((SlotExtensions)slot).getSlotIndex() >= this.scaling.getVisualSize()) {
       return false;
     }
     return super.shouldDrawSlot(slot);

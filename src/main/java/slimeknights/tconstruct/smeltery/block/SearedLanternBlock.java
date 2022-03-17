@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block;
 
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import lombok.Getter;
 import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.minecraft.core.BlockPos;
@@ -43,7 +44,7 @@ public class SearedLanternBlock extends LanternBlock implements ITankBlock, Enti
     BlockEntity te = world.getBlockEntity(pos);
     if (te instanceof TankBlockEntity) {
       FluidStack fluid = ((TankBlockEntity) te).getTank().getFluid();
-      return fluid.getFluid().getAttributes().getLuminosity(fluid);
+      return ((FluidExtensions)fluid.getFluid()).getAttributes().getLuminosity(fluid);
     }
     return 0;
   }

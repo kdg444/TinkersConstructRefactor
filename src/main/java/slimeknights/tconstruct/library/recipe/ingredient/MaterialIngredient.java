@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.recipe.ingredient;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.extensions.IngredientExtensions;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
@@ -28,7 +29,7 @@ import java.util.stream.Stream;
 /**
  * Extension of the vanilla ingredient to display materials on items and support matching by materials
  */
-public class MaterialIngredient extends Ingredient {
+public class MaterialIngredient extends Ingredient implements IngredientExtensions {
   /** Material ID meaning any material matches */
   private static final MaterialId WILDCARD = IMaterial.UNKNOWN.getIdentifier();
 
@@ -136,13 +137,13 @@ public class MaterialIngredient extends Ingredient {
 
   @Override
   public void invalidate() {
-    super.invalidate();
+    IngredientExtensions.super.invalidate();
     this.materialStacks = null;
   }
 
   @Override
   public boolean isSimple() {
-    return material == WILDCARD && super.isSimple();
+    return material == WILDCARD && IngredientExtensions.super.isSimple();
   }
 
   @Override

@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.recipe.casting.material;
 
+import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -50,7 +51,7 @@ public class MaterialCastingLookup {
     if (ITEM_COST_LOOKUP.containsKey(item)) {
       int original = ITEM_COST_LOOKUP.getInt(item);
       if (cost != original) {
-        TConstruct.LOG.error("Inconsistent cost for item {}", item.asItem().getRegistryName());
+        TConstruct.LOG.error("Inconsistent cost for item {}", ((RegistryNameProvider)item.asItem()).getRegistryName());
         ITEM_COST_LOOKUP.put(item, Math.min(cost, original));
       }
     } else {

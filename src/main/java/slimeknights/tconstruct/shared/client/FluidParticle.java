@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.shared.client;
 
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
@@ -20,7 +21,7 @@ public class FluidParticle extends TextureSheetParticle {
   protected FluidParticle(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, FluidStack fluid) {
     super(world, x, y, z, motionX, motionY, motionZ);
     this.fluid = fluid;
-    FluidAttributes attributes = fluid.getFluid().getAttributes();
+    FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
     this.setSprite(Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(attributes.getStillTexture(fluid)));
     this.gravity = 1.0F;
     int color = attributes.getColor(fluid);
@@ -60,7 +61,7 @@ public class FluidParticle extends TextureSheetParticle {
 
   @Override
   public int getLightColor(float partialTick) {
-    return FluidRenderer.withBlockLight(super.getLightColor(partialTick), fluid.getFluid().getAttributes().getLuminosity(fluid));
+    return FluidRenderer.withBlockLight(super.getLightColor(partialTick), ((FluidExtensions)fluid.getFluid()).getAttributes().getLuminosity(fluid));
   }
 
   /** Factory to create a fluid particle */

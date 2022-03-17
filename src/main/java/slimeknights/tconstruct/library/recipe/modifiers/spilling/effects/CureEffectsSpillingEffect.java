@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.modifiers.spilling.effects;
 
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -49,7 +50,7 @@ public class CureEffectsSpillingEffect implements ISpillingEffect {
 
     @Override
     public void serialize(CureEffectsSpillingEffect effect, JsonObject json) {
-      json.addProperty("item", Objects.requireNonNull(effect.stack.getItem().getRegistryName()).toString());
+      json.addProperty("item", Objects.requireNonNull(((RegistryNameProvider)effect.stack.getItem()).getRegistryName()).toString());
       CompoundTag nbt = effect.stack.getTag();
       if (nbt != null) {
         json.addProperty("nbt", nbt.toString());

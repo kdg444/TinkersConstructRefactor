@@ -2,6 +2,8 @@ package slimeknights.tconstruct.library.recipe.melting;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -57,7 +59,7 @@ public class MeltingRecipeBuilder extends AbstractRecipeBuilder<MeltingRecipeBui
    * @return  Builder instance
    */
   public static MeltingRecipeBuilder melting(Ingredient input, FluidStack output, float timeFactor) {
-    int temperature = output.getFluid().getAttributes().getTemperature(output) - 300;
+    int temperature = ((FluidExtensions)output.getFluid()).getAttributes().getTemperature(output) - 300;
     return melting(input, output, temperature, IMeltingRecipe.calcTime(temperature, timeFactor));
   }
 
@@ -114,7 +116,7 @@ public class MeltingRecipeBuilder extends AbstractRecipeBuilder<MeltingRecipeBui
 
   @Override
   public void save(Consumer<FinishedRecipe> consumer) {
-    save(consumer, Objects.requireNonNull(output.getFluid().getRegistryName()));
+    save(consumer, Objects.requireNonNull(((RegistryNameProvider)output.getFluid()).getRegistryName()));
   }
 
   @Override

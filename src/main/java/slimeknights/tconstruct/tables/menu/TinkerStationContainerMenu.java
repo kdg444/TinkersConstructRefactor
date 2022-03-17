@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.tables.menu;
 
+import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
+import io.github.fabricators_of_create.porting_lib.extensions.SlotExtensions;
 import lombok.Getter;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -62,7 +64,7 @@ public class TinkerStationContainerMenu extends TabbedContainerMenu<TinkerStatio
       // add result slot, will fetch result cache
       this.addSlot(this.resultSlot = new LazyResultSlot(tile.getCraftingResult(), 114, 38));
       // set initial slot filters and activations
-      setToolSelection(StationSlotLayoutLoader.getInstance().get(Objects.requireNonNull(tile.getBlockState().getBlock().getRegistryName())));
+      setToolSelection(StationSlotLayoutLoader.getInstance().get(Objects.requireNonNull(((RegistryNameProvider)tile.getBlockState().getBlock()).getRegistryName())));
     }
     else {
       // requirement for final variable
@@ -75,7 +77,7 @@ public class TinkerStationContainerMenu extends TabbedContainerMenu<TinkerStatio
       int index = slotType.getIndex();
       this.addSlot(new ArmorSlot(inv, slotType.getEquipmentSlot(), 152, 16 + (3 - index) * 18));
     }
-    this.addSlot(new Slot(inv, 40, 132, 70).setBackground(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD));
+    this.addSlot(((SlotExtensions)new Slot(inv, 40, 132, 70)).setBackground(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD));
 
     this.addInventorySlots();
   }
@@ -133,7 +135,7 @@ public class TinkerStationContainerMenu extends TabbedContainerMenu<TinkerStatio
       super(inv, 36 + slotType.getIndex(), xPosition, yPosition);
       this.player = inv.player;
       this.slotType = slotType;
-      setBackground(InventoryMenu.BLOCK_ATLAS, ARMOR_SLOT_BACKGROUNDS[slotType.getIndex()]);
+      ((SlotExtensions)this).setBackground(InventoryMenu.BLOCK_ATLAS, ARMOR_SLOT_BACKGROUNDS[slotType.getIndex()]);
     }
 
     @Override

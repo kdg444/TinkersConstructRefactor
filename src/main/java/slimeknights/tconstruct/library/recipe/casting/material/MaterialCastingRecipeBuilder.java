@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.casting.material;
 
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -92,7 +93,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
 
   @Override
   public void save(Consumer<FinishedRecipe> consumer) {
-    this.save(consumer, Objects.requireNonNull(this.result.asItem().getRegistryName()));
+    this.save(consumer, Objects.requireNonNull(((RegistryNameProvider)this.result.asItem()).getRegistryName()));
   }
 
   @Override
@@ -129,7 +130,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
         json.addProperty("switch_slots", true);
       }
       json.addProperty("item_cost", itemCost);
-      json.addProperty("result", Objects.requireNonNull(result.asItem().getRegistryName()).toString());
+      json.addProperty("result", Objects.requireNonNull(((RegistryNameProvider)result.asItem()).getRegistryName()).toString());
     }
   }
 }
