@@ -93,6 +93,7 @@ dependencies {
 
     // dev environment
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
+    include(modImplementation(fabricApi.module("fabric-data-generation-api-v1", project.fabric_version)))
 
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}")
     modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}")
