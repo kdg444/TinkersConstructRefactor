@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.tools.part;
 
+import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
 import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -28,7 +29,7 @@ import java.util.List;
  * Represents an item that has a Material associated with it. The NBT of the itemstack identifies which material the
  * itemstack of this item has.
  */
-public class MaterialItem extends Item implements IMaterialItem {
+public class MaterialItem extends Item implements IMaterialItem, ItemExtensions {
   private static final String ADDED_BY = TConstruct.makeTranslationKey("tooltip", "part.added_by");
 
   public MaterialItem(Properties properties) {
@@ -129,7 +130,7 @@ public class MaterialItem extends Item implements IMaterialItem {
   }
 
   @Nullable
-//  @Override
+  @Override
   public String getCreatorModId(ItemStack stack) {
     MaterialVariantId material = getMaterial(stack);
     if (!IMaterial.UNKNOWN_ID.equals(material)) {

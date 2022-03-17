@@ -3,6 +3,8 @@ package slimeknights.tconstruct.library.tools.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
+import io.github.fabricators_of_create.porting_lib.util.AttributeModiferItem;
+import io.github.fabricators_of_create.porting_lib.util.DamagableItem;
 import lombok.Getter;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -56,7 +58,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, ItemExtensions {
+public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, ItemExtensions, DamagableItem, AttributeModiferItem {
   /** Volatile modifier tag to make piglins neutal when worn */
   public static final ResourceLocation PIGLIN_NEUTRAL = TConstruct.getResource("piglin_neutral");
   /** Volatile modifier tag to make this item an elytra */
@@ -184,7 +186,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return true;
   }
 
-//  @Override
+  @Override
   public int getMaxDamage(ItemStack stack) {
     if (!canBeDepleted()) {
       return 0;
@@ -195,7 +197,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return tool.isBroken() ? durability + 1 : durability;
   }
 
-//  @Override
+  @Override
   public int getDamage(ItemStack stack) {
     if (!canBeDepleted()) {
       return 0;
@@ -203,7 +205,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return ToolStack.from(stack).getDamage();
   }
 
-//  @Override
+  @Override
   public void setDamage(ItemStack stack, int damage) {
     if (canBeDepleted()) {
       ToolStack.from(stack).setDamage(damage);
@@ -275,7 +277,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return builder.build();
   }
 
-//  @Override
+  @Override
   public Multimap<Attribute,AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
     CompoundTag nbt = stack.getTag();
     if (slot != getSlot() || nbt == null) {

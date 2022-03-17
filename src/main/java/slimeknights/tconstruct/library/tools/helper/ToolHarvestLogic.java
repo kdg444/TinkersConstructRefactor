@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.tools.helper;
 
+import io.github.fabricators_of_create.porting_lib.util.PortingHooks;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -101,7 +102,8 @@ public class ToolHarvestLogic {
     ServerLevel world = context.getWorld();
     BlockPos pos = context.getPos();
     if (removed == null) {
-      removed = !PlayerBlockBreakEvents.BEFORE.invoker().beforeBlockBreak(world, context.getPlayer(), pos, context.getState(), null); // state.onDestroyedByPlayer(world, pos, context.getPlayer(), context.canHarvest(), world.getFluidState(pos)); TODO: PORT?
+      state.getBlock().playerWillDestroy(world, pos, state, context.getPlayer());
+      removed = world.setBlock(pos, world.getFluidState(pos).createLegacyBlock(), world.isClientSide ? 11 : 3);
     }
     // if removed by anything, finally destroy it
     if (removed) {
@@ -123,7 +125,7 @@ public class ToolHarvestLogic {
     ServerLevel world = context.getWorld();
     BlockPos pos = context.getPos();
     GameType type = player.gameMode.getGameModeForPlayer();
-    int exp = 0;//ForgeHooks.onBlockBreakEvent(world, type, player, pos); TODO: PORT
+    int exp = PortingHooks.onBlockBreakEvent(world, type, player, pos);
     if (exp == -1) {
       return false;
     }

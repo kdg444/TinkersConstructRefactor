@@ -11,9 +11,12 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ServerResources;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -23,6 +26,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import io.github.fabricators_of_create.porting_lib.event.DataPackReloadCallback;
 import io.github.fabricators_of_create.porting_lib.event.OnDatapackSyncCallback;
 import io.github.fabricators_of_create.porting_lib.util.ToolAction;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.definition.aoe.IAreaOfEffectIterator;
@@ -42,7 +46,7 @@ import java.util.Map.Entry;
 
 /** JSON loader that loads tool definitions from JSON */
 @Log4j2
-public class ToolDefinitionLoader extends SimpleJsonResourceReloadListener {
+public class ToolDefinitionLoader extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloadListener {
   public static final String FOLDER = "tinkering/tool_definitions";
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
@@ -77,7 +81,7 @@ public class ToolDefinitionLoader extends SimpleJsonResourceReloadListener {
 
   /** Initializes the tool definition loader */
   public static void init() {
-    DataPackReloadCallback.EVENT.register(INSTANCE::addDataPackListeners);
+    ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(INSTANCE);
     OnDatapackSyncCallback.EVENT.register(INSTANCE::onDatapackSync);
   }
 
@@ -150,6 +154,11 @@ public class ToolDefinitionLoader extends SimpleJsonResourceReloadListener {
       throw new IllegalArgumentException("Duplicate tool definition " + name);
     }
     definitions.put(name, definition);
+  }
+
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("tool_definition_loader");
   }
 
   /** Logic to serialize and deserialize tool actions */

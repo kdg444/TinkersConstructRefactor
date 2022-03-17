@@ -124,11 +124,6 @@ public final class TinkerWorld extends TinkerModule {
   private static final Function<Block, ? extends BlockItem> TOOLTIP_BLOCK_ITEM = (b) -> new BlockTooltipItem(b, WORLD_PROPS);
   private static final Item.Properties HEAD_PROPS = new Item.Properties().tab(TAB_WORLD).rarity(Rarity.UNCOMMON);
 
-  public TinkerWorld() {
-    entityAttributes();
-    commonSetup();
-  }
-
   /*
    * Blocks
    */
@@ -269,7 +264,7 @@ public final class TinkerWorld extends TinkerModule {
                       .forceTrackedVelocityUpdates(true)
                       .trackRangeChunks(20)
                       .dimensions(EntityDimensions.fixed(2.04F, 2.04F))
-                      /*.entityFactory((spawnEntity, world) -> TinkerWorld.skySlimeEntity.get().create(world))*/, 0x47eff5, 0xacfff4);
+                     /* .entityFactory((spawnEntity, world) -> TinkerWorld.skySlimeEntity.get().create(world))*/, 0x47eff5, 0xacfff4);
   public static final RegistryObject<EntityType<EnderSlimeEntity>> enderSlimeEntity = ENTITIES.registerWithEgg("ender_slime", () ->
     FabricEntityTypeBuilder.create(MobCategory.MONSTER, EnderSlimeEntity::new)
                       .forceTrackedVelocityUpdates(true)
@@ -281,7 +276,7 @@ public final class TinkerWorld extends TinkerModule {
                       .forceTrackedVelocityUpdates(true)
                       .trackRangeChunks(8)
                       .dimensions(EntityDimensions.fixed(2.04F, 2.04F))
-                      .entityFactory((spawnEntity, world) -> TinkerWorld.terracubeEntity.get().create(world)), 0xAFB9D6, 0xA1A7B1);
+                      /*.entityFactory((spawnEntity, world) -> TinkerWorld.terracubeEntity.get().create(world))*/, 0xAFB9D6, 0xA1A7B1);
 
   /*
    * Particles
@@ -300,7 +295,12 @@ public final class TinkerWorld extends TinkerModule {
    * Events
    */
 
-  void entityAttributes() {
+  public static void init() {
+    entityAttributes();
+    commonSetup();
+  }
+
+  public static void entityAttributes() {
     FabricDefaultAttributeRegistry.register(earthSlimeEntity.get(), Monster.createMonsterAttributes());
     FabricDefaultAttributeRegistry.register(skySlimeEntity.get(), Monster.createMonsterAttributes());
     FabricDefaultAttributeRegistry.register(enderSlimeEntity.get(), Monster.createMonsterAttributes());
@@ -322,7 +322,7 @@ public final class TinkerWorld extends TinkerModule {
     FlammableBlockRegistry.getDefaultInstance().add(wood.getStrippedWood(), 5, 5);
   }
 
-  void commonSetup() {
+  public static void commonSetup() {
     SpawnRestrictionAccessor.callRegister(earthSlimeEntity.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new SlimePlacementPredicate<>(TinkerTags.Blocks.EARTH_SLIME_SPAWN));
     SpawnRestrictionAccessor.callRegister(skySlimeEntity.get(),   SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new SlimePlacementPredicate<>(TinkerTags.Blocks.SKY_SLIME_SPAWN));
     SpawnRestrictionAccessor.callRegister(enderSlimeEntity.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new SlimePlacementPredicate<>(TinkerTags.Blocks.ENDER_SLIME_SPAWN));

@@ -54,7 +54,9 @@ public abstract class TinkerModule {
 
   // deferred register instances
   protected static final BlockDeferredRegisterExtension BLOCKS = new BlockDeferredRegisterExtension(TConstruct.MOD_ID);
+  protected static final BlockDeferredRegisterExtension BLOCKS_DEFFERED = new BlockDeferredRegisterExtension(TConstruct.MOD_ID);
   protected static final ItemDeferredRegisterExtension ITEMS = new ItemDeferredRegisterExtension(TConstruct.MOD_ID);
+  protected static final ItemDeferredRegisterExtension ITEMS_DEFFERED = new ItemDeferredRegisterExtension(TConstruct.MOD_ID);
   protected static final FluidDeferredRegister FLUIDS = new FluidDeferredRegister(TConstruct.MOD_ID);
   protected static final BlockEntityTypeDeferredRegister BLOCK_ENTITIES = new BlockEntityTypeDeferredRegister(TConstruct.MOD_ID);
   protected static final EntityTypeDeferredRegister ENTITIES = new EntityTypeDeferredRegister(TConstruct.MOD_ID);
@@ -96,6 +98,11 @@ public abstract class TinkerModule {
     PARTICLE_TYPES.register();
     MODIFIERS.register();
     GLOBAL_LOOT_MODIFIERS.register();
+  }
+
+  public static void initDefferedRegisters() {
+    BLOCKS_DEFFERED.register();
+    ITEMS_DEFFERED.register();
   }
 
   /**

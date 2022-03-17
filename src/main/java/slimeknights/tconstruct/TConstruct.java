@@ -100,9 +100,13 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
 
     // init deferred registers
     TinkerModule.initRegisters();
+    TinkerModule.initDefferedRegisters();
+    TinkerGadgets.commonSetup();
+    TinkerWorld.init();
     TinkerTags.init();
     WorldEvents.init();
     structures.commonSetup();
+
     TinkerNetwork.setup();
 
 
