@@ -39,6 +39,7 @@ import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.recipe.RecipeTypes;
 import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
+import slimeknights.tconstruct.library.recipe.casting.ICastingRecipe;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
 import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
@@ -49,6 +50,7 @@ import slimeknights.tconstruct.library.recipe.modifiers.severing.SeveringRecipe;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipe;
 import slimeknights.tconstruct.library.recipe.partbuilder.IDisplayPartBuilderRecipe;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
+import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
 import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
 import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
@@ -95,7 +97,8 @@ public class JEIPlugin implements REIClientPlugin {
     // casting
 //    registry.add(new CastingBasinCategory(guiHelper));
 //    registry.add(new CastingTableCategory(guiHelper));
-//    registry.add(new MoldingRecipeCategory(guiHelper));
+    registry.add(new MoldingRecipeCategory());
+    registry.removePlusButton(TConstructRecipeCategoryUid.molding);
     // melting and casting
     registry.add(new MeltingCategory());
     registry.add(new AlloyRecipeCategory());
@@ -108,13 +111,6 @@ public class JEIPlugin implements REIClientPlugin {
 //    registry.add(new PartBuilderCategory(guiHelper));
 
     registerRecipeCatalysts(registry);
-  }
-
-  @Override
-  public void registerDisplays(DisplayRegistry registry) {
-//    registry.registerFiller(MeltingRecipe.class, meltingRecipe -> new TinkersDisplay<>(meltingRecipe, TConstructRecipeCategoryUid.melting));
-//    registry.registerFiller(AlloyRecipe.class, alloyRecipe -> new TinkersDisplay(alloyRecipe, TConstructRecipeCategoryUid.alloy));
-//    registry.registerFiller(MeltingRecipe.class, meltingRecipe -> new TinkersDisplay(meltingRecipe, TConstructRecipeCategoryUid.foundry));
   }
 
   //  @Override
@@ -137,61 +133,66 @@ public class JEIPlugin implements REIClientPlugin {
 //    registration.register(PATTERN_TYPE, Collections.emptyList(), new PatternIngredientHelper(), PatternIngredientRenderer.INSTANCE);
 //  }
 
-//  @Override
-//  public void registerRecipes(IRecipeRegistration register) {
-//    assert Minecraft.getInstance().level != null;
-//    RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
-//    // casting
-//    List<IDisplayableCastingRecipe> castingBasinRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.CASTING_BASIN, IDisplayableCastingRecipe.class);
-//    register.addRecipes(castingBasinRecipes, TConstructRecipeCategoryUid.castingBasin);
-//    List<IDisplayableCastingRecipe> castingTableRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.CASTING_TABLE, IDisplayableCastingRecipe.class);
-//    register.addRecipes(castingTableRecipes, TConstructRecipeCategoryUid.castingTable);
-//
-//    // melting
-//    List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.MELTING, MeltingRecipe.class);
-//    register.addRecipes(meltingRecipes, TConstructRecipeCategoryUid.melting);
-//    register.addRecipes(meltingRecipes, TConstructRecipeCategoryUid.foundry);
-//    MeltingFuelHandler.setMeltngFuels(RecipeHelper.getRecipes(manager, RecipeTypes.FUEL, MeltingFuel.class));
-//
-//    // entity melting
-//    List<EntityMeltingRecipe> entityMeltingRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.ENTITY_MELTING, EntityMeltingRecipe.class);
-//    // generate a "default" recipe for all other entity types
-//    entityMeltingRecipes.add(new DefaultEntityMeltingRecipe(entityMeltingRecipes));
-//    register.addRecipes(entityMeltingRecipes, TConstructRecipeCategoryUid.entityMelting);
-//
-//    // alloying
-//    List<AlloyRecipe> alloyRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.ALLOYING, AlloyRecipe.class);
-//    register.addRecipes(alloyRecipes, TConstructRecipeCategoryUid.alloy);
-//
-//    // molding
-//    List<MoldingRecipe> moldingRecipes = ImmutableList.<MoldingRecipe>builder()
-//      .addAll(RecipeHelper.getJEIRecipes(manager, RecipeTypes.MOLDING_TABLE, MoldingRecipe.class))
-//      .addAll(RecipeHelper.getJEIRecipes(manager, RecipeTypes.MOLDING_BASIN, MoldingRecipe.class))
-//      .build();
-//    register.addRecipes(moldingRecipes, TConstructRecipeCategoryUid.molding);
-//
-//    // modifiers
-//    List<IDisplayModifierRecipe> modifierRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.TINKER_STATION, IDisplayModifierRecipe.class)
-//                                                               .stream()
-//                                                               .sorted((r1, r2) -> {
-//                                                                 SlotType t1 = r1.getSlotType();
-//                                                                 SlotType t2 = r2.getSlotType();
-//                                                                 String n1 = t1 == null ? "zzzzzzzzzz" : t1.getName();
-//                                                                 String n2 = t2 == null ? "zzzzzzzzzz" : t2.getName();
-//                                                                 return n1.compareTo(n2);
-//                                                               }).collect(Collectors.toList());
-//    register.addRecipes(modifierRecipes, TConstructRecipeCategoryUid.modifiers);
-//
-//    // beheading
-//    List<SeveringRecipe> severingRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.SEVERING, SeveringRecipe.class);
-//    register.addRecipes(severingRecipes, TConstructRecipeCategoryUid.severing);
-//
-//    // part builder
-//    List<MaterialRecipe> materialRecipes = RecipeHelper.getRecipes(manager, RecipeTypes.MATERIAL, MaterialRecipe.class);
-//    MaterialItemList.setRecipes(materialRecipes);
-//    List<IDisplayPartBuilderRecipe> partRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.PART_BUILDER, IDisplayPartBuilderRecipe.class);
-//    register.addRecipes(partRecipes, TConstructRecipeCategoryUid.partBuilder);
-//  }
+  @Override
+  public void registerDisplays(DisplayRegistry registry) {
+    assert Minecraft.getInstance().level != null;
+    RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
+    // casting
+    List<IDisplayableCastingRecipe> castingBasinRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.CASTING_BASIN, IDisplayableCastingRecipe.class);
+    for(IDisplayableCastingRecipe castingRecipe : castingBasinRecipes)
+      registry.add(new TinkersDisplay<>(castingRecipe, TConstructRecipeCategoryUid.castingBasin));
+    List<IDisplayableCastingRecipe> castingTableRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.CASTING_TABLE, IDisplayableCastingRecipe.class);
+    for(IDisplayableCastingRecipe castingRecipe : castingTableRecipes)
+      registry.add(new TinkersDisplay<>(castingRecipe, TConstructRecipeCategoryUid.castingTable));
+
+    // melting
+    List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.MELTING, MeltingRecipe.class);
+    for(MeltingRecipe meltingRecipe : meltingRecipes) {
+      registry.add(new TinkersDisplay<>(meltingRecipe, TConstructRecipeCategoryUid.melting));
+      registry.add(new TinkersDisplay<>(meltingRecipe, TConstructRecipeCategoryUid.foundry));
+    }
+    MeltingFuelHandler.setMeltngFuels(RecipeHelper.getRecipes(manager, RecipeTypes.FUEL, MeltingFuel.class));
+
+    // entity melting
+    List<EntityMeltingRecipe> entityMeltingRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.ENTITY_MELTING, EntityMeltingRecipe.class);
+    // generate a "default" recipe for all other entity types
+    entityMeltingRecipes.add(new DefaultEntityMeltingRecipe(entityMeltingRecipes));
+    for(EntityMeltingRecipe entityMeltingRecipe : entityMeltingRecipes)
+      registry.add(new TinkersDisplay<>(entityMeltingRecipe, TConstructRecipeCategoryUid.entityMelting));
+
+    // alloying
+    List<AlloyRecipe> alloyRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.ALLOYING, AlloyRecipe.class);
+    alloyRecipes.forEach(alloyRecipe -> registry.add(new TinkersDisplay<>(alloyRecipe, TConstructRecipeCategoryUid.alloy)));
+
+    // molding
+    List<MoldingRecipe> moldingRecipes = ImmutableList.<MoldingRecipe>builder()
+      .addAll(RecipeHelper.getJEIRecipes(manager, RecipeTypes.MOLDING_TABLE, MoldingRecipe.class))
+      .addAll(RecipeHelper.getJEIRecipes(manager, RecipeTypes.MOLDING_BASIN, MoldingRecipe.class))
+      .build();
+    moldingRecipes.forEach(moldingRecipe -> registry.add(new TinkersDisplay<>(moldingRecipe, TConstructRecipeCategoryUid.molding)));
+
+    // modifiers
+    List<IDisplayModifierRecipe> modifierRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.TINKER_STATION, IDisplayModifierRecipe.class)
+                                                               .stream()
+                                                               .sorted((r1, r2) -> {
+                                                                 SlotType t1 = r1.getSlotType();
+                                                                 SlotType t2 = r2.getSlotType();
+                                                                 String n1 = t1 == null ? "zzzzzzzzzz" : t1.getName();
+                                                                 String n2 = t2 == null ? "zzzzzzzzzz" : t2.getName();
+                                                                 return n1.compareTo(n2);
+                                                               }).collect(Collectors.toList());
+    modifierRecipes.forEach(modifierRecipe -> registry.add(new TinkersDisplay<>(modifierRecipe, TConstructRecipeCategoryUid.modifiers)));
+
+    // beheading
+    List<SeveringRecipe> severingRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.SEVERING, SeveringRecipe.class);
+    severingRecipes.forEach(severingRecipe -> registry.add(new TinkersDisplay<>(severingRecipe, TConstructRecipeCategoryUid.severing)));
+
+    // part builder
+    List<MaterialRecipe> materialRecipes = RecipeHelper.getRecipes(manager, RecipeTypes.MATERIAL, MaterialRecipe.class);
+//    MaterialItemList.setRecipes(materialRecipes); TODO: PORT
+    List<IDisplayPartBuilderRecipe> partRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.PART_BUILDER, IDisplayPartBuilderRecipe.class);
+    partRecipes.forEach(partRecipe -> registry.add(new TinkersDisplay<>(partRecipe, TConstructRecipeCategoryUid.partBuilder)));
+  }
 
   /**
    * Adds an item as a casting catalyst, and as a molding catalyst if it has molding recipes

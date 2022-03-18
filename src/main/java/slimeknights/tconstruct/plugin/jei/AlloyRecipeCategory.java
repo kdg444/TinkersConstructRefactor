@@ -3,6 +3,7 @@ package slimeknights.tconstruct.plugin.jei;
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.Getter;
 import me.shedaniel.rei.api.client.gui.Renderer;
+import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.ChatFormatting;
@@ -87,31 +88,31 @@ public class AlloyRecipeCategory extends AbstractTinkersCategory<AlloyRecipe>/*,
    * @param minAmount    Minimum tank size
    * @return Max amount based on fluids
    */
-//  public static int drawVariableFluids(IGuiFluidStackGroup fluidGroup, int indexOffset, boolean isInput, int x, int y, int totalWidth, int height, List<List<FluidStack>> fluids, int minAmount) {
-//    int count = fluids.size();
-//    int maxAmount = minAmount;
-//    if (count > 0) {
-//      // first, find maximum used amount in the recipe so relations are correct
-//      for(List<FluidStack> list : fluids) {
-//        for(FluidStack input : list) {
-//          if (input.getAmount() > maxAmount) {
-//            maxAmount = input.getAmount();
-//          }
-//        }
-//      }
-//      // next, draw all fluids but the last
-//      int w = totalWidth / count;
-//      int max = count - 1;
-//      for (int i = 0; i < max; i++) {
-//        int fluidX = x + i * w;
+  public static long drawVariableFluids(List<Widget> widgets, int indexOffset, boolean isInput, int x, int y, int totalWidth, int height, List<List<FluidStack>> fluids, int minAmount) {
+    int count = fluids.size();
+    long maxAmount = minAmount;
+    if (count > 0) {
+      // first, find maximum used amount in the recipe so relations are correct
+      for(List<FluidStack> list : fluids) {
+        for(FluidStack input : list) {
+          if (input.getAmount() > maxAmount) {
+            maxAmount = input.getAmount();
+          }
+        }
+      }
+      // next, draw all fluids but the last
+      int w = totalWidth / count;
+      int max = count - 1;
+      for (int i = 0; i < max; i++) {
+        int fluidX = x + i * w;
 //        fluidGroup.init(i + indexOffset, isInput, fluidX, y, w, height, maxAmount, false, null);
-//      }
-//      // for the last, the width is the full remaining width
-//      int fluidX = x + max * w;
+      }
+      // for the last, the width is the full remaining width
+      int fluidX = x + max * w;
 //      fluidGroup.init(max + indexOffset, isInput, fluidX, y, totalWidth - (w * max), height, maxAmount, false, null);
-//    }
-//    return maxAmount;
-//  }
+    }
+    return maxAmount;
+  }
 
 //  @Override
 //  public void setRecipe(IRecipeLayout layout, AlloyRecipe recipe, IIngredients ingredients) {

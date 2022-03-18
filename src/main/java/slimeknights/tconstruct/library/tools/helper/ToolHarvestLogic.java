@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.library.tools.helper;
 
 import io.github.fabricators_of_create.porting_lib.util.PortingHooks;
-import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.ListTag;

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
+import me.shedaniel.rei.api.client.gui.widgets.Slot;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
@@ -52,4 +53,12 @@ public abstract class AbstractTinkersCategory<R extends Recipe<?>> implements Di
   }
 
   public void draw(R recipe, PoseStack matrixStack, double mouseX, double mouseY) {};
+
+  public static Slot basicSlot(int x, int y, Point bounds) {
+    return Widgets.createSlot(point(bounds.getX() + x, bounds.getY() + y)).disableBackground();
+  }
+
+  public static Point point(int x, int y) {
+    return new Point(x, y);
+  }
 }
