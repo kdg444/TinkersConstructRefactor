@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.library.utils;
 
+import io.github.fabricators_of_create.porting_lib.event.common.BlockEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
@@ -28,14 +30,13 @@ public class BlockSideHitListener {
       return;
     }
     init = true;
-    UseBlockCallback.EVENT.register(BlockSideHitListener::onLeftClickBlock);
+    BlockEvents.LEFT_CLICK_BLOCK.register(BlockSideHitListener::onLeftClickBlock);
     ServerPlayConnectionEvents.DISCONNECT.register(BlockSideHitListener::onLeaveServer);
   }
 
   /** Called when the player left clicks a block to store the face */
-  private static InteractionResult onLeftClickBlock(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
-    HIT_FACE.put(player.getUUID(), hitResult.getDirection());
-    return InteractionResult.PASS;
+  private static void onLeftClickBlock(Player player, BlockPos pos, Direction face) {
+    HIT_FACE.put(player.getUUID(), face);
   }
 
   /** Called when a player leaves the server to clear the face */
