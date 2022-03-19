@@ -4,7 +4,7 @@
 //import net.minecraft.resources.ResourceLocation;
 //import net.minecraft.world.inventory.Slot;
 //import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
-//import slimeknights.tconstruct.plugin.jei.TConstructRecipeCategoryUid;
+//import slimeknights.tconstruct.plugin.jei.TConstructJEIConstants;
 //import slimeknights.tconstruct.tables.menu.TinkerStationContainerMenu;
 //
 //import java.util.ArrayList;
@@ -23,7 +23,7 @@
 //
 //  @Override
 //  public ResourceLocation getRecipeCategoryUid() {
-//    return TConstructRecipeCategoryUid.modifiers;
+//    return TConstructJEIConstants.MODIFIERS;
 //  }
 //
 //  @Override

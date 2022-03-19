@@ -26,11 +26,22 @@ public abstract class AbstractMeltingCategory extends AbstractTinkersCategory<Me
   protected static final String KEY_MULTIPLIER = TConstruct.makeTranslationKey("jei", "melting.multiplier");
   protected static final Component TOOLTIP_ORE = new TranslatableComponent(TConstruct.makeTranslationKey("jei", "melting.ore"));
 
-//  @Getter
-//  private final Renderer background;
-//  protected final IDrawableStatic tankOverlay;
-//  protected final IDrawableStatic plus;
-//  protected final LoadingCache<Integer,IDrawableAnimated> cachedArrows;
+  /** Tooltip for fuel display */
+  public static final IRecipeTooltipReplacement FUEL_TOOLTIP = (slot, tooltip) -> {
+    //noinspection SimplifyOptionalCallChains  Not for int streams
+    slot.getDisplayedIngredient(VanillaTypes.FLUID).ifPresent(stack -> {
+      MeltingFuelHandler.getTemperature(stack.getFluid()).ifPresent(temperature -> {
+        tooltip.add(new TranslatableComponent(KEY_TEMPERATURE, temperature).withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent(KEY_MULTIPLIER, temperature / 1000f).withStyle(ChatFormatting.GRAY));
+      });
+    });
+  };
+
+  @Getter
+  private final IDrawable background;
+  protected final IDrawableStatic tankOverlay;
+  protected final IDrawableStatic plus;
+  protected final LoadingCache<Integer,IDrawableAnimated> cachedArrows;
 
   public AbstractMeltingCategory() {
 //    this.background = helper.createDrawable(BACKGROUND_LOC, 0, 0, 132, 40);
@@ -43,12 +54,6 @@ public abstract class AbstractMeltingCategory extends AbstractTinkersCategory<Me
 //      }
 //    });
   }
-
-//  @Override
-//  public void setIngredients(MeltingRecipe recipe, IIngredients ingredients) {
-//    ingredients.setInputIngredients(recipe.getIngredients());
-//    ingredients.setOutputLists(VanillaTypes.FLUID, recipe.getDisplayOutput());
-//  }
 
   @Override
   public void draw(MeltingRecipe recipe, PoseStack matrices, double mouseX, double mouseY) {
@@ -81,47 +86,28 @@ public abstract class AbstractMeltingCategory extends AbstractTinkersCategory<Me
   }
 
   /** Adds amounts to outputs and temperatures to fuels */
-//  @RequiredArgsConstructor
-//  public static class MeltingFluidCallback implements ITooltipCallback<FluidStack> {
-//    public static final MeltingFluidCallback INSTANCE = new MeltingFluidCallback();
-//
-//    /**
-//     * Adds teh tooltip for ores
-//     *
-//     * @param stack  Fluid to draw
-//     * @param list   Tooltip so far
-//     * @return true if the amount is not in buckets
-//     */
-//    protected boolean appendMaterial(FluidStack stack, List<Component> list) {
-//      return FluidTooltipHandler.appendMaterialNoShift(stack.getFluid(), stack.getAmount(), list);
-//    }
-//
-//    @Override
-//    public void onTooltip(int index, boolean input, FluidStack stack, List<Component> list) {
-//      Component name = list.get(0);
-//      Component modId = list.get(list.size() - 1);
-//      list.clear();
-//      list.add(name);
-//
-//      // outputs show amounts
-//      if (index != -1) {
-//        if (index == 0) {
-//          if (appendMaterial(stack, list)) {
-//            FluidTooltipHandler.appendShift(list);
-//          }
-//        } else {
-//          FluidTooltipHandler.appendMaterial(stack, list);
-//        }
-//      }
-//
-//      // fuels show temperature and quality
-//      if (index == -1) {
-//        MeltingFuelHandler.getTemperature(stack.getFluid()).ifPresent(temperature -> {
-//          list.add(new TranslatableComponent(KEY_TEMPERATURE, temperature).withStyle(ChatFormatting.GRAY));
-//          list.add(new TranslatableComponent(KEY_MULTIPLIER, temperature / 1000f).withStyle(ChatFormatting.GRAY));
-//        });
-//      }
-//      list.add(modId);
-//    }
-//  }
+  @RequiredArgsConstructor
+  public static class MeltingFluidCallback implements IRecipeTooltipReplacement {
+    public static final MeltingFluidCallback INSTANCE = new MeltingFluidCallback();
+
+    /**
+     * Adds teh tooltip for ores
+     *
+     * @param stack  Fluid to draw
+     * @param list   Tooltip so far
+     * @return true if the amount is not in buckets
+     */
+    protected boolean appendMaterial(FluidStack stack, List<Component> list) {
+      return FluidTooltipHandler.appendMaterialNoShift(stack.getFluid(), stack.getAmount(), list);
+    }
+
+    @Override
+    public void addMiddleLines(IRecipeSlotView slot, List<Component> list) {
+      slot.getDisplayedIngredient(VanillaTypes.FLUID).ifPresent(stack -> {
+        if (appendMaterial(stack, list)) {
+          FluidTooltipHandler.appendShift(list);
+        }
+      });
+    }
+  }
 }

@@ -16,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.SerializationTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -81,14 +80,9 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class JEIPlugin implements REIClientPlugin {
-  @SuppressWarnings("rawtypes")
-//  public static final IIngredientType<EntityType> ENTITY_TYPE = () -> EntityType.class;
-//  public static final IIngredientType<ModifierEntry> MODIFIER_TYPE = () -> ModifierEntry.class;
-//  public static final IIngredientType<Pattern> PATTERN_TYPE = () -> Pattern.class;
-
 //  @Override
   public ResourceLocation getPluginUid() {
-    return TConstructRecipeCategoryUid.pluginUid;
+    return TConstructJEIConstants.PLUGIN;
   }
 
   @Override
@@ -140,16 +134,16 @@ public class JEIPlugin implements REIClientPlugin {
     // casting
     List<IDisplayableCastingRecipe> castingBasinRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.CASTING_BASIN, IDisplayableCastingRecipe.class);
     for(IDisplayableCastingRecipe castingRecipe : castingBasinRecipes)
-      registry.add(new TinkersDisplay<>(castingRecipe, TConstructRecipeCategoryUid.castingBasin));
+      registry.add(new TinkersDisplay<>(castingRecipe, TConstructJEIConstants.CASTING_BASIN));
     List<IDisplayableCastingRecipe> castingTableRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.CASTING_TABLE, IDisplayableCastingRecipe.class);
     for(IDisplayableCastingRecipe castingRecipe : castingTableRecipes)
-      registry.add(new TinkersDisplay<>(castingRecipe, TConstructRecipeCategoryUid.castingTable));
+      registry.add(new TinkersDisplay<>(castingRecipe, TConstructJEIConstants.CASTING_TABLE));
 
     // melting
     List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.MELTING, MeltingRecipe.class);
     for(MeltingRecipe meltingRecipe : meltingRecipes) {
-      registry.add(new TinkersDisplay<>(meltingRecipe, TConstructRecipeCategoryUid.melting));
-      registry.add(new TinkersDisplay<>(meltingRecipe, TConstructRecipeCategoryUid.foundry));
+      registry.add(new TinkersDisplay<>(meltingRecipe, TConstructJEIConstants.MELTING));
+      registry.add(new TinkersDisplay<>(meltingRecipe, TConstructJEIConstants.FOUNDRY));
     }
     MeltingFuelHandler.setMeltngFuels(RecipeHelper.getRecipes(manager, RecipeTypes.FUEL, MeltingFuel.class));
 
@@ -158,18 +152,18 @@ public class JEIPlugin implements REIClientPlugin {
     // generate a "default" recipe for all other entity types
     entityMeltingRecipes.add(new DefaultEntityMeltingRecipe(entityMeltingRecipes));
     for(EntityMeltingRecipe entityMeltingRecipe : entityMeltingRecipes)
-      registry.add(new TinkersDisplay<>(entityMeltingRecipe, TConstructRecipeCategoryUid.entityMelting));
+      registry.add(new TinkersDisplay<>(entityMeltingRecipe, TConstructJEIConstants.ENTITY_MELTING));
 
     // alloying
     List<AlloyRecipe> alloyRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.ALLOYING, AlloyRecipe.class);
-    alloyRecipes.forEach(alloyRecipe -> registry.add(new TinkersDisplay<>(alloyRecipe, TConstructRecipeCategoryUid.alloy)));
+    alloyRecipes.forEach(alloyRecipe -> registry.add(new TinkersDisplay<>(alloyRecipe, TConstructJEIConstants.ALLOY)));
 
     // molding
     List<MoldingRecipe> moldingRecipes = ImmutableList.<MoldingRecipe>builder()
       .addAll(RecipeHelper.getJEIRecipes(manager, RecipeTypes.MOLDING_TABLE, MoldingRecipe.class))
       .addAll(RecipeHelper.getJEIRecipes(manager, RecipeTypes.MOLDING_BASIN, MoldingRecipe.class))
       .build();
-    moldingRecipes.forEach(moldingRecipe -> registry.add(new TinkersDisplay<>(moldingRecipe, TConstructRecipeCategoryUid.molding)));
+    moldingRecipes.forEach(moldingRecipe -> registry.add(new TinkersDisplay<>(moldingRecipe, TConstructJEIConstants.MOLDING)));
 
     // modifiers
     List<IDisplayModifierRecipe> modifierRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.TINKER_STATION, IDisplayModifierRecipe.class)
@@ -181,17 +175,17 @@ public class JEIPlugin implements REIClientPlugin {
                                                                  String n2 = t2 == null ? "zzzzzzzzzz" : t2.getName();
                                                                  return n1.compareTo(n2);
                                                                }).collect(Collectors.toList());
-    modifierRecipes.forEach(modifierRecipe -> registry.add(new TinkersDisplay<>(modifierRecipe, TConstructRecipeCategoryUid.modifiers)));
+    modifierRecipes.forEach(modifierRecipe -> registry.add(new TinkersDisplay<>(modifierRecipe, TConstructJEIConstants.MODIFIERS)));
 
     // beheading
     List<SeveringRecipe> severingRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.SEVERING, SeveringRecipe.class);
-    severingRecipes.forEach(severingRecipe -> registry.add(new TinkersDisplay<>(severingRecipe, TConstructRecipeCategoryUid.severing)));
+    severingRecipes.forEach(severingRecipe -> registry.add(new TinkersDisplay<>(severingRecipe, TConstructJEIConstants.SEVERING)));
 
     // part builder
     List<MaterialRecipe> materialRecipes = RecipeHelper.getRecipes(manager, RecipeTypes.MATERIAL, MaterialRecipe.class);
 //    MaterialItemList.setRecipes(materialRecipes); TODO: PORT
     List<IDisplayPartBuilderRecipe> partRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.PART_BUILDER, IDisplayPartBuilderRecipe.class);
-    partRecipes.forEach(partRecipe -> registry.add(new TinkersDisplay<>(partRecipe, TConstructRecipeCategoryUid.partBuilder)));
+    partRecipes.forEach(partRecipe -> registry.add(new TinkersDisplay<>(partRecipe, TConstructJEIConstants.PART_BUILDER)));
   }
 
   /**
@@ -387,13 +381,22 @@ public class JEIPlugin implements REIClientPlugin {
 //    }
 //  }
 
-//  public static class RetexturedSubtypeInterpreter implements IIngredientSubtypeInterpreter<ItemStack> {
-//    @Override
-//    public String apply(ItemStack itemStack, UidContext context) {
-//      if (context == UidContext.Ingredient) {
-//        return RetexturedBlockItem.getTextureName(itemStack);
-//      }
-//      return NONE;
-//    }
-//  }
+    @Override
+    public String apply(ItemStack itemStack, UidContext context) {
+      if (this == ALWAYS || context == UidContext.Ingredient) {
+        StringBuilder builder = new StringBuilder();
+        List<MaterialVariantId> materialList = MaterialIdNBT.from(itemStack).getMaterials();
+        if (!materialList.isEmpty()) {
+          // append first entry without a comma
+          builder.append(materialList.get(0));
+          for (int i = 1; i < materialList.size(); i++) {
+            builder.append(',');
+            builder.append(materialList.get(i).getId());
+          }
+        }
+        return builder.toString();
+      }
+      return NONE;
+    }
+  }
 }

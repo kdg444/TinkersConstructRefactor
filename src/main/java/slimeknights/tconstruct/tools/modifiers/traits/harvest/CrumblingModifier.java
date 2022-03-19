@@ -18,12 +18,12 @@ public class CrumblingModifier extends Modifier {
   @Override
   public void onBreakSpeed(IToolStackView tool, int level, PlayerBreakSpeedCallback.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (!event.state.requiresCorrectToolForDrops()) {
-      event.newSpeed = event.newSpeed + (level * 0.25f * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier);
+      event.newSpeed = event.newSpeed + (level * 0.5f * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier);
     }
   }
 
   @Override
   public void addInformation(IToolStackView tool, int level, @Nullable Player player, List<Component> tooltip, TooltipKey key, TooltipFlag flag) {
-    addStatTooltip(tool, ToolStats.MINING_SPEED, TinkerTags.Items.HARVEST, level * 0.25f, tooltip);
+    addStatTooltip(tool, ToolStats.MINING_SPEED, TinkerTags.Items.HARVEST, level * 0.5f, tooltip);
   }
 }
