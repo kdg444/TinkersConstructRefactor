@@ -34,8 +34,8 @@ import slimeknights.tconstruct.common.registration.CastItemObject;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
-import slimeknights.tconstruct.library.modifiers.Modifier;
-import slimeknights.tconstruct.library.modifiers.ModifierEntry;
+//import slimeknights.tconstruct.library.MODIFIERS.Modifier;
+//import slimeknights.tconstruct.library.MODIFIERS.ModifierEntry;
 import slimeknights.tconstruct.library.recipe.RecipeTypes;
 import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
 import slimeknights.tconstruct.library.recipe.casting.ICastingRecipe;
@@ -44,6 +44,8 @@ import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
+//import slimeknights.tconstruct.library.recipe.MODIFIERS.adding.IDisplayModifierRecipe;
+//import slimeknights.tconstruct.library.recipe.MODIFIERS.severing.SeveringRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.severing.SeveringRecipe;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipe;
@@ -56,8 +58,8 @@ import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 import slimeknights.tconstruct.plugin.TinkersDisplay;
 import slimeknights.tconstruct.plugin.jei.entity.DefaultEntityMeltingRecipe;
-import slimeknights.tconstruct.plugin.jei.melting.FoundryCategory;
-import slimeknights.tconstruct.plugin.jei.melting.MeltingCategory;
+//import slimeknights.tconstruct.plugin.jei.melting.FoundryCategory;
+//import slimeknights.tconstruct.plugin.jei.melting.MeltingCategory;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -92,12 +94,12 @@ public class JEIPlugin implements REIClientPlugin {
 //    registry.add(new CastingBasinCategory(guiHelper));
 //    registry.add(new CastingTableCategory(guiHelper));
     registry.add(new MoldingRecipeCategory());
-    registry.removePlusButton(TConstructRecipeCategoryUid.molding);
+    registry.removePlusButton(TConstructJEIConstants.MOLDING);
     // melting and casting
-    registry.add(new MeltingCategory());
+//    registry.add(new MeltingCategory());
     registry.add(new AlloyRecipeCategory());
 //    registry.add(new EntityMeltingRecipeCategory(guiHelper));
-    registry.add(new FoundryCategory());
+//    registry.add(new FoundryCategory());
     // tinker station
 //    registry.add(new ModifierRecipeCategory(guiHelper));
 //    registry.add(new SeveringCategory(guiHelper));
@@ -111,9 +113,9 @@ public class JEIPlugin implements REIClientPlugin {
 //  public void registerIngredients(IModIngredientRegistration registration) {
 //    assert Minecraft.getInstance().level != null;
 //    RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
-//    List<ModifierEntry> modifiers = Collections.emptyList();
+//    List<ModifierEntry> MODIFIERS = Collections.emptyList();
 //    if (Config.CLIENT.showModifiersInJEI.get()) {
-//      modifiers = RecipeHelper.getJEIRecipes(manager, RecipeTypes.TINKER_STATION, IDisplayModifierRecipe.class)
+//      MODIFIERS = RecipeHelper.getJEIRecipes(manager, RecipeTypes.TINKER_STATION, IDisplayModifierRecipe.class)
 //                              .stream()
 //                              .map(recipe -> recipe.getDisplayResult().getModifier())
 //                              .distinct()
@@ -123,7 +125,7 @@ public class JEIPlugin implements REIClientPlugin {
 //    }
 
 //    registration.register(ENTITY_TYPE, Collections.emptyList(), new EntityIngredientHelper(), new EntityIngredientRenderer(16));
-//    registration.register(MODIFIER_TYPE, modifiers, new ModifierIngredientHelper(), ModifierBookmarkIngredientRenderer.INSTANCE);
+//    registration.register(MODIFIER_TYPE, MODIFIERS, new ModifierIngredientHelper(), ModifierBookmarkIngredientRenderer.INSTANCE);
 //    registration.register(PATTERN_TYPE, Collections.emptyList(), new PatternIngredientHelper(), PatternIngredientRenderer.INSTANCE);
 //  }
 
@@ -165,7 +167,7 @@ public class JEIPlugin implements REIClientPlugin {
       .build();
     moldingRecipes.forEach(moldingRecipe -> registry.add(new TinkersDisplay<>(moldingRecipe, TConstructJEIConstants.MOLDING)));
 
-    // modifiers
+    // MODIFIERS
     List<IDisplayModifierRecipe> modifierRecipes = RecipeHelper.getJEIRecipes(manager, RecipeTypes.TINKER_STATION, IDisplayModifierRecipe.class)
                                                                .stream()
                                                                .sorted((r1, r2) -> {
@@ -200,35 +202,35 @@ public class JEIPlugin implements REIClientPlugin {
     registry.addWorkstations(ownCategory, EntryStacks.of(stack));
     assert Minecraft.getInstance().level != null;
     if (!((RecipeManagerAccessor)Minecraft.getInstance().level.getRecipeManager()).port_lib$byType(type).isEmpty()) {
-      registry.addWorkstations(TConstructRecipeCategoryUid.molding, EntryStacks.of(stack));
+      registry.addWorkstations(TConstructJEIConstants.MOLDING, EntryStacks.of(stack));
     }
   }
 
   public void registerRecipeCatalysts(CategoryRegistry registry) {
     // tables
-    registry.addWorkstations(TConstructRecipeCategoryUid.partBuilder, EntryStacks.of(new ItemStack(TinkerTables.partBuilder)));
-    registry.addWorkstations(TConstructRecipeCategoryUid.modifiers, EntryStacks.of(new ItemStack(TinkerTables.tinkerStation)));
-    registry.addWorkstations(TConstructRecipeCategoryUid.modifiers, EntryStacks.of(new ItemStack(TinkerTables.tinkersAnvil)));
-    registry.addWorkstations(TConstructRecipeCategoryUid.modifiers, EntryStacks.of(new ItemStack(TinkerTables.scorchedAnvil)));
+    registry.addWorkstations(TConstructJEIConstants.PART_BUILDER, EntryStacks.of(new ItemStack(TinkerTables.partBuilder)));
+    registry.addWorkstations(TConstructJEIConstants.MODIFIERS, EntryStacks.of(new ItemStack(TinkerTables.tinkerStation)));
+    registry.addWorkstations(TConstructJEIConstants.MODIFIERS, EntryStacks.of(new ItemStack(TinkerTables.tinkersAnvil)));
+    registry.addWorkstations(TConstructJEIConstants.MODIFIERS, EntryStacks.of(new ItemStack(TinkerTables.scorchedAnvil)));
 
     // smeltery
-    registry.addWorkstations(TConstructRecipeCategoryUid.melting, EntryStacks.of(new ItemStack(TinkerSmeltery.searedMelter)));
+    registry.addWorkstations(TConstructJEIConstants.MELTING, EntryStacks.of(new ItemStack(TinkerSmeltery.searedMelter)));
     registry.addWorkstations(BuiltinClientPlugin.FUEL, EntryStacks.of(new ItemStack(TinkerSmeltery.searedHeater)));
-    addCastingCatalyst(registry, TinkerSmeltery.searedTable, TConstructRecipeCategoryUid.castingTable, RecipeTypes.MOLDING_TABLE);
-    addCastingCatalyst(registry, TinkerSmeltery.searedBasin, TConstructRecipeCategoryUid.castingBasin, RecipeTypes.MOLDING_BASIN);
-    registry.addWorkstations(TConstructRecipeCategoryUid.melting, EntryStacks.of(new ItemStack(TinkerSmeltery.smelteryController)));
-    registry.addWorkstations(TConstructRecipeCategoryUid.alloy, EntryStacks.of(new ItemStack(TinkerSmeltery.smelteryController)));
-    registry.addWorkstations(TConstructRecipeCategoryUid.entityMelting, EntryStacks.of(new ItemStack(TinkerSmeltery.smelteryController)));
+    addCastingCatalyst(registry, TinkerSmeltery.searedTable, TConstructJEIConstants.CASTING_TABLE, RecipeTypes.MOLDING_TABLE);
+    addCastingCatalyst(registry, TinkerSmeltery.searedBasin, TConstructJEIConstants.CASTING_BASIN, RecipeTypes.MOLDING_BASIN);
+    registry.addWorkstations(TConstructJEIConstants.MELTING, EntryStacks.of(new ItemStack(TinkerSmeltery.smelteryController)));
+    registry.addWorkstations(TConstructJEIConstants.ALLOY, EntryStacks.of(new ItemStack(TinkerSmeltery.smelteryController)));
+    registry.addWorkstations(TConstructJEIConstants.ENTITY_MELTING, EntryStacks.of(new ItemStack(TinkerSmeltery.smelteryController)));
 
     // foundry
-    registry.addWorkstations(TConstructRecipeCategoryUid.alloy, EntryStacks.of(new ItemStack(TinkerSmeltery.scorchedAlloyer)));
-    addCastingCatalyst(registry, TinkerSmeltery.scorchedTable, TConstructRecipeCategoryUid.castingTable, RecipeTypes.MOLDING_TABLE);
-    addCastingCatalyst(registry, TinkerSmeltery.scorchedBasin, TConstructRecipeCategoryUid.castingBasin, RecipeTypes.MOLDING_BASIN);
-    registry.addWorkstations(TConstructRecipeCategoryUid.foundry, EntryStacks.of(new ItemStack(TinkerSmeltery.foundryController)));
+    registry.addWorkstations(TConstructJEIConstants.ALLOY, EntryStacks.of(new ItemStack(TinkerSmeltery.scorchedAlloyer)));
+    addCastingCatalyst(registry, TinkerSmeltery.scorchedTable, TConstructJEIConstants.CASTING_TABLE, RecipeTypes.MOLDING_TABLE);
+    addCastingCatalyst(registry, TinkerSmeltery.scorchedBasin, TConstructJEIConstants.CASTING_BASIN, RecipeTypes.MOLDING_BASIN);
+    registry.addWorkstations(TConstructJEIConstants.FOUNDRY, EntryStacks.of(new ItemStack(TinkerSmeltery.foundryController)));
 
-    // modifiers
+    // MODIFIERS
     for (Item item : TinkerTags.Items.MELEE.getValues()) {
-      registry.addWorkstations(TConstructRecipeCategoryUid.severing, EntryStacks.of(IModifiableDisplay.getDisplayStack(item)));
+      registry.addWorkstations(TConstructJEIConstants.SEVERING, EntryStacks.of(IModifiableDisplay.getDisplayStack(item)));
     }
   }
 
@@ -381,22 +383,22 @@ public class JEIPlugin implements REIClientPlugin {
 //    }
 //  }
 
-    @Override
-    public String apply(ItemStack itemStack, UidContext context) {
-      if (this == ALWAYS || context == UidContext.Ingredient) {
-        StringBuilder builder = new StringBuilder();
-        List<MaterialVariantId> materialList = MaterialIdNBT.from(itemStack).getMaterials();
-        if (!materialList.isEmpty()) {
-          // append first entry without a comma
-          builder.append(materialList.get(0));
-          for (int i = 1; i < materialList.size(); i++) {
-            builder.append(',');
-            builder.append(materialList.get(i).getId());
-          }
-        }
-        return builder.toString();
-      }
-      return NONE;
-    }
-  }
+//    @Override
+//    public String apply(ItemStack itemStack, UidContext context) {
+//      if (this == ALWAYS || context == UidContext.Ingredient) {
+//        StringBuilder builder = new StringBuilder();
+//        List<MaterialVariantId> materialList = MaterialIdNBT.from(itemStack).getMaterials();
+//        if (!materialList.isEmpty()) {
+//          // append first entry without a comma
+//          builder.append(materialList.get(0));
+//          for (int i = 1; i < materialList.size(); i++) {
+//            builder.append(',');
+//            builder.append(materialList.get(i).getId());
+//          }
+//        }
+//        return builder.toString();
+//      }
+//      return NONE;
+//    }
+//  }
 }

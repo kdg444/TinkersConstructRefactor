@@ -241,7 +241,7 @@ public class ArmorDyeingRecipe implements ITinkerStationRecipe, IMultiRecipe<IDi
     public DisplayRecipe(ModifierEntry result, List<ItemStack> tools, DyeColor color) {
       this.displayResult = result;
       this.toolWithoutModifier = tools;
-      this.dyes = color.getTag().getValues().stream().map(ItemStack::new).toList();
+      this.dyes = DyeUtil.getDyeTag(color).getValues().stream().map(ItemStack::new).toList();
 
       ResourceLocation id = result.getModifier().getId();
       int tintColor = getTintColor(color);

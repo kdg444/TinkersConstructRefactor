@@ -205,11 +205,11 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
 //  @SubscribeEvent
 //  void missingModifier(final MissingMappings<Modifier> event) {
 //    RegistrationHelper.handleMissingMappings(event, MOD_ID, name -> switch(name) {
-      case "maintained_2" -> TinkerModifiers.maintained.get();
-      case "fractured" -> TinkerModifiers.sharpness.get();
-      default -> null;
+//      case "maintained_2" -> TinkerModifiers.maintained.get();
+//      case "fractured" -> TinkerModifiers.sharpness.get();
+//      default -> null;
   //  });
-  }
+//  }
 
 
   /* Utils */

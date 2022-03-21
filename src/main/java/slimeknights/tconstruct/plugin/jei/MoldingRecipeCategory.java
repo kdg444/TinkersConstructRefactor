@@ -50,7 +50,7 @@ public class MoldingRecipeCategory extends AbstractTinkersCategory<MoldingRecipe
 
   @Override
   public CategoryIdentifier<TinkersDisplay<MoldingRecipe>> getCategoryIdentifier() {
-    return TConstructRecipeCategoryUid.MOLDING;
+    return TConstructJEIConstants.MOLDING;
   }
 
   @Override
@@ -141,26 +141,26 @@ public class MoldingRecipeCategory extends AbstractTinkersCategory<MoldingRecipe
     });
   }
 
-  public List<Component> getTooltipStrings(MoldingRecipe recipe, IRecipeSlotsView slots, double mouseX, double mouseY) {
+  public List<Component> getTooltipStrings(MoldingRecipe recipe, double mouseX, double mouseY) {
     if (recipe.isPatternConsumed() && !recipe.getPattern().isEmpty() && GuiUtil.isHovered((int)mouseX, (int)mouseY, 50, 7, 18, 18)) {
       return Collections.singletonList(TOOLTIP_PATTERN_CONSUMED);
     }
     return Collections.emptyList();
   }
 
-  @Override
-  public void setRecipe(IRecipeLayoutBuilder builder, MoldingRecipe recipe, IFocusGroup focuses) {
-    // basic input output
-    builder.addSlot(RecipeIngredientRole.INPUT, 3, 24).addIngredients(recipe.getMaterial());
-    builder.addSlot(RecipeIngredientRole.OUTPUT, 51, 24).addItemStack(recipe.getResultItem());
-
-    // if we have a mold, we are pressing into the table, so draw pressed item on input and output
-    Ingredient pattern = recipe.getPattern();
-    if (!pattern.isEmpty()) {
-      builder.addSlot(RecipeIngredientRole.INPUT, 3, 1).addIngredients(pattern);
-      if (!recipe.isPatternConsumed()) {
-        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 51, 8).addIngredients(pattern);
-      }
-    }
-  }
+//  @Override
+//  public void setRecipe(IRecipeLayoutBuilder builder, MoldingRecipe recipe, IFocusGroup focuses) {
+//    // basic input output
+//    builder.addSlot(RecipeIngredientRole.INPUT, 3, 24).addIngredients(recipe.getMaterial());
+//    builder.addSlot(RecipeIngredientRole.OUTPUT, 51, 24).addItemStack(recipe.getResultItem());
+//
+//    // if we have a mold, we are pressing into the table, so draw pressed item on input and output
+//    Ingredient pattern = recipe.getPattern();
+//    if (!pattern.isEmpty()) {
+//      builder.addSlot(RecipeIngredientRole.INPUT, 3, 1).addIngredients(pattern);
+//      if (!recipe.isPatternConsumed()) {
+//        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 51, 8).addIngredients(pattern);
+//      }
+//    }
+//  }
 }

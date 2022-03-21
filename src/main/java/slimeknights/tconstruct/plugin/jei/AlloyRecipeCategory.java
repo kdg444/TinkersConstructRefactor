@@ -35,19 +35,19 @@ public class AlloyRecipeCategory extends AbstractTinkersCategory<AlloyRecipe>/*,
   private static final String KEY_TEMPERATURE = TConstruct.makeTranslationKey("jei", "temperature");
 
   /** Tooltip for fluid inputs */
-  private static final IRecipeTooltipReplacement FLUID_TOOLTIP = (slot, list) ->
-    slot.getDisplayedIngredient(VanillaTypes.FLUID).ifPresent(stack -> FluidTooltipHandler.appendMaterial(stack, list));
+//  private static final IRecipeTooltipReplacement FLUID_TOOLTIP = (slot, list) ->
+//    slot.getDisplayedIngredient(VanillaTypes.FLUID).ifPresent(stack -> FluidTooltipHandler.appendMaterial(stack, list));
+//
+//  /** Tooltip for fuel display */
+//  public static final IRecipeTooltipReplacement FUEL_TOOLTIP = (slot, tooltip) -> {
+//    //noinspection SimplifyOptionalCallChains  Not for int streams
+//    slot.getDisplayedIngredient(VanillaTypes.FLUID)
+//        .ifPresent(stack -> MeltingFuelHandler.getTemperature(stack.getFluid())
+//                                              .ifPresent(temperature -> tooltip.add(new TranslatableComponent(KEY_TEMPERATURE, temperature).withStyle(ChatFormatting.GRAY))));
+//  };
 
-  /** Tooltip for fuel display */
-  public static final IRecipeTooltipReplacement FUEL_TOOLTIP = (slot, tooltip) -> {
-    //noinspection SimplifyOptionalCallChains  Not for int streams
-    slot.getDisplayedIngredient(VanillaTypes.FLUID)
-        .ifPresent(stack -> MeltingFuelHandler.getTemperature(stack.getFluid())
-                                              .ifPresent(temperature -> tooltip.add(new TranslatableComponent(KEY_TEMPERATURE, temperature).withStyle(ChatFormatting.GRAY))));
-  };
-
-  @Getter
-  private final IDrawable background;
+//  @Getter
+//  private final Renderer background;
   @Getter
   private final Renderer icon;
 //  private final IDrawable arrow;
@@ -72,7 +72,7 @@ public class AlloyRecipeCategory extends AbstractTinkersCategory<AlloyRecipe>/*,
 
   @Override
   public void draw(AlloyRecipe recipe, PoseStack matrices, double mouseX, double mouseY) {
-    arrow.draw(matrices, 90, 21);
+//    arrow.draw(matrices, 90, 21);
     // temperature info
     Font fontRenderer = Minecraft.getInstance().font;
     String tempString = I18n.get(KEY_TEMPERATURE, recipe.getTemperature());
@@ -93,7 +93,7 @@ public class AlloyRecipeCategory extends AbstractTinkersCategory<AlloyRecipe>/*,
    * @param tooltip      Tooltip callback
    * @return Max amount based on fluids
    */
-  public static long drawVariableFluids(IRecipeLayoutBuilder builder, RecipeIngredientRole role, int x, int y, int totalWidth, int height, List<List<FluidStack>> fluids, int minAmount, IRecipeSlotTooltipCallback tooltip) {
+  public static long drawVariableFluids(int x, int y, int totalWidth, int height, List<List<FluidStack>> fluids, int minAmount) {
     int count = fluids.size();
     long maxAmount = minAmount;
     if (count > 0) {
@@ -110,37 +110,37 @@ public class AlloyRecipeCategory extends AbstractTinkersCategory<AlloyRecipe>/*,
       int max = count - 1;
       for (int i = 0; i < max; i++) {
         int fluidX = x + i * w;
-        builder.addSlot(role, fluidX, y)
-               .addTooltipCallback(tooltip)
-               .setFluidRenderer(maxAmount, false, w, height)
-               .addIngredients(VanillaTypes.FLUID, fluids.get(i));
+//        builder.addSlot(role, fluidX, y)
+//               .addTooltipCallback(tooltip)
+//               .setFluidRenderer(maxAmount, false, w, height)
+//               .addIngredients(VanillaTypes.FLUID, fluids.get(i));
       }
       // for the last, the width is the full remaining width
       int fluidX = x + max * w;
-      builder.addSlot(role, fluidX, y)
-             .addTooltipCallback(tooltip)
-             .setFluidRenderer(maxAmount, false, totalWidth - (w * max), height)
-             .addIngredients(VanillaTypes.FLUID, fluids.get(max));
+//      builder.addSlot(role, fluidX, y)
+//             .addTooltipCallback(tooltip)
+//             .setFluidRenderer(maxAmount, false, totalWidth - (w * max), height)
+//             .addIngredients(VanillaTypes.FLUID, fluids.get(max));
     }
     return maxAmount;
   }
 
-  @Override
-  public void setRecipe(IRecipeLayoutBuilder builder, AlloyRecipe recipe, IFocusGroup focuses) {
-    // inputs
-    int maxAmount = drawVariableFluids(builder, RecipeIngredientRole.INPUT, 19, 11, 48, 32, recipe.getDisplayInputs(), recipe.getOutput().getAmount(), FLUID_TOOLTIP);
-
-    // output
-    builder.addSlot(RecipeIngredientRole.OUTPUT, 137, 11)
-           .addTooltipCallback(FLUID_TOOLTIP)
-           .setFluidRenderer(maxAmount, false, 16, 32)
-           .addIngredient(VanillaTypes.FLUID, recipe.getOutput());
-
-    // fuel
-    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 94, 43)
-           .addTooltipCallback(FUEL_TOOLTIP)
-           .setFluidRenderer(1, false, 16, 16)
-           .setOverlay(tank, 0, 0)
-           .addIngredients(VanillaTypes.FLUID, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
-  }
+//  @Override
+//  public void setRecipe(IRecipeLayoutBuilder builder, AlloyRecipe recipe, IFocusGroup focuses) {
+//    // inputs
+//    int maxAmount = drawVariableFluids(builder, RecipeIngredientRole.INPUT, 19, 11, 48, 32, recipe.getDisplayInputs(), recipe.getOutput().getAmount(), FLUID_TOOLTIP);
+//
+//    // output
+//    builder.addSlot(RecipeIngredientRole.OUTPUT, 137, 11)
+//           .addTooltipCallback(FLUID_TOOLTIP)
+//           .setFluidRenderer(maxAmount, false, 16, 32)
+//           .addIngredient(VanillaTypes.FLUID, recipe.getOutput());
+//
+//    // fuel
+//    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 94, 43)
+//           .addTooltipCallback(FUEL_TOOLTIP)
+//           .setFluidRenderer(1, false, 16, 16)
+//           .setOverlay(tank, 0, 0)
+//           .addIngredients(VanillaTypes.FLUID, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
+//  }
 }

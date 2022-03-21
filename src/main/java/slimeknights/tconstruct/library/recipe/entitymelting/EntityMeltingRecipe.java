@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.recipe.entitymelting;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.util.LazySpawnEggItem;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.recipe.ICustomOutputRecipe;
 import slimeknights.mantle.recipe.container.IEmptyContainer;
@@ -83,7 +83,7 @@ public class EntityMeltingRecipe implements ICustomOutputRecipe<IEmptyContainer>
   public List<ItemStack> getItemInputs() {
     if (itemInputs == null) {
       itemInputs = getEntityInputs().stream()
-                                    .map(ForgeSpawnEggItem::fromEntityType)
+                                    .map(LazySpawnEggItem::fromEntityType)
                                     .filter(Objects::nonNull)
                                     .map(ItemStack::new)
                                     .toList();
