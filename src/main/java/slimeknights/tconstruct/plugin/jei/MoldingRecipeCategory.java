@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.GuiUtil;
-import slimeknights.tconstruct.library.recipe.RecipeTypes;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipe;
 import slimeknights.tconstruct.plugin.TinkersDisplay;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -48,11 +48,13 @@ public class MoldingRecipeCategory extends AbstractTinkersCategory<MoldingRecipe
     this.upArrow =  new WidgetInfo(BACKGROUND_LOC, 76, 55, 6, 6);
   }
 
+  @SuppressWarnings("removal")
   @Override
   public CategoryIdentifier<TinkersDisplay<MoldingRecipe>> getCategoryIdentifier() {
-    return TConstructJEIConstants.MOLDING;
+    return TConstructJEIConstants.MOLDING.getUid();
   }
 
+  @SuppressWarnings("removal")
   @Override
   public int getDisplayHeight() {
     return background.height();
@@ -64,6 +66,11 @@ public class MoldingRecipeCategory extends AbstractTinkersCategory<MoldingRecipe
   }
 
   record WidgetInfo(ResourceLocation location, int u, int v, int width, int height) {}
+
+  @Override
+  public RecipeType<MoldingRecipe> getRecipeType() {
+    return TConstructJEIConstants.MOLDING;
+  }
 
   @Override
   public Component getTitle() {
@@ -87,7 +94,7 @@ public class MoldingRecipeCategory extends AbstractTinkersCategory<MoldingRecipe
     }
 
     // draw the main block
-    WidgetInfo block = display.getRecipe().getType() == RecipeTypes.MOLDING_BASIN ? basin : table;
+    WidgetInfo block = display.getRecipe().getType() == TinkerRecipeTypes.MOLDING_BASIN.get() ? basin : table;
     ingredients.add(Widgets.createTexturedWidget(block.location(), origin.x + 3, origin.y + 40, block.u(), block.v(), block.width(), block.height()));
 
     // if no mold, we "pickup" the item, so draw no table

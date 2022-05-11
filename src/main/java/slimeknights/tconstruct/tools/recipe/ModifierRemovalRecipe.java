@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.helper.LoggingRecipeSerializer;
 import slimeknights.mantle.util.JsonHelper;
@@ -19,10 +18,11 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
+import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.library.recipe.modifiers.ModifierRecipeLookup;
+import slimeknights.tconstruct.library.recipe.modifiers.ModifierSalvage;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IncrementalModifierRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IncrementalModifierRecipeBuilder;
-import slimeknights.tconstruct.library.recipe.modifiers.salvage.AbstractModifierSalvage;
 import slimeknights.tconstruct.library.recipe.tinkerstation.IMutableTinkerStationContainer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationContainer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
@@ -46,7 +46,7 @@ public class ModifierRemovalRecipe implements ITinkerStationRecipe {
 
   @Override
   public boolean matches(ITinkerStationContainer inv, Level world) {
-    if (!TinkerTags.Items.MODIFIABLE.contains(inv.getTinkerableStack().getItem())) {
+    if (!inv.getTinkerableStack().is(TinkerTags.Items.MODIFIABLE)) {
       return false;
     }
     return IncrementalModifierRecipe.containsOnlyIngredient(inv, ingredient);
@@ -93,8 +93,8 @@ public class ModifierRemovalRecipe implements ITinkerStationRecipe {
 
     // salvage
     tool = tool.copy();
-    Modifier modifier = toRemove.getModifier();
-    AbstractModifierSalvage salvage = ModifierRecipeLookup.getSalvage(toolStack, tool, modifier, toRemove.getLevel());
+    ModifierId id = toRemove.getId();
+    ModifierSalvage salvage = ModifierRecipeLookup.getSalvage(toolStack, tool, id, toRemove.getLevel());
 
     // restore the slots
     if (salvage != null) {
@@ -102,13 +102,14 @@ public class ModifierRemovalRecipe implements ITinkerStationRecipe {
     }
 
     // first remove hook, primarily for removing raw NBT which is highly discouraged using
-    int newLevel = tool.getModifierLevel(modifier) - 1;
+    int newLevel = tool.getModifierLevel(id) - 1;
+    Modifier modifier = toRemove.getModifier();
     if (newLevel <= 0) {
       modifier.beforeRemoved(tool, tool.getRestrictedNBT());
     }
 
     // remove the actual modifier
-    tool.removeModifier(modifier, 1);
+    tool.removeModifier(id, 1);
 
     // second remove hook, useful for removing modifier specific state data
     if (newLevel <= 0) {
@@ -146,48 +147,6 @@ public class ModifierRemovalRecipe implements ITinkerStationRecipe {
 
   @Override
   public void updateInputs(ItemStack result, IMutableTinkerStationContainer inv, boolean isServer) {
-    // return salvage items for modifier, using the original tool as that still has the modifier
-    if (isServer) {
-      ItemStack toolStack = inv.getTinkerableStack();
-      ToolStack tool = ToolStack.from(toolStack);
-      ModifierEntry toRemove = getModifierToRemove(inv, tool.getUpgrades().getModifiers());
-      if (toRemove != null) {
-        AbstractModifierSalvage salvage = ModifierRecipeLookup.getSalvage(toolStack, tool, toRemove.getModifier(), toRemove.getLevel());
-        if (salvage != null) {
-          int salvageMax = Math.min(toolStack.getMaxStackSize(), salvage.getMaxToolSize());
-          int currentSize = result.getCount();
-          Consumer<ItemStack> consumer;
-          // if the size is smaller than 16, shrink all salvage stack sizes to prevent a salvage dupe
-          if (currentSize < salvageMax) {
-            consumer = stack -> {
-              int newSize = stack.getCount() * currentSize / salvageMax;
-              if (newSize > 0) {
-                stack.setCount(newSize);
-                inv.giveItem(stack);
-              }
-            };
-            // if larger, grow salvage
-          } else if (currentSize > salvageMax) {
-            consumer = stack -> {
-              int newSize = stack.getCount() * currentSize / salvageMax;
-              int maxStackSize = stack.getMaxStackSize();
-              while (newSize > maxStackSize) {
-                inv.giveItem(ItemHandlerHelper.copyStackWithSize(stack, maxStackSize));
-                newSize -= maxStackSize;
-              }
-              if (newSize > 0) {
-                stack.setCount(newSize);
-                inv.giveItem(stack);
-              }
-            };
-          } else {
-            consumer = inv::giveItem;
-          }
-          salvage.acceptItems(tool, consumer, TConstruct.RANDOM);
-        }
-      }
-    }
-
     // remove the input item, done second as we need its location for salvage
     for (int i = 0; i < inv.getInputCount(); i++) {
       ItemStack stack = inv.getInput(i);

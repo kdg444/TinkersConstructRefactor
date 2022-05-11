@@ -35,14 +35,14 @@ public class CircleAOEIterator implements IAreaOfEffectIterator {
   protected final boolean is3D;
 
   @Override
-  public IGenericLoader<?> getLoader() {
+  public IGenericLoader<? extends IAreaOfEffectIterator> getLoader() {
     return LOADER;
   }
 
   @Override
   public Iterable<BlockPos> getBlocks(IToolStackView tool, ItemStack stack, Player player, BlockState state, Level world, BlockPos origin, Direction sideHit, AOEMatchType matchType) {
     // expanded gives an extra width every odd level, and an extra height every even level
-    int expanded = tool.getModifierLevel(TinkerModifiers.expanded.get());
+    int expanded = tool.getModifierLevel(TinkerModifiers.expanded.getId());
     return calculate(tool, stack, world, player, origin, sideHit, diameter + expanded, is3D, matchType);
   }
 

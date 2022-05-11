@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -25,6 +27,7 @@ import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.ForgeI18n;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
+import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.client.book.elements.TinkerItemElement;
@@ -38,7 +41,7 @@ import slimeknights.tconstruct.library.materials.stats.IMaterialStats;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.recipe.RecipeTypes;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialCastingLookup;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialFluidRecipe;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
@@ -110,7 +113,7 @@ public class ContentMaterial extends PageContent {
       }
       // simply combine all items from all recipes
       MaterialVariantId material = getMaterialVariant();
-      repairStacks = RecipeHelper.getUIRecipes(world.getRecipeManager(), RecipeTypes.MATERIAL, MaterialRecipe.class, recipe -> material.matchesVariant(recipe.getMaterial()))
+      repairStacks = RecipeHelper.getUIRecipes(world.getRecipeManager(), TinkerRecipeTypes.MATERIAL.get(), MaterialRecipe.class, recipe -> material.matchesVariant(recipe.getMaterial()))
                                  .stream()
                                  .flatMap(recipe -> Arrays.stream(recipe.getIngredient().getItems()))
                                  .collect(Collectors.toList());
@@ -334,8 +337,8 @@ public class ContentMaterial extends PageContent {
     if (displayTools.size() < 9) {
       MaterialId materialId = materialVariant.getId();
       toolLoop:
-      for (Item item : TinkerTags.Items.MULTIPART_TOOL.getValues()) {
-        if (item instanceof IModifiable tool) {
+      for (Holder<Item> item : Registry.ITEM.getTagOrEmpty(TinkerTags.Items.MULTIPART_TOOL)) {
+        if (item.value() instanceof IModifiable tool) {
           List<PartRequirement> requirements = tool.getToolDefinition().getData().getParts();
           // start building the tool with the given material
           MaterialNBT.Builder materials = MaterialNBT.builder();
@@ -382,9 +385,9 @@ public class ContentMaterial extends PageContent {
 
   /** Gets a list of all tool parts */
   private List<IToolPart> getToolParts() {
-    return TinkerTags.Items.TOOL_PARTS.getValues().stream()
-                                      .filter(item -> item instanceof IToolPart)
-                                      .map(item -> (IToolPart) item)
-                                      .collect(Collectors.toList());
+    return RegistryHelper.getTagValueStream(Registry.ITEM, TinkerTags.Items.TOOL_PARTS)
+                         .filter(item -> item instanceof IToolPart)
+                         .map(item -> (IToolPart) item)
+                         .collect(Collectors.toList());
   }
 }

@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.modifiers.impl.SingleUseModifier;
+import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.ComputableDataKey;
 import slimeknights.tconstruct.library.tools.context.EquipmentChangeContext;
@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.Random;
 
-public class ChrysophiliteModifier extends SingleUseModifier {
+public class ChrysophiliteModifier extends NoLevelsModifier {
   public static final ComputableDataKey<TotalGold> TOTAL_GOLD = TConstruct.createKey("chrysophilite", TotalGold::new);
   public ChrysophiliteModifier() {
     LivingEntityEvents.DROPS.register(ChrysophiliteModifier::onLivingDrops);

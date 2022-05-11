@@ -40,9 +40,15 @@ public class ConfigEnabledCondition implements ConditionJsonProvider, LootItemCo
     return ConfigEnabledCondition.ID;
   }
 
+  @SuppressWarnings("removal")
   @Override
   public void writeParameters(JsonObject json) {
     json.addProperty("prop", configName);
+  }
+
+  @Override
+  public boolean test(IContext context) {
+    return supplier.getAsBoolean();
   }
 
   @Override

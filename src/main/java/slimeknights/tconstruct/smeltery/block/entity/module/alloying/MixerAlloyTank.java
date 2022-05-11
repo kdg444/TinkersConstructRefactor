@@ -5,17 +5,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.common.util.NonNullConsumer;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import slimeknights.mantle.inventory.BaseContainerMenu;
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.EmptyFluidHandler;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.recipe.alloying.IMutableAlloyTank;
@@ -110,18 +109,18 @@ public class MixerAlloyTank implements IMutableAlloyTank {
     if (tank >= currentTanks || tank < 0) {
       return FluidStack.EMPTY;
     }
-    return indexTanks()[tank].drain(fluidStack, false);
+    return indexTanks()[tank].drain(fluidStack, FluidAction.EXECUTE);
   }
 
   @Override
   public boolean canFit(FluidStack fluid, int removed) {
     checkTanks();
-    return outputTank.fill(fluid, true) == fluid.getAmount();
+    return outputTank.fill(fluid, FluidAction.SIMULATE) == fluid.getAmount();
   }
 
   @Override
-  public long fill(FluidStack fluidStack) {
-    return outputTank.fill(fluidStack, false);
+  public int fill(FluidStack fluidStack) {
+    return outputTank.fill(fluidStack, FluidAction.EXECUTE);
   }
 
   /**
@@ -144,7 +143,7 @@ public class MixerAlloyTank implements IMutableAlloyTank {
             BlockEntity te = world.getBlockEntity(target);
             if (te != null) {
               // if we found a tank, increment the number of tanks
-              LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(te, direction.getOpposite());
+              LazyOptional<IFluidHandler> capability = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, direction.getOpposite());
               if (capability.isPresent()) {
                 // attach a listener so we know when the side invalidates
                 capability.addListener(listeners.computeIfAbsent(direction, dir -> new WeakConsumerWrapper<>(this, (self, handler) -> {
@@ -164,15 +163,6 @@ public class MixerAlloyTank implements IMutableAlloyTank {
         }
       }
       needsRefresh = false;
-
-      // close the UI for any players in this UI
-      if (!world.isClientSide) {
-        for (Player player : world.players()) {
-          if (player.containerMenu instanceof BaseContainerMenu<?> base && base.getTile() == parent) {
-            player.closeContainer();
-          }
-        }
-      }
     }
   }
 

@@ -1,10 +1,11 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.FluidTagsProvider;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.tconstruct.common.TinkerTags;
-import slimeknights.tconstruct.common.TinkerTags.Fluids;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 
 @SuppressWarnings("unchecked")
@@ -84,6 +85,11 @@ public class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
     // mekanism compat alloys
     tagAll(TinkerFluids.moltenRefinedGlowstone);
     tagAll(TinkerFluids.moltenRefinedObsidian);
+    // unplacable fluids
+    tagAll(TinkerFluids.honey);
+    tagAll(TinkerFluids.beetrootSoup);
+    tagAll(TinkerFluids.mushroomStew);
+    tagAll(TinkerFluids.rabbitStew);
 
     /* Normal tags */
     this.tag(TinkerTags.Fluids.SLIME)
@@ -116,7 +122,9 @@ public class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
         TinkerFluids.moltenRefinedGlowstone.getForgeTag()).addTag(TinkerFluids.moltenRefinedObsidian.getForgeTag());
 
     this.tag(TinkerTags.Fluids.LARGE_GEM_TOOLTIPS).addTag(TinkerFluids.moltenEmerald.getLocalTag()).addTag(TinkerFluids.moltenDiamond.getLocalTag());
-    this.tag(Fluids.SMALL_GEM_TOOLTIPS).addTag(TinkerFluids.moltenQuartz.getLocalTag()).addTag(TinkerFluids.moltenAmethyst.getLocalTag());
+    this.tag(TinkerTags.Fluids.SMALL_GEM_TOOLTIPS).addTag(TinkerFluids.moltenQuartz.getLocalTag()).addTag(TinkerFluids.moltenAmethyst.getLocalTag());
+    this.tag(TinkerTags.Fluids.SOUP_TOOLTIPS).addTags(TinkerFluids.beetrootSoup.getLocalTag(), TinkerFluids.mushroomStew.getLocalTag(), TinkerFluids.rabbitStew.getLocalTag());
+    this.tag(TinkerTags.Fluids.BOTTLE_TOOLTIPS).add(Fluids.WATER, Fluids.FLOWING_WATER).addTags(TinkerFluids.honey.getLocalTag());
 
     // spilling tags - reduces the number of recipes generated //
     this.tag(TinkerTags.Fluids.CLAY_SPILLING)

@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.model.SkullModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -42,7 +43,6 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class WorldClientEvents extends ClientEventBase {
   static void addResourceListener() {
-    ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(SkullModelHelper.LISTENER);
     for (SlimeType type : SlimeType.values()) {
       ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SlimeColorReloadListener(type));
     }
@@ -78,7 +78,14 @@ public class WorldClientEvents extends ClientEventBase {
     registerLayerDefinition(TinkerHeadType.ZOMBIFIED_PIGLIN, piglinHead);
   }
 
-  static void registerRenderersSlime() {
+  @SubscribeEvent
+  static void registerSkullModels(EntityRenderersEvent.CreateSkullModels event) {
+    EntityModelSet modelSet = event.getEntityModelSet();
+    SkullModelHelper.HEAD_LAYERS.forEach((type, layer) -> event.registerSkullModel(type, new SkullModel(modelSet.bakeLayer(layer))));
+  }
+
+  @SubscribeEvent
+  static void registerRenderers() {
     EntityRendererRegistry.register(TinkerWorld.earthSlimeEntity.get(), SlimeRenderer::new);
     EntityRendererRegistry.register(TinkerWorld.skySlimeEntity.get(), TinkerSlimeRenderer.SKY_SLIME_FACTORY);
     EntityRendererRegistry.register(TinkerWorld.enderSlimeEntity.get(), TinkerSlimeRenderer.ENDER_SLIME_FACTORY);

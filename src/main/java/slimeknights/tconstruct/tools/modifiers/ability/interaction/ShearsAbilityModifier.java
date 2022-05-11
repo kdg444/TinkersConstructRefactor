@@ -24,7 +24,7 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
 @RequiredArgsConstructor
-public class ShearsAbilityModifier extends InteractionModifier.SingleUse {
+public class ShearsAbilityModifier extends InteractionModifier.NoLevels {
   private final int range;
   @Getter
   private final int priority;
@@ -82,7 +82,7 @@ public class ShearsAbilityModifier extends InteractionModifier.SingleUse {
       // AOE shearing
       if (!broken) {
         // if expanded, shear all in range
-        int expanded = range + tool.getModifierLevel(TinkerModifiers.expanded.get());
+        int expanded = range + tool.getModifierLevel(TinkerModifiers.expanded.getId());
         if (expanded > 0) {
           for (LivingEntity aoeTarget : player.getCommandSenderWorld().getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(expanded, 0.25D, expanded))) {
             if (aoeTarget != player && aoeTarget != target && (!(aoeTarget instanceof ArmorStand) || !((ArmorStand)aoeTarget).isMarker())) {

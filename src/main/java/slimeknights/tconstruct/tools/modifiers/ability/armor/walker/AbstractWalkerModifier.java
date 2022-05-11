@@ -6,12 +6,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import slimeknights.tconstruct.library.modifiers.hooks.IArmorWalkModifier;
-import slimeknights.tconstruct.library.modifiers.impl.SingleUseModifier;
+import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
 import javax.annotation.Nullable;
 
-public abstract class AbstractWalkerModifier extends SingleUseModifier implements IArmorWalkModifier {
+public abstract class AbstractWalkerModifier extends NoLevelsModifier implements IArmorWalkModifier {
   /** Gets the radius for this modifier */
   protected abstract float getRadius(IToolStackView tool, int level);
 
@@ -35,7 +35,7 @@ public abstract class AbstractWalkerModifier extends SingleUseModifier implement
       Vec3 posVec = living.position();
       BlockPos center = new BlockPos(posVec.x, posVec.y + 0.5, posVec.z);
       for (BlockPos pos : BlockPos.betweenClosed(center.offset(-radius, 0, -radius), center.offset(radius, 0, radius))) {
-        if (pos.closerThan(living.position(), radius)) {
+        if (pos.closerToCenterThan(living.position(), radius)) {
           walkOn(tool, level, living, world, pos, mutable);
           if (tool.isBroken()) {
             break;

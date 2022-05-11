@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
 import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
@@ -87,7 +87,7 @@ public class AlloyRecipeBuilder extends AbstractRecipeBuilder<AlloyRecipeBuilder
    * @param amount  Input amount
    * @return  Builder instance
    */
-  public AlloyRecipeBuilder addInput(Tag<Fluid> tag, int amount) {
+  public AlloyRecipeBuilder addInput(TagKey<Fluid> tag, int amount) {
     return addInput(FluidIngredient.of(tag, amount));
   }
 

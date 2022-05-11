@@ -57,7 +57,7 @@ public class ToolRenderEvents {
     }
     // must have the right tags
     ItemStack stack = player.getMainHandItem();
-    if (stack.isEmpty() || !TinkerTags.Items.HARVEST.contains(stack.getItem())) {
+    if (stack.isEmpty() || !stack.is(TinkerTags.Items.HARVEST)) {
       return true;
     }
     // must be targeting a block
@@ -120,7 +120,7 @@ public class ToolRenderEvents {
     }
     // must have the right tags
     ItemStack stack = player.getMainHandItem();
-    if (stack.isEmpty() || !TinkerTags.Items.HARVEST.contains(stack.getItem())) {
+    if (stack.isEmpty() || !stack.is(TinkerTags.Items.HARVEST)) {
       return;
     }
     // must be targeting a block

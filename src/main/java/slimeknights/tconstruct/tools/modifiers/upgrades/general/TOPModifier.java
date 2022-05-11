@@ -1,23 +1,21 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.general;
 
-import net.minecraft.world.item.Item;
 import slimeknights.tconstruct.common.TinkerTags;
-import slimeknights.tconstruct.library.modifiers.impl.SingleUseModifier;
+import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.utils.RestrictedCompoundTag;
 
 /** Modifier for compatability with TOP */
-public class TOPModifier extends SingleUseModifier {
+public class TOPModifier extends NoLevelsModifier {
   private static final String TOP_NBT_HELMET = "theoneprobe";
   private static final String TOP_NBT_HAND = "theoneprobe_hand";
 
   @Override
   public void addRawData(IToolStackView tool, int level, RestrictedCompoundTag tag) {
-    Item item = tool.getItem();
-    if (TinkerTags.Items.HELD.contains(item)) {
+    if (tool.hasTag(TinkerTags.Items.HELD)) {
       tag.putBoolean(TOP_NBT_HAND, true);
     }
-    if (TinkerTags.Items.HELMETS.contains(item)) {
+    if (tool.hasTag(TinkerTags.Items.HELMETS)) {
       tag.putBoolean(TOP_NBT_HELMET, true);
     }
   }

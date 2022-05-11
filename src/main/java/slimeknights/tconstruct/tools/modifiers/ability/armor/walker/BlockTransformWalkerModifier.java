@@ -3,8 +3,10 @@ package slimeknights.tconstruct.tools.modifiers.ability.armor.walker;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -15,16 +17,19 @@ import net.minecraft.world.level.material.Material;
 import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
+import slimeknights.tconstruct.library.utils.MutableUseOnContext;
+import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
 @RequiredArgsConstructor
 public class BlockTransformWalkerModifier extends AbstractWalkerModifier {
   private final ToolAction action;
   private final SoundEvent sound;
+  private MutableUseOnContext context;
 
   @Override
   protected float getRadius(IToolStackView tool, int level) {
-    return 1.5f + tool.getModifierLevel(TinkerModifiers.expanded.get());
+    return 1.5f + tool.getModifierLevel(TinkerModifiers.expanded.getId());
   }
 
   @Override
@@ -34,9 +39,9 @@ public class BlockTransformWalkerModifier extends AbstractWalkerModifier {
 
   @Override
   public void onWalk(IToolStackView tool, int level, LivingEntity living, BlockPos prevPos, BlockPos newPos) {
-    if (living instanceof Player) {
-      super.onWalk(tool, level, living, prevPos, newPos);
-    }
+    super.onWalk(tool, level, living, prevPos, newPos);
+    // clear the context to prevent memory leaks
+    context = null;
   }
 
   @Override
@@ -44,8 +49,16 @@ public class BlockTransformWalkerModifier extends AbstractWalkerModifier {
     Material material = world.getBlockState(target).getMaterial();
     if (material.isReplaceable() || material == Material.PLANT) {
       mutable.set(target.getX(), target.getY() - 1, target.getZ());
+
+      // prepare context, reused to save effort as only the position changes
+      if (context == null) {
+        context = new MutableUseOnContext(living.getLevel(), living instanceof Player p ? p : null, InteractionHand.MAIN_HAND, living.getItemBySlot(EquipmentSlot.FEET), Util.createTraceResult(mutable, Direction.UP, false));
+      } else {
+        context.setOffsetPos(mutable);
+      }
+      // transform the block
       BlockState original = world.getBlockState(mutable);
-      BlockState transformed = original;//original.getToolModifiedState(world, mutable, (Player)living, living.getItemBySlot(EquipmentSlot.FEET), action); TODO: PORT
+      BlockState transformed = original;//original.getToolModifiedState(context, action, false); TODO: PORT
       if (transformed != null) {
         world.setBlock(mutable, transformed, Block.UPDATE_ALL_IMMEDIATE);
         world.destroyBlock(target, true);

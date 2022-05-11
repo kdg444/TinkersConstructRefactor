@@ -3,16 +3,19 @@ package slimeknights.tconstruct.library.data.recipe;
 import me.alphamode.forgetags.Tags;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
-import slimeknights.mantle.recipe.data.CompoundIngredient;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.CompoundIngredient;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
+import net.minecraftforge.common.crafting.DifferenceIngredient;
+import net.minecraftforge.common.crafting.IntersectionIngredient;
+import net.minecraftforge.common.crafting.conditions.TrueCondition;
+import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.recipe.helper.ItemOutput;
-import slimeknights.mantle.recipe.ingredient.IngredientDifference;
-import slimeknights.mantle.recipe.ingredient.IngredientIntersection;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.mantle.registration.object.MetalItemObject;
 import slimeknights.tconstruct.common.registration.CastItemObject;
@@ -46,7 +49,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    */
   default void tagMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, int amount, String tagName, float factor, String recipePath, boolean isOptional) {
     Consumer<FinishedRecipe> wrapped = isOptional ? withCondition(consumer, tagCondition(tagName)) : consumer;
-    MeltingRecipeBuilder.melting(Ingredient.of(getTag("c", tagName)), fluid, amount, factor)
+    MeltingRecipeBuilder.melting(Ingredient.of(getItemTag("c", tagName)), fluid, amount, factor)
                         .save(wrapped, modResource(recipePath));
   }
 
@@ -62,18 +65,18 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param isOptional  If true, recipe is optional
    * @param byproducts  List of byproduct options for this metal, first one that is present will be used
    */
-  default void oreMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, int amount, String tagName, @Nullable Tag.Named<Item> size, float factor, String recipePath, boolean isOptional, OreRateType oreRate, float byproductScale, IByproduct... byproducts) {
+  default void oreMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, int amount, String tagName, @Nullable TagKey<Item> size, float factor, String recipePath, boolean isOptional, OreRateType oreRate, float byproductScale, IByproduct... byproducts) {
     Consumer<FinishedRecipe> wrapped;
-    Ingredient baseIngredient = Ingredient.of(getTag("c", tagName));
+    Ingredient baseIngredient = Ingredient.of(getItemTag("c", tagName));
     Ingredient ingredient;
     // not everyone sets size, so treat singular as the fallback, means we want anything in the tag that is not sparse or dense
     if (size == Tags.Items.ORE_RATES_SINGULAR) {
-      ingredient = IngredientDifference.difference(baseIngredient, CompoundIngredient.from(Ingredient.of(Tags.Items.ORE_RATES_SPARSE), Ingredient.of(Tags.Items.ORE_RATES_DENSE)));
-      wrapped = withCondition(consumer, new TagDifferencePresentCondition(new ResourceLocation("c", tagName), Tags.Items.ORE_RATES_SPARSE.getName(), Tags.Items.ORE_RATES_DENSE.getName()));
+      ingredient = DifferenceIngredient.of(baseIngredient, CompoundIngredient.of(Ingredient.of(Tags.Items.ORE_RATES_SPARSE), Ingredient.of(Tags.Items.ORE_RATES_DENSE)));
+      wrapped = withCondition(consumer, TagDifferencePresentCondition.ofKeys(getItemTag("c", tagName), Tags.Items.ORE_RATES_SPARSE, Tags.Items.ORE_RATES_DENSE));
       // size tag means we want an intersection between the tag and that size
     } else if (size != null) {
-      ingredient = IngredientIntersection.intersection(baseIngredient, Ingredient.of(size));
-      wrapped = withCondition(consumer, new TagIntersectionPresentCondition(new ResourceLocation("c", tagName), size.getName()));
+      ingredient = IntersectionIngredient.of(baseIngredient, Ingredient.of(size));
+      wrapped = withCondition(consumer, TagIntersectionPresentCondition.ofKeys(getItemTag("c", tagName), size));
       // default only need it to be in the tag
     } else {
       ingredient = baseIngredient;
@@ -289,7 +292,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
     if (optional) {
       consumer = withCondition(consumer, tagCondition(tagName));
     }
-    castingWithCast(consumer, fluid, forgeTag, amount, cast, ItemOutput.fromTag(getTag("c", tagName), 1), recipeName);
+    castingWithCast(consumer, fluid, forgeTag, amount, cast, ItemOutput.fromTag(getItemTag("c", tagName), 1), recipeName);
   }
 
   /**
@@ -462,7 +465,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
     tagCasting(consumer, fluid, true, FluidValues.INGOT / 2, TinkerSmeltery.rodCast, "rods/" + name, folder + name + "/rod", true);
     tagCasting(consumer, fluid, true, FluidValues.INGOT / 2, TinkerSmeltery.wireCast, "wires/" + name, folder + name + "/wire", true);
     // block
-    Tag<Item> block = getTag("c", "storage_blocks/" + name);
+    TagKey<Item> block = getItemTag("c", "storage_blocks/" + name);
     Consumer<FinishedRecipe> wrapped = forceStandard ? consumer : withCondition(consumer, tagCondition("storage_blocks/" + name));
     ItemCastingRecipeBuilder.basinRecipe(block)
                             .setFluidAndTime(fluid, true, FluidValues.METAL_BLOCK)

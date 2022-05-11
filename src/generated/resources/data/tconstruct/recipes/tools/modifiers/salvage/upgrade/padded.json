@@ -5,19 +5,12 @@
       "tag": "tconstruct:modifiable/melee"
     },
     {
-      "tag": "tconstruct:modifiable/armor/chestplate"
+      "tag": "tconstruct:modifiable/unarmed"
     }
   ],
   "slots": {
     "upgrades": 1
   },
   "modifier": "tconstruct:padded",
-  "min_level": 1,
-  "salvage": [
-    {
-      "item": "minecraft:leather",
-      "min": 0,
-      "max": 2
-    }
-  ]
+  "min_level": 1
 }

@@ -7,16 +7,16 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.util.JsonHelper;
-import slimeknights.tconstruct.library.json.LazyTag;
-import slimeknights.tconstruct.library.tools.definition.harvest.predicate.BlockPredicate;
-import slimeknights.tconstruct.library.tools.definition.harvest.predicate.SetBlockPredicate;
-import slimeknights.tconstruct.library.tools.definition.harvest.predicate.TagBlockPredicate;
+import slimeknights.tconstruct.library.json.predicate.IJsonPredicate;
+import slimeknights.tconstruct.library.json.predicate.block.BlockPredicate;
+import slimeknights.tconstruct.library.json.predicate.block.SetBlockPredicate;
+import slimeknights.tconstruct.library.json.predicate.block.TagBlockPredicate;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
 import java.util.ArrayList;
@@ -27,18 +27,18 @@ public class ModifiedHarvestLogic extends TagHarvestLogic {
 
   public static final Loader LOADER = new Loader();
   private final SpeedModifier[] speedModifiers;
-  protected ModifiedHarvestLogic(LazyTag<Block> tag, SpeedModifier[] speedModifiers) {
+  protected ModifiedHarvestLogic(TagKey<Block> tag, SpeedModifier[] speedModifiers) {
     super(tag);
     this.speedModifiers = speedModifiers;
   }
 
   /** Creates a builder for this logic */
-  public static Builder builder(Tag.Named<Block> tag) {
-    return new Builder(LazyTag.of(tag));
+  public static Builder builder(TagKey<Block> tag) {
+    return new Builder(tag);
   }
 
   @Override
-  public IGenericLoader<?> getLoader() {
+  public IGenericLoader<? extends IHarvestLogic> getLoader() {
     return LOADER;
   }
 
@@ -57,23 +57,23 @@ public class ModifiedHarvestLogic extends TagHarvestLogic {
   @SuppressWarnings("unused")
   @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
   public static class Builder {
-    private final LazyTag<Block> tag;
+    private final TagKey<Block> tag;
     private final List<SpeedModifier> speedModifiers = new ArrayList<>();
 
     /** Base method to add a modifier */
-    public Builder addModifier(float modifier, BlockPredicate predicate) {
+    public Builder addModifier(float modifier, IJsonPredicate<BlockState> predicate) {
       speedModifiers.add(new SpeedModifier(modifier, predicate));
       return this;
     }
 
     /** Adds a modifier when the block matches a tag */
-    public Builder tagModifier(Tag.Named<Block> tag, float modifier) {
-      return addModifier(modifier, new TagBlockPredicate(LazyTag.of(tag)));
+    public Builder tagModifier(TagKey<Block> tag, float modifier) {
+      return addModifier(modifier, new TagBlockPredicate(tag));
     }
 
     /** Adds a modifier when the block does not match a tag */
-    public Builder notTagModifier(Tag.Named<Block> tag, float modifier) {
-      return addModifier(modifier, new TagBlockPredicate(LazyTag.of(tag)).inverted());
+    public Builder notTagModifier(TagKey<Block> tag, float modifier) {
+      return addModifier(modifier, new TagBlockPredicate(tag).inverted());
     }
 
     /** Adds a modifier when the block matches a tag */
@@ -95,14 +95,14 @@ public class ModifiedHarvestLogic extends TagHarvestLogic {
   private static class Loader implements IGenericLoader<ModifiedHarvestLogic> {
     @Override
     public ModifiedHarvestLogic deserialize(JsonObject json) {
-      LazyTag<Block> tag = LazyTag.fromJson(Registry.BLOCK_REGISTRY, json, "effective");
+      TagKey<Block> tag = TagKey.create(Registry.BLOCK_REGISTRY, JsonHelper.getResourceLocation(json, "effective"));
       SpeedModifier[] modifiers = JsonHelper.parseList(json, "modifiers", SpeedModifier::fromJson).toArray(new SpeedModifier[0]);
       return new ModifiedHarvestLogic(tag, modifiers);
     }
 
     @Override
     public ModifiedHarvestLogic fromNetwork(FriendlyByteBuf buffer) {
-      LazyTag<Block> tag = LazyTag.fromNetwork(Registry.BLOCK_REGISTRY, buffer);
+      TagKey<Block> tag = TagKey.create(Registry.BLOCK_REGISTRY, buffer.readResourceLocation());
       SpeedModifier[] modifiers = new SpeedModifier[buffer.readVarInt()];
       for (int i = 0; i < modifiers.length; i++) {
         modifiers[i] = SpeedModifier.fromNetwork(buffer);
@@ -112,7 +112,7 @@ public class ModifiedHarvestLogic extends TagHarvestLogic {
 
     @Override
     public void serialize(ModifiedHarvestLogic object, JsonObject json) {
-      json.addProperty("effective", object.tag.getName().toString());
+      json.addProperty("effective", object.tag.location().toString());
       JsonArray modifiers = new JsonArray();
       for (SpeedModifier modifier : object.speedModifiers) {
         modifiers.add(modifier.toJson());
@@ -122,7 +122,7 @@ public class ModifiedHarvestLogic extends TagHarvestLogic {
 
     @Override
     public void toNetwork(ModifiedHarvestLogic object, FriendlyByteBuf buffer) {
-      object.tag.toNetwork(buffer);
+      buffer.writeResourceLocation(object.tag.location());
       buffer.writeVarInt(object.speedModifiers.length);
       for (SpeedModifier modifier : object.speedModifiers) {
         modifier.toNetwork(buffer);
@@ -134,7 +134,7 @@ public class ModifiedHarvestLogic extends TagHarvestLogic {
   @RequiredArgsConstructor
   private static class SpeedModifier {
     protected final float modifier;
-    protected final BlockPredicate predicate;
+    protected final IJsonPredicate<BlockState> predicate;
 
     /** Writes this object to JSON */
     public JsonObject toJson() {
@@ -153,14 +153,14 @@ public class ModifiedHarvestLogic extends TagHarvestLogic {
     /** Parses a speed modifier from JSON */
     private static SpeedModifier fromJson(JsonObject json) {
       float modifier = GsonHelper.getAsFloat(json, "modifier");
-      BlockPredicate predicate = BlockPredicate.LOADER.deserialize(GsonHelper.getAsJsonObject(json, "predicate"));
+      IJsonPredicate<BlockState> predicate = BlockPredicate.LOADER.deserialize(GsonHelper.getAsJsonObject(json, "predicate"));
       return new SpeedModifier(modifier, predicate);
     }
 
     /** Parses a speed modifier from the packet buffer */
     private static SpeedModifier fromNetwork(FriendlyByteBuf buffer) {
       float modifier = buffer.readFloat();
-      BlockPredicate predicate = BlockPredicate.LOADER.fromNetwork(buffer);
+      IJsonPredicate<BlockState> predicate = BlockPredicate.LOADER.fromNetwork(buffer);
       return new SpeedModifier(modifier, predicate);
     }
   }

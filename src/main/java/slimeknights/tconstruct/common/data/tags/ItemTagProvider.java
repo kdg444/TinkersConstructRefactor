@@ -1,21 +1,18 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import me.alphamode.forgetags.Tags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.tag.TagFactory;
+import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Blocks;
+import me.alphamode.forgetags.Tags;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.MetalItemObject;
 import slimeknights.tconstruct.TConstruct;
@@ -60,6 +57,7 @@ import static slimeknights.tconstruct.common.TinkerTags.Items.ONE_HANDED;
 import static slimeknights.tconstruct.common.TinkerTags.Items.STONE_HARVEST;
 import static slimeknights.tconstruct.common.TinkerTags.Items.SWORD;
 import static slimeknights.tconstruct.common.TinkerTags.Items.TWO_HANDED;
+import static slimeknights.tconstruct.common.TinkerTags.Items.UNARMED;
 
 @SuppressWarnings("unchecked")
 public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
@@ -100,8 +98,6 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     this.tag(TinkerTags.Items.INGOTS_NETHERITE_SCRAP).add(Items.NETHERITE_SCRAP);
     this.tag(TinkerTags.Items.NUGGETS_NETHERITE).add(TinkerMaterials.netheriteNugget.get());
     this.tag(TinkerTags.Items.NUGGETS_NETHERITE_SCRAP).add(TinkerMaterials.debrisNugget.get());
-    // vanilla made cut copper dumb, so untag it in forge
-    this.tag(Tags.Items.STORAGE_BLOCKS_COPPER)/*.remove(Blocks.CUT_COPPER.asItem())*/; // TODO: PORT
 
     // ores
     addMetalTags(TinkerMaterials.cobalt);
@@ -126,9 +122,9 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     copy(Tags.Blocks.STAINED_GLASS_PANES, Tags.Items.STAINED_GLASS_PANES);
     for (DyeColor color : DyeColor.values()) {
       ResourceLocation name = new ResourceLocation("c", "glass/" + color.getSerializedName());
-      copy(TagFactory.BLOCK.create(name), TagFactory.ITEM.create(name));
+      copy(TagKey.create(Registry.BLOCK_REGISTRY, name), TagKey.create(Registry.ITEM_REGISTRY, name));
       name = new ResourceLocation("c", "glass_panes/" + color.getSerializedName());
-      copy(TagFactory.BLOCK.create(name), TagFactory.ITEM.create(name));
+      copy(TagKey.create(Registry.BLOCK_REGISTRY, name), TagKey.create(Registry.ITEM_REGISTRY, name));
     }
 
     copy(TinkerTags.Blocks.WORKBENCHES, TinkerTags.Items.WORKBENCHES);
@@ -198,29 +194,30 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
 
   private void addTools() {
+    this.tag(TWO_HANDED);
     // stone
     addToolTags(TinkerTools.pickaxe,      MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, STONE_HARVEST, MELEE,         ONE_HANDED, AOE, CLUSTER_MAX_HARVESTABLES);
-    addToolTags(TinkerTools.sledgeHammer, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, STONE_HARVEST, MELEE_PRIMARY, TWO_HANDED, AOE, CLUSTER_MAX_HARVESTABLES);
-    addToolTags(TinkerTools.veinHammer,   MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, STONE_HARVEST, MELEE,         TWO_HANDED, AOE, CLUSTER_MAX_HARVESTABLES);
+    addToolTags(TinkerTools.sledgeHammer, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, STONE_HARVEST, MELEE_PRIMARY, ONE_HANDED, AOE, CLUSTER_MAX_HARVESTABLES);
+    addToolTags(TinkerTools.veinHammer,   MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, STONE_HARVEST, MELEE,         ONE_HANDED, AOE, CLUSTER_MAX_HARVESTABLES);
     // dirtD
     addToolTags(TinkerTools.mattock,   MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE, ONE_HANDED, AOE);
     addToolTags(TinkerTools.pickadze,  MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE, ONE_HANDED, AOE, STONE_HARVEST);
-    addToolTags(TinkerTools.excavator, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE, TWO_HANDED, AOE);
+    addToolTags(TinkerTools.excavator, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE, ONE_HANDED, AOE);
     // wood
     addToolTags(TinkerTools.handAxe,  MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE_PRIMARY, ONE_HANDED, AOE);
-    addToolTags(TinkerTools.broadAxe, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE_PRIMARY, TWO_HANDED, AOE);
+    addToolTags(TinkerTools.broadAxe, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE_PRIMARY, ONE_HANDED, AOE);
     // plants
     addToolTags(TinkerTools.kama,   MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE,         ONE_HANDED, AOE);
-    addToolTags(TinkerTools.scythe, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE_PRIMARY, TWO_HANDED, AOE);
+    addToolTags(TinkerTools.scythe, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE_PRIMARY, ONE_HANDED, AOE);
     // sword
     addToolTags(TinkerTools.dagger,  MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED);
     addToolTags(TinkerTools.sword,   MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, SWORD, AOE);
-    addToolTags(TinkerTools.cleaver, MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, TWO_HANDED, SWORD, AOE);
+    addToolTags(TinkerTools.cleaver, MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, SWORD, AOE);
     // specialized
     addToolTags(TinkerTools.flintAndBrick, DURABILITY, MELEE, ONE_HANDED, AOE);
 
     // armor
-    addArmorTags(TinkerTools.travelersGear, DURABILITY);
+    addArmorTags(TinkerTools.travelersGear, DURABILITY, ItemTags.FREEZE_IMMUNE_WEARABLES);
     addArmorTags(TinkerTools.plateArmor,    DURABILITY);
     addArmorTags(TinkerTools.slimesuit,     DURABILITY);
     addToolTags(TinkerTools.slimesuit.get(ArmorSlotType.HELMET), MULTIPART_TOOL);
@@ -232,7 +229,8 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     this.tag(MELEE).addTag(MELEE_PRIMARY).addTag(SWORD);
     // modifier helper tags
     this.tag(MELEE_OR_HARVEST).addTag(MELEE).addTag(HARVEST);
-    this.tag(MELEE_OR_UNARMED).addTag(MELEE).addTag(CHESTPLATES);
+    this.tag(MELEE_OR_UNARMED).addTag(MELEE).addTag(UNARMED);
+    this.tag(UNARMED).addTag(CHESTPLATES);
     this.tag(HELD).addTag(ONE_HANDED).addTag(TWO_HANDED);
     this.tag(INTERACTABLE).addTag(HELD).addTag(CHESTPLATES);
     this.tag(ARMOR).addTag(BOOTS).addTag(LEGGINGS).addTag(CHESTPLATES).addTag(HELMETS);
@@ -413,14 +411,14 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
   }
 
   @SafeVarargs
-  private void addToolTags(ItemLike tool, Tag.Named<Item>... tags) {
+  private void addToolTags(ItemLike tool, TagKey<Item>... tags) {
     Item item = tool.asItem();
-    for (Tag.Named<Item> tag : tags) {
+    for (TagKey<Item> tag : tags) {
       this.tag(tag).add(item);
     }
   }
 
-  private Tag.Named<Item> getArmorTag(ArmorSlotType slotType) {
+  private TagKey<Item> getArmorTag(ArmorSlotType slotType) {
     return switch (slotType) {
       case BOOTS -> BOOTS;
       case LEGGINGS -> LEGGINGS;
@@ -430,9 +428,9 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
   }
 
   @SafeVarargs
-  private void addArmorTags(EnumObject<ArmorSlotType,? extends Item> armor, Tag.Named<Item>... tags) {
+  private void addArmorTags(EnumObject<ArmorSlotType,? extends Item> armor, TagKey<Item>... tags) {
     armor.forEach((type, item) -> {
-      for (Tag.Named<Item> tag : tags) {
+      for (TagKey<Item> tag : tags) {
         this.tag(tag).add(item);
       }
       this.tag(getArmorTag(type)).add(item);

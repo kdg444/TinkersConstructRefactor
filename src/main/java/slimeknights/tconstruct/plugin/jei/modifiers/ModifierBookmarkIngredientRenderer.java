@@ -41,7 +41,7 @@
 //    // not using the main method as that applies color
 //    list.add(new TranslatableComponent(WRAPPER_KEY, new TranslatableComponent(entry.getModifier().getTranslationKey())));
 //    if (flag.isAdvanced()) {
-//      list.add((new TextComponent(entry.getModifier().getId().toString())).withStyle(ChatFormatting.DARK_GRAY));
+//      list.add((new TextComponent(entry.getId().toString())).withStyle(ChatFormatting.DARK_GRAY));
 //    }
 //    return list;
 //  }

@@ -2,7 +2,7 @@ package slimeknights.tconstruct.library.data.recipe;
 
 import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
@@ -66,14 +66,14 @@ public interface IMaterialRecipeHelper extends IRecipeHelper {
     Consumer<FinishedRecipe> wrapped = optional ? withCondition(consumer, tagCondition("ingots/" + name)) : consumer;
     String matName = material.getLocation('/').getPath();
     // ingot
-    Tag<Item> ingotTag = getTag("c", "ingots/" + name);
+    TagKey<Item> ingotTag = getItemTag("c", "ingots/" + name);
     materialRecipe(wrapped, material, Ingredient.of(ingotTag), 1, 1, folder + matName + "/ingot");
     // nugget
     wrapped = optional ? withCondition(consumer, tagCondition("nuggets/" + name)) : consumer;
-    materialRecipe(wrapped, material, Ingredient.of(getTag("c", "nuggets/" + name)), 1, 9, folder + matName + "/nugget");
+    materialRecipe(wrapped, material, Ingredient.of(getItemTag("c", "nuggets/" + name)), 1, 9, folder + matName + "/nugget");
     // block
     wrapped = optional ? withCondition(consumer, tagCondition("storage_blocks/" + name)) : consumer;
-    materialRecipe(wrapped, material, Ingredient.of(getTag("c", "storage_blocks/" + name)), 9, 1, ItemOutput.fromTag(ingotTag, 1), folder + matName + "/block");
+    materialRecipe(wrapped, material, Ingredient.of(getItemTag("c", "storage_blocks/" + name)), 9, 1, ItemOutput.fromTag(ingotTag, 1), folder + matName + "/block");
   }
 
   /** Adds recipes to melt a material */

@@ -1,15 +1,10 @@
 {
   "type": "tconstruct:modifier_salvage",
   "tools": {
-    "type": "mantle:difference",
-    "base": [
-      {
-        "tag": "tconstruct:modifiable/melee"
-      },
-      {
-        "tag": "tconstruct:modifiable/armor/chestplate"
-      }
-    ],
+    "type": "forge:difference",
+    "base": {
+      "tag": "tconstruct:modifiable/melee"
+    },
     "subtracted": {
       "item": "tconstruct:dagger"
     }
@@ -18,16 +13,5 @@
     "abilities": 1
   },
   "modifier": "tconstruct:dual_wielding",
-  "min_level": 1,
-  "salvage": [
-    {
-      "item": "minecraft:nautilus_shell",
-      "chance": 0.95
-    },
-    {
-      "tag": "c:ingots/manyullyn",
-      "min": 2,
-      "max": 2
-    }
-  ]
+  "min_level": 1
 }

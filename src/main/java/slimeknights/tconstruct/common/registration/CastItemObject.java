@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.common.registration;
 
 import lombok.Getter;
-import net.fabricmc.fabric.api.tag.TagFactory;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import slimeknights.mantle.registration.object.ItemObject;
 
@@ -21,15 +21,15 @@ public class CastItemObject extends ItemObject<Item> {
   private final Supplier<? extends Item> sand;
   private final Supplier<? extends Item> redSand;
   @Getter
-  private final Tag.Named<Item> singleUseTag;
+  private final TagKey<Item> singleUseTag;
   @Getter
-  private final Tag.Named<Item> multiUseTag;
+  private final TagKey<Item> multiUseTag;
 
   public CastItemObject(ResourceLocation name, Item gold, Item sand, Item redSand) {
     super(gold);
     this.name = name;
-    this.sand = () -> sand;
-    this.redSand = () -> redSand;
+    this.sand = sand.delegate;
+    this.redSand = redSand.delegate;
     this.singleUseTag = makeTag("single_use");
     this.multiUseTag = makeTag("multi_use");
   }
@@ -47,8 +47,8 @@ public class CastItemObject extends ItemObject<Item> {
    * Gets the single use tag for this object
    * @return  Single use tag
    */
-  protected Tag.Named<Item> makeTag(String type) {
-    return TagFactory.ITEM.create(new ResourceLocation(name.getNamespace(), "casts/" + type + "/" + name.getPath()));
+  protected TagKey<Item> makeTag(String type) {
+    return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(name.getNamespace(), "casts/" + type + "/" + name.getPath()));
   }
 
   /**

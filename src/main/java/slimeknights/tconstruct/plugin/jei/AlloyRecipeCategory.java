@@ -60,9 +60,10 @@ public class AlloyRecipeCategory extends AbstractTinkersCategory<AlloyRecipe>/*,
 //    this.tank = helper.createDrawable(BACKGROUND_LOC, 172, 17, 16, 16);
   }
 
+  @SuppressWarnings("removal")
   @Override
   public CategoryIdentifier<TinkersDisplay<AlloyRecipe>> getCategoryIdentifier() {
-    return TConstructJEIConstants.ALLOY;
+    return TConstructJEIConstants.ALLOY.getUid();
   }
 
   @Override

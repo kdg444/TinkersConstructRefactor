@@ -14,7 +14,7 @@ import net.minecraft.world.level.Explosion;
 import io.github.fabricators_of_create.porting_lib.event.PlayerTickEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.hooks.IArmorInteractModifier;
-import slimeknights.tconstruct.library.modifiers.impl.SingleUseModifier;
+import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
 import slimeknights.tconstruct.library.tools.context.EquipmentChangeContext;
@@ -23,7 +23,7 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class SelfDestructiveModifier extends SingleUseModifier implements IArmorInteractModifier {
+public class SelfDestructiveModifier extends NoLevelsModifier implements IArmorInteractModifier {
   private static final AttributeModifier SPEED_MODIFIER = new AttributeModifier(UUID.fromString("68ee3026-1d50-4eb4-914e-a8b05fbfdb71"), TConstruct.prefix("self_destruct_slowdown"), -0.9f, Operation.MULTIPLY_TOTAL);
   /** Self damage source */
   private static final DamageSource SELF_DESTRUCT = ((DamageSourceAccessor)(DamageSourceAccessor.port_lib$init(TConstruct.prefix("self_destruct")))).port_lib$setDamageBypassesArmor().setExplosion();

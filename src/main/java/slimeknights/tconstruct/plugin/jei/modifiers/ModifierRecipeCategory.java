@@ -10,6 +10,7 @@
 //import mezz.jei.api.helpers.IGuiHelper;
 //import mezz.jei.api.recipe.IFocusGroup;
 //import mezz.jei.api.recipe.RecipeIngredientRole;
+//import mezz.jei.api.recipe.RecipeType;
 //import mezz.jei.api.recipe.category.IRecipeCategory;
 //import net.minecraft.client.Minecraft;
 //import net.minecraft.client.gui.Font;
@@ -76,8 +77,14 @@
 //    this.incremental = helper.createDrawable(BACKGROUND_LOC, 128, 33, 16, 16);
 //  }
 //
+//  @SuppressWarnings("removal")
 //  @Override
 //  public ResourceLocation getUid() {
+//    return TConstructJEIConstants.MODIFIERS.getUid();
+//  }
+//
+//  @Override
+//  public RecipeType<IDisplayModifierRecipe> getRecipeType() {
 //    return TConstructJEIConstants.MODIFIERS;
 //  }
 //
@@ -86,6 +93,7 @@
 //    return TITLE;
 //  }
 //
+//  @SuppressWarnings("removal")
 //  @Override
 //  public Class<? extends IDisplayModifierRecipe> getRecipeClass() {
 //    return IDisplayModifierRecipe.class;

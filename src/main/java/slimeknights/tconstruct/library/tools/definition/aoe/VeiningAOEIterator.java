@@ -32,13 +32,13 @@ public class VeiningAOEIterator implements IAreaOfEffectIterator {
   private final int maxDistance;
 
   @Override
-  public IGenericLoader<?> getLoader() {
+  public IGenericLoader<? extends IAreaOfEffectIterator> getLoader() {
     return LOADER;
   }
 
   @Override
   public Iterable<BlockPos> getBlocks(IToolStackView tool, ItemStack stack, Player player, BlockState state, Level world, BlockPos origin, Direction sideHit, AOEMatchType matchType) {
-    int expanded = tool.getModifierLevel(TinkerModifiers.expanded.get());
+    int expanded = tool.getModifierLevel(TinkerModifiers.expanded.getId());
     return calculate(state, world, origin, maxDistance + expanded);
   }
 

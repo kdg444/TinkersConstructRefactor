@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.common;
 
-import io.github.fabricators_of_create.porting_lib.util.LazyRegistrar;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
@@ -14,9 +13,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import slimeknights.mantle.item.BlockTooltipItem;
@@ -24,19 +25,20 @@ import slimeknights.mantle.item.TooltipItem;
 import io.github.fabricators_of_create.porting_lib.loot.GlobalLootModifierSerializer;
 import io.github.fabricators_of_create.porting_lib.loot.LootModifierManager;
 import slimeknights.mantle.registration.deferred.BlockEntityTypeDeferredRegister;
-import slimeknights.mantle.registration.deferred.ContainerTypeDeferredRegister;
 import slimeknights.mantle.registration.deferred.EntityTypeDeferredRegister;
 import slimeknights.mantle.registration.deferred.FluidDeferredRegister;
+import slimeknights.mantle.registration.deferred.MenuTypeDeferredRegister;
 import slimeknights.mantle.util.SupplierCreativeTab;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.registration.BlockDeferredRegisterExtension;
+import slimeknights.tconstruct.common.registration.ConfiguredFeatureDeferredRegister;
 import slimeknights.tconstruct.common.registration.ItemDeferredRegisterExtension;
-import slimeknights.tconstruct.library.TinkerRegistries;
-import slimeknights.tconstruct.library.modifiers.Modifier;
+import slimeknights.tconstruct.common.registration.PlacedFeatureDeferredRegister;
+import slimeknights.tconstruct.library.modifiers.util.ModifierDeferredRegister;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.block.SlimeType;
 
-import javax.annotation.Nonnull;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -53,22 +55,31 @@ public abstract class TinkerModule {
   }
 
   // deferred register instances
+  // gameplay singleton
   protected static final BlockDeferredRegisterExtension BLOCKS = new BlockDeferredRegisterExtension(TConstruct.MOD_ID);
   protected static final BlockDeferredRegisterExtension BLOCKS_DEFFERED = new BlockDeferredRegisterExtension(TConstruct.MOD_ID);
   protected static final ItemDeferredRegisterExtension ITEMS = new ItemDeferredRegisterExtension(TConstruct.MOD_ID);
   protected static final ItemDeferredRegisterExtension ITEMS_DEFFERED = new ItemDeferredRegisterExtension(TConstruct.MOD_ID);
   protected static final FluidDeferredRegister FLUIDS = new FluidDeferredRegister(TConstruct.MOD_ID);
+  protected static final LazyRegistrar<MobEffect> MOB_EFFECTS = LazyRegistrar.create(ForgeRegistries.MOB_EFFECTS, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<ParticleType<?>> PARTICLE_TYPES = LazyRegistrar.create(ForgeRegistries.PARTICLE_TYPES, TConstruct.MOD_ID);
+  protected static final ModifierDeferredRegister MODIFIERS = ModifierDeferredRegister.create(TConstruct.MOD_ID);
+  // gameplay instances
   protected static final BlockEntityTypeDeferredRegister BLOCK_ENTITIES = new BlockEntityTypeDeferredRegister(TConstruct.MOD_ID);
   protected static final EntityTypeDeferredRegister ENTITIES = new EntityTypeDeferredRegister(TConstruct.MOD_ID);
-  protected static final ContainerTypeDeferredRegister CONTAINERS = new ContainerTypeDeferredRegister(TConstruct.MOD_ID);
-  protected static final LazyRegistrar<MobEffect> MOB_EFFECTS = LazyRegistrar.create(Registry.MOB_EFFECT, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<Feature<?>> FEATURES = LazyRegistrar.create(Registry.FEATURE, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<StructureFeature<?>> STRUCTURE_FEATURES = LazyRegistrar.create(Registry.STRUCTURE_FEATURE, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<BlockStateProviderType<?>> BLOCK_STATE_PROVIDER_TYPES = LazyRegistrar.create(Registry.BLOCKSTATE_PROVIDER_TYPES, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<RecipeSerializer<?>> RECIPE_SERIALIZERS = LazyRegistrar.create(Registry.RECIPE_SERIALIZER, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<ParticleType<?>> PARTICLE_TYPES = LazyRegistrar.create(Registry.PARTICLE_TYPE, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<Modifier> MODIFIERS = LazyRegistrar.create(TinkerRegistries.MODIFIERS, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<GlobalLootModifierSerializer> GLOBAL_LOOT_MODIFIERS = LazyRegistrar.create(LootModifierManager.SERIALIZER, TConstruct.MOD_ID);
+  protected static final MenuTypeDeferredRegister MENUS = new MenuTypeDeferredRegister(TConstruct.MOD_ID);
+  // datapacks
+  protected static final LazyRegistrar<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<GlobalLootModifierSerializer<?>> GLOBAL_LOOT_MODIFIERS = DeferredRegister.create(Keys.LOOT_MODIFIER_SERIALIZERS, TConstruct.MOD_ID);
+  // worldgen
+  protected static final LazyRegistrar<Feature<?>> FEATURES = LazyRegistrar.create(ForgeRegistries.FEATURES, TConstruct.MOD_ID);
+  protected static final ConfiguredFeatureDeferredRegister CONFIGURED_FEATURES = new ConfiguredFeatureDeferredRegister(TConstruct.MOD_ID);
+  protected static final PlacedFeatureDeferredRegister PLACED_FEATURES = new PlacedFeatureDeferredRegister(TConstruct.MOD_ID);
+  protected static final LazyRegistrar<StructureFeature<?>> STRUCTURE_FEATURES = LazyRegistrar.create(ForgeRegistries.STRUCTURE_FEATURES, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<ConfiguredStructureFeature<?,?>> CONFIGURED_STRUCTURE_FEATURES = LazyRegistrar.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<StructurePieceType> STRUCTURE_PIECE = LazyRegistrar.create(Registry.STRUCTURE_PIECE_REGISTRY, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<BlockStateProviderType<?>> BLOCK_STATE_PROVIDER_TYPES = LazyRegistrar.create(ForgeRegistries.BLOCK_STATE_PROVIDER_TYPES, TConstruct.MOD_ID);
+
 
   /** Creative tab for items that do not fit in another tab */
   @SuppressWarnings("WeakerAccess")
@@ -84,37 +95,29 @@ public abstract class TinkerModule {
 
   /** Called during construction to initialize the registers for this mod */
   public static void initRegisters() {
+    // gameplay singleton
     BLOCKS.register();
     ITEMS.register();
     FLUIDS.register();
-    BLOCK_ENTITIES.register();
-    ENTITIES.register();
-    CONTAINERS.register();
     MOB_EFFECTS.register();
-    FEATURES.register();
-    STRUCTURE_FEATURES.register();
-    BLOCK_STATE_PROVIDER_TYPES.register();
-    RECIPE_SERIALIZERS.register();
     PARTICLE_TYPES.register();
     MODIFIERS.register();
+    // gameplay instance
+    BLOCK_ENTITIES.register();
+    ENTITIES.register();
+    MENUS.register();
+    // datapacks
+    RECIPE_SERIALIZERS.register();
     GLOBAL_LOOT_MODIFIERS.register();
-  }
-
-  public static void initDefferedRegisters() {
-    BLOCKS_DEFFERED.register();
-    ITEMS_DEFFERED.register();
-  }
-
-  /**
-   * This is a function that returns null, despite being nonnull. It is used on object holder fields to remove IDE warnings about constant null as it will be nonnull
-   * TODO: migrate to mantle version then remove
-   * @param <T>  Field type
-   * @return  Null
-   */
-  @Nonnull
-  @SuppressWarnings("ConstantConditions")
-  public static <T> T injected() {
-    return null;
+    TinkerRecipeTypes.init();
+    // worldgen
+    FEATURES.register();
+    CONFIGURED_FEATURES.register();
+    PLACED_FEATURES.register();
+    STRUCTURE_FEATURES.register();
+    STRUCTURE_PIECE.register();
+    CONFIGURED_STRUCTURE_FEATURES.register();
+    BLOCK_STATE_PROVIDER_TYPES.register();
   }
 
   /**

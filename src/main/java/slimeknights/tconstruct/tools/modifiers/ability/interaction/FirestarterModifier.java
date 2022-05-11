@@ -37,7 +37,7 @@ import java.util.Collections;
  * Modifier that starts a fire at the given position
  */
 @RequiredArgsConstructor
-public class FirestarterModifier extends InteractionModifier.SingleUse {
+public class FirestarterModifier extends InteractionModifier.NoLevels {
   /** Compat with mods adding custom campfires */
   private static final ToolAction LIGHT_CAMPFIRE = ToolAction.get("light_campfire");
 
@@ -112,7 +112,7 @@ public class FirestarterModifier extends InteractionModifier.SingleUse {
     }
 
     // AOE selection logic, get boosted from both fireprimer (unique modifer) and expanded
-    int range = tool.getModifierLevel(TinkerModifiers.fireprimer.get()) + tool.getModifierLevel(TinkerModifiers.expanded.get());
+    int range = tool.getModifierLevel(TinkerModifiers.fireprimer.getId()) + tool.getModifierLevel(TinkerModifiers.expanded.getId());
     Iterable<BlockPos> targets = Collections.emptyList();
     if (range > 0 && player != null) {
       targets = CircleAOEIterator.calculate(tool, ItemStack.EMPTY, world, player, pos, sideHit, 1 + range, true, IAreaOfEffectIterator.AOEMatchType.TRANSFORM);

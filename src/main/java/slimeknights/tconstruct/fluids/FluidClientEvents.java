@@ -8,6 +8,7 @@ import slimeknights.tconstruct.common.ClientEventBase;
 public class FluidClientEvents extends ClientEventBase {
 
   public static void clientSetup() {
+    setTranslucent(TinkerFluids.honey);
     // slime
     setTranslucent(TinkerFluids.earthSlime);
     setTranslucent(TinkerFluids.skySlime);

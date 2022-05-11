@@ -4,7 +4,7 @@ import net.minecraft.world.item.ItemStack;
 import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.recipe.ICommonRecipe;
-import slimeknights.tconstruct.library.recipe.RecipeTypes;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
@@ -14,7 +14,7 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 public interface ICastingRecipe extends ICommonRecipe<ICastingContainer> {
   @Override
   default ItemStack getToastSymbol() {
-    return new ItemStack(getType() == RecipeTypes.CASTING_TABLE ? TinkerSmeltery.searedTable : TinkerSmeltery.searedBasin);
+    return new ItemStack(getType() == TinkerRecipeTypes.CASTING_TABLE.get() ? TinkerSmeltery.searedTable : TinkerSmeltery.searedBasin);
   }
 
   /**

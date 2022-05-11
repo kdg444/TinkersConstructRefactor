@@ -5,12 +5,13 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.common.crafting.CompoundIngredient;
 import io.github.fabricators_of_create.porting_lib.util.Lazy;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
-import slimeknights.mantle.recipe.data.CompoundIngredient;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -27,7 +28,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractModifierRecipeBuilder<T extends AbstractModifierRecipeBuilder<T>> extends AbstractRecipeBuilder<T> {
   protected static final Lazy<Ingredient> DEFAULT_TOOL = Lazy.of(() -> Ingredient.of(TinkerTags.Items.MODIFIABLE));
-  protected static final Lazy<ModifierMatch> UNARMED_MODIFIER = Lazy.of(() -> ModifierMatch.entry(TinkerModifiers.unarmed.get()));
+  protected static final Lazy<ModifierMatch> UNARMED_MODIFIER = Lazy.of(() -> ModifierMatch.entry(TinkerModifiers.unarmed));
   protected static final String UNARMED_ERROR = TConstruct.makeTranslationKey("recipe", "modifier.unarmed");
   // shared
   protected final ModifierEntry result;
@@ -76,7 +77,7 @@ public abstract class AbstractModifierRecipeBuilder<T extends AbstractModifierRe
    * @param tag  Tag
    * @return  Builder instance
    */
-  public T setTools(Tag<Item> tag) {
+  public T setTools(TagKey<Item> tag) {
     return this.setTools(Ingredient.of(tag));
   }
 
@@ -161,7 +162,7 @@ public abstract class AbstractModifierRecipeBuilder<T extends AbstractModifierRe
 
   @Override
   public void save(Consumer<FinishedRecipe> consumer) {
-    save(consumer, result.getModifier().getId());
+    save(consumer, result.getId());
   }
 
   /**
@@ -179,10 +180,10 @@ public abstract class AbstractModifierRecipeBuilder<T extends AbstractModifierRe
     }
     // if true, only chestplates
     if (unarmed == Boolean.TRUE) {
-      ingredient = Ingredient.of(TinkerTags.Items.CHESTPLATES);
+      ingredient = Ingredient.of(TinkerTags.Items.UNARMED);
       // if null, both
     } else if (unarmed == null) {
-      ingredient = CompoundIngredient.from(ingredient, Ingredient.of(TinkerTags.Items.CHESTPLATES));
+      ingredient = CompoundIngredient.of(ingredient, Ingredient.of(TinkerTags.Items.UNARMED));
     }
     json.add("tools", ingredient.toJson());
     if (maxToolSize != ITinkerStationRecipe.DEFAULT_TOOL_STACK_SIZE) {
@@ -227,7 +228,7 @@ public abstract class AbstractModifierRecipeBuilder<T extends AbstractModifierRe
   }
 
   /** Base logic to write all relevant builder fields to JSON */
-  protected abstract class SalvageFinishedRecipe extends AbstractFinishedRecipe {
+  protected class SalvageFinishedRecipe extends AbstractFinishedRecipe {
     public SalvageFinishedRecipe(ResourceLocation ID, @Nullable ResourceLocation advancementID) {
       super(ID, advancementID);
     }
@@ -235,11 +236,16 @@ public abstract class AbstractModifierRecipeBuilder<T extends AbstractModifierRe
     @Override
     public void serializeRecipeData(JsonObject json) {
       writeCommon(json, includeUnarmed ? null : false);
-      json.addProperty("modifier", result.getModifier().getId().toString());
+      json.addProperty("modifier", result.getId().toString());
       json.addProperty("min_level", salvageMinLevel);
       if (salvageMaxLevel != 0) {
         json.addProperty("max_level", salvageMaxLevel);
       }
+    }
+
+    @Override
+    public RecipeSerializer<?> getType() {
+      return TinkerModifiers.modifierSalvageSerializer.get();
     }
   }
 }

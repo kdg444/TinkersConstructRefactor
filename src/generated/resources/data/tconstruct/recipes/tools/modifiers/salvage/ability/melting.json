@@ -5,24 +5,12 @@
       "tag": "tconstruct:modifiable/melee_or_harvest"
     },
     {
-      "tag": "tconstruct:modifiable/armor/chestplate"
+      "tag": "tconstruct:modifiable/unarmed"
     }
   ],
   "slots": {
     "abilities": 1
   },
   "modifier": "tconstruct:melting",
-  "min_level": 1,
-  "salvage": [
-    {
-      "item": "tconstruct:seared_brick",
-      "min": 4,
-      "max": 9
-    },
-    {
-      "item": "minecraft:blaze_rod",
-      "min": 0,
-      "max": 2
-    }
-  ]
+  "min_level": 1
 }

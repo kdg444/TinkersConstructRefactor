@@ -1,8 +1,6 @@
 package slimeknights.tconstruct.world.client;
 
 import com.google.common.collect.ImmutableMap;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.SkullModel;
 import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -13,21 +11,8 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.block.SkullBlock;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import slimeknights.mantle.data.fabric.IdentifiableISafeManagerReloadListener;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.mantle.data.ISafeManagerReloadListener;
 import slimeknights.tconstruct.world.TinkerHeadType;
 
 import java.util.Arrays;
@@ -37,15 +22,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /** Helps with creation and registration of skull block models */
-public class SkullModelHelper extends IdentifiableISafeManagerReloadListener {
+public class SkullModelHelper {
   /** Map of head type to model layer location for each head type */
   public static final Map<TinkerHeadType,ModelLayerLocation> HEAD_LAYERS = Arrays.stream(TinkerHeadType.values()).collect(
     Collectors.toMap(Function.identity(), type -> new ModelLayerLocation(TConstruct.getResource(type.getSerializedName() + "_head"), "main"), (a, b) -> a, () -> new EnumMap<>(TinkerHeadType.class)));
 
-  /** Resource reload listener */
-  public static final SkullModelHelper LISTENER = new SkullModelHelper();
-
-  private SkullModelHelper() {super(TConstruct.getResource("skull_model_helper"));}
+  private SkullModelHelper() {}
 
   /** Injects the extra skulls into the given map */
   private static ImmutableMap<SkullBlock.Type,SkullModelBase> inject(EntityModelSet modelSet, Map<SkullBlock.Type,SkullModelBase> original) {
@@ -53,40 +35,6 @@ public class SkullModelHelper extends IdentifiableISafeManagerReloadListener {
     builder.putAll(original);
     HEAD_LAYERS.forEach((type, layer) -> builder.put(type, new SkullModel(modelSet.bakeLayer(layer))));
     return builder.build();
-  }
-
-  /** Injects the models into all entity layers */
-  private static void injectEntityLayers(EntityModelSet modelSet, EntityRenderer<?> entity) {
-    if (entity instanceof LivingEntityRenderer<?,?> livingEntity) {
-      for (RenderLayer<?,?> layer : livingEntity.layers) {
-        if (layer instanceof CustomHeadLayer<?,?> head) {
-          head.skullModels = inject(modelSet, head.skullModels);
-        }
-      }
-    }
-  }
-
-  @Override
-  public void onReloadSafe(ResourceManager resourceManager) {
-    // first, we need to inject into the skull block renderer
-    Minecraft mc = Minecraft.getInstance();
-    EntityModelSet modelSet = Minecraft.getInstance().getEntityModels();
-    BlockEntityRenderer<?> renderer = mc.getBlockEntityRenderDispatcher().renderers.get(BlockEntityType.SKULL);
-    if (renderer instanceof SkullBlockRenderer skullRenderer) {
-      skullRenderer.modelByType = inject(modelSet, skullRenderer.modelByType);
-    }
-    // next, inject into all entity head layers
-    EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
-    for (EntityRenderer<?> entity : entityRenderDispatcher.renderers.values()) {
-      injectEntityLayers(modelSet, entity);
-    }
-    // player renderers
-    for (EntityRenderer<?> entity : entityRenderDispatcher.playerRenderers.values()) {
-      injectEntityLayers(modelSet, entity);
-    }
-    // finally, block entity without level renderer, it exists in either blocks or items so does not matter which we choose
-    BlockEntityWithoutLevelRenderer bewlr = mc.getItemRenderer().blockEntityRenderer;
-    bewlr.skullModels = inject(modelSet, bewlr.skullModels);
   }
 
   /** Creates a head with the given start and texture size */
@@ -111,10 +59,5 @@ public class SkullModelHelper extends IdentifiableISafeManagerReloadListener {
     head.addOrReplaceChild("left_ear", CubeListBuilder.create().texOffs(51, 6).addBox(0.0F, 0.0F, -2.0F, 1.0F, 5.0F, 4.0F), PartPose.offsetAndRotation(4.5F, -6.0F, 0.0F, 0.0F, 0.0F, (-(float)Math.PI / 6F)));
     head.addOrReplaceChild("right_ear", CubeListBuilder.create().texOffs(39, 6).addBox(-1.0F, 0.0F, -2.0F, 1.0F, 5.0F, 4.0F), PartPose.offsetAndRotation(-4.5F, -6.0F, 0.0F, 0.0F, 0.0F, ((float)Math.PI / 6F)));
     return LayerDefinition.create(mesh, 64, 64);
-  }
-
-  @Override
-  public ResourceLocation getFabricId() {
-    return TConstruct.getResource("skull_model_helper");
   }
 }

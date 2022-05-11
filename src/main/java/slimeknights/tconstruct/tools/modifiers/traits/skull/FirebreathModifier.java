@@ -10,13 +10,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.hooks.IArmorInteractModifier;
-import slimeknights.tconstruct.library.modifiers.impl.SingleUseModifier;
+import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
 import javax.annotation.Nullable;
 
-public class FirebreathModifier extends SingleUseModifier implements IArmorInteractModifier {
+public class FirebreathModifier extends NoLevelsModifier implements IArmorInteractModifier {
   @Override
   public boolean startArmorInteract(IToolStackView tool, int level, Player player, EquipmentSlot slot) {
     // stopped by water and by cooldown
@@ -28,7 +28,7 @@ public class FirebreathModifier extends SingleUseModifier implements IArmorInter
         Inventory inventory = player.getInventory();
         for (int i = 0; i < inventory.getContainerSize(); i++) {
           ItemStack stack = inventory.getItem(i);
-          if (!stack.isEmpty() && TinkerTags.Items.FIREBALLS.contains(stack.getItem())) {
+          if (!stack.isEmpty() && stack.is(TinkerTags.Items.FIREBALLS)) {
             hasFireball = true;
             if (!player.level.isClientSide) {
               stack.shrink(1);

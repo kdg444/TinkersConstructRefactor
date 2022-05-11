@@ -1,13 +1,11 @@
 package slimeknights.tconstruct.library.data.recipe;
 
-import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
-import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
-import net.fabricmc.fabric.api.tag.TagFactory;
+import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.Item;
-import net.minecraft.tags.Tag.Named;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Fluid;
 import io.github.fabricators_of_create.porting_lib.util.RegistryHelper;
 import slimeknights.mantle.recipe.data.ConsumerWrapperBuilder;
 
@@ -44,13 +42,22 @@ public interface IRecipeHelper {
 
   /**
    * Prefixes the resource location path with the given value
+   * @param loc     Name to use
+   * @param prefix  Prefix value
+   * @return  Resource location path
+   */
+  default ResourceLocation wrap(ResourceLocation loc, String prefix, String suffix) {
+    return modResource(prefix + loc.getPath() + suffix);
+  }
+
+  /**
+   * Prefixes the resource location path with the given value
    * @param entry    Item registry name to use
    * @param prefix  Prefix value
    * @return  Resource location path
    */
   default ResourceLocation wrap(Object entry, String prefix, String suffix) {
-    ResourceLocation loc = Objects.requireNonNull(RegistryHelper.getRegistryKey(entry));
-    return modResource(prefix + loc.getPath() + suffix);
+    return wrap(Objects.requireNonNull(RegistryHelper.getRegistryKey(entry)), prefix, suffix);
   }
 
   /**
@@ -65,13 +72,22 @@ public interface IRecipeHelper {
 
   /**
    * Prefixes the resource location path with the given value
+   * @param location  Entry registry name to use
+   * @param prefix    Prefix value
+   * @return  Resource location path
+   */
+  default ResourceLocation prefix(ResourceLocation location, String prefix) {
+    return modResource(prefix + location.getPath());
+  }
+
+  /**
+   * Prefixes the resource location path with the given value
    * @param entry   Entry registry name to use
    * @param prefix  Prefix value
    * @return  Resource location path
    */
   default ResourceLocation prefix(Object entry, String prefix) {
-    ResourceLocation loc = Objects.requireNonNull(RegistryHelper.getRegistryKey(entry));
-    return modResource(prefix + loc.getPath());
+    return prefix(Objects.requireNonNull(RegistryHelper.getRegistryKey(entry)), prefix);
   }
 
   /**
@@ -93,8 +109,18 @@ public interface IRecipeHelper {
    * @param name   Tag name
    * @return  Tag instance
    */
-  default Named<Item> getTag(String modId, String name) {
-    return TagFactory.ITEM.create(new ResourceLocation(modId, name));
+  default TagKey<Item> getItemTag(String modId, String name) {
+    return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(modId, name));
+  }
+
+  /**
+   * Gets a tag by name
+   * @param modId  Mod ID for tag
+   * @param name   Tag name
+   * @return  Tag instance
+   */
+  default TagKey<Fluid> getFluidTag(String modId, String name) {
+    return TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(modId, name));
   }
 
   /**

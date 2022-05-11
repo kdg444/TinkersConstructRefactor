@@ -8,6 +8,8 @@ import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.data.tinkering.AbstractToolDefinitionDataProvider;
+import slimeknights.tconstruct.library.json.predicate.block.BlockPredicate;
+import slimeknights.tconstruct.library.json.predicate.block.TagBlockPredicate;
 import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.library.tools.definition.aoe.BoxAOEIterator;
 import slimeknights.tconstruct.library.tools.definition.aoe.CircleAOEIterator;
@@ -18,8 +20,6 @@ import slimeknights.tconstruct.library.tools.definition.aoe.VeiningAOEIterator;
 import slimeknights.tconstruct.library.tools.definition.harvest.FixedTierHarvestLogic;
 import slimeknights.tconstruct.library.tools.definition.harvest.IHarvestLogic;
 import slimeknights.tconstruct.library.tools.definition.harvest.ModifiedHarvestLogic;
-import slimeknights.tconstruct.library.tools.definition.harvest.predicate.AndBlockPredicate;
-import slimeknights.tconstruct.library.tools.definition.harvest.predicate.TagBlockPredicate;
 import slimeknights.tconstruct.library.tools.definition.weapon.CircleWeaponAttack;
 import slimeknights.tconstruct.library.tools.definition.weapon.ParticleWeaponAttack;
 import slimeknights.tconstruct.library.tools.definition.weapon.SweepWeaponAttack;
@@ -83,7 +83,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .multiplier(ToolStats.DURABILITY, 4f)
       .largeToolStartingSlots()
       // traits
-      .trait(TinkerModifiers.smite, 2)
+      .trait(ModifierIds.smite, 2)
       // harvest
       .action(ToolActions.PICKAXE_DIG)
       .effective(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -134,8 +134,8 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .harvestLogic(ModifiedHarvestLogic
                       .builder(TinkerTags.Blocks.MINABLE_WITH_MATTOCK)
                       // 200% hand speed on any axe block we do not directly target
-                      .addModifier(2f, new AndBlockPredicate(new TagBlockPredicate(BlockTags.MINEABLE_WITH_AXE),
-                                                             new TagBlockPredicate(TinkerTags.Blocks.MINABLE_WITH_MATTOCK).inverted()))
+                      .addModifier(2f, BlockPredicate.AND.create(new TagBlockPredicate(BlockTags.MINEABLE_WITH_AXE),
+                                                                 new TagBlockPredicate(TinkerTags.Blocks.MINABLE_WITH_MATTOCK).inverted()))
                       .build())
       .aoe(new VeiningAOEIterator(0));
 
@@ -153,7 +153,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .multiplier(ToolStats.ATTACK_DAMAGE, 1.15f)
       // traits
       .trait(TinkerModifiers.shovelFlatten)
-      .trait(TinkerModifiers.baneOfSssss)
+      .trait(ModifierIds.baneOfSssss)
       // harvest
       .action(ToolActions.PICKAXE_DIG)
       .action(ToolActions.SHOVEL_DIG)
@@ -252,7 +252,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .action(ToolActions.HOE_DIG)
       .harvestLogic(scytheHarvest)
       .aoe(new CircleAOEIterator(1, true))
-      .attack(new CircleWeaponAttack(1));;
+      .attack(new CircleWeaponAttack(1));
 
     define(ToolDefinitions.SCYTHE)
       // parts
@@ -380,7 +380,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .startingSlots(SlotType.DEFENSE, 0)
       .startingSlots(SlotType.ABILITY, 1, 1, 1, 1)
       .part(ArmorSlotType.HELMET, SkullStats.ID, 1)
-      .trait(ArmorSlotType.CHESTPLATE, TinkerModifiers.wings)
+      .trait(ArmorSlotType.CHESTPLATE, ModifierIds.wings)
       .trait(ArmorSlotType.LEGGINGS, TinkerModifiers.pockets, 1)
       .trait(ArmorSlotType.LEGGINGS, TinkerModifiers.protection, 1)
       .trait(ArmorSlotType.BOOTS, TinkerModifiers.bouncy)

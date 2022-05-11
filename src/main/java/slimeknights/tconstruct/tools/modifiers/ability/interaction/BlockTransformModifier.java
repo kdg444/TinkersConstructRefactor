@@ -25,7 +25,7 @@ import slimeknights.tconstruct.library.utils.MutableUseOnContext;
 import java.util.Iterator;
 
 @RequiredArgsConstructor
-public class BlockTransformModifier extends InteractionModifier.SingleUse {
+public class BlockTransformModifier extends InteractionModifier.NoLevels {
   @Getter
   private final int priority;
   private final ToolAction action;
@@ -143,7 +143,7 @@ public class BlockTransformModifier extends InteractionModifier.SingleUse {
 
     // normal action transform
     Player player = context.getPlayer();
-    BlockState transformed = original;//original.getToolModifiedState(level, pos, player, context.getItemInHand(), action); TODO: PORT
+    BlockState transformed = original;//original.getToolModifiedState(context, action, false); TODO: PORT
     if (transformed != null) {
       if (playSound) {
         level.playSound(player, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);

@@ -52,8 +52,8 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.utils.BlockSideHitListener;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.modifiers.defense.ProjectileProtectionModifier;
-import slimeknights.tconstruct.tools.modifiers.traits.skull.MobDisguiseModifier;
-import slimeknights.tconstruct.tools.modifiers.upgrades.harvest.HasteModifier;
+import slimeknights.tconstruct.library.modifiers.dynamic.MobDisguiseModifier;
+import slimeknights.tconstruct.tools.modifiers.upgrades.armor.HasteArmorModifier;
 
 import java.util.List;
 import java.util.Objects;
@@ -83,7 +83,7 @@ public class ToolEvents {
 
     // tool break speed hook
     ItemStack stack = player.getMainHandItem();
-    if (TinkerTags.Items.HARVEST.contains(stack.getItem())) {
+    if (stack.is(TinkerTags.Items.HARVEST)) {
       ToolStack tool = ToolStack.from(stack);
       if (!tool.isBroken()) {
         List<ModifierEntry> modifiers = tool.getModifierList();
@@ -104,7 +104,7 @@ public class ToolEvents {
     }
 
     // next, add in armor haste
-    float armorHaste = ModifierUtil.getTotalModifierFloat(player, HasteModifier.HASTE);
+    float armorHaste = ModifierUtil.getTotalModifierFloat(player, HasteArmorModifier.HASTE);
     if (armorHaste > 0) {
       // adds in 10% per level
       event.newSpeed = event.newSpeed * (1 + 0.1f * armorHaste);
@@ -338,7 +338,7 @@ public class ToolEvents {
     BlockPos lastPos = EntityHelper.getLastPos(living);
     if (!living.isSpectator() && !living.level.isClientSide() && living.isAlive() && !Objects.equals(lastPos, pos)) {
       ItemStack boots = living.getItemBySlot(EquipmentSlot.FEET);
-      if (!boots.isEmpty() && TinkerTags.Items.BOOTS.contains(boots.getItem())) {
+      if (!boots.isEmpty() && boots.is(TinkerTags.Items.BOOTS)) {
         ToolStack tool = ToolStack.from(boots);
         for (ModifierEntry entry : tool.getModifierList()) {
           IArmorWalkModifier hook = entry.getModifier().getModule(IArmorWalkModifier.class);

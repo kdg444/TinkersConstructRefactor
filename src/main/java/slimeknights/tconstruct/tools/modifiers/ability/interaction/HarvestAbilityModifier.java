@@ -3,6 +3,7 @@ package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -36,7 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class HarvestAbilityModifier extends InteractionModifier.SingleUse {
+public class HarvestAbilityModifier extends InteractionModifier.NoLevels {
   @Getter
   private final int priority;
 
@@ -147,7 +148,7 @@ public class HarvestAbilityModifier extends InteractionModifier.SingleUse {
     boolean hasSeed = false;
     while (iterator.hasNext()) {
       ItemStack drop = iterator.next();
-      if (TinkerTags.Items.SEEDS.contains(drop.getItem())) {
+      if (drop.is(TinkerTags.Items.SEEDS)) {
         hasSeed = true;
         drop.shrink(1);
         if (drop.isEmpty()) {
@@ -184,11 +185,12 @@ public class HarvestAbilityModifier extends InteractionModifier.SingleUse {
    * @param slotType Slot used to harvest
    * @return  True if harvested
    */
+  @SuppressWarnings("deprecation")
   private static boolean harvest(UseOnContext context, IToolStackView tool, ServerLevel world, BlockState state, BlockPos pos, EquipmentSlot slotType) {
     Player player = context.getPlayer();
     // first, check main harvestable tag
-    Block block = state.getBlock();
-    if (!TinkerTags.Blocks.HARVESTABLE.contains(block)) {
+    Holder<Block> holder = state.getBlock().builtInRegistryHolder();
+    if (!holder.is(TinkerTags.Blocks.HARVESTABLE)) {
       return false;
     }
     // try harvest event
@@ -198,15 +200,15 @@ public class HarvestAbilityModifier extends InteractionModifier.SingleUse {
       didHarvest = result == InteractionResult.SUCCESS;
 
       // crops that work based on right click interact (berry bushes)
-    } else if (TinkerTags.Blocks.HARVESTABLE_INTERACT.contains(block)) {
+    } else if (holder.is(TinkerTags.Blocks.HARVESTABLE_INTERACT)) {
       didHarvest = harvestInteract(context, world, state, pos, player);
 
       // next, try sugar cane like blocks
-    } else if (TinkerTags.Blocks.HARVESTABLE_STACKABLE.contains(block)) {
+    } else if (holder.is(TinkerTags.Blocks.HARVESTABLE_STACKABLE)) {
       didHarvest = harvestStackable(world, state, pos, player);
 
       // normal crops like wheat or carrots
-    } else if (TinkerTags.Blocks.HARVESTABLE_CROPS.contains(block)) {
+    } else if (holder.is(TinkerTags.Blocks.HARVESTABLE_CROPS)) {
       didHarvest = harvestCrop(context.getItemInHand(), world, state, pos, player);
     }
 
@@ -239,7 +241,7 @@ public class HarvestAbilityModifier extends InteractionModifier.SingleUse {
     Level world = context.getLevel();
     BlockPos pos = context.getClickedPos();
     BlockState state = world.getBlockState(pos);
-    if (TinkerTags.Blocks.HARVESTABLE.contains(state.getBlock())) {
+    if (state.is(TinkerTags.Blocks.HARVESTABLE)) {
       if (world instanceof ServerLevel server) {
         boolean survival = player == null || !player.isCreative();
 

@@ -424,6 +424,30 @@
   "fluid.tconstruct.flowing_blazing_blood": "Flowing Blazing Blood",
   "item.tconstruct.blazing_blood_bucket": "Blazing Blood Bucket",
 
+
+  "_comment": "Food",
+
+  "block.tconstruct.honey_fluid": "Honey",
+  "fluid.tconstruct.honey": "Honey",
+  "fluid.tconstruct.flowing_honey": "Flowing Honey",
+  "item.tconstruct.honey_bucket": "Honey Bucket",
+
+  "block.tconstruct.beetroot_soup_fluid": "Beetroot Soup",
+  "fluid.tconstruct.beetroot_soup": "Beetroot Soup",
+  "fluid.tconstruct.flowing_beetroot_soup": "Flowing Beetroot Soup",
+  "item.tconstruct.beetroot_soup_bucket": "Beetroot Soup Bucket",
+
+  "block.tconstruct.mushroom_stew_fluid": "Mushroom Stew",
+  "fluid.tconstruct.mushroom_stew": "Mushroom Stew",
+  "fluid.tconstruct.flowing_mushroom_stew": "Flowing Mushroom Stew",
+  "item.tconstruct.mushroom_stew_bucket": "Mushroom Stew Bucket",
+
+  "block.tconstruct.rabbit_stew_fluid": "Rabbit Stew",
+  "fluid.tconstruct.rabbit_stew": "Rabbit Stew",
+  "fluid.tconstruct.flowing_rabbit_stew": "Flowing Rabbit Stew",
+  "item.tconstruct.rabbit_stew_bucket": "Rabbit Stew Bucket",
+
+
   "_comment": "Slime",
 
   "block.tconstruct.blood_fluid": "Blood",
@@ -942,42 +966,42 @@
   "block.tconstruct.grout.tooltip": "I am Grout!",
 
   "block.tconstruct.seared_stone": "Seared Stone",
-  "block.tconstruct.seared_stone.tooltip": "Part of the Smeltery. Safe for decoration.",
+  "block.tconstruct.seared_stone.tooltip": "Part of the Smeltery.",
   "block.tconstruct.seared_stone_slab": "Seared Stone Slab",
   "block.tconstruct.seared_stone_stairs": "Seared Stone Stairs",
 
   "block.tconstruct.seared_cobble": "Seared Cobblestone",
-  "block.tconstruct.seared_cobble.tooltip": "Part of the Smeltery. Safe for decoration.",
+  "block.tconstruct.seared_cobble.tooltip": "Part of the Smeltery.",
   "block.tconstruct.seared_cobble_slab": "Seared Cobblestone Slab",
   "block.tconstruct.seared_cobble_stairs": "Seared Cobblestone Stairs",
   "block.tconstruct.seared_cobble_wall": "Seared Cobblestone Wall",
 
   "item.tconstruct.seared_brick": "Seared Brick",
   "block.tconstruct.seared_bricks": "Seared Bricks",
-  "block.tconstruct.seared_bricks.tooltip": "Part of the Smeltery. Safe for decoration.",
+  "block.tconstruct.seared_bricks.tooltip": "Part of the Smeltery.",
   "block.tconstruct.seared_bricks_slab": "Seared Bricks Slab",
   "block.tconstruct.seared_bricks_stairs": "Seared Bricks Stairs",
   "block.tconstruct.seared_bricks_wall": "Seared Bricks Wall",
 
   "block.tconstruct.seared_paver": "Seared Paver",
-  "block.tconstruct.seared_paver.tooltip": "Part of the Smeltery. Safe for decoration.",
+  "block.tconstruct.seared_paver.tooltip": "Part of the Smeltery.",
   "block.tconstruct.seared_paver_slab": "Seared Paver Slab",
   "block.tconstruct.seared_paver_stairs": "Seared Paver Stairs",
 
   "block.tconstruct.seared_cracked_bricks": "Cracked Seared Bricks",
-  "block.tconstruct.seared_cracked_bricks.tooltip": "Part of the Smeltery. Safe for decoration.",
+  "block.tconstruct.seared_cracked_bricks.tooltip": "Part of the Smeltery.",
   "block.tconstruct.seared_fancy_bricks": "Fancy Seared Bricks",
-  "block.tconstruct.seared_fancy_bricks.tooltip": "Part of the Smeltery. Safe for decoration.",
+  "block.tconstruct.seared_fancy_bricks.tooltip": "Part of the Smeltery.",
   "block.tconstruct.seared_triangle_bricks": "Triangle Seared Bricks",
-  "block.tconstruct.seared_triangle_bricks.tooltip": "Part of the Smeltery. Safe for decoration.",
+  "block.tconstruct.seared_triangle_bricks.tooltip": "Part of the Smeltery.",
 
   "block.tconstruct.seared_glass": "Seared Glass",
-  "block.tconstruct.seared_glass.tooltip": "Part of the Smeltery. Safe for decoration.\nCannot store liquids.",
+  "block.tconstruct.seared_glass.tooltip": "Part of the Smeltery.\nCannot store liquids.",
   "block.tconstruct.seared_glass_pane": "Seared Glass Pane",
   "block.tconstruct.seared_glass_pane.tooltip": "Cannot be used in a Smeltery.",
 
   "block.tconstruct.seared_ladder": "Seared Ladder",
-  "block.tconstruct.seared_ladder.tooltip": "Climbable Smeltery block. Safe for decoration.",
+  "block.tconstruct.seared_ladder.tooltip": "Climbable Smeltery block.",
 
   "block.tconstruct.seared_fuel_tank": "Seared Fuel Tank",
   "block.tconstruct.seared_fuel_tank.tooltip": "Heart of the Smeltery.\nRetains liquid when broken.",
@@ -1029,32 +1053,32 @@
   "block.tconstruct.nether_grout.tooltip": "We are Grout!",
 
   "block.tconstruct.scorched_stone": "Scorched Stone",
-  "block.tconstruct.scorched_stone.tooltip": "Part of the Foundry. Safe for decoration.",
+  "block.tconstruct.scorched_stone.tooltip": "Part of the Foundry.",
   "block.tconstruct.polished_scorched_stone": "Polished Scorched Stone",
-  "block.tconstruct.polished_scorched_stone.tooltip": "Part of the Foundry. Safe for decoration.",
+  "block.tconstruct.polished_scorched_stone.tooltip": "Part of the Foundry.",
 
   "item.tconstruct.scorched_brick": "Scorched Brick",
   "block.tconstruct.scorched_bricks": "Scorched Bricks",
-  "block.tconstruct.scorched_bricks.tooltip": "Part of the Foundry. Safe for decoration.",
+  "block.tconstruct.scorched_bricks.tooltip": "Part of the Foundry.",
   "block.tconstruct.scorched_bricks_slab": "Scorched Bricks Slab",
   "block.tconstruct.scorched_bricks_stairs": "Scorched Bricks Stairs",
   "block.tconstruct.scorched_bricks_fence": "Scorched Bricks Fence",
 
   "block.tconstruct.scorched_road": "Scorched Road",
-  "block.tconstruct.scorched_road.tooltip": "Part of the Foundry. Safe for decoration.",
+  "block.tconstruct.scorched_road.tooltip": "Part of the Foundry.",
   "block.tconstruct.scorched_road_slab": "Scorched Road Slab",
   "block.tconstruct.scorched_road_stairs": "Scorched Road Stairs",
 
   "block.tconstruct.chiseled_scorched_bricks": "Chiseled Scorched Bricks",
-  "block.tconstruct.chiseled_scorched_bricks.tooltip": "Part of the Foundry. Safe for decoration.",
+  "block.tconstruct.chiseled_scorched_bricks.tooltip": "Part of the Foundry.",
 
   "block.tconstruct.scorched_glass": "Scorched Glass",
-  "block.tconstruct.scorched_glass.tooltip": "Part of the Foundry. Safe for decoration.\nCannot store liquids.",
+  "block.tconstruct.scorched_glass.tooltip": "Part of the Foundry.\nCannot store liquids.",
   "block.tconstruct.scorched_glass_pane": "Scorched Glass Pane",
   "block.tconstruct.scorched_glass_pane.tooltip": "Cannot be used in a Foundry.",
 
   "block.tconstruct.scorched_ladder": "Scorched Ladder",
-  "block.tconstruct.scorched_ladder.tooltip": "Climbable Foundry block. Safe for decoration.",
+  "block.tconstruct.scorched_ladder.tooltip": "Climbable Foundry block.",
 
   "block.tconstruct.scorched_fuel_tank": "Scorched Fuel Tank",
   "block.tconstruct.scorched_fuel_tank.tooltip": "Heart of the Foundry.\nRetains liquid when broken.",
@@ -1105,6 +1129,8 @@
   "gui.tconstruct.fluid.pane": "%s Panes",
   "gui.tconstruct.fluid.slimeball": "%s Slimeballs",
   "gui.tconstruct.fluid.brick": "%s Bricks",
+  "gui.tconstruct.fluid.bowl": "%s Bowls",
+  "gui.tconstruct.fluid.bottle": "%s Bottles",
 
   "gui.tconstruct.fluid.hold_shift": "Hold §e§oShift§r§7 for buckets",
 
@@ -1321,7 +1347,7 @@
 
   "material.tconstruct.necrotic_bone": "Necrotic Bone",
   "material.tconstruct.necrotic_bone.flavor": "Do you have a bone to pick with me?",
-  "material.tconstruct.necrotic_bone.encyclopedia": "Heals up to 5% of damage dealt per level",
+  "material.tconstruct.necrotic_bone.encyclopedia": "Heals a percentage of damage dealt from critical hits",
   "material.tconstruct.necrotic_bone.skull_flavor": "Spooky Scary Skeleton!",
   "material.tconstruct.necrotic_bone.skull_encyclopedia": "Melee attacks cause withering. After drinking milk the effect becomes faster",
 
@@ -1355,7 +1381,7 @@
 
   "material.tconstruct.copper": "Copper",
   "material.tconstruct.copper.flavor": "Don't let this tarnish your day.",
-  "material.tconstruct.copper.encyclopedia": "Grants mining speed at lower depth, +8 per 64 blocks below sea level",
+  "material.tconstruct.copper.encyclopedia": "Grants mining speed at lower depth, +6 per 64 blocks below 64",
   "material.tconstruct.copper.skull_flavor": "Knocks the wind right out of them",
   "material.tconstruct.copper.skull_encyclopedia": "Melee attacks steal 3 seconds of air from the target",
 
@@ -1622,6 +1648,9 @@
   "modifier.tconstruct.haste.5": "Hastiestest",
   "modifier.tconstruct.haste.flavor": "Science!",
   "modifier.tconstruct.haste.description": "Magic red dust makes tool mine faster!",
+  "modifier.tconstruct.haste_armor": "Haste",
+  "modifier.tconstruct.haste_armor.flavor": "Science!",
+  "modifier.tconstruct.haste_armor.description": "Magic red dust makes all held tools mine faster!",
 
   "modifier.tconstruct.blasting": "Blasting",
   "modifier.tconstruct.blasting.flavor": "Explosive Mining!",
@@ -1651,7 +1680,8 @@
   "modifier.tconstruct.fiery.description": "Ignites targets",
   "modifier.tconstruct.necrotic": "Necrotic",
   "modifier.tconstruct.necrotic.flavor": "Vampiric!",
-  "modifier.tconstruct.necrotic.description": "Hitting enemies drains their life to heal you",
+  "modifier.tconstruct.necrotic.description": "Critical hits on enemies drains their life to heal you",
+  "modifier.tconstruct.necrotic.lifesteal": "Life Steal",
 
   "_comment": "Damage boost",
   "modifier.tconstruct.piercing": "Piercing",
@@ -1808,6 +1838,9 @@
   "modifier.tconstruct.speedy": "Speedy",
   "modifier.tconstruct.speedy.flavor": "Keep going and going and going...",
   "modifier.tconstruct.speedy.description": "Achieve speeds closer to that of rabbits",
+  "modifier.tconstruct.step_up": "Step Up",
+  "modifier.tconstruct.step_up.flavor": "Don't skip leg day",
+  "modifier.tconstruct.step_up.description": "Allows climbing taller blocks as if they were stairs",
   "modifier.tconstruct.leaping": "Leaping",
   "modifier.tconstruct.leaping.flavor": "Leap tall buildings in a single bound!",
   "modifier.tconstruct.leaping.description": "Rabbits can leap high, so this should also let you leap high",
@@ -1942,6 +1975,9 @@
   "modifier.tconstruct.spilling": "Spilling",
   "modifier.tconstruct.spilling.flavor": "Splish splash!",
   "modifier.tconstruct.spilling.description": "Fluid contained in the weapon spills onto attacked targets, or when attacked for armor, causing effects based on the fluid",
+  "modifier.tconstruct.wetting": "Wetting",
+  "modifier.tconstruct.wetting.flavor": "Not that kind of wetting",
+  "modifier.tconstruct.wetting.description": "Causes you to wet yourself when damaged, applying diifferent effects based on the contained fluid",
 
   "_comment": "Bonus modifier slots",
   "modifier.tconstruct.creative_slot": "Creative Slot",
@@ -2433,6 +2469,7 @@
   "command.tconstruct.stat_type.not_found": "Unknown stat type %s",
   "command.tconstruct.stat_type.wrong_type": "Invalid stat type %s, must inherit from %s",
   "command.tconstruct.material.not_found": "Unknown material %s",
+  "command.tconstruct.modifier.not_found": "Unknown modifier %s",
   "command.tconstruct.modifier_usage": "Successfully printed modifier usage to the game log",
 
   "command.tconstruct.modifiers.success.add.single": "Applied modifier %s to %s's item",

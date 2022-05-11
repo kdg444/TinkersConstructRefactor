@@ -35,13 +35,13 @@ public class TreeAOEIterator implements IAreaOfEffectIterator {
   private final int depth;
 
   @Override
-  public IGenericLoader<?> getLoader() {
+  public IGenericLoader<? extends IAreaOfEffectIterator> getLoader() {
     return LOADER;
   }
 
   @Override
   public Iterable<BlockPos> getBlocks(IToolStackView tool, ItemStack stack, Player player, BlockState state, Level world, BlockPos origin, Direction sideHit, AOEMatchType matchType) {
-    int expanded = tool.getModifierLevel(TinkerModifiers.expanded.get());
+    int expanded = tool.getModifierLevel(TinkerModifiers.expanded.getId());
     return calculate(tool, stack, player, state, world, origin, sideHit, width + (expanded + 1) / 2, depth + expanded / 2, matchType);
   }
 

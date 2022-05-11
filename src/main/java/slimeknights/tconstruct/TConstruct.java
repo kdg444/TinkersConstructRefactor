@@ -22,18 +22,18 @@ import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.data.AdvancementsProvider;
 import slimeknights.tconstruct.common.data.loot.GlobalLootModifiersProvider;
 import slimeknights.tconstruct.common.data.loot.TConstructLootTableProvider;
+import slimeknights.tconstruct.common.data.tags.BiomeTagProvider;
+import slimeknights.tconstruct.common.data.tags.BlockEntityTypeTagProvider;
 import slimeknights.tconstruct.common.data.tags.BlockTagProvider;
 import slimeknights.tconstruct.common.data.tags.EntityTypeTagProvider;
 import slimeknights.tconstruct.common.data.tags.FluidTagProvider;
 import slimeknights.tconstruct.common.data.tags.ItemTagProvider;
-import slimeknights.tconstruct.common.data.tags.TileEntityTypeTagProvider;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.fluids.FluidEvents;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.library.TinkerBookIDs;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
-import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.ComputableDataKey;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinitionLoader;
@@ -141,9 +141,10 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
       datagenerator.addProvider(new ItemTagProvider(datagenerator, blockTags));
       datagenerator.addProvider(new FluidTagProvider(datagenerator));
       datagenerator.addProvider(new EntityTypeTagProvider(datagenerator));
-      datagenerator.addProvider(new TileEntityTypeTagProvider(datagenerator));
+      datagenerator.addProvider(new BlockEntityTypeTagProvider(datagenerator));
       datagenerator.addProvider(new TConstructLootTableProvider(datagenerator));
       datagenerator.addProvider(new AdvancementsProvider(datagenerator));
+      datagenerator.addProvider(new BiomeTagProvider(datagenerator, existingFileHelper));
       datagenerator.addProvider(new GlobalLootModifiersProvider(datagenerator));
       //datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.SERVER_DATA, "structures"));
 //    }
@@ -200,15 +201,6 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
 //      case "flowing_molten_tinkers_bronze" -> TinkerFluids.moltenAmethystBronze.getFlowing();
 //      default -> null;
 //    });
-//  }
-
-//  @SubscribeEvent
-//  void missingModifier(final MissingMappings<Modifier> event) {
-//    RegistrationHelper.handleMissingMappings(event, MOD_ID, name -> switch(name) {
-//      case "maintained_2" -> TinkerModifiers.maintained.get();
-//      case "fractured" -> TinkerModifiers.sharpness.get();
-//      default -> null;
-  //  });
 //  }
 
 

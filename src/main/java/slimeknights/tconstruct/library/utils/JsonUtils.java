@@ -6,11 +6,13 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.common.network.TinkerNetwork;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -106,6 +109,28 @@ public class JsonUtils {
     }
   }
 
+  /** Parses an enum from its name */
+  private static <T extends Enum<T>> T enumByName(String name, Class<T> enumClass) {
+    for (T value : enumClass.getEnumConstants()) {
+      if (value.name().toLowerCase(Locale.ROOT).equals(name)) {
+        return value;
+      }
+    }
+    throw new JsonSyntaxException("Invalid " + enumClass.getSimpleName() + " " + name);
+  }
+
+  /** Gets an enum value from its string name */
+  public static <T extends Enum<T>> T convertToEnum(JsonElement element, String key, Class<T> enumClass) {
+    String name = GsonHelper.convertToString(element, key);
+    return enumByName(name, enumClass);
+  }
+
+  /** Gets an enum value from its string name */
+  public static <T extends Enum<T>> T getAsEnum(JsonObject json, String key, Class<T> enumClass) {
+    String name = GsonHelper.getAsString(json, key);
+    return enumByName(name, enumClass);
+  }
+
   /** Gets a list of JSON objects for a single path in all domains and packs, for a language file like loader */
   public static List<JsonObject> getFileInAllDomainsAndPacks(ResourceManager manager, String path) {
     return manager
@@ -124,5 +149,43 @@ public class JsonUtils {
       })
       .map(JsonUtils::getJson)
       .filter(Objects::nonNull).toList();
+  }
+
+  /** Sends the packet to the given player */
+  private static void sendPackets(ServerPlayer player, ISimplePacket[] packets) {
+    // on an integrated server, the modifier registries have a single instance on both the client and the server thread
+    // this means syncing is unneeded, and has the side-effect of recreating all the modifier instances (which can lead to unexpected behavior)
+    // as a result, integrated servers just mark fullyLoaded as true without syncing anything, side-effect is listeners may run twice on single player
+
+    // on a dedicated server, the client is running a separate game instance, this is where we send packets, plus fully loaded should already be true
+    // this event is not fired when connecting to a server
+    if (!player.connection.getConnection().isMemoryConnection()) {
+      TinkerNetwork network = TinkerNetwork.getInstance();
+      PacketTarget target = PacketDistributor.PLAYER.with(() -> player);
+      for (ISimplePacket packet : packets) {
+        network.send(target, packet);
+      }
+    }
+  }
+
+  /** Called when the player logs in to send packets */
+  public static void syncPackets(OnDatapackSyncEvent event, ISimplePacket... packets) {
+    // send to single player
+    ServerPlayer targetedPlayer = event.getPlayer();
+    if (targetedPlayer != null) {
+      sendPackets(targetedPlayer, packets);
+    } else {
+      // send to all players
+      for (ServerPlayer player : event.getPlayerList().getPlayers()) {
+        sendPackets(player, packets);
+      }
+    }
+  }
+
+  /** Creates a JSON object with the given type set, makes using {@link slimeknights.mantle.data.GenericRegisteredSerializer} eaiser */
+  public static JsonObject withType(ResourceLocation type) {
+    JsonObject json = new JsonObject();
+    json.addProperty("type", type.toString());
+    return json;
   }
 }

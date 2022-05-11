@@ -28,11 +28,15 @@ public class TravelersGearItem extends ModifiableArmorItem implements ArmorTextu
     super(material, slotType, properties);
   }
 
-  // TODO: PORT
+  @Override
+  public boolean canWalkOnPowderedSnow(ItemStack stack, LivingEntity wearer) {
+    return slot == EquipmentSlot.FEET;
+  }
+
   @Nullable
   @Override
   public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-    if (ModifierUtil.getModifierLevel(stack, TinkerModifiers.golden.get()) > 0) {
+    if (ModifierUtil.getModifierLevel(stack, TinkerModifiers.golden.getId()) > 0) {
       return slot == EquipmentSlot.LEGS ? GOLDEN_LEGS : GOLDEN_ARMOR;
     }
     return null;

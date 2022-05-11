@@ -34,6 +34,7 @@
     "strength":     "#EAA727",
     "tool_belt":    "#893B25",
     "unarmed":      "#AA7D66",
+    "wetting":      "#F98648",
     "wings":        "#D37CFF",
     "zoom":         "#ffffff",
 
@@ -120,6 +121,7 @@
     "__upgrade_armor__": null,
     "armor_power":      "#EAA727",
     "feather_falling":  "#ffffff",
+    "haste_armor":      "#7F0901",
     "knockback_armor":  "#BC9862",
     "leaping":          "#D8B281",
     "lightspeed_armor": "#FFBC5E",
@@ -130,6 +132,7 @@
     "soulspeed":        "#5B4538",
     "speedy":           "#7F0901",
     "springy":          "#FF950D",
+    "step_up":          "#C18958",
     "sticky":           "#ffffff",
     "thorns":           "#9FA76D",
 

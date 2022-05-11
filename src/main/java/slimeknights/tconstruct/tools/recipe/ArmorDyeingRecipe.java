@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import io.github.fabricators_of_create.porting_lib.util.TagUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import me.alphamode.forgetags.DyeUtil;
+import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -17,8 +17,9 @@ import net.minecraft.world.level.Level;
 import me.alphamode.forgetags.Tags.Items;
 import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.recipe.helper.LoggingRecipeSerializer;
-import slimeknights.tconstruct.library.modifiers.Modifier;
+import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
+import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationContainer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
@@ -51,7 +52,7 @@ public class ArmorDyeingRecipe implements ITinkerStationRecipe, IMultiRecipe<IDi
     for (int i = 0; i < inv.getInputCount(); i++) {
       ItemStack input = inv.getInput(i);
       if (!input.isEmpty()) {
-        if (!Items.DYES.contains(input.getItem())) {
+        if (!input.is(Items.DYES)) {
           return false;
         }
         found = true;
@@ -121,7 +122,7 @@ public class ArmorDyeingRecipe implements ITinkerStationRecipe, IMultiRecipe<IDi
     persistentData.putInt(key, finalColor);
 
     // add the modifier if missing
-    Modifier modifier = TinkerModifiers.dyed.get();
+    ModifierId modifier = TinkerModifiers.dyed.getId();
     if (tool.getModifierLevel(modifier) == 0) {
       tool.addModifier(modifier, 1);
     }
@@ -241,7 +242,7 @@ public class ArmorDyeingRecipe implements ITinkerStationRecipe, IMultiRecipe<IDi
     public DisplayRecipe(ModifierEntry result, List<ItemStack> tools, DyeColor color) {
       this.displayResult = result;
       this.toolWithoutModifier = tools;
-      this.dyes = DyeUtil.getDyeTag(color).getValues().stream().map(ItemStack::new).toList();
+      this.dyes = RegistryHelper.getTagValueStream(Registry.ITEM, color.getTag()).map(ItemStack::new).toList();
 
       ResourceLocation id = result.getModifier().getId();
       int tintColor = getTintColor(color);

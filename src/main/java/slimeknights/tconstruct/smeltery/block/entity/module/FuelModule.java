@@ -25,6 +25,7 @@ import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 import io.github.fabricators_of_create.porting_lib.util.NonNullFunction;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelLookup;
 import slimeknights.tconstruct.library.utils.TagUtil;
@@ -157,7 +158,7 @@ public class FuelModule implements ContainerData {
   private int trySolidFuel(IItemHandler handler, boolean consume) {
     for (int i = 0; i < handler.getSlots(); i++) {
       ItemStack stack = handler.getStackInSlot(i);
-      int time = BurnUtil.getBurnTime(stack/*, RecipeTypes.FUEL*/) / 4;
+      int time = BurnUtil.getBurnTime(stack/*, TinkerRecipeTypes.FUEL.get()*/) / 4;
       if (time > 0) {
         if (consume) {
           ItemStack extracted = handler.extractItem(i, 1, false);

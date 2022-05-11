@@ -8,19 +8,21 @@ import io.github.fabricators_of_create.porting_lib.util.TablePrinter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import slimeknights.mantle.command.MantleCommand;
+import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
-import slimeknights.tconstruct.library.TinkerRegistries;
 import slimeknights.tconstruct.library.materials.IMaterialRegistry;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
-import slimeknights.tconstruct.library.recipe.RecipeTypes;
+import slimeknights.tconstruct.library.modifiers.ModifierManager;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IModifierRecipe;
 import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.library.tools.item.IModifiable;
@@ -68,10 +70,10 @@ public class ModifierUsageCommand {
 
   private static int runForType(CommandContext<CommandSourceStack> context, ModifierUsages filter, @Nullable OptionalSlotType slotFilter) {
     // recipe modifiers are used in a displayable modifier recipe
-    HashMultimap<SlotType,Modifier> recipeModifiers = ((RecipeManagerAccessor)context.getSource().getLevel().getRecipeManager()).port_lib$byType(RecipeTypes.TINKER_STATION).values().stream()
-                                                             .filter(r -> r instanceof IModifierRecipe)
-                                                             .map(r -> (IModifierRecipe) r)
-                                                             .collect(Collector.of(HashMultimap::create, (map, r) -> map.put(r.getSlotType(), r.getModifier()), (m1, m2) -> {
+    HashMultimap<SlotType,Modifier> recipeModifiers = ((RecipeManagerAccessor)context.getSource().getLevel().getRecipeManager()).port_lib$byType(TinkerRecipeTypes.TINKER_STATION.get()).values().stream()
+																														 .filter(r -> r instanceof IModifierRecipe)
+																														 .map(r -> (IModifierRecipe) r)
+																														 .collect(Collector.of(HashMultimap::create, (map, r) -> map.put(r.getSlotType(), r.getModifier()), (m1, m2) -> {
                                                                m1.putAll(m2);
                                                                return m1;
                                                              }));
@@ -88,11 +90,11 @@ public class ModifierUsageCommand {
                                          .map(ModifierEntry::getModifier)
                                          .collect(Collectors.toSet());
     // finally, tool traits we limit to anything in the modifiable tag
-    Set<Modifier> toolTraits = TinkerTags.Items.MODIFIABLE.getValues().stream()
-                                                          .filter(item -> item instanceof IModifiable)
-                                                          .flatMap(item -> ((IModifiable) item).getToolDefinition().getData().getTraits().stream())
-                                                          .map(ModifierEntry::getModifier)
-                                                          .collect(Collectors.toSet());
+    Set<Modifier> toolTraits = RegistryHelper.getTagValueStream(Registry.ITEM, TinkerTags.Items.MODIFIABLE)
+                                             .filter(item -> item instanceof IModifiable)
+                                             .flatMap(item -> ((IModifiable) item).getToolDefinition().getData().getTraits().stream())
+                                             .map(ModifierEntry::getModifier)
+                                             .collect(Collectors.toSet());
 
     // next, get our list of modifiers
     Stream<Modifier> modifierStream;
@@ -112,7 +114,7 @@ public class ModifierUsageCommand {
         modifierStream = toolTraits.stream();
         break;
       default:
-        modifierStream = TinkerRegistries.MODIFIERS.stream();
+        modifierStream = ModifierManager.INSTANCE.getAllValues();
         break;
     }
     // if requested, filter out all

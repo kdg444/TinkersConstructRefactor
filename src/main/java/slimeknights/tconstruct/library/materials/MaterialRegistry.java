@@ -192,12 +192,11 @@ public final class MaterialRegistry {
   /* Reloading */
 
   /** Adds the managers as datapack listeners */
-  private List<PreparableReloadListener> addDataPackListeners(final ServerResources event) {
-    List<PreparableReloadListener> reloadListeners = new ArrayList<>();
-    reloadListeners.add(materialManager);
-    reloadListeners.add(materialStatsManager);
-    reloadListeners.add(materialTraitsManager);
-    return reloadListeners;
+  private void addDataPackListeners(final AddReloadListenerEvent event) {
+    event.addListener(materialManager);
+    materialManager.setConditionContext(event.getConditionContext());
+    event.addListener(materialStatsManager);
+    event.addListener(materialTraitsManager);
   }
 
   /** Sends all relevant packets to the given player */

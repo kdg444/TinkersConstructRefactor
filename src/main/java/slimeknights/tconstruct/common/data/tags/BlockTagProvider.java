@@ -1,14 +1,12 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import io.github.fabricators_of_create.porting_lib.extensions.TierExtensions;
-import me.alphamode.forgetags.Tags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.tag.TagFactory;
+import net.minecraft.core.Registry;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -20,6 +18,7 @@ import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.registration.GeodeItemObject;
 import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
 import slimeknights.tconstruct.fluids.TinkerFluids;
+import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.shared.block.ClearStainedGlassBlock.GlassColor;
@@ -158,9 +157,6 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     this.tag(Tags.Blocks.ORES).addTag(TinkerTags.Blocks.ORES_COBALT);
     this.tag(TinkerTags.Blocks.RAW_BLOCK_COBALT).add(TinkerWorld.rawCobaltBlock.get());
     this.tag(Tags.Blocks.STORAGE_BLOCKS).addTag(TinkerTags.Blocks.RAW_BLOCK_COBALT);
-
-    // vanilla made cut copper dumb, so untag it in forge
-    this.tag(Tags.Blocks.STORAGE_BLOCKS_COPPER)/*.remove(Blocks.CUT_COPPER)*/; // TODO: PORT
 
     // allow the enderman to hold more blocks
     TagsProvider.TagAppender<Block> endermanHoldable = this.tag(BlockTags.ENDERMAN_HOLDABLE);
@@ -332,6 +328,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     // commons
     tagBlocks(MINEABLE_WITH_SHOVEL, TinkerCommons.mudBricks);
     tagBlocks(MINEABLE_WITH_AXE, TinkerCommons.lavawood, TinkerCommons.blazewood);
+    tagBlocks(MINEABLE_WITH_AXE, TinkerGadgets.punji);
     tagBlocks(MINEABLE_WITH_PICKAXE, NEEDS_DIAMOND_TOOL, TinkerCommons.obsidianPane);
     tagBlocks(MINEABLE_WITH_PICKAXE, NEEDS_STONE_TOOL, TinkerCommons.ironPlatform);
     tagBlocks(MINEABLE_WITH_PICKAXE, NEEDS_IRON_TOOL, TinkerCommons.goldBars, TinkerCommons.goldPlatform, TinkerCommons.cobaltPlatform);
@@ -347,7 +344,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     // slime
     tagBlocks(MINEABLE_WITH_SHOVEL, TinkerWorld.congealedSlime, TinkerWorld.slimeDirt, TinkerWorld.vanillaSlimeGrass, TinkerWorld.earthSlimeGrass, TinkerWorld.skySlimeGrass, TinkerWorld.enderSlimeGrass, TinkerWorld.ichorSlimeGrass);
     // harvest tiers on shovel blocks
-    TinkerWorld.slimeDirt.forEach((type, block) -> this.tag((Tag.Named<Block>)Objects.requireNonNull(((TierExtensions)(Object)type.getHarvestTier()).getTag())).add(block));
+    TinkerWorld.slimeDirt.forEach((type, block) -> this.tag(Objects.requireNonNull(((TierExtensions)(Object)type.getHarvestTier()).getTag())).add(block));
     for (SlimeType dirt : SlimeType.values()) {
       for (SlimeType grass : SlimeType.values()) {
         Tiers dirtTier = dirt.getHarvestTier();
@@ -359,7 +356,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
         } else {
           tier = dirtTier.getLevel() > grassTier.getLevel() ? dirtTier : grassTier;
         }
-        this.tag((Tag.Named<Block>)Objects.requireNonNull(((TierExtensions)(Object)tier).getTag())).add(TinkerWorld.slimeGrass.get(dirt).get(grass));
+        this.tag(Objects.requireNonNull(((TierExtensions)(Object)tier).getTag())).add(TinkerWorld.slimeGrass.get(dirt).get(grass));
       }
     }
 
@@ -426,7 +423,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
   /** Applies a tag to a set of suppliers */
   @SafeVarargs
-  private void tagBlocks(Tag.Named<Block> tag, Supplier<? extends Block>... blocks) {
+  private void tagBlocks(TagKey<Block> tag, Supplier<? extends Block>... blocks) {
     TagAppender<Block> appender = this.tag(tag);
     for (Supplier<? extends Block> block : blocks) {
       appender.add(block.get());
@@ -434,7 +431,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
   }
 
   /** Applies a tag to a set of suppliers */
-  private void tagBlocks(Tag.Named<Block> tag, GeodeItemObject... blocks) {
+  private void tagBlocks(TagKey<Block> tag, GeodeItemObject... blocks) {
     TagAppender<Block> appender = this.tag(tag);
     for (GeodeItemObject geode : blocks) {
       appender.add(geode.getBlock());
@@ -447,14 +444,14 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
   /** Applies a set of tags to a block */
   @SuppressWarnings("SameParameterValue")
-  private void tagBlocks(Tag.Named<Block> tag1, Tag.Named<Block> tag2, Supplier<? extends Block>... blocks) {
+  private void tagBlocks(TagKey<Block> tag1, TagKey<Block> tag2, Supplier<? extends Block>... blocks) {
     tagBlocks(tag1, blocks);
     tagBlocks(tag2, blocks);
   }
 
   /** Applies a tag to a set of blocks */
   @SafeVarargs
-  private void tagBlocks(Tag.Named<Block> tag, EnumObject<?,? extends Block>... blocks) {
+  private void tagBlocks(TagKey<Block> tag, EnumObject<?,? extends Block>... blocks) {
     TagAppender<Block> appender = this.tag(tag);
     for (EnumObject<?,? extends Block> block : blocks) {
       block.forEach(b -> appender.add(b));
@@ -463,13 +460,13 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
   /** Applies a tag to a set of blocks */
   @SafeVarargs
-  private void tagBlocks(Tag.Named<Block> tag1, Tag.Named<Block> tag2, EnumObject<?,? extends Block>... blocks) {
+  private void tagBlocks(TagKey<Block> tag1, TagKey<Block> tag2, EnumObject<?,? extends Block>... blocks) {
     tagBlocks(tag1, blocks);
     tagBlocks(tag2, blocks);
   }
 
   /** Applies a set of tags to a block */
-  private void tagBlocks(Tag.Named<Block> tag, BuildingBlockObject... blocks) {
+  private void tagBlocks(TagKey<Block> tag, BuildingBlockObject... blocks) {
     TagAppender<Block> appender = this.tag(tag);
     for (BuildingBlockObject block : blocks) {
       block.values().forEach(appender::add);
@@ -478,14 +475,14 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
   /** Applies a set of tags to a block */
   @SuppressWarnings("SameParameterValue")
-  private void tagBlocks(Tag.Named<Block> tag1, Tag.Named<Block> tag2, BuildingBlockObject... blocks) {
+  private void tagBlocks(TagKey<Block> tag1, TagKey<Block> tag2, BuildingBlockObject... blocks) {
     tagBlocks(tag1, blocks);
     tagBlocks(tag2, blocks);
   }
 
   /** Applies a set of tags to either wood or logs from a block */
   @SuppressWarnings("SameParameterValue")
-  private void tagLogs(Tag.Named<Block> tag1, Tag.Named<Block> tag2, WoodBlockObject... blocks) {
+  private void tagLogs(TagKey<Block> tag1, TagKey<Block> tag2, WoodBlockObject... blocks) {
     for (WoodBlockObject block : blocks) {
       tag(tag1).add(block.getLog(), block.getWood());
       tag(tag2).add(block.getLog(), block.getWood());
@@ -494,7 +491,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
   /** Applies a set of tags to either wood or logs from a block */
   @SuppressWarnings("SameParameterValue")
-  private void tagPlanks(Tag.Named<Block> tag, WoodBlockObject... blocks) {
+  private void tagPlanks(TagKey<Block> tag, WoodBlockObject... blocks) {
     for (WoodBlockObject block : blocks) {
       tag(tag).add(block.get(), block.getSlab(), block.getStairs(), block.getFence(),
                    block.getStrippedLog(), block.getStrippedWood(), block.getFenceGate(), block.getDoor(), block.getTrapdoor(),
@@ -518,7 +515,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
   private void addGlass(EnumObject<GlassColor,? extends Block> blockObj, String tagPrefix, TagAppender<Block> blockTag) {
     blockObj.forEach((color, block) -> {
       blockTag.add(block);
-      this.tag(TagFactory.BLOCK.create(new ResourceLocation("c", tagPrefix + color.getSerializedName()))).add(block);
+      this.tag(TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("d", tagPrefix + color.getSerializedName()))).add(block);
     });
   }
 

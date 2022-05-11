@@ -38,12 +38,6 @@ import slimeknights.tconstruct.library.tools.definition.harvest.FixedTierHarvest
 import slimeknights.tconstruct.library.tools.definition.harvest.IHarvestLogic;
 import slimeknights.tconstruct.library.tools.definition.harvest.ModifiedHarvestLogic;
 import slimeknights.tconstruct.library.tools.definition.harvest.TagHarvestLogic;
-import slimeknights.tconstruct.library.tools.definition.harvest.predicate.AndBlockPredicate;
-import slimeknights.tconstruct.library.tools.definition.harvest.predicate.BlockPredicate;
-import slimeknights.tconstruct.library.tools.definition.harvest.predicate.InvertedBlockPredicate;
-import slimeknights.tconstruct.library.tools.definition.harvest.predicate.OrBlockPredicate;
-import slimeknights.tconstruct.library.tools.definition.harvest.predicate.SetBlockPredicate;
-import slimeknights.tconstruct.library.tools.definition.harvest.predicate.TagBlockPredicate;
 import slimeknights.tconstruct.library.tools.definition.weapon.CircleWeaponAttack;
 import slimeknights.tconstruct.library.tools.definition.weapon.IWeaponAttack;
 import slimeknights.tconstruct.library.tools.definition.weapon.ParticleWeaponAttack;
@@ -52,6 +46,16 @@ import slimeknights.tconstruct.library.tools.helper.ModifierLootingHandler;
 import slimeknights.tconstruct.library.tools.item.ModifiableArmorItem;
 import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.utils.BlockSideHitListener;
+import slimeknights.tconstruct.tools.data.StationSlotLayoutProvider;
+import slimeknights.tconstruct.tools.data.ToolDefinitionDataProvider;
+import slimeknights.tconstruct.tools.data.ToolsRecipeProvider;
+import slimeknights.tconstruct.tools.data.material.MaterialDataProvider;
+import slimeknights.tconstruct.tools.data.material.MaterialRecipeProvider;
+import slimeknights.tconstruct.tools.data.material.MaterialRenderInfoProvider;
+import slimeknights.tconstruct.tools.data.material.MaterialStatsDataProvider;
+import slimeknights.tconstruct.tools.data.material.MaterialTraitsDataProvider;
+import slimeknights.tconstruct.tools.data.sprite.TinkerMaterialSpriteProvider;
+import slimeknights.tconstruct.tools.data.sprite.TinkerPartSpriteProvider;
 import slimeknights.tconstruct.tools.item.ArmorSlotType;
 import slimeknights.tconstruct.tools.item.ModifiableSwordItem;
 import slimeknights.tconstruct.tools.item.PlateArmorItem;
@@ -126,7 +130,7 @@ public final class TinkerTools extends TinkerModule {
                       .fireImmune());
 
   /* Containers */
-  public static final RegistryObject<MenuType<ToolContainerMenu>> toolContainer = CONTAINERS.register("tool_container", ToolContainerMenu::forClient);
+  public static final RegistryObject<MenuType<ToolContainerMenu>> toolContainer = MENUS.register("tool_container", ToolContainerMenu::forClient);
 
 
   /*
@@ -148,12 +152,6 @@ public final class TinkerTools extends TinkerModule {
     IHarvestLogic.LOADER.register(TConstruct.getResource("effective_tag"), TagHarvestLogic.LOADER);
     IHarvestLogic.LOADER.register(TConstruct.getResource("modified_tag"), ModifiedHarvestLogic.LOADER);
     IHarvestLogic.LOADER.register(TConstruct.getResource("fixed_tier"), FixedTierHarvestLogic.LOADER);
-    // harvest predicates
-    BlockPredicate.LOADER.register(TConstruct.getResource("and"), AndBlockPredicate.LOADER);
-    BlockPredicate.LOADER.register(TConstruct.getResource("or"), OrBlockPredicate.LOADER);
-    BlockPredicate.LOADER.register(TConstruct.getResource("inverted"), InvertedBlockPredicate.LOADER);
-    BlockPredicate.LOADER.register(TConstruct.getResource("set"), SetBlockPredicate.LOADER);
-    BlockPredicate.LOADER.register(TConstruct.getResource("tag"), TagBlockPredicate.LOADER);
     // aoe
     IAreaOfEffectIterator.LOADER.register(TConstruct.getResource("box"), BoxAOEIterator.LOADER);
     IAreaOfEffectIterator.LOADER.register(TConstruct.getResource("circle"), CircleAOEIterator.LOADER);
@@ -166,27 +164,26 @@ public final class TinkerTools extends TinkerModule {
     IWeaponAttack.LOADER.register(TConstruct.getResource("particle"), ParticleWeaponAttack.LOADER);
   }
 
-//  @SubscribeEvent
-//  void gatherData(final GatherDataEvent event) {
-//    DataGenerator generator = event.getGenerator();
-//    if (event.includeServer()) {
-//      generator.addProvider(new ToolsRecipeProvider(generator));
-//      generator.addProvider(new MaterialRecipeProvider(generator));
-//      generator.addProvider(new ModifierRecipeProvider(generator));
-//      MaterialDataProvider materials = new MaterialDataProvider(generator);
-//      generator.addProvider(materials);
-//      generator.addProvider(new MaterialStatsDataProvider(generator, materials));
-//      generator.addProvider(new MaterialTraitsDataProvider(generator, materials));
-//      generator.addProvider(new ToolDefinitionDataProvider(generator));
-//      generator.addProvider(new StationSlotLayoutProvider(generator));
-//    }
-//    if (event.includeClient()) {
-//      ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-//      TinkerMaterialSpriteProvider materialSprites = new TinkerMaterialSpriteProvider();
-//      TinkerPartSpriteProvider partSprites = new TinkerPartSpriteProvider();
-//      generator.addProvider(new MaterialRenderInfoProvider(generator, materialSprites));
-//      generator.addProvider(new GeneratorPartTextureJsonGenerator(generator, TConstruct.MOD_ID, partSprites));
-//      generator.addProvider(new MaterialPartTextureGenerator(generator, existingFileHelper, partSprites, materialSprites));
-//    }
-//  }
+  @SubscribeEvent
+  void gatherData(final GatherDataEvent event) {
+    DataGenerator generator = event.getGenerator();
+    if (event.includeServer()) {
+      generator.addProvider(new ToolsRecipeProvider(generator));
+      generator.addProvider(new MaterialRecipeProvider(generator));
+      MaterialDataProvider materials = new MaterialDataProvider(generator);
+      generator.addProvider(materials);
+      generator.addProvider(new MaterialStatsDataProvider(generator, materials));
+      generator.addProvider(new MaterialTraitsDataProvider(generator, materials));
+      generator.addProvider(new ToolDefinitionDataProvider(generator));
+      generator.addProvider(new StationSlotLayoutProvider(generator));
+    }
+    if (event.includeClient()) {
+      ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+      TinkerMaterialSpriteProvider materialSprites = new TinkerMaterialSpriteProvider();
+      TinkerPartSpriteProvider partSprites = new TinkerPartSpriteProvider();
+      generator.addProvider(new MaterialRenderInfoProvider(generator, materialSprites));
+      generator.addProvider(new GeneratorPartTextureJsonGenerator(generator, TConstruct.MOD_ID, partSprites));
+      generator.addProvider(new MaterialPartTextureGenerator(generator, existingFileHelper, partSprites, materialSprites));
+    }
+  }
 }

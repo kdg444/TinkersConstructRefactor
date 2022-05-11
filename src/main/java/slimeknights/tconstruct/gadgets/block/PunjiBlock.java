@@ -5,9 +5,8 @@ import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.core.Direction.AxisDirection;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -100,8 +99,22 @@ public class PunjiBlock extends Block implements CustomPathNodeTypeBlock {
     BlockPos pos = context.getClickedPos();
 
     BlockState state = this.defaultBlockState().setValue(FACING, direction);
+    // if the space is invalid, try again on other sides
     if (!state.canSurvive(world, pos)) {
-      return null;
+      boolean isValid = false;
+      for (Direction side : Direction.values()) {
+        if (side != direction) {
+          state = state.setValue(FACING, side);
+          if (state.canSurvive(world, pos)) {
+            isValid = true;
+            direction = side;
+            break;
+          }
+        }
+      }
+      if (!isValid) {
+        return null;
+      }
     }
 
     // apply connections
@@ -133,13 +146,11 @@ public class PunjiBlock extends Block implements CustomPathNodeTypeBlock {
    * @return  North for the given facing
    */
   private static Direction getLocalNorth(Direction facing) {
-    switch (facing) {
-      case DOWN:
-        return Direction.NORTH;
-      case UP:
-        return Direction.SOUTH;
-    }
-    return Direction.UP;
+    return switch (facing) {
+      case DOWN -> Direction.NORTH;
+      case UP -> Direction.SOUTH;
+      default -> Direction.UP;
+    };
   }
 
   /**
@@ -168,12 +179,24 @@ public class PunjiBlock extends Block implements CustomPathNodeTypeBlock {
   @Deprecated
   public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
     if (entityIn instanceof LivingEntity) {
-      float damage = 3f;
+      Direction side = state.getValue(FACING);
+      Axis axis = side.getAxis();
+      // only take damage if in the same half as the punji sticks
+      if (side.getAxisDirection() == AxisDirection.POSITIVE) {
+        if (entityIn.getBoundingBox().max(axis) <= pos.get(axis) + 0.5f) {
+          return;
+        }
+      } else {
+        if (entityIn.getBoundingBox().min(axis) >= pos.get(axis) + 0.5f) {
+          return;
+        }
+      }
+
+      float damage = 1f;
       if (entityIn.fallDistance > 0) {
-        damage += entityIn.fallDistance * 1.5f + 2f;
+        damage += entityIn.fallDistance + 1;
       }
       entityIn.hurt(DamageSource.CACTUS, damage);
-      ((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 1));
     }
   }
 

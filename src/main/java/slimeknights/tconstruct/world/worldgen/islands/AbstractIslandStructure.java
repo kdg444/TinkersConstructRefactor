@@ -17,7 +17,6 @@ import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import slimeknights.tconstruct.world.worldgen.islands.variants.IIslandVariant;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -26,11 +25,6 @@ public abstract class AbstractIslandStructure extends StructureFeature<NoneFeatu
   protected static final String[] SIZES = new String[] { "0x1x0", "2x2x4", "4x1x6", "8x1x11", "11x1x11" };
   public AbstractIslandStructure(IIslandSettings settings) {
     super(NoneFeatureConfiguration.CODEC, context -> pieceGeneratorSupplier(context, settings));
-  }
-
-  @Override
-  public String getFeatureName() {
-    return Objects.requireNonNull(Registry.STRUCTURE_FEATURE.getKey(this)).toString();
   }
 
   @Override
