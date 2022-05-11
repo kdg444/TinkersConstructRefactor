@@ -4,10 +4,12 @@ import io.github.tropheusj.milk.Milk;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.material.Material;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
+import slimeknights.mantle.fabric.fluid.SimpleDirectionalFluid;
 import slimeknights.mantle.registration.ModelFluidAttributes;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.mantle.util.SimpleFlowableFluid;
 import slimeknights.tconstruct.common.TinkerModule;
+import slimeknights.tconstruct.fluids.fluids.DirectionalSlimeFluid;
 import slimeknights.tconstruct.fluids.fluids.SlimeFluid;
 import slimeknights.tconstruct.shared.block.SlimeType;
 
@@ -31,6 +33,7 @@ public final class TinkerFluids extends TinkerModule {
   public static final FluidObject<SimpleFlowableFluid> skySlime   = FLUIDS.register("sky_slime",             coolBuilder().density(1500).viscosity(1500).temperature(310), SlimeFluid.Source::new, SlimeFluid.Flowing::new, Material.WATER, 0);
   public static final FluidObject<SimpleFlowableFluid> enderSlime = FLUIDS.register("ender_slime",           coolBuilder().density(1600).viscosity(1600).temperature(370), SlimeFluid.Source::new, SlimeFluid.Flowing::new, Material.WATER, 0);
   public static final FluidObject<SimpleFlowableFluid> magma      = FLUIDS.register("magma",                 coolBuilder().density(1900).viscosity(1900).temperature(600), SlimeFluid.Source::new, SlimeFluid.Flowing::new, Material.WATER, 3);
+  public static final FluidObject<SimpleDirectionalFluid> ichor   = FLUIDS.registerUpsideDown("ichor",       hotBuilder().density(-1200).viscosity(1900).temperature(1000), DirectionalSlimeFluid.Source::new, DirectionalSlimeFluid.Flowing::new, Material.WATER, 3);
   public static final Map<SlimeType, FluidObject<SimpleFlowableFluid>> slime;
   static {
     slime = new EnumMap<>(SlimeType.class);

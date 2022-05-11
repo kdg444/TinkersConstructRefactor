@@ -8,11 +8,11 @@
 
 //file:noinspection GroovyAssignabilityCheck
 plugins {
-    id "fabric-loom" version "0.11-SNAPSHOT"
+    id "fabric-loom" version "0.12-SNAPSHOT"
     id "maven-publish"
 //    id "io.freefair.lombok"
     id "io.github.juuxel.loom-quiltflower" version "1.+"
-    id "org.quiltmc.quilt-mappings-on-loom" version "4.+"
+    id "org.quiltmc.quilt-mappings-on-loom" version "4.2.+"
 }
 
 repositories {
@@ -27,8 +27,8 @@ repositories {
     maven { url = "https://www.cursemaven.com" }
     maven { url = "https://maven.jamieswhiteshirt.com/libs-release" }
     maven { url = "https://ladysnake.jfrog.io/artifactory/mods" }
-    maven { url = "https://maven.devos.community/releases/" }
-    maven { url = "https://maven.devos.community/snapshots/" }
+    maven { url = "https://mvn.devos.one/releases/" }
+    maven { url = "https://mvn.devos.one/snapshots/" }
     maven { url = "https://maven.parchmentmc.org" }
     maven { url = "https://jitpack.io" }
 }
@@ -83,13 +83,7 @@ loom.accessWidenerPath = file("src/main/resources/tinkers.accesswidener")
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
 
-    mappings loom.layered {
-        it.addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:1.18.1+build.4:v2")) // https://maven.quiltmc.org/#browse/browse:release
-        it.parchment("org.parchmentmc.data:parchment-1.18.1:BLEEDING-20211212.174449-1@zip") // https://ldtteam.jfrog.io/ui/native/parchmentmc-public/org/parchmentmc/data/parchment-1.18.1/BLEEDING-SNAPSHOT
-        it.officialMojangMappings() {
-            setNameSyntheticMembers(false)
-        }
-    }
+    mappings loom.officialMojangMappings()
 
     // dev environment
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
@@ -118,6 +112,8 @@ dependencies {
 
     api(include("com.github.LlamaLad7:MixinExtras:0.0.6"))
     annotationProcessor(include("com.github.LlamaLad7:MixinExtras:0.0.6"))
+
+    modImplementation "me.alphamode:Star:1.0+1.18.1"
 }
 
 task buildOrPublish {
@@ -209,7 +205,7 @@ publishing {
 
     repositories {
         maven {
-            url = "https://maven.devos.community/${System.getenv().PUBLISH_SUFFIX}/"
+            url = "https://mvn.devos.one/${System.getenv().PUBLISH_SUFFIX}/"
             credentials {
                 username = System.getenv().MAVEN_USER
                 password = System.getenv().MAVEN_PASS

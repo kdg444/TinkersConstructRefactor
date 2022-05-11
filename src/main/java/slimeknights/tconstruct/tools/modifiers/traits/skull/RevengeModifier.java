@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
+import io.github.fabricators_of_create.porting_lib.extensions.MobEffectInstanceExtensions;
+import io.github.fabricators_of_create.porting_lib.util.PotionHelper;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -20,8 +22,8 @@ public class RevengeModifier extends SingleUseModifier {
     LivingEntity living = context.getEntity();
     if (trueSource != null && trueSource != living) { // no making yourself mad with slurping or self-destruct or alike
       MobEffectInstance effect = new MobEffectInstance(MobEffects.DAMAGE_BOOST, 300);
-//      effect.getCurativeItems().clear(); TODO: PORT
-//      effect.getCurativeItems().add(new ItemStack(living.getItemBySlot(slotType).getItem()));
+      ((MobEffectInstanceExtensions)effect).getCurativeItems().clear();
+      ((MobEffectInstanceExtensions)effect).getCurativeItems().add(new ItemStack(living.getItemBySlot(slotType).getItem()));
       living.addEffect(effect);
     }
   }
@@ -33,7 +35,7 @@ public class RevengeModifier extends SingleUseModifier {
       IToolStackView replacement = context.getReplacementTool();
       if (replacement == null || replacement.getModifierLevel(this) == 0) {
         // cure effects using the helmet
-//        context.getEntity().curePotionEffects(new ItemStack(tool.getItem())); TODO: PORT
+        PotionHelper.curePotionEffects(context.getEntity(), new ItemStack(tool.getItem()));
       }
     }
   }

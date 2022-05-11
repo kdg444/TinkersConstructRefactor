@@ -3,6 +3,7 @@ package slimeknights.tconstruct.smeltery.block.entity.controller;
 import io.github.fabricators_of_create.porting_lib.block.ChunkUnloadListeningBlockEntity;
 import lombok.Getter;
 import lombok.Setter;
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -41,7 +42,7 @@ import slimeknights.tconstruct.smeltery.menu.MelterContainerMenu;
 import javax.annotation.Nullable;
 import java.util.Collections;
 
-public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferable, ItemTransferable, ChunkUnloadListeningBlockEntity {
+public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferable, ItemTransferable, ChunkUnloadListeningBlockEntity, RenderAttachmentBlockEntity {
 
   /** Max capacity for the tank */
   private static final int TANK_CAPACITY = FluidValues.INGOT * 12;
@@ -219,5 +220,10 @@ public class MelterBlockEntity extends NameableBlockEntity implements ITankBlock
   public void saveAdditional(CompoundTag tag) {
     super.saveAdditional(tag);
     fuelModule.writeToTag(tag);
+  }
+
+  @Override
+  public Object getRenderAttachmentData() {
+    return modelData;
   }
 }

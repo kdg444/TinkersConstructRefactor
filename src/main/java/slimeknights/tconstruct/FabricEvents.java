@@ -6,6 +6,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import slimeknights.tconstruct.fluids.FluidEvents;
 import slimeknights.tconstruct.shared.AchievementEvents;
 import slimeknights.tconstruct.shared.CommonsEvents;
+import slimeknights.tconstruct.tools.logic.InteractionHandler;
 import slimeknights.tconstruct.tools.logic.ToolEvents;
 import slimeknights.tconstruct.world.WorldClientEvents;
 
@@ -15,6 +16,7 @@ public class FabricEvents {
     ToolEvents.init();
     CommonsEvents.init();
     AchievementEvents.init();
+    InteractionHandler.init();
     
 //    if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
 //      Client.init();

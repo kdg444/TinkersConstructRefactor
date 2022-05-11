@@ -2,7 +2,9 @@ package slimeknights.tconstruct.shared;
 
 import io.github.fabricators_of_create.porting_lib.event.common.RecipesUpdatedCallback;
 import io.github.fabricators_of_create.porting_lib.util.ArmorTextureItem;
+import me.alphamode.star.client.renderers.UpsideDownFluidRenderer;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.minecraft.client.model.Model;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.fluids.FluidClientEvents;
+import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.gadgets.GadgetClientEvents;
 import slimeknights.tconstruct.library.client.book.TinkerBook;
 import slimeknights.tconstruct.library.client.data.spritetransformer.GreyToColorMapping;
@@ -98,6 +101,8 @@ public class TinkerClient implements ClientModInitializer {
       ArmorRenderer.renderPart(matrices, vertexConsumers, light, itemStack, slimeModel, getArmorResource(entityLiving, itemStack, armorSlot, null));
     });
     ArmorRenderer.register(skullRenderer, TinkerTools.slimesuit.get(ArmorSlotType.HELMET));
+
+    FluidRenderHandlerRegistry.INSTANCE.register(TinkerFluids.ichor.getStill(), TinkerFluids.ichor.getFlowing(), new UpsideDownFluidRenderer());
   }
 
 //  private Model plateModel, travelersModel, elytraModel, slimeModel;

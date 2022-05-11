@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
+import io.github.fabricators_of_create.porting_lib.util.PiglinsNeutralItem;
 import lombok.Getter;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -73,7 +74,7 @@ public class ChrysophiliteModifier extends SingleUseModifier {
       return tool.getVolatileData().getBoolean(ModifiableArmorItem.PIGLIN_NEUTRAL);
     } else {
       LivingEntity living = context.getEntity();
-      return false/*living.getItemBySlot(slotType).makesPiglinsNeutral(living)*/; // TODO: PORT
+      return living.getItemBySlot(slotType).getItem() instanceof PiglinsNeutralItem piglinsNeutralItem && piglinsNeutralItem.makesPiglinsNeutral(living.getItemBySlot(slotType), living);
     }
   }
 
@@ -98,7 +99,7 @@ public class ChrysophiliteModifier extends SingleUseModifier {
           Random random = target.getRandom();
           // if the stack is gold, and it drops, we get it
           // don't have to worry about checking if it already dropped, the stacks are removed on drop
-          if (!stack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(stack) /*&& stack.makesPiglinsNeutral(target)*/ && random.nextFloat() < extraChance) { // TODO: PORT
+          if (!stack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(stack) && (stack.getItem() instanceof PiglinsNeutralItem piglinsNeutralItem && piglinsNeutralItem.makesPiglinsNeutral(stack, target)) && random.nextFloat() < extraChance) {
             // mobs damage items, its kinda weird
             if (stack.isDamageableItem()) {
               stack.setDamageValue(stack.getMaxDamage() - random.nextInt(1 + random.nextInt(Math.max(stack.getMaxDamage() - 3, 1))));

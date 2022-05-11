@@ -6,6 +6,7 @@ import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
 import io.github.fabricators_of_create.porting_lib.util.AttributeModiferItem;
 import io.github.fabricators_of_create.porting_lib.util.DamagableItem;
 import lombok.Getter;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -71,6 +72,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
   public ModifiableArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builderIn, ToolDefinition toolDefinition) {
     super(materialIn, slot, builderIn);
     this.toolDefinition = toolDefinition;
+    ((FabricItemSettings)builderIn).customDamage(this::damageItem);
   }
 
   public ModifiableArmorItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties) {
@@ -212,7 +214,6 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     }
   }
 
-//  @Override
   public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T damager, Consumer<T> onBroken) {
     // We basically emulate Itemstack.damageItem here. We always return 0 to skip the handling in ItemStack.
     // If we don't tools ignore our damage logic

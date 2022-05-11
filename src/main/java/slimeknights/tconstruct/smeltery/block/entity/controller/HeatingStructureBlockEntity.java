@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.entity.controller;
 
 import lombok.Getter;
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -59,7 +60,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public abstract class HeatingStructureBlockEntity extends NameableBlockEntity implements IMasterLogic, ISmelteryTankHandler, ItemTransferable, CustomRenderBoundingBoxBlockEntity {
+public abstract class HeatingStructureBlockEntity extends NameableBlockEntity implements IMasterLogic, ISmelteryTankHandler, ItemTransferable, CustomRenderBoundingBoxBlockEntity, RenderAttachmentBlockEntity {
   private static final String TAG_STRUCTURE = "structure";
   private static final String TAG_TANK = "tank";
   private static final String TAG_INVENTORY = "inventory";
@@ -398,7 +399,7 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
       // update ourself
       fluid = IDisplayFluidListener.normalizeFluid(fluid);
       modelData.setData(IDisplayFluidListener.PROPERTY, fluid);
-//      this.requestModelDataUpdate();
+//      this.requestModelDataUpdate(); TODO: PORT?
       BlockState state = getBlockState();
       level.sendBlockUpdated(worldPosition, state, state, 48);
       updateListeners(fluid);
@@ -587,5 +588,10 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
   @Nullable
   public static <HAVE extends HeatingStructureBlockEntity, RET extends BlockEntity> BlockEntityTicker<RET> getTicker(Level level, BlockEntityType<RET> expected, BlockEntityType<HAVE> have) {
     return BlockEntityHelper.castTicker(expected, have, level.isClientSide ? CLIENT_TICKER : SERVER_TICKER);
+  }
+
+  @Override
+  public Object getRenderAttachmentData() {
+    return modelData;
   }
 }

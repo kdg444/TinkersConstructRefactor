@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools;
 
 import io.github.fabricators_of_create.porting_lib.util.ItemPredicateRegistry;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -83,7 +84,7 @@ public final class TinkerTools extends TinkerModule {
   /*
    * Items
    */
-  private static final Item.Properties TOOL = new Item.Properties().stacksTo(1).tab(TAB_TOOLS);
+  private static final Item.Properties TOOL = new FabricItemSettings().stacksTo(1).tab(TAB_TOOLS);
 
   public static final ItemObject<ModifiableItem> pickaxe = ITEMS.register("pickaxe", () -> new ModifiableItem(TOOL, ToolDefinitions.PICKAXE));
   public static final ItemObject<ModifiableItem> sledgeHammer = ITEMS.register("sledge_hammer", () -> new ModifiableItem(TOOL, ToolDefinitions.SLEDGE_HAMMER));

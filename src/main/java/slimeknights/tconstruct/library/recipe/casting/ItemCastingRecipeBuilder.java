@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.casting;
 
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -158,7 +159,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    */
   public ItemCastingRecipeBuilder setFluidAndTime(FluidObject<?> fluid, boolean forgeTag, int amount) {
     setFluid(forgeTag ? fluid.getForgeTag() : fluid.getLocalTag(), amount);
-    setCoolingTime(fluid.get().getAttributes().getTemperature() - 300, amount);
+    setCoolingTime(((FluidExtensions)fluid.get()).getAttributes().getTemperature() - 300, amount);
     return this;
   }
 

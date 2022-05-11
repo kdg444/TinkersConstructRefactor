@@ -1,5 +1,8 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
+import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityUseItemEvents;
+import io.github.fabricators_of_create.porting_lib.extensions.MobEffectInstanceExtensions;
+import io.github.fabricators_of_create.porting_lib.util.PotionHelper;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -19,6 +22,8 @@ import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
+import javax.annotation.Nonnull;
+
 public class StrongBonesModifier extends TotalArmorLevelModifier {
   public static final SpillingEffect SPILLING_EFFECT = new SpillingEffect();
   public static final IGenericLoader<SpillingEffect> SPILLING_EFFECT_LOADER = new SingletonLoader<>(SPILLING_EFFECT);
@@ -27,7 +32,7 @@ public class StrongBonesModifier extends TotalArmorLevelModifier {
   public static final TinkerDataKey<Integer> CALCIFIABLE = TConstruct.createKey("calcifable");
   public StrongBonesModifier() {
     super(STRONG_BONES, true);
-//    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, LivingEntityUseItemEvent.Finish.class, StrongBonesModifier::onItemFinishUse);
+    LivingEntityUseItemEvents.LIVING_USE_ITEM_FINISH.register(StrongBonesModifier::onItemFinishUse);
   }
 
   @Override
@@ -37,30 +42,30 @@ public class StrongBonesModifier extends TotalArmorLevelModifier {
       IToolStackView replacement = context.getReplacementTool();
       if (replacement == null || replacement.getModifierLevel(this) == 0) {
         // cure effects using the helmet
-//        context.getEntity().curePotionEffects(new ItemStack(tool.getItem())); TODO: PORT
+        PotionHelper.curePotionEffects(context.getEntity(), new ItemStack(tool.getItem()));
       }
     }
   }
 
-//  private static void drinkMilk(LivingEntity living, int duration) { TODO: PORT
-//    if (ModifierUtil.getTotalModifierLevel(living, STRONG_BONES) > 0) {
-//      MobEffectInstance effect = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration);
-//      effect.getCurativeItems().clear();
-//      effect.getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));
-//      living.addEffect(effect);
-//    }
-//    if (ModifierUtil.getTotalModifierLevel(living, CALCIFIABLE) > 0) {
-//      TinkerModifiers.calcifiedEffect.get().apply(living, duration, 0, true);
-//    }
-//  }
+  private static void drinkMilk(LivingEntity living, int duration) {
+    if (ModifierUtil.getTotalModifierLevel(living, STRONG_BONES) > 0) {
+      MobEffectInstance effect = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration);
+      ((MobEffectInstanceExtensions)effect).getCurativeItems().clear();
+      ((MobEffectInstanceExtensions)effect).getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));
+      living.addEffect(effect);
+    }
+    if (ModifierUtil.getTotalModifierLevel(living, CALCIFIABLE) > 0) {
+      TinkerModifiers.calcifiedEffect.get().apply(living, duration, 0, true);
+    }
+  }
 
   /** Called when you finish drinking milk */
-//  private static void onItemFinishUse(LivingEntityUseItemEvent.Finish event) { TODO: PORT
-//    LivingEntity living = event.getEntityLiving();
-//    if (event.getItem().getItem() == Items.MILK_BUCKET) {
-//      drinkMilk(living, 1200);
-//    }
-//  }
+  private static ItemStack onItemFinishUse(LivingEntity living, @Nonnull ItemStack item, int duration, @Nonnull ItemStack result) {
+    if (item.getItem() == Items.MILK_BUCKET) {
+      drinkMilk(living, 1200);
+    }
+    return result;
+  }
 
   /** Spilling effect hook */
   public static class SpillingEffect implements ISpillingEffect {
@@ -70,7 +75,7 @@ public class StrongBonesModifier extends TotalArmorLevelModifier {
     public void applyEffects(FluidStack fluid, float scale, ToolAttackContext context) {
       LivingEntity target = context.getLivingTarget();
       if (target != null) {
-//        drinkMilk(target, (int)(400 * scale)); TODO: PORT
+        drinkMilk(target, (int)(400 * scale));
       }
     }
 

@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
+import io.github.fabricators_of_create.porting_lib.extensions.MobEffectInstanceExtensions;
+import io.github.fabricators_of_create.porting_lib.util.PotionHelper;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -29,19 +31,17 @@ public class BoonOfSssssModifier extends TotalArmorLevelModifier {
       IToolStackView replacement = context.getReplacementTool();
       if (replacement == null || replacement.getModifierLevel(this) == 0) {
         // cure effects using the helmet
-//        context.getEntity().curePotionEffects(new ItemStack(tool.getItem())); TODO: PORT
+        PotionHelper.curePotionEffects(context.getEntity(), new ItemStack(tool.getItem()));
       }
     }
   }
 
   /** Called when the potion effects start to apply this effect */
   private static void onPotionStart(LivingEntity living, MobEffectInstance newEffect, MobEffectInstance oldEffect, @Nullable Entity source) {
-//    MobEffectInstance newEffect = event.getPotionEffect();
     if (newEffect.getEffect().isBeneficial()) {
-//      LivingEntity living = (LivingEntity) event.getEntity();
       if (ModifierUtil.getTotalModifierLevel(living, POTENT_POTIONS) > 0) {
         newEffect.duration *= 1.25f;
-//        newEffect.getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));
+        ((MobEffectInstanceExtensions)newEffect).getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));
       }
     }
   }

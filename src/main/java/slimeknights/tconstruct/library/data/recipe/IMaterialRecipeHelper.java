@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.data.recipe;
 
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
@@ -85,7 +86,7 @@ public interface IMaterialRecipeHelper extends IRecipeHelper {
   default void materialMeltingCasting(Consumer<FinishedRecipe> consumer, MaterialVariantId material, FluidObject<?> fluid, boolean forgeTag, int fluidAmount, String folder) {
     MaterialFluidRecipeBuilder.material(material)
                               .setFluid(forgeTag ? fluid.getForgeTag() : fluid.getLocalTag(), fluidAmount)
-                              .setTemperature(fluid.get().getAttributes().getTemperature() - 300)
+                              .setTemperature(((FluidExtensions)fluid.get()).getAttributes().getTemperature() - 300)
                               .save(consumer, modResource(folder + "casting/" + material.getLocation('_').getPath()));
     materialMelting(consumer, material, fluid.get(), fluidAmount, folder);
   }
@@ -121,7 +122,7 @@ public interface IMaterialRecipeHelper extends IRecipeHelper {
     MaterialFluidRecipeBuilder.material(output)
                               .setInputId(input)
                               .setFluid(forgeTag ? fluid.getForgeTag() : fluid.getLocalTag(), amount)
-                              .setTemperature(fluid.get().getAttributes().getTemperature() - 300)
+                              .setTemperature(((FluidExtensions)fluid.get()).getAttributes().getTemperature() - 300)
                               .save(consumer, modResource(folder + "composite/" + name));
   }
 

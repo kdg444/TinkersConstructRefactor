@@ -3,12 +3,14 @@ package slimeknights.tconstruct.library.tools.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
+import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
 import io.github.fabricators_of_create.porting_lib.item.UseFirstBehaviorItem;
 import io.github.fabricators_of_create.porting_lib.util.AttributeModiferItem;
 import io.github.fabricators_of_create.porting_lib.util.CorrectToolItem;
 import io.github.fabricators_of_create.porting_lib.util.DamagableItem;
 import io.github.fabricators_of_create.porting_lib.util.ShieldBlockItem;
 import lombok.Getter;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -72,7 +74,7 @@ import java.util.function.Consumer;
  * A standard modifiable item which implements melee hooks
  * This class handles how all the modifier hooks and display data for items made out of different materials
  */
-public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, ItemExtensions, CorrectToolItem, AttributeModiferItem, DamagableItem, ShieldBlockItem {
+public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, ItemExtensions, CorrectToolItem, AttributeModiferItem, DamagableItem, ShieldBlockItem, CustomMaxCountItem {
   /** Tool definition for the given tool */
   @Getter
   private final ToolDefinition toolDefinition;
@@ -83,12 +85,13 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   public ModifiableItem(Properties properties, ToolDefinition toolDefinition) {
     super(properties);
     this.toolDefinition = toolDefinition;
+    ((FabricItemSettings)properties).customDamage(this::damageItem);
   }
 
 
   /* Basic properties */
 
-//  @Override
+  @Override
   public int getItemStackLimit(ItemStack stack) {
     return 1;
   }
@@ -196,7 +199,6 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     }
   }
 
-//  @Override
   public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T damager, Consumer<T> onBroken) {
     // We basically emulate Itemstack.damageItem here. We always return 0 to skip the handling in ItemStack.
     // If we don't tools ignore our damage logic

@@ -3,6 +3,7 @@ package slimeknights.tconstruct.smeltery.block.entity.component;
 import io.github.fabricators_of_create.porting_lib.block.CustomDataPacketHandlingBlockEntity;
 import io.github.fabricators_of_create.porting_lib.block.CustomUpdateTagHandlingBlockEntity;
 import lombok.Getter;
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -25,7 +26,7 @@ import java.util.Objects;
 /**
  * Fluid IO extension to display controller fluid
  */
-public class DrainBlockEntity extends SmelteryFluidIO implements IDisplayFluidListener, CustomUpdateTagHandlingBlockEntity, CustomDataPacketHandlingBlockEntity {
+public class DrainBlockEntity extends SmelteryFluidIO implements IDisplayFluidListener, CustomUpdateTagHandlingBlockEntity, CustomDataPacketHandlingBlockEntity, RenderAttachmentBlockEntity {
   @Getter
   private final IModelData modelData = new SinglePropertyData<>(IDisplayFluidListener.PROPERTY);
   @Getter
@@ -106,5 +107,10 @@ public class DrainBlockEntity extends SmelteryFluidIO implements IDisplayFluidLi
         attachFluidListener();
       }
     }
+  }
+
+  @Override
+  public Object getRenderAttachmentData() {
+    return modelData;
   }
 }
