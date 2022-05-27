@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.tools;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import io.github.fabricators_of_create.porting_lib.event.ModelLoadCallback;
-import io.github.fabricators_of_create.porting_lib.event.PlayerTickEvents;
+import io.github.fabricators_of_create.porting_lib.event.client.ModelLoadCallback;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerTickEvents;
 import io.github.fabricators_of_create.porting_lib.model.ModelLoaderRegistry;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;

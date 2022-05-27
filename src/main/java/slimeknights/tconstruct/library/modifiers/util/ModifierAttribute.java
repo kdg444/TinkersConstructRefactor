@@ -4,13 +4,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.utils.JsonUtils;
@@ -71,7 +71,7 @@ public class ModifierAttribute {
   public JsonObject toJson() {
     JsonObject json = new JsonObject();
     json.addProperty("unique", name);
-    json.addProperty("attribute", Objects.requireNonNull(attribute.getRegistryName()).toString());
+    json.addProperty("attribute", Objects.requireNonNull(Registry.ATTRIBUTE.getKey(attribute)).toString());
     json.addProperty("operation", operation.name().toLowerCase(Locale.ROOT));
     json.addProperty("amount", amount);
     JsonArray array = new JsonArray();
@@ -87,7 +87,7 @@ public class ModifierAttribute {
   /** Parses the modifier attribute from JSON */
   public static ModifierAttribute fromJson(JsonObject json) {
     String unique = GsonHelper.getAsString(json, "unique");
-    Attribute attribute = JsonUtils.getAsEntry(ForgeRegistries.ATTRIBUTES, json, "attribute");
+    Attribute attribute = JsonUtils.getAsEntry(Registry.ATTRIBUTE, json, "attribute");
     Operation op = JsonUtils.getAsEnum(json, "operation", Operation.class);
     float amount = GsonHelper.getAsFloat(json, "amount");
     List<EquipmentSlot> slots = JsonHelper.parseList(json, "slots", (element, string) -> EquipmentSlot.byName(GsonHelper.convertToString(element, string)));
@@ -97,7 +97,7 @@ public class ModifierAttribute {
   /** Writes this to the network */
   public void toNetwork(FriendlyByteBuf buffer) {
     buffer.writeUtf(name);
-    buffer.writeRegistryIdUnsafe(ForgeRegistries.ATTRIBUTES, attribute);
+    buffer.writeResourceLocation(Registry.ATTRIBUTE.getKey(attribute));
     buffer.writeEnum(operation);
     buffer.writeFloat(amount);
     int packed = 0;
@@ -112,7 +112,7 @@ public class ModifierAttribute {
   /** Reads this from the network */
   public static ModifierAttribute fromNetwork(FriendlyByteBuf buffer) {
     String name = buffer.readUtf(Short.MAX_VALUE);
-    Attribute attribute = buffer.readRegistryIdUnsafe(ForgeRegistries.ATTRIBUTES);
+    Attribute attribute = Registry.ATTRIBUTE.get(buffer.readResourceLocation());
     Operation operation = buffer.readEnum(Operation.class);
     float amount = buffer.readFloat();
     int packed = buffer.readInt();

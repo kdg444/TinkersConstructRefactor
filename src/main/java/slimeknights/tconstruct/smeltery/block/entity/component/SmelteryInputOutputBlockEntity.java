@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtilForge;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTransferable;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemTransferable;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
@@ -79,7 +79,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
    * @return  Capability from parent, or empty if absent
    */
   protected LazyOptional<T> getCapability(BlockEntity parent) {
-    LazyOptional<T> handler = (LazyOptional<T>) TransferUtil.getHandler(parent, null, capability); // TODO: PORT this shouldnt need to be casted?
+    LazyOptional<T> handler = (LazyOptional<T>) TransferUtilForge.getHandler(parent, null, capability); // TODO: PORT this shouldnt need to be casted?
     if (handler.isPresent()) {
       handler.addListener(listener);
 

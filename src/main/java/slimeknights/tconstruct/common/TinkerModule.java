@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.common;
 
+import io.github.fabricators_of_create.porting_lib.util.LazyRegistrar;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.BlockItem;
@@ -61,24 +63,24 @@ public abstract class TinkerModule {
   protected static final ItemDeferredRegisterExtension ITEMS = new ItemDeferredRegisterExtension(TConstruct.MOD_ID);
   protected static final ItemDeferredRegisterExtension ITEMS_DEFFERED = new ItemDeferredRegisterExtension(TConstruct.MOD_ID);
   protected static final FluidDeferredRegister FLUIDS = new FluidDeferredRegister(TConstruct.MOD_ID);
-  protected static final LazyRegistrar<MobEffect> MOB_EFFECTS = LazyRegistrar.create(ForgeRegistries.MOB_EFFECTS, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<ParticleType<?>> PARTICLE_TYPES = LazyRegistrar.create(ForgeRegistries.PARTICLE_TYPES, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<MobEffect> MOB_EFFECTS = LazyRegistrar.create(Registry.MOB_EFFECT, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<ParticleType<?>> PARTICLE_TYPES = LazyRegistrar.create(Registry.PARTICLE_TYPE, TConstruct.MOD_ID);
   protected static final ModifierDeferredRegister MODIFIERS = ModifierDeferredRegister.create(TConstruct.MOD_ID);
   // gameplay instances
   protected static final BlockEntityTypeDeferredRegister BLOCK_ENTITIES = new BlockEntityTypeDeferredRegister(TConstruct.MOD_ID);
   protected static final EntityTypeDeferredRegister ENTITIES = new EntityTypeDeferredRegister(TConstruct.MOD_ID);
   protected static final MenuTypeDeferredRegister MENUS = new MenuTypeDeferredRegister(TConstruct.MOD_ID);
   // datapacks
-  protected static final LazyRegistrar<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<GlobalLootModifierSerializer<?>> GLOBAL_LOOT_MODIFIERS = DeferredRegister.create(Keys.LOOT_MODIFIER_SERIALIZERS, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<RecipeSerializer<?>> RECIPE_SERIALIZERS = LazyRegistrar.create(Registry.RECIPE_SERIALIZER, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<GlobalLootModifierSerializer<?>> GLOBAL_LOOT_MODIFIERS = LazyRegistrar.create(Keys.LOOT_MODIFIER_SERIALIZERS, TConstruct.MOD_ID);
   // worldgen
-  protected static final LazyRegistrar<Feature<?>> FEATURES = LazyRegistrar.create(ForgeRegistries.FEATURES, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<Feature<?>> FEATURES = LazyRegistrar.create(Registry.FEATURE, TConstruct.MOD_ID);
   protected static final ConfiguredFeatureDeferredRegister CONFIGURED_FEATURES = new ConfiguredFeatureDeferredRegister(TConstruct.MOD_ID);
   protected static final PlacedFeatureDeferredRegister PLACED_FEATURES = new PlacedFeatureDeferredRegister(TConstruct.MOD_ID);
-  protected static final LazyRegistrar<StructureFeature<?>> STRUCTURE_FEATURES = LazyRegistrar.create(ForgeRegistries.STRUCTURE_FEATURES, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<ConfiguredStructureFeature<?,?>> CONFIGURED_STRUCTURE_FEATURES = LazyRegistrar.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<StructurePieceType> STRUCTURE_PIECE = LazyRegistrar.create(Registry.STRUCTURE_PIECE_REGISTRY, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<BlockStateProviderType<?>> BLOCK_STATE_PROVIDER_TYPES = LazyRegistrar.create(ForgeRegistries.BLOCK_STATE_PROVIDER_TYPES, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<StructureFeature<?>> STRUCTURE_FEATURES = LazyRegistrar.create(Registry.STRUCTURE_FEATURE, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<ConfiguredStructureFeature<?,?>> CONFIGURED_STRUCTURE_FEATURES = LazyRegistrar.create(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<StructurePieceType> STRUCTURE_PIECE = LazyRegistrar.create(Registry.STRUCTURE_PIECE, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<BlockStateProviderType<?>> BLOCK_STATE_PROVIDER_TYPES = LazyRegistrar.create(Registry.BLOCKSTATE_PROVIDER_TYPES, TConstruct.MOD_ID);
 
 
   /** Creative tab for items that do not fit in another tab */

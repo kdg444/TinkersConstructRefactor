@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.traits.harvest;
 
 import net.minecraft.core.Direction;
-import io.github.fabricators_of_create.porting_lib.event.PlayerBreakSpeedCallback.BreakSpeed;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
 import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 

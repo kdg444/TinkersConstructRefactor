@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.common.registration;
 
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.GeodeConfiguration;
@@ -11,7 +13,6 @@ import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
-import net.minecraftforge.registries.RegistryObject;
 import slimeknights.mantle.registration.deferred.DeferredRegisterWrapper;
 
 import java.util.Arrays;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class PlacedFeatureDeferredRegister extends DeferredRegisterWrapper<PlacedFeature> {
   public PlacedFeatureDeferredRegister(String modID) {
-    super(Registry.PLACED_FEATURE_REGISTRY, modID);
+    super(BuiltinRegistries.PLACED_FEATURE, modID);
   }
 
   /**

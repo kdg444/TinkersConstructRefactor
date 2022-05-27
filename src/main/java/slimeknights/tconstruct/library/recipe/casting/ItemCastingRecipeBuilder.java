@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.recipe.casting;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -14,7 +14,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
@@ -103,7 +102,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @param amount  amount of fluid
    * @return  Builder instance
    */
-  public ItemCastingRecipeBuilder setFluid(TagKey<Fluid> tagIn, int amount) {
+  public ItemCastingRecipeBuilder setFluid(TagKey<Fluid> tagIn, long amount) {
     return this.setFluid(FluidIngredient.of(tagIn, amount));
   }
 
@@ -122,7 +121,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @param temperature  Recipe temperature
    * @param amount       Recipe amount
    */
-  public ItemCastingRecipeBuilder setCoolingTime(int temperature, int amount) {
+  public ItemCastingRecipeBuilder setCoolingTime(int temperature, long amount) {
     return setCoolingTime(ICastingRecipe.calcCoolingTime(temperature, amount));
   }
 
@@ -145,7 +144,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @param temperature  fluid temperature
    * @param amount       amount of fluid
    */
-  public ItemCastingRecipeBuilder setFluidAndTime(int temperature, TagKey<Fluid> tagIn, int amount) {
+  public ItemCastingRecipeBuilder setFluidAndTime(int temperature, TagKey<Fluid> tagIn, long amount) {
     setFluid(tagIn, amount);
     setCoolingTime(temperature, amount);
     return this;
@@ -157,7 +156,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @param tag          Tag<Fluid> instance
    * @param amount       amount of fluid
    */
-  public ItemCastingRecipeBuilder setFluidAndTime(Fluid fluid, TagKey<Fluid> tag, int amount) {
+  public ItemCastingRecipeBuilder setFluidAndTime(Fluid fluid, TagKey<Fluid> tag, long amount) {
     return setFluidAndTime(fluid.getAttributes().getTemperature() - 300, tag, amount);
   }
 
@@ -167,7 +166,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @param forgeTag   If true, uses the forge tag
    * @param amount     amount of fluid
    */
-  public ItemCastingRecipeBuilder setFluidAndTime(FluidObject<?> fluid, boolean forgeTag, int amount) {
+  public ItemCastingRecipeBuilder setFluidAndTime(FluidObject<?> fluid, boolean forgeTag, long amount) {
     return setFluidAndTime(fluid.get(), forgeTag ? fluid.getForgeTag() : fluid.getLocalTag(), amount);
   }
 

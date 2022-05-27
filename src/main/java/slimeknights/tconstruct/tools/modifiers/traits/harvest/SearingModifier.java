@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.harvest;
 
-import io.github.fabricators_of_create.porting_lib.event.PlayerBreakSpeedCallback;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.Direction;

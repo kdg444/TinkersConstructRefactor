@@ -400,7 +400,7 @@ public final class TinkerWorld extends TinkerModule {
       // vines
       fireblock.setFlammable(skySlimeVine.get(), 15, 100);
       fireblock.setFlammable(enderSlimeVine.get(), 15, 100);
-    });
+//    });
   }
 
 //  @SubscribeEvent

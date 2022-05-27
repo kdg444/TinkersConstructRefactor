@@ -13,9 +13,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtilForge;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.EmptyFluidHandler;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTransferable;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
@@ -129,7 +129,7 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 		// must have a TE with a fluid handler
 		BlockEntity te = level.getBlockEntity(worldPosition.relative(side));
 		if (te != null) {
-			LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(te, side.getOpposite());
+			LazyOptional<IFluidHandler> handler = TransferUtilForge.getFluidHandler(te, side.getOpposite());
 			if (handler.isPresent()) {
 				handler.addListener(neighborConsumers.computeIfAbsent(side, s -> new WeakConsumerWrapper<>(this, (self, lazy) -> self.invalidateSide(s, lazy))));
 				return handler;

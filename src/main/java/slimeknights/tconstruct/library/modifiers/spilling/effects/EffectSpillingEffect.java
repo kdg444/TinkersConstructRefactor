@@ -4,13 +4,13 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSyntaxException;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.spilling.ISpillingEffect;
@@ -42,7 +42,7 @@ public record EffectSpillingEffect(MobEffect effect, int time, int level) implem
   @Override
   public JsonObject serialize(JsonSerializationContext context) {
     JsonObject json = JsonUtils.withType(ID);
-    json.addProperty("name", Objects.requireNonNull(effect.getRegistryName()).toString());
+    json.addProperty("name", Objects.requireNonNull(Registry.MOB_EFFECT.getKey(effect)).toString());
     json.addProperty("time", time);
     json.addProperty("level", level);
     return json;
@@ -51,10 +51,10 @@ public record EffectSpillingEffect(MobEffect effect, int time, int level) implem
   public static final JsonDeserializer<EffectSpillingEffect> LOADER = (element, type, context) -> {
     JsonObject json = element.getAsJsonObject();
     ResourceLocation id = JsonHelper.getResourceLocation(json, "name");
-    if (!ForgeRegistries.MOB_EFFECTS.containsKey(id)) {
+    if (!Registry.MOB_EFFECT.containsKey(id)) {
       throw new JsonSyntaxException("Unknown effect " + id);
     }
-    MobEffect effect = Objects.requireNonNull(ForgeRegistries.MOB_EFFECTS.getValue(id));
+    MobEffect effect = Objects.requireNonNull(Registry.MOB_EFFECT.get(id));
     int time = GsonHelper.getAsInt(json, "time");
     int level = GsonHelper.getAsInt(json, "level", 1);
     return new EffectSpillingEffect(effect, time, level);

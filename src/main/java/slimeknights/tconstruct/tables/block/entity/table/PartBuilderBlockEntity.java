@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tables.block.entity.table;
 
-import io.github.fabricators_of_create.porting_lib.event.ItemCraftedCallback;
+import io.github.fabricators_of_create.porting_lib.event.common.ItemCraftedCallback;
 import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.RecipeManagerAccessor;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
@@ -245,7 +245,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
         setItem(slot, container);
       } else {
         stack.shrink(amount);
-        ItemHandlerHelper.giveItemToPlayer(player, container);
+        player.getInventory().placeItemBackInInventory(container);
       }
     }
   }
@@ -269,7 +269,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
     // give the player any leftovers
     ItemStack leftover = recipe.getLeftover(inventoryWrapper);
     if (!leftover.isEmpty()) {
-      ItemHandlerHelper.giveItemToPlayer(player, leftover);
+      player.getInventory().placeItemBackInInventory(leftover);
     }
 
     // shrink the inputs

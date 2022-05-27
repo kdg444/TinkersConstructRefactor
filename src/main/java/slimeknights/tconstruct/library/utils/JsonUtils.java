@@ -9,7 +9,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.players.PlayerList;
 import net.minecraft.util.GsonHelper;
+import slimeknights.mantle.network.packet.ISimplePacket;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -169,14 +171,13 @@ public class JsonUtils {
   }
 
   /** Called when the player logs in to send packets */
-  public static void syncPackets(OnDatapackSyncEvent event, ISimplePacket... packets) {
+  public static void syncPackets(PlayerList playerList, @Nullable ServerPlayer targetedPlayer, ISimplePacket... packets) {
     // send to single player
-    ServerPlayer targetedPlayer = event.getPlayer();
     if (targetedPlayer != null) {
       sendPackets(targetedPlayer, packets);
     } else {
       // send to all players
-      for (ServerPlayer player : event.getPlayerList().getPlayers()) {
+      for (ServerPlayer player :playerList.getPlayers()) {
         sendPackets(player, packets);
       }
     }

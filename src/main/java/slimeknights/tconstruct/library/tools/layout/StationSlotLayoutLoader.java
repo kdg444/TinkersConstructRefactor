@@ -10,20 +10,21 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import io.github.fabricators_of_create.porting_lib.event.common.OnDatapackSyncCallback;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.ServerResources;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Ingredient;
-import io.github.fabricators_of_create.porting_lib.event.DataPackReloadCallback;
-import io.github.fabricators_of_create.porting_lib.event.OnDatapackSyncCallback;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
 
@@ -43,7 +44,7 @@ import java.util.stream.Collectors;
  * Loader for tinker station slot layouts, loaded serverside as that makes it eaiser to modify with recipes and the filters are needed both sides
  */
 @Log4j2
-public class StationSlotLayoutLoader extends SimpleJsonResourceReloadListener {
+public class StationSlotLayoutLoader extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloadListener {
   public static final String FOLDER = "tinkering/station_layouts";
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeHierarchyAdapter(Ingredient.class, new IngredientSerializer())
@@ -133,8 +134,8 @@ public class StationSlotLayoutLoader extends SimpleJsonResourceReloadListener {
   }
 
   /** Adds the managers as datapack listeners */
-  private List<PreparableReloadListener> addDataPackListeners(final ServerResources event) {
-    return List.of(this);
+  private void addDataPackListeners() {
+    ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(this);
   }
 
 
@@ -147,8 +148,13 @@ public class StationSlotLayoutLoader extends SimpleJsonResourceReloadListener {
 
   /** Initializes the tool definition loader */
   public static void init() {
-    DataPackReloadCallback.EVENT.register(INSTANCE::addDataPackListeners);
+    INSTANCE.addDataPackListeners();
     OnDatapackSyncCallback.EVENT.register(INSTANCE::onDatapackSync);
+  }
+
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("station_slot_layout_loader");
   }
 
   /** GSON serializer for ingredients */

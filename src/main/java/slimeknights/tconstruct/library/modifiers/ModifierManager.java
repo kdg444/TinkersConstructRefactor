@@ -6,29 +6,27 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
+import io.github.fabricators_of_create.porting_lib.event.BaseEvent;
+import io.github.fabricators_of_create.porting_lib.event.common.OnDatapackSyncCallback;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.ICondition.IContext;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.OnDatapackSyncEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModLoader;
-import net.minecraftforge.fml.event.IModBusEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import slimeknights.mantle.data.GenericLoaderRegistry;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -46,7 +44,7 @@ import java.util.stream.Stream;
 
 /** Modifier registry and JSON loader */
 @Log4j2
-public class ModifierManager extends SimpleJsonResourceReloadListener {
+public class ModifierManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloadListener {
   public static final String FOLDER = "tinkering/modifiers";
   public static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
 
@@ -76,7 +74,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
   /** If true, dynamic modifiers have been loaded from datapacks, so its safe to fetch dynamic modifiers */
   @Getter
   boolean dynamicModifiersLoaded = false;
-  private IContext conditionContext = IContext.EMPTY;
+//  private IContext conditionContext = IContext.EMPTY;
 
   private ModifierManager() {
     super(GSON, FOLDER);
@@ -89,21 +87,21 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
   /** For internal use only */
   @Deprecated
   public void init() {
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, FMLCommonSetupEvent.class, e -> e.enqueueWork(this::fireRegistryEvent));
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, AddReloadListenerEvent.class, this::addDataPackListeners);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, OnDatapackSyncEvent.class, e -> JsonUtils.syncPackets(e, new UpdateModifiersPacket(this.dynamicModifiers)));
+//    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, FMLCommonSetupEvent.class, e -> e.enqueueWork(this::fireRegistryEvent));
+    this.addDataPackListeners();
+    OnDatapackSyncCallback.EVENT.register((playerList, player) -> JsonUtils.syncPackets(playerList, player, new UpdateModifiersPacket(this.dynamicModifiers)));
   }
 
   /** Fires the modifier registry event */
   private void fireRegistryEvent() {
-    ModLoader.get().runEventGenerator(ModifierRegistrationEvent::new);
+//    ModLoader.get().runEventGenerator(ModifierRegistrationEvent::new); TODO: PORT
     modifiersRegistered = true;
   }
 
   /** Adds the managers as datapack listeners */
-  private void addDataPackListeners(final AddReloadListenerEvent event) {
-    event.addListener(this);
-    conditionContext = event.getConditionContext();
+  private void addDataPackListeners() {
+    ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(this);
+//    conditionContext = event.getConditionContext();
   }
 
   @Override
@@ -145,7 +143,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
     dynamicModifiersLoaded = true;
     log.info("Loaded {} dynamic modifiers and {} modifier redirects in {} ms", modifierSize, redirects.size(), (System.nanoTime() - time) / 1000000f);
 
-    MinecraftForge.EVENT_BUS.post(new ModifiersLoadedEvent());
+    new ModifiersLoadedEvent().sendEvent();
   }
 
   /** Loads a modifier from JSON */
@@ -157,8 +155,8 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
       // processed first so a modifier can both conditionally redirect and fallback to a conditional modifier
       if (json.has("redirects")) {
         for (JsonRedirect redirect : JsonHelper.parseList(json, "redirects", JsonRedirect::fromJson)) {
-          ICondition redirectCondition = redirect.getCondition();
-          if (redirectCondition == null || redirectCondition.test(conditionContext)) {
+          ConditionJsonProvider redirectCondition = redirect.getCondition();
+          if (redirectCondition == null || ResourceConditions.get(redirectCondition.getConditionId()).test(json)) {
             ModifierId redirectTarget = new ModifierId(redirect.getId());
             log.debug("Redirecting modifier {} to {}", key, redirectTarget);
             redirects.put(new ModifierId(key), redirectTarget);
@@ -168,7 +166,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
       }
 
       // conditions
-      if (json.has("condition") && !CraftingHelper.getCondition(GsonHelper.getAsJsonObject(json, "condition")).test(conditionContext)) {
+      if (json.has("condition") && !CraftingHelper.getCondition(GsonHelper.getAsJsonObject(json, "condition")).test(json)) {
         return null;
       }
 
@@ -186,7 +184,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
   void updateModifiersFromServer(Map<ModifierId,Modifier> modifiers) {
     this.dynamicModifiers = modifiers;
     this.dynamicModifiersLoaded = true;
-    MinecraftForge.EVENT_BUS.post(new ModifiersLoadedEvent());
+    new ModifiersLoadedEvent().sendEvent();
   }
 
 
@@ -278,12 +276,23 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
     buffer.writeUtf(modifier.getId().toString());
   }
 
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("modifier_manager");
+  }
+
 
   /* Events */
 
   /** Event for registering modifiers */
   @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-  public class ModifierRegistrationEvent extends Event implements IModBusEvent {
+  public class ModifierRegistrationEvent extends BaseEvent {
+
+    public static Event<ModifierRegistrationCallback> EVENT = EventFactory.createArrayBacked(ModifierRegistrationCallback.class, callbacks -> event -> {
+      for (ModifierRegistrationCallback e : callbacks)
+        e.onRegistration(event);
+    });
+
     /** Container receiving this event */
     private final ModContainer container;
 
@@ -291,7 +300,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
     private void checkModNamespace(ResourceLocation name) {
       // check mod container, should be the active mod
       // don't want mods registering stuff in Tinkers namespace, or Minecraft
-      String activeMod = container.getNamespace();
+      String activeMod = container.getMetadata().getId();
       if (!name.getNamespace().equals(activeMod)) {
         TConstruct.LOG.warn("Potentially Dangerous alternative prefix for name `{}`, expected `{}`. This could be a intended override, but in most cases indicates a broken mod.", name, activeMod);
       }
@@ -337,10 +346,34 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
         throw new IllegalArgumentException("Attempting to register a duplicate expected modifier, this is not supported. Original value " + existing);
       }
     }
+
+    @Override
+    public void sendEvent() {
+      EVENT.invoker().onRegistration(this);
+    }
+  }
+
+  public interface ModifierRegistrationCallback {
+    void onRegistration(ModifierRegistrationEvent event);
   }
 
   /** Event fired when modifiers reload */
-  public static class ModifiersLoadedEvent extends Event {}
+  public static class ModifiersLoadedEvent extends BaseEvent {
+
+    public static Event<ModifiersLoadedCallback> EVENT = EventFactory.createArrayBacked(ModifiersLoadedCallback.class, callbacks -> event -> {
+      for (ModifiersLoadedCallback e : callbacks)
+        e.onLoaded(event);
+    });
+
+    @Override
+    public void sendEvent() {
+      EVENT.invoker().onLoaded(this);
+    }
+  }
+
+  public interface ModifiersLoadedCallback {
+    void onLoaded(ModifiersLoadedEvent event);
+  }
 
   /** Class for the empty modifier instance, mods should not need to extend this class */
   private static class EmptyModifier extends Modifier {

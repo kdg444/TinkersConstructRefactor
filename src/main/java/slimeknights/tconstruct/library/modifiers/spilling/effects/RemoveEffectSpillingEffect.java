@@ -3,11 +3,11 @@ package slimeknights.tconstruct.library.modifiers.spilling.effects;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.spilling.ISpillingEffect;
 import slimeknights.tconstruct.library.tools.context.ToolAttackContext;
@@ -30,11 +30,11 @@ public record RemoveEffectSpillingEffect(MobEffect effect) implements ISpillingE
   @Override
   public JsonObject serialize(JsonSerializationContext context) {
     JsonObject json = JsonUtils.withType(ID);
-    json.addProperty("effect", Objects.requireNonNull(effect.getRegistryName()).toString());
+    json.addProperty("effect", Objects.requireNonNull(Registry.MOB_EFFECT.getKey(effect)).toString());
     return json;
   }
 
   /** Loader instance */
   public static final JsonDeserializer<RemoveEffectSpillingEffect> LOADER = (json, typeOfT, context) ->
-    new RemoveEffectSpillingEffect(JsonUtils.getAsEntry(ForgeRegistries.MOB_EFFECTS, json.getAsJsonObject(), "effect"));
+    new RemoveEffectSpillingEffect(JsonUtils.getAsEntry(Registry.MOB_EFFECT, json.getAsJsonObject(), "effect"));
 }

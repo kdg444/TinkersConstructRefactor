@@ -1,7 +1,5 @@
 package slimeknights.tconstruct.library.modifiers.util;
 
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.EventPriority;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.library.modifiers.ModifierManager;
@@ -80,6 +78,6 @@ public class DynamicModifier<T> extends LazyModifier {
 
   /** Registers event listeners with the forge event bus */
   public static void init() {
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, ModifiersLoadedEvent.class, e -> INVALIDATION_COUNTER.incrementAndGet());
+    ModifiersLoadedEvent.EVENT.register(e -> INVALIDATION_COUNTER.incrementAndGet());
   }
 }

@@ -10,22 +10,19 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import io.github.fabricators_of_create.porting_lib.event.common.OnDatapackSyncCallback;
+import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import lombok.extern.log4j.Log4j2;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.ServerResources;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
-import io.github.fabricators_of_create.porting_lib.event.DataPackReloadCallback;
-import io.github.fabricators_of_create.porting_lib.event.OnDatapackSyncCallback;
-import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -40,7 +37,6 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -140,11 +136,6 @@ public class ToolDefinitionLoader extends SimpleJsonResourceReloadListener imple
   private void onDatapackSync(PlayerList playerList, @Nullable ServerPlayer player) {
     UpdateToolDefinitionDataPacket packet = new UpdateToolDefinitionDataPacket(dataMap);
     TinkerNetwork.getInstance().sendToPlayerList(player, playerList, packet);
-  }
-
-  /** Adds the managers as datapack listeners */
-  private List<PreparableReloadListener> addDataPackListeners(final ServerResources event) {
-    return List.of(this);
   }
 
   /** Registers a tool definition with the loader */

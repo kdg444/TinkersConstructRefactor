@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import slimeknights.mantle.inventory.SmartItemHandlerSlot;
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtilForge;
 import slimeknights.tconstruct.shared.inventory.TriggeringBaseContainerMenu;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
@@ -17,7 +17,7 @@ public class SingleItemContainerMenu extends TriggeringBaseContainerMenu<BlockEn
   public SingleItemContainerMenu(int id, @Nullable Inventory inv, @Nullable BlockEntity te) {
     super(TinkerSmeltery.singleItemContainer.get(), id, inv, te);
     if (te != null) {
-      TransferUtil.getItemHandler(te)
+      TransferUtilForge.getItemHandler(te)
         .ifPresent(handler -> this.addSlot(new SmartItemHandlerSlot(handler, 0, 80, 20)));
       this.addInventorySlots();
     }

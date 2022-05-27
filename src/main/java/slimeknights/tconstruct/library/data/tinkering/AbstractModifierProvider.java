@@ -2,11 +2,11 @@ package slimeknights.tconstruct.library.data.tinkering;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import net.minecraft.server.packs.PackType;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.conditions.ICondition;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.library.json.JsonRedirect;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -33,7 +33,7 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
   protected abstract void addModifiers();
 
   /** Adds a modifier to be saved */
-  protected void addModifier(ModifierId id, @Nullable ICondition condition, @Nullable Modifier result, JsonRedirect... redirects) {
+  protected void addModifier(ModifierId id, @Nullable ConditionJsonProvider condition, @Nullable Modifier result, JsonRedirect... redirects) {
     if (result == null && redirects.length == 0) {
       throw new IllegalArgumentException("Must hae either a modifier or a redirect");
     }
@@ -53,7 +53,7 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
   }
 
   /** Adds a modifier to be saved */
-  protected void addModifier(DynamicModifier<?> id, @Nullable ICondition condition, @Nullable Modifier result, JsonRedirect... redirects) {
+  protected void addModifier(DynamicModifier<?> id, @Nullable ConditionJsonProvider condition, @Nullable Modifier result, JsonRedirect... redirects) {
     addModifier(id.getId(), condition, result, redirects);
   }
 
@@ -71,7 +71,7 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
   /* Redirect helpers */
 
   /** Makes a conditional redirect to the given ID */
-  protected JsonRedirect conditionalRedirect(ModifierId id, @Nullable ICondition condition) {
+  protected JsonRedirect conditionalRedirect(ModifierId id, @Nullable ConditionJsonProvider condition) {
     return new JsonRedirect(id, condition);
   }
 
@@ -102,11 +102,11 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
       json.add("redirects", array);
     }
     if (result.condition != null) {
-      json.add("condition", CraftingHelper.serialize(result.condition));
+      json.add(ResourceConditions.CONDITIONS_KEY, result.condition.toJson());
     }
     return json;
   }
 
   /** Result record, as its nicer than a pair */
-  private record Result(@Nullable Modifier modifier, @Nullable ICondition condition, JsonRedirect[] redirects) {}
+  private record Result(@Nullable Modifier modifier, @Nullable ConditionJsonProvider condition, JsonRedirect[] redirects) {}
 }

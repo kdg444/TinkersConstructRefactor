@@ -22,7 +22,7 @@
 //import net.minecraft.network.chat.Component;
 //import net.minecraft.network.chat.TranslatableComponent;
 //import net.minecraft.resources.ResourceLocation;
-//import net.minecraftforge.fluids.FluidStack;
+//import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 //import slimeknights.tconstruct.TConstruct;
 //import slimeknights.tconstruct.library.client.GuiUtil;
 //import slimeknights.tconstruct.library.fluid.FluidTooltipHandler;

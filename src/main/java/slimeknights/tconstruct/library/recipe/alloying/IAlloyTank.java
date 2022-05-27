@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.recipe.alloying;
 
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.recipe.container.IEmptyContainer;
 
 /**

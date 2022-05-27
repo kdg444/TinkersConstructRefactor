@@ -5,20 +5,21 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
+import io.github.fabricators_of_create.porting_lib.event.common.OnDatapackSyncCallback;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.OnDatapackSyncEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.data.GenericRegisteredSerializer;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.utils.JsonUtils;
 
 import javax.annotation.Nullable;
@@ -31,7 +32,7 @@ import java.util.function.Consumer;
 
 /** Logic for filling and emptying fluid containers that are not fluid handlers */
 @Log4j2
-public class FluidContainerTransferManager extends SimpleJsonResourceReloadListener {
+public class FluidContainerTransferManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloadListener {
   /** Map of all modifier types that are expected to load in datapacks */
   public static final GenericRegisteredSerializer<IFluidContainerTransfer> TRANSFER_LOADERS = new GenericRegisteredSerializer<>();
   /** Folder for saving the logic */
@@ -73,8 +74,8 @@ public class FluidContainerTransferManager extends SimpleJsonResourceReloadListe
   /** For internal use only */
   @Deprecated
   public void init() {
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, AddReloadListenerEvent.class, e -> e.addListener(this));
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, OnDatapackSyncEvent.class, e -> JsonUtils.syncPackets(e, new FluidContainerTransferPacket(this.getContainerItems())));
+    ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(this);
+    OnDatapackSyncCallback.EVENT.register((playerList, player) -> JsonUtils.syncPackets(playerList, player, new FluidContainerTransferPacket(this.getContainerItems())));
   }
 
   /** Loads transfer from JSON */
@@ -117,5 +118,10 @@ public class FluidContainerTransferManager extends SimpleJsonResourceReloadListe
       }
     }
     return null;
+  }
+
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("fluid_container_transfer_manager");
   }
 }

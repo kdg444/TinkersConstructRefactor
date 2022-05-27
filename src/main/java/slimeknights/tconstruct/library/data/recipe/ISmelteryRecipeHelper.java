@@ -1,5 +1,9 @@
 package slimeknights.tconstruct.library.data.recipe;
 
+import io.github.fabricators_of_create.porting_lib.crafting.CompoundIngredient;
+import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
+import io.github.fabricators_of_create.porting_lib.crafting.IntersectionIngredient;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import me.alphamode.forgetags.Tags;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -8,13 +12,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.CompoundIngredient;
-import net.minecraftforge.common.crafting.ConditionalRecipe;
-import net.minecraftforge.common.crafting.DifferenceIngredient;
-import net.minecraftforge.common.crafting.IntersectionIngredient;
-import net.minecraftforge.common.crafting.conditions.TrueCondition;
-import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.mantle.registration.object.MetalItemObject;
@@ -226,7 +223,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param output    Recipe output
    * @param location  Recipe base
    */
-  default void castingWithCast(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, boolean forgeTag, int amount, CastItemObject cast, ItemOutput output, String location) {
+  default void castingWithCast(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, boolean forgeTag, long amount, CastItemObject cast, ItemOutput output, String location) {
     ItemCastingRecipeBuilder.tableRecipe(output)
                             .setFluidAndTime(fluid, forgeTag, amount)
                             .setCast(cast.getMultiUseTag(), false)
@@ -246,7 +243,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param output    Recipe output
    * @param location  Recipe base
    */
-  default void castingWithCast(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, int amount, CastItemObject cast, ItemOutput output, String location) {
+  default void castingWithCast(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, long amount, CastItemObject cast, ItemOutput output, String location) {
     castingWithCast(consumer, fluid, false, amount, cast, output, location);
   }
 
@@ -260,7 +257,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param output    Recipe output
    * @param location  Recipe base
    */
-  default void castingWithCast(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, boolean forgeTag, int amount, CastItemObject cast, ItemLike output, String location) {
+  default void castingWithCast(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, boolean forgeTag, long amount, CastItemObject cast, ItemLike output, String location) {
     castingWithCast(consumer, fluid, forgeTag, amount, cast, ItemOutput.fromItem(output), location);
   }
 
@@ -273,7 +270,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param output    Recipe output
    * @param location  Recipe base
    */
-  default void castingWithCast(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, int amount, CastItemObject cast, ItemLike output, String location) {
+  default void castingWithCast(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, long amount, CastItemObject cast, ItemLike output, String location) {
     castingWithCast(consumer, fluid, amount, cast, ItemOutput.fromItem(output), location);
   }
 

@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.logic;
 
 import com.google.common.collect.Multiset;
-import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,7 +33,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.apache.logging.log4j.core.Filter.Result;
 import org.jetbrains.annotations.Nullable;
-import io.github.fabricators_of_create.porting_lib.event.PlayerBreakSpeedCallback;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.events.TinkerToolEvent.ToolHarvestEvent;

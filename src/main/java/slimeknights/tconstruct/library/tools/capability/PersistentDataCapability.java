@@ -15,7 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.player.Player;
-import io.github.fabricators_of_create.porting_lib.event.EntityEvents;
+import io.github.fabricators_of_create.porting_lib.event.common.EntityEvents;
 import io.github.fabricators_of_create.porting_lib.util.Lazy;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import slimeknights.tconstruct.TConstruct;

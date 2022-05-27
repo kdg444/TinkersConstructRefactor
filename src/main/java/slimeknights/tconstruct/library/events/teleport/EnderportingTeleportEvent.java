@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.events.teleport;
 
-import io.github.fabricators_of_create.porting_lib.event.EntityEvents;
+import io.github.fabricators_of_create.porting_lib.event.common.EntityEvents;
 import net.minecraft.world.entity.LivingEntity;
 
 /** Event fired when an entity teleports using the enderporting modifier */

@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.world;
 
-import io.github.fabricators_of_create.porting_lib.biomee.BiomeDictionary;
-import io.github.fabricators_of_create.porting_lib.biomee.BiomeDictionary.Type;
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -16,9 +15,7 @@ import net.minecraft.world.level.levelgen.structure.StructureSpawnOverride;
 import net.minecraft.world.level.levelgen.structure.StructureSpawnOverride.BoundingBoxType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType.StructureTemplateType;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.Logger;
-import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.utils.Util;

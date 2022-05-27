@@ -5,13 +5,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.client.model.fluid.FluidCuboid;
 import slimeknights.mantle.client.render.FluidRenderer;
 import slimeknights.mantle.client.render.MantleRenderTypes;
@@ -64,10 +65,10 @@ public final class RenderUtils {
       return;
     }
 
-    FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
+    FluidAttributes attributes = fluid.getFluid().getAttributes();
     TextureAtlasSprite still = FluidRenderer.getBlockSprite(attributes.getStillTexture());
     TextureAtlasSprite flowing = FluidRenderer.getBlockSprite(attributes.getFlowingTexture());
-    boolean isGas = FluidVariantRendering.fillsFromTop(fluid.getType());
+    boolean isGas = FluidVariantAttributes.isLighterThanAir(fluid.getType());
     light = FluidRenderer.withBlockLight(light, attributes.getLuminosity(fluid));
 
     // add in fluid opacity if given

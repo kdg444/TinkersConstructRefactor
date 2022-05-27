@@ -59,7 +59,7 @@ import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import io.github.fabricators_of_create.porting_lib.model.IModelConfiguration;
 import io.github.fabricators_of_create.porting_lib.model.IModelGeometry;
 import io.github.fabricators_of_create.porting_lib.model.IModelLoader;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.smeltery.item.CopperCanItem;

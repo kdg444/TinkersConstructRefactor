@@ -1,8 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityUseItemEvents;
-import io.github.fabricators_of_create.porting_lib.extensions.MobEffectInstanceExtensions;
-import io.github.fabricators_of_create.porting_lib.util.PotionHelper;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
@@ -13,7 +11,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
 import slimeknights.tconstruct.library.modifiers.spilling.ISpillingEffect;

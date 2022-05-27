@@ -1,11 +1,10 @@
 package slimeknights.tconstruct.library.recipe;
 
+import io.github.fabricators_of_create.porting_lib.util.LazyRegistrar;
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
 import slimeknights.tconstruct.library.recipe.casting.ICastingRecipe;
@@ -23,7 +22,7 @@ import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe
  */
 public class TinkerRecipeTypes {
   /** Deferred instance */
-  private static final DeferredRegister<RecipeType<?>> TYPES = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, TConstruct.MOD_ID);
+  private static final LazyRegistrar<RecipeType<?>> TYPES = LazyRegistrar.create(Registry.RECIPE_TYPE, TConstruct.MOD_ID);
 
   public static final RegistryObject<RecipeType<IPartBuilderRecipe>> PART_BUILDER = register("part_builder");
   public static final RegistryObject<RecipeType<MaterialRecipe>> MATERIAL = register("material");
@@ -48,8 +47,8 @@ public class TinkerRecipeTypes {
   public static final RegistryObject<RecipeType<Recipe<?>>> DATA = register("data");
 
   /** Initializes the deferred register */
-  public static void init(IEventBus bus) {
-    TYPES.register(bus);
+  public static void init() {
+    TYPES.register();
   }
 
   /**

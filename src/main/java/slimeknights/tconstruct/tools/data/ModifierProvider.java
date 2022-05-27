@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.tools.data;
 
+import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
+import me.alphamode.forgetags.Tags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -10,8 +12,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.Tags;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.data.tinkering.AbstractModifierProvider;
@@ -101,7 +101,7 @@ public class ModifierProvider extends AbstractModifierProvider {
     addModifier(ModifierIds.worldbound, StatBoostModifier.builder().addFlag(IModifiable.INDESTRUCTIBLE_ENTITY).rarity(Rarity.UNCOMMON).display(ModifierLevelDisplay.NO_LEVELS).build());
     addModifier(ModifierIds.shiny,      StatBoostModifier.builder().addFlag(IModifiable.SHINY).rarity(Rarity.EPIC).display(ModifierLevelDisplay.NO_LEVELS).build());
     // general abilities
-    addModifier(ModifierIds.reach, StatBoostModifier.builder().attribute("tconstruct.modifier.reach", ForgeMod.REACH_DISTANCE.get(), Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET).build());
+    addModifier(ModifierIds.reach, StatBoostModifier.builder().attribute("tconstruct.modifier.reach", ReachEntityAttributes.REACH, Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET).build());
 
     // loot
     addModifier(TinkerModifiers.silky, new LootModifier(Enchantments.SILK_TOUCH, 1, ModifierLevelDisplay.NO_LEVELS));

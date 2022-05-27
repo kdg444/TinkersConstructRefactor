@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.modifiers.dynamic;
 
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.GsonHelper;
@@ -10,7 +11,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.tconstruct.library.json.predicate.IJsonPredicate;
 import slimeknights.tconstruct.library.json.predicate.entity.LivingEntityPredicate;
@@ -88,7 +88,7 @@ public class ConditionalDamageModifier extends IncrementalModifier {
       int level = 0;
       if (json.has("effect")) {
         JsonObject effectJson = GsonHelper.getAsJsonObject(json, "effect");
-        effect = JsonUtils.getAsEntry(ForgeRegistries.MOB_EFFECTS, effectJson, "name");
+        effect = JsonUtils.getAsEntry(Registry.MOB_EFFECT, effectJson, "name");
         level = JsonUtils.getIntMin(effectJson, "level", 1);
       }
       return new ConditionalDamageModifier(predicate, damage, effect, level);
@@ -100,7 +100,7 @@ public class ConditionalDamageModifier extends IncrementalModifier {
       json.addProperty("damage", object.damage);
       if (object.effect != null && object.effectLevel > 0) {
         JsonObject effectJson = new JsonObject();
-        effectJson.addProperty("name", Objects.requireNonNull(object.effect.getRegistryName()).toString());
+        effectJson.addProperty("name", Objects.requireNonNull(Registry.MOB_EFFECT.getKey(object.effect)).toString());
         effectJson.addProperty("level", object.effectLevel);
         json.add("effect", effectJson);
       }
@@ -113,7 +113,7 @@ public class ConditionalDamageModifier extends IncrementalModifier {
       MobEffect effect = null;
       int level = buffer.readVarInt();
       if (level > 0) {
-        effect = buffer.readRegistryIdUnsafe(ForgeRegistries.MOB_EFFECTS);
+        effect = Registry.MOB_EFFECT.get(buffer.readResourceLocation());
       }
       return new ConditionalDamageModifier(predicate, damage, effect, level);
     }
@@ -124,7 +124,7 @@ public class ConditionalDamageModifier extends IncrementalModifier {
       buffer.writeFloat(object.damage);
       if (object.effectLevel > 0 && object.effect != null) {
         buffer.writeVarInt(object.effectLevel);
-        buffer.writeRegistryIdUnsafe(ForgeRegistries.MOB_EFFECTS, object.effect);
+        buffer.writeResourceLocation(Registry.MOB_EFFECT.getKey(object.effect));
       } else {
         buffer.writeVarInt(0);
       }

@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.common.network;
 
-import me.pepperbell.simplenetworking.NetworkDirection;
+import io.github.fabricators_of_create.porting_lib.util.NetworkDirection;
 import me.pepperbell.simplenetworking.S2CPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;

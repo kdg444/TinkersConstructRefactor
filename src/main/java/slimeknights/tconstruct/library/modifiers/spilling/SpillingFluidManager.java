@@ -5,22 +5,21 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
+import io.github.fabricators_of_create.porting_lib.event.common.OnDatapackSyncCallback;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.ICondition.IContext;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.OnDatapackSyncEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.mantle.util.JsonHelper;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.json.ConditionSerializer;
 import slimeknights.tconstruct.library.json.FluidIngredientSerializer;
 import slimeknights.tconstruct.library.utils.JsonUtils;
@@ -34,7 +33,7 @@ import java.util.Objects;
 
 /** Manager for spilling fluids for spilling, slurping, and wetting */
 @Log4j2
-public class SpillingFluidManager extends SimpleJsonResourceReloadListener {
+public class SpillingFluidManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloadListener {
   /** Recipe folder */
   public static final String FOLDER = "tinkering/spilling";
   /** GSON instance */
@@ -58,7 +57,7 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener {
   private static final SpillingFluid EMPTY = new SpillingFluid(FluidIngredient.EMPTY, Collections.emptyList());
 
   /** Condition context for recipe loading */
-  private IContext conditionContext = IContext.EMPTY;
+//  private IContext conditionContext = IContext.EMPTY;
 
   private SpillingFluidManager() {
     super(GSON, FOLDER);
@@ -67,13 +66,13 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener {
   /** For internal use only */
   @Deprecated
   public void init() {
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, AddReloadListenerEvent.class, this::addDataPackListeners);
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, OnDatapackSyncEvent.class, e -> JsonUtils.syncPackets(e, new UpdateSpillingFluidsPacket(this.fluids)));
+    this.addDataPackListeners();
+    OnDatapackSyncCallback.EVENT.register((playerList, serverPlayer) -> JsonUtils.syncPackets(playerList, serverPlayer, new UpdateSpillingFluidsPacket(this.fluids)));
   }
 
   /** Adds the managers as datapack listeners */
-  private void addDataPackListeners(final AddReloadListenerEvent event) {
-    event.addListener(this);
+  private void addDataPackListeners() {
+    ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(this);
     conditionContext = event.getConditionContext();
   }
 
@@ -97,7 +96,7 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener {
       JsonObject json = GsonHelper.convertToJsonObject(element, "fluid");
 
       // want to parse condition without parsing effects, as the effect serializer may be missing
-      if (json.has("condition") && !CraftingHelper.getCondition(GsonHelper.getAsJsonObject(json, "condition")).test(conditionContext)) {
+      if (json.has("condition") && !CraftingHelper.getCondition(GsonHelper.getAsJsonObject(json, "condition")).test(json)) {
         return null;
       }
       FluidIngredient ingredient = FluidIngredient.deserialize(json, "fluid");
@@ -148,5 +147,10 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener {
       return cache.getOrDefault(fluid, EMPTY);
     }
     return Objects.requireNonNullElse(findUncached(fluid), EMPTY);
+  }
+
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("spilling_fluid_manager");
   }
 }

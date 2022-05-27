@@ -2,8 +2,8 @@ package slimeknights.tconstruct.smeltery.block.entity.tank;
 
 import net.minecraft.core.BlockPos;
 import io.github.fabricators_of_create.porting_lib.model.ModelProperty;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 
 /**
  * Interface for blocks to be notified when the smeltery has a new bottommost fluid

@@ -3,7 +3,6 @@ package slimeknights.tconstruct.library.modifiers.spilling;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent.Context;
 import slimeknights.mantle.network.packet.ISimplePacket;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 

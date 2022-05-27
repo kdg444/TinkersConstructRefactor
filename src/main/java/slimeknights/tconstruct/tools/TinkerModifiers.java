@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
@@ -14,13 +15,12 @@ import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import io.github.fabricators_of_create.porting_lib.util.ToolActions;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerEffect;
 import slimeknights.tconstruct.common.TinkerModule;
-import slimeknights.tconstruct.library.TinkerRegistries;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierManager;
 import slimeknights.tconstruct.library.modifiers.dynamic.ConditionalDamageModifier;
@@ -203,6 +203,9 @@ public final class TinkerModifiers extends TinkerModule {
     ModifierManager.INSTANCE.init();
     DynamicModifier.init();
     SpillingFluidManager.INSTANCE.init();
+    registerRecipeSerializers();
+    commonSetup();
+    registerSerializers();
   }
 
   /*
@@ -490,20 +493,11 @@ public final class TinkerModifiers extends TinkerModule {
     chrysophiliteBonusFunction = Registry.register(Registry.LOOT_FUNCTION_TYPE, ChrysophiliteBonusFunction.ID, new LootItemFunctionType(ChrysophiliteBonusFunction.SERIALIZER));
   }
 
-  @SubscribeEvent
-  void gatherData(final GatherDataEvent event) {
-    DataGenerator generator = event.getGenerator();
-    if (event.includeServer()) {
+  public static void gatherData(FabricDataGenerator generator) {
+//    if (event.includeServer()) {
       generator.addProvider(new ModifierProvider(generator));
       generator.addProvider(new ModifierRecipeProvider(generator));
       generator.addProvider(new SpillingFluidProvider(generator));
-    }
-  }
-
-  public TinkerModifiers() {
-    RegistryEntryAddedCallback.event(TinkerRegistries.MODIFIERS).register(((rawId, id, modifier) -> modifier.setRegistryName(id)));
-    registerRecipeSerializers();
-    commonSetup();
-    registerSerializers();
+//    }
   }
 }

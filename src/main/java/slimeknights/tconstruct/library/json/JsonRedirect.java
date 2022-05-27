@@ -2,9 +2,10 @@ package slimeknights.tconstruct.library.json;
 
 import com.google.gson.JsonObject;
 import lombok.Data;
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.conditions.ICondition;
+import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
 import slimeknights.mantle.util.JsonHelper;
 
 import javax.annotation.Nullable;
@@ -15,14 +16,15 @@ import javax.annotation.Nullable;
 public class JsonRedirect {
   private final ResourceLocation id;
   @Nullable
-  private final ICondition condition;
+  private final ConditionJsonProvider condition;
 
   /** Serializes this to JSON */
   public JsonObject toJson() {
     JsonObject json = new JsonObject();
     json.addProperty("id", id.toString());
     if (condition != null) {
-      json.add("condition", CraftingHelper.serialize(condition));
+      json.addProperty(ResourceConditions.CONDITION_ID_KEY, condition.getConditionId().toString());
+      condition.writeParameters(json);
     }
     return json;
   }
@@ -30,7 +32,7 @@ public class JsonRedirect {
   /** Deserializes this to JSON */
   public static JsonRedirect fromJson(JsonObject json) {
     ResourceLocation id = JsonHelper.getResourceLocation(json, "id");
-    ICondition condition = null;
+    ConditionJsonProvider condition = null;
     if (json.has("condition")) {
       condition = CraftingHelper.getCondition(json);
     }

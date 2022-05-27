@@ -144,7 +144,7 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
 
       // if we found something, add the side inventory
       if (inventoryTE != null) {
-        int invSlots = TransferUtil.getItemHandler(inventoryTE, accessDir).orElse(EmptyItemHandler.INSTANCE).getSlots();
+        int invSlots = TransferUtilForge.getItemHandler(inventoryTE, accessDir).orElse(EmptyItemHandler.INSTANCE).getSlots();
         int columns = Mth.clamp((invSlots - 1) / 9 + 1, 3, 6);
         this.addSubContainer(new SideInventoryContainer<>(TinkerTables.craftingStationContainer.get(), containerId, inv, inventoryTE, accessDir, -6 - 18 * 6, 8, columns), false);
       }
@@ -170,7 +170,7 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
    * @return True if compatible.
    */
   private static boolean hasItemHandler(BlockEntity tileEntity, @Nullable Direction direction) {
-    return TransferUtil.getItemHandler(tileEntity, direction).filter(cap -> cap instanceof IItemHandlerModifiable).isPresent();
+    return TransferUtilForge.getItemHandler(tileEntity, direction).filter(cap -> cap instanceof IItemHandlerModifiable).isPresent();
   }
 
 

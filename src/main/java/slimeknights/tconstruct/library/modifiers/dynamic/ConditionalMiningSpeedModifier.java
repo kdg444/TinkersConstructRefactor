@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.modifiers.dynamic;
 
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -9,7 +10,6 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.json.predicate.IJsonPredicate;
@@ -36,9 +36,9 @@ public class ConditionalMiningSpeedModifier extends IncrementalModifier {
   }
 
   @Override
-  public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
-    if ((isEffective || !requireEffective) && predicate.matches(event.getState())) {
-      event.setNewSpeed(event.getNewSpeed() + (getScaledLevel(tool, level) * bonus * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier));
+  public void onBreakSpeed(IToolStackView tool, int level, PlayerBreakSpeedCallback.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+    if ((isEffective || !requireEffective) && predicate.matches(event.state)) {
+      event.newSpeed = event.newSpeed + (getScaledLevel(tool, level) * bonus * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier);
     }
   }
 

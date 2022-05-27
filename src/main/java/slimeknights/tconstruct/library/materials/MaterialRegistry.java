@@ -1,13 +1,12 @@
 package slimeknights.tconstruct.library.materials;
 
 import com.google.common.annotations.VisibleForTesting;
+import io.github.fabricators_of_create.porting_lib.event.common.OnDatapackSyncCallback;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.ServerResources;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.players.PlayerList;
-import io.github.fabricators_of_create.porting_lib.event.DataPackReloadCallback;
-import io.github.fabricators_of_create.porting_lib.event.OnDatapackSyncCallback;
 import slimeknights.mantle.network.packet.ISimplePacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.events.MaterialsLoadedEvent;
@@ -28,9 +27,7 @@ import slimeknights.tconstruct.tools.stats.RepairKitStats;
 import slimeknights.tconstruct.tools.stats.SkullStats;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Function;
 
 public final class MaterialRegistry {
@@ -57,7 +54,7 @@ public final class MaterialRegistry {
     // create registry instance
     INSTANCE = new MaterialRegistry();
     // add event listeners
-    DataPackReloadCallback.EVENT.register(INSTANCE::addDataPackListeners);
+    INSTANCE.addDataPackListeners();
     OnDatapackSyncCallback.EVENT.register(INSTANCE::onDatapackSync);
     // on the client, mark materials not fully loaded when the client logs out.
     // this also runs when starting a world in SP, but its early enough that the player login event will correct the state later (see handleLogin method)
@@ -192,11 +189,11 @@ public final class MaterialRegistry {
   /* Reloading */
 
   /** Adds the managers as datapack listeners */
-  private void addDataPackListeners(final AddReloadListenerEvent event) {
-    event.addListener(materialManager);
+  private void addDataPackListeners() {
+    ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(materialManager);
     materialManager.setConditionContext(event.getConditionContext());
-    event.addListener(materialStatsManager);
-    event.addListener(materialTraitsManager);
+    ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(materialStatsManager);
+    ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(materialTraitsManager);
   }
 
   /** Sends all relevant packets to the given player */

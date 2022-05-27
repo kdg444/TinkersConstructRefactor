@@ -1,9 +1,8 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.FluidTagsProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.fluids.TinkerFluids;
@@ -123,8 +122,8 @@ public class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
 
     this.tag(TinkerTags.Fluids.LARGE_GEM_TOOLTIPS).addTag(TinkerFluids.moltenEmerald.getLocalTag()).addTag(TinkerFluids.moltenDiamond.getLocalTag());
     this.tag(TinkerTags.Fluids.SMALL_GEM_TOOLTIPS).addTag(TinkerFluids.moltenQuartz.getLocalTag()).addTag(TinkerFluids.moltenAmethyst.getLocalTag());
-    this.tag(TinkerTags.Fluids.SOUP_TOOLTIPS).addTags(TinkerFluids.beetrootSoup.getLocalTag(), TinkerFluids.mushroomStew.getLocalTag(), TinkerFluids.rabbitStew.getLocalTag());
-    this.tag(TinkerTags.Fluids.BOTTLE_TOOLTIPS).add(Fluids.WATER, Fluids.FLOWING_WATER).addTags(TinkerFluids.honey.getLocalTag());
+    this.tag(TinkerTags.Fluids.SOUP_TOOLTIPS).addTag(TinkerFluids.beetrootSoup.getLocalTag()).addTag(TinkerFluids.mushroomStew.getLocalTag()).addTag(TinkerFluids.rabbitStew.getLocalTag());
+    this.tag(TinkerTags.Fluids.BOTTLE_TOOLTIPS).add(Fluids.WATER, Fluids.FLOWING_WATER).addTag(TinkerFluids.honey.getLocalTag());
 
     // spilling tags - reduces the number of recipes generated //
     this.tag(TinkerTags.Fluids.CLAY_SPILLING)

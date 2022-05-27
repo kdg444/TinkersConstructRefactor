@@ -27,13 +27,13 @@ public class DropperRailBlock extends RailBlock {
 //      return;
 //    }
 //    BlockEntity tileEntity = world.getBlockEntity(pos.below());
-//    if (tileEntity == null || !TransferUtil.getItemHandler(tileEntity, Direction.DOWN).isPresent()) {
+//    if (tileEntity == null || !TransferUtilForge.getItemHandler(tileEntity, Direction.DOWN).isPresent()) {
 //      return;
 //    }
 //
 //    // todo: fix this optional usage
 //    IItemHandler itemHandlerCart = cart.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP).orElse(EmptyItemHandler.INSTANCE);
-//    IItemHandler itemHandlerTE = TransferUtil.getItemHandler(tileEntity, Direction.UP).orElse(EmptyItemHandler.INSTANCE);
+//    IItemHandler itemHandlerTE = TransferUtilForge.getItemHandler(tileEntity, Direction.UP).orElse(EmptyItemHandler.INSTANCE);
 //
 //    for (int i = 0; i < itemHandlerCart.getSlots(); i++) {
 //      ItemStack itemStack = itemHandlerCart.extractItem(i, 1, true);

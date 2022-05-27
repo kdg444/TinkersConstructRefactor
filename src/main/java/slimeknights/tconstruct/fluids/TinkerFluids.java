@@ -3,7 +3,7 @@ package slimeknights.tconstruct.fluids;
 import io.github.tropheusj.milk.Milk;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.material.Material;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import slimeknights.mantle.fabric.fluid.SimpleDirectionalFluid;
 import slimeknights.mantle.registration.ModelFluidAttributes;
 import slimeknights.mantle.registration.object.FluidObject;
@@ -44,10 +44,10 @@ public final class TinkerFluids extends TinkerModule {
   }
 
   // foods
-  public static FluidObject<ForgeFlowingFluid> honey        = FLUIDS.register("honey",         coolBuilder().temperature(301), Material.WATER, 0);
-  public static FluidObject<ForgeFlowingFluid> beetrootSoup = FLUIDS.register("beetroot_soup", coolBuilder().temperature(400), Material.WATER, 0);
-  public static FluidObject<ForgeFlowingFluid> mushroomStew = FLUIDS.register("mushroom_stew", coolBuilder().temperature(400), Material.WATER, 0);
-  public static FluidObject<ForgeFlowingFluid> rabbitStew   = FLUIDS.register("rabbit_stew",   coolBuilder().temperature(400), Material.WATER, 0);
+  public static FluidObject<SimpleFlowableFluid> honey        = FLUIDS.register("honey",         coolBuilder().temperature(301), Material.WATER, 0);
+  public static FluidObject<SimpleFlowableFluid> beetrootSoup = FLUIDS.register("beetroot_soup", coolBuilder().temperature(400), Material.WATER, 0);
+  public static FluidObject<SimpleFlowableFluid> mushroomStew = FLUIDS.register("mushroom_stew", coolBuilder().temperature(400), Material.WATER, 0);
+  public static FluidObject<SimpleFlowableFluid> rabbitStew   = FLUIDS.register("rabbit_stew",   coolBuilder().temperature(400), Material.WATER, 0);
 
   // base molten fluids
   public static final FluidObject<SimpleFlowableFluid> searedStone   = FLUIDS.register("seared_stone",   hotBuilder().temperature( 900), Material.LAVA,  6);

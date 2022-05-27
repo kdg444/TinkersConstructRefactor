@@ -89,7 +89,7 @@ public class WeatheringPlatformBlock extends PlatformBlock implements Weathering
 
   @Deprecated
   @SuppressWarnings("removal")
-  @Override TODO: PORT
+//  @Override TODO: PORT
   public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
     if (ToolActions.AXE_SCRAPE.equals(toolAction)) {
       WeatherState prev = getPrevious(age);

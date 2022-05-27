@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElement;
@@ -46,8 +47,8 @@ import io.github.fabricators_of_create.porting_lib.model.IModelData;
 import io.github.fabricators_of_create.porting_lib.model.IModelGeometry;
 import io.github.fabricators_of_create.porting_lib.model.IModelLoader;
 import io.github.fabricators_of_create.porting_lib.render.TransformTypeDependentItemBakedModel;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
@@ -213,7 +214,7 @@ public class TankModel implements IModelGeometry<TankModel> {
       IModelConfiguration textured = new ExtraTextureConfiguration(owner, textures);
 
       // add fluid part
-      BlockElement fluid = original.fluid.getPart(stack.getAmount(), FluidVariantRendering.fillsFromTop(stack.getType()));
+      BlockElement fluid = original.fluid.getPart(stack.getAmount(), FluidVariantAttributes.isLighterThanAir(stack.getType()));
       // bake the model
       BakedModel baked = bakeWithFluid(textured, original.model, fluid, color, luminosity);
 

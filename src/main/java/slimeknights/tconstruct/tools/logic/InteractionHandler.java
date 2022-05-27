@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.logic;
 
-import io.github.fabricators_of_create.porting_lib.event.EntityInteractCallback;
+import io.github.fabricators_of_create.porting_lib.event.common.EntityInteractCallback;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -21,7 +21,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import org.apache.logging.log4j.core.Filter.Result;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;

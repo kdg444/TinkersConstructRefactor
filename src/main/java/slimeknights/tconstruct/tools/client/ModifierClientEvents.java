@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.GameType;
-import io.github.fabricators_of_create.porting_lib.event.RenderHandCallback;
+import io.github.fabricators_of_create.porting_lib.event.client.RenderHandCallback;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.Icons;

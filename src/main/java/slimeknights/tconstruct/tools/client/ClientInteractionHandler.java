@@ -1,18 +1,13 @@
 package slimeknights.tconstruct.tools.client;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -23,7 +18,7 @@ import slimeknights.tconstruct.tools.network.OnChestplateUsePacket;
 /**
  * Client side interaction hooks
  */
-@EventBusSubscriber(modid = TConstruct.MOD_ID, bus = Bus.FORGE, value = Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class ClientInteractionHandler {
   /** If true, next offhand interaction should be canceled, used since we cannot tell Forge to break the hand loop from the main hand */
   private static boolean cancelNextOffhand = false;
@@ -67,5 +62,9 @@ public class ClientInteractionHandler {
         event.setSwingHand(false);
       }
     }
+  }
+
+  public static void init() {
+
   }
 }

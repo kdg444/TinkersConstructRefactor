@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.tools.data;
 
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import me.alphamode.forgetags.Tags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -11,12 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
-import net.minecraftforge.common.crafting.conditions.NotCondition;
-import net.minecraftforge.fluids.FluidAttributes;
 import slimeknights.mantle.recipe.data.FluidNameIngredient;
-import slimeknights.mantle.recipe.helper.TagEmptyCondition;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.fluids.TinkerFluids;

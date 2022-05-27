@@ -32,7 +32,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
-import io.github.fabricators_of_create.porting_lib.event.PlayerBreakSpeedCallback.BreakSpeed;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
 import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.data.GenericLoaderRegistry.IHaveLoader;

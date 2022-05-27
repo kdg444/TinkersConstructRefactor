@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.json;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -17,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /** Condition requiring that items exist in the intersection of all required item tags */
-public class TagDifferencePresentCondition<T> implements ICondition {
+public class TagDifferencePresentCondition<T> implements ConditionJsonProvider {
   private static final ResourceLocation NAME = TConstruct.getResource("tag_difference_present");
   public static final Serializer SERIALIZER = new Serializer();
 
@@ -45,7 +46,7 @@ public class TagDifferencePresentCondition<T> implements ICondition {
   }
 
   @Override
-  public ResourceLocation getID() {
+  public ResourceLocation getConditionId() {
     return NAME;
   }
 

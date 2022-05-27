@@ -84,8 +84,7 @@ public class WorldClientEvents extends ClientEventBase {
     SkullModelHelper.HEAD_LAYERS.forEach((type, layer) -> event.registerSkullModel(type, new SkullModel(modelSet.bakeLayer(layer))));
   }
 
-  @SubscribeEvent
-  static void registerRenderers() {
+  static void registerRenderersSlime() {
     EntityRendererRegistry.register(TinkerWorld.earthSlimeEntity.get(), SlimeRenderer::new);
     EntityRendererRegistry.register(TinkerWorld.skySlimeEntity.get(), TinkerSlimeRenderer.SKY_SLIME_FACTORY);
     EntityRendererRegistry.register(TinkerWorld.enderSlimeEntity.get(), TinkerSlimeRenderer.ENDER_SLIME_FACTORY);

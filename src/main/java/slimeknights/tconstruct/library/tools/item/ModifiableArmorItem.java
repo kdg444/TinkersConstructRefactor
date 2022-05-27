@@ -3,8 +3,8 @@ package slimeknights.tconstruct.library.tools.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
-import io.github.fabricators_of_create.porting_lib.util.AttributeModiferItem;
-import io.github.fabricators_of_create.porting_lib.util.DamagableItem;
+import io.github.fabricators_of_create.porting_lib.util.DamageableItem;
+import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import lombok.Getter;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.NonNullList;
@@ -30,12 +30,10 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
-import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.hooks.IElytraFlightModifier;
 import slimeknights.tconstruct.library.tools.IndestructibleItemEntity;
-import slimeknights.tconstruct.library.tools.capability.ToolCapabilityProvider;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
 import slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
@@ -59,7 +57,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, ItemExtensions, DamagableItem, AttributeModiferItem {
+public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, ItemExtensions, DamageableItem {
   /** Volatile modifier tag to make piglins neutal when worn */
   public static final ResourceLocation PIGLIN_NEUTRAL = TConstruct.getResource("piglin_neutral");
   /** Volatile modifier tag to make this item an elytra */
@@ -279,7 +277,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
   }
 
   @Override
-  public Multimap<Attribute,AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+  public Multimap<Attribute,AttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
     CompoundTag nbt = stack.getTag();
     if (slot != getSlot() || nbt == null) {
       return ImmutableMultimap.of();

@@ -1,21 +1,18 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import net.minecraft.core.Registry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.core.Registry;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tables.TinkerTables;
 
-import javax.annotation.Nullable;
-
-public class BlockEntityTypeTagProvider extends TagsProvider<BlockEntityType<?>> {
+public class BlockEntityTypeTagProvider extends FabricTagProvider<BlockEntityType<?>> {
   @SuppressWarnings("deprecation")
-  public BlockEntityTypeTagProvider(DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
-    super(generatorIn, Registry.BLOCK_ENTITY_TYPE, TConstruct.MOD_ID, existingFileHelper);
+  public BlockEntityTypeTagProvider(FabricDataGenerator generatorIn) {
+    super(generatorIn, Registry.BLOCK_ENTITY_TYPE, TConstruct.MOD_ID);
   }
 
   @Override

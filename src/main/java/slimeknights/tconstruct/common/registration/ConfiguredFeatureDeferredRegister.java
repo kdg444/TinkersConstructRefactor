@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.common.registration;
 
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.block.Blocks;
@@ -12,7 +14,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.GeodeConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.minecraftforge.registries.RegistryObject;
 import slimeknights.mantle.registration.deferred.DeferredRegisterWrapper;
 import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
 import slimeknights.tconstruct.world.worldgen.trees.SupplierBlockStateProvider;
@@ -22,7 +23,7 @@ import java.util.function.Supplier;
 
 public class ConfiguredFeatureDeferredRegister extends DeferredRegisterWrapper<ConfiguredFeature<?,?>> {
   public ConfiguredFeatureDeferredRegister(String modID) {
-    super(Registry.CONFIGURED_FEATURE_REGISTRY, modID);
+    super(BuiltinRegistries.CONFIGURED_FEATURE, modID);
   }
 
   /**

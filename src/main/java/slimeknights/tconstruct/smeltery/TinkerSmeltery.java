@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery;
 
-import net.minecraft.data.DataGenerator;
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -16,7 +17,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import org.apache.logging.log4j.Logger;
 import slimeknights.mantle.item.BlockTooltipItem;
-import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import slimeknights.mantle.registration.object.BuildingBlockObject;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.FenceBuildingBlockObject;
@@ -338,20 +338,18 @@ public final class TinkerSmeltery extends TinkerModule {
 
   public TinkerSmeltery() {
     FluidContainerTransferManager.INSTANCE.init();
+    registerSerializers();
   }
 
-  @SubscribeEvent
-  void registerSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
+  void registerSerializers() {
     FluidContainerTransferManager.TRANSFER_LOADERS.registerDeserializer(EmptyFluidContainerTransfer.ID, EmptyFluidContainerTransfer.DESERIALIZER);
     FluidContainerTransferManager.TRANSFER_LOADERS.registerDeserializer(FillFluidContainerTransfer.ID, FillFluidContainerTransfer.DESERIALIZER);
   }
 
-  @SubscribeEvent
-  void gatherData(final GatherDataEvent event) {
-    if (event.includeServer()) {
-      DataGenerator datagenerator = event.getGenerator();
+  public static void gatherData(FabricDataGenerator datagenerator) {
+//    if (event.includeServer()) {
       datagenerator.addProvider(new SmelteryRecipeProvider(datagenerator));
       datagenerator.addProvider(new FluidContainerTransferProvider(datagenerator));
-    }
+//    }
   }
 }

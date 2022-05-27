@@ -5,9 +5,7 @@ import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
 import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
 import io.github.fabricators_of_create.porting_lib.item.UseFirstBehaviorItem;
-import io.github.fabricators_of_create.porting_lib.util.AttributeModiferItem;
-import io.github.fabricators_of_create.porting_lib.util.CorrectToolItem;
-import io.github.fabricators_of_create.porting_lib.util.DamagableItem;
+import io.github.fabricators_of_create.porting_lib.util.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.util.ShieldBlockItem;
 import lombok.Getter;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -74,7 +72,7 @@ import java.util.function.Consumer;
  * A standard modifiable item which implements melee hooks
  * This class handles how all the modifier hooks and display data for items made out of different materials
  */
-public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, ItemExtensions, CorrectToolItem, AttributeModiferItem, DamagableItem, ShieldBlockItem, CustomMaxCountItem {
+public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, ItemExtensions, DamageableItem, ShieldBlockItem, CustomMaxCountItem {
   /** Tool definition for the given tool */
   @Getter
   private final ToolDefinition toolDefinition;
@@ -259,7 +257,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   }
 
   @Override
-  public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+  public Multimap<Attribute, AttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
     CompoundTag nbt = stack.getTag();
     if (nbt == null || slot.getType() != Type.HAND) {
       return ImmutableMultimap.of();
@@ -276,7 +274,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   /* Harvest logic */
 
   @Override
-  public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+  public boolean isSuitableFor(ItemStack stack, BlockState state) {
     return ToolHarvestLogic.isEffective(ToolStack.from(stack), state);
   }
 
@@ -523,8 +521,8 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   /* Misc */
 
-//  @Override
-  public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
+  @Override
+  public boolean allowContinuingBlockBreaking(Player player, ItemStack oldStack, ItemStack newStack) {
     return shouldCauseReequipAnimation(oldStack, newStack, false);
   }
 

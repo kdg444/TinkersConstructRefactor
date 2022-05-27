@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.recipe.casting;
 
 import net.minecraft.world.item.ItemStack;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 
 import java.util.List;
 

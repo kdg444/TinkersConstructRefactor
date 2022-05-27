@@ -6,25 +6,26 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.util.GsonHelper;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.conditions.ICondition;
+import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
 
 import java.lang.reflect.Type;
 
 /** Serializer for a forge condition */
-public class ConditionSerializer implements JsonDeserializer<ICondition>, JsonSerializer<ICondition> {
+public class ConditionSerializer implements JsonDeserializer<ConditionJsonProvider>, JsonSerializer<ConditionJsonProvider> {
   public static final ConditionSerializer INSTANCE = new ConditionSerializer();
 
   private ConditionSerializer() {}
 
   @Override
-  public ICondition deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-    return CraftingHelper.getCondition(GsonHelper.convertToJsonObject(json, "condition"));
+  public ConditionJsonProvider deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+    return CraftingHelper.getCondition(GsonHelper.convertToJsonObject(json, ResourceConditions.CONDITION_ID_KEY));
   }
 
   @Override
-  public JsonElement serialize(ICondition condition, Type type, JsonSerializationContext context) {
+  public JsonElement serialize(ConditionJsonProvider condition, Type type, JsonSerializationContext context) {
     return CraftingHelper.serialize(condition);
   }
 }

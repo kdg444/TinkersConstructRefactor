@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<ContainerFillingRecipeBuilder> {
   private final ResourceLocation result;
-  private final int fluidAmount;
+  private final long fluidAmount;
   private final ContainerFillingRecipeSerializer<?> recipeSerializer;
 
   /**
@@ -31,7 +31,7 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
    * @param recipeSerializer  Serializer
    * @return  Builder instance
    */
-  public static ContainerFillingRecipeBuilder castingRecipe(ItemLike result, int fluidAmount, ContainerFillingRecipeSerializer<?> recipeSerializer) {
+  public static ContainerFillingRecipeBuilder castingRecipe(ItemLike result, long fluidAmount, ContainerFillingRecipeSerializer<?> recipeSerializer) {
     return new ContainerFillingRecipeBuilder(Objects.requireNonNull(Registry.ITEM.getKey(result.asItem())), fluidAmount, recipeSerializer);
   }
 
@@ -41,7 +41,7 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
    * @param fluidAmount       Container size
    * @return  Builder instance
    */
-  public static ContainerFillingRecipeBuilder basinRecipe(ResourceLocation result, int fluidAmount) {
+  public static ContainerFillingRecipeBuilder basinRecipe(ResourceLocation result, long fluidAmount) {
     return castingRecipe(result, fluidAmount, TinkerSmeltery.basinFillingRecipeSerializer.get());
   }
 
@@ -51,7 +51,7 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
    * @param fluidAmount       Container size
    * @return  Builder instance
    */
-  public static ContainerFillingRecipeBuilder basinRecipe(ItemLike result, int fluidAmount) {
+  public static ContainerFillingRecipeBuilder basinRecipe(ItemLike result, long fluidAmount) {
     return castingRecipe(result, fluidAmount, TinkerSmeltery.basinFillingRecipeSerializer.get());
   }
 
@@ -61,7 +61,7 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
    * @param fluidAmount       Container size
    * @return  Builder instance
    */
-  public static ContainerFillingRecipeBuilder tableRecipe(ResourceLocation result, int fluidAmount) {
+  public static ContainerFillingRecipeBuilder tableRecipe(ResourceLocation result, long fluidAmount) {
     return castingRecipe(result, fluidAmount, TinkerSmeltery.tableFillingRecipeSerializer.get());
   }
 
@@ -71,7 +71,7 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
    * @param fluidAmount       Container size
    * @return  Builder instance
    */
-  public static ContainerFillingRecipeBuilder tableRecipe(ItemLike result, int fluidAmount) {
+  public static ContainerFillingRecipeBuilder tableRecipe(ItemLike result, long fluidAmount) {
     return castingRecipe(result, fluidAmount, TinkerSmeltery.tableFillingRecipeSerializer.get());
   }
 

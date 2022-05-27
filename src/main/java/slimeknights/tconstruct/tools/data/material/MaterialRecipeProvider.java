@@ -1,15 +1,15 @@
 package slimeknights.tconstruct.tools.data.material;
 
-import net.minecraft.data.DataGenerator;
+import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import me.alphamode.forgetags.Tags;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
-import me.alphamode.forgetags.Tags;
-import net.minecraftforge.common.crafting.DifferenceIngredient;
-import net.minecraftforge.fluids.FluidAttributes;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.recipe.ingredient.FluidContainerIngredient;
 import slimeknights.tconstruct.common.TinkerTags;

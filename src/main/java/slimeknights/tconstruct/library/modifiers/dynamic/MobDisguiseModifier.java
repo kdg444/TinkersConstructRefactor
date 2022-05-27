@@ -4,10 +4,10 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot.Type;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -26,22 +26,22 @@ public class MobDisguiseModifier extends NoLevelsModifier {
   public static final IGenericLoader<MobDisguiseModifier> LOADER = new IGenericLoader<MobDisguiseModifier>() {
     @Override
     public MobDisguiseModifier deserialize(JsonObject json) {
-      return new MobDisguiseModifier(JsonUtils.getAsEntry(ForgeRegistries.ENTITIES, json, "entity"));
+      return new MobDisguiseModifier(JsonUtils.getAsEntry(Registry.ENTITY_TYPE, json, "entity"));
     }
 
     @Override
     public void serialize(MobDisguiseModifier object, JsonObject json) {
-      json.addProperty("entity", Objects.requireNonNull(object.type.getRegistryName()).toString());
+      json.addProperty("entity", Objects.requireNonNull(Registry.ENTITY_TYPE.getKey(object.type)).toString());
     }
 
     @Override
     public MobDisguiseModifier fromNetwork(FriendlyByteBuf buffer) {
-      return new MobDisguiseModifier(buffer.readRegistryIdUnsafe(ForgeRegistries.ENTITIES));
+      return new MobDisguiseModifier(Registry.ENTITY_TYPE.get(buffer.readResourceLocation()));
     }
 
     @Override
     public void toNetwork(MobDisguiseModifier object, FriendlyByteBuf buffer) {
-      buffer.writeRegistryIdUnsafe(ForgeRegistries.ENTITIES, object.type);
+      buffer.writeResourceLocation(Registry.ENTITY_TYPE.getKey(object.type));
     }
   };
   public static final TinkerDataKey<Multiset<EntityType<?>>> DISGUISES = TConstruct.createKey("mob_disguise");

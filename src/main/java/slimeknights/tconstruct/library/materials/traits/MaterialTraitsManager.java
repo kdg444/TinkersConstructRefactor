@@ -7,9 +7,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import slimeknights.mantle.data.MergingJsonDataLoader;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.json.MaterialTraitsJson;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
@@ -38,7 +40,7 @@ import java.util.stream.Collectors;
  * So if your mods name is "foobar", the location for your mads material stats is "data/foobar/materials/traits".
  */
 @Log4j2
-public class MaterialTraitsManager extends MergingJsonDataLoader<MaterialTraits.Builder> {
+public class MaterialTraitsManager extends MergingJsonDataLoader<MaterialTraits.Builder> implements IdentifiableResourceReloadListener {
   public static final String FOLDER = "tinkering/materials/traits";
   private static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
@@ -147,5 +149,10 @@ public class MaterialTraitsManager extends MergingJsonDataLoader<MaterialTraits.
     log.info("{} traits loaded for {} materials in {} ms",
              materialTraits.values().stream().mapToInt(traits -> traits.getTraitsPerStats().size() + (traits.getDefaultTraits().isEmpty() ? 0 : 1)).sum(),
              materialTraits.size(), (System.nanoTime() - time) / 1000000f);
+  }
+
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("material_traits_manager");
   }
 }

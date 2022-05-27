@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
@@ -55,7 +55,7 @@ public class MaterialFluidRecipeBuilder extends AbstractRecipeBuilder<MaterialFl
    * @param tagIn   Tag<Fluid> instance
    * @param amount  Fluid amount
    */
-  public MaterialFluidRecipeBuilder setFluid(TagKey<Fluid> tagIn, int amount) {
+  public MaterialFluidRecipeBuilder setFluid(TagKey<Fluid> tagIn, long amount) {
     setFluid(FluidIngredient.of(tagIn, amount));
     return this;
   }

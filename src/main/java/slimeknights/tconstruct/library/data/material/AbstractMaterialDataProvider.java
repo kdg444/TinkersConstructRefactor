@@ -2,10 +2,11 @@ package slimeknights.tconstruct.library.data.material;
 
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
-import net.fabricmc.fabric.api.tag.TagFactory;
+import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
 import slimeknights.tconstruct.library.json.JsonRedirect;
@@ -109,7 +110,7 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
 
   /** Conditions on a forge tag existing */
   protected static ConditionJsonProvider tagExistsCondition(String name) {
-    return DefaultResourceConditions.itemTagsPopulated(TagFactory.ITEM.create(new ResourceLocation("c", name)));
+    return DefaultResourceConditions.itemTagsPopulated(TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("c", name)));
   }
 
   /** Creates a normal material with a condition and a redirect */
@@ -161,9 +162,9 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
       redirect = null;
     }
     if (material == null) {
-      return new MaterialJson(/*data.condition, TODO: PORT */null, null, null, null, redirect);
+      return new MaterialJson(data.condition, null, null, null, null, redirect);
     }
-    return new MaterialJson(/*data.condition, TODO: PORT*/ material.isCraftable(), material.getTier(), material.getSortOrder(), material.isHidden(), redirect);
+    return new MaterialJson(data.condition, material.isCraftable(), material.getTier(), material.getSortOrder(), material.isHidden(), redirect);
   }
 
   private record DataMaterial(@Nullable IMaterial material, @Nullable ConditionJsonProvider condition, JsonRedirect[] redirect) {}

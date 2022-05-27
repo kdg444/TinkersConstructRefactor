@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.library.data.recipe;
 
+import io.github.fabricators_of_create.porting_lib.crafting.CompoundIngredient;
 import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.crafting.CompoundIngredient;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.registration.CastItemObject;
 import slimeknights.tconstruct.library.recipe.casting.material.CompositeCastingRecipeBuilder;

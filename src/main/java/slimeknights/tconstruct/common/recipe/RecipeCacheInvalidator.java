@@ -4,10 +4,13 @@ import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.server.ServerResources;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import slimeknights.mantle.data.IEarlySafeManagerReloadListener;
+import slimeknights.tconstruct.TConstruct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +19,7 @@ import java.util.List;
  * Class that handles notifying recipe caches that they need to invalidate
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RecipeCacheInvalidator implements IEarlySafeManagerReloadListener {
+public class RecipeCacheInvalidator implements IEarlySafeManagerReloadListener, IdentifiableResourceReloadListener {
   private static final RecipeCacheInvalidator INSTANCE = new RecipeCacheInvalidator();
   private static final List<BooleanConsumer> listeners = new ArrayList<>();
 
@@ -55,10 +58,14 @@ public class RecipeCacheInvalidator implements IEarlySafeManagerReloadListener {
 
   /**
    * Called when resource managers reload
-   * @param resources  Server resources
    */
-  public static List<PreparableReloadListener> onReloadListenerReload(ServerResources resources) {
-    return List.of(INSTANCE);
+  public static void onReloadListenerReload() {
+    ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(INSTANCE);
+  }
+
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("recipe_cache_invalidator");
   }
 
   /** Logic to respond properly to late running of the client */

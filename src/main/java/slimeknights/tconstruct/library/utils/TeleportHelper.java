@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.utils;
 
-import io.github.fabricators_of_create.porting_lib.event.EntityEvents;
+import io.github.fabricators_of_create.porting_lib.event.common.EntityEvents;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;

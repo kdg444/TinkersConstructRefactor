@@ -13,10 +13,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
 import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtilForge;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.EmptyFluidHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
@@ -84,7 +84,7 @@ public class FaucetBlockEntity extends MantleBlockEntity implements CustomRender
     assert level != null;
     BlockEntity te = level.getBlockEntity(worldPosition.relative(side));
     if (te != null) {
-      LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(te, side.getOpposite());
+      LazyOptional<IFluidHandler> handler = TransferUtilForge.getFluidHandler(te, side.getOpposite());
       if (handler.isPresent()) {
         return handler;
       }

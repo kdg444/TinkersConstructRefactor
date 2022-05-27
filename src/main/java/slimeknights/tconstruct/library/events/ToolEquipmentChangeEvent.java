@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.events;
 
-import io.github.fabricators_of_create.porting_lib.event.EntityEvent;
+import io.github.fabricators_of_create.porting_lib.event.common.EntityEvent;
 import lombok.Getter;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;

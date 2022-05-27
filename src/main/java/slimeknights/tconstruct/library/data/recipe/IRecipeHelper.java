@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.library.data.recipe;
 
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
 import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -129,7 +131,7 @@ public interface IRecipeHelper {
    * @return  Condition for tag existing
    */
   default ConditionJsonProvider tagCondition(String name) {
-    return DefaultResourceConditions.itemTagsPopulated(TagFactory.ITEM.create(new ResourceLocation("c", name)));
+    return DefaultResourceConditions.itemTagsPopulated(TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("c", name)));
   }
 
   /**

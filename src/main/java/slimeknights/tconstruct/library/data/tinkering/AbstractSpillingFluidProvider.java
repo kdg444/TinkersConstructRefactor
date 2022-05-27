@@ -1,9 +1,11 @@
 package slimeknights.tconstruct.library.data.tinkering;
 
 import com.google.common.collect.ImmutableList;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
@@ -11,8 +13,6 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.mantle.registration.object.FluidObject;
@@ -75,22 +75,22 @@ public abstract class AbstractSpillingFluidProvider extends GenericDataProvider 
   }
 
   /** Creates a builder for a fluid and amount */
-  protected Builder addFluid(Fluid fluid, int amount) {
+  protected Builder addFluid(Fluid fluid, long amount) {
     return addFluid(Objects.requireNonNull(fluid.getRegistryName()).getPath(), FluidIngredient.of(fluid, amount));
   }
 
   /** Creates a builder for a tag and amount */
-  protected Builder addFluid(String name, TagKey<Fluid> fluid, int amount) {
+  protected Builder addFluid(String name, TagKey<Fluid> fluid, long amount) {
     return addFluid(name, FluidIngredient.of(fluid, amount));
   }
 
   /** Creates a builder for a tag and amount */
-  protected Builder addFluid(TagKey<Fluid> fluid, int amount) {
+  protected Builder addFluid(TagKey<Fluid> fluid, long amount) {
     return addFluid(fluid.location().getPath(), fluid, amount);
   }
 
   /** Creates a builder for a fluid object */
-  protected Builder addFluid(FluidObject<?> fluid, boolean forgeTag, int amount) {
+  protected Builder addFluid(FluidObject<?> fluid, boolean forgeTag, long amount) {
     return addFluid(forgeTag ? fluid.getForgeTag() : fluid.getLocalTag(), amount);
   }
 
@@ -100,7 +100,7 @@ public abstract class AbstractSpillingFluidProvider extends GenericDataProvider 
   }
 
   /** Adds a builder for burning */
-  protected Builder burningFluid(String name, TagKey<Fluid> tag, int amount, float damage, int time) {
+  protected Builder burningFluid(String name, TagKey<Fluid> tag, long amount, float damage, int time) {
     return addFluid(name, tag, amount)
       .addEffect(LivingEntityPredicate.FIRE_IMMUNE.inverted(), new DamageSpillingEffect(DamageType.FIRE, damage))
       .addEffect(new SetFireSpillingEffect(time));
@@ -110,7 +110,7 @@ public abstract class AbstractSpillingFluidProvider extends GenericDataProvider 
   @RequiredArgsConstructor
   protected static class Builder {
     @Setter @Accessors(fluent = true)
-    private ICondition condition = null;
+    private ConditionJsonProvider condition = null;
     private final FluidIngredient ingredient;
     private final ImmutableList.Builder<ISpillingEffect> effects = ImmutableList.builder();
 
@@ -140,7 +140,7 @@ public abstract class AbstractSpillingFluidProvider extends GenericDataProvider 
   @RequiredArgsConstructor
   private static class SpillingFluidJson {
     @Nullable
-    private final ICondition condition;
+    private final ConditionJsonProvider condition;
     private final FluidIngredient fluid;
     private final List<ISpillingEffect> effects;
   }

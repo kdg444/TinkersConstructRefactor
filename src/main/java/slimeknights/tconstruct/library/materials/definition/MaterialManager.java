@@ -5,14 +5,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.ICondition.IContext;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.exception.TinkerJSONException;
 import slimeknights.tconstruct.library.json.ConditionSerializer;
 import slimeknights.tconstruct.library.json.JsonRedirect;
@@ -43,11 +44,11 @@ import static java.util.Objects.requireNonNullElse;
  * So if your mods name is "foobar", the location for your mods materials is "data/foobar/materials".
  */
 @Log4j2
-public class MaterialManager extends SimpleJsonResourceReloadListener {
+public class MaterialManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloadListener {
   public static final String FOLDER = "tinkering/materials/definition";
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
-    .registerTypeAdapter(ICondition.class, ConditionSerializer.INSTANCE)
+    .registerTypeAdapter(ConditionJsonProvider.class, ConditionSerializer.INSTANCE)
     .setPrettyPrinting()
     .disableHtmlEscaping()
     .create();
@@ -61,8 +62,8 @@ public class MaterialManager extends SimpleJsonResourceReloadListener {
   /** Sorted list of visible materials */
   private List<IMaterial> sortedMaterials = Collections.emptyList();
   /** Context for conditions */
-  @Setter
-  private IContext conditionContext = IContext.EMPTY;
+//  @Setter
+//  private IContext conditionContext = IContext.EMPTY;
 
   public MaterialManager(Runnable onLoaded) {
     super(GSON, FOLDER);
@@ -181,8 +182,8 @@ public class MaterialManager extends SimpleJsonResourceReloadListener {
       JsonRedirect[] redirectsJson = materialJson.getRedirect();
       if (redirectsJson != null) {
         for (JsonRedirect redirect : redirectsJson) {
-          ICondition redirectCondition = redirect.getCondition();
-          if (redirectCondition == null || redirectCondition.test(conditionContext)) {
+          ConditionJsonProvider redirectCondition = redirect.getCondition();
+          if (redirectCondition == null || ResourceConditions.get(redirectCondition.getConditionId()).test(jsonObject)) {
             MaterialId redirectTarget = new MaterialId(redirect.getId());
             log.debug("Redirecting material {} to {}", materialId, redirectTarget);
             redirects.put(new MaterialId(materialId), redirectTarget);
@@ -192,8 +193,8 @@ public class MaterialManager extends SimpleJsonResourceReloadListener {
       }
 
       // condition
-      ICondition condition = materialJson.getCondition();
-      if (condition != null && !condition.test(conditionContext)) {
+      ConditionJsonProvider condition = materialJson.getCondition();
+      if (condition != null && !ResourceConditions.get(condition.getConditionId()).test(jsonObject)) {
         log.debug("Skipped loading material {} as it did not match the condition", materialId);
         return null;
       }
@@ -213,4 +214,8 @@ public class MaterialManager extends SimpleJsonResourceReloadListener {
     }
   }
 
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("material_manager");
+  }
 }

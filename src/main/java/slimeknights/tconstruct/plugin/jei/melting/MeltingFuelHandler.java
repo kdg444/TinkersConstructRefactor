@@ -6,7 +6,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import io.github.fabricators_of_create.porting_lib.util.Lazy;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 
 import java.util.Arrays;

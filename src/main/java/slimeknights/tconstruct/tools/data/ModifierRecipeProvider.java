@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.tools.data;
 
+import io.github.fabricators_of_create.porting_lib.crafting.CompoundIngredient;
+import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
-import net.fabricmc.fabric.api.tag.TagFactory;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -18,13 +18,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluids;
-import me.alphamode.forgetags.Tags;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidAttributes;
-import slimeknights.mantle.recipe.data.CompoundIngredient;
-import slimeknights.mantle.recipe.data.FluidNameIngredient;
 import slimeknights.mantle.recipe.data.ItemNameIngredient;
-import slimeknights.mantle.recipe.data.ItemNameOutput;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.recipe.ingredient.EntityIngredient;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;

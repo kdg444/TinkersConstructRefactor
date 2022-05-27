@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.modifiers.spilling;
 
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.data.GenericRegisteredSerializer;
 import slimeknights.mantle.data.GenericRegisteredSerializer.IJsonSerializable;
 import slimeknights.tconstruct.library.tools.context.ToolAttackContext;

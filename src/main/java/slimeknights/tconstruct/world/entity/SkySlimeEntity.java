@@ -7,7 +7,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.world.TinkerWorld;
 

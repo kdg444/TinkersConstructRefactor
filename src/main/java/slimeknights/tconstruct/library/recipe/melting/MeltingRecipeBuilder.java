@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.OreRateType;
@@ -71,7 +71,7 @@ public class MeltingRecipeBuilder extends AbstractRecipeBuilder<MeltingRecipeBui
    * @param timeFactor  Factor this recipe takes compared to the standard of ingots
    * @return  Builder instance
    */
-  public static MeltingRecipeBuilder melting(Ingredient input, Fluid fluid, int amount, float timeFactor) {
+  public static MeltingRecipeBuilder melting(Ingredient input, Fluid fluid, long amount, float timeFactor) {
     return melting(input, new FluidStack(fluid, amount), timeFactor);
   }
 
@@ -82,7 +82,7 @@ public class MeltingRecipeBuilder extends AbstractRecipeBuilder<MeltingRecipeBui
    * @param amount      Fluid returned from recipe
    * @return  Builder instance
    */
-  public static MeltingRecipeBuilder melting(Ingredient input, Fluid fluid, int amount) {
+  public static MeltingRecipeBuilder melting(Ingredient input, Fluid fluid, long amount) {
     return melting(input, new FluidStack(fluid, amount), IMeltingRecipe.calcTimeFactor(amount));
   }
 

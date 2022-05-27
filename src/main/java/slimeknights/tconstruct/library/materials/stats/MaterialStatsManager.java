@@ -8,10 +8,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import slimeknights.mantle.data.MergingJsonDataLoader;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.exception.TinkerAPIMaterialException;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.json.MaterialStatJson;
@@ -41,7 +43,7 @@ import java.util.stream.Collectors;
  * So if the material's mod name is "foobar", the location for your material's stats is "data/foobar/materials/stats".
  */
 @Log4j2
-public class MaterialStatsManager extends MergingJsonDataLoader<Map<ResourceLocation,JsonObject>> {
+public class MaterialStatsManager extends MergingJsonDataLoader<Map<ResourceLocation,JsonObject>> implements IdentifiableResourceReloadListener {
   public static final String FOLDER = "tinkering/materials/stats";
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
@@ -253,5 +255,10 @@ public class MaterialStatsManager extends MergingJsonDataLoader<Map<ResourceLoca
       return Optional.empty();
     }
     return Optional.ofNullable(GSON.fromJson(statsJson, type.getStatsClass()));
+  }
+
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("material_stats_manager");
   }
 }

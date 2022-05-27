@@ -1,12 +1,12 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
-import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents.Fall.FallEvent;
+import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents.Fall.FallEvent;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import io.github.fabricators_of_create.porting_lib.event.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;

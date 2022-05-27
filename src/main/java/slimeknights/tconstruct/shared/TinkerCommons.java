@@ -23,7 +23,6 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import org.apache.logging.log4j.Logger;
 import slimeknights.mantle.item.EdibleItem;
-import io.github.fabricators_of_create.porting_lib.event.DataPackReloadCallback;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import slimeknights.mantle.registration.object.BuildingBlockObject;
 import slimeknights.mantle.registration.object.EnumObject;
@@ -135,7 +134,7 @@ public final class TinkerCommons extends TinkerModule {
   public static final BlockContainerOpenedTrigger CONTAINER_OPENED_TRIGGER = new BlockContainerOpenedTrigger();
 
   public TinkerCommons() {
-    DataPackReloadCallback.EVENT.register(RecipeCacheInvalidator::onReloadListenerReload);
+    RecipeCacheInvalidator.onReloadListenerReload();
     commonSetupEvent();
   }
 
