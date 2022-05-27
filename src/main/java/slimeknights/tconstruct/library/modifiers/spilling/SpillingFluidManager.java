@@ -20,7 +20,6 @@ import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.json.ConditionSerializer;
 import slimeknights.tconstruct.library.json.FluidIngredientSerializer;
 import slimeknights.tconstruct.library.utils.JsonUtils;
 
@@ -38,7 +37,7 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
   public static final String FOLDER = "tinkering/spilling";
   /** GSON instance */
   public static final Gson GSON = (new GsonBuilder())
-    .registerTypeAdapter(ICondition.class, ConditionSerializer.INSTANCE)
+//    .registerTypeAdapter(ConditionJsonProvider.class, ConditionSerializer.INSTANCE) TODO: PORT?
     .registerTypeHierarchyAdapter(ISpillingEffect.class, ISpillingEffect.LOADER)
     .registerTypeAdapter(FluidIngredient.class, FluidIngredientSerializer.INSTANCE)
     .setPrettyPrinting()
@@ -73,7 +72,7 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
   /** Adds the managers as datapack listeners */
   private void addDataPackListeners() {
     ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(this);
-    conditionContext = event.getConditionContext();
+//    conditionContext = event.getConditionContext(); TODO: PORT?
   }
 
   @Override

@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.modifiers.spilling.effects;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+import io.github.fabricators_of_create.porting_lib.util.PotionHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,7 +28,7 @@ public record CureEffectsSpillingEffect(ItemStack stack) implements ISpillingEff
   public void applyEffects(FluidStack fluid, float scale, ToolAttackContext context) {
     LivingEntity target = context.getLivingTarget();
     if (target != null) {
-      target.curePotionEffects(stack);
+      PotionHelper.curePotionEffects(target, stack);
     }
   }
 

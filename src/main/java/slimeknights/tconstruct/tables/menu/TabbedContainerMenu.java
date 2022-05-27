@@ -2,6 +2,8 @@ package slimeknights.tconstruct.tables.menu;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtilForge;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandlerModifiable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;

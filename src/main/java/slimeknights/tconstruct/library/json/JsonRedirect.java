@@ -5,7 +5,6 @@ import lombok.Data;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.resources.ResourceLocation;
-import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
 import slimeknights.mantle.util.JsonHelper;
 
 import javax.annotation.Nullable;
@@ -34,7 +33,7 @@ public class JsonRedirect {
     ResourceLocation id = JsonHelper.getResourceLocation(json, "id");
     ConditionJsonProvider condition = null;
     if (json.has("condition")) {
-      condition = CraftingHelper.getCondition(json);
+//      condition = CraftingHelper.getCondition(json); TODO: PORT
     }
     return new JsonRedirect(id, condition);
   }

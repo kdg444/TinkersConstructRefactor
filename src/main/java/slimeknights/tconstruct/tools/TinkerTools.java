@@ -126,7 +126,7 @@ public final class TinkerTools extends TinkerModule {
   public static final RegistryObject<SimpleParticleType> axeAttackParticle = PARTICLE_TYPES.register("axe_attack", () -> FabricParticleTypes.simple(true));
 
   /* Entities */
-  public static final RegistryObject<EntityType<IndestructibleItemEntity>> indestructibleItem = ENTITIES.register("indestructible_item", () ->
+  public static final RegistryObject<EntityType<IndestructibleItemEntity>> indestructibleItem = ENTITIES.registerFabric("indestructible_item", () ->
     FabricEntityTypeBuilder.<IndestructibleItemEntity>create(MobCategory.MISC, IndestructibleItemEntity::new)
                       .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
                       .fireImmune());

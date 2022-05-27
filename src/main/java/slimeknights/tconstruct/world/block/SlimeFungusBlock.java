@@ -18,7 +18,7 @@ public class SlimeFungusBlock extends FungusBlock {
   }
 
   @Override
-  protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
+  public boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
     return state.is(TinkerTags.Blocks.SLIMY_SOIL);
   }
 

@@ -2,6 +2,8 @@ package slimeknights.tconstruct.tools.data;
 
 import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import me.alphamode.forgetags.Tags;
+import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
+import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -122,10 +124,10 @@ public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
       .addEffect(new EffectSpillingEffect(MobEffects.POISON, 10, 1));
 
     // potion fluid compat
-    TagKey<Fluid> potionTag = FluidTags.create(new ResourceLocation("forge", "potion"));
+    TagKey<Fluid> potionTag = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation("c", "potion"));
     // standard potion is 250 mb, but we want a smaller number. For the effects, we really want to divide into 4 pieces
     addFluid("potion_fluid", potionTag, FluidValues.BOTTLE / 2)
-      .condition(new NotCondition(new TagEmptyCondition<>(potionTag)))
+      .condition(DefaultResourceConditions.fluidTagsPopulated(potionTag))
       .addEffect(new PotionFluidEffect(0.5f, TagPredicate.ANY));
 
     // create has three types of bottles stored on their fluid, react to it to boost
@@ -136,7 +138,7 @@ public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
     };
     String create = "create";
     addFluid("potion_create", FluidNameIngredient.of(new ResourceLocation(create, "potion"), FluidAttributes.BUCKET_VOLUME / 8))
-      .condition(new ModLoadedCondition(create))
+      .condition(DefaultResourceConditions.allModsLoaded(create))
       .addEffect(new PotionFluidEffect(0.25f, createBottle.apply("REGULAR")))
       .addEffect(new PotionFluidEffect(0.5f, createBottle.apply("SPLASH")))
       .addEffect(new PotionFluidEffect(1f, createBottle.apply("LINGERING")));

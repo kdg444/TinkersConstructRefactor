@@ -138,13 +138,13 @@ public class MaterialIngredient extends Ingredient implements IngredientExtensio
 
   @Override
   public void invalidate() {
-    IngredientExtensions.super.invalidate();
+    super.invalidate();
     this.materialStacks = null;
   }
 
   @Override
   public boolean isSimple() {
-    return material == WILDCARD && IngredientExtensions.super.isSimple();
+    return material == WILDCARD && super.isSimple();
   }
 
   @Override

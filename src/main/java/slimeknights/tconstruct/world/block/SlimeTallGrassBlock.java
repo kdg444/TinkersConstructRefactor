@@ -64,7 +64,7 @@ public class SlimeTallGrassBlock extends BushBlock implements IShearable {
   }
 
   @Override
-  protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
+  public boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
     Block block = state.getBlock();
     return TinkerWorld.slimeDirt.contains(block) || TinkerWorld.vanillaSlimeGrass.contains(block) || TinkerWorld.earthSlimeGrass.contains(block) || TinkerWorld.skySlimeGrass.contains(block) || TinkerWorld.enderSlimeGrass.contains(block) || TinkerWorld.ichorSlimeGrass.contains(block);
   }

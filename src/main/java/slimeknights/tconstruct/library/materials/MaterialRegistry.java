@@ -191,7 +191,7 @@ public final class MaterialRegistry {
   /** Adds the managers as datapack listeners */
   private void addDataPackListeners() {
     ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(materialManager);
-    materialManager.setConditionContext(event.getConditionContext());
+//    materialManager.setConditionContext(event.getConditionContext()); TODO: PORT?
     ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(materialStatsManager);
     ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(materialTraitsManager);
   }

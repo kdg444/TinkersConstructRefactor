@@ -1,7 +1,5 @@
 package slimeknights.tconstruct.library.tools.nbt;
 
-import dev.onyxstudios.cca.api.v3.component.Component;
-import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -9,7 +7,6 @@ import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 
 import java.util.function.BiFunction;
 
@@ -56,6 +53,15 @@ public class NamespacedNBT implements INamespacedNBTView {
    */
   public void putInt(ResourceLocation name, int value) {
     data.putInt(name.toString(), value);
+  }
+
+  /**
+   * Sets an integer from the mod data
+   * @param name  Name
+   * @param value  Long value
+   */
+  public void putLong(ResourceLocation name, long value) {
+    data.putLong(name.toString(), value);
   }
 
   /**

@@ -1,5 +1,8 @@
 package slimeknights.tconstruct.world;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.fabricators_of_create.porting_lib.event.client.CreateSkullModelsCallback;
+import io.github.fabricators_of_create.porting_lib.util.Lazy;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -7,9 +10,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.model.SkullModel;
+import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -22,7 +24,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.Items;
-import io.github.fabricators_of_create.porting_lib.util.Lazy;
+import net.minecraft.world.level.block.SkullBlock;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
@@ -78,10 +80,8 @@ public class WorldClientEvents extends ClientEventBase {
     registerLayerDefinition(TinkerHeadType.ZOMBIFIED_PIGLIN, piglinHead);
   }
 
-  @SubscribeEvent
-  static void registerSkullModels(EntityRenderersEvent.CreateSkullModels event) {
-    EntityModelSet modelSet = event.getEntityModelSet();
-    SkullModelHelper.HEAD_LAYERS.forEach((type, layer) -> event.registerSkullModel(type, new SkullModel(modelSet.bakeLayer(layer))));
+  static void registerSkullModels(ImmutableMap.Builder<SkullBlock.Type, SkullModelBase> builder, EntityModelSet modelSet) {
+    SkullModelHelper.HEAD_LAYERS.forEach((type, layer) -> builder.put(type, new SkullModel(modelSet.bakeLayer(layer))));
   }
 
   static void registerRenderersSlime() {
@@ -162,6 +162,7 @@ public class WorldClientEvents extends ClientEventBase {
     registerRenderersSlime();
     WorldClientEvents.registerBlockColorHandlers();
     WorldClientEvents.registerItemColorHandlers();
+    CreateSkullModelsCallback.EVENT.register(WorldClientEvents::registerSkullModels);
   }
 
   static void registerBlockColorHandlers() {

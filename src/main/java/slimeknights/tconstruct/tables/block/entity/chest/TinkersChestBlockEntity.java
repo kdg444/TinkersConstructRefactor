@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tables.block.entity.chest;
 
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerForge;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -11,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tables.block.entity.inventory.IChestItemHandler;
@@ -67,7 +67,7 @@ public class TinkersChestBlockEntity extends AbstractChestBlockEntity {
   }
 
   /** Item handler for tinkers chests */
-  public static class TinkersChestItemHandler extends ItemStackHandler implements IChestItemHandler {
+  public static class TinkersChestItemHandler extends ItemStackHandlerForge implements IChestItemHandler {
     @Setter @Nullable
     private MantleBlockEntity parent;
     public TinkersChestItemHandler() {

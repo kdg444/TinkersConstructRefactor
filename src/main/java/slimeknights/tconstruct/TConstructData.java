@@ -12,6 +12,7 @@ public class TConstructData implements DataGeneratorEntrypoint {
   @Override
   public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
     ExistingFileHelper helper = null;
+    TConstruct.onInitializeDataGenerator(fabricDataGenerator);
     TinkerSmeltery.gatherData(fabricDataGenerator);
     TinkerModifiers.gatherData(fabricDataGenerator);
 

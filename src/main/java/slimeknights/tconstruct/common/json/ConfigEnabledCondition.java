@@ -4,7 +4,6 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSyntaxException;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
@@ -46,8 +45,7 @@ public class ConfigEnabledCondition implements ConditionJsonProvider, LootItemCo
     json.addProperty("prop", configName);
   }
 
-  @Override
-  public boolean test(IContext context) {
+  public boolean test() {
     return supplier.getAsBoolean();
   }
 
@@ -85,9 +83,9 @@ public class ConfigEnabledCondition implements ConditionJsonProvider, LootItemCo
    * @return Added condition
    */
   private static ConfigEnabledCondition add(String prop, BooleanSupplier supplier) {
-    ConfigEnabledCondition conf = TinkerConditons.configEnabled(prop, supplier);
-    PROPS.put(prop.toLowerCase(Locale.ROOT), conf);
-    return conf;
+//    ConfigEnabledCondition conf = TinkerConditons.configEnabled(prop, supplier); TODO: PORT
+//    PROPS.put(prop.toLowerCase(Locale.ROOT), conf);
+    return null;//conf;
   }
 
   /**

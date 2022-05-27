@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.entity.component;
 
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTransferableForge;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemTransferableForge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
@@ -118,7 +120,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
 //  }
 
   /** Fluid implementation of smeltery IO */
-  public static abstract class SmelteryFluidIO extends SmelteryInputOutputBlockEntity<IFluidHandler> implements FluidTransferable {
+  public static abstract class SmelteryFluidIO extends SmelteryInputOutputBlockEntity<IFluidHandler> implements FluidTransferableForge {
     protected SmelteryFluidIO(BlockEntityType<?> type, BlockPos pos, BlockState state) {
       super(type, pos, state, IFluidHandler.class, EmptyFluidHandler.INSTANCE);
     }
@@ -149,7 +151,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
   }
 
   /** Item implementation of smeltery IO */
-  public static class ChuteBlockEntity extends SmelteryInputOutputBlockEntity<IItemHandler> implements ItemTransferable {
+  public static class ChuteBlockEntity extends SmelteryInputOutputBlockEntity<IItemHandler> implements ItemTransferableForge {
     public ChuteBlockEntity(BlockPos pos, BlockState state) {
       this(TinkerSmeltery.chute.get(), pos, state);
     }

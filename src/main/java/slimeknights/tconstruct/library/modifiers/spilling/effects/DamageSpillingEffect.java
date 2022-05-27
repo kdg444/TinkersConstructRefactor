@@ -4,6 +4,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSyntaxException;
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.DamageSourceAccessor;
 import lombok.Getter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -59,7 +60,7 @@ public record DamageSpillingEffect(DamageType type, float damage) implements ISp
     FIRE {
       @Override
       public void apply(DamageSource source) {
-        source.setIsFire();
+        ((DamageSourceAccessor)source).port_lib$setFireDamage();
       }
     },
     MAGIC {

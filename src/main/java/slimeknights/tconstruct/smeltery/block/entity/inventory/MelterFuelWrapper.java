@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.smeltery.block.entity.inventory;
 
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTankForge;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.library.recipe.fuel.IFluidContainer;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 
@@ -14,9 +14,9 @@ import java.util.Optional;
  * Fluid tank wrapper that weakly references a tank from a neighbor
  */
 public class MelterFuelWrapper implements IFluidContainer {
-  private final WeakReference<FluidTank> tank;
+  private final WeakReference<FluidTankForge> tank;
 
-  public MelterFuelWrapper(FluidTank tank) {
+  public MelterFuelWrapper(FluidTankForge tank) {
     this.tank = new WeakReference<>(tank);
   }
 
@@ -31,7 +31,7 @@ public class MelterFuelWrapper implements IFluidContainer {
   @Override
   public Fluid getFluid() {
     return Optional.ofNullable(tank.get())
-                   .map(FluidTank::getFluid)
+                   .map(FluidTankForge::getFluid)
                    .map(FluidStack::getFluid)
                    .orElse(Fluids.EMPTY);
   }
@@ -44,7 +44,7 @@ public class MelterFuelWrapper implements IFluidContainer {
    */
   public FluidStack getFluidStack() {
     return Optional.ofNullable(tank.get())
-                   .map(FluidTank::getFluid)
+                   .map(FluidTankForge::getFluid)
                    .orElse(FluidStack.EMPTY);
   }
 
@@ -54,7 +54,7 @@ public class MelterFuelWrapper implements IFluidContainer {
    */
   public long getCapacity() {
     return Optional.ofNullable(tank.get())
-                   .map(FluidTank::getCapacity)
+                   .map(FluidTankForge::getCapacity)
                    .orElse(0L);
   }
 
@@ -64,7 +64,7 @@ public class MelterFuelWrapper implements IFluidContainer {
    * @return  Ticks of fuel units
    */
   public long consumeFuel(MeltingFuel fuel) {
-    FluidTank tank = this.tank.get();
+    FluidTankForge tank = this.tank.get();
     if (tank != null) {
       long amount = fuel.getAmount(this);
       if (amount > 0) {

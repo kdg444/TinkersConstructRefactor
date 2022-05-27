@@ -7,8 +7,6 @@ import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEven
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.minecraft.resources.ResourceKey;
@@ -23,6 +21,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -65,8 +64,6 @@ public class WorldEvents {
 
   public static void init() {
     LootTableLoadingCallback.EVENT.register(WorldEvents::onLootTableLoad);
-    ServerLifecycleEvents.SERVER_STARTING.register(WorldEvents::serverStarting);
-    ServerWorldEvents.LOAD.register(WorldEvents::onWorldLoad);
     LivingEntityEvents.DROPS.register(WorldEvents::creeperKill);
     onBiomeLoad();
   }
@@ -84,12 +81,12 @@ public class WorldEvents {
     // nether - any biome is fine
 //    if (matches(hasNoTypes, key, category, BiomeCategory.NETHER, Type.NETHER)) {
       if (Config.COMMON.generateCobalt.get()) {
-        TinkerWorld.placedSmallCobaltOre.getHolder().ifPresent(holder -> generation.addFeature(Decoration.UNDERGROUND_DECORATION, holder));
-        TinkerWorld.placedLargeCobaltOre.getHolder().ifPresent(holder -> generation.addFeature(Decoration.UNDERGROUND_DECORATION, holder));
+        TinkerWorld.placedSmallCobaltOre.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.UNDERGROUND_DECORATION, holder.unwrapKey().get()));
+        TinkerWorld.placedLargeCobaltOre.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.UNDERGROUND_DECORATION, holder.unwrapKey().get()));
       }
       // ichor can be anywhere
       if (Config.COMMON.ichorGeodes.get()) {
-        TinkerWorld.placedIchorGeode.getHolder().ifPresent(holder -> generation.addFeature(Decoration.LOCAL_MODIFICATIONS, holder));
+        TinkerWorld.placedIchorGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
       }
 //    }
     // end, mostly do stuff in the outer islands
@@ -97,8 +94,8 @@ public class WorldEvents {
       // slime spawns anywhere, uses the grass
       BiomeModifications.addSpawn(BiomeSelectors.foundInTheEnd(), MobCategory.MONSTER, TinkerWorld.enderSlimeEntity.get(), 10, 2, 4);
       // geodes only on outer islands
-      if (Config.COMMON.enderGeodes.get() && key != null && !Biomes.THE_END.equals(key)) {
-        TinkerWorld.placedEnderGeode.getHolder().ifPresent(holder -> generation.addFeature(Decoration.LOCAL_MODIFICATIONS, holder));
+      if (Config.COMMON.enderGeodes.get()/* && key != null && !Biomes.THE_END.equals(key)*/) {
+        TinkerWorld.placedEnderGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(context -> context.canGenerateIn(LevelStem.END) && context.getBiomeKey() != Biomes.THE_END,Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
       }
 //    }
     // overworld gets tricky
@@ -109,19 +106,19 @@ public class WorldEvents {
 
       // earth spawns anywhere, sky does not spawn in ocean (looks weird)
       if (Config.COMMON.earthGeodes.get()) {
-        TinkerWorld.placedEarthGeode.getHolder().ifPresent(holder -> generation.addFeature(Decoration.LOCAL_MODIFICATIONS, holder));
+        TinkerWorld.placedEarthGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
       }
       // sky spawn in non-oceans, they look funny in the ocean as they spawn so high
       if (Config.COMMON.skyGeodes.get()) {
         boolean add;
-        if (hasNoTypes) {
-          add = category != BiomeCategory.OCEAN && category != BiomeCategory.BEACH && category != BiomeCategory.RIVER;
-        } else {
-          add = !BiomeDictionary.hasType(key, Type.WATER) && !BiomeDictionary.hasType(key, Type.BEACH);
-        }
-        if (add) {
-          TinkerWorld.placedSkyGeode.getHolder().ifPresent(holder -> generation.addFeature(Decoration.LOCAL_MODIFICATIONS, holder));
-        }
+//        if (hasNoTypes) {
+//          add = category != BiomeCategory.OCEAN && category != BiomeCategory.BEACH && category != BiomeCategory.RIVER;
+//        } else {
+//          add = !BiomeDictionary.hasType(key, Type.WATER) && !BiomeDictionary.hasType(key, Type.BEACH);
+//        }
+//        if (add) {
+//          TinkerWorld.placedSkyGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(Decoration.LOCAL_MODIFICATIONS, holder));
+//        }
       }
 //    }
   }

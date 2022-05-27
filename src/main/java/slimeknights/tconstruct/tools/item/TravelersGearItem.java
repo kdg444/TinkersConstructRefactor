@@ -1,8 +1,7 @@
 package slimeknights.tconstruct.tools.item;
 
 import io.github.fabricators_of_create.porting_lib.util.ArmorTextureItem;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.Model;
+import io.github.fabricators_of_create.porting_lib.util.common.item.WalkOnSnowItem;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,13 +11,10 @@ import slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.library.tools.item.ModifiableArmorItem;
 import slimeknights.tconstruct.tools.TinkerModifiers;
-import slimeknights.tconstruct.tools.client.TravelersGearModel;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.function.Consumer;
 
-public class TravelersGearItem extends ModifiableArmorItem implements ArmorTextureItem {
+public class TravelersGearItem extends ModifiableArmorItem implements ArmorTextureItem, WalkOnSnowItem {
   /** Golden texture for armor */
   private static final String GOLDEN_ARMOR = TConstruct.resourceString("textures/models/armor/travelers_golden_1.png");
   /** Golden texture for leggings */

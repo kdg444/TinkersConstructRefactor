@@ -1,11 +1,12 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
+import io.github.fabricators_of_create.porting_lib.event.common.PotionEvents;
+import io.github.fabricators_of_create.porting_lib.util.PotionHelper;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import io.github.fabricators_of_create.porting_lib.event.common.PotionEvents;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
@@ -39,7 +40,7 @@ public class BoonOfSssssModifier extends TotalArmorLevelModifier {
     if (newEffect.getEffect().isBeneficial()) {
       if (ModifierUtil.getTotalModifierLevel(living, POTENT_POTIONS) > 0) {
         newEffect.duration *= 1.25f;
-        ((MobEffectInstanceExtensions)newEffect).getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));
+        newEffect.getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));
       }
     }
   }

@@ -15,7 +15,6 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.exception.TinkerJSONException;
-import slimeknights.tconstruct.library.json.ConditionSerializer;
 import slimeknights.tconstruct.library.json.JsonRedirect;
 import slimeknights.tconstruct.library.materials.json.MaterialJson;
 import slimeknights.tconstruct.library.utils.Util;
@@ -48,7 +47,7 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
   public static final String FOLDER = "tinkering/materials/definition";
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
-    .registerTypeAdapter(ConditionJsonProvider.class, ConditionSerializer.INSTANCE)
+//    .registerTypeAdapter(ConditionJsonProvider.class, ConditionSerializer.INSTANCE) TODO: PORT?
     .setPrettyPrinting()
     .disableHtmlEscaping()
     .create();

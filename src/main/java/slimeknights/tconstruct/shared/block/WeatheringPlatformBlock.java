@@ -1,6 +1,10 @@
 package slimeknights.tconstruct.shared.block;
 
+import io.github.fabricators_of_create.porting_lib.tags.ToolTags;
+import io.github.fabricators_of_create.porting_lib.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 import lombok.Getter;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -10,13 +14,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import io.github.fabricators_of_create.porting_lib.util.ToolAction;
-import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.shared.TinkerCommons;
 
@@ -30,6 +31,7 @@ public class WeatheringPlatformBlock extends PlatformBlock implements Weathering
   public WeatheringPlatformBlock(WeatherState age, Properties props) {
     super(props);
     this.age = age;
+    UseBlockCallback.EVENT.register(this::getToolModifiedState); // TODO: Move this to a static init method
   }
 
   @Override
@@ -75,16 +77,15 @@ public class WeatheringPlatformBlock extends PlatformBlock implements Weathering
     };
   }
 
-//  @org.jetbrains.annotations.Nullable
-  @Override
-  public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate) {
-    if (ToolActions.AXE_SCRAPE.equals(toolAction)) {
+  public InteractionResult getToolModifiedState(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
+    if (player.getItemInHand(hand).is(ToolTags.AXES)) {
       WeatherState prev = getPrevious(age);
       if (prev != null) {
-        return TinkerCommons.copperPlatform.get(prev).withPropertiesOf(state);
+        world.setBlockAndUpdate(hitResult.getBlockPos(), TinkerCommons.copperPlatform.get(prev).withPropertiesOf(world.getBlockState(hitResult.getBlockPos())));
+        return InteractionResult.SUCCESS;
       }
     }
-    return null;
+    return InteractionResult.PASS;
   }
 
   @Deprecated

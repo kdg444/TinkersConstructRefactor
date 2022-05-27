@@ -28,8 +28,8 @@ public class CastItemObject extends ItemObject<Item> {
   public CastItemObject(ResourceLocation name, Item gold, Item sand, Item redSand) {
     super(gold);
     this.name = name;
-    this.sand = sand.delegate;
-    this.redSand = redSand.delegate;
+    this.sand = () -> sand;
+    this.redSand = () -> redSand;
     this.singleUseTag = makeTag("single_use");
     this.multiUseTag = makeTag("multi_use");
   }

@@ -149,12 +149,12 @@ public class TankModifier extends Modifier {
   }
 
   /** Adds the given capacity into volatile NBT */
-  public void addCapacity(ModDataNBT volatileNBT, int amount) {
+  public void addCapacity(ModDataNBT volatileNBT, long amount) {
     ResourceLocation key = getCapacityKey();
     if (volatileNBT.contains(key, Tag.TAG_ANY_NUMERIC)) {
       amount += volatileNBT.getInt(key);
     }
-    volatileNBT.putInt(key, amount);
+    volatileNBT.putLong(key, amount);
   }
 
   /** Gets the fluid in the tank */

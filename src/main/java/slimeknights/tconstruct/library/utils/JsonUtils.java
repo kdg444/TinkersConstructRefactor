@@ -163,9 +163,8 @@ public class JsonUtils {
     // this event is not fired when connecting to a server
     if (!player.connection.getConnection().isMemoryConnection()) {
       TinkerNetwork network = TinkerNetwork.getInstance();
-      PacketTarget target = PacketDistributor.PLAYER.with(() -> player);
       for (ISimplePacket packet : packets) {
-        network.send(target, packet);
+        network.sendTo(packet, player);
       }
     }
   }

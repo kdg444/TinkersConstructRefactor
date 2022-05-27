@@ -1,9 +1,11 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
-import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityUseItemEvents;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityUseItemEvents;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.PotionHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -11,7 +13,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
 import slimeknights.tconstruct.library.modifiers.spilling.ISpillingEffect;
@@ -49,8 +50,8 @@ public class StrongBonesModifier extends TotalArmorLevelModifier {
   private static void drinkMilk(LivingEntity living, int duration) {
     if (ModifierUtil.getTotalModifierLevel(living, STRONG_BONES) > 0) {
       MobEffectInstance effect = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration);
-      ((MobEffectInstanceExtensions)effect).getCurativeItems().clear();
-      ((MobEffectInstanceExtensions)effect).getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));
+      effect.getCurativeItems().clear();
+      effect.getCurativeItems().add(new ItemStack(living.getItemBySlot(EquipmentSlot.HEAD).getItem()));
       living.addEffect(effect);
     }
     if (ModifierUtil.getTotalModifierLevel(living, CALCIFIABLE) > 0) {

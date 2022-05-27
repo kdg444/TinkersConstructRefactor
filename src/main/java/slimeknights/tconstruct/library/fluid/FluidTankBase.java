@@ -1,12 +1,12 @@
 package slimeknights.tconstruct.library.fluid;
 
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTankForge;
 import net.minecraft.world.level.Level;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.smeltery.network.FluidUpdatePacket;
 
-public class FluidTankBase<T extends MantleBlockEntity> extends FluidTank {
+public class FluidTankBase<T extends MantleBlockEntity> extends FluidTankForge {
 
   protected T parent;
 

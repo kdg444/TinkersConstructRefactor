@@ -1,5 +1,8 @@
 package slimeknights.tconstruct.smeltery.block.entity.controller;
 
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTransferableForge;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
@@ -13,9 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTransferable;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -38,7 +38,7 @@ import java.util.Collections;
 /**
  * Dedicated alloying block
  */
-public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferable {
+public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferableForge {
   /** Max capacity for the tank */
   private static final long TANK_CAPACITY = TankType.INGOT_TANK.getCapacity();
   /** Name of the container */

@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.gadgets;
 
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.world.entity.EntityDimensions;
@@ -16,7 +17,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import org.apache.logging.log4j.Logger;
 import slimeknights.mantle.item.BlockTooltipItem;
-import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.mantle.util.SupplierCreativeTab;
@@ -24,7 +24,6 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.gadgets.block.FoodCakeBlock;
 import slimeknights.tconstruct.gadgets.block.PunjiBlock;
-import slimeknights.tconstruct.gadgets.capability.PiggybackCapability;
 import slimeknights.tconstruct.gadgets.entity.EflnBallEntity;
 import slimeknights.tconstruct.gadgets.entity.FancyItemFrameEntity;
 import slimeknights.tconstruct.gadgets.entity.FrameType;
@@ -104,7 +103,7 @@ public final class TinkerGadgets extends TinkerModule {
   /*
    * Entities
    */
-  public static final RegistryObject<EntityType<FancyItemFrameEntity>> itemFrameEntity = ENTITIES.register("fancy_item_frame", () ->
+  public static final RegistryObject<EntityType<FancyItemFrameEntity>> itemFrameEntity = ENTITIES.registerFabric("fancy_item_frame", () ->
     FabricEntityTypeBuilder.<FancyItemFrameEntity>create(
         MobCategory.MISC, FancyItemFrameEntity::new)
       .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
@@ -113,7 +112,7 @@ public final class TinkerGadgets extends TinkerModule {
       .entityFactory((spawnEntity, world) -> new FancyItemFrameEntity(TinkerGadgets.itemFrameEntity.get(), world))
       .forceTrackedVelocityUpdates(false)
   );
-  public static final RegistryObject<EntityType<GlowballEntity>> glowBallEntity = ENTITIES.register("glow_ball", () ->
+  public static final RegistryObject<EntityType<GlowballEntity>> glowBallEntity = ENTITIES.registerFabric("glow_ball", () ->
     FabricEntityTypeBuilder.<GlowballEntity>create(MobCategory.MISC, GlowballEntity::new)
       .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
       .trackRangeChunks(4)
@@ -121,7 +120,7 @@ public final class TinkerGadgets extends TinkerModule {
       .entityFactory((spawnEntity, world) -> new GlowballEntity(TinkerGadgets.glowBallEntity.get(), world))
       .forceTrackedVelocityUpdates(true)
   );
-  public static final RegistryObject<EntityType<EflnBallEntity>> eflnEntity = ENTITIES.register("efln_ball", () ->
+  public static final RegistryObject<EntityType<EflnBallEntity>> eflnEntity = ENTITIES.registerFabric("efln_ball", () ->
     FabricEntityTypeBuilder.<EflnBallEntity>create(MobCategory.MISC, EflnBallEntity::new)
       .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
       .trackRangeChunks(4)
@@ -129,7 +128,7 @@ public final class TinkerGadgets extends TinkerModule {
       .entityFactory((spawnEntity, world) -> new EflnBallEntity(TinkerGadgets.eflnEntity.get(), world))
       .forceTrackedVelocityUpdates(true)
   );
-  public static final RegistryObject<EntityType<QuartzShurikenEntity>> quartzShurikenEntity = ENTITIES.register("quartz_shuriken", () ->
+  public static final RegistryObject<EntityType<QuartzShurikenEntity>> quartzShurikenEntity = ENTITIES.registerFabric("quartz_shuriken", () ->
     FabricEntityTypeBuilder.<QuartzShurikenEntity>create(MobCategory.MISC, QuartzShurikenEntity::new)
       .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
       .trackRangeChunks(4)
@@ -137,7 +136,7 @@ public final class TinkerGadgets extends TinkerModule {
       .entityFactory((spawnEntity, world) -> new QuartzShurikenEntity(TinkerGadgets.quartzShurikenEntity.get(), world))
       .forceTrackedVelocityUpdates(true)
   );
-  public static final RegistryObject<EntityType<FlintShurikenEntity>> flintShurikenEntity = ENTITIES.register("flint_shuriken", () ->
+  public static final RegistryObject<EntityType<FlintShurikenEntity>> flintShurikenEntity = ENTITIES.registerFabric("flint_shuriken", () ->
     FabricEntityTypeBuilder.<FlintShurikenEntity>create(MobCategory.MISC, FlintShurikenEntity::new)
       .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
       .trackRangeChunks(4)

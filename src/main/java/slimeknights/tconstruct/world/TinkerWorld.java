@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.world;
 
 import com.google.common.collect.ImmutableSet;
+import io.github.fabricators_of_create.porting_lib.util.PlantType;
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
@@ -13,7 +15,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -60,10 +61,8 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import io.github.fabricators_of_create.porting_lib.util.PlantType;
 import org.apache.logging.log4j.Logger;
 import slimeknights.mantle.item.BlockTooltipItem;
-import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.mantle.registration.object.WoodBlockObject;
@@ -90,7 +89,6 @@ import slimeknights.tconstruct.world.block.SlimeTallGrassBlock;
 import slimeknights.tconstruct.world.block.SlimeVineBlock;
 import slimeknights.tconstruct.world.block.SlimeWartBlock;
 import slimeknights.tconstruct.world.block.StickySlimeBlock;
-import slimeknights.tconstruct.world.data.WorldRecipeProvider;
 import slimeknights.tconstruct.world.entity.EarthSlimeEntity;
 import slimeknights.tconstruct.world.entity.EnderSlimeEntity;
 import slimeknights.tconstruct.world.entity.SkySlimeEntity;
@@ -274,25 +272,25 @@ public final class TinkerWorld extends TinkerModule {
    * Entities
    */
   // our own copy of the slime to make spawning a bit easier
-  public static final RegistryObject<EntityType<EarthSlimeEntity>> earthSlimeEntity = ENTITIES.register("earth_slime", () ->
+  public static final RegistryObject<EntityType<EarthSlimeEntity>> earthSlimeEntity = ENTITIES.registerFabric("earth_slime", () ->
     FabricEntityTypeBuilder.create(MobCategory.MONSTER, EarthSlimeEntity::new)
                       .forceTrackedVelocityUpdates(true)
                       .trackRangeChunks(10)
                       .dimensions(EntityDimensions.fixed(2.04F, 2.04F))
                       /*.entityFactory((spawnEntity, world) -> TinkerWorld.earthSlimeEntity.get().create(world))*/);
-  public static final RegistryObject<EntityType<SkySlimeEntity>> skySlimeEntity = ENTITIES.registerWithEgg("sky_slime", () ->
+  public static final RegistryObject<EntityType<SkySlimeEntity>> skySlimeEntity = ENTITIES.registerWithEggFabric("sky_slime", () ->
     FabricEntityTypeBuilder.create(MobCategory.MONSTER, SkySlimeEntity::new)
                       .forceTrackedVelocityUpdates(true)
                       .trackRangeChunks(20)
                       .dimensions(EntityDimensions.fixed(2.04F, 2.04F))
                      /* .entityFactory((spawnEntity, world) -> TinkerWorld.skySlimeEntity.get().create(world))*/, 0x47eff5, 0xacfff4);
-  public static final RegistryObject<EntityType<EnderSlimeEntity>> enderSlimeEntity = ENTITIES.registerWithEgg("ender_slime", () ->
+  public static final RegistryObject<EntityType<EnderSlimeEntity>> enderSlimeEntity = ENTITIES.registerWithEggFabric("ender_slime", () ->
     FabricEntityTypeBuilder.create(MobCategory.MONSTER, EnderSlimeEntity::new)
                       .forceTrackedVelocityUpdates(true)
                       .trackRangeChunks(32)
                       .dimensions(EntityDimensions.fixed(2.04F, 2.04F))
                       /*.entityFactory((spawnEntity, world) -> TinkerWorld.enderSlimeEntity.get().create(world))*/, 0x6300B0, 0xD37CFF);
-  public static final RegistryObject<EntityType<TerracubeEntity>> terracubeEntity = ENTITIES.registerWithEgg("terracube", () ->
+  public static final RegistryObject<EntityType<TerracubeEntity>> terracubeEntity = ENTITIES.registerWithEggFabric("terracube", () ->
     FabricEntityTypeBuilder.create(MobCategory.MONSTER, TerracubeEntity::new)
                       .forceTrackedVelocityUpdates(true)
                       .trackRangeChunks(8)

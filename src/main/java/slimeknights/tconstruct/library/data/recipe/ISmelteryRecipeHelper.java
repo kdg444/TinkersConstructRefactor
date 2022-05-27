@@ -3,7 +3,6 @@ package slimeknights.tconstruct.library.data.recipe;
 import io.github.fabricators_of_create.porting_lib.crafting.CompoundIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.IntersectionIngredient;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import me.alphamode.forgetags.Tags;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -16,8 +15,6 @@ import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.mantle.registration.object.MetalItemObject;
 import slimeknights.tconstruct.common.registration.CastItemObject;
-import slimeknights.tconstruct.library.json.TagDifferencePresentCondition;
-import slimeknights.tconstruct.library.json.TagIntersectionPresentCondition;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.casting.ItemCastingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.OreRateType;
@@ -69,11 +66,11 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
     // not everyone sets size, so treat singular as the fallback, means we want anything in the tag that is not sparse or dense
     if (size == Tags.Items.ORE_RATES_SINGULAR) {
       ingredient = DifferenceIngredient.of(baseIngredient, CompoundIngredient.of(Ingredient.of(Tags.Items.ORE_RATES_SPARSE), Ingredient.of(Tags.Items.ORE_RATES_DENSE)));
-      wrapped = withCondition(consumer, TagDifferencePresentCondition.ofKeys(getItemTag("c", tagName), Tags.Items.ORE_RATES_SPARSE, Tags.Items.ORE_RATES_DENSE));
+//      wrapped = withCondition(consumer, TagDifferencePresentCondition.ofKeys(getItemTag("c", tagName), Tags.Items.ORE_RATES_SPARSE, Tags.Items.ORE_RATES_DENSE)); TODO: PORT
       // size tag means we want an intersection between the tag and that size
     } else if (size != null) {
       ingredient = IntersectionIngredient.of(baseIngredient, Ingredient.of(size));
-      wrapped = withCondition(consumer, TagIntersectionPresentCondition.ofKeys(getItemTag("c", tagName), size));
+//      wrapped = withCondition(consumer, TagIntersectionPresentCondition.ofKeys(getItemTag("c", tagName), size)); TODO: PORT
       // default only need it to be in the tag
     } else {
       ingredient = baseIngredient;
@@ -84,12 +81,12 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
 
     // if no byproducts, just build directly
     if (byproducts.length == 0) {
-      supplier.get().save(wrapped, location);
+//      supplier.get().save(wrapped, location); TODO: PORT
       // if first option is always present, only need that one
     } else if (byproducts[0].isAlwaysPresent()) {
-      supplier.get()
-              .addByproduct(new FluidStack(byproducts[0].getFluid(), (int)(byproducts[0].getAmount() * byproductScale)))
-              .save(wrapped, location);
+//      supplier.get() TODO: PORT
+//              .addByproduct(new FluidStack(byproducts[0].getFluid(), (int)(byproducts[0].getAmount() * byproductScale)))
+//              .save(wrapped, location);
     } else {
       // multiple options, will need a conditonal recipe
 //      ConditionalRecipe.Builder builder = ConditionalRecipe.builder();

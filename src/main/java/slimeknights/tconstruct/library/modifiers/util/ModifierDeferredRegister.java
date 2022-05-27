@@ -25,7 +25,7 @@ public class ModifierDeferredRegister {
 
   /** Registers the deferred register with the relevant forge event busses */
   public void register() {
-    bus.addListener(EventPriority.NORMAL, false, ModifierRegistrationEvent.class, this::handleEvent);
+    ModifierRegistrationEvent.EVENT.register(this::handleEvent);
   }
 
   /**

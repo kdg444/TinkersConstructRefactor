@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.entity.inventory;
 
 import net.fabricmc.fabric.api.registry.FuelRegistry;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.mantle.inventory.SingleItemHandler;
 
@@ -14,7 +14,8 @@ public class HeaterItemHandler extends SingleItemHandler<MantleBlockEntity> {
   }
 
   @Override
-  protected boolean canInsert(ItemVariant itemVariant) {
-    return FuelRegistry.INSTANCE.get(itemVariant.getItem()) > 3;
+  protected boolean isItemValid(ItemStack stack) {
+    // fuel module divides by 4, so anything 3 or less is treated as 0
+    return FuelRegistry.INSTANCE.get(stack.getItem()) > 3;
   }
 }

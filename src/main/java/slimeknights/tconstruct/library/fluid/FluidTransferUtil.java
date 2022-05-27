@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.fluid;
 
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.BucketItemAccessor;
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtilForge;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.EmptyFluidHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
@@ -79,14 +80,14 @@ public class FluidTransferUtil {
   public static boolean interactWithBucket(Level world, BlockPos pos, Player player, InteractionHand hand, Direction hit, Direction offset) {
     ItemStack held = player.getItemInHand(hand);
     if (held.getItem() instanceof BucketItem bucket) {
-      Fluid fluid = bucket.getFluid();
+      Fluid fluid = ((BucketItemAccessor)bucket).port_lib$getContent();
       if (fluid != Fluids.EMPTY) {
         if (!world.isClientSide) {
           BlockEntity te = world.getBlockEntity(pos);
           if (te != null) {
             TransferUtilForge.getFluidHandler(te, hit)
               .ifPresent(handler -> {
-                FluidStack fluidStack = new FluidStack(bucket.getFluid(), FluidAttributes.BUCKET_VOLUME);
+                FluidStack fluidStack = new FluidStack(((BucketItemAccessor)bucket).port_lib$getContent(), FluidAttributes.BUCKET_VOLUME);
                 // must empty the whole bucket
                 if (handler.fill(fluidStack, true) == FluidAttributes.BUCKET_VOLUME) {
                   handler.fill(fluidStack, false);
@@ -94,7 +95,7 @@ public class FluidTransferUtil {
                   world.playSound(null, pos, fluid.getAttributes().getEmptySound(), SoundSource.BLOCKS, 1.0F, 1.0F);
                   player.displayClientMessage(new TranslatableComponent(KEY_FILLED, FluidAttributes.BUCKET_VOLUME, fluidStack.getDisplayName()), true);
                   if (!player.isCreative()) {
-                    player.setItemInHand(hand, held.getContainerItem());
+                    player.setItemInHand(hand, new ItemStack(held.getItem().getCraftingRemainingItem()));
                   }
                 }
               });

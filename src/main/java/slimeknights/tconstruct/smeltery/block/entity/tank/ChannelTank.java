@@ -1,13 +1,12 @@
 package slimeknights.tconstruct.smeltery.block.entity.tank;
 
-import net.minecraft.nbt.CompoundTag;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTankForge;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
+import net.minecraft.nbt.CompoundTag;
 import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
 
 /** Tank for channel contents */
-public class ChannelTank extends FluidTank {
+public class ChannelTank extends FluidTankForge {
 	private static final String TAG_LOCKED = "locked";
 
 	/**
@@ -21,7 +20,7 @@ public class ChannelTank extends FluidTank {
 	private final ChannelBlockEntity parent;
 
 	public ChannelTank(int capacity, ChannelBlockEntity parent) {
-		super(capacity, fluid -> !((FluidExtensions)fluid.getFluid()).getAttributes().isGaseous(fluid));
+		super(capacity, fluid -> !fluid.getFluid().getAttributes().isGaseous(fluid));
 		this.parent = parent;
 	}
 
@@ -66,7 +65,7 @@ public class ChannelTank extends FluidTank {
 	}
 
 	@Override
-	public FluidTank readFromNBT(CompoundTag nbt) {
+	public FluidTankForge readFromNBT(CompoundTag nbt) {
 		this.locked = nbt.getInt(TAG_LOCKED);
 		super.readFromNBT(nbt);
 		return this;

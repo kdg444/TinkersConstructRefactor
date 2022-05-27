@@ -32,7 +32,7 @@ public class ModifierArgument implements ArgumentType<Modifier> {
     if (!ModifierManager.INSTANCE.contains(loc)) {
       throw MODIFIER_NOT_FOUND.create(loc);
     }
-    return ModifierManager.get(loc);
+    return ModifierManager.getValue(loc);
   }
 
   /** Gets a modifier from the command context */

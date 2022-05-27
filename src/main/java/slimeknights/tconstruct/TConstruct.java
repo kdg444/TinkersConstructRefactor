@@ -1,21 +1,13 @@
 package slimeknights.tconstruct;
 
-import com.mojang.datafixers.DataFixerBuilder;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import slimeknights.mantle.registration.RegistrationHelper;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
@@ -29,7 +21,6 @@ import slimeknights.tconstruct.common.data.tags.EntityTypeTagProvider;
 import slimeknights.tconstruct.common.data.tags.FluidTagProvider;
 import slimeknights.tconstruct.common.data.tags.ItemTagProvider;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
-import slimeknights.tconstruct.fluids.FluidEvents;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.library.TinkerBookIDs;
@@ -39,9 +30,6 @@ import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.Tin
 import slimeknights.tconstruct.library.tools.definition.ToolDefinitionLoader;
 import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
 import slimeknights.tconstruct.library.utils.Util;
-//import slimeknights.tconstruct.plugin.ImmersiveEngineeringPlugin;
-import slimeknights.tconstruct.shared.AchievementEvents;
-import slimeknights.tconstruct.shared.CommonsEvents;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -49,12 +37,10 @@ import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.TinkerToolParts;
 import slimeknights.tconstruct.tools.TinkerTools;
-import slimeknights.tconstruct.tools.logic.ToolEvents;
 import slimeknights.tconstruct.world.TinkerStructures;
 import slimeknights.tconstruct.world.TinkerWorld;
 import slimeknights.tconstruct.world.WorldEvents;
 
-import javax.annotation.Nullable;
 import java.util.Locale;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -66,7 +52,7 @@ import java.util.function.Supplier;
  */
 
 @SuppressWarnings("unused")
-public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
+public class TConstruct implements ModInitializer {
 
   public static final String MOD_ID = "tconstruct";
   public static final Logger LOG = LogManager.getLogger(MOD_ID);
@@ -100,12 +86,10 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
 
     // init deferred registers
     TinkerModule.initRegisters();
-    TinkerModule.initDefferedRegisters();
     TinkerGadgets.commonSetup();
     TinkerWorld.init();
     TinkerTags.init();
     WorldEvents.init();
-    structures.commonSetup();
 
     TinkerNetwork.setup();
 
@@ -133,8 +117,7 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
     StationSlotLayoutLoader.init();
   }
 
-  @Override
-  public void onInitializeDataGenerator(FabricDataGenerator datagenerator) {
+  public static void onInitializeDataGenerator(FabricDataGenerator datagenerator) {
 //    if (event.includeServer()) {
       BlockTagProvider blockTags = new BlockTagProvider(datagenerator);
       datagenerator.addProvider(blockTags);
@@ -144,7 +127,7 @@ public class TConstruct implements ModInitializer, DataGeneratorEntrypoint {
       datagenerator.addProvider(new BlockEntityTypeTagProvider(datagenerator));
       datagenerator.addProvider(new TConstructLootTableProvider(datagenerator));
       datagenerator.addProvider(new AdvancementsProvider(datagenerator));
-      datagenerator.addProvider(new BiomeTagProvider(datagenerator, existingFileHelper));
+      datagenerator.addProvider(new BiomeTagProvider(datagenerator));
       datagenerator.addProvider(new GlobalLootModifiersProvider(datagenerator));
       //datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.SERVER_DATA, "structures"));
 //    }
