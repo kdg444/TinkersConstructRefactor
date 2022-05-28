@@ -99,7 +99,9 @@ public abstract class TinkerModule {
   public static void initRegisters() {
     // gameplay singleton
     BLOCKS.register();
+    BLOCKS_DEFFERED.register();
     ITEMS.register();
+    ITEMS_DEFFERED.register();
     FLUIDS.register();
     MOB_EFFECTS.register();
     PARTICLE_TYPES.register();

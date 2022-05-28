@@ -53,7 +53,7 @@ import java.util.function.Function;
 @SuppressWarnings("unused")
 public final class TinkerGadgets extends TinkerModule {
   public TinkerGadgets() {
-
+    slimeSling.values(); // Force enums to register
   }
   /** Tab for all special tools added by the mod */
   public static final CreativeModeTab TAB_GADGETS = new SupplierCreativeTab(TConstruct.MOD_ID, "gadgets", () -> new ItemStack(TinkerGadgets.slimeSling.get(SlimeType.EARTH)));
