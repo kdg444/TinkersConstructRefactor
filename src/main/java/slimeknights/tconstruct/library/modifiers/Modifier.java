@@ -34,10 +34,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
 import io.github.fabricators_of_create.porting_lib.util.ToolAction;
+import slimeknights.mantle.client.ResourceColorManager;
+import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.data.GenericLoaderRegistry.IHaveLoader;
 import slimeknights.tconstruct.common.TinkerTags;
-import slimeknights.tconstruct.library.client.ResourceColorManager;
 import slimeknights.tconstruct.library.modifiers.ModifierManager.ModifierRegistrationEvent;
 import slimeknights.tconstruct.library.modifiers.util.ModifierLevelDisplay;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ValidatedResult;
@@ -54,7 +55,6 @@ import slimeknights.tconstruct.library.tools.stat.FloatToolStat;
 import slimeknights.tconstruct.library.tools.stat.ModifierStatsBuilder;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.library.utils.RestrictedCompoundTag;
-import slimeknights.tconstruct.library.utils.TooltipKey;
 import slimeknights.tconstruct.library.utils.Util;
 
 import javax.annotation.Nullable;
@@ -247,7 +247,20 @@ public class Modifier implements IHaveLoader<Modifier> {
    * @param tooltipKey   Shows if the player is holding shift, control, or neither
    * @param tooltipFlag  Flag determining tooltip type
    */
-  public void addInformation(IToolStackView tool, int level, @Nullable Player player, List<Component> tooltip, TooltipKey tooltipKey, TooltipFlag tooltipFlag) {}
+  public void addInformation(IToolStackView tool, int level, @Nullable Player player, List<Component> tooltip, slimeknights.tconstruct.library.utils.TooltipKey tooltipKey, TooltipFlag tooltipFlag) {}
+
+  /**
+   * Adds additional information from the modifier to the tooltip. Shown when holding shift on a tool, or in the stats area of the tinker station
+   * @param tool         Tool instance
+   * @param level        Tool level
+   * @param player       Player holding this tool
+   * @param tooltip      Tooltip
+   * @param tooltipKey   Shows if the player is holding shift, control, or neither
+   * @param tooltipFlag  Flag determining tooltip type
+   */
+  public void addInformation(IToolStackView tool, int level, @Nullable Player player, List<Component> tooltip, TooltipKey tooltipKey, TooltipFlag tooltipFlag) {
+    addInformation(tool, level, player, tooltip, slimeknights.tconstruct.library.utils.TooltipKey.fromMantle(tooltipKey), tooltipFlag);
+  }
 
   /**
    * Gets the description for this modifier

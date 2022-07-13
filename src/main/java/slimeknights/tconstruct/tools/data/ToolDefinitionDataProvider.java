@@ -212,7 +212,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       // stats
       .stat(ToolStats.ATTACK_DAMAGE, 5f)
       .stat(ToolStats.ATTACK_SPEED, 0.6f)
-      .multiplier(ToolStats.ATTACK_DAMAGE, 1.5f)
+      .multiplier(ToolStats.ATTACK_DAMAGE, 1.65f)
       .multiplier(ToolStats.MINING_SPEED, 0.3f)
       .multiplier(ToolStats.DURABILITY, 4.25f)
       .largeToolStartingSlots()
@@ -382,7 +382,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .part(ArmorSlotType.HELMET, SkullStats.ID, 1)
       .trait(ArmorSlotType.CHESTPLATE, ModifierIds.wings)
       .trait(ArmorSlotType.LEGGINGS, TinkerModifiers.pockets, 1)
-      .trait(ArmorSlotType.LEGGINGS, TinkerModifiers.protection, 1)
+      .trait(ArmorSlotType.LEGGINGS, TinkerModifiers.shulking, 1)
       .trait(ArmorSlotType.BOOTS, TinkerModifiers.bouncy)
       .trait(ArmorSlotType.BOOTS, TinkerModifiers.leaping, 1);
   }

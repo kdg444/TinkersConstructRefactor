@@ -1,16 +1,15 @@
 package slimeknights.tconstruct.library.utils;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.entity.player.Player;
 
 import javax.annotation.Nullable;
 
-/** Class to add one level of static indirection to client only lookups */
+/** @deprecated use {@link slimeknights.mantle.client.SafeClientAccess} */
+@Deprecated
 public class SafeClientAccess {
-  /** Gets the currently pressed key for tooltips, returns UNKNOWN on a server */
+  /** @deprecated use {@link slimeknights.mantle.client.SafeClientAccess#getTooltipKey()} */
+  @Deprecated
   public static TooltipKey getTooltipKey() {
     if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
       return ClientOnly.getPressedKey();
@@ -18,13 +17,10 @@ public class SafeClientAccess {
     return TooltipKey.UNKNOWN;
   }
 
-  /** Gets the client player entity, or null on a server */
-  @Nullable
+  /** @deprecated use {@link slimeknights.mantle.client.SafeClientAccess#getPlayer()} */
+  @Nullable @Deprecated
   public static Player getPlayer() {
-    if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-      return ClientOnly.getClientPlayer();
-    }
-    return null;
+    return slimeknights.mantle.client.SafeClientAccess.getPlayer();
   }
 
   /** This class is only loaded on the client, so is safe to reference client only methods */
@@ -41,12 +37,6 @@ public class SafeClientAccess {
         return TooltipKey.ALT;
       }
       return TooltipKey.NORMAL;
-    }
-
-    /** Gets the client player instance */
-    @Nullable
-    public static Player getClientPlayer() {
-      return Minecraft.getInstance().player;
     }
   }
 }

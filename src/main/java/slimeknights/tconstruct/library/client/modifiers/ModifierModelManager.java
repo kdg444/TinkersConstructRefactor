@@ -16,11 +16,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import slimeknights.mantle.data.IEarlySafeManagerReloadListener;
-import slimeknights.tconstruct.TConstruct;
+import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.model.tools.MaterialModel;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
-import slimeknights.tconstruct.library.utils.JsonUtils;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -95,7 +94,7 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener, Id
     Map<ModifierId,IUnbakedModifierModel> models = new HashMap<>();
 
     // get a list of files from all namespaces
-    List<JsonObject> jsonFiles = JsonUtils.getFileInAllDomainsAndPacks(manager, VISIBLE_MODIFIERS);
+    List<JsonObject> jsonFiles = JsonHelper.getFileInAllDomainsAndPacks(manager, VISIBLE_MODIFIERS, null);
     // first object is bottom most pack, so upper resource packs will replace it
     for (int i = jsonFiles.size() - 1; i >= 0; i--) {
       JsonObject json = jsonFiles.get(i);

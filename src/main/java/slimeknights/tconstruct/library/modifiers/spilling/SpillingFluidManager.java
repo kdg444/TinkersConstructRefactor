@@ -20,7 +20,6 @@ import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.json.FluidIngredientSerializer;
 import slimeknights.tconstruct.library.utils.JsonUtils;
 
 import javax.annotation.Nullable;
@@ -39,7 +38,7 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
   public static final Gson GSON = (new GsonBuilder())
 //    .registerTypeAdapter(ConditionJsonProvider.class, ConditionSerializer.INSTANCE) TODO: PORT?
     .registerTypeHierarchyAdapter(ISpillingEffect.class, ISpillingEffect.LOADER)
-    .registerTypeAdapter(FluidIngredient.class, FluidIngredientSerializer.INSTANCE)
+    .registerTypeAdapter(FluidIngredient.class, FluidIngredient.SERIALIZER)
     .setPrettyPrinting()
     .disableHtmlEscaping()
     .create();
@@ -114,26 +113,20 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
   }
 
   /** Finds a fluid without checking the cache, returns null if missing */
-  @Nullable
   private SpillingFluid findUncached(Fluid fluid) {
     // find all severing recipes for the entity
     for (SpillingFluid recipe : fluids) {
       if (recipe.matches(fluid)) {
-        cache.put(fluid, recipe);
         return recipe;
       }
     }
     // cache null if nothing
-    cache.put(fluid, null);
-    return null;
+    return EMPTY;
   }
 
   /** Checks if the given fluid has a recipe */
   public boolean contains(Fluid fluid) {
-    if (cache.containsKey(fluid)) {
-      return cache.get(fluid) != null;
-    }
-    return findUncached(fluid) != null;
+    return find(fluid).hasEffects();
   }
 
   /**
@@ -142,10 +135,7 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
    * @return  Fluid, or empty if none exists
    */
   public SpillingFluid find(Fluid fluid) {
-    if (cache.containsKey(fluid)) {
-      return cache.getOrDefault(fluid, EMPTY);
-    }
-    return Objects.requireNonNullElse(findUncached(fluid), EMPTY);
+    return cache.computeIfAbsent(fluid, this::findUncached);
   }
 
   @Override

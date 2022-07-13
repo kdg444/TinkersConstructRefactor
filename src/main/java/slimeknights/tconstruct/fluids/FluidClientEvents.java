@@ -24,6 +24,11 @@ public class FluidClientEvents extends ClientEventBase {
     setTranslucent(TinkerFluids.moltenAmethyst);
   }
 
+  @SubscribeEvent
+  static void itemColors(final ColorHandlerEvent.Item event) {
+    event.getItemColors().register((stack, index) -> index > 0 ? -1 : PotionUtils.getColor(stack), TinkerFluids.potionBucket.asItem());
+  }
+
   private static void setTranslucent(FluidObject<?> fluid) {
     BlockRenderLayerMap.INSTANCE.putFluid(fluid.getStill(), RenderType.translucent());
     BlockRenderLayerMap.INSTANCE.putFluid(fluid.getFlowing(), RenderType.translucent());

@@ -21,6 +21,8 @@ import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.mantle.util.SupplierCreativeTab;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
+import slimeknights.tconstruct.common.config.Config;
+import slimeknights.tconstruct.common.config.ConfigurableAction;
 import slimeknights.tconstruct.library.client.data.material.GeneratorPartTextureJsonGenerator;
 import slimeknights.tconstruct.library.client.data.material.MaterialPartTextureGenerator;
 import slimeknights.tconstruct.library.json.AddToolDataFunction;
@@ -143,6 +145,9 @@ public final class TinkerTools extends TinkerModule {
 //    EquipmentChangeWatcher.register();
     ToolCapabilityProvider.register(ToolFluidCapability.Provider::new);
     ToolCapabilityProvider.register(ToolInventoryCapability.Provider::new);
+    for (ConfigurableAction action : Config.COMMON.damageSourceTweaks) {
+      event.enqueueWork(action);
+    }
   }
 
   void registerRecipeSerializers() {

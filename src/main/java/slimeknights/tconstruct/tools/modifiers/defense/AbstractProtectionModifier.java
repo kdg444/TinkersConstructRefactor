@@ -8,12 +8,12 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlot.Type;
 import net.minecraft.world.entity.LivingEntity;
 import slimeknights.tconstruct.common.TinkerTags;
+import slimeknights.tconstruct.library.modifiers.data.ModifierMaxLevel;
 import slimeknights.tconstruct.library.modifiers.impl.IncrementalModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
 import slimeknights.tconstruct.library.tools.context.EquipmentChangeContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.utils.Util;
-import slimeknights.tconstruct.tools.logic.ModifierMaxLevel;
 
 import java.util.List;
 
@@ -22,11 +22,29 @@ import java.util.List;
 public abstract class AbstractProtectionModifier<T extends ModifierMaxLevel> extends IncrementalModifier {
   private final TinkerDataKey<T> key;
 
-  /** Creates a new data instance */
+  /** @deprecated use {@link #createData(EquipmentChangeContext)}*/
+  @SuppressWarnings("DeprecatedIsStillUsed")
+  @Deprecated
   protected abstract T createData();
 
-  /** Called when the last piece of equipment is removed to reset the data */
+  /** Creates a new data instance */
+  protected T createData(EquipmentChangeContext context) {
+    return createData();
+  }
+
+  /** @deprecated use {@link #reset(ModifierMaxLevel, EquipmentChangeContext)} */
+  @Deprecated
   protected void reset(T data) {}
+
+  /** Called when the last piece of equipment is removed to reset the data */
+  protected void reset(T data, EquipmentChangeContext context) {
+    reset(data);
+  }
+
+  /** Called to apply updates to the piece */
+  protected void set(T data, EquipmentSlot slot, float scaledLevel, EquipmentChangeContext context) {
+    data.set(slot, scaledLevel);
+  }
 
   @Override
   public void onUnequip(IToolStackView tool, int level, EquipmentChangeContext context) {
@@ -36,9 +54,9 @@ public abstract class AbstractProtectionModifier<T extends ModifierMaxLevel> ext
       context.getTinkerData().ifPresent(data -> {
         T modData = data.get(key);
         if (modData != null) {
-          modData.set(slot, 0);
+          set(modData, slot, 0, context);
           if (modData.getMax() == 0) {
-            reset(modData);
+            reset(modData, context);
           }
         }
       });
@@ -55,11 +73,11 @@ public abstract class AbstractProtectionModifier<T extends ModifierMaxLevel> ext
         T modData = data.get(key);
         if (modData == null) {
           // not calculated yet? add all vanilla values to the tracker
-          modData = createData();
+          modData = createData(context);
           data.put(key, modData);
         }
         // add ourself to the data
-        modData.set(slot, scaledLevel);
+        set(modData, slot, scaledLevel, context);
       });
     }
   }
@@ -74,7 +92,7 @@ public abstract class AbstractProtectionModifier<T extends ModifierMaxLevel> ext
    */
   public static void addResistanceTooltip(IncrementalModifier modifier, IToolStackView tool, int level, float multiplier, List<Component> tooltip) {
     if (tool.hasTag(TinkerTags.Items.ARMOR)) {
-      tooltip.add(modifier.applyStyle(new TextComponent(Util.PERCENT_BOOST_FORMAT.format(modifier.getScaledLevel(tool, level) * multiplier / 25f))
+      tooltip.add(modifier.applyStyle(new TextComponent(Util.PERCENT_BOOST_FORMAT.format(Math.min(modifier.getScaledLevel(tool, level) * multiplier / 25f, 0.8f)))
                                         .append(" ")
                                         .append(new TranslatableComponent(modifier.getTranslationKey() + ".resistance"))));
     }

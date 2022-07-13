@@ -113,4 +113,5 @@ public class ConfigEnabledCondition implements ConditionJsonProvider, LootItemCo
   public static final ConditionJsonProvider GLASS_RECIPE_FIX = add("glass_recipe_fix", Config.COMMON.glassRecipeFix);
   public static final ConditionJsonProvider FORCE_INTEGRATION_MATERIALS = add("force_integration_materials", Config.COMMON.forceIntegrationMaterials);
   public static final ConditionJsonProvider ICHOR_GEODES = add("ichor_geodes", Config.COMMON.ichorGeodes);
+  public static final ConfigEnabledCondition SKY_GEODES = add("sky_geodes", Config.COMMON.skyGeodes);
 }

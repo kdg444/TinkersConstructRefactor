@@ -12,6 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
+import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.library.json.predicate.IJsonPredicate;
 import slimeknights.tconstruct.library.json.predicate.entity.LivingEntityPredicate;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -32,29 +33,29 @@ public class ConditionalDamageModifier extends IncrementalModifier {
   /** Requirement for entities to match */
   private final IJsonPredicate<LivingEntity> predicate;
   /** Damage bonus */
-  private final float damage;
+  private final float damageBonus;
   /** Optional effect to add */
   @Nullable
   private final MobEffect effect;
   /** Optional effect level */
   private final int effectLevel;
 
-  public ConditionalDamageModifier(IJsonPredicate<LivingEntity> predicate, float damage) {
-    this(predicate, damage, null, 0);
+  public ConditionalDamageModifier(IJsonPredicate<LivingEntity> predicate, float damageBonus) {
+    this(predicate, damageBonus, null, 0);
   }
 
   @Override
   public float getEntityDamage(IToolStackView tool, int level, ToolAttackContext context, float baseDamage, float damage) {
     LivingEntity target = context.getLivingTarget();
     if (target != null && predicate.matches(target)) {
-      damage += getScaledLevel(tool, level) * damage * tool.getMultiplier(ToolStats.ATTACK_DAMAGE);
+      damage += getScaledLevel(tool, level) * this.damageBonus * tool.getMultiplier(ToolStats.ATTACK_DAMAGE);
     }
     return damage;
   }
 
   @Override
   public void addInformation(IToolStackView tool, int level, @Nullable Player player, List<Component> tooltip, TooltipKey tooltipKey, TooltipFlag tooltipFlag) {
-    addDamageTooltip(tool, level, damage, tooltip);
+    addDamageTooltip(tool, level, damageBonus, tooltip);
   }
 
   @Override
@@ -88,7 +89,7 @@ public class ConditionalDamageModifier extends IncrementalModifier {
       int level = 0;
       if (json.has("effect")) {
         JsonObject effectJson = GsonHelper.getAsJsonObject(json, "effect");
-        effect = JsonUtils.getAsEntry(Registry.MOB_EFFECT, effectJson, "name");
+        effect = JsonHelper.getAsEntry(Registry.MOB_EFFECT, effectJson, "name");
         level = JsonUtils.getIntMin(effectJson, "level", 1);
       }
       return new ConditionalDamageModifier(predicate, damage, effect, level);
@@ -97,7 +98,7 @@ public class ConditionalDamageModifier extends IncrementalModifier {
     @Override
     public void serialize(ConditionalDamageModifier object, JsonObject json) {
       json.add("entity", LivingEntityPredicate.LOADER.serialize(object.predicate));
-      json.addProperty("damage", object.damage);
+      json.addProperty("damage", object.damageBonus);
       if (object.effect != null && object.effectLevel > 0) {
         JsonObject effectJson = new JsonObject();
         effectJson.addProperty("name", Objects.requireNonNull(Registry.MOB_EFFECT.getKey(object.effect)).toString());
@@ -121,7 +122,7 @@ public class ConditionalDamageModifier extends IncrementalModifier {
     @Override
     public void toNetwork(ConditionalDamageModifier object, FriendlyByteBuf buffer) {
       LivingEntityPredicate.LOADER.toNetwork(object.predicate, buffer);
-      buffer.writeFloat(object.damage);
+      buffer.writeFloat(object.damageBonus);
       if (object.effectLevel > 0 && object.effect != null) {
         buffer.writeVarInt(object.effectLevel);
         buffer.writeResourceLocation(Registry.MOB_EFFECT.getKey(object.effect));

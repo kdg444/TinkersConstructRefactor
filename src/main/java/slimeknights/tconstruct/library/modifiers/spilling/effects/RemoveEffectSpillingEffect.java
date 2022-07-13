@@ -7,6 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.LivingEntity;
+import slimeknights.mantle.util.JsonHelper;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.spilling.ISpillingEffect;
@@ -36,5 +37,5 @@ public record RemoveEffectSpillingEffect(MobEffect effect) implements ISpillingE
 
   /** Loader instance */
   public static final JsonDeserializer<RemoveEffectSpillingEffect> LOADER = (json, typeOfT, context) ->
-    new RemoveEffectSpillingEffect(JsonUtils.getAsEntry(Registry.MOB_EFFECT, json.getAsJsonObject(), "effect"));
+    new RemoveEffectSpillingEffect(JsonHelper.getAsEntry(Registry.MOB_EFFECT, json.getAsJsonObject(), "effect"));
 }

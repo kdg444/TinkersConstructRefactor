@@ -1,227 +1,130 @@
 package slimeknights.tconstruct.library.fluid;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.Registry;
+import com.google.gson.Gson;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.FluidValues;
-import slimeknights.tconstruct.library.utils.SafeClientAccess;
-import slimeknights.tconstruct.library.utils.TooltipKey;
 
-import java.util.ArrayList;
+import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.BiConsumer;
 
-import static slimeknights.tconstruct.common.TinkerTags.Fluids.BOTTLE_TOOLTIPS;
-import static slimeknights.tconstruct.common.TinkerTags.Fluids.CLAY_TOOLTIPS;
-import static slimeknights.tconstruct.common.TinkerTags.Fluids.GLASS_TOOLTIPS;
-import static slimeknights.tconstruct.common.TinkerTags.Fluids.LARGE_GEM_TOOLTIPS;
-import static slimeknights.tconstruct.common.TinkerTags.Fluids.METAL_TOOLTIPS;
-import static slimeknights.tconstruct.common.TinkerTags.Fluids.SLIME_TOOLTIPS;
-import static slimeknights.tconstruct.common.TinkerTags.Fluids.SMALL_GEM_TOOLTIPS;
-import static slimeknights.tconstruct.common.TinkerTags.Fluids.SOUP_TOOLTIPS;
-
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+/** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler} */
+@Deprecated
 public class FluidTooltipHandler {
-  public static final Component HOLD_SHIFT = new TranslatableComponent(TConstruct.makeTranslationKey("gui", "fluid.hold_shift")).withStyle(ChatFormatting.GRAY);
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#HOLD_SHIFT} */
+  @Deprecated
+  public static final Component HOLD_SHIFT = slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.HOLD_SHIFT;
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#FOLDER} */
+  @Deprecated
+  public static final String FOLDER = slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.FOLDER;
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#GSON} */
+  @Deprecated
+  public static final Gson GSON = slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.GSON;
 
-  /*
-   * Base units
-   */
-  private static final FluidGuiEntry KILOBUCKET = new FluidGuiEntry("kilobucket", 1000000);
-  private static final FluidGuiEntry BUCKET = new FluidGuiEntry("bucket", 1000);
-  private static final FluidGuiEntry MILLIBUCKET = new FluidGuiEntry("millibucket", 1);
-  // metal
-  private static final FluidGuiEntry METAL_BLOCK = new FluidGuiEntry("block", FluidValues.METAL_BLOCK);
-  private static final FluidGuiEntry INGOT = new FluidGuiEntry("ingot", FluidValues.INGOT);
-  private static final FluidGuiEntry NUGGET = new FluidGuiEntry("nugget", FluidValues.NUGGET);
-  // gems
-  private static final FluidGuiEntry LARGE_GEM_BLOCK = new FluidGuiEntry("block", FluidValues.LARGE_GEM_BLOCK);
-  private static final FluidGuiEntry SMALL_GEM_BLOCK = new FluidGuiEntry("block", FluidValues.SMALL_GEM_BLOCK);
-  private static final FluidGuiEntry GEM = new FluidGuiEntry("gem", FluidValues.GEM);
-  private static final FluidGuiEntry SHARDS = new FluidGuiEntry("shard", FluidValues.GEM_SHARD);
-  // clay
-  private static final FluidGuiEntry BRICK_BLOCK = new FluidGuiEntry("block", FluidValues.BRICK_BLOCK);
-  private static final FluidGuiEntry BRICK = new FluidGuiEntry("brick", FluidValues.BRICK);
-  // slime
-  private static final FluidGuiEntry SLIMEBLOCK = new FluidGuiEntry("block", FluidValues.SLIME_CONGEALED);
-  private static final FluidGuiEntry SLIMEBALL = new FluidGuiEntry("slimeball", FluidValues.SLIMEBALL);
-  // glass
-  private static final FluidGuiEntry GLASS_BLOCK = new FluidGuiEntry("block", FluidValues.GLASS_BLOCK);
-  private static final FluidGuiEntry PANE = new FluidGuiEntry("pane", FluidValues.GLASS_PANE);
-  // misc
-  private static final FluidGuiEntry BOTTLE = new FluidGuiEntry("bottle", FluidValues.BOTTLE);
-  private static final FluidGuiEntry BOWL = new FluidGuiEntry("bowl", FluidValues.BOWL);
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#DEFAULT_ID} */
+  @Deprecated
+  public static final ResourceLocation DEFAULT_ID = slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.DEFAULT_ID;
 
-  /**
-   * Gets the tooltip for a fluid stack
-   * @param fluid  Fluid stack instance
-   * @return  Fluid tooltip
-   */
+  @Deprecated
+  private static final FluidUnit INGOT = new FluidUnit(TConstruct.makeTranslationKey("gui", "fluid.ingot"), FluidValues.INGOT);
+
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#BUCKET_FORMATTER} */
+  @Deprecated
+  public static final BiConsumer<Integer,List<Component>> BUCKET_FORMATTER = slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.BUCKET_FORMATTER;
+
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#INSTANCE} */
+  @Deprecated
+  public static final slimeknights.mantle.fluid.tooltip.FluidTooltipHandler INSTANCE = slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.INSTANCE;
+
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#init(RegisterClientReloadListenersEvent)} */
+  @Deprecated
+  public static void init(RegisterClientReloadListenersEvent manager) {
+    slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.init(manager);
+  }
+
+  private FluidTooltipHandler() {}
+
+
+  /* External utilities */
+
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#getFluidTooltip(FluidStack)} */
+  @Deprecated
   public static List<Component> getFluidTooltip(FluidStack fluid) {
-    return getFluidTooltip(fluid, fluid.getAmount());
+    return slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.getFluidTooltip(fluid);
   }
 
-  /**
-   * Gets the tooltip for a fluid stack
-   * @param fluid  Fluid stack instance
-   * @param amount Amount override
-   * @return  Fluid tooltip
-   */
-  public static List<Component> getFluidTooltip(FluidStack fluid, long amount) {
-    List<Component> tooltip = new ArrayList<>();
-    // fluid name, not sure if there is a cleaner way to do this
-    tooltip.add(fluid.getDisplayName().plainCopy().withStyle(ChatFormatting.WHITE));
-    // material
-    appendMaterial(fluid.getFluid(), amount, tooltip);
-    // add mod display name
-    FabricLoader.getInstance().getModContainer(Objects.requireNonNull(Registry.FLUID.getKey(fluid.getFluid())).getNamespace())
-           .map(container -> container.getMetadata().getName())
-           .ifPresent(name -> tooltip.add(new TextComponent(name).withStyle(ChatFormatting.BLUE, ChatFormatting.ITALIC)));
-    return tooltip;
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#getFluidTooltip(FluidStack, int)} */
+  @Deprecated
+  public static List<Component> getFluidTooltip(FluidStack fluid, int amount) {
+    return slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.getFluidTooltip(fluid, amount);
   }
 
-  /**
-   * Adds information for the tooltip based on material units
-   * @param fluid    Input fluid stack
-   * @param tooltip  Tooltip to append information
-   */
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendMaterial(FluidStack, List)} */
+  @Deprecated
   public static void appendMaterial(FluidStack fluid, List<Component> tooltip) {
-    appendMaterial(fluid.getFluid(), fluid.getAmount(), tooltip);
+    slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendMaterial(fluid, tooltip);
   }
 
-  /**
-   * Adds information for the tooltip based on material units
-   * @param fluid      Input fluid
-   * @param original   Input amount
-   * @param tooltip    Tooltip to append information
-   */
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendMaterial(Fluid, int, List)} */
+  @Deprecated
   public static void appendMaterial(Fluid fluid, long original, List<Component> tooltip) {
-    if (appendMaterialNoShift(fluid, original, tooltip)) {
-      appendShift(tooltip);
-    }
+    slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendMaterial(fluid, original, tooltip);
   }
 
-  /**
-   * Adds information for the tooltip based on material units, does not show "hold shift for buckets"
-   * @param fluid      Input fluid
-   * @param original   Input amount
-   * @param tooltip    Tooltip to append information
-   * @return  True if the amount is not in buckets
-   */
-  @SuppressWarnings("deprecation")
-  public static boolean appendMaterialNoShift(Fluid fluid, long original, List<Component> tooltip) {
-    long amount = original;
-
-    // if holding shift, skip specific units
-    if(SafeClientAccess.getTooltipKey() != TooltipKey.SHIFT) {
-      // TODO: consider extracting these to JSON
-      if (fluid.is(METAL_TOOLTIPS)) {
-        amount = METAL_BLOCK.getText(tooltip, amount);
-        amount = INGOT.getText(tooltip, amount);
-        amount = NUGGET.getText(tooltip, amount);
-      } else if (fluid.is(LARGE_GEM_TOOLTIPS)) {
-        amount = LARGE_GEM_BLOCK.getText(tooltip, amount);
-        amount = GEM.getText(tooltip, amount);
-        amount = SHARDS.getText(tooltip, amount);
-      } else if (fluid.is(SMALL_GEM_TOOLTIPS)) {
-        amount = SMALL_GEM_BLOCK.getText(tooltip, amount);
-        amount = GEM.getText(tooltip, amount);
-        amount = SHARDS.getText(tooltip, amount);
-      } else if (fluid.is(GLASS_TOOLTIPS)) {
-        amount = GLASS_BLOCK.getText(tooltip, amount);
-        amount = PANE.getText(tooltip, amount);
-      } else if (fluid.is(SLIME_TOOLTIPS)) {
-        amount = SLIMEBLOCK.getText(tooltip, amount);
-        amount = SLIMEBALL.getText(tooltip, amount);
-      } else if (fluid.is(CLAY_TOOLTIPS)) {
-        amount = BRICK_BLOCK.getText(tooltip, amount);
-        amount = BRICK.getText(tooltip, amount);
-      } else if (fluid.is(BOTTLE_TOOLTIPS)) {
-        amount = BUCKET.getText(tooltip, amount);
-        amount = BOTTLE.getText(tooltip, amount);
-      } else if (fluid.is(SOUP_TOOLTIPS)) {
-        amount = BOWL.getText(tooltip, amount);
-      }
-    }
-
-    // standard display stuff: bucket amounts
-    appendBuckets(amount, tooltip);
-
-    return amount != original;
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendMaterialNoShift(Fluid, int, List)} */
+  @Deprecated
+  public static boolean appendMaterialNoShift(Fluid fluid, int original, List<Component> tooltip) {
+    return slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendMaterialNoShift(fluid, original, tooltip);
   }
 
-  /**
-   * Appends the hold shift message to the tooltip
-   * @param tooltip  Tooltip to append information
-   */
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendShift(List)} */
+  @Deprecated
   public static void appendShift(List<Component> tooltip) {
-    if(!SafeClientAccess.getTooltipKey().isShiftOrUnknown()) {
-      tooltip.add(TextComponent.EMPTY);
-      tooltip.add(HOLD_SHIFT);
-    }
+    slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendShift(tooltip);
   }
 
   /**
    * Adds information to the tooltip based on ingot units
    * @param amount   Fluid amount
    * @param tooltip  Tooltip to append information
+   * @deprecated use {@link #appendNamedList(ResourceLocation, int, List)}
    */
+  @Deprecated
   public static void appendIngots(long amount, List<Component> tooltip) {
     amount = INGOT.getText(tooltip, amount);
-    appendBuckets(amount, tooltip);
+    slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendBuckets(amount, tooltip);
   }
 
-  /**
-   * Adds information to the tooltip based on the fluid using bucket units
-   * @param amount     Fluid amount
-   * @param tooltip  Tooltip to append information
-   */
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendNamedList(ResourceLocation, int, List)} */
+  @Deprecated
+  public static void appendNamedList(ResourceLocation id, int amount, List<Component> tooltip) {
+    slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendNamedList(id, amount, tooltip);
+  }
+
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendBuckets(int, List)} */
+  @Deprecated
   public static void appendBuckets(long amount, List<Component> tooltip) {
-    amount = KILOBUCKET.getText(tooltip, amount);
-    amount = BUCKET.getText(tooltip, amount);
-    MILLIBUCKET.getText(tooltip, amount);
+    slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendBuckets(amount, tooltip);
   }
 
-  /** Single entry for text options */
-  private record FluidGuiEntry(String translationKey, long needed) implements Comparable<FluidGuiEntry> {
-    /**
-     * Creates a new fluid GUI entry
-     * @param translationKey  Base translation name
-     * @param needed          Amount needed
-     */
-    private FluidGuiEntry(String translationKey, long needed) {
-      this.translationKey = TConstruct.makeTranslationKey("gui", "fluid." + translationKey);
-      this.needed = needed;
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidUnit} */
+  @Deprecated
+  public static class FluidUnit extends slimeknights.mantle.fluid.tooltip.FluidUnit {
+    public FluidUnit(String key, int needed) {
+      super(key, needed);
     }
+  }
 
-    /**
-     * Gets the display text for this fluid entry
-     * @return  Display text
-     */
-    private long getText(List<Component> tooltip, long amount) {
-      long full = amount / needed;
-      if (full > 0) {
-        tooltip.add(new TranslatableComponent(translationKey, full).withStyle(ChatFormatting.GRAY));
-      }
-      return amount % needed;
-    }
-
-    @Override
-    public int compareTo(FluidGuiEntry other) {
-      if (this.needed != other.needed) {
-        // reverse order so highest sorts first
-        return Long.compare(other.needed, this.needed);
-      }
-      // fallback to translation key, so ingot sorts before pane if both are present
-      return this.translationKey.compareTo(other.translationKey);
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidUnitList} */
+  @Deprecated
+  public static class FluidUnitList extends slimeknights.mantle.fluid.tooltip.FluidUnitList {
+    public FluidUnitList(@Nullable TagKey<Fluid> tag, List<slimeknights.mantle.fluid.tooltip.FluidUnit> units) {
+      super(tag, units);
     }
   }
 }

@@ -7,13 +7,10 @@ import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import slimeknights.mantle.recipe.data.FluidNameIngredient;
 import slimeknights.tconstruct.TConstruct;
@@ -95,14 +92,14 @@ public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
 
     // foods
     addFluid(TinkerFluids.honey.getForgeTag(), slimeballPiece)
-      .addEffect(new RestoreHungerSpillingEffect(1, 0.2f))
+      .addEffect(new RestoreHungerSpillingEffect(1, 0.02f))
       .addEffect(new RemoveEffectSpillingEffect(MobEffects.POISON));
     addFluid(TinkerFluids.beetrootSoup.getForgeTag(), slimeballPiece)
-      .addEffect(new RestoreHungerSpillingEffect(1, 1.5f));
+      .addEffect(new RestoreHungerSpillingEffect(1, 0.15f));
     addFluid(TinkerFluids.mushroomStew.getForgeTag(), slimeballPiece)
-      .addEffect(new RestoreHungerSpillingEffect(1, 1.5f));
+      .addEffect(new RestoreHungerSpillingEffect(1, 0.15f));
     addFluid(TinkerFluids.rabbitStew.getForgeTag(), slimeballPiece)
-      .addEffect(new RestoreHungerSpillingEffect(2, 2.4f));
+      .addEffect(new RestoreHungerSpillingEffect(2, 0.10f));
 
     // multi-recipes
     burningFluid("glass",           TinkerTags.Fluids.GLASS_SPILLING,           FluidAttributes.BUCKET_VOLUME / 10, 1f,   3);
@@ -124,11 +121,8 @@ public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
       .addEffect(new EffectSpillingEffect(MobEffects.POISON, 10, 1));
 
     // potion fluid compat
-    TagKey<Fluid> potionTag = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation("c", "potion"));
     // standard potion is 250 mb, but we want a smaller number. For the effects, we really want to divide into 4 pieces
-    addFluid("potion_fluid", potionTag, FluidValues.BOTTLE / 2)
-      .condition(DefaultResourceConditions.fluidTagsPopulated(potionTag))
-      .addEffect(new PotionFluidEffect(0.5f, TagPredicate.ANY));
+    addFluid("potion_fluid", TinkerTags.Fluids.POTION, FluidValues.BOTTLE / 2).addEffect(new PotionFluidEffect(0.5f, TagPredicate.ANY));
 
     // create has three types of bottles stored on their fluid, react to it to boost
     Function<String,TagPredicate> createBottle = value -> {

@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Block;
 import slimeknights.tconstruct.common.ClientEventBase;
-import slimeknights.tconstruct.library.client.ResourceColorManager;
 import slimeknights.tconstruct.library.client.book.TinkerBook;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
 import slimeknights.tconstruct.library.utils.DomainDisplayName;
@@ -34,7 +33,6 @@ public class CommonsClientEvents extends ClientEventBase {
     ResourceManagerHelper event = ResourceManagerHelper.get(PackType.CLIENT_RESOURCES);
     MaterialRenderInfoLoader.addResourceListener(event);
     DomainDisplayName.addResourceListener(event);
-    ResourceColorManager.init(event);
   }
 
   static void clientSetup() {
