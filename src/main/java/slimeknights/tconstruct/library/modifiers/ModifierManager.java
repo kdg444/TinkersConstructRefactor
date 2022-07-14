@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
 import io.github.fabricators_of_create.porting_lib.event.BaseEvent;
+import io.github.fabricators_of_create.porting_lib.event.common.ModsLoadedCallback;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,6 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -95,7 +94,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
 
   /** Fires the modifier registry event */
   private void fireRegistryEvent() {
-    FabricLoader.getInstance().getAllMods().forEach(ModifierRegistrationEvent::new);
+    ModsLoadedCallback.EVENT.register(envType -> new ModifierRegistrationEvent().sendEvent());
     modifiersRegistered = true;
   }
 
@@ -294,27 +293,12 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
         e.onRegistration(event);
     });
 
-    /** Container receiving this event */
-    private final ModContainer container;
-
-    /** Validates the namespace of the container registering */
-    private void checkModNamespace(ResourceLocation name) {
-      // check mod container, should be the active mod
-      // don't want mods registering stuff in Tinkers namespace, or Minecraft
-      String activeMod = container.getMetadata().getId();
-      if (!name.getNamespace().equals(activeMod)) {
-        TConstruct.LOG.warn("Potentially Dangerous alternative prefix for name `{}`, expected `{}`. This could be a intended override, but in most cases indicates a broken mod.", name, activeMod);
-      }
-    }
-
     /**
      * Registers a static modifier with the manager. Static modifiers cannot be configured by datapacks, so its generally encouraged to use dynamic modifiers
      * @param name      Modifier name
      * @param modifier  Modifier instance
      */
     public void registerStatic(ModifierId name, Modifier modifier) {
-      checkModNamespace(name);
-
       // should not include under both types
       if (expectedDynamicModifiers.containsKey(name)) {
         throw new IllegalArgumentException(name + " is already expected as a dynamic modifier");
@@ -334,8 +318,6 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
      * @param classFilter  Class type the modifier is expected to have. Can be an interface
      */
     public void registerExpected(ModifierId name, Class<?> classFilter) {
-      checkModNamespace(name);
-
       // should not include under both types
       if (staticModifiers.containsKey(name)) {
         throw new IllegalArgumentException(name + " is already registered as a static modifier");
