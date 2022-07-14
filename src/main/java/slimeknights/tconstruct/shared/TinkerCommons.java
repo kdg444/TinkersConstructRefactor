@@ -32,6 +32,7 @@ import slimeknights.tconstruct.common.json.BlockOrEntityCondition;
 import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
 import slimeknights.tconstruct.common.json.TinkerConditons;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
+import slimeknights.tconstruct.library.json.TagIntersectionPresentCondition;
 import slimeknights.tconstruct.library.json.predicate.block.BlockPredicate;
 import slimeknights.tconstruct.library.json.predicate.block.SetBlockPredicate;
 import slimeknights.tconstruct.library.json.predicate.block.TagBlockPredicate;
@@ -147,7 +148,8 @@ public final class TinkerCommons extends TinkerModule {
     lootBlockOrEntity = Registry.register(Registry.LOOT_CONDITION_TYPE, BlockOrEntityCondition.ID, new LootItemConditionType(BlockOrEntityCondition.SERIALIZER));
     CriterionRegistry.register(CONTAINER_OPENED_TRIGGER);
 
-//    ResourceConditions.register(TagIntersectionPresentCondition.NAME, TinkerConditons::tagIntersectionPresentPredicate);
+
+    ResourceConditions.register(TagIntersectionPresentCondition.NAME, TinkerConditons::tagIntersectionPresentPredicate);
 //    ResourceConditions.register(TagDifferencePresentCondition.NAME, TinkerConditons::tagDifferencePresentPredicate);
     // block predicates
     BlockPredicate.LOADER.register(TConstruct.getResource("and"), BlockPredicate.AND);

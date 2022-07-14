@@ -2,10 +2,10 @@
   "type": "forge:conditional",
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
           "prop": "ichor_geodes",
-          "type": "tconstruct:config"
+          "condition": "tconstruct:config"
         }
       ],
       "recipe": {

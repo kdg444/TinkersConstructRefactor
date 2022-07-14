@@ -1,10 +1,11 @@
 {
   "type": "tconstruct:damagable_melting",
-  "conditions": [
-    {
-      "modid": "ceramics",
-      "type": "forge:mod_loaded"
-    }
+  "fabric:load_conditions": [{
+    "values": [
+      "ceramics"
+    ],
+    "condition": "fabric:all_mods_loaded"
+  }
   ],
   "ingredient": {
     "item": "ceramics:clay_chestplate"

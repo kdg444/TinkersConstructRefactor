@@ -1,10 +1,11 @@
 {
   "type": "tconstruct:casting_basin",
-  "conditions": [
-    {
-      "modid": "immersiveengineering",
-      "type": "forge:mod_loaded"
-    }
+  "fabric:load_conditions": [{
+    "values": [
+      "immersiveengineering"
+    ],
+    "condition": "fabric:all_mods_loaded"
+  }
   ],
   "cast": {
     "tag": "minecraft:planks"

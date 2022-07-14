@@ -1,10 +1,11 @@
 {
   "type": "tconstruct:casting_basin",
-  "conditions": [
-    {
-      "modid": "ceramics",
-      "type": "forge:mod_loaded"
-    }
+  "fabric:load_conditions": [{
+    "values": [
+      "ceramics"
+    ],
+    "condition": "fabric:all_mods_loaded"
+  }
   ],
   "cast": {
     "item": "minecraft:bricks"

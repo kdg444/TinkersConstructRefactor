@@ -1,9 +1,11 @@
 {
   "type": "tconstruct:table_filling",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "modid": "ceramics",
-      "type": "forge:mod_loaded"
+      "values": [
+        "ceramics"
+      ],
+      "condition": "fabric:all_mods_loaded"
     }
   ],
   "fluid_amount": 1000,

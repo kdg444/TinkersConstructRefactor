@@ -4,7 +4,7 @@
   "attributes": [
     {
       "unique": "tconstruct.modifier.reach",
-      "attribute": "forge:reach_distance",
+      "attribute": "porting_lib:reach_distance",
       "operation": "addition",
       "amount": 1.0,
       "slots": [

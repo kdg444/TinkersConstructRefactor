@@ -1,10 +1,11 @@
 {
   "type": "tconstruct:casting_basin",
-  "conditions": [
-    {
-      "modid": "create",
-      "type": "forge:mod_loaded"
-    }
+  "fabric:load_conditions": [{
+    "values": [
+      "create"
+    ],
+    "condition": "fabric:all_mods_loaded"
+  }
   ],
   "cast": {
     "item": "minecraft:andesite"

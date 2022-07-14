@@ -18,6 +18,7 @@ import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.mantle.registration.object.MetalItemObject;
 import slimeknights.tconstruct.common.registration.CastItemObject;
+import slimeknights.tconstruct.library.json.TagIntersectionPresentCondition;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.casting.ItemCastingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.OreRateType;
@@ -73,7 +74,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
       // size tag means we want an intersection between the tag and that size
     } else if (size != null) {
       ingredient = IntersectionIngredient.of(baseIngredient, Ingredient.of(size));
-//      wrapped = withCondition(consumer, TagIntersectionPresentCondition.ofKeys(getItemTag("c", tagName), size)); TODO: PORT
+      wrapped = withCondition(consumer, TagIntersectionPresentCondition.ofKeys(getItemTag("c", tagName), size));
       // default only need it to be in the tag
     } else {
       ingredient = baseIngredient;
