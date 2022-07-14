@@ -70,6 +70,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@SuppressWarnings("removal")
 public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelteryRecipeHelper, ICommonRecipeHelper {
   public SmelteryRecipeProvider(FabricDataGenerator generator) {
     super(generator);
@@ -1421,7 +1422,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     MeltingRecipeBuilder.melting(Ingredient.of(Blocks.LODESTONE), TinkerFluids.moltenNetherite.get(), FluidValues.INGOT)
                         .save(consumer, modResource(metalFolder + "netherite/lodestone"));
     // armor
-    int[] netheriteSizes = {FluidValues.NUGGET, FluidValues.GEM_SHARD};
+    long[] netheriteSizes = {FluidValues.NUGGET, FluidValues.GEM_SHARD};
     MeltingRecipeBuilder.melting(Ingredient.of(Items.NETHERITE_HELMET), TinkerFluids.moltenNetherite.get(), FluidValues.INGOT)
                         .setDamagable(netheriteSizes)
                         .addByproduct(new FluidStack(TinkerFluids.moltenDiamond.get(), FluidValues.GEM * 5))

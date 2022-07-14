@@ -1,19 +1,19 @@
 package slimeknights.tconstruct.shared.client;
 
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.world.inventory.InventoryMenu;
 import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.world.inventory.InventoryMenu;
 import slimeknights.mantle.client.render.FluidRenderer;
 import slimeknights.tconstruct.shared.particle.FluidParticleData;
 
 /** Particle type that renders a fluid still texture */
+@SuppressWarnings("removal")
 public class FluidParticle extends TextureSheetParticle {
   private final FluidStack fluid;
   private final float uCoord;
@@ -21,7 +21,7 @@ public class FluidParticle extends TextureSheetParticle {
   protected FluidParticle(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, FluidStack fluid) {
     super(world, x, y, z, motionX, motionY, motionZ);
     this.fluid = fluid;
-    FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
+    FluidAttributes attributes = fluid.getFluid().getAttributes();
     this.setSprite(Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(attributes.getStillTexture(fluid)));
     this.gravity = 1.0F;
     int color = attributes.getColor(fluid);
@@ -61,7 +61,7 @@ public class FluidParticle extends TextureSheetParticle {
 
   @Override
   public int getLightColor(float partialTick) {
-    return FluidRenderer.withBlockLight(super.getLightColor(partialTick), ((FluidExtensions)fluid.getFluid()).getAttributes().getLuminosity(fluid));
+    return FluidRenderer.withBlockLight(super.getLightColor(partialTick), fluid.getFluid().getAttributes().getLuminosity(fluid));
   }
 
   /** Factory to create a fluid particle */

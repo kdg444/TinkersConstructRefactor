@@ -6,8 +6,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtilForge;
-import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandlerModifiable;
+import slimeknights.mantle.transfer.TransferUtil;
+import slimeknights.mantle.transfer.item.IItemHandlerModifiable;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 
 public class InventorySlotSyncPacket implements IThreadsafePacket {
@@ -47,7 +47,7 @@ public class InventorySlotSyncPacket implements IThreadsafePacket {
       if (world != null) {
         BlockEntity te = world.getBlockEntity(packet.pos);
         if (te != null) {
-          TransferUtilForge.getItemHandler(te)
+          TransferUtil.getItemHandler(te)
             .filter(cap -> cap instanceof IItemHandlerModifiable)
             .ifPresent(cap -> {
               ((IItemHandlerModifiable)cap).setStackInSlot(packet.slot, packet.itemStack);

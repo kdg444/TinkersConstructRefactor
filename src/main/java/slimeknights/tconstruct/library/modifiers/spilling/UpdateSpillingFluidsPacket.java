@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.modifiers.spilling;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
 import slimeknights.mantle.network.packet.ISimplePacket;

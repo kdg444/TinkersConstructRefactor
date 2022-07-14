@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.fluid.transfer;
 
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 
 /** @deprecated use {@link slimeknights.mantle.fluid.transfer.EmptyFluidContainerTransfer} */

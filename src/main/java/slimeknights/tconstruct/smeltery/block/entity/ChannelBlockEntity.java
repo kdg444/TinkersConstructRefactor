@@ -1,10 +1,10 @@
 package slimeknights.tconstruct.smeltery.block.entity;
 
 import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtilForge;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.EmptyFluidHandler;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTransferableForge;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.TransferUtil;
+import slimeknights.mantle.transfer.fluid.EmptyFluidHandler;
+import slimeknights.mantle.transfer.fluid.FluidTransferable;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * Logic for channel fluid transfer
  */
-public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacketReceiver, FluidTransferableForge, CustomRenderBoundingBoxBlockEntity {
+public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacketReceiver, FluidTransferable, CustomRenderBoundingBoxBlockEntity {
 	/** Channel internal tank */
 	private final ChannelTank tank = new ChannelTank(FaucetBlockEntity.MB_PER_TICK * 3, this);
 	/** Handler to return from channel top */
@@ -129,7 +129,7 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 		// must have a TE with a fluid handler
 		BlockEntity te = level.getBlockEntity(worldPosition.relative(side));
 		if (te != null) {
-			LazyOptional<IFluidHandler> handler = TransferUtilForge.getFluidHandler(te, side.getOpposite());
+			LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(te, side.getOpposite());
 			if (handler.isPresent()) {
 				handler.addListener(neighborConsumers.computeIfAbsent(side, s -> new WeakConsumerWrapper<>(this, (self, lazy) -> self.invalidateSide(s, lazy))));
 				return handler;

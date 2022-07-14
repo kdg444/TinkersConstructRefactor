@@ -2,8 +2,8 @@ package slimeknights.tconstruct.library.recipe.melting;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.OreRateType;
@@ -26,6 +25,7 @@ import java.util.function.Consumer;
 /**
  * Builder for a recipe that melts an ingredient into a fuel
  */
+@SuppressWarnings("removal")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class MeltingRecipeBuilder extends AbstractRecipeBuilder<MeltingRecipeBuilder> {
   private final Ingredient input;
@@ -37,7 +37,7 @@ public class MeltingRecipeBuilder extends AbstractRecipeBuilder<MeltingRecipeBui
   @Nullable
   private OreRateType[] byproductRates = null;
   @Nullable
-  private int[] unitSizes;
+  private long[] unitSizes;
   private final List<FluidStack> byproducts = new ArrayList<>();
 
   /**
@@ -62,7 +62,7 @@ public class MeltingRecipeBuilder extends AbstractRecipeBuilder<MeltingRecipeBui
    * @return  Builder instance
    */
   public static MeltingRecipeBuilder melting(Ingredient input, FluidStack output, float timeFactor) {
-    int temperature = ((FluidExtensions)output.getFluid()).getAttributes().getTemperature(output) - 300;
+    int temperature = output.getFluid().getAttributes().getTemperature(output) - 300;
     return melting(input, output, temperature, IMeltingRecipe.calcTime(temperature, timeFactor));
   }
 
@@ -103,7 +103,7 @@ public class MeltingRecipeBuilder extends AbstractRecipeBuilder<MeltingRecipeBui
    * Marks this item as damagable, the output should scale based on the input damage
    * @return  Builder instance
    */
-  public MeltingRecipeBuilder setDamagable(int... unitSizes) {
+  public MeltingRecipeBuilder setDamagable(long... unitSizes) {
     this.unitSizes = unitSizes;
     return this;
   }

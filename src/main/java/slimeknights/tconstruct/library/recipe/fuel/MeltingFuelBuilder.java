@@ -1,13 +1,11 @@
 package slimeknights.tconstruct.library.recipe.fuel;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
-import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AllArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -19,6 +17,7 @@ import java.util.function.Consumer;
 /**
  * Builds a new recipe for a melter or smeltery fuel
  */
+@SuppressWarnings("removal")
 @AllArgsConstructor(staticName="fuel")
 public class MeltingFuelBuilder extends AbstractRecipeBuilder<MeltingFuelBuilder> {
   private final FluidIngredient input;
@@ -32,7 +31,7 @@ public class MeltingFuelBuilder extends AbstractRecipeBuilder<MeltingFuelBuilder
    * @return  Builder instance
    */
   public static MeltingFuelBuilder fuel(FluidStack fluid, int duration) {
-    return fuel(FluidIngredient.of(fluid), duration, ((FluidExtensions)fluid.getFluid()).getAttributes().getTemperature(fluid) - 300);
+    return fuel(FluidIngredient.of(fluid), duration, fluid.getFluid().getAttributes().getTemperature(fluid) - 300);
   }
 
   @Override
@@ -40,7 +39,7 @@ public class MeltingFuelBuilder extends AbstractRecipeBuilder<MeltingFuelBuilder
     if (input.getFluids().isEmpty()) {
       throw new IllegalStateException("Must have at least one fluid for dynamic input");
     }
-    save(consumer, Objects.requireNonNull(((RegistryNameProvider)input.getFluids().get(0).getFluid()).getRegistryName()));
+    save(consumer, Objects.requireNonNull(input.getFluids().get(0).getFluid().getRegistryName()));
   }
 
   @Override

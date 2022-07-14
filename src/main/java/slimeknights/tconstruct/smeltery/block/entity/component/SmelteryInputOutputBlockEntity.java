@@ -1,21 +1,21 @@
 package slimeknights.tconstruct.smeltery.block.entity.component;
 
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTransferableForge;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemTransferableForge;
+import slimeknights.mantle.transfer.fluid.FluidTransferable;
+import slimeknights.mantle.transfer.item.ItemTransferable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtilForge;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTransferable;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemTransferable;
+import slimeknights.mantle.transfer.TransferUtil;
+import slimeknights.mantle.transfer.fluid.FluidTransferable;
+import slimeknights.mantle.transfer.item.ItemTransferable;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.EmptyFluidHandler;
-import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.fluid.EmptyFluidHandler;
+import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.mantle.inventory.EmptyItemHandler;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -81,7 +81,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
    * @return  Capability from parent, or empty if absent
    */
   protected LazyOptional<T> getCapability(BlockEntity parent) {
-    LazyOptional<T> handler = (LazyOptional<T>) TransferUtilForge.getHandler(parent, null, capability); // TODO: PORT this shouldnt need to be casted?
+    LazyOptional<T> handler = (LazyOptional<T>) TransferUtil.getHandler(parent, null, capability); // TODO: PORT this shouldnt need to be casted?
     if (handler.isPresent()) {
       handler.addListener(listener);
 
@@ -120,7 +120,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
 //  }
 
   /** Fluid implementation of smeltery IO */
-  public static abstract class SmelteryFluidIO extends SmelteryInputOutputBlockEntity<IFluidHandler> implements FluidTransferableForge {
+  public static abstract class SmelteryFluidIO extends SmelteryInputOutputBlockEntity<IFluidHandler> implements FluidTransferable {
     protected SmelteryFluidIO(BlockEntityType<?> type, BlockPos pos, BlockState state) {
       super(type, pos, state, IFluidHandler.class, EmptyFluidHandler.INSTANCE);
     }
@@ -151,7 +151,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
   }
 
   /** Item implementation of smeltery IO */
-  public static class ChuteBlockEntity extends SmelteryInputOutputBlockEntity<IItemHandler> implements ItemTransferableForge {
+  public static class ChuteBlockEntity extends SmelteryInputOutputBlockEntity<IItemHandler> implements ItemTransferable {
     public ChuteBlockEntity(BlockPos pos, BlockState state) {
       this(TinkerSmeltery.chute.get(), pos, state);
     }

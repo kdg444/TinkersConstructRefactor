@@ -74,6 +74,7 @@ import java.util.function.Function;
 /**
  * Reimplementation of {@link DynamicBucketModel} as the forge one does not handle fluid NBT
  */
+@SuppressWarnings("removal")
 @RequiredArgsConstructor
 public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
   public static final Loader LOADER = new Loader();
@@ -93,7 +94,7 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
   @Override
   public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
     // fetch fluid sprite and cover sprite
-    ResourceLocation stillTexture = ((FluidExtensions)fluid.getFluid()).getAttributes().getStillTexture(fluid);
+    ResourceLocation stillTexture = fluid.getFluid().getAttributes().getStillTexture(fluid);
     TextureAtlasSprite fluidSprite = !fluid.isEmpty() ? spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, stillTexture)) : null;
     Material baseLocation = owner.isTexturePresent("base") ? owner.resolveTexture("base") : null;
     TextureAtlasSprite coverSprite = ((!coverIsMask || baseLocation != null) && owner.isTexturePresent("cover")) ? spriteGetter.apply(owner.resolveTexture("cover")) : null;

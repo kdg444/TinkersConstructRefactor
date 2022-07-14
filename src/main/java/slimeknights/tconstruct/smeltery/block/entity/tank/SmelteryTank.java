@@ -8,7 +8,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.Level;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.smeltery.network.SmelteryTankUpdatePacket;
@@ -27,7 +27,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
   @Getter
   private final List<FluidStack> fluids;
   /** Maximum capacity of the smeltery */
-  private int capacity;
+  private long capacity;
   /** Current amount of fluid in the tank */
   @Getter
   private long contained;
@@ -57,7 +57,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
    * Updates the maximum tank capacity
    * @param maxCapacity  New max capacity
    */
-  public void setCapacity(int maxCapacity) {
+  public void setCapacity(long maxCapacity) {
     this.capacity = maxCapacity;
   }
 
@@ -272,7 +272,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
       list.add(fluidTag);
     }
     nbt.put(TAG_FLUIDS, list);
-    nbt.putInt(TAG_CAPACITY, capacity);
+    nbt.putLong(TAG_CAPACITY, capacity);
     return nbt;
   }
 
@@ -289,6 +289,6 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
         contained += fluid.getAmount();
       }
     }
-    capacity = tag.getInt(TAG_CAPACITY);
+    capacity = tag.getLong(TAG_CAPACITY);
   }
 }

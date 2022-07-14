@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery.block;
 
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.block.LightEmissiveBlock;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.minecraft.core.BlockPos;
@@ -15,7 +16,6 @@ import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.library.utils.NBTTags;
 import slimeknights.tconstruct.smeltery.block.entity.ITankBlockEntity;
@@ -25,7 +25,8 @@ import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity.I
 
 import javax.annotation.Nullable;
 
-public class SearedLanternBlock extends LanternBlock implements ITankBlock, EntityBlock, BlockPickInteractionAware {
+@SuppressWarnings("removal")
+public class SearedLanternBlock extends LanternBlock implements ITankBlock, EntityBlock, BlockPickInteractionAware, LightEmissiveBlock {
   @Getter
   private final long capacity;
   public SearedLanternBlock(Properties properties, int capacity) {
@@ -39,12 +40,12 @@ public class SearedLanternBlock extends LanternBlock implements ITankBlock, Enti
     return new LanternBlockEntity(pos, state, this);
   }
 
-//  @Override TODO: PORT
+  @Override
   public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
     BlockEntity te = world.getBlockEntity(pos);
     if (te instanceof TankBlockEntity) {
       FluidStack fluid = ((TankBlockEntity) te).getTank().getFluid();
-      return ((FluidExtensions)fluid.getFluid()).getAttributes().getLuminosity(fluid);
+      return fluid.getFluid().getAttributes().getLuminosity(fluid);
     }
     return 0;
   }

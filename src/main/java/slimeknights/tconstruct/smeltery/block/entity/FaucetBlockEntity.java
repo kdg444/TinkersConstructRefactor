@@ -1,5 +1,9 @@
 package slimeknights.tconstruct.smeltery.block.entity;
 
+import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,15 +15,10 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtilForge;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.EmptyFluidHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
+import slimeknights.mantle.transfer.TransferUtil;
+import slimeknights.mantle.transfer.fluid.EmptyFluidHandler;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.recipe.FluidValues;
@@ -28,9 +27,10 @@ import slimeknights.tconstruct.smeltery.network.FaucetActivationPacket;
 
 import static slimeknights.tconstruct.smeltery.block.FaucetBlock.FACING;
 
+@SuppressWarnings("removal")
 public class FaucetBlockEntity extends MantleBlockEntity implements CustomRenderBoundingBoxBlockEntity {
   /** amount of MB to extract from the input at a time */
-  public static final int PACKET_SIZE = FluidValues.INGOT;
+  public static final long PACKET_SIZE = FluidValues.INGOT;
   /** Transfer rate of the faucet */
   public static final int MB_PER_TICK = 10;
 
@@ -84,7 +84,7 @@ public class FaucetBlockEntity extends MantleBlockEntity implements CustomRender
     assert level != null;
     BlockEntity te = level.getBlockEntity(worldPosition.relative(side));
     if (te != null) {
-      LazyOptional<IFluidHandler> handler = TransferUtilForge.getFluidHandler(te, side.getOpposite());
+      LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(te, side.getOpposite());
       if (handler.isPresent()) {
         return handler;
       }
@@ -227,7 +227,7 @@ public class FaucetBlockEntity extends MantleBlockEntity implements CustomRender
       // can we drain?
       IFluidHandler input = inputOptional.orElse(EmptyFluidHandler.INSTANCE);
       FluidStack drained = input.drain(PACKET_SIZE, true);
-      if (!drained.isEmpty() && !((FluidExtensions)drained.getFluid()).getAttributes().isGaseous(drained)) {
+      if (!drained.isEmpty() && !drained.getFluid().getAttributes().isGaseous(drained)) {
         // can we fill
         IFluidHandler output = outputOptional.orElse(EmptyFluidHandler.INSTANCE);
         long filled = output.fill(drained, true);

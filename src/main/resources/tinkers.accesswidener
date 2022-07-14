@@ -138,3 +138,5 @@ transitive-accessible method net/minecraft/world/item/context/BlockPlaceContext 
 transitive-accessible method net/minecraft/client/renderer/block/model/BlockElement uvsByFace (Lnet/minecraft/core/Direction;)[F
 
 transitive-accessible method net/minecraft/world/item/crafting/Ingredient$TagValue <init> (Lnet/minecraft/tags/TagKey;)V
+
+transitive-accessible field net/minecraft/world/item/ItemStack tag Lnet/minecraft/nbt/CompoundTag;

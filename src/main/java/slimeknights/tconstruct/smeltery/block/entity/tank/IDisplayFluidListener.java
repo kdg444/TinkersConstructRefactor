@@ -8,6 +8,7 @@ import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 /**
  * Interface for blocks to be notified when the smeltery has a new bottommost fluid
  */
+@SuppressWarnings("removal")
 public interface IDisplayFluidListener {
   /** Property for fluid models */
   ModelProperty<FluidStack> PROPERTY = new ModelProperty<>();

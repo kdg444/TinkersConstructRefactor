@@ -334,8 +334,11 @@ public final class TinkerSmeltery extends TinkerModule {
   public static final RegistryObject<MenuType<SingleItemContainerMenu>> singleItemContainer = MENUS.register("single_item", SingleItemContainerMenu::new);
   public static final RegistryObject<MenuType<AlloyerContainerMenu>> alloyerContainer = MENUS.register("alloyer", AlloyerContainerMenu::new);
 
-  @SubscribeEvent
-  void registerSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
+  public TinkerSmeltery() {
+    registerSerializers();
+  }
+
+  void registerSerializers() {
     FluidContainerTransferManager.TRANSFER_LOADERS.registerDeserializer(EmptyPotionTransfer.ID, EmptyPotionTransfer.DESERIALIZER);
   }
 

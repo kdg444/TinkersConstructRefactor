@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.smeltery.item;
 
 import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTankForge;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -12,10 +11,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import slimeknights.mantle.client.SafeClientAccess;
+import slimeknights.mantle.client.TooltipKey;
+import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
 import slimeknights.mantle.item.BlockTooltipItem;
+import slimeknights.mantle.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.utils.NBTTags;
+import slimeknights.tconstruct.smeltery.TinkerSmeltery;
+import slimeknights.tconstruct.smeltery.block.component.SearedTankBlock;
 import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity;
 
 import javax.annotation.Nullable;
@@ -56,7 +61,7 @@ public class TankItem extends BlockTooltipItem implements CustomMaxCountItem {
   @Override
   public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
     if (stack.hasTag()) {
-      FluidTankForge tank = getFluidTank(stack);
+      FluidTank tank = getFluidTank(stack);
       if (tank.getFluidAmount() > 0) {
         // TODO: migrate to a fluid tooltip JSON?
         tooltip.add(new TranslatableComponent(KEY_FLUID, tank.getFluid().getDisplayName()).withStyle(ChatFormatting.GRAY));
@@ -105,7 +110,7 @@ public class TankItem extends BlockTooltipItem implements CustomMaxCountItem {
    * @param tank   Tank instance
    * @return  Stack with tank
    */
-  public static ItemStack setTank(ItemStack stack, FluidTankForge tank) {
+  public static ItemStack setTank(ItemStack stack, FluidTank tank) {
     if (tank.isEmpty()) {
       CompoundTag nbt = stack.getTag();
       if (nbt != null) {
@@ -125,8 +130,8 @@ public class TankItem extends BlockTooltipItem implements CustomMaxCountItem {
    * @param stack  Tank stack
    * @return  Tank stored in the stack
    */
-  public static FluidTankForge getFluidTank(ItemStack stack) {
-    FluidTankForge tank = new FluidTankForge(TankBlockEntity.getCapacity(stack.getItem()));
+  public static FluidTank getFluidTank(ItemStack stack) {
+    FluidTank tank = new FluidTank(TankBlockEntity.getCapacity(stack.getItem()));
     if (stack.hasTag()) {
       assert stack.getTag() != null;
       tank.readFromNBT(stack.getTag().getCompound(NBTTags.TANK));

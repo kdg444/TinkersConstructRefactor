@@ -2,7 +2,8 @@ package slimeknights.tconstruct.smeltery.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
@@ -12,8 +13,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Plane;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.client.model.FaucetFluidLoader;
 import slimeknights.mantle.client.model.fluid.FluidCuboid;
 import slimeknights.mantle.client.model.util.ModelHelper;
@@ -25,6 +24,7 @@ import slimeknights.tconstruct.smeltery.block.ChannelBlock;
 import slimeknights.tconstruct.smeltery.block.ChannelBlock.ChannelConnection;
 import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
 
+@SuppressWarnings("removal")
 public class ChannelBlockEntityRenderer implements BlockEntityRenderer<ChannelBlockEntity> {
   public ChannelBlockEntityRenderer(Context context) {}
 
@@ -48,7 +48,7 @@ public class ChannelBlockEntityRenderer implements BlockEntityRenderer<ChannelBl
 		}
 
 		// fluid attributes
-		FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
+		FluidAttributes attributes = fluid.getFluid().getAttributes();
 		TextureAtlasSprite still = FluidRenderer.getBlockSprite(attributes.getStillTexture(fluid));
 		TextureAtlasSprite flowing = FluidRenderer.getBlockSprite(attributes.getFlowingTexture(fluid));
 		VertexConsumer builder = buffer.getBuffer(MantleRenderTypes.FLUID);

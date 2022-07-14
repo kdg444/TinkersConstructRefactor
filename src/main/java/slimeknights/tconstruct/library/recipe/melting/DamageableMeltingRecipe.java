@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 import java.util.List;
@@ -30,13 +30,13 @@ public class DamageableMeltingRecipe extends MeltingRecipe {
 
   /** Scales a fluid stack based on the damage */
   private static FluidStack scaleOutput(FluidStack fluid, int damage, int maxDamage, int unitSize) {
-    int amount = fluid.getAmount() * (maxDamage - damage) / maxDamage;
+    long amount = fluid.getAmount() * (maxDamage - damage) / maxDamage;
     // mimimum output is one unit
     if (amount <= unitSize) {
       amount = Math.max(unitSize, 1);
     } else if (unitSize > 1) {
       // round down to the nearest unit
-      int remainder = amount % unitSize;
+      long remainder = amount % unitSize;
       if (remainder > 0) {
         amount -= remainder;
       }

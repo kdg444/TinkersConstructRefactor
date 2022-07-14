@@ -20,6 +20,7 @@ import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 
 /** Particle data for a fluid particle */
+@SuppressWarnings("removal")
 @RequiredArgsConstructor
 public class FluidParticleData implements ParticleOptions {
   private static final DynamicCommandExceptionType UNKNOWN_FLUID = new DynamicCommandExceptionType(arg -> new TranslatableComponent("command.tconstruct.fluid.not_found", arg));

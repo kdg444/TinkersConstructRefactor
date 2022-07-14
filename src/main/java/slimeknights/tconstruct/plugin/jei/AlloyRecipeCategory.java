@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.plugin.jei;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -21,14 +22,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -110,9 +110,9 @@ public class AlloyRecipeCategory implements IRecipeCategory<AlloyRecipe> {
    * @param tooltip      Tooltip callback
    * @return Max amount based on fluids
    */
-  public static int drawVariableFluids(IRecipeLayoutBuilder builder, RecipeIngredientRole role, int x, int y, int totalWidth, int height, List<List<FluidStack>> fluids, int minAmount, IRecipeSlotTooltipCallback tooltip) {
+  public static long drawVariableFluids(IRecipeLayoutBuilder builder, RecipeIngredientRole role, int x, int y, int totalWidth, int height, List<List<FluidStack>> fluids, long minAmount, IRecipeSlotTooltipCallback tooltip) {
     int count = fluids.size();
-    int maxAmount = minAmount;
+    long maxAmount = minAmount;
     if (count > 0) {
       // first, find maximum used amount in the recipe so relations are correct
       for(List<FluidStack> list : fluids) {

@@ -3,6 +3,7 @@ package slimeknights.tconstruct;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.TinkerTools;
@@ -17,5 +18,6 @@ public class TConstructData implements DataGeneratorEntrypoint {
     TinkerModifiers.gatherData(fabricDataGenerator);
 
     TinkerTools.gatherData(fabricDataGenerator, helper);
+    TinkerFluids.gatherData(fabricDataGenerator);
   }
 }

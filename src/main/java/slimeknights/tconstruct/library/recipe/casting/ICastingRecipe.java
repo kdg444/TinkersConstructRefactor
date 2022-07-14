@@ -1,8 +1,7 @@
 package slimeknights.tconstruct.library.recipe.casting;
 
-import net.minecraft.world.item.ItemStack;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.recipe.ICommonRecipe;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe;
@@ -11,6 +10,7 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 /**
  * Base interface for all casting recipes
  */
+@SuppressWarnings("removal")
 public interface ICastingRecipe extends ICommonRecipe<ICastingContainer> {
   @Override
   default ItemStack getToastSymbol() {
@@ -58,6 +58,6 @@ public interface ICastingRecipe extends ICommonRecipe<ICastingContainer> {
    * @return  Time for the recipe
    */
   static int calcCoolingTime(FluidStack fluid) {
-    return calcCoolingTime(((FluidExtensions)fluid.getFluid()).getAttributes().getTemperature(fluid) - 300, fluid.getAmount());
+    return calcCoolingTime(fluid.getFluid().getAttributes().getTemperature(fluid) - 300, fluid.getAmount());
   }
 }

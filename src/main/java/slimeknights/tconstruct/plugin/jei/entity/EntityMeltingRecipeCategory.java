@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.fabric.constants.FabricTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated.StartDirection;
@@ -31,7 +32,7 @@ import slimeknights.tconstruct.plugin.jei.IRecipeTooltipReplacement;
 import slimeknights.tconstruct.plugin.jei.TConstructJEIConstants;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -111,14 +112,14 @@ public class EntityMeltingRecipeCategory implements IRecipeCategory<EntityMeltin
     builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 11)
            .setFluidRenderer(FluidValues.INGOT * 2, false, 16, 32)
            .addTooltipCallback(TOOLTIP_MAP.computeIfAbsent(recipe.getDamage(), FluidTooltip::new))
-           .addIngredient(VanillaTypes.FLUID, recipe.getOutput());
+           .addIngredient(FabricTypes.FLUID_STACK, recipe.getOutput());
 
     // show fuels that are valid for this recipe
     builder.addSlot(RecipeIngredientRole.CATALYST, 75, 43)
            .setFluidRenderer(1, false, 16, 16)
            .setOverlay(tank, 0, 0)
            .addTooltipCallback(IRecipeTooltipReplacement.EMPTY)
-           .addIngredients(VanillaTypes.FLUID, MeltingFuelHandler.getUsableFuels(1));
+           .addIngredients(FabricTypes.FLUID_STACK, MeltingFuelHandler.getUsableFuels(1));
   }
 
   /** Tooltip for relevant damage on the fluid */

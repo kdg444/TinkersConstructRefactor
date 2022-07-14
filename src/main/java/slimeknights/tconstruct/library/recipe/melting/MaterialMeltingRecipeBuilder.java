@@ -1,14 +1,13 @@
 package slimeknights.tconstruct.library.recipe.melting;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
@@ -21,6 +20,7 @@ import java.util.function.Consumer;
 /**
  * Builder for a recipe to melt a dynamic part material item
  */
+@SuppressWarnings("removal")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class MaterialMeltingRecipeBuilder extends AbstractRecipeBuilder<MaterialMeltingRecipeBuilder> {
   private final MaterialVariantId inputId;
@@ -37,7 +37,7 @@ public class MaterialMeltingRecipeBuilder extends AbstractRecipeBuilder<Material
 
   /** Creates a recipe using the fluids temperature */
   public static MaterialMeltingRecipeBuilder material(MaterialVariantId materialId, FluidStack result) {
-    return material(materialId, ((FluidExtensions)result.getFluid()).getAttributes().getTemperature(result) - 300, result);
+    return material(materialId, result.getFluid().getAttributes().getTemperature(result) - 300, result);
   }
 
   /** Creates a recipe using the fluids temperature */

@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.item;
 
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -14,8 +15,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 
 import javax.annotation.Nullable;
@@ -25,6 +24,7 @@ import java.util.Objects;
 /**
  * Fluid container holding 1 ingot of fluid
  */
+@SuppressWarnings("removal")
 public class CopperCanItem extends Item {
   private static final String TAG_FLUID = "fluid";
   private static final String TAG_FLUID_TAG = "fluid_tag";
@@ -62,7 +62,7 @@ public class CopperCanItem extends Item {
         FluidStack displayFluid = new FluidStack(fluid, FluidValues.INGOT, fluidTag);
         text = displayFluid.getDisplayName().plainCopy();
       } else {
-        text = new TranslatableComponent(((FluidExtensions)fluid).getAttributes().getTranslationKey());
+        text = new TranslatableComponent(fluid.getAttributes().getTranslationKey());
       }
       tooltip.add(new TranslatableComponent(this.getDescriptionId() + ".contents", text).withStyle(ChatFormatting.GRAY));
     } else {

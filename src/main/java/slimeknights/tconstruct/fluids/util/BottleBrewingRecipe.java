@@ -1,10 +1,11 @@
 package slimeknights.tconstruct.fluids.util;
 
+import io.github.fabricators_of_create.porting_lib.brewing.BrewingRecipe;
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.PotionBrewingAccessor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.brewing.BrewingRecipe;
 
 /** Recipe for transforming a bottle, depending on a vanilla brewing recipe to get the ingredient */
 public class BottleBrewingRecipe extends BrewingRecipe {
@@ -18,7 +19,7 @@ public class BottleBrewingRecipe extends BrewingRecipe {
 
   @Override
   public boolean isIngredient(ItemStack stack) {
-    for (PotionBrewing.Mix<Item> recipe : PotionBrewing.CONTAINER_MIXES) {
+    for (PotionBrewing.Mix<Item> recipe : PotionBrewingAccessor.port_lib$CONTAINER_MIXES()) {
       if (recipe.from.get() == from && recipe.to.get() == to) {
         return recipe.ingredient.test(stack);
       }
@@ -28,7 +29,7 @@ public class BottleBrewingRecipe extends BrewingRecipe {
 
   @Override
   public Ingredient getIngredient() {
-    for (PotionBrewing.Mix<Item> recipe : PotionBrewing.CONTAINER_MIXES) {
+    for (PotionBrewing.Mix<Item> recipe : PotionBrewingAccessor.port_lib$CONTAINER_MIXES()) {
       if (recipe.from.get() == from && recipe.to.get() == to) {
         return recipe.ingredient;
       }

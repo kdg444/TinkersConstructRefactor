@@ -7,13 +7,11 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import io.github.fabricators_of_create.porting_lib.model.IModelConfiguration;
 import io.github.fabricators_of_create.porting_lib.model.IModelData;
 import io.github.fabricators_of_create.porting_lib.model.IModelGeometry;
 import io.github.fabricators_of_create.porting_lib.model.IModelLoader;
 import io.github.fabricators_of_create.porting_lib.render.TransformTypeDependentItemBakedModel;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTankForge;
 import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AllArgsConstructor;
@@ -48,6 +46,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.client.model.util.ColoredBlockModel;
 import slimeknights.mantle.client.model.util.ExtraTextureConfiguration;
 import slimeknights.mantle.client.model.util.SimpleBlockModel;
+import slimeknights.mantle.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.model.ModelProperties;
@@ -112,7 +111,7 @@ public class TankModel implements IModelGeometry<TankModel> {
         return model;
       }
       // determine fluid
-      FluidTankForge tank = TankItem.getFluidTank(stack);
+      FluidTank tank = TankItem.getFluidTank(stack);
       if (tank.isEmpty()) {
         return model;
       }
@@ -148,6 +147,7 @@ public class TankModel implements IModelGeometry<TankModel> {
    * Baked variant to load in the custom overrides
    * @param <T>  Parent model type, used to make this easier to extend
    */
+  @SuppressWarnings("removal")
   public static class Baked<T extends TankModel> extends BakedGuiUniqueModel {
     private final IModelConfiguration owner;
     private final ModelState originalTransforms;
@@ -201,7 +201,7 @@ public class TankModel implements IModelGeometry<TankModel> {
      */
     private BakedModel getModel(FluidStack stack) {
       // fetch fluid data
-      FluidAttributes attributes = ((FluidExtensions)stack.getFluid()).getAttributes();
+      FluidAttributes attributes = stack.getFluid().getAttributes();
       int color = FluidVariantRendering.getColor(stack.getType());
       int luminosity = attributes.getLuminosity(stack);
       Map<String,Material> textures = ImmutableMap.of(
@@ -253,7 +253,7 @@ public class TankModel implements IModelGeometry<TankModel> {
     public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
       if(blockView instanceof RenderAttachedBlockView renderAttachedBlockView && renderAttachedBlockView.getBlockEntityRenderAttachment(pos) instanceof IModelData data) {
         if ((original.forceModelFluid || Config.CLIENT.tankFluidModel.get()) && data.hasProperty(ModelProperties.FLUID_TANK)) {
-          FluidTankForge tank = data.getData(ModelProperties.FLUID_TANK);
+          FluidTank tank = data.getData(ModelProperties.FLUID_TANK);
           if (tank != null && !tank.getFluid().isEmpty()) {
             ((FabricBakedModel)getCachedModel(tank.getFluid(), tank.getCapacity())).emitBlockQuads(blockView, state, pos, randomSupplier, context);
             return;

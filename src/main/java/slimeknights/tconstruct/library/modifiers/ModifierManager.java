@@ -8,13 +8,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
 import io.github.fabricators_of_create.porting_lib.event.BaseEvent;
-import io.github.fabricators_of_create.porting_lib.event.common.OnDatapackSyncCallback;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
@@ -89,7 +89,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
   public void init() {
 //    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, FMLCommonSetupEvent.class, e -> e.enqueueWork(this::fireRegistryEvent));
     this.addDataPackListeners();
-    OnDatapackSyncCallback.EVENT.register((playerList, player) -> JsonUtils.syncPackets(playerList, player, new UpdateModifiersPacket(this.dynamicModifiers)));
+    ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> JsonUtils.syncPackets(player, joined, new UpdateModifiersPacket(this.dynamicModifiers)));
   }
 
   /** Fires the modifier registry event */
@@ -166,7 +166,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
       }
 
       // conditions
-      if (json.has("condition") && !CraftingHelper.getCondition(GsonHelper.getAsJsonObject(json, "condition")).test(json)) {
+      if (json.has("condition") && !CraftingHelper.getConditionPredicate(GsonHelper.getAsJsonObject(json, "condition")).test(json)) {
         return null;
       }
 

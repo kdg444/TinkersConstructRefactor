@@ -4,12 +4,17 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import io.github.fabricators_of_create.porting_lib.model.IModelConfiguration;
+import io.github.fabricators_of_create.porting_lib.model.IModelData;
+import io.github.fabricators_of_create.porting_lib.model.IModelGeometry;
+import io.github.fabricators_of_create.porting_lib.model.IModelLoader;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AllArgsConstructor;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -20,7 +25,6 @@ import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
@@ -30,19 +34,10 @@ import slimeknights.mantle.client.model.RetexturedModel;
 import slimeknights.mantle.client.model.util.ColoredBlockModel;
 import slimeknights.mantle.client.model.util.DynamicBakedWrapper;
 import slimeknights.mantle.client.model.util.SimpleBlockModel;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
-import io.github.fabricators_of_create.porting_lib.model.IModelConfiguration;
-import io.github.fabricators_of_create.porting_lib.model.IModelData;
-import io.github.fabricators_of_create.porting_lib.model.IModelGeometry;
-import io.github.fabricators_of_create.porting_lib.model.IModelLoader;
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.smeltery.block.entity.tank.IDisplayFluidListener;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.List;
@@ -103,6 +98,7 @@ public class FluidTextureModel implements IModelGeometry<FluidTextureModel> {
   }
 
   /** Baked wrapper class */
+  @SuppressWarnings("removal")
   private static class Baked extends DynamicBakedWrapper<BakedModel> {
     private final Map<FluidStack,BakedModel> cache = new ConcurrentHashMap<>();
     private final List<BlockElement> elements;
@@ -127,7 +123,7 @@ public class FluidTextureModel implements IModelGeometry<FluidTextureModel> {
       SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(owner.useSmoothLighting(), owner.isSideLit(), owner.isShadedInGui(), owner.getCameraTransforms(), ItemOverrides.EMPTY).particle(particle);
 
       // get fluid details
-      FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
+      FluidAttributes attributes = fluid.getFluid().getAttributes();
       int color = FluidVariantRendering.getColor(fluid.getType());
       int luminosity = attributes.getLuminosity(fluid);
       IModelConfiguration textured = new RetexturedModel.RetexturedConfiguration(this.owner, this.fluids, FluidVariantRendering.getSprite(fluid.getType()).getName());

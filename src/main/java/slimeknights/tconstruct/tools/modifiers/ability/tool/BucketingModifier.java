@@ -29,11 +29,11 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtilForge;
+import slimeknights.mantle.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.impl.TankModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataKeys;
@@ -42,6 +42,7 @@ import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
+@SuppressWarnings("removal")
 public class BucketingModifier extends TankModifier {
   public BucketingModifier() {
     super(FluidAttributes.BUCKET_VOLUME);
@@ -93,7 +94,7 @@ public class BucketingModifier extends TankModifier {
       return InteractionResult.PASS;
     }
     Direction face = context.getClickedFace();
-    LazyOptional<IFluidHandler> capability = TransferUtilForge.getFluidHandler(te, face);
+    LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(te, face);
     if (!capability.isPresent()) {
       return InteractionResult.PASS;
     }
@@ -111,7 +112,7 @@ public class BucketingModifier extends TankModifier {
           if (!fluidStack.isEmpty()) {
             long added = cap.fill(fluidStack, false);
             if (added > 0) {
-              sound = ((FluidExtensions)fluidStack.getFluid()).getAttributes().getEmptySound(fluidStack);
+              sound = fluidStack.getFluid().getAttributes().getEmptySound(fluidStack);
               fluidStack.shrink(added);
               setFluid(tool, fluidStack);
             }
@@ -121,7 +122,7 @@ public class BucketingModifier extends TankModifier {
           FluidStack drained = cap.drain(getCapacity(tool), false);
           if (!drained.isEmpty()) {
             setFluid(tool, drained);
-            sound = ((FluidExtensions)drained.getFluid()).getAttributes().getFillSound(drained);
+            sound = drained.getFluid().getAttributes().getFillSound(drained);
           }
         } else {
           // filter drained to be the same as the current fluid
@@ -129,7 +130,7 @@ public class BucketingModifier extends TankModifier {
           if (!drained.isEmpty() && drained.isFluidEqual(fluidStack)) {
             fluidStack.grow(drained.getAmount());
             setFluid(tool, fluidStack);
-            sound = ((FluidExtensions)drained.getFluid()).getAttributes().getFillSound(drained);
+            sound = drained.getFluid().getAttributes().getFillSound(drained);
           }
         }
         if (sound != null) {

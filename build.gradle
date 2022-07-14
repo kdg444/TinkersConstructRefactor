@@ -30,6 +30,16 @@ repositories {
     maven { url = "https://mvn.devos.one/snapshots/" }
     maven { url = "https://maven.parchmentmc.org" }
     maven { url = "https://jitpack.io" }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
 }
 
 group = 'slimeknights.tconstruct'
@@ -88,8 +98,6 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
     include(modImplementation(fabricApi.module("fabric-data-generation-api-v1", project.fabric_version)))
 
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}")
-    modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}")
     modRuntimeOnly("mcjty.theoneprobe:theoneprobe-fabric:${minecraft_base_version}-${probe_version}")
     modRuntimeOnly("maven.modrinth:lazydfu:0.1.2")
 
@@ -105,7 +113,7 @@ dependencies {
 
     // dependencies
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
-    modImplementation("io.github.fabricators_of_create:Porting-Lib:${project.port_lib_version}+${project.minecraft_version}-forgetransfer.${project.port_lib_hash}")
+    modImplementation("io.github.fabricators_of_create:Porting-Lib:${project.port_lib_version}+${project.minecraft_version}-dev.${project.port_lib_hash}")
     modImplementation(include("slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"))
     modImplementation(include("io.github.tropheusj:milk-lib:0.3.2"))
 
@@ -113,6 +121,20 @@ dependencies {
     annotationProcessor(include("com.github.LlamaLad7:MixinExtras:0.0.6"))
 
     modImplementation "me.alphamode:Star:1.0+1.18.2"
+
+    // REI
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}")
+
+    // compile against the JEI API but do not include it at runtime
+    modCompileOnlyApi "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    modCompileOnlyApi "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
+
+    if (project.recipe_viewer.equals('jei')) {
+        // at runtime, use the full JEI jar for Fabric
+        modRuntimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
+    } else if (project.recipe_viewer.equals('rei')) {
+        modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}")
+    }
 }
 
 task buildOrPublish {

@@ -8,6 +8,7 @@ import com.google.gson.JsonSyntaxException;
 import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
 import io.github.fabricators_of_create.porting_lib.event.common.OnDatapackSyncCallback;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resources.ResourceLocation;
@@ -65,7 +66,7 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
   @Deprecated
   public void init() {
     this.addDataPackListeners();
-    OnDatapackSyncCallback.EVENT.register((playerList, serverPlayer) -> JsonUtils.syncPackets(playerList, serverPlayer, new UpdateSpillingFluidsPacket(this.fluids)));
+    ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> JsonUtils.syncPackets(player, joined, new UpdateSpillingFluidsPacket(this.fluids)));
   }
 
   /** Adds the managers as datapack listeners */

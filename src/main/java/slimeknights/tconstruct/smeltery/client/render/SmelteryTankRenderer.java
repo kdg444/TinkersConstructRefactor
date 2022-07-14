@@ -4,23 +4,22 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import io.github.fabricators_of_create.porting_lib.extensions.Vector3fExtensions;
-import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.client.render.FluidRenderer;
 import slimeknights.tconstruct.library.client.TinkerRenderTypes;
-import slimeknights.tconstruct.smeltery.client.screen.module.GuiSmelteryTank;
 import slimeknights.tconstruct.smeltery.block.entity.tank.SmelteryTank;
+import slimeknights.tconstruct.smeltery.client.screen.module.GuiSmelteryTank;
 
 import java.util.List;
 
 /** Helper class to render the smeltery tank */
+@SuppressWarnings("removal")
 public class SmelteryTankRenderer {
   /** Distance between the liquid and the edge of the block */
   private static final float FLUID_OFFSET = 0.005f;
@@ -111,7 +110,7 @@ public class SmelteryTankRenderer {
       return;
     }
     // fluid attributes
-    FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
+    FluidAttributes attributes = fluid.getFluid().getAttributes();
     TextureAtlasSprite still = FluidRenderer.getBlockSprite(/*FluidVariantRendering.getSprite(fluid.getType()).getName()*/attributes.getFlowingTexture(fluid));
     int color = attributes.getColor(fluid);//FluidVariantRendering.getColor(fluid.getType());
     brightness = FluidRenderer.withBlockLight(brightness, attributes.getLuminosity(fluid));

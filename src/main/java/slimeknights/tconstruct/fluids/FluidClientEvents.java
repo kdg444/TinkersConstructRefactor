@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.fluids;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.tconstruct.common.ClientEventBase;
 
@@ -24,9 +26,8 @@ public class FluidClientEvents extends ClientEventBase {
     setTranslucent(TinkerFluids.moltenAmethyst);
   }
 
-  @SubscribeEvent
-  static void itemColors(final ColorHandlerEvent.Item event) {
-    event.getItemColors().register((stack, index) -> index > 0 ? -1 : PotionUtils.getColor(stack), TinkerFluids.potionBucket.asItem());
+  static void itemColors() {
+    ColorProviderRegistry.ITEM.register((stack, index) -> index > 0 ? -1 : PotionUtils.getColor(stack), TinkerFluids.potionBucket.asItem());
   }
 
   private static void setTranslucent(FluidObject<?> fluid) {

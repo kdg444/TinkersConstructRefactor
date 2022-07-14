@@ -5,9 +5,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraft.server.packs.resources.ResourceManager;
 import slimeknights.mantle.client.ResourceColorManager;
-import slimeknights.mantle.data.ISafeManagerReloadListener;
+import slimeknights.mantle.data.fabric.IdentifiableISafeManagerReloadListener;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.utils.Util;
 

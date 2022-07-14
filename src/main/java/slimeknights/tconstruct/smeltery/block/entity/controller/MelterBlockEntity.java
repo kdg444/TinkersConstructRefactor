@@ -2,10 +2,10 @@ package slimeknights.tconstruct.smeltery.block.entity.controller;
 
 import io.github.fabricators_of_create.porting_lib.block.ChunkUnloadListeningBlockEntity;
 import io.github.fabricators_of_create.porting_lib.model.IModelData;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTransferableForge;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
-import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemTransferableForge;
+import slimeknights.mantle.transfer.fluid.FluidTransferable;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.item.IItemHandler;
+import slimeknights.mantle.transfer.item.ItemTransferable;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,10 +42,10 @@ import slimeknights.tconstruct.smeltery.menu.MelterContainerMenu;
 import javax.annotation.Nullable;
 import java.util.Collections;
 
-public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferableForge, ItemTransferableForge, ChunkUnloadListeningBlockEntity, RenderAttachmentBlockEntity {
+public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferable, ItemTransferable, ChunkUnloadListeningBlockEntity, RenderAttachmentBlockEntity {
 
   /** Max capacity for the tank */
-  private static final int TANK_CAPACITY = FluidValues.INGOT * 12;
+  private static final long TANK_CAPACITY = FluidValues.INGOT * 12;
   /* tags */
   private static final String TAG_INVENTORY = "inventory";
   /** Name of the GUI */

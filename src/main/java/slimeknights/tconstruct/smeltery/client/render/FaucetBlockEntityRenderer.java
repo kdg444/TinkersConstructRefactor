@@ -2,7 +2,8 @@ package slimeknights.tconstruct.smeltery.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -13,8 +14,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.client.model.FaucetFluidLoader;
 import slimeknights.mantle.client.model.fluid.FluidCuboid;
 import slimeknights.mantle.client.model.fluid.FluidsModel;
@@ -27,6 +26,7 @@ import slimeknights.tconstruct.smeltery.block.entity.FaucetBlockEntity;
 
 import java.util.function.Function;
 
+@SuppressWarnings("removal")
 public class FaucetBlockEntityRenderer implements BlockEntityRenderer<FaucetBlockEntity> {
   public FaucetBlockEntityRenderer(Context context) {}
 
@@ -52,7 +52,7 @@ public class FaucetBlockEntityRenderer implements BlockEntityRenderer<FaucetBloc
       boolean isRotated = RenderingHelper.applyRotation(matrices, direction);
 
       // fluid props
-      FluidAttributes attributes = ((FluidExtensions)renderFluid.getFluid()).getAttributes();
+      FluidAttributes attributes = renderFluid.getFluid().getAttributes();
       int color = attributes.getColor(renderFluid);
       Function<ResourceLocation, TextureAtlasSprite> spriteGetter = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS);
       TextureAtlasSprite still = spriteGetter.apply(attributes.getStillTexture(renderFluid));

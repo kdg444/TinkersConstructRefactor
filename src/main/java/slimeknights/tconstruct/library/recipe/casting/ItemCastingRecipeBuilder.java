@@ -27,7 +27,7 @@ import java.util.function.Consumer;
 /**
  * Builder for an item casting recipe. Takes a fluid and optional cast to create an item
  */
-@SuppressWarnings({"WeakerAccess", "unused", "UnusedReturnValue"})
+@SuppressWarnings({"WeakerAccess", "unused", "UnusedReturnValue", "removal"})
 @RequiredArgsConstructor(staticName = "castingRecipe")
 public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingRecipeBuilder> {
   private final ItemOutput result;
@@ -175,7 +175,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @param fluid    Fluid object instance
    * @param amount   amount of fluid
    */
-  public ItemCastingRecipeBuilder setFluidAndTime(FluidObject<?> fluid, int amount) {
+  public ItemCastingRecipeBuilder setFluidAndTime(FluidObject<?> fluid, long amount) {
     return setFluidAndTime(fluid, false, amount);
   }
 

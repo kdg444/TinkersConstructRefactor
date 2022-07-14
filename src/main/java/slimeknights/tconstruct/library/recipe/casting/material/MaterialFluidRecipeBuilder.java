@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.recipe.casting.material;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -10,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
@@ -22,6 +21,7 @@ import java.util.function.Consumer;
 /**
  * Builder to make parts and composites castable
  */
+@SuppressWarnings("removal")
 @Accessors(chain = true)
 @RequiredArgsConstructor(staticName = "material")
 public class MaterialFluidRecipeBuilder extends AbstractRecipeBuilder<MaterialFluidRecipeBuilder> {
@@ -45,7 +45,7 @@ public class MaterialFluidRecipeBuilder extends AbstractRecipeBuilder<MaterialFl
   public MaterialFluidRecipeBuilder setFluidAndTemp(FluidStack fluidStack) {
     this.fluid = FluidIngredient.of(fluidStack);
     if (this.temperature == -1) {
-      this.temperature = ((FluidExtensions)fluidStack.getFluid()).getAttributes().getTemperature(fluidStack) - 300;
+      this.temperature = fluidStack.getFluid().getAttributes().getTemperature(fluidStack) - 300;
     }
     return this;
   }

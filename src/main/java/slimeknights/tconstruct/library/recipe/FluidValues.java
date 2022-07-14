@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 public final class FluidValues {
   // metal
   /** Value of a single metal ingot, is divisible by 9 */
-  public static final int INGOT = 90;
+  public static final long INGOT = 90;
   /** Value of a single metal nugget */
-  public static final int NUGGET = INGOT / 9;
+  public static final long NUGGET = INGOT / 9;
   /** Value of a single metal block, is divisible by 81 */
-  public static final int METAL_BLOCK = INGOT * 9;
+  public static final long METAL_BLOCK = INGOT * 9;
 
   // gem
   /** Value of a gem such as diamond or emerald */

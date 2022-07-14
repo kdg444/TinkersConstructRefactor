@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.smeltery.block.entity.component;
 
 import io.github.fabricators_of_create.porting_lib.model.IModelData;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTransferableForge;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.fluid.FluidTransferable;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
@@ -30,7 +30,7 @@ import slimeknights.tconstruct.smeltery.item.TankItem;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITankBlockEntity, FluidTransferableForge, RenderAttachmentBlockEntity {
+public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITankBlockEntity, FluidTransferable, RenderAttachmentBlockEntity {
   /** Max capacity for the tank */
   public static final long DEFAULT_CAPACITY = FluidConstants.BUCKET * 4;
 

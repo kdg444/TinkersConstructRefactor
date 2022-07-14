@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.entity;
 
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemTransferableForge;
+import slimeknights.mantle.transfer.item.ItemTransferable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -12,8 +12,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
-import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemTransferable;
+import slimeknights.mantle.transfer.item.IItemHandler;
+import slimeknights.mantle.transfer.item.ItemTransferable;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /** Tile entity for the heater block below the melter */
-public class HeaterBlockEntity extends NameableBlockEntity implements ItemTransferableForge {
+public class HeaterBlockEntity extends NameableBlockEntity implements ItemTransferable {
   private static final String TAG_ITEM = "item";
   private static final Component TITLE = TConstruct.makeTranslation("gui", "heater");
 

@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 
 public class SmelteryBlockEntity extends HeatingStructureBlockEntity {
   /** Fluid capacity per internal block */
-  private static final int CAPACITY_PER_BLOCK = FluidValues.INGOT * 12;
+  private static final long CAPACITY_PER_BLOCK = FluidValues.INGOT * 12;
   /** Number of wall blocks needed to increase the fuel cost by 1 */
   private static final int BLOCKS_PER_FUEL = 15;
   /** Name of the UI */

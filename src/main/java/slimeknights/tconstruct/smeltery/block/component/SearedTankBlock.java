@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.component;
 
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
@@ -18,8 +19,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.fluid.FluidTransferHelper;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.library.recipe.FluidValues;
@@ -31,6 +30,7 @@ import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity.I
 import javax.annotation.Nullable;
 import java.util.Locale;
 
+@SuppressWarnings("removal")
 public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBlock, BlockPickInteractionAware {
   @Getter
   private final long capacity;
@@ -67,7 +67,7 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
     BlockEntity te = world.getBlockEntity(pos);
     if (te instanceof TankBlockEntity) {
       FluidStack fluid = ((TankBlockEntity) te).getTank().getFluid();
-      return ((FluidExtensions)fluid.getFluid()).getAttributes().getLuminosity(fluid);
+      return fluid.getFluid().getAttributes().getLuminosity(fluid);
     }
     return 0;
 //    return super.getLightEmission(state, world, pos);

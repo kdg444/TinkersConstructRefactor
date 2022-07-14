@@ -4,7 +4,7 @@ import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 
 import javax.annotation.Nonnull;
 
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
 
 /**
  * Fluid handler wrapper that only allows filling

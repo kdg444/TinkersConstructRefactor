@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tables.block.entity.inventory;
 
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerForge;
+import slimeknights.mantle.transfer.item.ItemStackHandler;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.world.item.ItemStack;
@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /** Base logic for scaling chest inventories */
-public abstract class ScalingChestItemHandler extends ItemStackHandlerForge implements IChestItemHandler {
+public abstract class ScalingChestItemHandler extends ItemStackHandler implements IChestItemHandler {
   /** Default maximum size */
   protected static final int DEFAULT_MAX = 256;
   /** Current size for display in containers */

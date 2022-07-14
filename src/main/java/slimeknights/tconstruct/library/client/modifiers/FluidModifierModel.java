@@ -2,9 +2,9 @@ package slimeknights.tconstruct.library.client.modifiers;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.math.Transformation;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import io.github.fabricators_of_create.porting_lib.model.ItemTextureQuadConverter;
 import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluid;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -25,6 +24,7 @@ import java.util.function.Function;
 /**
  * Model for tank modifiers, also displays the fluid
  */
+@SuppressWarnings("removal")
 public class FluidModifierModel extends NormalModifierModel {
   /** Constant unbaked model instance, as they are all the same */
   public static final IUnbakedModifierModel UNBAKED_INSTANCE = (smallGetter, largeGetter) -> {
@@ -85,7 +85,7 @@ public class FluidModifierModel extends NormalModifierModel {
           // finally, build (mostly based on bucket model)
           ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
           builder.addAll(quads);
-          FluidAttributes attributes = ((FluidExtensions)fluid.getFluid()).getAttributes();
+          FluidAttributes attributes = fluid.getFluid().getAttributes();
           TextureAtlasSprite fluidSprite = spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, FluidVariantRendering.getSprite(fluid.getType()).getName()));
           int color = attributes.getColor(fluid);
           int luminosity = attributes.getLuminosity(fluid);

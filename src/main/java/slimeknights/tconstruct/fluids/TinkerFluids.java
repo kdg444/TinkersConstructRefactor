@@ -1,26 +1,23 @@
 package slimeknights.tconstruct.fluids;
 
+import io.github.fabricators_of_create.porting_lib.brewing.BrewingRecipeRegistry;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
+import io.github.tropheusj.milk.Milk;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.core.cauldron.CauldronInteraction;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.FluidAttributes;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
-import net.minecraftforge.registries.RegistryObject;
 import slimeknights.mantle.fluid.UnplaceableFluid;
 import slimeknights.mantle.registration.ItemProperties;
 import slimeknights.mantle.registration.ModelFluidAttributes;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.mantle.registration.object.ItemObject;
+import slimeknights.mantle.util.SimpleFlowableFluid;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -40,9 +37,11 @@ import java.util.Map;
 /**
  * Contains all fluids used throughout the mod
  */
+@SuppressWarnings("removal")
 public final class TinkerFluids extends TinkerModule {
   public TinkerFluids() {
     Milk.enableMilkFluid();
+    commonSetup();
   }
 
   // basic
@@ -154,16 +153,11 @@ public final class TinkerFluids extends TinkerModule {
     return ModelFluidAttributes.builder().density(2000).viscosity(10000).temperature(1000).sound(SoundEvents.BUCKET_FILL_LAVA, SoundEvents.BUCKET_EMPTY_LAVA);
   }
 
-  @SubscribeEvent
-  void gatherData(final GatherDataEvent event) {
-    if (event.includeClient()) {
-      DataGenerator datagenerator = event.getGenerator();
-      datagenerator.addProvider(new FluidTooltipProvider(datagenerator));
-    }
+  public static void gatherData(final FabricDataGenerator datagenerator) {
+    datagenerator.addProvider(new FluidTooltipProvider(datagenerator));
   }
 
-  @SubscribeEvent
-  void commonSetup(final FMLCommonSetupEvent event) {
+  void commonSetup() {
     CauldronInteraction.WATER.put(splashBottle.get(), new FillBottle(Items.SPLASH_POTION));
     CauldronInteraction.WATER.put(lingeringBottle.get(), new FillBottle(Items.LINGERING_POTION));
     CauldronInteraction.WATER.put(Items.SPLASH_POTION,    new EmptyBottleIntoWater(splashBottle,    CauldronInteraction.WATER.get(Items.SPLASH_POTION)));

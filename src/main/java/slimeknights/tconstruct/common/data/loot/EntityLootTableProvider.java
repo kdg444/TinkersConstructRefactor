@@ -34,7 +34,7 @@ public class EntityLootTableProvider extends EntityLoot {
   protected Iterable<EntityType<?>> getKnownEntities() {
     return Registry.ENTITY_TYPE.stream()
                                    // remove earth slime entity, we redirect to the vanilla loot table
-                                   .filter((entity) -> TConstruct.MOD_ID.equals(Objects.requireNonNull(entity.getRegistryName()).getNamespace())
+                                   .filter((entity) -> TConstruct.MOD_ID.equals(Objects.requireNonNull(Registry.ENTITY_TYPE.getKey(entity)).getNamespace())
                                                        && entity != TinkerWorld.earthSlimeEntity.get())
                                    .collect(Collectors.toList());
   }

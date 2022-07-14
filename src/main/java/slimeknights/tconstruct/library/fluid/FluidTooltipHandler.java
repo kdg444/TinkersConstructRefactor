@@ -41,10 +41,10 @@ public class FluidTooltipHandler {
   @Deprecated
   public static final slimeknights.mantle.fluid.tooltip.FluidTooltipHandler INSTANCE = slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.INSTANCE;
 
-  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#init(RegisterClientReloadListenersEvent)} */
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#init()} */
   @Deprecated
-  public static void init(RegisterClientReloadListenersEvent manager) {
-    slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.init(manager);
+  public static void init() {
+    slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.init();
   }
 
   private FluidTooltipHandler() {}
@@ -58,7 +58,7 @@ public class FluidTooltipHandler {
     return slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.getFluidTooltip(fluid);
   }
 
-  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#getFluidTooltip(FluidStack, int)} */
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#getFluidTooltip(FluidStack, long)} */
   @Deprecated
   public static List<Component> getFluidTooltip(FluidStack fluid, int amount) {
     return slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.getFluidTooltip(fluid, amount);
@@ -70,13 +70,13 @@ public class FluidTooltipHandler {
     slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendMaterial(fluid, tooltip);
   }
 
-  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendMaterial(Fluid, int, List)} */
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendMaterial(Fluid, long, List)} */
   @Deprecated
   public static void appendMaterial(Fluid fluid, long original, List<Component> tooltip) {
     slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendMaterial(fluid, original, tooltip);
   }
 
-  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendMaterialNoShift(Fluid, int, List)} */
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendMaterialNoShift(Fluid, long, List)} */
   @Deprecated
   public static boolean appendMaterialNoShift(Fluid fluid, int original, List<Component> tooltip) {
     return slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendMaterialNoShift(fluid, original, tooltip);
@@ -100,13 +100,13 @@ public class FluidTooltipHandler {
     slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendBuckets(amount, tooltip);
   }
 
-  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendNamedList(ResourceLocation, int, List)} */
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendNamedList(ResourceLocation, long, List)} */
   @Deprecated
   public static void appendNamedList(ResourceLocation id, int amount, List<Component> tooltip) {
     slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendNamedList(id, amount, tooltip);
   }
 
-  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendBuckets(int, List)} */
+  /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#appendBuckets(long, List)} */
   @Deprecated
   public static void appendBuckets(long amount, List<Component> tooltip) {
     slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.appendBuckets(amount, tooltip);
@@ -115,7 +115,7 @@ public class FluidTooltipHandler {
   /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidUnit} */
   @Deprecated
   public static class FluidUnit extends slimeknights.mantle.fluid.tooltip.FluidUnit {
-    public FluidUnit(String key, int needed) {
+    public FluidUnit(String key, long needed) {
       super(key, needed);
     }
   }

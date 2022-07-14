@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix4f;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.client.Minecraft;
@@ -20,9 +21,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import slimeknights.mantle.client.screen.ElementScreen;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 
+@SuppressWarnings("removal")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class GuiUtil {
   /**
@@ -134,9 +134,9 @@ public final class GuiUtil {
    */
   public static void renderTiledFluid(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, int x, long y, int width, long height, int depth) {
     if (!stack.isEmpty()) {
-      TextureAtlasSprite fluidSprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(((FluidExtensions)stack.getFluid()).getAttributes().getStillTexture(stack));
-      RenderUtils.setColorRGBA(((FluidExtensions)stack.getFluid()).getAttributes().getColor(stack));
-      renderTiledTextureAtlas(matrices, screen, fluidSprite, x, y, width, height, depth, ((FluidExtensions)stack.getFluid()).getAttributes().isGaseous(stack));
+      TextureAtlasSprite fluidSprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stack.getFluid().getAttributes().getStillTexture(stack));
+      RenderUtils.setColorRGBA(stack.getFluid().getAttributes().getColor(stack));
+      renderTiledTextureAtlas(matrices, screen, fluidSprite, x, y, width, height, depth, stack.getFluid().getAttributes().isGaseous(stack));
       RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
   }

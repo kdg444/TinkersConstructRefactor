@@ -3,6 +3,8 @@ package slimeknights.tconstruct.library.client.book.content;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gson.annotations.SerializedName;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.ForgeI18n;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
@@ -23,9 +25,6 @@ import slimeknights.mantle.client.screen.book.element.BookElement;
 import slimeknights.mantle.client.screen.book.element.ItemElement;
 import slimeknights.mantle.client.screen.book.element.TextComponentElement;
 import slimeknights.mantle.client.screen.book.element.TextElement;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import io.github.fabricators_of_create.porting_lib.util.ForgeI18n;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -65,6 +64,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("removal")
 public class ContentMaterial extends PageContent {
   private static final Component PART_BUILDER = TConstruct.makeTranslation("book", "material.part_builder");
   private static final String CAST_FROM = TConstruct.makeTranslationKey("book", "material.cast_from");
@@ -303,7 +303,7 @@ public class ContentMaterial extends PageContent {
       FluidStack firstFluid = fluids.stream()
                                     .flatMap(recipe -> recipe.getFluids().stream())
                                     .findFirst().orElse(FluidStack.EMPTY);
-      elementItem.tooltip = ImmutableList.of(new TranslatableComponent(CAST_FROM, ((FluidExtensions)firstFluid.getFluid()).getAttributes().getDisplayName(firstFluid)));
+      elementItem.tooltip = ImmutableList.of(new TranslatableComponent(CAST_FROM, firstFluid.getFluid().getAttributes().getDisplayName(firstFluid)));
       displayTools.add(elementItem);
     }
 
@@ -319,7 +319,7 @@ public class ContentMaterial extends PageContent {
                                                                                       .map(part -> part.withMaterial(inputId))
                                                                                       .collect(Collectors.toList()));
         FluidStack firstFluid = composite.getFluids().stream().findFirst().orElse(FluidStack.EMPTY);
-        elementItem.tooltip = ImmutableList.of(new TranslatableComponent(COMPOSITE_FROM, ((FluidExtensions)firstFluid.getFluid()).getAttributes().getDisplayName(firstFluid), MaterialTooltipCache.getDisplayName(inputId)));
+        elementItem.tooltip = ImmutableList.of(new TranslatableComponent(COMPOSITE_FROM, firstFluid.getFluid().getAttributes().getDisplayName(firstFluid), MaterialTooltipCache.getDisplayName(inputId)));
         displayTools.add(elementItem);
       }
     }

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.plugin.jei.melting;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import mezz.jei.api.constants.VanillaTypes;
@@ -20,7 +21,6 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
@@ -124,7 +124,7 @@ public class MeltingCategory extends AbstractMeltingCategory {
     // liquid fuel
     builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 4)
            .addTooltipCallback(FUEL_TOOLTIP)
-           .setFluidRenderer(1, false, 12, fuelHeight)
+           .setFluidRenderer(1L, false, 12, fuelHeight)
            .addIngredients(VanillaTypes.FLUID, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
   }
 
@@ -137,9 +137,9 @@ public class MeltingCategory extends AbstractMeltingCategory {
     @Override
     protected boolean appendMaterial(FluidStack stack, List<Component> list) {
       Fluid fluid = stack.getFluid();
-      int amount = stack.getAmount();
-      int smelteryAmount = Config.COMMON.smelteryOreRate.applyOreBoost(oreType, amount);
-      int melterAmount = Config.COMMON.melterOreRate.applyOreBoost(oreType, amount);
+      long amount = stack.getAmount();
+      long smelteryAmount = Config.COMMON.smelteryOreRate.applyOreBoost(oreType, amount);
+      long melterAmount = Config.COMMON.melterOreRate.applyOreBoost(oreType, amount);
       if (smelteryAmount != melterAmount) {
         list.add(TOOLTIP_MELTER);
         boolean shift = FluidTooltipHandler.appendMaterialNoShift(fluid, melterAmount, list);

@@ -3,7 +3,6 @@ package slimeknights.tconstruct.library.client;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.network.chat.TextColor;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 
 import javax.annotation.Nullable;
 
@@ -22,11 +21,10 @@ public class ResourceColorManager {
 
   /**
    * Initializes this manager, registering it with the resource manager
-   * @param manager  Manager
    */
   @Deprecated
-  public static void init(ResourceManagerHelper manager) {
-    slimeknights.mantle.client.ResourceColorManager.init(manager);
+  public static void init() {
+    slimeknights.mantle.client.ResourceColorManager.init();
   }
 
   /** Gets the text color at the given path, or null if undefined */
@@ -45,10 +43,5 @@ public class ResourceColorManager {
   @Deprecated
   public static int getColor(String path) {
     return slimeknights.mantle.client.ResourceColorManager.getColor(path);
-  }
-
-  @Override
-  public ResourceLocation getFabricId() {
-    return TConstruct.getResource("color_manager");
   }
 }

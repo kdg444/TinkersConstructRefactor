@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tables.block.entity.chest;
 
-import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemTransferableForge;
+import slimeknights.mantle.transfer.item.IItemHandler;
+import slimeknights.mantle.transfer.item.ItemTransferable;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /** Shared base logic for all Tinkers' chest tile entities */
-public abstract class AbstractChestBlockEntity extends NameableBlockEntity implements ItemTransferableForge {
+public abstract class AbstractChestBlockEntity extends NameableBlockEntity implements ItemTransferable {
   private static final String KEY_ITEMS = "Items";
 
   @Getter

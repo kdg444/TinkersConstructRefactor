@@ -41,7 +41,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param recipePath  Recipe output name
    * @param isOptional  If true, recipe is optional
    */
-  default void tagMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, int amount, String tagName, float factor, String recipePath, boolean isOptional) {
+  default void tagMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, long amount, String tagName, float factor, String recipePath, boolean isOptional) {
     Consumer<FinishedRecipe> wrapped = isOptional ? withCondition(consumer, tagCondition(tagName)) : consumer;
     MeltingRecipeBuilder.melting(Ingredient.of(getItemTag("c", tagName)), fluid, amount, factor)
                         .save(wrapped, modResource(recipePath));
@@ -59,7 +59,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param isOptional  If true, recipe is optional
    * @param byproducts  List of byproduct options for this metal, first one that is present will be used
    */
-  default void oreMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, int amount, String tagName, @Nullable TagKey<Item> size, float factor, String recipePath, boolean isOptional, OreRateType oreRate, float byproductScale, IByproduct... byproducts) {
+  default void oreMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, long amount, String tagName, @Nullable TagKey<Item> size, float factor, String recipePath, boolean isOptional, OreRateType oreRate, float byproductScale, IByproduct... byproducts) {
     Consumer<FinishedRecipe> wrapped;
     Ingredient baseIngredient = Ingredient.of(getItemTag("c", tagName));
     Ingredient ingredient;
@@ -121,7 +121,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param name      Material name
    * @param folder    Output folder
    */
-  default void georeMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, int unit, String name, String folder) {
+  default void georeMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, long unit, String name, String folder) {
     // base
     tagMelting(consumer, fluid, unit,     "geore_shards/" + name, 1.0f, folder + "geore/shard", true);
     tagMelting(consumer, fluid, unit * 4, "geore_blocks/" + name, 2.0f, folder + "geore/block", true);
@@ -282,7 +282,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param recipeName   Name of the recipe for output
    * @param optional     If true, conditions the recipe on the tag
    */
-  default void tagCasting(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, boolean forgeTag, int amount, CastItemObject cast, String tagName, String recipeName, boolean optional) {
+  default void tagCasting(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, boolean forgeTag, long amount, CastItemObject cast, String tagName, String recipeName, boolean optional) {
     if (optional) {
       consumer = withCondition(consumer, tagCondition(tagName));
     }
@@ -313,7 +313,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param ingot     Ingot output
    * @param location  Recipe base
    */
-  default void ingotCasting(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, boolean forgeTag, int amount, ItemLike ingot, String location) {
+  default void ingotCasting(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, boolean forgeTag, long amount, ItemLike ingot, String location) {
     castingWithCast(consumer, fluid, forgeTag, amount, TinkerSmeltery.ingotCast, ingot, location);
   }
 
@@ -337,7 +337,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param ingot     Ingot output
    * @param location  Recipe base
    */
-  default void ingotCasting(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, int amount, ItemLike ingot, String location) {
+  default void ingotCasting(Consumer<FinishedRecipe> consumer, FluidObject<?> fluid, long amount, ItemLike ingot, String location) {
     ingotCasting(consumer, fluid, false, amount, ingot, location);
   }
 

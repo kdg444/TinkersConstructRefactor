@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tables.block;
 
-import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandlerModifiable;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelperForge;
+import slimeknights.mantle.transfer.item.IItemHandlerModifiable;
+import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.core.BlockPos;
@@ -86,7 +86,7 @@ public class ChestBlock extends TabbedTableBlock {
 
     if (!heldItem.isEmpty() && te instanceof AbstractChestBlockEntity chest && chest.canInsert(player, heldItem)) {
       IItemHandlerModifiable itemHandler = chest.getItemHandler();
-      ItemStack rest = ItemHandlerHelperForge.insertItem(itemHandler, heldItem, false);
+      ItemStack rest = ItemHandlerHelper.insertItem(itemHandler, heldItem, false);
       if (rest.isEmpty() || rest.getCount() < heldItem.getCount()) {
         playerInventory.items.set(playerInventory.selected, rest);
         return InteractionResult.SUCCESS;

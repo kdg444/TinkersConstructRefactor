@@ -5,9 +5,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.players.PlayerList;
 import net.minecraft.util.GsonHelper;
 import slimeknights.mantle.network.packet.ISimplePacket;
 import slimeknights.mantle.util.JsonHelper;
@@ -52,13 +52,13 @@ public class JsonUtils {
     return value;
   }
 
-  /** @deprecated use {@link JsonHelper#convertToEntry(IForgeRegistry, JsonElement, String)} */
+  /** @deprecated use {@link JsonHelper#convertToEntry(Registry, JsonElement, String)} */
   @Deprecated
-  public static <T extends IForgeRegistryEntry<T>> T convertToEntry(IForgeRegistry<T> registry, JsonElement element, String key) {
+  public static <T> T convertToEntry(Registry<T> registry, JsonElement element, String key) {
     return JsonHelper.convertToEntry(registry, element, key);
   }
 
-  /** @deprecated use {@link JsonHelper#getAsEntry(IForgeRegistry, JsonObject, String)} */
+  /** @deprecated use {@link JsonHelper#getAsEntry(Registry, JsonObject, String)} */
   @Deprecated
   public static <T> T getAsEntry(Registry<T> registry, JsonObject parent, String key) {
     return JsonHelper.getAsEntry(registry, parent, key);
@@ -90,8 +90,8 @@ public class JsonUtils {
   }
 
   /** Called when the player logs in to send packets */
-  public static void syncPackets(OnDatapackSyncEvent event, ISimplePacket... packets) {
-    JsonHelper.syncPackets(event, TinkerNetwork.getInstance(), packets);
+  public static void syncPackets(ServerPlayer targetedPlayer, boolean joined, ISimplePacket... packets) {
+    JsonHelper.syncPackets(targetedPlayer, joined, TinkerNetwork.getInstance(), packets);
   }
 
   /** Creates a JSON object with the given key set to a resource location */

@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.entity.controller;
 
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTransferableForge;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.fluid.FluidTransferable;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +38,7 @@ import java.util.Collections;
 /**
  * Dedicated alloying block
  */
-public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferableForge {
+public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferable {
   /** Max capacity for the tank */
   private static final long TANK_CAPACITY = TankType.INGOT_TANK.getCapacity();
   /** Name of the container */
