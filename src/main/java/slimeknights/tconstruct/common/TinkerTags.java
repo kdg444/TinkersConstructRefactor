@@ -150,7 +150,7 @@ public class TinkerTags {
     }
 
     private static TagKey<Block> forgeTag(String name) {
-      return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("forge", name));
+      return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", name));
     }
   }
 
@@ -341,7 +341,7 @@ public class TinkerTags {
 
     /** Makes a tag in the forge domain */
     public static TagKey<Item> forgeTag(String name) {
-      return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("forge", name));
+      return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("c", name));
     }
   }
 
@@ -380,7 +380,7 @@ public class TinkerTags {
     }
 
     private static TagKey<Fluid> forgeTag(String name) {
-      return TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation("forge", name));
+      return TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation("c", name));
     }
   }
 
@@ -409,7 +409,7 @@ public class TinkerTags {
     }
 
     private static TagKey<EntityType<?>> forgeTag(String name) {
-      return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation("forge", name));
+      return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation("c", name));
     }
   }
 

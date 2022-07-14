@@ -4,8 +4,10 @@ import io.github.fabricators_of_create.porting_lib.crafting.CompoundIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.IntersectionIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.NBTIngredient;
+import io.github.fabricators_of_create.porting_lib.data.ConditionalRecipe;
 import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.TrueCondition;
 import io.github.tropheusj.milk.Milk;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -31,6 +33,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import slimeknights.mantle.recipe.data.ConsumerWrapperBuilder;
 import slimeknights.mantle.recipe.data.ItemNameIngredient;
 import slimeknights.mantle.recipe.data.ItemNameOutput;
 import slimeknights.mantle.recipe.data.NBTNameIngredient;
@@ -40,6 +43,7 @@ import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.data.BaseRecipeProvider;
+import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
 import slimeknights.tconstruct.common.registration.GeodeItemObject;
 import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
 import slimeknights.tconstruct.fluids.TinkerFluids;
@@ -144,14 +148,14 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     Consumer<Consumer<FinishedRecipe>> fastGrout = c ->
       SimpleCookingRecipeBuilder.blasting(Ingredient.of(TinkerSmeltery.grout), TinkerSmeltery.searedBrick, 0.3f, 100)
                           .unlockedBy("has_item", has(TinkerSmeltery.grout)).save(c);
-    // TODO: PORT
-//    ConditionalRecipe.builder()
-//                     .addCondition(DefaultResourceConditions.allModsLoaded("ceramics"))
-//                     .addRecipe(c -> fastGrout.accept(ConsumerWrapperBuilder.wrap(new ResourceLocation("ceramics", "kiln")).build(c)))
-//                     .addCondition(TrueCondition.INSTANCE)
-//                     .addRecipe(fastGrout)
-//                     .generateAdvancement()
-//                     .build(consumer, wrap(TinkerSmeltery.searedBrick, folder, "_kiln"));
+
+    ConditionalRecipe.builder()
+                     .addCondition(DefaultResourceConditions.allModsLoaded("ceramics"))
+                     .addRecipe(c -> fastGrout.accept(ConsumerWrapperBuilder.wrap(new ResourceLocation("ceramics", "kiln")).build(c)))
+                     .addCondition(TrueCondition.INSTANCE)
+                     .addRecipe(fastGrout)
+//                     .generateAdvancement() TODO: PORT
+                     .build(consumer, wrap(TinkerSmeltery.searedBrick, folder, "_kiln"));
 
 
     // block from bricks
@@ -471,14 +475,14 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     Consumer<Consumer<FinishedRecipe>> fastGrout = c ->
       SimpleCookingRecipeBuilder.blasting(Ingredient.of(TinkerSmeltery.netherGrout), TinkerSmeltery.scorchedBrick, 0.3f, 100)
                                 .unlockedBy("has_item", has(TinkerSmeltery.netherGrout)).save(c);
-    // TODO: PORT
-//    ConditionalRecipe.builder()
-//                     .addCondition(new ModLoadedCondition("ceramics"))
-//                     .addRecipe(c -> fastGrout.accept(ConsumerWrapperBuilder.wrap(new ResourceLocation("ceramics", "kiln")).build(c)))
-//                     .addCondition(TrueCondition.INSTANCE)
-//                     .addRecipe(fastGrout)
-//                     .generateAdvancement()
-//                     .build(consumer, wrap(TinkerSmeltery.scorchedBrick, folder, "_kiln"));
+
+    ConditionalRecipe.builder()
+                     .addCondition(DefaultResourceConditions.allModsLoaded("ceramics"))
+                     .addRecipe(c -> fastGrout.accept(ConsumerWrapperBuilder.wrap(new ResourceLocation("ceramics", "kiln")).build(c)))
+                     .addCondition(TrueCondition.INSTANCE)
+                     .addRecipe(fastGrout)
+//                     .generateAdvancement() TODO: PORT
+                     .build(consumer, wrap(TinkerSmeltery.scorchedBrick, folder, "_kiln"));
 
     // block from bricks
     ShapedRecipeBuilder.shaped(TinkerSmeltery.scorchedBricks)
@@ -1587,19 +1591,18 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                       .save(consumer, prefix(TinkerFluids.moltenHepatizon, folder));
 
     // netherrite: 4 debris + 4 gold = 1 (why is this so dense vanilla?)
-    // TODO: PORT
-//    ConditionalRecipe.builder()
-//                     .addCondition(ConfigEnabledCondition.CHEAPER_NETHERITE_ALLOY)
-//                     .addRecipe(
-//                       AlloyRecipeBuilder.alloy(TinkerFluids.moltenNetherite.get(), FluidValues.NUGGET)
-//                                         .addInput(TinkerFluids.moltenDebris.getLocalTag(), FluidValues.NUGGET * 4)
-//                                         .addInput(TinkerFluids.moltenGold.getForgeTag(), FluidValues.NUGGET * 2)::save)
-//                     .addCondition(TrueCondition.INSTANCE) // fallback
-//                     .addRecipe(
-//                       AlloyRecipeBuilder.alloy(TinkerFluids.moltenNetherite.get(), FluidValues.NUGGET)
-//                                         .addInput(TinkerFluids.moltenDebris.getLocalTag(), FluidValues.NUGGET * 4)
-//                                         .addInput(TinkerFluids.moltenGold.getForgeTag(), FluidValues.NUGGET * 4)::save)
-//                     .build(consumer, prefix(TinkerFluids.moltenNetherite, folder));
+    ConditionalRecipe.builder()
+                     .addCondition(ConfigEnabledCondition.CHEAPER_NETHERITE_ALLOY)
+                     .addRecipe(
+                       AlloyRecipeBuilder.alloy(TinkerFluids.moltenNetherite.get(), FluidValues.NUGGET)
+                                         .addInput(TinkerFluids.moltenDebris.getLocalTag(), FluidValues.NUGGET * 4)
+                                         .addInput(TinkerFluids.moltenGold.getForgeTag(), FluidValues.NUGGET * 2)::save)
+                     .addCondition(TrueCondition.INSTANCE) // fallback
+                     .addRecipe(
+                       AlloyRecipeBuilder.alloy(TinkerFluids.moltenNetherite.get(), FluidValues.NUGGET)
+                                         .addInput(TinkerFluids.moltenDebris.getLocalTag(), FluidValues.NUGGET * 4)
+                                         .addInput(TinkerFluids.moltenGold.getForgeTag(), FluidValues.NUGGET * 4)::save)
+                     .build(consumer, prefix(TinkerFluids.moltenNetherite, folder));
 
 
     // tier 3 compat
@@ -1973,7 +1976,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                             .setFluidAndTime(TinkerFluids.moltenOsmium, FluidValues.INGOT)
                             .save(wrapped, modResource(folder + "refined_glowstone_ingot"));
     wrapped = withCondition(consumer, tagCondition("ingots/refined_obsidian"), tagCondition("ingots/osmium"));
-    ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromTag(getItemTag("forge", "ingots/refined_obsidian"), 1))
+    ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromTag(getItemTag("c", "ingots/refined_obsidian"), 1))
                             .setCast(getItemTag("c", "dusts/refined_obsidian"), true)
                             .setFluidAndTime(TinkerFluids.moltenOsmium, FluidValues.INGOT)
                             .save(wrapped, modResource(folder + "refined_obsidian_ingot"));

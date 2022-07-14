@@ -167,7 +167,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
       }
 
       // conditions
-      if (json.has("condition") && !CraftingHelper.getConditionPredicate(GsonHelper.getAsJsonObject(json, "condition")).test(json)) {
+      if (json.has(ResourceConditions.CONDITIONS_KEY) && !CraftingHelper.getConditionPredicate(GsonHelper.getAsJsonObject(json, ResourceConditions.CONDITIONS_KEY)).test(json)) {
         return null;
       }
 

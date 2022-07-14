@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.common.data.loot;
 
+import io.github.fabricators_of_create.porting_lib.loot.LootTableIdCondition;
 import net.minecraft.advancements.critereon.EntityEquipmentPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -23,7 +24,6 @@ import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.json.BlockOrEntityCondition;
-import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.tools.modifiers.ModifierLootModifier;
 import slimeknights.tconstruct.tools.modifiers.loot.ChrysophiliteBonusFunction;
@@ -37,7 +37,7 @@ public class GlobalLootModifiersProvider extends GlobalLootModifierProvider {
   @Override
   protected void start() {
     ReplaceItemLootModifier.builder(Ingredient.of(Items.BONE), ItemOutput.fromItem(TinkerMaterials.necroticBone))
-//                           .addCondition(LootTableIdCondition.builder(new ResourceLocation("entities/wither_skeleton")).build()) Todo: port
+                           .addCondition(LootTableIdCondition.builder(new ResourceLocation("entities/wither_skeleton")).build())
 //                           .addCondition(ConfigEnabledCondition.WITHER_BONE_DROP) TODO: PORT
                            .build("wither_bone", this);
 

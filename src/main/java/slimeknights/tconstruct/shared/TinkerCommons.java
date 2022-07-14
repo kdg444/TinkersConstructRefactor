@@ -2,6 +2,7 @@ package slimeknights.tconstruct.shared;
 
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.fabricmc.fabric.api.object.builder.v1.advancement.CriterionRegistry;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
@@ -29,6 +30,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.json.BlockOrEntityCondition;
 import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
+import slimeknights.tconstruct.common.json.TinkerConditons;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.library.json.predicate.block.BlockPredicate;
 import slimeknights.tconstruct.library.json.predicate.block.SetBlockPredicate;
@@ -140,7 +142,7 @@ public final class TinkerCommons extends TinkerModule {
   }
 
   void registerRecipeSerializers() {
-//    ResourceConditions.register(ConfigEnabledCondition.ID, TinkerConditons::isConfigEnabledPredicate); TODO: PORT conditions
+    ResourceConditions.register(ConfigEnabledCondition.ID, TinkerConditons::isConfigEnabledPredicate);
     lootConfig = Registry.register(Registry.LOOT_CONDITION_TYPE, ConfigEnabledCondition.ID, new LootItemConditionType(ConfigEnabledCondition.SERIALIZER));
     lootBlockOrEntity = Registry.register(Registry.LOOT_CONDITION_TYPE, BlockOrEntityCondition.ID, new LootItemConditionType(BlockOrEntityCondition.SERIALIZER));
     CriterionRegistry.register(CONTAINER_OPENED_TRIGGER);

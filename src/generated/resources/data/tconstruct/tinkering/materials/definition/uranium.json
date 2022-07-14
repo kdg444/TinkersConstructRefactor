@@ -1,20 +1,23 @@
 {
-  "condition": {
-    "values": [
-      {
-        "prop": "force_integration_materials",
-        "type": "tconstruct:config"
-      },
-      {
-        "value": {
-          "tag": "c:ingots/uranium",
-          "type": "forge:tag_empty"
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:or",
+      "values": [
+        {
+          "prop": "force_integration_materials",
+          "condition": "tconstruct:config"
         },
-        "type": "forge:not"
-      }
-    ],
-    "type": "forge:or"
-  },
+        {
+          "value": {
+            "condition": "fabric:item_tags_populated",
+            "values": [
+              "c:ingots/uranium"
+            ]
+          }
+        }
+      ]
+    }
+  ],
   "craftable": false,
   "tier": 2,
   "sortOrder": 25,

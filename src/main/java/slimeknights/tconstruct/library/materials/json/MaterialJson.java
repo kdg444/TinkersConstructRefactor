@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.materials.json;
 
 import lombok.Data;
-import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.minecraft.resources.ResourceLocation;
 import slimeknights.tconstruct.library.json.JsonRedirect;
 
 import javax.annotation.Nullable;
@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 @Data
 public class MaterialJson {
   @Nullable
-  private final ConditionJsonProvider condition;
+  private final ResourceLocation condition;
   @Nullable
   private final Boolean craftable;
   @Nullable

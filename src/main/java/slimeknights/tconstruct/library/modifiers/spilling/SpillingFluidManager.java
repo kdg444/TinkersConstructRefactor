@@ -95,7 +95,7 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
       JsonObject json = GsonHelper.convertToJsonObject(element, "fluid");
 
       // want to parse condition without parsing effects, as the effect serializer may be missing
-      if (json.has(ResourceConditions.CONDITION_ID_KEY) && !CraftingHelper.getConditionPredicate(GsonHelper.getAsJsonObject(json, ResourceConditions.CONDITION_ID_KEY)).test(json)) {
+      if (json.has(ResourceConditions.CONDITIONS_KEY) && !CraftingHelper.getConditionPredicate(GsonHelper.getAsJsonObject(json, ResourceConditions.CONDITIONS_KEY)).test(json)) {
         return null;
       }
       FluidIngredient ingredient = FluidIngredient.deserialize(json, "fluid");

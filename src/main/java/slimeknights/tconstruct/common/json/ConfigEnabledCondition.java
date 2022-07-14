@@ -83,9 +83,9 @@ public class ConfigEnabledCondition implements ConditionJsonProvider, LootItemCo
    * @return Added condition
    */
   private static ConfigEnabledCondition add(String prop, BooleanSupplier supplier) {
-//    ConfigEnabledCondition conf = TinkerConditons.configEnabled(prop, supplier); TODO: PORT
-//    PROPS.put(prop.toLowerCase(Locale.ROOT), conf);
-    return null;//conf;
+    ConfigEnabledCondition conf = TinkerConditons.configEnabled(prop, supplier);
+    PROPS.put(prop.toLowerCase(Locale.ROOT), conf);
+    return conf;
   }
 
   /**

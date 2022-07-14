@@ -47,7 +47,6 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
   public static final String FOLDER = "tinkering/materials/definition";
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
-//    .registerTypeAdapter(ConditionJsonProvider.class, ConditionSerializer.INSTANCE) TODO: PORT?
     .setPrettyPrinting()
     .disableHtmlEscaping()
     .create();
@@ -192,8 +191,8 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
       }
 
       // condition
-      ConditionJsonProvider condition = materialJson.getCondition();
-      if (condition != null && !ResourceConditions.get(condition.getConditionId()).test(jsonObject)) {
+      ResourceLocation condition = materialJson.getCondition();
+      if (condition != null && !ResourceConditions.get(condition).test(jsonObject)) {
         log.debug("Skipped loading material {} as it did not match the condition", materialId);
         return null;
       }

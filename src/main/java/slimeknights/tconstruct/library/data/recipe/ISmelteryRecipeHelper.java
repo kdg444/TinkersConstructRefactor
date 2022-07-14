@@ -3,6 +3,9 @@ package slimeknights.tconstruct.library.data.recipe;
 import io.github.fabricators_of_create.porting_lib.crafting.CompoundIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.IntersectionIngredient;
+import io.github.fabricators_of_create.porting_lib.data.ConditionalRecipe;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.TrueCondition;
 import me.alphamode.forgetags.Tags;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -60,7 +63,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param byproducts  List of byproduct options for this metal, first one that is present will be used
    */
   default void oreMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, long amount, String tagName, @Nullable TagKey<Item> size, float factor, String recipePath, boolean isOptional, OreRateType oreRate, float byproductScale, IByproduct... byproducts) {
-    Consumer<FinishedRecipe> wrapped;
+    Consumer<FinishedRecipe> wrapped = null; // TODO: PORT
     Ingredient baseIngredient = Ingredient.of(getItemTag("c", tagName));
     Ingredient ingredient;
     // not everyone sets size, so treat singular as the fallback, means we want anything in the tag that is not sparse or dense
@@ -81,25 +84,25 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
 
     // if no byproducts, just build directly
     if (byproducts.length == 0) {
-//      supplier.get().save(wrapped, location); TODO: PORT
+      supplier.get().save(wrapped, location);
       // if first option is always present, only need that one
     } else if (byproducts[0].isAlwaysPresent()) {
-//      supplier.get() TODO: PORT
-//              .addByproduct(new FluidStack(byproducts[0].getFluid(), (int)(byproducts[0].getAmount() * byproductScale)))
-//              .save(wrapped, location);
+      supplier.get()
+              .addByproduct(new FluidStack(byproducts[0].getFluid(), (int)(byproducts[0].getAmount() * byproductScale)))
+              .save(wrapped, location);
     } else {
       // multiple options, will need a conditonal recipe
-//      ConditionalRecipe.Builder builder = ConditionalRecipe.builder();
+      ConditionalRecipe.Builder builder = ConditionalRecipe.builder();
       boolean alwaysPresent = false;
       for (IByproduct byproduct : byproducts) {
         // found an always present byproduct? no need to tag and we are done
         alwaysPresent = byproduct.isAlwaysPresent();
         if (alwaysPresent) {
-//          builder.addCondition(TrueCondition.INSTANCE);
+          builder.addCondition(TrueCondition.INSTANCE);
         } else {
-//          builder.addCondition(tagCondition("ingots/" + byproduct.getName()));
+          builder.addCondition(tagCondition("ingots/" + byproduct.getName()));
         }
-//        builder.addRecipe(supplier.get().addByproduct(new FluidStack(byproduct.getFluid(), (int)(byproduct.getAmount() * byproductScale)))::save);
+        builder.addRecipe(supplier.get().addByproduct(new FluidStack(byproduct.getFluid(), (int)(byproduct.getAmount() * byproductScale)))::save);
 
         if (alwaysPresent) {
           break;
@@ -107,10 +110,10 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
       }
       // not always present? add a recipe with no byproducts as a final fallback
       if (!alwaysPresent) {
-//        builder.addCondition(TrueCondition.INSTANCE);
-//        builder.addRecipe(supplier.get()::save);
+        builder.addCondition(TrueCondition.INSTANCE);
+        builder.addRecipe(supplier.get()::save);
       }
-//      builder.build(wrapped, location);
+      builder.build(wrapped, location);
     }
   }
 
