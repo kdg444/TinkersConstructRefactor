@@ -19,6 +19,7 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
+import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -87,14 +88,14 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
   /** For internal use only */
   @Deprecated
   public void init() {
-//    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, FMLCommonSetupEvent.class, e -> e.enqueueWork(this::fireRegistryEvent));
+    this.fireRegistryEvent();
     this.addDataPackListeners();
     ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> JsonUtils.syncPackets(player, joined, new UpdateModifiersPacket(this.dynamicModifiers)));
   }
 
   /** Fires the modifier registry event */
   private void fireRegistryEvent() {
-//    ModLoader.get().runEventGenerator(ModifierRegistrationEvent::new); TODO: PORT
+    FabricLoader.getInstance().getAllMods().forEach(ModifierRegistrationEvent::new);
     modifiersRegistered = true;
   }
 

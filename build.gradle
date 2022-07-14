@@ -124,17 +124,19 @@ dependencies {
     modImplementation "me.alphamode:Star:1.0+1.18.2"
 
     // REI
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}")
+    modCompileOnlyApi("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}")
 
     // compile against the JEI API but do not include it at runtime
     modCompileOnlyApi "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
     modCompileOnlyApi "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
 
-    if (project.recipe_viewer.equals('jei')) {
+    if (project.recipe_viewer == 'jei') {
         // at runtime, use the full JEI jar for Fabric
         modRuntimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
-    } else if (project.recipe_viewer.equals('rei')) {
+    } else if (project.recipe_viewer == 'rei') {
         modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}")
+    } else {
+        println("unknown recipe viewer: $recipe_viewer")
     }
 }
 
