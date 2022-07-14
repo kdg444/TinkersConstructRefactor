@@ -14,7 +14,12 @@
   },
 
   "license": "MIT",
-  "icon": "icon.png",
+  "icon": "logo.png",
+
+  "provides": [
+    "com_electronwill_night-config_core",
+    "com_electronwill_night-config_toml"
+  ],
 
   "environment": "*",
   "entrypoints": {
@@ -23,6 +28,9 @@
     ],
     "client": [
       "slimeknights.tconstruct.shared.TinkerClient"
+    ],
+    "fabric-datagen": [
+      "slimeknights.tconstruct.TConstructData"
     ],
     "jei_mod_plugin": [
       "slimeknights.tconstruct.plugin.jei.JEIPlugin"

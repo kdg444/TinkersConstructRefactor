@@ -87,7 +87,24 @@ sourceSets {
     }
 }
 
-loom.accessWidenerPath = file("src/main/resources/tinkers.accesswidener")
+loom {
+    accessWidenerPath = file("src/main/resources/tinkers.accesswidener")
+
+    runs {
+        datagen {
+            client()
+
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+            vmArg "-Dfabric-api.datagen.modid=tconstruct"
+            // from ae2
+            property "slimeknights.tconstruct.existingData", file("src/main/resources").absolutePath
+
+            runDir "build/datagen"
+        }
+    }
+}
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"

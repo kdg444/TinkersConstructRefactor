@@ -1,7 +1,10 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BiomeTagsProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.core.Registry;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
 import slimeknights.tconstruct.common.TinkerTags;
 
 import static net.minecraft.tags.BiomeTags.IS_BADLANDS;
@@ -20,18 +23,22 @@ import static net.minecraft.world.level.biome.Biomes.END_MIDLANDS;
 import static net.minecraft.world.level.biome.Biomes.SMALL_END_ISLANDS;
 
 @SuppressWarnings("unchecked")
-public class BiomeTagProvider extends BiomeTagsProvider {
+public class BiomeTagProvider extends FabricTagProvider.DynamicRegistryTagProvider<Biome> {
 
-  public BiomeTagProvider(DataGenerator generatorIn) {
-    super(generatorIn);
+  public BiomeTagProvider(FabricDataGenerator generatorIn) {
+    super(generatorIn, Registry.BIOME_REGISTRY, "worldgen.biome.islands", "Tinkers' Biomes");
   }
 
   @Override
-  protected void addTags() {
-    this.tag(TinkerTags.Biomes.CLAY_ISLANDS).addTag(IS_DEEP_OCEAN).addTag(IS_OCEAN).addTag(IS_BEACH).addTag(IS_RIVER).addTag(IS_MOUNTAIN).addTag(IS_BADLANDS).addTag(IS_HILL);
-    this.tag(TinkerTags.Biomes.EARTHSLIME_ISLANDS).addTag(IS_DEEP_OCEAN).addTag(IS_OCEAN);
-    this.tag(TinkerTags.Biomes.SKYSLIME_ISLANDS).addTag(IS_DEEP_OCEAN).addTag(IS_OCEAN).addTag(IS_BEACH).addTag(IS_RIVER).addTag(IS_MOUNTAIN).addTag(IS_BADLANDS).addTag(IS_HILL).addTag(IS_TAIGA).addTag(IS_FOREST);
-    this.tag(TinkerTags.Biomes.BLOOD_ISLANDS).addTag(IS_NETHER);
+  protected void generateTags() {
+    this.tag(TinkerTags.Biomes.CLAY_ISLANDS).forceAddTag(IS_DEEP_OCEAN).forceAddTag(IS_OCEAN).forceAddTag(IS_BEACH).forceAddTag(IS_RIVER).forceAddTag(IS_MOUNTAIN).forceAddTag(IS_BADLANDS).forceAddTag(IS_HILL);
+    this.tag(TinkerTags.Biomes.EARTHSLIME_ISLANDS).forceAddTag(IS_DEEP_OCEAN).forceAddTag(IS_OCEAN);
+    this.tag(TinkerTags.Biomes.SKYSLIME_ISLANDS).forceAddTag(IS_DEEP_OCEAN).forceAddTag(IS_OCEAN).forceAddTag(IS_BEACH).forceAddTag(IS_RIVER).forceAddTag(IS_MOUNTAIN).forceAddTag(IS_BADLANDS).forceAddTag(IS_HILL).forceAddTag(IS_TAIGA).forceAddTag(IS_FOREST);
+    this.tag(TinkerTags.Biomes.BLOOD_ISLANDS).forceAddTag(IS_NETHER);
     this.tag(TinkerTags.Biomes.ENDERSLIME_ISLANDS).add(END_HIGHLANDS, END_MIDLANDS, SMALL_END_ISLANDS, END_BARRENS);
+  }
+
+  public FabricTagBuilder<Biome> tag(TagKey<Biome> tag) {
+    return getOrCreateTagBuilder(tag);
   }
 }

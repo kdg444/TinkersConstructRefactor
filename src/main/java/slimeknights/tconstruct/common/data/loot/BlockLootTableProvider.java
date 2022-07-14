@@ -1,17 +1,20 @@
 package slimeknights.tconstruct.common.data.loot;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTablesProvider;
+import com.google.common.collect.Sets;
+import io.github.fabricators_of_create.porting_lib.util.CanToolPerformAction;
+import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.Registry;
 import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -25,8 +28,6 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import io.github.fabricators_of_create.porting_lib.util.ToolActions;
-import io.github.fabricators_of_create.porting_lib.util.CanToolPerformAction;
 import slimeknights.mantle.loot.function.RetexturedLootFunction;
 import slimeknights.mantle.registration.object.BuildingBlockObject;
 import slimeknights.mantle.registration.object.FenceBuildingBlockObject;
@@ -49,25 +50,47 @@ import slimeknights.tconstruct.world.TinkerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
+import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class BlockLootTableProvider extends FabricBlockLootTablesProvider {
+public class BlockLootTableProvider extends BlockLoot {
 
-  protected BlockLootTableProvider(FabricDataGenerator dataGenerator) {
-    super(dataGenerator);
+  protected BlockLootTableProvider() {
+    super();
+  }
+
+  public void accept(BiConsumer<ResourceLocation, LootTable.Builder> p_124179_) {
+    this.addTables();
+    Set<ResourceLocation> set = Sets.newHashSet();
+
+    for(Block block : getKnownBlocks()) {
+      ResourceLocation resourcelocation = block.getLootTable();
+      if (resourcelocation != BuiltInLootTables.EMPTY && set.add(resourcelocation)) {
+        LootTable.Builder loottable$builder = this.map.remove(resourcelocation);
+        if (loottable$builder == null) {
+//          throw new IllegalStateException(String.format("Missing loottable '%s' for '%s'", resourcelocation, Registry.BLOCK.getKey(block)));
+          continue;
+        }
+
+        p_124179_.accept(resourcelocation, loottable$builder);
+      }
+    }
+
+    if (!this.map.isEmpty()) {
+      throw new IllegalStateException("Created block loot tables for non-blocks: " + this.map.keySet());
+    }
   }
 
   @Nonnull
-//  @Override
-//  protected Iterable<Block> getKnownBlocks() {
-//    return Registry.BLOCK.stream()
-//                                 .filter((block) -> TConstruct.MOD_ID.equals(Objects.requireNonNull(Registry.BLOCK.getKey(block)).getNamespace()))
-//                                 .collect(Collectors.toList());
-//  }
+  protected Iterable<Block> getKnownBlocks() {
+    return Registry.BLOCK.stream()
+                                 .filter((block) -> TConstruct.MOD_ID.equals(Objects.requireNonNull(Registry.BLOCK.getKey(block)).getNamespace()))
+                                 .collect(Collectors.toList());
+  }
 
-  @Override
-  protected void generateBlockLootTables() {
+  protected void addTables() {
     this.addCommon();
     this.addDecorative();
     this.addGadgets();

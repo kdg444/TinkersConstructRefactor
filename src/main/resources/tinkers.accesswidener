@@ -144,3 +144,5 @@ transitive-accessible field net/minecraft/world/item/ItemStack tag Lnet/minecraf
 transitive-accessible field net/minecraft/world/item/alchemy/PotionBrewing$Mix to Ljava/lang/Object;
 transitive-accessible field net/minecraft/world/item/alchemy/PotionBrewing$Mix from Ljava/lang/Object;
 transitive-accessible field net/minecraft/world/item/alchemy/PotionBrewing$Mix ingredient Lnet/minecraft/world/item/crafting/Ingredient;
+
+transitive-accessible field net/minecraft/data/loot/BlockLoot map Ljava/util/Map;

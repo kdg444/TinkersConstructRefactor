@@ -101,7 +101,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
         .addTag(TinkerMaterials.queensSlime.getBlockTag())
         .addTag(TinkerMaterials.manyullyn.getBlockTag())
         .addTag(TinkerMaterials.hepatizon.getBlockTag())
-        .addTag(Tags.Blocks.STORAGE_BLOCKS_NETHERITE);
+        .forceAddTag(Tags.Blocks.STORAGE_BLOCKS_NETHERITE);
     for (SmelteryCompat compat : SmelteryCompat.values()) {
       if (!compat.isOre()) {
         builder.addOptionalTag(new ResourceLocation("c", "storage_blocks/" + compat.getName()));
@@ -115,7 +115,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     // things the platform connects to on the sides
     this.tag(TinkerTags.Blocks.PLATFORM_CONNECTIONS)
         .add(Blocks.LEVER, Blocks.LADDER, Blocks.IRON_BARS, TinkerCommons.goldBars.get(), Blocks.TRIPWIRE_HOOK, Blocks.WALL_TORCH, Blocks.SOUL_WALL_TORCH, Blocks.REDSTONE_WALL_TORCH, Blocks.REDSTONE_WIRE)
-        .addTag(Tags.Blocks.GLASS_PANES).addTag(BlockTags.BUTTONS).addTag(Tags.Blocks.FENCES).addTag(BlockTags.WALLS).addTag(BlockTags.WALL_SIGNS);
+        .forceAddTag(Tags.Blocks.GLASS_PANES).forceAddTag(BlockTags.BUTTONS).forceAddTag(Tags.Blocks.FENCES).forceAddTag(BlockTags.WALLS).forceAddTag(BlockTags.WALL_SIGNS);
 
     // copper platforms
     TagAppender<Block> copperPlatforms = this.tag(TinkerTags.Blocks.COPPER_PLATFORMS);
@@ -135,7 +135,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     this.tag(TinkerTags.Blocks.HARVESTABLE_STACKABLE)
         .add(Blocks.SUGAR_CANE, Blocks.KELP_PLANT);
     this.tag(TinkerTags.Blocks.HARVESTABLE_CROPS)
-        .addTag(BlockTags.CROPS)
+        .forceAddTag(BlockTags.CROPS)
         .addOptionalTag(new ResourceLocation("c", "crops"))
         .add(Blocks.NETHER_WART);
     this.tag(TinkerTags.Blocks.HARVESTABLE_INTERACT)
@@ -148,7 +148,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     // just logs for lumber axe, but modpack makers can add more
     this.tag(TinkerTags.Blocks.TREE_LOGS).addTag(BlockTags.LOGS);
     // blocks that drop gold and should drop more gold
-    this.tag(TinkerTags.Blocks.CHRYSOPHILITE_ORES).addTag(Tags.Blocks.ORES_GOLD).add(Blocks.GILDED_BLACKSTONE);
+    this.tag(TinkerTags.Blocks.CHRYSOPHILITE_ORES).forceAddTag(Tags.Blocks.ORES_GOLD).add(Blocks.GILDED_BLACKSTONE);
   }
 
 
@@ -405,14 +405,14 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     // hand axe has a leaf bonus
     tag(TinkerTags.Blocks.MINABLE_WITH_HAND_AXE).addTag(MINEABLE_WITH_AXE).addTag(BlockTags.LEAVES);
     // scythe/kama does hoe or shear blocks
-    tag(TinkerTags.Blocks.MINABLE_WITH_SHEARS).add(Blocks.COBWEB, Blocks.REDSTONE_WIRE, Blocks.TRIPWIRE, Blocks.VINE, Blocks.GLOW_LICHEN).addTag(BlockTags.LEAVES).addTag(BlockTags.WOOL);
+    tag(TinkerTags.Blocks.MINABLE_WITH_SHEARS).add(Blocks.COBWEB, Blocks.REDSTONE_WIRE, Blocks.TRIPWIRE, Blocks.VINE, Blocks.GLOW_LICHEN).forceAddTag(BlockTags.LEAVES).forceAddTag(BlockTags.WOOL);
     // scythe/kama does hoe or shear blocks
     tag(TinkerTags.Blocks.MINABLE_WITH_SCYTHE).addTag(MINEABLE_WITH_HOE).addTag(TinkerTags.Blocks.MINABLE_WITH_SHEARS);
     // sword list is filled to best ability, but will be a bit inexact as vanilla uses materials, hopefully putting this tag under forge will get people to tag their blocks
     tag(TinkerTags.Blocks.MINABLE_WITH_SWORD).add(Blocks.COBWEB)
       .add(Blocks.COCOA, Blocks.CHORUS_PLANT, Blocks.CHORUS_FLOWER, Blocks.SWEET_BERRY_BUSH, Blocks.VINE, Blocks.MOSS_CARPET, Blocks.MOSS_BLOCK,
            Blocks.BIG_DRIPLEAF, Blocks.BIG_DRIPLEAF_STEM, Blocks.GLOW_LICHEN, Blocks.PUMPKIN, Blocks.CARVED_PUMPKIN, Blocks.MELON)
-      .addTag(BlockTags.LEAVES).addTag(BlockTags.SAPLINGS).addTag(BlockTags.FLOWERS).addTag(BlockTags.CROPS);
+      .forceAddTag(BlockTags.LEAVES).forceAddTag(BlockTags.SAPLINGS).forceAddTag(BlockTags.FLOWERS).forceAddTag(BlockTags.CROPS);
     // dagger does hoe or sword blocks
     tag(TinkerTags.Blocks.MINABLE_WITH_DAGGER).addTag(MINEABLE_WITH_HOE).addTag(TinkerTags.Blocks.MINABLE_WITH_SWORD);
   }
@@ -554,5 +554,9 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     // signs
     this.tag(BlockTags.STANDING_SIGNS).add(object.getSign());
     this.tag(BlockTags.WALL_SIGNS).add(object.getWallSign());
+  }
+
+  public FabricTagBuilder tag(TagKey<Block> tag) {
+    return getOrCreateTagBuilder(tag);
   }
 }

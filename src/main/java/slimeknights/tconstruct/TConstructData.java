@@ -8,12 +8,18 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.TinkerTools;
 
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
+
 public class TConstructData implements DataGeneratorEntrypoint {
 
   @Override
   public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
-    ExistingFileHelper helper = null;
-    TConstruct.onInitializeDataGenerator(fabricDataGenerator);
+    var existingData = System.getProperty("slimeknights.tconstruct.existingData").split(";");
+    ExistingFileHelper helper = new ExistingFileHelper(Arrays.stream(existingData).map(Paths::get).toList(), Collections.emptySet(),
+      true, null, null);
+    TConstruct.onInitializeDataGenerator(fabricDataGenerator, helper);
     TinkerSmeltery.gatherData(fabricDataGenerator);
     TinkerModifiers.gatherData(fabricDataGenerator);
 
