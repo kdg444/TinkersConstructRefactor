@@ -21,6 +21,7 @@ import slimeknights.tconstruct.shared.particle.FluidParticleData;
 import javax.annotation.Nullable;
 
 /** Modifier to handle spilling recipes onto self when attacked */
+@SuppressWarnings("removal")
 public class WettingModifier extends TankModifier {
   public WettingModifier() {
     super(FluidAttributes.BUCKET_VOLUME);

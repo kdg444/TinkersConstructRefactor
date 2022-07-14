@@ -35,7 +35,7 @@ public class FluidTooltipHandler {
 
   /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#BUCKET_FORMATTER} */
   @Deprecated
-  public static final BiConsumer<Integer,List<Component>> BUCKET_FORMATTER = slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.BUCKET_FORMATTER;
+  public static final BiConsumer<Long,List<Component>> BUCKET_FORMATTER = slimeknights.mantle.fluid.tooltip.FluidTooltipHandler.BUCKET_FORMATTER;
 
   /** @deprecated use {@link slimeknights.mantle.fluid.tooltip.FluidTooltipHandler#INSTANCE} */
   @Deprecated

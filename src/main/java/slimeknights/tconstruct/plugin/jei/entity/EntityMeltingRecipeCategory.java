@@ -4,8 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.fabric.constants.FabricTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated.StartDirection;
@@ -24,13 +22,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.IRecipeTooltipReplacement;
 import slimeknights.tconstruct.plugin.jei.TConstructJEIConstants;
-import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 
 import java.awt.*;
 import java.util.List;
@@ -109,17 +104,17 @@ public class EntityMeltingRecipeCategory implements IRecipeCategory<EntityMeltin
     builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addItemStacks(recipe.getItemInputs());
 
     // output
-    builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 11)
-           .setFluidRenderer(FluidValues.INGOT * 2, false, 16, 32)
-           .addTooltipCallback(TOOLTIP_MAP.computeIfAbsent(recipe.getDamage(), FluidTooltip::new))
-           .addIngredient(FabricTypes.FLUID_STACK, recipe.getOutput());
+//    builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 11) TODO: JEI Fabric broken
+//           .setFluidRenderer(FluidValues.INGOT * 2, false, 16, 32)
+//           .addTooltipCallback(TOOLTIP_MAP.computeIfAbsent(recipe.getDamage(), FluidTooltip::new))
+//           .addIngredient(FabricTypes.FLUID_STACK, recipe.getOutput());
 
     // show fuels that are valid for this recipe
-    builder.addSlot(RecipeIngredientRole.CATALYST, 75, 43)
-           .setFluidRenderer(1, false, 16, 16)
-           .setOverlay(tank, 0, 0)
-           .addTooltipCallback(IRecipeTooltipReplacement.EMPTY)
-           .addIngredients(FabricTypes.FLUID_STACK, MeltingFuelHandler.getUsableFuels(1));
+//    builder.addSlot(RecipeIngredientRole.CATALYST, 75, 43) TODO: JEI Fabric broken
+//           .setFluidRenderer(1, false, 16, 16)
+//           .setOverlay(tank, 0, 0)
+//           .addTooltipCallback(IRecipeTooltipReplacement.EMPTY)
+//           .addIngredients(FabricTypes.FLUID_STACK, MeltingFuelHandler.getUsableFuels(1));
   }
 
   /** Tooltip for relevant damage on the fluid */
@@ -127,7 +122,7 @@ public class EntityMeltingRecipeCategory implements IRecipeCategory<EntityMeltin
     @Override
     public void addMiddleLines(IRecipeSlotView recipeSlotView, List<Component> list) {
       // add fluid units
-      recipeSlotView.getDisplayedIngredient(VanillaTypes.FLUID).ifPresent(fluid -> FluidTooltipHandler.appendMaterial(fluid, list));
+//      recipeSlotView.getDisplayedIngredient(FabricTypes.FLUID_STACK).ifPresent(fluid -> FluidTooltipHandler.appendMaterial(fluid, list)); TODO: JEI Fabric broken
       // output rate
       if (damage == 2) {
         list.add(TOOLTIP_PER_HEART);

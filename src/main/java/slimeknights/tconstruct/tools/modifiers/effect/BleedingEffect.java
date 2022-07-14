@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.effect;
 
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.DamageSourceAccessor;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -38,7 +39,7 @@ public class BleedingEffect extends NoMilkEffect {
     else {
       source = DamageSourceAccessor.port_lib$init(SOURCE_KEY);
     }
-    source.bypassMagic();
+    ((DamageSourceAccessor)source).port_lib$bypassMagic();
 
     // perform damage
     int hurtResistantTime = target.invulnerableTime;

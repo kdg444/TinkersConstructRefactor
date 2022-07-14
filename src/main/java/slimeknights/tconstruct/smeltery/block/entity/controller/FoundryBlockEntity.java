@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
 
 public class FoundryBlockEntity extends HeatingStructureBlockEntity {
   /** Fluid capacity per internal block */
-  private static final int CAPACITY_PER_BLOCK = FluidValues.INGOT * 8;
+  private static final long CAPACITY_PER_BLOCK = FluidValues.INGOT * 8;
   /** GUI name */
   private static final Component NAME = TConstruct.makeTranslation("gui", "foundry");
   /** Number of wall blocks needed to increase the fuel cost by 1

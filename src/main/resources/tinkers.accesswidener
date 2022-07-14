@@ -140,3 +140,7 @@ transitive-accessible method net/minecraft/client/renderer/block/model/BlockElem
 transitive-accessible method net/minecraft/world/item/crafting/Ingredient$TagValue <init> (Lnet/minecraft/tags/TagKey;)V
 
 transitive-accessible field net/minecraft/world/item/ItemStack tag Lnet/minecraft/nbt/CompoundTag;
+
+transitive-accessible field net/minecraft/world/item/alchemy/PotionBrewing$Mix to Ljava/lang/Object;
+transitive-accessible field net/minecraft/world/item/alchemy/PotionBrewing$Mix from Ljava/lang/Object;
+transitive-accessible field net/minecraft/world/item/alchemy/PotionBrewing$Mix ingredient Lnet/minecraft/world/item/crafting/Ingredient;

@@ -6,7 +6,6 @@ import com.google.common.cache.LoadingCache;
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.Getter;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.fabric.constants.FabricTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
@@ -24,14 +23,13 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.GuiUtil;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
 import slimeknights.tconstruct.plugin.jei.IRecipeTooltipReplacement;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -113,24 +111,24 @@ public abstract class AbstractCastingCategory implements IRecipeCategory<IDispla
     // fluids
     // tank fluids
     long capacity = FluidValues.METAL_BLOCK;
-    builder.addSlot(RecipeIngredientRole.INPUT, 3, 3)
-           .addTooltipCallback(this)
-           .setFluidRenderer(capacity, false, 32, 32)
-           .setOverlay(tankOverlay, 0, 0)
-           .addIngredients(FabricTypes.FLUID_STACK, recipe.getFluids());
+//    builder.addSlot(RecipeIngredientRole.INPUT, 3, 3) TODO: JEI Fabric is broken
+//           .addTooltipCallback(this)
+//           .setFluidRenderer(capacity, false, 32, 32)
+//           .setOverlay(tankOverlay, 0, 0)
+//           .addIngredients(FabricTypes.FLUID_STACK, recipe.getFluids());
     // pouring fluid
     int h = 11;
     if (!recipe.hasCast()) {
       h += 16;
     }
-    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 43, 8)
-           .addTooltipCallback(this)
-           .setFluidRenderer(1L, false, 6, h)
-           .addIngredients(FabricTypes.FLUID_STACK, recipe.getFluids());
+//    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 43, 8) TODO: JEI Fabric is broken
+//           .addTooltipCallback(this)
+//           .setFluidRenderer(1L, false, 6, h)
+//           .addIngredients(FabricTypes.FLUID_STACK, recipe.getFluids());
   }
 
   @Override
   public void addMiddleLines(IRecipeSlotView slot, List<Component> list) {
-    slot.getDisplayedIngredient(VanillaTypes.FLUID).ifPresent(stack -> FluidTooltipHandler.appendMaterial(stack, list));
+//    slot.getDisplayedIngredient(VanillaTypes.FLUID).ifPresent(stack -> FluidTooltipHandler.appendMaterial(stack, list)); TODO: JEI Fabric is broken
   }
 }

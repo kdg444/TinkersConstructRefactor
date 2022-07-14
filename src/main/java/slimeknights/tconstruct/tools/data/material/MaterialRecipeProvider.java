@@ -23,6 +23,7 @@ import slimeknights.tconstruct.world.TinkerWorld;
 
 import java.util.function.Consumer;
 
+@SuppressWarnings("removal")
 public class MaterialRecipeProvider extends BaseRecipeProvider implements IMaterialRecipeHelper {
   public MaterialRecipeProvider(FabricDataGenerator generator) {
     super(generator);

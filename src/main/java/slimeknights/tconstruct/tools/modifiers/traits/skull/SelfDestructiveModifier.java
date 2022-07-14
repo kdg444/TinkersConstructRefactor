@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 
 public class SelfDestructiveModifier extends NoLevelsModifier implements IArmorInteractModifier {
   /** Self damage source */
-  private static final DamageSource SELF_DESTRUCT = (new DamageSource(TConstruct.prefix("self_destruct"))).bypassArmor().setExplosion();
+  private static final DamageSource SELF_DESTRUCT = (DamageSourceAccessor.port_lib$init(TConstruct.prefix("self_destruct"))).bypassArmor().setExplosion();
 
   @Override
   public boolean startArmorInteract(IToolStackView tool, int level, Player player, EquipmentSlot slot) {

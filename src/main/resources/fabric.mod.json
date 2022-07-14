@@ -24,6 +24,9 @@
     "client": [
       "slimeknights.tconstruct.shared.TinkerClient"
     ],
+    "jei_mod_plugin": [
+      "slimeknights.tconstruct.plugin.jei.JEIPlugin"
+    ],
     "cardinal-components": [
       "slimeknights.tconstruct.gadgets.capability.PiggybackCapability",
       "slimeknights.tconstruct.tools.logic.EquipmentChangeWatcher",

@@ -104,7 +104,7 @@ public class ModifierProvider extends AbstractModifierProvider {
     // general abilities
     addModifier(ModifierIds.reach, StatBoostModifier.builder()
       .attribute("tconstruct.modifier.reach", ReachEntityAttributes.REACH, Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
-      .attribute("tconstruct.modifier.range", ForgeMod.ATTACK_RANGE.get(),   Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
+      .attribute("tconstruct.modifier.range", ReachEntityAttributes.ATTACK_RANGE,   Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
       .build());
 
     // loot

@@ -14,5 +14,5 @@ public interface IByproduct {
   Fluid getFluid();
 
   /** Gets the amount of byproduct produced before scaling */
-  int getAmount();
+  long getAmount();
 }

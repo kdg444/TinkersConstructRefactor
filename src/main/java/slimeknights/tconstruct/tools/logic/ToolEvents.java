@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.logic;
 
 import com.google.common.collect.Multiset;
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback;
 import io.github.fabricators_of_create.porting_lib.util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,9 +32,7 @@ import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.apache.logging.log4j.core.Filter.Result;
 import org.jetbrains.annotations.Nullable;
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.events.TinkerToolEvent.ToolHarvestEvent;
@@ -267,11 +266,9 @@ public class ToolEvents {
 
     // determine if there is any modifiable armor, if not nothing to do
     // TODO: shields should support this hook too, probably with a separate tag so holding armor does not count as a shield
-    DamageSource source = event.getSource();
     EquipmentContext context = new EquipmentContext(entity);
     int vanillaModifier = 0;
     float modifierValue = 0;
-    float originalDamage = event.getAmount();
 
     // for our own armor, we have boosts from modifiers to consider
     if (context.hasModifiableArmor()) {

@@ -68,6 +68,7 @@ import slimeknights.tconstruct.tools.item.SlimelytraItem;
 import slimeknights.tconstruct.tools.item.SlimeskullItem;
 import slimeknights.tconstruct.tools.item.SlimesuitItem;
 import slimeknights.tconstruct.tools.item.TravelersGearItem;
+import slimeknights.tconstruct.tools.logic.EquipmentChangeWatcher;
 import slimeknights.tconstruct.tools.menu.ToolContainerMenu;
 
 /**
@@ -128,7 +129,7 @@ public final class TinkerTools extends TinkerModule {
   public static final RegistryObject<SimpleParticleType> axeAttackParticle = PARTICLE_TYPES.register("axe_attack", () -> FabricParticleTypes.simple(true));
 
   /* Entities */
-  public static final RegistryObject<EntityType<IndestructibleItemEntity>> indestructibleItem = ENTITIES.registerFabric("indestructible_item", () ->
+  public static final RegistryObject<EntityType<IndestructibleItemEntity>> indestructibleItem = ENTITIES.register("indestructible_item", () ->
     FabricEntityTypeBuilder.<IndestructibleItemEntity>create(MobCategory.MISC, IndestructibleItemEntity::new)
                       .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
                       .fireImmune());
@@ -142,11 +143,11 @@ public final class TinkerTools extends TinkerModule {
    */
 
   void commonSetup() {
-//    EquipmentChangeWatcher.register();
+    EquipmentChangeWatcher.register();
     ToolCapabilityProvider.register(ToolFluidCapability.Provider::new);
     ToolCapabilityProvider.register(ToolInventoryCapability.Provider::new);
     for (ConfigurableAction action : Config.COMMON.damageSourceTweaks) {
-      event.enqueueWork(action);
+      action.run();
     }
   }
 

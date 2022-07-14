@@ -3,6 +3,8 @@ package slimeknights.tconstruct.tools.data;
 import io.github.fabricators_of_create.porting_lib.crafting.CompoundIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.IntersectionIngredient;
+import io.github.fabricators_of_create.porting_lib.data.ConditionalRecipe;
+import io.github.fabricators_of_create.porting_lib.util.TrueCondition;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
@@ -65,6 +67,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
+@SuppressWarnings("removal")
 public class ModifierRecipeProvider extends BaseRecipeProvider {
   public ModifierRecipeProvider(FabricDataGenerator generator) {
     super(generator);

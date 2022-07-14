@@ -35,6 +35,7 @@ import slimeknights.tconstruct.tools.modifiers.traits.skull.StrongBonesModifier;
 
 import java.util.function.Function;
 
+@SuppressWarnings("removal")
 public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
   public SpillingFluidProvider(DataGenerator generator) {
     super(generator, TConstruct.MOD_ID);

@@ -26,7 +26,7 @@ public class GuiTankModule {
   private final IFluidHandler tank;
   @Getter
   private final int x, y, width, height;
-  private final BiConsumer<Integer,List<Component>> formatter;
+  private final BiConsumer<Long,List<Component>> formatter;
 
   public GuiTankModule(AbstractContainerScreen<?> screen, IFluidHandler tank, int x, int y, int width, int height, ResourceLocation tooltipId) {
     this.screen = screen;

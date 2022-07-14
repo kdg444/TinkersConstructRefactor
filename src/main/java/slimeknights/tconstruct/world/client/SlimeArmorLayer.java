@@ -3,6 +3,7 @@ package slimeknights.tconstruct.world.client;
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import io.github.fabricators_of_create.porting_lib.util.client.ClientHooks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.HumanoidModel;
@@ -62,7 +63,7 @@ public class SlimeArmorLayer<T extends Slime, M extends HierarchicalModel<T>, A 
         armorModel.setAllVisible(false);
         armorModel.head.visible = true;
         armorModel.hat.visible = true;
-        Model model = ForgeHooksClient.getArmorModel(entity, helmet, EquipmentSlot.HEAD, armorModel);
+        Model model = armorModel;
         boolean enchanted = helmet.hasFoil();
         if (armor instanceof DyeableLeatherItem dyeable) {
           int color = dyeable.getColor(helmet);
@@ -123,7 +124,7 @@ public class SlimeArmorLayer<T extends Slime, M extends HierarchicalModel<T>, A 
       texture = texture.substring(idx + 1);
     }
     String path = String.format(java.util.Locale.ROOT, "%s:textures/models/armor/%s_layer_1%s.png", domain, texture, type);
-    path = ForgeHooksClient.getArmorTexture(entity, stack, path, EquipmentSlot.HEAD, type);
+    path = ClientHooks.getArmorTexture(entity, stack, path, EquipmentSlot.HEAD, type);
     ResourceLocation location = HumanoidArmorLayer.ARMOR_LOCATION_CACHE.get(path);
     if (location == null) {
       location = new ResourceLocation(path);

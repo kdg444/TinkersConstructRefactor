@@ -23,6 +23,7 @@ import slimeknights.tconstruct.smeltery.block.entity.module.EntityMeltingModule;
 import java.util.Iterator;
 import java.util.List;
 
+@SuppressWarnings("removal")
 public class MeltingModifier extends TankModifier {
   /** Max temperature allowed for melting items */
   private static final int MAX_TEMPERATURE = 1000;

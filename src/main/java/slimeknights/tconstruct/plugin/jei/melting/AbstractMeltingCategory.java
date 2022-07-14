@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableAnimated.StartDirection;
@@ -16,7 +15,6 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.resources.language.I18n;
@@ -44,12 +42,12 @@ public abstract class AbstractMeltingCategory implements IRecipeCategory<Melting
   /** Tooltip for fuel display */
   public static final IRecipeTooltipReplacement FUEL_TOOLTIP = (slot, tooltip) -> {
     //noinspection SimplifyOptionalCallChains  Not for int streams
-    slot.getDisplayedIngredient(VanillaTypes.FLUID).ifPresent(stack -> {
-      MeltingFuelHandler.getTemperature(stack.getFluid()).ifPresent(temperature -> {
-        tooltip.add(new TranslatableComponent(KEY_TEMPERATURE, temperature).withStyle(ChatFormatting.GRAY));
-        tooltip.add(new TranslatableComponent(KEY_MULTIPLIER, temperature / 1000f).withStyle(ChatFormatting.GRAY));
-      });
-    });
+//    slot.getDisplayedIngredient(VanillaTypes.FLUID).ifPresent(stack -> { TODO: JEI Fabric is broken
+//      MeltingFuelHandler.getTemperature(stack.getFluid()).ifPresent(temperature -> {
+//        tooltip.add(new TranslatableComponent(KEY_TEMPERATURE, temperature).withStyle(ChatFormatting.GRAY));
+//        tooltip.add(new TranslatableComponent(KEY_MULTIPLIER, temperature / 1000f).withStyle(ChatFormatting.GRAY));
+//      });
+//    });
   };
 
   @Getter
@@ -124,11 +122,11 @@ public abstract class AbstractMeltingCategory implements IRecipeCategory<Melting
 
     @Override
     public void addMiddleLines(IRecipeSlotView slot, List<Component> list) {
-      slot.getDisplayedIngredient(VanillaTypes.FLUID).ifPresent(stack -> {
-        if (appendMaterial(stack, list)) {
-          FluidTooltipHandler.appendShift(list);
-        }
-      });
+//      slot.getDisplayedIngredient(VanillaTypes.FLUID).ifPresent(stack -> { TODO: JEI Fabric is broken
+//        if (appendMaterial(stack, list)) {
+//          FluidTooltipHandler.appendShift(list);
+//        }
+//      });
     }
   }
 }

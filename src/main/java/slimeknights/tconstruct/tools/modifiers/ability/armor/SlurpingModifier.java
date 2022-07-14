@@ -25,6 +25,7 @@ import slimeknights.tconstruct.shared.particle.FluidParticleData;
 import javax.annotation.Nullable;
 
 /** Modifier to handle spilling recipes on helmets */
+@SuppressWarnings("removal")
 public class SlurpingModifier extends TankModifier implements IArmorInteractModifier {
   private static final float DEGREE_TO_RADIANS = (float)Math.PI / 180F;
   private static final TinkerDataKey<SlurpingInfo> SLURP_FINISH_TIME = TConstruct.createKey("slurping_finish");

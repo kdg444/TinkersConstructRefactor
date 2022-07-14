@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.world.entity;
 
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.SlimeAccessor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.DifficultyInstance;
@@ -132,7 +133,7 @@ public class ArmoredSlimeEntity extends Slime {
         slime.setCustomName(name);
         slime.setNoAi(noAi);
         slime.setInvulnerable(invulnerable);
-        slime.setSize(newSize, true);
+        ((SlimeAccessor)slime).port_lib$setSize(newSize, true);
         if (i == helmetIndex) {
           slime.setItemSlot(EquipmentSlot.HEAD, helmet.copy());
           setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
@@ -149,6 +150,6 @@ public class ArmoredSlimeEntity extends Slime {
     if (reason == Entity.RemovalReason.KILLED) {
       this.gameEvent(GameEvent.ENTITY_KILLED);
     }
-    this.invalidateCaps();
+//    this.invalidateCaps(); TODO: NEEDED?
   }
 }

@@ -20,7 +20,7 @@ public class BottleBrewingRecipe extends BrewingRecipe {
   @Override
   public boolean isIngredient(ItemStack stack) {
     for (PotionBrewing.Mix<Item> recipe : PotionBrewingAccessor.port_lib$CONTAINER_MIXES()) {
-      if (recipe.from.get() == from && recipe.to.get() == to) {
+      if (recipe.from == from && recipe.to == to) {
         return recipe.ingredient.test(stack);
       }
     }
@@ -30,7 +30,7 @@ public class BottleBrewingRecipe extends BrewingRecipe {
   @Override
   public Ingredient getIngredient() {
     for (PotionBrewing.Mix<Item> recipe : PotionBrewingAccessor.port_lib$CONTAINER_MIXES()) {
-      if (recipe.from.get() == from && recipe.to.get() == to) {
+      if (recipe.from == from && recipe.to == to) {
         return recipe.ingredient;
       }
     }

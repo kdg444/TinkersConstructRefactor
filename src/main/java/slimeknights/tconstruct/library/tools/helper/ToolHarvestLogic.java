@@ -215,7 +215,7 @@ public class ToolHarvestLogic {
       // no harvest context
       player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
       ToolHarvestContext context = new ToolHarvestContext(world, serverPlayer, state, pos, sideHit,
-                                                          !player.isCreative() && state.canHarvestBlock(world, pos, player), false);
+                                                          !player.isCreative() && player.hasCorrectToolForDrops(state), false);
       breakBlock(tool, ItemStack.EMPTY, context);
       player.setItemInHand(InteractionHand.MAIN_HAND, stack);
     } else {

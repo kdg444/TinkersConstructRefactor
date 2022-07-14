@@ -31,7 +31,7 @@ public class GuiSmelteryTank {
   private final AbstractContainerScreen<?> parent;
   private final SmelteryTank<?> tank;
   private final int x, y, width, height;
-  private final BiConsumer<Integer,List<Component>> formatter;
+  private final BiConsumer<Long,List<Component>> formatter;
 
   private int[] liquidHeights;
 

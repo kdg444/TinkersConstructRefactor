@@ -36,7 +36,7 @@ public enum Byproduct implements IByproduct {
   private final boolean alwaysPresent;
   private final Supplier<? extends Fluid> fluidSupplier;
   @Getter
-  private final int amount;
+  private final long amount;
 
   Byproduct(boolean alwaysPresent, Supplier<? extends Fluid> fluidSupplier) {
     this.name = name().toLowerCase(Locale.ROOT);

@@ -24,7 +24,6 @@ import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
-import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.OreRateType;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.TConstructJEIConstants;
@@ -59,7 +58,7 @@ public class MeltingCategory extends AbstractMeltingCategory {
 
   public MeltingCategory(IGuiHelper helper) {
     super(helper);
-    this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(TinkerSmeltery.searedMelter));
+    this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(TinkerSmeltery.searedMelter));
     this.solidFuel = helper.drawableBuilder(BACKGROUND_LOC, 164, 0, 18, 20).build();
   }
 
@@ -105,11 +104,11 @@ public class MeltingCategory extends AbstractMeltingCategory {
     } else {
       tooltip = MeltingFluidCallback.INSTANCE;
     }
-    builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 4)
-      .addTooltipCallback(tooltip)
-      .setFluidRenderer(FluidValues.METAL_BLOCK, false, 32, 32)
-      .setOverlay(tankOverlay, 0, 0)
-      .addIngredient(VanillaTypes.FLUID, recipe.getOutput());
+//    builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 4) TODO: JEI Fabric is broken
+//      .addTooltipCallback(tooltip)
+//      .setFluidRenderer(FluidValues.METAL_BLOCK, false, 32, 32)
+//      .setOverlay(tankOverlay, 0, 0)
+//      .addIngredient(VanillaTypes.FLUID, recipe.getOutput());
 
     // show fuels that are valid for this recipe
     int fuelHeight = 32;
@@ -122,10 +121,10 @@ public class MeltingCategory extends AbstractMeltingCategory {
     }
 
     // liquid fuel
-    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 4)
-           .addTooltipCallback(FUEL_TOOLTIP)
-           .setFluidRenderer(1L, false, 12, fuelHeight)
-           .addIngredients(VanillaTypes.FLUID, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
+//    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 4) TODO: JEI Fabric is broken
+//           .addTooltipCallback(FUEL_TOOLTIP)
+//           .setFluidRenderer(1L, false, 12, fuelHeight)
+//           .addIngredients(VanillaTypes.FLUID, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
   }
 
   /** Adds amounts to outputs and temperatures to fuels */

@@ -38,7 +38,7 @@ public class FoundryCategory extends AbstractMeltingCategory {
 
   public FoundryCategory(IGuiHelper helper) {
     super(helper);
-    this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(TinkerSmeltery.foundryController));
+    this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(TinkerSmeltery.foundryController));
   }
 
   @SuppressWarnings("removal")
@@ -75,10 +75,10 @@ public class FoundryCategory extends AbstractMeltingCategory {
     AlloyRecipeCategory.drawVariableFluids(builder, RecipeIngredientRole.OUTPUT, 96, 4, 32, 32, recipe.getOutputWithByproducts(), FluidValues.METAL_BLOCK, tooltip);
 
     // fuel
-    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 4)
-           .addTooltipCallback(FUEL_TOOLTIP)
-           .setFluidRenderer(1, false, 12, 32)
-           .addIngredients(VanillaTypes.FLUID, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
+//    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 4) TODO: JEI Fabric broken
+//           .addTooltipCallback(FUEL_TOOLTIP)
+//           .setFluidRenderer(1L, false, 12, 32)
+//           .addIngredients(VanillaTypes.FLUID, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
   }
 
   /** Adds amounts to outputs and temperatures to fuels */
