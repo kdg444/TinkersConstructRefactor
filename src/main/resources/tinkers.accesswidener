@@ -18,12 +18,7 @@ transitive-accessible field net/minecraft/client/gui/screens/inventory/AbstractC
 
 # Fabric
 transitive-mutable field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
-transitive-mutable field net/minecraft/world/level/levelgen/StructureSettings DEFAULTS Lcom/google/common/collect/ImmutableMap;
-transitive-mutable field net/minecraft/world/level/levelgen/StructureSettings configuredStructures Lcom/google/common/collect/ImmutableMap;
 transitive-mutable field net/minecraft/world/level/storage/loot/LootPool entries [Lnet/minecraft/world/level/storage/loot/entries/LootPoolEntryContainer;
-transitive-mutable field net/minecraft/world/level/levelgen/StructureSettings structureConfig Ljava/util/Map;
-transitive-accessible field net/minecraft/world/level/levelgen/StructureSettings structureConfig Ljava/util/Map;
-transitive-accessible field net/minecraft/world/level/levelgen/StructureSettings configuredStructures Lcom/google/common/collect/ImmutableMap;
 transitive-accessible field net/minecraft/world/item/ArmorItem ARMOR_MODIFIER_UUID_PER_SLOT [Ljava/util/UUID;
 transitive-accessible field net/minecraft/client/renderer/blockentity/SkullBlockRenderer SKIN_BY_TYPE Ljava/util/Map;
 transitive-accessible field net/minecraft/client/model/geom/ModelLayers ALL_MODELS Ljava/util/Set;
@@ -36,7 +31,6 @@ transitive-accessible method net/minecraft/data/loot/EntityLoot add (Lnet/minecr
 transitive-accessible method net/minecraft/world/level/block/SkullBlock <init> (Lnet/minecraft/world/level/block/SkullBlock$Type;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
 transitive-accessible method net/minecraft/world/level/block/WallSkullBlock <init> (Lnet/minecraft/world/level/block/SkullBlock$Type;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
 transitive-accessible method net/minecraft/world/level/block/IronBarsBlock <init> (Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
-transitive-accessible method net/minecraft/world/item/crafting/Ingredient$TagValue <init> (Lnet/minecraft/tags/Tag;)V
 transitive-accessible method net/minecraft/world/item/crafting/Ingredient valueFromJson (Lcom/google/gson/JsonObject;)Lnet/minecraft/world/item/crafting/Ingredient$Value;
 transitive-accessible method net/minecraft/world/level/material/Material$Builder notSolidBlocking ()Lnet/minecraft/world/level/material/Material$Builder;
 transitive-accessible method net/minecraft/world/level/material/Material$Builder destroyOnPush ()Lnet/minecraft/world/level/material/Material$Builder;
