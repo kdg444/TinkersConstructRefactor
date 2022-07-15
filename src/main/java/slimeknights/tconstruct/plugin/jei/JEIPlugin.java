@@ -3,6 +3,7 @@ package slimeknights.tconstruct.plugin.jei;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.RecipeManagerAccessor;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -20,6 +21,7 @@ import mezz.jei.api.registration.IRecipeTransferRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.runtime.IIngredientManager;
 import mezz.jei.api.runtime.IJeiRuntime;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -71,6 +73,9 @@ import slimeknights.tconstruct.plugin.jei.entity.EntityIngredientHelper;
 import slimeknights.tconstruct.plugin.jei.entity.EntityIngredientRenderer;
 import slimeknights.tconstruct.plugin.jei.entity.EntityMeltingRecipeCategory;
 import slimeknights.tconstruct.plugin.jei.entity.SeveringCategory;
+import slimeknights.tconstruct.plugin.jei.fabric.FluidStackIngredientHelper;
+import slimeknights.tconstruct.plugin.jei.fabric.FluidStackRenderer;
+import slimeknights.tconstruct.plugin.jei.fabric.JEITypes;
 import slimeknights.tconstruct.plugin.jei.melting.FoundryCategory;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingCategory;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
@@ -148,6 +153,8 @@ public class JEIPlugin implements IModPlugin {
     registration.register(TConstructJEIConstants.ENTITY_TYPE, Collections.emptyList(), new EntityIngredientHelper(), new EntityIngredientRenderer(16));
     registration.register(TConstructJEIConstants.MODIFIER_TYPE, modifiers, new ModifierIngredientHelper(), ModifierBookmarkIngredientRenderer.INSTANCE);
     registration.register(TConstructJEIConstants.PATTERN_TYPE, Collections.emptyList(), new PatternIngredientHelper(), PatternIngredientRenderer.INSTANCE);
+
+    registration.register(JEITypes.FLUID_STACK, Collections.emptyList(), new FluidStackIngredientHelper(), new FluidStackRenderer());
   }
 
   @Override
@@ -325,7 +332,7 @@ public class JEIPlugin implements IModPlugin {
    * @param bucket   Fluid bucket to remove
    */
   private static void removeFluid(IIngredientManager manager, Fluid fluid, Item bucket) {
-//    manager.removeIngredientsAtRuntime(FabricTypes.FLUID_STACK, Collections.singleton(new FluidStack(fluid, FluidAttributes.BUCKET_VOLUME))); TODO: JEI Fabric broken
+    manager.removeIngredientsAtRuntime(JEITypes.FLUID_STACK, Collections.singleton(new FluidStack(fluid, FluidConstants.BUCKET)));
     manager.removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, Collections.singleton(new ItemStack(bucket)));
   }
 

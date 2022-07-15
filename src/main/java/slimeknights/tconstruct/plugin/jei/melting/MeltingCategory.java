@@ -24,9 +24,11 @@ import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
+import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.OreRateType;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.TConstructJEIConstants;
+import slimeknights.tconstruct.plugin.jei.fabric.JEITypes;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.entity.module.FuelModule;
 
@@ -104,11 +106,11 @@ public class MeltingCategory extends AbstractMeltingCategory {
     } else {
       tooltip = MeltingFluidCallback.INSTANCE;
     }
-//    builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 4) TODO: JEI Fabric is broken
-//      .addTooltipCallback(tooltip)
-//      .setFluidRenderer(FluidValues.METAL_BLOCK, false, 32, 32)
-//      .setOverlay(tankOverlay, 0, 0)
-//      .addIngredient(VanillaTypes.FLUID, recipe.getOutput());
+    builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 4)
+      .addTooltipCallback(tooltip)
+      .setFluidRenderer(FluidValues.METAL_BLOCK, false, 32, 32)
+      .setOverlay(tankOverlay, 0, 0)
+      .addIngredient(JEITypes.FLUID_STACK, recipe.getOutput());
 
     // show fuels that are valid for this recipe
     int fuelHeight = 32;
@@ -121,10 +123,10 @@ public class MeltingCategory extends AbstractMeltingCategory {
     }
 
     // liquid fuel
-//    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 4) TODO: JEI Fabric is broken
-//           .addTooltipCallback(FUEL_TOOLTIP)
-//           .setFluidRenderer(1L, false, 12, fuelHeight)
-//           .addIngredients(VanillaTypes.FLUID, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
+    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 4)
+           .addTooltipCallback(FUEL_TOOLTIP)
+           .setFluidRenderer(1L, false, 12, fuelHeight)
+           .addIngredients(JEITypes.FLUID_STACK, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
   }
 
   /** Adds amounts to outputs and temperatures to fuels */

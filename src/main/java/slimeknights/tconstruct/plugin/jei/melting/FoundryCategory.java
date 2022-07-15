@@ -22,6 +22,7 @@ import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.OreRateT
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.AlloyRecipeCategory;
 import slimeknights.tconstruct.plugin.jei.TConstructJEIConstants;
+import slimeknights.tconstruct.plugin.jei.fabric.JEITypes;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 import java.util.List;
@@ -75,10 +76,10 @@ public class FoundryCategory extends AbstractMeltingCategory {
     AlloyRecipeCategory.drawVariableFluids(builder, RecipeIngredientRole.OUTPUT, 96, 4, 32, 32, recipe.getOutputWithByproducts(), FluidValues.METAL_BLOCK, tooltip);
 
     // fuel
-//    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 4) TODO: JEI Fabric broken
-//           .addTooltipCallback(FUEL_TOOLTIP)
-//           .setFluidRenderer(1L, false, 12, 32)
-//           .addIngredients(VanillaTypes.FLUID, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
+    builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 4)
+           .addTooltipCallback(FUEL_TOOLTIP)
+           .setFluidRenderer(1L, false, 12, 32)
+           .addIngredients(JEITypes.FLUID_STACK, MeltingFuelHandler.getUsableFuels(recipe.getTemperature()));
   }
 
   /** Adds amounts to outputs and temperatures to fuels */
