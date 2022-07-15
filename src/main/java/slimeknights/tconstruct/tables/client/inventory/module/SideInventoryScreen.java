@@ -226,7 +226,7 @@ public class SideInventoryScreen<P extends MultiModuleScreen<?>, C extends Abstr
     for (Slot slot : this.menu.slots) {
       if (this.shouldDrawSlot(slot)) {
         // calc position of the slot
-        int offset = ((SlotExtensions)slot).getSlotIndex() - this.firstSlotId;
+        int offset = slot.getSlotIndex() - this.firstSlotId;
         int x = (offset % this.columns) * this.slot.w;
         int y = (offset / this.columns) * this.slot.h;
 
