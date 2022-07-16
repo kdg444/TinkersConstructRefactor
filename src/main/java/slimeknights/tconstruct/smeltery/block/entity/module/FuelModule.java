@@ -157,7 +157,9 @@ public class FuelModule implements ContainerData {
   private int trySolidFuel(IItemHandler handler, boolean consume) {
     for (int i = 0; i < handler.getSlots(); i++) {
       ItemStack stack = handler.getStackInSlot(i);
-      int time = FuelRegistry.INSTANCE.get(stack.getItem()/*, TinkerRecipeTypes.FUEL.get()*/) / 4;
+      int time = 0;
+      if (FuelRegistry.INSTANCE.get(stack.getItem()) != null)
+        time = FuelRegistry.INSTANCE.get(stack.getItem()/*, TinkerRecipeTypes.FUEL.get()*/) / 4;
       if (time > 0) {
         if (consume) {
           ItemStack extracted = handler.extractItem(i, 1, false);
