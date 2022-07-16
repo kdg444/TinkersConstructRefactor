@@ -16,6 +16,6 @@ public class HeaterItemHandler extends SingleItemHandler<MantleBlockEntity> {
   @Override
   protected boolean isItemValid(ItemStack stack) {
     // fuel module divides by 4, so anything 3 or less is treated as 0
-    return FuelRegistry.INSTANCE.get(stack.getItem()) > 3;
+    return FuelRegistry.INSTANCE.get(stack.getItem()) != null && FuelRegistry.INSTANCE.get(stack.getItem()) > 3;
   }
 }
