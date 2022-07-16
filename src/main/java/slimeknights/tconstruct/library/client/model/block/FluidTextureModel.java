@@ -8,13 +8,13 @@ import io.github.fabricators_of_create.porting_lib.model.IModelConfiguration;
 import io.github.fabricators_of_create.porting_lib.model.IModelData;
 import io.github.fabricators_of_create.porting_lib.model.IModelGeometry;
 import io.github.fabricators_of_create.porting_lib.model.IModelLoader;
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AllArgsConstructor;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -123,9 +123,8 @@ public class FluidTextureModel implements IModelGeometry<FluidTextureModel> {
       SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(owner.useSmoothLighting(), owner.isSideLit(), owner.isShadedInGui(), owner.getCameraTransforms(), ItemOverrides.EMPTY).particle(particle);
 
       // get fluid details
-      FluidAttributes attributes = fluid.getFluid().getAttributes();
       int color = FluidVariantRendering.getColor(fluid.getType());
-      int luminosity = attributes.getLuminosity(fluid);
+      int luminosity = FluidVariantAttributes.getLuminance(fluid.getType());
       IModelConfiguration textured = new RetexturedModel.RetexturedConfiguration(this.owner, this.fluids, FluidVariantRendering.getSprite(fluid.getType()).getName());
 
       // add in elements
