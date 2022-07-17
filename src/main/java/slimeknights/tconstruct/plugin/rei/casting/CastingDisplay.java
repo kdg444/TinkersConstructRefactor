@@ -36,4 +36,12 @@ public class CastingDisplay implements Display {
   public IDisplayableCastingRecipe getRecipe() {
     return recipe;
   }
+
+  public boolean hasCast() {
+    return recipe.hasCast();
+  }
+
+  public boolean isConsumed() {
+    return recipe.isConsumed();
+  }
 }

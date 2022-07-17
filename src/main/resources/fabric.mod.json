@@ -32,6 +32,9 @@
     "fabric-datagen": [
       "slimeknights.tconstruct.TConstructData"
     ],
+    "rei_client": [
+      "slimeknights.tconstruct.plugin.rei.REIPlugin"
+    ],
     "jei_mod_plugin": [
       "slimeknights.tconstruct.plugin.jei.JEIPlugin"
     ],
