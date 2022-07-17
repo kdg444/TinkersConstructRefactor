@@ -1,12 +1,14 @@
 package slimeknights.tconstruct.plugin.rei.casting;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.architectury.fluid.FluidStack;
 import lombok.Getter;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
 import me.shedaniel.rei.api.client.gui.widgets.Slot;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
+import me.shedaniel.rei.api.client.util.ClientEntryStacks;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
@@ -94,7 +96,7 @@ public abstract class AbstractCastingCategory implements BasicCategory<CastingDi
     Slot input = slot(3, 3, origin).markInput()
       .disableBackground()
       .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, BasicCategory.toREIFluids(recipe.getFluids())));
-//    input.getEntries().forEach(entryStack -> ClientEntryStacks.setFluidRenderRatio(entryStack.cast(), input.getCurrentEntry().<FluidStack>castValue().getAmount() / capacity)); TODO: PORT
+    input.getEntries().forEach(entryStack -> ClientEntryStacks.setFluidRenderRatio(entryStack.cast(), input.getCurrentEntry().<FluidStack>castValue().getAmount() / (float) capacity));
     input.getBounds().setSize(34, 34);
     ingredients.add(input);
     ingredients.add(tankOverlay.build(3, 3, origin));
