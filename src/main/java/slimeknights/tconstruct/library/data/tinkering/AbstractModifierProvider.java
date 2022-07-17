@@ -72,7 +72,7 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
 
   /** Makes a conditional redirect to the given ID */
   protected JsonRedirect conditionalRedirect(ModifierId id, @Nullable ConditionJsonProvider condition) {
-    return new JsonRedirect(id, condition);
+    return new JsonRedirect(id, condition, null);
   }
 
   /** Makes an unconditional redirect to the given ID */

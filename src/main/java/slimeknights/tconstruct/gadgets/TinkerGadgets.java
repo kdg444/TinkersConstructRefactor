@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.gadgets;
 
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.world.entity.EntityDimensions;
@@ -24,6 +25,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.gadgets.block.FoodCakeBlock;
 import slimeknights.tconstruct.gadgets.block.PunjiBlock;
+import slimeknights.tconstruct.gadgets.data.GadgetRecipeProvider;
 import slimeknights.tconstruct.gadgets.entity.EflnBallEntity;
 import slimeknights.tconstruct.gadgets.entity.FancyItemFrameEntity;
 import slimeknights.tconstruct.gadgets.entity.FrameType;
@@ -161,11 +163,7 @@ public final class TinkerGadgets extends TinkerModule {
 //    });
   }
 
-//  @SubscribeEvent
-//  void gatherData(final GatherDataEvent event) {
-//    if (event.includeServer()) {
-//      DataGenerator datagenerator = event.getGenerator();
-//      datagenerator.addProvider(new GadgetRecipeProvider(datagenerator));
-//    }
-//  }
+  public static void gatherData(final FabricDataGenerator datagenerator) {
+    datagenerator.addProvider(new GadgetRecipeProvider(datagenerator));
+  }
 }

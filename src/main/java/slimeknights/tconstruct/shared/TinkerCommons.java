@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.shared;
 
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.object.builder.v1.advancement.CriterionRegistry;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.Registry;
@@ -52,6 +53,7 @@ import slimeknights.tconstruct.shared.block.SlimeType;
 import slimeknights.tconstruct.shared.block.WaxedPlatformBlock;
 import slimeknights.tconstruct.shared.block.WeatheringPlatformBlock;
 import slimeknights.tconstruct.shared.command.TConstructCommand;
+import slimeknights.tconstruct.shared.data.CommonRecipeProvider;
 import slimeknights.tconstruct.shared.inventory.BlockContainerOpenedTrigger;
 import slimeknights.tconstruct.shared.item.TinkerBookItem;
 import slimeknights.tconstruct.shared.item.TinkerBookItem.BookType;
@@ -176,11 +178,7 @@ public final class TinkerCommons extends TinkerModule {
     MobTypePredicate.MOB_TYPES.register(new ResourceLocation("water"), MobType.WATER);
   }
 
-//  @SubscribeEvent
-//  void gatherData(final GatherDataEvent event) {
-//    if (event.includeServer()) {
-//      DataGenerator datagenerator = event.getGenerator();
-//      datagenerator.addProvider(new CommonRecipeProvider(datagenerator));
-//    }
-//  }
+  public static void gatherData(final FabricDataGenerator datagenerator) {
+    datagenerator.addProvider(new CommonRecipeProvider(datagenerator));
+  }
 }

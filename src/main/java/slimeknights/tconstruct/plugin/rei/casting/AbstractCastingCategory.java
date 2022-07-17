@@ -93,7 +93,7 @@ public abstract class AbstractCastingCategory implements BasicCategory<CastingDi
     long capacity = FluidValues.METAL_BLOCK;
     Slot input = slot(3, 3, origin).markInput()
       .disableBackground()
-      .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, toREIFluids(recipe.getFluids())));
+      .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, BasicCategory.toREIFluids(recipe.getFluids())));
 //    input.getEntries().forEach(entryStack -> ClientEntryStacks.setFluidRenderRatio(entryStack.cast(), input.getCurrentEntry().<FluidStack>castValue().getAmount() / capacity)); TODO: PORT
     input.getBounds().setSize(34, 34);
     ingredients.add(input);
@@ -105,7 +105,7 @@ public abstract class AbstractCastingCategory implements BasicCategory<CastingDi
     }
     Slot renderInput = slot(43, 8, origin)
       .disableBackground()
-      .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, toREIFluids(recipe.getFluids())));
+      .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, BasicCategory.toREIFluids(recipe.getFluids())));
     renderInput.getBounds().setSize(8, h + 2);
     ingredients.add(renderInput);
 
@@ -120,6 +120,6 @@ public abstract class AbstractCastingCategory implements BasicCategory<CastingDi
   @Override
   public void addMiddleLines(Slot slot, List<Component> list) {
     if (slot.getCurrentEntry().getType() == VanillaEntryTypes.FLUID)
-      FluidTooltipHandler.appendMaterial(fromREIFluid(slot.getCurrentEntry().castValue()), list);
+      FluidTooltipHandler.appendMaterial(BasicCategory.fromREIFluid(slot.getCurrentEntry().castValue()), list);
   }
 }

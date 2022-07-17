@@ -3,6 +3,7 @@ package slimeknights.tconstruct.plugin.rei;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
+import me.shedaniel.rei.api.client.registry.entry.EntryRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.crafting.RecipeManager;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
@@ -21,6 +22,11 @@ public class REIPlugin implements REIClientPlugin {
     // casting
     registry.add(new CastingBasinCategory());
     registry.add(new CastingTableCategory());
+  }
+
+  @Override
+  public void registerEntries(EntryRegistry registry) {
+    registry.addEntries();
   }
 
   @Override

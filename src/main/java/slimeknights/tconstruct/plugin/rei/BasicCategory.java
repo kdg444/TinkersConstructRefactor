@@ -76,17 +76,17 @@ public interface BasicCategory<T extends Display> extends DisplayCategory<T> {
     return new Point(origin.getX() + x, origin.getY() + y);
   }
 
-  default List<FluidStack> toREIFluids(List<io.github.fabricators_of_create.porting_lib.util.FluidStack> fluids) {
+  static List<FluidStack> toREIFluids(List<io.github.fabricators_of_create.porting_lib.util.FluidStack> fluids) {
     List<FluidStack> newFluids = new ArrayList<>();
     fluids.forEach(stack -> newFluids.add(toREIFluid(stack)));
     return newFluids;
   }
 
-  default FluidStack toREIFluid(io.github.fabricators_of_create.porting_lib.util.FluidStack stack) {
+  static FluidStack toREIFluid(io.github.fabricators_of_create.porting_lib.util.FluidStack stack) {
     return FluidStack.create(stack.getFluid(), stack.getAmount(), stack.getTag());
   }
 
-  default io.github.fabricators_of_create.porting_lib.util.FluidStack fromREIFluid(FluidStack stack) {
+  static io.github.fabricators_of_create.porting_lib.util.FluidStack fromREIFluid(FluidStack stack) {
     return new io.github.fabricators_of_create.porting_lib.util.FluidStack(stack.getFluid(), stack.getAmount(), stack.getTag());
   }
 }

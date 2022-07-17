@@ -18,7 +18,6 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -39,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -155,8 +155,8 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
       // processed first so a modifier can both conditionally redirect and fallback to a conditional modifier
       if (json.has("redirects")) {
         for (JsonRedirect redirect : JsonHelper.parseList(json, "redirects", JsonRedirect::fromJson)) {
-          ConditionJsonProvider redirectCondition = redirect.getCondition();
-          if (redirectCondition == null || ResourceConditions.get(redirectCondition.getConditionId()).test(json)) {
+          Predicate<JsonObject> redirectCondition = redirect.getConditionPredicate();
+          if (redirectCondition == null || redirectCondition.test(json)) {
             ModifierId redirectTarget = new ModifierId(redirect.getId());
             log.debug("Redirecting modifier {} to {}", key, redirectTarget);
             redirects.put(new ModifierId(key), redirectTarget);

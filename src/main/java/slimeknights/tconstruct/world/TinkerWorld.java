@@ -3,6 +3,7 @@ package slimeknights.tconstruct.world;
 import com.google.common.collect.ImmutableSet;
 import io.github.fabricators_of_create.porting_lib.util.PlantType;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
@@ -89,6 +90,7 @@ import slimeknights.tconstruct.world.block.SlimeTallGrassBlock;
 import slimeknights.tconstruct.world.block.SlimeVineBlock;
 import slimeknights.tconstruct.world.block.SlimeWartBlock;
 import slimeknights.tconstruct.world.block.StickySlimeBlock;
+import slimeknights.tconstruct.world.data.WorldRecipeProvider;
 import slimeknights.tconstruct.world.entity.EarthSlimeEntity;
 import slimeknights.tconstruct.world.entity.EnderSlimeEntity;
 import slimeknights.tconstruct.world.entity.SkySlimeEntity;
@@ -401,13 +403,9 @@ public final class TinkerWorld extends TinkerModule {
 //    });
   }
 
-//  @SubscribeEvent
-//  void gatherData(final GatherDataEvent event) {
-//    if (event.includeServer()) {
-//      DataGenerator datagenerator = event.getGenerator();
-//      datagenerator.addProvider(new WorldRecipeProvider(datagenerator));
-//    }
-//  }
+  public static void gatherData(final FabricDataGenerator datagenerator) {
+    datagenerator.addProvider(new WorldRecipeProvider(datagenerator));
+  }
 
 
   /* helpers */

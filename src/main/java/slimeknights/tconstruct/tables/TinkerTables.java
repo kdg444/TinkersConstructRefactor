@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tables;
 
-import net.minecraft.data.DataGenerator;
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.MenuType;
@@ -11,7 +12,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.material.Material;
 import slimeknights.mantle.item.RetexturedBlockItem;
-import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -130,11 +130,7 @@ public final class TinkerTables extends TinkerModule {
 //    });
   }
 
-//  @SubscribeEvent
-//  void gatherData(final GatherDataEvent event) {
-//    if (event.includeServer()) {
-//      DataGenerator datagenerator = event.getGenerator();
-//      datagenerator.addProvider(new TableRecipeProvider(datagenerator));
-//    }
-//  }
+  public static void gatherData(final FabricDataGenerator datagenerator) {
+    datagenerator.addProvider(new TableRecipeProvider(datagenerator));
+  }
 }
