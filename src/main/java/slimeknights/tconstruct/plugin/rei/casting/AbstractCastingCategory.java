@@ -96,7 +96,7 @@ public abstract class AbstractCastingCategory implements BasicCategory<CastingDi
     Slot input = slot(3, 3, origin).markInput()
       .disableBackground()
       .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, BasicCategory.toREIFluids(recipe.getFluids())));
-    input.getEntries().forEach(entryStack -> ClientEntryStacks.setFluidRenderRatio(entryStack.cast(), input.getCurrentEntry().<FluidStack>castValue().getAmount() / (float) capacity));
+    input.getEntries().forEach(entryStack -> ClientEntryStacks.setFluidRenderRatio(entryStack.cast(), entryStack.<FluidStack>castValue().getAmount() / (float) capacity));
     input.getBounds().setSize(34, 34);
     ingredients.add(input);
     ingredients.add(tankOverlay.build(3, 3, origin));
@@ -111,7 +111,7 @@ public abstract class AbstractCastingCategory implements BasicCategory<CastingDi
     renderInput.getBounds().setSize(8, h + 2);
     ingredients.add(renderInput);
 
-    ingredients.add(new ArrowWidget(point(58, 18, origin), 117, 32).animationDurationTicks(Math.max(1, recipe.getCoolingTime())));
+    ingredients.add(new ArrowWidget(point(58, 18, origin), BACKGROUND_LOC, 117, 32).animationDurationTicks(Math.max(1, recipe.getCoolingTime())));
     ingredients.add(block.build(38, 35, origin));
 
     if (display.hasCast()) {

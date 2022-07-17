@@ -89,4 +89,23 @@ public interface BasicCategory<T extends Display> extends DisplayCategory<T> {
   static io.github.fabricators_of_create.porting_lib.util.FluidStack fromREIFluid(FluidStack stack) {
     return new io.github.fabricators_of_create.porting_lib.util.FluidStack(stack.getFluid(), stack.getAmount(), stack.getTag());
   }
+
+  static Slot slot(int x, int y, Point origin, boolean isInput) {
+    Slot slot = Widgets.createSlot(new Point(origin.x + x, origin.y + y));
+    return isInput ? slot.markInput() : slot.markOutput();
+  }
+
+  static void setEntryTooltip(Slot slot, IRecipeTooltipReplacement replacement) {
+    slot.getEntries().forEach(stack -> {
+      ClientEntryStacks.setTooltipProcessor(stack, (entryStack, tooltip) -> {
+        List<Component> components = CollectionUtils.filterAndMap(tooltip.entries(), Tooltip.Entry::isText, Tooltip.Entry::getAsText);
+        List<ClientTooltipComponent> tooltipComponents = CollectionUtils.filterAndMap(tooltip.entries(), ((Predicate<Tooltip.Entry>) Tooltip.Entry::isText).negate(), Tooltip.Entry::getAsComponent);
+        replacement.onTooltip(slot, components);
+        tooltip.entries().clear();
+        tooltip.addAllTexts(components);
+        tooltip.addAllComponents(tooltipComponents);
+        return tooltip;
+      });
+    });
+  }
 }

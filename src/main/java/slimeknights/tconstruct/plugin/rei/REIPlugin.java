@@ -8,7 +8,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.crafting.RecipeManager;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
+import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
+import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
+import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 import slimeknights.tconstruct.plugin.rei.casting.CastingBasinCategory;
 import slimeknights.tconstruct.plugin.rei.casting.CastingDisplay;
 import slimeknights.tconstruct.plugin.rei.casting.CastingTableCategory;
@@ -22,6 +25,11 @@ public class REIPlugin implements REIClientPlugin {
     // casting
     registry.add(new CastingBasinCategory());
     registry.add(new CastingTableCategory());
+    // melting and casting
+//    registry.add(new MeltingCategory());
+    registry.add(new AlloyRecipeCategory());
+//    registry.add(new EntityMeltingRecipeCategory());
+//    registry.add(new FoundryCategory());
   }
 
   @Override
@@ -38,5 +46,14 @@ public class REIPlugin implements REIClientPlugin {
     castingBasinRecipes.forEach(castingBasinRecipe -> registry.add(new CastingDisplay(TConstructREIConstants.CASTING_BASIN, castingBasinRecipe)));
     List<IDisplayableCastingRecipe> castingTableRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.CASTING_TABLE.get(), IDisplayableCastingRecipe.class);
     castingTableRecipes.forEach(castingTableRecipe -> registry.add(new CastingDisplay(TConstructREIConstants.CASTING_TABLE, castingTableRecipe)));
+    // melting
+//    List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.MELTING.get(), MeltingRecipe.class);
+//    meltingRecipes.forEach(meltingRecipe -> TConstructJEIConstants.MELTING, meltingRecipes);
+//    meltingRecipes.forEach(meltingRecipe -> TConstructJEIConstants.FOUNDRY, meltingRecipes);
+    MeltingFuelHandler.setMeltngFuels(RecipeHelper.getRecipes(manager, TinkerRecipeTypes.FUEL.get(), MeltingFuel.class));
+
+    // alloying
+    List<AlloyRecipe> alloyRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.ALLOYING.get(), AlloyRecipe.class);
+    alloyRecipes.forEach(alloyRecipe -> registry.add(new AlloyDisplay(alloyRecipe)));
   }
 }
