@@ -1,5 +1,5 @@
 {
-  "tag": "forge:honey",
+  "tag": "c:honey",
   "units": [
     {
       "key": "gui.tconstruct.fluid.block",

@@ -9,7 +9,7 @@
       },
       {
         "type": "tconstruct:tag",
-        "tag": "forge:creepers"
+        "tag": "c:creepers"
       }
     ]
   },

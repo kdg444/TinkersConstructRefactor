@@ -5,16 +5,16 @@
       "item": "minecraft:spyglass"
     },
     {
-      "tag": "forge:string"
+      "tag": "c:string"
     },
     {
       "item": "minecraft:spyglass"
     },
     {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     }
   ],
   "tools": {

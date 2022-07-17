@@ -1,7 +1,7 @@
 {
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "forge:nuggets/amethyst_bronze"
+    "tag": "c:nuggets/amethyst_bronze"
   },
   "result": {
     "fluid": "tconstruct:molten_amethyst_bronze",

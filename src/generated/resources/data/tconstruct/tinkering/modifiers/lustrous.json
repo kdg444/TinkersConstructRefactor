@@ -5,11 +5,11 @@
     "predicates": [
       {
         "type": "tconstruct:tag",
-        "tag": "forge:ores"
+        "tag": "c:ores"
       },
       {
         "type": "tconstruct:tag",
-        "tag": "forge:storage_blocks"
+        "tag": "c:storage_blocks"
       }
     ]
   },

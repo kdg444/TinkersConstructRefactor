@@ -9,7 +9,7 @@
       },
       {
         "type": "tconstruct:tag",
-        "tag": "forge:villagers"
+        "tag": "c:villagers"
       }
     ]
   },

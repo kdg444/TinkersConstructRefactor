@@ -1,6 +1,6 @@
 {
   "fluid": {
-    "tag": "forge:mushroom_stew",
+    "tag": "c:mushroom_stew",
     "amount": 50
   },
   "effects": [

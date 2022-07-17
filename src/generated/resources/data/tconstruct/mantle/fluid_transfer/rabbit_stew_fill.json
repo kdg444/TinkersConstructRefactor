@@ -5,7 +5,7 @@
   },
   "filled": "minecraft:rabbit_stew",
   "fluid": {
-    "tag": "forge:rabbit_stew",
+    "tag": "c:rabbit_stew",
     "amount": 250
   }
 }

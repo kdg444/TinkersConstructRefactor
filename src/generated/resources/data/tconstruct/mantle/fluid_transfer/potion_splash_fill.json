@@ -1,11 +1,11 @@
 {
   "type": "mantle:fill_nbt",
   "input": {
-    "tag": "forge:bottles/splash"
+    "tag": "c:bottles/splash"
   },
   "filled": "minecraft:splash_potion",
   "fluid": {
-    "tag": "forge:potion",
+    "tag": "c:potion",
     "amount": 250
   }
 }

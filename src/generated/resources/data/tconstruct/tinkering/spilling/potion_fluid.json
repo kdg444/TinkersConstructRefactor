@@ -1,6 +1,6 @@
 {
   "fluid": {
-    "tag": "forge:potion",
+    "tag": "c:potion",
     "amount": 125
   },
   "effects": [

@@ -5,7 +5,7 @@
   },
   "filled": "minecraft:mushroom_stew",
   "fluid": {
-    "tag": "forge:mushroom_stew",
+    "tag": "c:mushroom_stew",
     "amount": 250
   }
 }

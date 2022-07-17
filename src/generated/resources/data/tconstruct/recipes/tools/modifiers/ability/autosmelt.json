@@ -2,19 +2,19 @@
   "type": "tconstruct:modifier",
   "inputs": [
     {
-      "tag": "forge:raw_materials"
+      "tag": "c:raw_materials"
     },
     {
       "item": "minecraft:blast_furnace"
     },
     {
-      "tag": "forge:ingots"
+      "tag": "c:ingots"
     },
     {
-      "tag": "forge:storage_blocks/coal"
+      "tag": "c:storage_blocks/coal"
     },
     {
-      "tag": "forge:storage_blocks/coal"
+      "tag": "c:storage_blocks/coal"
     }
   ],
   "tools": {

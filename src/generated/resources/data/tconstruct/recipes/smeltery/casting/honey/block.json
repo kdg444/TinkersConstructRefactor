@@ -1,7 +1,7 @@
 {
   "type": "tconstruct:casting_basin",
   "fluid": {
-    "tag": "forge:honey",
+    "tag": "c:honey",
     "amount": 1000
   },
   "result": "minecraft:honey_block",

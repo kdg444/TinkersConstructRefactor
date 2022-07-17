@@ -5,7 +5,7 @@
   },
   "filled": "minecraft:beetroot_soup",
   "fluid": {
-    "tag": "forge:beetroot_soup",
+    "tag": "c:beetroot_soup",
     "amount": 250
   }
 }

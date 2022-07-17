@@ -3,21 +3,21 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:ingots/signalum",
+        "tag": "c:ingots/signalum",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     },
     {
       "value": {
-        "tag": "forge:ingots/copper",
+        "tag": "c:ingots/copper",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     },
     {
       "value": {
-        "tag": "forge:ingots/silver",
+        "tag": "c:ingots/silver",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -25,7 +25,7 @@
     {
       "value": {
         "registry": "minecraft:fluid",
-        "tag": "forge:redstone",
+        "tag": "c:redstone",
         "type": "mantle:tag_empty"
       },
       "type": "forge:not"
@@ -33,15 +33,15 @@
   ],
   "inputs": [
     {
-      "tag": "forge:molten_copper",
+      "tag": "c:molten_copper",
       "amount": 270
     },
     {
-      "tag": "forge:molten_silver",
+      "tag": "c:molten_silver",
       "amount": 90
     },
     {
-      "tag": "forge:redstone",
+      "tag": "c:redstone",
       "amount": 400
     }
   ],

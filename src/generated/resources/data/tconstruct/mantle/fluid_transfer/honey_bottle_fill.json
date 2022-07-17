@@ -5,7 +5,7 @@
   },
   "filled": "minecraft:honey_bottle",
   "fluid": {
-    "tag": "forge:honey",
+    "tag": "c:honey",
     "amount": 250
   }
 }

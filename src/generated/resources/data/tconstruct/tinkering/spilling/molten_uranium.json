@@ -1,6 +1,6 @@
 {
   "fluid": {
-    "tag": "forge:molten_uranium",
+    "tag": "c:molten_uranium",
     "amount": 10
   },
   "effects": [

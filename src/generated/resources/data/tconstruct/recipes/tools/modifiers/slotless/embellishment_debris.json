@@ -2,13 +2,13 @@
   "type": "tconstruct:swappable_modifier",
   "inputs": [
     {
-      "tag": "forge:nuggets/netherite_scrap"
+      "tag": "c:nuggets/netherite_scrap"
     },
     {
-      "tag": "forge:nuggets/netherite_scrap"
+      "tag": "c:nuggets/netherite_scrap"
     },
     {
-      "tag": "forge:nuggets/netherite_scrap"
+      "tag": "c:nuggets/netherite_scrap"
     }
   ],
   "tools": [

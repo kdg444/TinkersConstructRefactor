@@ -33,6 +33,7 @@ import slimeknights.tconstruct.common.json.BlockOrEntityCondition;
 import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
 import slimeknights.tconstruct.common.json.TinkerConditons;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
+import slimeknights.tconstruct.library.json.TagDifferencePresentCondition;
 import slimeknights.tconstruct.library.json.TagIntersectionPresentCondition;
 import slimeknights.tconstruct.library.json.predicate.block.BlockPredicate;
 import slimeknights.tconstruct.library.json.predicate.block.SetBlockPredicate;
@@ -152,7 +153,7 @@ public final class TinkerCommons extends TinkerModule {
 
 
     ResourceConditions.register(TagIntersectionPresentCondition.NAME, TinkerConditons::tagIntersectionPresentPredicate);
-//    ResourceConditions.register(TagDifferencePresentCondition.NAME, TinkerConditons::tagDifferencePresentPredicate);
+    ResourceConditions.register(TagDifferencePresentCondition.NAME, TinkerConditons::tagDifferencePresentPredicate);
     // block predicates
     BlockPredicate.LOADER.register(TConstruct.getResource("and"), BlockPredicate.AND);
     BlockPredicate.LOADER.register(TConstruct.getResource("or"), BlockPredicate.OR);

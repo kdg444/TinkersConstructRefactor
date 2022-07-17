@@ -5,7 +5,7 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:honey",
+    "tag": "c:honey",
     "amount": 250
   },
   "result": "minecraft:honey_bottle",

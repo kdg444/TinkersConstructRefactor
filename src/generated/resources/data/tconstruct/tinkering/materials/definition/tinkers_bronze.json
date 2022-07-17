@@ -4,7 +4,7 @@
       "id": "tconstruct:bronze",
       "condition": {
         "value": {
-          "tag": "forge:ingots/bronze",
+          "tag": "c:ingots/bronze",
           "type": "forge:tag_empty"
         },
         "type": "forge:not"

@@ -6,7 +6,7 @@
       "type": "tconstruct:material"
     },
     {
-      "tag": "forge:ingots/cobalt"
+      "tag": "c:ingots/cobalt"
     },
     {
       "item": "tconstruct:tool_binding",

@@ -3,6 +3,7 @@ package slimeknights.tconstruct.common.json;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.util.GsonHelper;
+import slimeknights.tconstruct.library.json.TagDifferencePresentCondition;
 import slimeknights.tconstruct.library.json.TagIntersectionPresentCondition;
 
 import java.util.Locale;
@@ -22,6 +23,10 @@ public class TinkerConditons {
       throw new JsonSyntaxException("Invalid property name '" + prop + "'");
     }
     return config.test();
+  }
+
+  public static boolean tagDifferencePresentPredicate(JsonObject json) {
+    return TagDifferencePresentCondition.readGeneric(json).test();
   }
 
   public static boolean tagIntersectionPresentPredicate(JsonObject jsonObject) {

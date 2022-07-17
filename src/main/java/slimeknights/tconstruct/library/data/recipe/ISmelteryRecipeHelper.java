@@ -18,6 +18,7 @@ import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.mantle.registration.object.MetalItemObject;
 import slimeknights.tconstruct.common.registration.CastItemObject;
+import slimeknights.tconstruct.library.json.TagDifferencePresentCondition;
 import slimeknights.tconstruct.library.json.TagIntersectionPresentCondition;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.casting.ItemCastingRecipeBuilder;
@@ -64,13 +65,13 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
    * @param byproducts  List of byproduct options for this metal, first one that is present will be used
    */
   default void oreMelting(Consumer<FinishedRecipe> consumer, Fluid fluid, long amount, String tagName, @Nullable TagKey<Item> size, float factor, String recipePath, boolean isOptional, OreRateType oreRate, float byproductScale, IByproduct... byproducts) {
-    Consumer<FinishedRecipe> wrapped = null; // TODO: PORT
+    Consumer<FinishedRecipe> wrapped;
     Ingredient baseIngredient = Ingredient.of(getItemTag("c", tagName));
     Ingredient ingredient;
     // not everyone sets size, so treat singular as the fallback, means we want anything in the tag that is not sparse or dense
     if (size == Tags.Items.ORE_RATES_SINGULAR) {
       ingredient = DifferenceIngredient.of(baseIngredient, CompoundIngredient.of(Ingredient.of(Tags.Items.ORE_RATES_SPARSE), Ingredient.of(Tags.Items.ORE_RATES_DENSE)));
-//      wrapped = withCondition(consumer, TagDifferencePresentCondition.ofKeys(getItemTag("c", tagName), Tags.Items.ORE_RATES_SPARSE, Tags.Items.ORE_RATES_DENSE)); TODO: PORT
+      wrapped = withCondition(consumer, TagDifferencePresentCondition.ofKeys(getItemTag("c", tagName), Tags.Items.ORE_RATES_SPARSE, Tags.Items.ORE_RATES_DENSE));
       // size tag means we want an intersection between the tag and that size
     } else if (size != null) {
       ingredient = IntersectionIngredient.of(baseIngredient, Ingredient.of(size));

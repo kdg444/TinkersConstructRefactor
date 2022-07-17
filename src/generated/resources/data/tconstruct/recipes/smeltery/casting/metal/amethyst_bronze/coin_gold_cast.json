@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins/amethyst_bronze",
+        "tag": "c:coins/amethyst_bronze",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/coin"
   },
   "fluid": {
-    "tag": "forge:molten_amethyst_bronze",
+    "tag": "c:molten_amethyst_bronze",
     "amount": 30
   },
   "result": {
-    "tag": "forge:coins/amethyst_bronze"
+    "tag": "c:coins/amethyst_bronze"
   },
   "cooling_time": 35
 }

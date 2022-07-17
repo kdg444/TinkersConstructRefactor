@@ -8,7 +8,7 @@
   ],
   "key": {
     "#": {
-      "tag": "forge:ingots/amethyst_bronze"
+      "tag": "c:ingots/amethyst_bronze"
     },
     "*": {
       "item": "tconstruct:amethyst_bronze_ingot"

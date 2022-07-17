@@ -3,7 +3,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:wires/amethyst_bronze",
+        "tag": "c:wires/amethyst_bronze",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
@@ -13,11 +13,11 @@
     "tag": "tconstruct:casts/multi_use/wire"
   },
   "fluid": {
-    "tag": "forge:molten_amethyst_bronze",
+    "tag": "c:molten_amethyst_bronze",
     "amount": 45
   },
   "result": {
-    "tag": "forge:wires/amethyst_bronze"
+    "tag": "c:wires/amethyst_bronze"
   },
   "cooling_time": 43
 }

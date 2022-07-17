@@ -5,7 +5,7 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "tag": "forge:beetroot_soup",
+    "tag": "c:beetroot_soup",
     "amount": 250
   },
   "result": "minecraft:beetroot_soup",

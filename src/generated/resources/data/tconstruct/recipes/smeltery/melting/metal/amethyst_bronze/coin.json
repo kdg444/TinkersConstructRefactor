@@ -3,14 +3,14 @@
   "conditions": [
     {
       "value": {
-        "tag": "forge:coins/amethyst_bronze",
+        "tag": "c:coins/amethyst_bronze",
         "type": "forge:tag_empty"
       },
       "type": "forge:not"
     }
   ],
   "ingredient": {
-    "tag": "forge:coins/amethyst_bronze"
+    "tag": "c:coins/amethyst_bronze"
   },
   "result": {
     "fluid": "tconstruct:molten_amethyst_bronze",
