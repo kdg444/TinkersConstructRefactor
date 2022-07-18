@@ -1,8 +1,12 @@
 package slimeknights.tconstruct.shared;
 
+import io.github.fabricators_of_create.porting_lib.event.client.ModelsBakedCallback;
 import io.github.fabricators_of_create.porting_lib.event.common.RecipesUpdatedCallback;
 import io.github.fabricators_of_create.porting_lib.util.ArmorTextureItem;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import me.alphamode.star.client.renderers.UpsideDownFluidRenderer;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.minecraft.client.model.Model;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.fluids.FluidClientEvents;
+import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.gadgets.GadgetClientEvents;
 import slimeknights.tconstruct.library.client.book.TinkerBook;
 import slimeknights.tconstruct.library.client.data.spritetransformer.GreyToColorMapping;
@@ -41,6 +46,7 @@ import static net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer.ARM
 /**
  * This class should only be referenced on the client side
  */
+@SuppressWarnings("removal")
 public class TinkerClient implements ClientModInitializer {
   /**
    * Called by TConstruct to handle any client side logic that needs to run during the constructor
@@ -99,7 +105,10 @@ public class TinkerClient implements ClientModInitializer {
     });
     ArmorRenderer.register(skullRenderer, TinkerTools.slimesuit.get(ArmorSlotType.HELMET));
 
-//    FluidRenderHandlerRegistry.INSTANCE.register(TinkerFluids.ichor.getStill(), TinkerFluids.ichor.getFlowing(), new UpsideDownFluidRenderer());
+    ModelsBakedCallback.EVENT.register((manager, models, loader) -> {
+      FluidAttributes attributes = TinkerFluids.ichor.getStill().getAttributes();
+      FluidRenderHandlerRegistry.INSTANCE.register(TinkerFluids.ichor.getStill(), TinkerFluids.ichor.getFlowing(), new UpsideDownFluidRenderer(attributes::getStillTexture, attributes::getFlowingTexture, attributes::getOverlayTexture, attributes.getColor()));
+    });
   }
 
 //  private Model plateModel, travelersModel, elytraModel, slimeModel;

@@ -21,6 +21,7 @@ import slimeknights.mantle.util.SimpleFlowableFluid;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
+import slimeknights.tconstruct.fluids.fluids.DirectionalSlimeFluid;
 import slimeknights.tconstruct.fluids.fluids.PotionFluidAttributes;
 import slimeknights.tconstruct.fluids.fluids.SlimeFluid;
 import slimeknights.tconstruct.fluids.item.BottleItem;
@@ -53,7 +54,7 @@ public final class TinkerFluids extends TinkerModule {
   public static final FluidObject<SimpleFlowableFluid> skySlime   = FLUIDS.register("sky_slime",             coolBuilder().density(1500).viscosity(1500).temperature(310), SlimeFluid.Source::new, SlimeFluid.Flowing::new, Material.WATER, 0);
   public static final FluidObject<SimpleFlowableFluid> enderSlime = FLUIDS.register("ender_slime",           coolBuilder().density(1600).viscosity(1600).temperature(370), SlimeFluid.Source::new, SlimeFluid.Flowing::new, Material.WATER, 0);
   public static final FluidObject<SimpleFlowableFluid> magma      = FLUIDS.register("magma",                 coolBuilder().density(1900).viscosity(1900).temperature(600), SlimeFluid.Source::new, SlimeFluid.Flowing::new, Material.WATER, 3);
-//  public static final FluidObject<SimpleFlowableFluid> ichor      = FLUIDS.register("ichor",       hotBuilder().density(-1200).viscosity(1900).temperature(1000), DirectionalSlimeFluid.Source::new, DirectionalSlimeFluid.Flowing::new, Material.WATER, 3);
+  public static final FluidObject<DirectionalSlimeFluid> ichor    = FLUIDS.registerUpsideDown("ichor",       hotBuilder().density(-1200).viscosity(1900).temperature(1000), DirectionalSlimeFluid.Source::new, DirectionalSlimeFluid.Flowing::new, Material.WATER, 3);
   public static final Map<SlimeType, FluidObject<SimpleFlowableFluid>> slime;
   static {
     slime = new EnumMap<>(SlimeType.class);
