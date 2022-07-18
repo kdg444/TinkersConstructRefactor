@@ -84,7 +84,7 @@ public class Exploder {
   static {
     ServerTickEvents.END_WORLD_TICK.register(world -> {
       CACHED_EXPLOSIONS.forEach(exploder -> exploder.onTick(world));
-      CACHED_EXPLOSIONS.removeIf(exploder1 -> !exploder1.iteration());
+      CACHED_EXPLOSIONS.removeIf(exploder -> !exploder.iteration());
     });
   }
 

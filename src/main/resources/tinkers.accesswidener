@@ -1,5 +1,8 @@
 accessWidener v2 named
 
+# Item Frames
+transitive-extendable method net/minecraft/world/entity/decoration/ItemFrame setRotation (IZ)V
+
 # Loot table datagen
 
 transitive-accessible field net/minecraft/advancements/critereon/EntityEquipmentPredicate$Builder mainhand Lnet/minecraft/advancements/critereon/ItemPredicate;
