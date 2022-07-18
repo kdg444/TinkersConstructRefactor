@@ -2,10 +2,10 @@
   "type": "forge:conditional",
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
           "prop": "cheaper_netherite_alloy",
-          "type": "tconstruct:config"
+          "condition": "tconstruct:config"
         }
       ],
       "recipe": {
@@ -30,7 +30,7 @@
     {
       "conditions": [
         {
-          "type": "forge:true"
+          "condition": "forge:true"
         }
       ],
       "recipe": {

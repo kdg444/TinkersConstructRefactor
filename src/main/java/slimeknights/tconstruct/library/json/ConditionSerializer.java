@@ -1,31 +1,30 @@
-//package slimeknights.tconstruct.library.json;
-//
-//import com.google.gson.JsonDeserializationContext;
-//import com.google.gson.JsonDeserializer;
-//import com.google.gson.JsonElement;
-//import com.google.gson.JsonParseException;
-//import com.google.gson.JsonSerializationContext;
-//import com.google.gson.JsonSerializer;
-//import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
-//import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
-//import net.minecraft.util.GsonHelper;
-//import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
-//
-//import java.lang.reflect.Type;
-//
-///** Serializer for a forge condition */
-//public class ConditionSerializer implements JsonDeserializer<ConditionJsonProvider>, JsonSerializer<ConditionJsonProvider> {
-//  public static final ConditionSerializer INSTANCE = new ConditionSerializer();
-//
-//  private ConditionSerializer() {}
-//
-//  @Override
-//  public ConditionJsonProvider deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-//    return CraftingHelper.getCondition(GsonHelper.convertToJsonObject(json, ResourceConditions.CONDITION_ID_KEY));
-//  }
-//
-//  @Override
-//  public JsonElement serialize(ConditionJsonProvider condition, Type type, JsonSerializationContext context) {
-//    return CraftingHelper.serialize(condition);
-//  }
-//}
+package slimeknights.tconstruct.library.json;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+
+import java.lang.reflect.Type;
+
+/** Serializer for a forge condition */
+public class ConditionSerializer implements JsonDeserializer<JsonCondition> {
+  public static final ConditionSerializer INSTANCE = new ConditionSerializer();
+
+  private ConditionSerializer() {}
+
+  @Override
+  public JsonCondition deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+    JsonObject jsonObject = GsonHelper.convertToJsonObject(json, ResourceConditions.CONDITION_ID_KEY);
+    if (jsonObject.has(ResourceConditions.CONDITION_ID_KEY)) {
+      JsonObject jsonCondition = jsonObject.getAsJsonObject(ResourceConditions.CONDITION_ID_KEY);
+      ResourceLocation id = new ResourceLocation(jsonCondition.get("type").getAsString());
+      return new JsonCondition(id);
+    }
+    return null;
+  }
+}

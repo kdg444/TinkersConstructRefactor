@@ -1,7 +1,7 @@
 {
-  "fabric:load_conditions": [
+  "conditions": [
     {
-      "condition": "fabric:or",
+      "type": "fabric:or",
       "values": [
         {
           "prop": "force_integration_materials",

@@ -1,7 +1,9 @@
 {
   "condition": {
-    "modid": "create",
-    "type": "forge:mod_loaded"
+    "values": [
+      "create"
+    ],
+    "type": "fabric:all_mods_loaded"
   },
   "fluid": {
     "name": "create:potion",

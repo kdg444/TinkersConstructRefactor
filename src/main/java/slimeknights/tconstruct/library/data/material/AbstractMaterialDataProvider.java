@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
+import slimeknights.tconstruct.library.json.JsonCondition;
 import slimeknights.tconstruct.library.json.JsonRedirect;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.Material;
@@ -164,9 +165,9 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
       redirect = null;
     }
     if (material == null) {
-      return new MaterialJson(data.condition.getConditionId(), null, null, null, null, redirect);
+      return new MaterialJson(new JsonCondition(data.condition.getConditionId()), null, null, null, null, redirect);
     }
-    return new MaterialJson(data.condition.getConditionId(), material.isCraftable(), material.getTier(), material.getSortOrder(), material.isHidden(), redirect);
+    return new MaterialJson(new JsonCondition(data.condition.getConditionId()), material.isCraftable(), material.getTier(), material.getSortOrder(), material.isHidden(), redirect);
   }
 
   private record DataMaterial(@Nullable IMaterial material, @Nullable ConditionJsonProvider condition, JsonRedirect[] redirect) {}

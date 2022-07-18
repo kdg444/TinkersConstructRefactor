@@ -1,13 +1,13 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
       "registry": "minecraft:item",
       "tags": [
-        "forge:ores/zinc",
-        "forge:ore_rates/dense"
+        "c:ores/zinc",
+        "c:ore_rates/dense"
       ],
-      "type": "tconstruct:tag_intersection_present"
+      "condition": "tconstruct:tag_intersection_present"
     }
   ],
   "recipes": [

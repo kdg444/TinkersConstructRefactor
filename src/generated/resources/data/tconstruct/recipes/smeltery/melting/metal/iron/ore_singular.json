@@ -1,6 +1,6 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
       "registry": "minecraft:item",
       "base": "forge:ores/iron",
@@ -8,18 +8,17 @@
         "forge:ore_rates/sparse",
         "forge:ore_rates/dense"
       ],
-      "type": "tconstruct:tag_difference_present"
+      "condition": "tconstruct:tag_difference_present"
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/nickel",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "value": [
+            "c:ingots/nickel"
+          ],
+          "condition": "fabric:item_tags_populated"
         }
       ],
       "recipe": {

@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.materials.definition;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.InstanceCreator;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.extern.log4j.Log4j2;
@@ -15,6 +16,8 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.exception.TinkerJSONException;
+import slimeknights.tconstruct.library.json.ConditionSerializer;
+import slimeknights.tconstruct.library.json.JsonCondition;
 import slimeknights.tconstruct.library.json.JsonRedirect;
 import slimeknights.tconstruct.library.materials.json.MaterialJson;
 import slimeknights.tconstruct.library.utils.Util;
@@ -30,6 +33,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNullElse;
@@ -47,6 +51,8 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
   public static final String FOLDER = "tinkering/materials/definition";
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
+    .registerTypeAdapter(JsonCondition.class, ConditionSerializer.INSTANCE)
+    .registerTypeAdapter(ConditionJsonProvider.class, (InstanceCreator<ConditionJsonProvider>) type -> null)
     .setPrettyPrinting()
     .disableHtmlEscaping()
     .create();
@@ -180,8 +186,8 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
       JsonRedirect[] redirectsJson = materialJson.getRedirect();
       if (redirectsJson != null) {
         for (JsonRedirect redirect : redirectsJson) {
-          ConditionJsonProvider redirectCondition = redirect.getCondition();
-          if (redirectCondition == null || ResourceConditions.get(redirectCondition.getConditionId()).test(jsonObject)) {
+          Predicate<JsonObject> redirectCondition = redirect.getConditionPredicate();
+          if (redirectCondition == null || redirectCondition.test(jsonObject)) {
             MaterialId redirectTarget = new MaterialId(redirect.getId());
             log.debug("Redirecting material {} to {}", materialId, redirectTarget);
             redirects.put(new MaterialId(materialId), redirectTarget);
@@ -191,8 +197,8 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
       }
 
       // condition
-      ResourceLocation condition = materialJson.getCondition();
-      if (condition != null && !ResourceConditions.get(condition).test(jsonObject)) {
+      JsonCondition condition = materialJson.getCondition();
+      if (condition != null && !ResourceConditions.get(condition.id()).test(jsonObject)) {
         log.debug("Skipped loading material {} as it did not match the condition", materialId);
         return null;
       }
