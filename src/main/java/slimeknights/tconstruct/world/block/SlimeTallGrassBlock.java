@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.world.block;
 
 import com.google.common.collect.Lists;
+import io.github.fabricators_of_create.porting_lib.util.IPlantable;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -23,7 +24,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class SlimeTallGrassBlock extends BushBlock implements IShearable {
+public class SlimeTallGrassBlock extends BushBlock implements IShearable, IPlantable {
 
   private static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
 
@@ -52,7 +53,7 @@ public class SlimeTallGrassBlock extends BushBlock implements IShearable {
 
   /* Forge/MC callbacks */
   @Nonnull
-//  @Override TODO: PORT
+  @Override
   public PlantType getPlantType(BlockGetter world, BlockPos pos) {
     return TinkerWorld.SLIME_PLANT_TYPE;
   }

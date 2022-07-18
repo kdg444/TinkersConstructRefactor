@@ -1,14 +1,10 @@
 package slimeknights.tconstruct;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.FabricLoader;
 import slimeknights.tconstruct.fluids.FluidEvents;
 import slimeknights.tconstruct.shared.AchievementEvents;
 import slimeknights.tconstruct.shared.CommonsEvents;
 import slimeknights.tconstruct.tools.logic.InteractionHandler;
 import slimeknights.tconstruct.tools.logic.ToolEvents;
-import slimeknights.tconstruct.world.WorldClientEvents;
 
 public class FabricEvents {
   public static void init() {

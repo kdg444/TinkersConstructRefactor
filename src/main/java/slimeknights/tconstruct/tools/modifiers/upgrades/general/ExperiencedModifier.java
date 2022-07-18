@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.general;
 
+import io.github.fabricators_of_create.porting_lib.event.common.BlockEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -10,7 +12,7 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 public class ExperiencedModifier extends Modifier {
   public ExperiencedModifier() {
     LivingEntityEvents.EXPERIENCE_DROP.register(this::onEntityKill);
-//    MinecraftForge.EVENT_BUS.addListener(this::beforeBlockBreak);
+    BlockEvents.BLOCK_BREAK.register(this::beforeBlockBreak);
   }
 
   /**
@@ -27,26 +29,27 @@ public class ExperiencedModifier extends Modifier {
    * Used to modify the XP dropped, regular hook is just for canceling
    * @param event  Event
    */
-//  private void beforeBlockBreak(BreakEvent event) { TODO: PORT
-//    // only support main hand block breaking currently
-//    int level = 0;
-//    ToolStack tool = getHeldTool(event.getPlayer(), InteractionHand.MAIN_HAND);
-//    if (tool != null) {
-//      level = tool.getModifierLevel(this);
-//    }
-//    // bonus from experienced pants
-//    tool = getHeldTool(event.getPlayer(), EquipmentSlot.LEGS);
-//    if (tool != null) {
-//      level += tool.getModifierLevel(this);
-//    }
-//    if (level > 0) {
-//      event.setExpToDrop(boost(event.getExpToDrop(), level));
-//    }
-//  }
+  private void beforeBlockBreak(BlockEvents.BreakEvent event) {
+    // only support main hand block breaking currently
+    int level = 0;
+    ToolStack tool = getHeldTool(event.getPlayer(), InteractionHand.MAIN_HAND);
+    if (tool != null) {
+      level = tool.getModifierLevel(this);
+    }
+    // bonus from experienced pants
+    tool = getHeldTool(event.getPlayer(), EquipmentSlot.LEGS);
+    if (tool != null) {
+      level += tool.getModifierLevel(this);
+    }
+    if (level > 0) {
+      event.setExpToDrop(boost(event.getExpToDrop(), level));
+    }
+  }
 
   /**
    * Event handled locally as its pretty specialized
-   * @param event  Event
+   * @param amount  amount of xp
+   * @param player current player
    */
   private int onEntityKill(int amount, Player player) {
     if (player != null) {

@@ -30,7 +30,7 @@ public class TurtleShellModifier extends IncrementalModifier {
 
   @Override
   public void addAttributes(IToolStackView tool, int level, EquipmentSlot slot, BiConsumer<Attribute,AttributeModifier> consumer) {
-//    consumer.accept(PortingLibAttributes.SWIM_SPEED, new AttributeModifier(UUIDS[slot.getIndex()], "tconstruct.modifier.armor_power." + slot.getName(), 0.05f * getScaledLevel(tool, level), Operation.MULTIPLY_TOTAL)); TODO: PORT
+    consumer.accept(PortingLibAttributes.SWIM_SPEED, new AttributeModifier(UUIDS[slot.getIndex()], "tconstruct.modifier.armor_power." + slot.getName(), 0.05f * getScaledLevel(tool, level), Operation.MULTIPLY_TOTAL));
   }
 
   @Override

@@ -1,19 +1,19 @@
 package slimeknights.tconstruct.world.item;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.core.NonNullList;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import slimeknights.mantle.item.TooltipItem;
 import slimeknights.tconstruct.shared.block.SlimeType;
 import slimeknights.tconstruct.world.TinkerWorld;
@@ -21,8 +21,6 @@ import slimeknights.tconstruct.world.block.SlimeVineBlock;
 import slimeknights.tconstruct.world.block.SlimeVineBlock.VineStage;
 
 import javax.annotation.Nullable;
-
-import net.minecraft.world.item.Item.Properties;
 
 public class SlimeGrassSeedItem extends TooltipItem {
   private final SlimeType foliage;
@@ -86,7 +84,7 @@ public class SlimeGrassSeedItem extends TooltipItem {
     // will have a state at this point
     if (!world.isClientSide) {
       world.setBlockAndUpdate(pos, newState);
-      world.playSound(null, pos, newState.getSoundType(/*world, pos, context.getPlayer()*/).getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f); // TODO: PORT
+      world.playSound(null, pos, newState.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
       Player player = context.getPlayer();
       if (player == null || !player.isCreative()) {
         context.getItemInHand().shrink(1);

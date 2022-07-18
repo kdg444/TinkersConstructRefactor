@@ -62,7 +62,7 @@ public class EFLNExplosion extends Explosion {
             BlockState blockstate = this.level.getBlockState(blockpos);
 
             FluidState ifluidstate = this.level.getFluidState(blockpos);
-            float f2 = Math.max(/*blockstate.getExplosionResistance(this.level, blockpos, this)*/blockstate.getBlock().getExplosionResistance(), ifluidstate.getExplosionResistance(/*this.level, blockpos, this*/)); // TODO: PORT
+            float f2 = Math.max(blockstate.getBlock().getExplosionResistance(), ifluidstate.getExplosionResistance());
             if (this.source != null) {
               f2 = this.source.getBlockExplosionResistance(this, this.level, blockpos, blockstate, ifluidstate, f2);
             }

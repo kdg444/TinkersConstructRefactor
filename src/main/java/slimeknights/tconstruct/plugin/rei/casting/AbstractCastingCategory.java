@@ -62,7 +62,6 @@ public abstract class AbstractCastingCategory implements BasicCategory<CastingDi
   @Override
   public void draw(CastingDisplay display, PoseStack matrixStack, double mouseX, double mouseY) {
     IDisplayableCastingRecipe recipe = display.getRecipe();
-//    cachedArrows.getUnchecked(Math.max(1, recipe.getCoolingTime())).draw(matrixStack, 58, 18); TODO: PORT
 
     int coolingTime = recipe.getCoolingTime() / 20;
     String coolingString = I18n.get(KEY_COOLING_TIME, coolingTime);

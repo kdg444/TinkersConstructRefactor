@@ -32,7 +32,7 @@ public class GlowingModifier extends NoLevels {
           if (ToolDamageUtil.damage(tool, 10, player, context.getItemInHand()) && player != null) {
             player.broadcastBreakEvent(slotType);
           }
-          world.playSound(null, pos, world.getBlockState(pos).getSoundType(/*world, pos, player*/).getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f); // TODO: PORT
+          world.playSound(null, pos, world.getBlockState(pos).getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
         }
       }
       return InteractionResult.sidedSuccess(context.getLevel().isClientSide);

@@ -1,28 +1,20 @@
 package slimeknights.tconstruct.gadgets.block;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.RailBlock;
-import net.minecraft.world.entity.vehicle.AbstractMinecart;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.Hopper;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
+import io.github.fabricators_of_create.porting_lib.block.MinecartPassHandlerBlock;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.RailBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-import slimeknights.mantle.inventory.EmptyItemHandler;
-import slimeknights.mantle.transfer.item.IItemHandler;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
-
-public class DropperRailBlock extends RailBlock {
+public class DropperRailBlock extends RailBlock implements MinecartPassHandlerBlock {
 
   public DropperRailBlock(Properties properties) {
     super(properties);
   }
 
-//  @Override TODO: PORT
-//  public void onMinecartPass(BlockState state, Level world, BlockPos pos, AbstractMinecart cart) {
+  @Override
+  public void onMinecartPass(BlockState state, Level world, BlockPos pos, AbstractMinecart cart) { // TODO: TRANSFER
 //    if (!cart.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN).isPresent() || !(cart instanceof Hopper)) {
 //      return;
 //    }
@@ -46,6 +38,6 @@ public class DropperRailBlock extends RailBlock {
 //        break;
 //      }
 //    }
-//  }
+  }
 
 }

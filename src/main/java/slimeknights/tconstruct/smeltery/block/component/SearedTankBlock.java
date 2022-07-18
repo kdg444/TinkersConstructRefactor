@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.component;
 
+import io.github.fabricators_of_create.porting_lib.block.LightEmissiveBlock;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +32,7 @@ import javax.annotation.Nullable;
 import java.util.Locale;
 
 @SuppressWarnings("removal")
-public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBlock, BlockPickInteractionAware {
+public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBlock, BlockPickInteractionAware, LightEmissiveBlock {
   @Getter
   private final long capacity;
   public SearedTankBlock(Properties properties, long capacity) {
@@ -60,17 +61,14 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
     return super.use(state, world, pos, player, hand, hit);
   }
 
-  // FIXME PORT - Create needs to use a blockstate property for this because it's just not possible to mixin to all the places that use this.
-  // we will need to do the same.
-//  @Override TODO: PORT
+  @Override
   public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
     BlockEntity te = world.getBlockEntity(pos);
     if (te instanceof TankBlockEntity) {
       FluidStack fluid = ((TankBlockEntity) te).getTank().getFluid();
       return fluid.getFluid().getAttributes().getLuminosity(fluid);
     }
-    return 0;
-//    return super.getLightEmission(state, world, pos);
+    return state.getLightEmission();
   }
 
   @Override

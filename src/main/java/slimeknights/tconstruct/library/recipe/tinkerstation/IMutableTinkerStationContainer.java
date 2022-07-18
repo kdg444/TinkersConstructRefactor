@@ -57,7 +57,7 @@ public interface IMutableTinkerStationContainer extends ITinkerStationContainer 
   default void shrinkInput(int slot, int amount) {
     ItemStack stack = getInput(slot);
     if (!stack.isEmpty()) {
-      ItemStack container = new ItemStack(stack.getItem().getCraftingRemainingItem()); // TODO: PORT?
+      ItemStack container = stack.getItem().getCraftingRemainingItem().getDefaultInstance();
       if (container.isEmpty() && stack.getItem() == Items.POTION) {
         container = new ItemStack(Items.GLASS_BOTTLE);
       }

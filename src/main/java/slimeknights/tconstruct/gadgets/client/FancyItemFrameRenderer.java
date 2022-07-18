@@ -51,10 +51,10 @@ public class FancyItemFrameRenderer<T extends FancyItemFrameEntity> extends Item
     FrameType frameType = frame.getFrameType();
 
     // base entity rendering logic, since calling super gives us the item frame renderer
-//    RenderNameplateEvent renderNameplate = new RenderNameplateEvent(frame, frame.getDisplayName(), this, matrices, bufferIn, packedLight, partialTicks); TODO: PORT
+//    RenderNameplateEvent renderNameplate = new RenderNameplateEvent(frame, frame.getDisplayName(), this, matrices, bufferIn, packedLight, partialTicks); TODO: EVENT
 //    MinecraftForge.EVENT_BUS.post(renderNameplate);
 //    if (renderNameplate.getResult() == Result.ALLOW || (renderNameplate.getResult() != Result.DENY && this.shouldShowName(frame))) {
-//      this.renderNameTag(frame, renderNameplate.getContent(), matrices, bufferIn, packedLight);
+      this.renderNameTag(frame, frame.getDisplayName(), matrices, bufferIn, packedLight);
 //    }
 
     // orient the renderer
