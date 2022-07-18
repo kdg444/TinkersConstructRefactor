@@ -15,6 +15,7 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -26,6 +27,7 @@ import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.gadgets.entity.EFLNExplosion;
 import slimeknights.tconstruct.tools.network.EntityMovementChangePacket;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -70,12 +72,20 @@ public class Exploder {
     this.droppedItems = Lists.newArrayList();
   }
 
+  private static final List<Exploder> CACHED_EXPLOSIONS = new ArrayList<>();
+
   public static void startExplosion(Level world, EFLNExplosion explosion, Entity entity, BlockPos location, double r, double explosionStrength) {
     Exploder exploder = new Exploder(world, explosion, entity, location, r, explosionStrength, Math.max(50, (int) (r * r * r / 10d)));
     exploder.handleEntities();
     world.playSound(null, location, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.2F) * 0.7F);
-//    MinecraftForge.EVENT_BUS.register(exploder); TODO: PORT
-    ServerTickEvents.END_WORLD_TICK.register(exploder::onTick);
+    CACHED_EXPLOSIONS.add(exploder);
+  }
+
+  static {
+    ServerTickEvents.END_WORLD_TICK.register(world -> {
+      CACHED_EXPLOSIONS.forEach(exploder -> exploder.onTick(world));
+      CACHED_EXPLOSIONS.removeIf(exploder1 -> !exploder1.iteration());
+    });
   }
 
   private void handleEntities() {
@@ -158,8 +168,6 @@ public class Exploder {
       }
       while (stacksize > 0);
     }
-
-//    MinecraftForge.EVENT_BUS.unregister(this);
   }
 
   /**
@@ -237,7 +245,7 @@ public class Exploder {
   private void explodeBlock(BlockPos blockpos) {
     BlockState blockstate = this.world.getBlockState(blockpos);
 
-    if (!this.world.isClientSide /*&& blockstate.canDropFromExplosion(this.world, blockpos, this.explosion)*/) { // TODO: PORT
+    if (!this.world.isClientSide && blockstate.getBlock().dropFromExplosion(this.explosion)) {
       BlockEntity tileentity = blockstate.hasBlockEntity() ? this.world.getBlockEntity(blockpos) : null;
       LootContext.Builder builder = (new LootContext.Builder((ServerLevel) this.world)).withRandom(this.world.random).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(blockpos)).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, tileentity);
 
@@ -251,7 +259,8 @@ public class Exploder {
       }
     }
 
-//    blockstate.onBlockExploded(this.world, blockpos, this.explosion); TODO: PORT
+    this.world.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 3);
+    blockstate.getBlock().wasExploded(this.world, blockpos, this.explosion);
   }
 
 }

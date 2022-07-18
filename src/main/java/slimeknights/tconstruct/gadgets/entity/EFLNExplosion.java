@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -93,14 +93,13 @@ public class EFLNExplosion extends Explosion {
 
     for (BlockPos blockpos : this.toBlow) {
       BlockState blockstate = this.level.getBlockState(blockpos);
-      Block block = blockstate.getBlock();
 
       if (!blockstate.isAir()) {
         BlockPos blockpos1 = blockpos.immutable();
 
         this.level.getProfiler().push("explosion_blocks");
 
-        if (/*blockstate.canDropFromExplosion(this.level, blockpos, this) &&*/ this.level instanceof ServerLevel) { // TODO: PORT
+        if (blockstate.getBlock().dropFromExplosion(this) && this.level instanceof ServerLevel) {
           BlockEntity tileentity = blockstate.hasBlockEntity() ? this.level.getBlockEntity(blockpos) : null;
           LootContext.Builder builder = (new LootContext.Builder((ServerLevel) this.level)).withRandom(this.level.random).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(blockpos)).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, tileentity).withOptionalParameter(LootContextParams.THIS_ENTITY, this.source);
 
@@ -111,7 +110,8 @@ public class EFLNExplosion extends Explosion {
           blockstate.getDrops(builder).forEach((stack) -> addStack(arrayList, stack, blockpos1));
         }
 
-//        blockstate.onBlockExploded(this.level, blockpos, this); TODO: PORT
+        level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 3);
+        blockstate.getBlock().wasExploded(level, blockpos, this);
         this.level.getProfiler().pop();
       }
     }
