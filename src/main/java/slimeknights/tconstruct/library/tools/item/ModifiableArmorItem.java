@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.tools.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
+import io.github.fabricators_of_create.porting_lib.item.PiglinsNeutralItem;
 import io.github.fabricators_of_create.porting_lib.util.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import lombok.Getter;
@@ -57,7 +58,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, ItemExtensions, DamageableItem {
+public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, ItemExtensions, DamageableItem, PiglinsNeutralItem {
   /** Volatile modifier tag to make piglins neutal when worn */
   public static final ResourceLocation PIGLIN_NEUTRAL = TConstruct.getResource("piglin_neutral");
   /** Volatile modifier tag to make this item an elytra */
@@ -89,7 +90,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return false;
   }
 
-//  @Override
+//  @Override TODO: PORT
   public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
     return false;
   }
@@ -99,7 +100,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return enchantment.isCurse() /*&& super.canApplyAtEnchantingTable(stack, enchantment)*/; //TODO: PORT
   }
 
-//  @Override
+  @Override
   public boolean makesPiglinsNeutral(ItemStack stack, LivingEntity wearer) {
     return ModifierUtil.checkVolatileFlag(stack, PIGLIN_NEUTRAL);
   }
@@ -157,7 +158,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   /* Indestructible items */
 
-//  @Override
+//  @Override TODO: PORT
   public boolean hasCustomEntity(ItemStack stack) {
     return ModifierUtil.checkVolatileFlag(stack, INDESTRUCTIBLE_ENTITY);
   }

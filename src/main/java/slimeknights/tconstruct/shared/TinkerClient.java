@@ -24,18 +24,15 @@ import slimeknights.tconstruct.library.client.data.spritetransformer.GreyToSprit
 import slimeknights.tconstruct.library.client.data.spritetransformer.IColorMapping;
 import slimeknights.tconstruct.library.client.data.spritetransformer.ISpriteTransformer;
 import slimeknights.tconstruct.library.client.data.spritetransformer.RecolorSpriteTransformer;
-import slimeknights.tconstruct.library.tools.item.ModifiableArmorItem;
 import slimeknights.tconstruct.smeltery.SmelteryClientEvents;
 import slimeknights.tconstruct.tables.TableClientEvents;
 import slimeknights.tconstruct.tables.client.PatternGuiTextureLoader;
 import slimeknights.tconstruct.tools.TinkerTools;
 import slimeknights.tconstruct.tools.ToolClientEvents;
 import slimeknights.tconstruct.tools.client.ModifierClientEvents;
-import slimeknights.tconstruct.tools.client.PlateArmorModel;
 import slimeknights.tconstruct.tools.client.SlimelytraArmorModel;
 import slimeknights.tconstruct.tools.client.SlimeskullArmorModel;
 import slimeknights.tconstruct.tools.client.ToolRenderEvents;
-import slimeknights.tconstruct.tools.client.TravelersGearModel;
 import slimeknights.tconstruct.tools.item.ArmorSlotType;
 import slimeknights.tconstruct.world.WorldClientEvents;
 
@@ -75,23 +72,6 @@ public class TinkerClient implements ClientModInitializer {
     ToolClientEvents.clientSetupEvent();
     WorldClientEvents.clientSetup();
 
-    // Armor Models
-    for(ModifiableArmorItem armorItem : TinkerTools.plateArmor.values()) {
-      ArmorRenderer renderer = ((matrices, vertexConsumers, itemStack, entity, armorSlot, light, _default) -> {
-//        if(plateModel == null)
-        Model plateModel = PlateArmorModel.getModel(itemStack, armorSlot, _default);
-        ArmorRenderer.renderPart(matrices, vertexConsumers, light, itemStack, plateModel, getArmorResource(entity, itemStack, armorSlot, null));
-      });
-      ArmorRenderer.register(renderer, armorItem);
-    }
-    for(ModifiableArmorItem armorItem : TinkerTools.travelersGear.values()) {
-      ArmorRenderer renderer = ((matrices, vertexConsumers, itemStack, entity, armorSlot, light, _default) -> {
-//        if(travelersModel == null)
-        Model travelersModel = TravelersGearModel.getModel(itemStack, armorSlot, _default);
-        ArmorRenderer.renderPart(matrices, vertexConsumers, light, itemStack, travelersModel, getArmorResource(entity, itemStack, armorSlot, null));
-      });
-      ArmorRenderer.register(renderer, armorItem);
-    }
     ArmorRenderer elytraRenderer = ((matrices, vertexConsumers, itemStack, entityLiving, armorSlot, light, _default) -> {
 //      if(elytraModel == null)
       Model elytraModel = SlimelytraArmorModel.getModel(entityLiving, itemStack, _default);
