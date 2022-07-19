@@ -1,13 +1,13 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
       "registry": "minecraft:item",
       "tags": [
-        "forge:ores/iron",
-        "forge:ore_rates/dense"
+        "c:ores/iron",
+        "c:ore_rates/dense"
       ],
-      "type": "tconstruct:tag_intersection_present"
+      "condition": "tconstruct:tag_intersection_present"
     }
   ],
   "recipes": [
@@ -50,9 +50,9 @@
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "forge:true"
         }
       ],
       "recipe": {

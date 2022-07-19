@@ -221,7 +221,7 @@ public class ToolHarvestLogic {
     } else {
       // add in harvest info
       ToolHarvestContext context = new ToolHarvestContext(world, serverPlayer, state, pos, sideHit,
-                                                          !player.isCreative()/* && state.canHarvestBlock(world, pos, player) TODO: PORT*/,
+                                                          !player.isCreative() && player.hasCorrectToolForDrops(state),
                                                           isEffective(tool, state));
 
       // add enchants

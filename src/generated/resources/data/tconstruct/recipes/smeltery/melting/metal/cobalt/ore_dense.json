@@ -1,13 +1,13 @@
 {
   "type": "tconstruct:ore_melting",
-  "conditions": [
+  "fabric:load_conditions": [
     {
       "registry": "minecraft:item",
       "tags": [
-        "forge:ores/cobalt",
-        "forge:ore_rates/dense"
+        "c:ores/cobalt",
+        "c:ore_rates/dense"
       ],
-      "type": "tconstruct:tag_intersection_present"
+      "condition": "tconstruct:tag_intersection_present"
     }
   ],
   "rate": "metal",

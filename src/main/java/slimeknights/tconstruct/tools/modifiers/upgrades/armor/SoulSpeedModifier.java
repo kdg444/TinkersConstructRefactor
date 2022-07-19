@@ -15,6 +15,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -43,9 +44,9 @@ public class SoulSpeedModifier extends Modifier implements IArmorWalkModifier {
     if (living.level.isEmptyBlock(pos)) {
       BlockPos below = pos.below();
       BlockState blockstate = living.level.getBlockState(below);
-//      if (blockstate.collisionExtendsVertically(living.level, below, living)) { TODO: PORT
-//        return below;
-//      }
+      if (blockstate.is(BlockTags.FENCES) || blockstate.is(BlockTags.WALLS) || blockstate.getBlock() instanceof FenceGateBlock) {
+        return below;
+      }
     }
 
     return pos;

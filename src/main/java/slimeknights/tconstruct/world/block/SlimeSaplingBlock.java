@@ -31,7 +31,7 @@ public class SlimeSaplingBlock extends SaplingBlock {
   }
 
   @Nonnull
-//  @Override TODO: PORT
+  @Override
   public PlantType getPlantType(BlockGetter world, BlockPos pos) {
     return TinkerWorld.SLIME_PLANT_TYPE;
   }

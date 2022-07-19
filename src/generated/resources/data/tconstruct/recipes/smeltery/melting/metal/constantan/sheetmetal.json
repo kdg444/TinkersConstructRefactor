@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:melting",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:sheetmetals/constantan",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "values": [
+        "c:sheetmetals/constantan"
+      ],
+      "condition": "fabric:item_tags_populated"
     }
   ],
   "ingredient": {

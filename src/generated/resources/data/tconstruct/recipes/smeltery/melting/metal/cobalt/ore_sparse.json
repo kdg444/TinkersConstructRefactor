@@ -4,10 +4,10 @@
     {
       "registry": "minecraft:item",
       "tags": [
-        "forge:ores/cobalt",
-        "forge:ore_rates/sparse"
+        "c:ores/cobalt",
+        "c:ore_rates/sparse"
       ],
-      "type": "tconstruct:tag_intersection_present"
+      "condition": "tconstruct:tag_intersection_present"
     }
   ],
   "rate": "metal",
