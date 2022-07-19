@@ -9,6 +9,7 @@ import io.github.fabricators_of_create.porting_lib.util.ArmorTextureItem;
 import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
 import io.github.fabricators_of_create.porting_lib.util.client.ClientHooks;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -53,12 +54,13 @@ public class TravelersGearItem extends ModifiableArmorItem implements ArmorTextu
     return null;
   }
 
+  @Environment(EnvType.CLIENT)
   public void initializeClient() {
     ArmorRendererRegistry.register(new TravelersGearRenderer(), this);
   }
 
+  @Environment(EnvType.CLIENT)
   private static final class TravelersGearRenderer implements ArmorRenderer {
-
     @Override
     public void render(PoseStack matrices, MultiBufferSource vertexConsumers, ItemStack itemStack, LivingEntity entity, EquipmentSlot armorSlot, int light, HumanoidModel<LivingEntity> playerModel, HumanoidModel<LivingEntity> baseArmorModel) {
       playerModel.copyPropertiesTo(baseArmorModel);
