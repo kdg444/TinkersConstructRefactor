@@ -26,16 +26,16 @@ body:
     validations:
       required: true
   - type: input
-    id: forge-version
+    id: fabric-version
     attributes:
-      label: Forge Version
-      placeholder: "Ex: 36.1.0"
+      label: Fabric Version
+      placeholder: "Ex: 0.14.8"
     validations:
       required: true
-  - type: input
-    id: mantle-version
+    id: fabric-api-version
     attributes:
-      label: Mantle Version
+      label: Fabric API Version
+      placeholder: "Ex: 0.57.0-1.18.2"
     validations:
       required: true
   - type: input
@@ -98,7 +98,7 @@ body:
       description: "Select all that you were using when you reproduced the issue. Ideally reproduce with fewer performance enhancers."
       multiple: true
       options:
-        - 'Magnesium'
+        - 'Sodium'
         - 'Optifine'
         - 'Performant'
         - 'Other (specify under other mods)'
