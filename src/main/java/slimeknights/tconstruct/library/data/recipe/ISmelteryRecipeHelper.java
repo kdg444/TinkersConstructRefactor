@@ -1,11 +1,11 @@
 package slimeknights.tconstruct.library.data.recipe;
 
-import io.github.fabricators_of_create.porting_lib.crafting.CompoundIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.IntersectionIngredient;
 import io.github.fabricators_of_create.porting_lib.data.ConditionalRecipe;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.TrueCondition;
+import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
 import me.alphamode.forgetags.Tags;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +27,7 @@ import slimeknights.tconstruct.library.recipe.melting.MeltingRecipeBuilder;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -70,7 +71,7 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
     Ingredient ingredient;
     // not everyone sets size, so treat singular as the fallback, means we want anything in the tag that is not sparse or dense
     if (size == Tags.Items.ORE_RATES_SINGULAR) {
-      ingredient = DifferenceIngredient.of(baseIngredient, CompoundIngredient.of(Ingredient.of(Tags.Items.ORE_RATES_SPARSE), Ingredient.of(Tags.Items.ORE_RATES_DENSE)));
+      ingredient = DifferenceIngredient.of(baseIngredient, new CombinedIngredient(List.of(Ingredient.of(Tags.Items.ORE_RATES_SPARSE), Ingredient.of(Tags.Items.ORE_RATES_DENSE))));
       wrapped = withCondition(consumer, TagDifferencePresentCondition.ofKeys(getItemTag("c", tagName), Tags.Items.ORE_RATES_SPARSE, Tags.Items.ORE_RATES_DENSE));
       // size tag means we want an intersection between the tag and that size
     } else if (size != null) {

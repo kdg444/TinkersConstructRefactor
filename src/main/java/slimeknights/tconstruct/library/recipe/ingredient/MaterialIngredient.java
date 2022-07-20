@@ -144,19 +144,6 @@ public class MaterialIngredient extends Ingredient implements CustomIngredient {
   }
 
   @Override
-  public Value[] getValues() {
-    if (values == null) {
-      if (materialStacks == null)
-        getItems();
-      values = new Value[materialStacks.length];
-      for (int i = 0; i < materialStacks.length; i++) {
-        values[i] = new ItemValue(materialStacks[i]);
-      }
-    }
-    return values;
-  }
-
-  @Override
   public void toNetwork(FriendlyByteBuf buffer) {
     // write first as the order of the stream is uncertain
     buffer.writeUtf(this.material.toString());

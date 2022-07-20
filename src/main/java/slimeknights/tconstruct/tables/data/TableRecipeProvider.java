@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.tables.data;
 
-import io.github.fabricators_of_create.porting_lib.crafting.CompoundIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.NBTIngredient;
+import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -22,6 +22,7 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tables.recipe.TinkerStationDamagingRecipe;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class TableRecipeProvider extends BaseRecipeProvider {
@@ -61,7 +62,7 @@ public class TableRecipeProvider extends BaseRecipeProvider {
     // crafting station -> crafting table upgrade
     ShapedRecipeBuilder.shaped(TinkerTables.craftingStation)
       .define('p', TinkerTables.pattern)
-      .define('w', DifferenceIngredient.of(CompoundIngredient.of(Ingredient.of(TinkerTags.Items.WORKBENCHES), Ingredient.of(TinkerTags.Items.TABLES)),
+      .define('w', DifferenceIngredient.of(new CombinedIngredient(List.of(Ingredient.of(TinkerTags.Items.WORKBENCHES), Ingredient.of(TinkerTags.Items.TABLES))),
                                            Ingredient.of(TinkerTables.craftingStation.get())))
       .pattern("p")
       .pattern("w")
