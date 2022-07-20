@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.recipe.tinkerstation;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -57,11 +58,11 @@ public interface IMutableTinkerStationContainer extends ITinkerStationContainer 
   default void shrinkInput(int slot, int amount) {
     ItemStack stack = getInput(slot);
     if (!stack.isEmpty()) {
-      ItemStack container = stack.getItem().getCraftingRemainingItem().getDefaultInstance();
-      if (container.isEmpty() && stack.getItem() == Items.POTION) {
-        container = new ItemStack(Items.GLASS_BOTTLE);
+      Item container = stack.getItem().getCraftingRemainingItem();
+      if (container == null && stack.getItem() == Items.POTION) {
+        container = Items.GLASS_BOTTLE;
       }
-      shrinkInput(slot, amount, container);
+      shrinkInput(slot, amount, container.getDefaultInstance());
     }
   }
 }
