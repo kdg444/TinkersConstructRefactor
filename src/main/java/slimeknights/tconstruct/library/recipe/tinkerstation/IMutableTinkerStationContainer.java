@@ -62,7 +62,7 @@ public interface IMutableTinkerStationContainer extends ITinkerStationContainer 
       if (container == null && stack.getItem() == Items.POTION) {
         container = Items.GLASS_BOTTLE;
       }
-      shrinkInput(slot, amount, container.getDefaultInstance());
+      shrinkInput(slot, amount, container == null ? ItemStack.EMPTY : container.getDefaultInstance());
     }
   }
 }
