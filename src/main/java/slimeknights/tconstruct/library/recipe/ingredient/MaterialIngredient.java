@@ -145,6 +145,7 @@ public class MaterialIngredient extends Ingredient implements CustomIngredient {
 
   @Override
   public void toNetwork(FriendlyByteBuf buffer) {
+    buffer.writeResourceLocation(Serializer.ID);
     // write first as the order of the stream is uncertain
     buffer.writeUtf(this.material.toString());
     // write stacks

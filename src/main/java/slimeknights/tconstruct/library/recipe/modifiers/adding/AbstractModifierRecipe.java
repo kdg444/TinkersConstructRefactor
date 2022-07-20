@@ -3,8 +3,6 @@ package slimeknights.tconstruct.library.recipe.modifiers.adding;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import io.github.tropheusj.serialization_hooks.ingredient.CustomIngredient;
-import io.github.tropheusj.serialization_hooks.ingredient.IngredientDeserializer;
 import lombok.Getter;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -296,8 +294,6 @@ public abstract class AbstractModifierRecipe implements ITinkerStationRecipe, ID
     /** Writes relevant packet data. When overriding, call super first for consistency with {@link #fromJson(ResourceLocation, JsonObject)} */
     @Override
     protected void toNetworkSafe(FriendlyByteBuf buffer, T recipe) {
-      if (recipe.toolRequirement instanceof CustomIngredient customIngredient)
-        buffer.writeResourceLocation(IngredientDeserializer.REGISTRY.getKey(customIngredient.getDeserializer()));
       recipe.toolRequirement.toNetwork(buffer);
       buffer.writeVarInt(recipe.maxToolSize);
       recipe.requirements.write(buffer);
