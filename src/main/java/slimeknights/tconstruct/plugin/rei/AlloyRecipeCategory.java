@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Alloy recipe category for REI display
  */
-public class AlloyRecipeCategory implements BasicCategory<AlloyDisplay> {
+public class AlloyRecipeCategory implements TinkersCategory<AlloyDisplay> {
   private static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/alloy.png");
   private static final Component TITLE = TConstruct.makeTranslation("jei", "alloy.title");
   private static final String KEY_TEMPERATURE = TConstruct.makeTranslationKey("jei", "temperature");
@@ -42,7 +42,7 @@ public class AlloyRecipeCategory implements BasicCategory<AlloyDisplay> {
   /** Tooltip for fluid inputs */
   private static final IRecipeTooltipReplacement FLUID_TOOLTIP = (slot, list) -> {
     if (slot.getCurrentEntry().getType() == VanillaEntryTypes.FLUID)
-      FluidTooltipHandler.appendMaterial(BasicCategory.fromREIFluid(slot.getCurrentEntry().castValue()), list);
+      FluidTooltipHandler.appendMaterial(TinkersCategory.fromREIFluid(slot.getCurrentEntry().castValue()), list);
   };
 
   /** Tooltip for fuel display */
@@ -125,24 +125,24 @@ public class AlloyRecipeCategory implements BasicCategory<AlloyDisplay> {
       int max = count - 1;
       for (int i = 0; i < max; i++) {
         int fluidX = x + i * w;
-        Slot slot = BasicCategory.slot(fluidX, y, origin, isInput)
+        Slot slot = TinkersCategory.slot(fluidX, y, origin, isInput)
           .disableBackground()
-          .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, BasicCategory.toREIFluids(fluids.get(i))));
+          .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, TinkersCategory.toREIFluids(fluids.get(i))));
         long finalMaxAmount = maxAmount;
         slot.getEntries().forEach(entryStack -> ClientEntryStacks.setFluidRenderRatio(entryStack.cast(), entryStack.<dev.architectury.fluid.FluidStack>castValue().getAmount() / (float) finalMaxAmount));
         slot.getBounds().setSize(w + 2, height + 2);
-        BasicCategory.setEntryTooltip(slot, tooltip);
+        TinkersCategory.setEntryTooltip(slot, tooltip);
         widgets.add(slot);
       }
       // for the last, the width is the full remaining width
       int fluidX = x + max * w;
-      Slot slot = BasicCategory.slot(fluidX, y, origin, isInput)
+      Slot slot = TinkersCategory.slot(fluidX, y, origin, isInput)
         .disableBackground()
-        .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, BasicCategory.toREIFluids(fluids.get(max))));
+        .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, TinkersCategory.toREIFluids(fluids.get(max))));
       long finalMaxAmount1 = maxAmount;
       slot.getEntries().forEach(entryStack -> ClientEntryStacks.setFluidRenderRatio(entryStack.cast(), entryStack.<dev.architectury.fluid.FluidStack>castValue().getAmount() / (float) finalMaxAmount1));
       slot.getBounds().setSize(totalWidth - (w * max) + 2, height + 2);
-      BasicCategory.setEntryTooltip(slot, tooltip);
+      TinkersCategory.setEntryTooltip(slot, tooltip);
       widgets.add(slot);
     }
     return maxAmount;
@@ -158,15 +158,15 @@ public class AlloyRecipeCategory implements BasicCategory<AlloyDisplay> {
       .disableBackground()
       .entries(display.getOutputEntries().get(0));
     output.getEntries().forEach(entryStack -> ClientEntryStacks.setFluidRenderRatio(output.getCurrentEntry().cast(), entryStack.<dev.architectury.fluid.FluidStack>castValue().getAmount() / (float) maxAmount));
-    BasicCategory.setEntryTooltip(output, FLUID_TOOLTIP);
+    TinkersCategory.setEntryTooltip(output, FLUID_TOOLTIP);
     output.getBounds().setSize(18, 34);
     widgets.add(output);
 
     // fuel
     Slot renderSlot = slot(94, 43, origin)
       .disableBackground()
-      .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, BasicCategory.toREIFluids(MeltingFuelHandler.getUsableFuels(display.getTemperature()))));
-    BasicCategory.setEntryTooltip(renderSlot, FUEL_TOOLTIP);
+      .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, TinkersCategory.toREIFluids(MeltingFuelHandler.getUsableFuels(display.getTemperature()))));
+    TinkersCategory.setEntryTooltip(renderSlot, FUEL_TOOLTIP);
     renderSlot.getBounds().setSize(18, 18);
     widgets.add(renderSlot);
 

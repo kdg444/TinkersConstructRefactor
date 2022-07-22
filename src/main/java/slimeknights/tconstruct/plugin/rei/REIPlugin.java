@@ -11,10 +11,13 @@ import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
+import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 import slimeknights.tconstruct.plugin.rei.casting.CastingBasinCategory;
 import slimeknights.tconstruct.plugin.rei.casting.CastingDisplay;
 import slimeknights.tconstruct.plugin.rei.casting.CastingTableCategory;
+import slimeknights.tconstruct.plugin.rei.melting.MeltingCategory;
+import slimeknights.tconstruct.plugin.rei.melting.MeltingDisplay;
 
 import java.util.List;
 
@@ -26,7 +29,7 @@ public class REIPlugin implements REIClientPlugin {
     registry.add(new CastingBasinCategory());
     registry.add(new CastingTableCategory());
     // melting and casting
-//    registry.add(new MeltingCategory());
+    registry.add(new MeltingCategory());
     registry.add(new AlloyRecipeCategory());
 //    registry.add(new EntityMeltingRecipeCategory());
 //    registry.add(new FoundryCategory());
@@ -47,9 +50,9 @@ public class REIPlugin implements REIClientPlugin {
     List<IDisplayableCastingRecipe> castingTableRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.CASTING_TABLE.get(), IDisplayableCastingRecipe.class);
     castingTableRecipes.forEach(castingTableRecipe -> registry.add(new CastingDisplay(TConstructREIConstants.CASTING_TABLE, castingTableRecipe)));
     // melting
-//    List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.MELTING.get(), MeltingRecipe.class);
-//    meltingRecipes.forEach(meltingRecipe -> TConstructJEIConstants.MELTING, meltingRecipes);
-//    meltingRecipes.forEach(meltingRecipe -> TConstructJEIConstants.FOUNDRY, meltingRecipes);
+    List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.MELTING.get(), MeltingRecipe.class);
+    meltingRecipes.forEach(meltingRecipe -> registry.add(new MeltingDisplay(meltingRecipe, TConstructREIConstants.MELTING), meltingRecipes));
+//    meltingRecipes.forEach(meltingRecipe -> TConstructREIConstants.FOUNDRY, meltingRecipes);
     MeltingFuelHandler.setMeltngFuels(RecipeHelper.getRecipes(manager, TinkerRecipeTypes.FUEL.get(), MeltingFuel.class));
 
     // alloying

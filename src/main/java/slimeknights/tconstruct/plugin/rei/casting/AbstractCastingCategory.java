@@ -25,7 +25,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.GuiUtil;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
-import slimeknights.tconstruct.plugin.rei.BasicCategory;
+import slimeknights.tconstruct.plugin.rei.TinkersCategory;
 import slimeknights.tconstruct.plugin.rei.IRecipeTooltipReplacement;
 import slimeknights.tconstruct.plugin.rei.widgets.ArrowWidget;
 import slimeknights.tconstruct.plugin.rei.widgets.WidgetHolder;
@@ -34,7 +34,7 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractCastingCategory implements BasicCategory<CastingDisplay>, IRecipeTooltipReplacement {
+public abstract class AbstractCastingCategory implements TinkersCategory<CastingDisplay>, IRecipeTooltipReplacement {
   private static final String KEY_COOLING_TIME = TConstruct.makeTranslationKey("jei", "time");
   private static final String KEY_CAST_KEPT = TConstruct.makeTranslationKey("jei", "casting.cast_kept");
   private static final String KEY_CAST_CONSUMED = TConstruct.makeTranslationKey("jei", "casting.cast_consumed");
@@ -94,7 +94,7 @@ public abstract class AbstractCastingCategory implements BasicCategory<CastingDi
     long capacity = FluidValues.METAL_BLOCK;
     Slot input = slot(3, 3, origin).markInput()
       .disableBackground()
-      .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, BasicCategory.toREIFluids(recipe.getFluids())));
+      .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, TinkersCategory.toREIFluids(recipe.getFluids())));
     input.getEntries().forEach(entryStack -> ClientEntryStacks.setFluidRenderRatio(entryStack.cast(), entryStack.<FluidStack>castValue().getAmount() / (float) capacity));
     input.getBounds().setSize(34, 34);
     ingredients.add(input);
@@ -106,7 +106,7 @@ public abstract class AbstractCastingCategory implements BasicCategory<CastingDi
     }
     Slot renderInput = slot(43, 8, origin)
       .disableBackground()
-      .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, BasicCategory.toREIFluids(recipe.getFluids())));
+      .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, TinkersCategory.toREIFluids(recipe.getFluids())));
     renderInput.getBounds().setSize(8, h + 2);
     ingredients.add(renderInput);
 
@@ -121,6 +121,6 @@ public abstract class AbstractCastingCategory implements BasicCategory<CastingDi
   @Override
   public void addMiddleLines(Slot slot, List<Component> list) {
     if (slot.getCurrentEntry().getType() == VanillaEntryTypes.FLUID)
-      FluidTooltipHandler.appendMaterial(BasicCategory.fromREIFluid(slot.getCurrentEntry().castValue()), list);
+      FluidTooltipHandler.appendMaterial(TinkersCategory.fromREIFluid(slot.getCurrentEntry().castValue()), list);
   }
 }

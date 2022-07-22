@@ -12,18 +12,18 @@ import me.shedaniel.rei.api.common.display.Display;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
-import slimeknights.tconstruct.plugin.rei.BasicCategory;
+import slimeknights.tconstruct.plugin.rei.TinkersCategory;
 
 import java.util.Collections;
 import java.util.List;
 
 public class TooltipWidget<T extends Display> extends WidgetWithBounds {
-  private final BasicCategory<T> category;
+  private final TinkersCategory<T> category;
   private final List<Widget> widgets;
   private final Rectangle bounds;
   private final T display;
 
-  public TooltipWidget(BasicCategory<T> category, List<Widget> widgets, T display, Rectangle bounds) {
+  public TooltipWidget(TinkersCategory<T> category, List<Widget> widgets, T display, Rectangle bounds) {
     this.category = category;
     this.widgets = widgets;
     this.display = display;

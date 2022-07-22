@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
-public interface BasicCategory<T extends Display> extends DisplayCategory<T> {
+public interface TinkersCategory<T extends Display> extends DisplayCategory<T> {
 
   void draw(T display, PoseStack matrixStack, double mouseX, double mouseY);
 

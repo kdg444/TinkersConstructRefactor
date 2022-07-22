@@ -4,6 +4,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.plugin.rei.casting.CastingDisplay;
+import slimeknights.tconstruct.plugin.rei.melting.MeltingDisplay;
 
 public class TConstructREIConstants {
 
@@ -13,8 +14,8 @@ public class TConstructREIConstants {
 //  public static final CategoryIdentifier<MoldingRecipe> MOLDING = type("molding");
 
   // melting
-//  public static final CategoryIdentifier<MeltingRecipe> MELTING = type("melting", MeltingRecipe.class);
-//  public static final CategoryIdentifier<EntityMeltingRecipe> ENTITY_MELTING = type("entity_melting", EntityMeltingRecipe.class);
+  public static final CategoryIdentifier<MeltingDisplay> MELTING = type("melting"/*, MeltingRecipe.class*/);
+  public static final CategoryIdentifier<MeltingDisplay> ENTITY_MELTING = type("entity_melting"/*, EntityMeltingRecipe.class*/);
   public static final CategoryIdentifier<AlloyDisplay> ALLOY = type("alloy");
 //  public static final CategoryIdentifier<MeltingRecipe> FOUNDRY = type("foundry", MeltingRecipe.class);
 

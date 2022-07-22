@@ -22,10 +22,10 @@ public class AlloyDisplay implements Display {
     this.recipe = recipe;
     List<FluidStack> fluids = new ArrayList<>();
     recipe.getDisplayInputs().forEach(fluidStacks -> {
-      fluids.addAll(BasicCategory.toREIFluids(fluidStacks));
+      fluids.addAll(TinkersCategory.toREIFluids(fluidStacks));
     });
     this.input = Collections.singletonList(EntryIngredients.of(VanillaEntryTypes.FLUID, fluids));
-    this.output = Collections.singletonList(EntryIngredients.of(BasicCategory.toREIFluid(recipe.getOutput())));
+    this.output = Collections.singletonList(EntryIngredients.of(TinkersCategory.toREIFluid(recipe.getOutput())));
   }
 
   @Override
