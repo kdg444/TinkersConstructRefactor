@@ -14,10 +14,10 @@ public class TConstructREIConstants {
 //  public static final CategoryIdentifier<MoldingRecipe> MOLDING = type("molding");
 
   // melting
-  public static final CategoryIdentifier<MeltingDisplay> MELTING = type("melting"/*, MeltingRecipe.class*/);
+  public static final CategoryIdentifier<MeltingDisplay> MELTING = type("melting");
   public static final CategoryIdentifier<MeltingDisplay> ENTITY_MELTING = type("entity_melting"/*, EntityMeltingRecipe.class*/);
   public static final CategoryIdentifier<AlloyDisplay> ALLOY = type("alloy");
-//  public static final CategoryIdentifier<MeltingRecipe> FOUNDRY = type("foundry", MeltingRecipe.class);
+  public static final CategoryIdentifier<MeltingDisplay> FOUNDRY = type("foundry");
 
   private static <D extends Display> CategoryIdentifier<D> type(String name) {
     return CategoryIdentifier.of(TConstruct.MOD_ID, name);

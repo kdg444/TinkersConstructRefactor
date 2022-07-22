@@ -24,7 +24,11 @@ public class MeltingDisplay implements Display {
   @Getter
   private final IMeltingContainer.OreRateType oreType;
 
+  @Getter
+  private final MeltingRecipe recipe;
+
   public MeltingDisplay(MeltingRecipe recipe, CategoryIdentifier<MeltingDisplay> id) {
+    this.recipe = recipe;
     this.inputEntries = EntryIngredients.ofIngredients(recipe.getIngredients());
     this.outputEntries = List.of(EntryIngredients.of(TinkersCategory.toREIFluid(recipe.getOutput())));
     this.categoryIdentifier = id;

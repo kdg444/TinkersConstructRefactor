@@ -16,6 +16,7 @@ import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 import slimeknights.tconstruct.plugin.rei.casting.CastingBasinCategory;
 import slimeknights.tconstruct.plugin.rei.casting.CastingDisplay;
 import slimeknights.tconstruct.plugin.rei.casting.CastingTableCategory;
+import slimeknights.tconstruct.plugin.rei.melting.FoundryCategory;
 import slimeknights.tconstruct.plugin.rei.melting.MeltingCategory;
 import slimeknights.tconstruct.plugin.rei.melting.MeltingDisplay;
 
@@ -32,7 +33,7 @@ public class REIPlugin implements REIClientPlugin {
     registry.add(new MeltingCategory());
     registry.add(new AlloyRecipeCategory());
 //    registry.add(new EntityMeltingRecipeCategory());
-//    registry.add(new FoundryCategory());
+    registry.add(new FoundryCategory());
   }
 
   @Override
@@ -52,7 +53,7 @@ public class REIPlugin implements REIClientPlugin {
     // melting
     List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.MELTING.get(), MeltingRecipe.class);
     meltingRecipes.forEach(meltingRecipe -> registry.add(new MeltingDisplay(meltingRecipe, TConstructREIConstants.MELTING), meltingRecipes));
-//    meltingRecipes.forEach(meltingRecipe -> TConstructREIConstants.FOUNDRY, meltingRecipes);
+    meltingRecipes.forEach(meltingRecipe -> registry.add(new MeltingDisplay(meltingRecipe, TConstructREIConstants.FOUNDRY), meltingRecipes));
     MeltingFuelHandler.setMeltngFuels(RecipeHelper.getRecipes(manager, TinkerRecipeTypes.FUEL.get(), MeltingFuel.class));
 
     // alloying
