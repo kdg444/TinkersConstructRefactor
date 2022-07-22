@@ -7,6 +7,7 @@ import io.github.fabricators_of_create.porting_lib.item.PiglinsNeutralItem;
 import io.github.fabricators_of_create.porting_lib.util.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import lombok.Getter;
+import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -58,7 +59,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, ItemExtensions, DamageableItem, PiglinsNeutralItem {
+public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, ItemExtensions, DamageableItem, PiglinsNeutralItem, FabricElytraItem {
   /** Volatile modifier tag to make piglins neutal when worn */
   public static final ResourceLocation PIGLIN_NEUTRAL = TConstruct.getResource("piglin_neutral");
   /** Volatile modifier tag to make this item an elytra */
@@ -289,12 +290,16 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   /* Elytra */
 
-//  @Override
-  public boolean canElytraFly(ItemStack stack, LivingEntity entity) {
-    return slot == EquipmentSlot.CHEST && !ToolDamageUtil.isBroken(stack) && ModifierUtil.checkVolatileFlag(stack, ELYTRA);
+  @Override
+  public boolean useCustomElytra(LivingEntity entity, ItemStack stack, boolean tickElytra) {
+    if (slot == EquipmentSlot.CHEST && !ToolDamageUtil.isBroken(stack) && ModifierUtil.checkVolatileFlag(stack, ELYTRA)) {
+      if (tickElytra)
+        elytraFlightTick(stack, entity, entity.getFallFlyingTicks());
+      return true;
+    }
+    return false;
   }
 
-//  @Override
   public boolean elytraFlightTick(ItemStack stack, LivingEntity entity, int flightTicks) {
     if (slot == EquipmentSlot.CHEST) {
       ToolStack tool = ToolStack.from(stack);

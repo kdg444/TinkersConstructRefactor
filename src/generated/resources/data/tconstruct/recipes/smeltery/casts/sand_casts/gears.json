@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:molding_table",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:gears",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "values": [
+        "c:gears"
+      ],
+      "condition": "fabric:item_tags_populated"
     }
   ],
   "material": {

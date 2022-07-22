@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:material",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:ingots/uranium",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "values": [
+        "c:ingots/uranium"
+      ],
+      "condition": "fabric:item_tags_populated"
     }
   ],
   "ingredient": {

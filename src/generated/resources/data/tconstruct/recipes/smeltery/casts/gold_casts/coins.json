@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:casting_table",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:coins",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "values": [
+        "c:coins"
+      ],
+      "condition": "fabric:item_tags_populated"
     }
   ],
   "cast": {

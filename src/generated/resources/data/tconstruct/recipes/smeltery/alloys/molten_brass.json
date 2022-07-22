@@ -1,19 +1,12 @@
 {
   "type": "tconstruct:alloy",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:ingots/brass",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
-    },
-    {
-      "value": {
-        "tag": "c:ingots/zinc",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "values": [
+        "c:ingots/brass",
+        "c:ingots/zinc"
+      ],
+      "condition": "fabric:item_tags_populated"
     }
   ],
   "inputs": [

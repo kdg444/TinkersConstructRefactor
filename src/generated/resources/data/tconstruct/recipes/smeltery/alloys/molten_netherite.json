@@ -28,9 +28,9 @@
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "condition": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {

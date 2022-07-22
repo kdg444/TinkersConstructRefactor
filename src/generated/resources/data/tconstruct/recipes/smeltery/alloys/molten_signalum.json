@@ -1,34 +1,19 @@
 {
   "type": "tconstruct:alloy",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:ingots/signalum",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "values": [
+        "c:ingots/signalum",
+        "c:ingots/copper",
+        "c:ingots/silver"
+      ],
+      "condition": "fabric:item_tags_populated"
     },
     {
-      "value": {
-        "tag": "c:ingots/copper",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
-    },
-    {
-      "value": {
-        "tag": "c:ingots/silver",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
-    },
-    {
-      "value": {
-        "registry": "minecraft:fluid",
-        "tag": "c:redstone",
-        "type": "mantle:tag_empty"
-      },
-      "type": "forge:not"
+      "values": [
+        "c:redstone"
+      ],
+      "condition": "fabric:fluid_tags_populated"
     }
   ],
   "inputs": [
