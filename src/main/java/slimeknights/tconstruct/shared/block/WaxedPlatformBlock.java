@@ -17,7 +17,7 @@ public class WaxedPlatformBlock extends PlatformBlock {
   public WaxedPlatformBlock(WeatherState age, Properties prop) {
     super(prop);
     this.age = age;
-    UseBlockCallback.EVENT.register(this::getToolModifiedState); // TODO: Move this to a static init method
+    UseBlockCallback.EVENT.register(this::getToolModifiedState);
   }
 
   @Override
@@ -26,8 +26,9 @@ public class WaxedPlatformBlock extends PlatformBlock {
   }
 
   public InteractionResult getToolModifiedState(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
-    if (player.getItemInHand(hand).is(ToolTags.AXES)) {
-      world.setBlockAndUpdate(hitResult.getBlockPos(), TinkerCommons.copperPlatform.get(age).withPropertiesOf(world.getBlockState(hitResult.getBlockPos())));
+    BlockState state = world.getBlockState(hitResult.getBlockPos());
+    if (player.getItemInHand(hand).is(ToolTags.AXES) && state.is(this)) {
+      world.setBlockAndUpdate(hitResult.getBlockPos(), TinkerCommons.copperPlatform.get(age).withPropertiesOf(state));
       return InteractionResult.SUCCESS;
     }
     return InteractionResult.PASS;

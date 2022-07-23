@@ -1,8 +1,6 @@
 package slimeknights.tconstruct.shared.block;
 
 import io.github.fabricators_of_create.porting_lib.tags.ToolTags;
-import io.github.fabricators_of_create.porting_lib.util.ToolAction;
-import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 import lombok.Getter;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -31,7 +29,7 @@ public class WeatheringPlatformBlock extends PlatformBlock implements Weathering
   public WeatheringPlatformBlock(WeatherState age, Properties props) {
     super(props);
     this.age = age;
-    UseBlockCallback.EVENT.register(this::getToolModifiedState); // TODO: Move this to a static init method
+    UseBlockCallback.EVENT.register(this::getToolModifiedState);
   }
 
   @Override
@@ -78,27 +76,15 @@ public class WeatheringPlatformBlock extends PlatformBlock implements Weathering
   }
 
   public InteractionResult getToolModifiedState(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
-    if (player.getItemInHand(hand).is(ToolTags.AXES)) {
+    BlockState state = world.getBlockState(hitResult.getBlockPos());
+    if (player.getItemInHand(hand).is(ToolTags.AXES) && state.is(this)) {
       WeatherState prev = getPrevious(age);
       if (prev != null) {
-        world.setBlockAndUpdate(hitResult.getBlockPos(), TinkerCommons.copperPlatform.get(prev).withPropertiesOf(world.getBlockState(hitResult.getBlockPos())));
+        world.setBlockAndUpdate(hitResult.getBlockPos(), TinkerCommons.copperPlatform.get(prev).withPropertiesOf(state));
         return InteractionResult.SUCCESS;
       }
     }
     return InteractionResult.PASS;
-  }
-
-  @Deprecated
-  @SuppressWarnings("removal")
-//  @Override TODO: PORT
-  public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
-    if (ToolActions.AXE_SCRAPE.equals(toolAction)) {
-      WeatherState prev = getPrevious(age);
-      if (prev != null) {
-        return TinkerCommons.copperPlatform.get(prev).withPropertiesOf(state);
-      }
-    }
-    return null;
   }
 
   @Override
