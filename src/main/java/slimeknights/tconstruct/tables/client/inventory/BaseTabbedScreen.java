@@ -34,6 +34,8 @@ public class BaseTabbedScreen<TILE extends BlockEntity, CONTAINER extends Tabbed
   protected static final Component COMPONENT_ERROR = TConstruct.makeTranslation("gui", "error");
 
   public static final ResourceLocation BLANK_BACK = TConstruct.getResource("textures/gui/blank.png");
+  
+  public static boolean COMPAT_SHOW_TABS = true;
 
   protected final TILE tile;
   protected final CONTAINER container;
@@ -59,7 +61,8 @@ public class BaseTabbedScreen<TILE extends BlockEntity, CONTAINER extends Tabbed
             stack = pickBlock.getPickedStack(state, world, blockPos, playerInventory.player, null);
           else
             stack= state.getBlock().getCloneItemStack(world, blockPos, state);
-          this.tabsScreen.addTab(stack, blockPos);
+          if (COMPAT_SHOW_TABS)
+            this.tabsScreen.addTab(stack, blockPos);
         }
       }
 
