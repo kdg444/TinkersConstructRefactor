@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.tables.block.entity.table;
 
-import io.github.fabricators_of_create.porting_lib.extensions.BlockEntityExtensions;
+import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
+import io.github.fabricators_of_create.porting_lib.model.IModelData;
+import io.github.fabricators_of_create.porting_lib.util.Lazy;
 import lombok.Getter;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -13,9 +15,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
-import io.github.fabricators_of_create.porting_lib.model.IModelData;
-import io.github.fabricators_of_create.porting_lib.util.Lazy;
 import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.shared.block.entity.TableBlockEntity;
@@ -105,6 +104,6 @@ public abstract class RetexturedTableBlockEntity extends TableBlockEntity implem
     
     @Override
     public CompoundTag getTileData() {
-        return ((BlockEntityExtensions)this).getExtraCustomData();
+        return getExtraCustomData();
     }
 }
