@@ -1,11 +1,12 @@
 {
   "type": "tconstruct:melting",
-  "fabric:load_conditions": [{
-    "values": [
-      "ceramics"
-    ],
-    "condition": "fabric:all_mods_loaded"
-  }
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "ceramics"
+      ]
+    }
   ],
   "ingredient": [
     {
@@ -27,7 +28,7 @@
   "byproducts": [
     {
       "fluid": "minecraft:lava",
-      "amount": 100
+      "amount": 8100
     }
   ]
 }

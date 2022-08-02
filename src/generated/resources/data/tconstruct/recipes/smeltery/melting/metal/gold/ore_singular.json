@@ -2,13 +2,13 @@
   "type": "tconstruct:ore_melting",
   "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_difference_present",
       "registry": "minecraft:item",
       "base": "c:ores/gold",
       "subtracted": [
         "c:ore_rates/sparse",
         "c:ore_rates/dense"
-      ],
-      "condition": "tconstruct:tag_difference_present"
+      ]
     }
   ],
   "rate": "metal",
@@ -17,14 +17,17 @@
     "base": {
       "tag": "c:ores/gold"
     },
-    "subtracted": [
-      {
-        "tag": "c:ore_rates/sparse"
-      },
-      {
-        "tag": "c:ore_rates/dense"
-      }
-    ]
+    "subtracted": {
+      "type": "serialization_hooks:combined",
+      "children": [
+        {
+          "tag": "c:ore_rates/sparse"
+        },
+        {
+          "tag": "c:ore_rates/dense"
+        }
+      ]
+    }
   },
   "result": {
     "fluid": "tconstruct:molten_gold",

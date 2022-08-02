@@ -44,7 +44,7 @@
   "harvest": {
     "logic": {
       "type": "tconstruct:modified_tag",
-      "effective": "forge:mineable/sword",
+      "effective": "c:mineable/sword",
       "modifiers": [
         {
           "modifier": 7.5,

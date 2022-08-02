@@ -2,22 +2,22 @@
   "type": "forge:conditional",
   "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_intersection_present",
       "registry": "minecraft:item",
       "tags": [
         "c:ores/tungsten",
         "c:ore_rates/sparse"
-      ],
-      "condition": "tconstruct:tag_intersection_present"
+      ]
     }
   ],
   "recipes": [
     {
       "fabric:load_conditions": [
         {
+          "condition": "fabric:item_tags_populated",
           "values": [
             "c:ingots/platinum"
-          ],
-          "condition": "fabric:item_tags_populated"
+          ]
         }
       ],
       "recipe": {
@@ -51,7 +51,7 @@
     {
       "fabric:load_conditions": [
         {
-          "condition": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {

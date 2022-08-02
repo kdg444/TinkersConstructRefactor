@@ -2,11 +2,16 @@
   "type": "tconstruct:alloy",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
-        "c:ingots/brass",
+        "c:ingots/brass"
+      ]
+    },
+    {
+      "condition": "fabric:item_tags_populated",
+      "values": [
         "c:ingots/zinc"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "inputs": [

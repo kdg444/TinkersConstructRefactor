@@ -1,10 +1,14 @@
 package slimeknights.tconstruct.library.json;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -12,19 +16,32 @@ import net.minecraft.util.GsonHelper;
 import java.lang.reflect.Type;
 
 /** Serializer for a forge condition */
-public class ConditionSerializer implements JsonDeserializer<JsonCondition> {
-  public static final ConditionSerializer INSTANCE = new ConditionSerializer();
+public interface ConditionSerializer {
+  ConditionSerializer.Deserializer DESERIALIZER = new ConditionSerializer.Deserializer();
+  ConditionSerializer.Serializer SERIALIZER = new ConditionSerializer.Serializer();
 
-  private ConditionSerializer() {}
-
-  @Override
-  public JsonCondition deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-    JsonObject jsonObject = GsonHelper.convertToJsonObject(json, ResourceConditions.CONDITION_ID_KEY);
-    if (jsonObject.has(ResourceConditions.CONDITION_ID_KEY)) {
-      JsonObject jsonCondition = jsonObject.getAsJsonObject(ResourceConditions.CONDITION_ID_KEY);
-      ResourceLocation id = new ResourceLocation(jsonCondition.get("type").getAsString());
-      return new JsonCondition(id);
+  class Deserializer implements JsonDeserializer<JsonCondition> {
+    @Override
+    public JsonCondition deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+      JsonObject jsonObject = GsonHelper.convertToJsonObject(json, ResourceConditions.CONDITIONS_KEY);
+      if (jsonObject.has(ResourceConditions.CONDITIONS_KEY)) {
+        JsonArray jsonCondition = jsonObject.getAsJsonArray(ResourceConditions.CONDITIONS_KEY);
+        ResourceLocation id = new ResourceLocation(jsonCondition.get(0).getAsJsonObject().get(ResourceConditions.CONDITION_ID_KEY).getAsString());
+        return new JsonCondition(id);
+      }
+      return new JsonCondition();
     }
-    return null;
+  }
+
+  class Serializer implements JsonSerializer<JsonCondition> {
+    @Override
+    public JsonElement serialize(JsonCondition src, Type typeOfSrc, JsonSerializationContext context) {
+      if (src.getConditionJsonProvider() != null) {
+        JsonObject conditions = new JsonObject();
+        ConditionJsonProvider.write(conditions, src.getConditionJsonProvider());
+        return conditions;
+      }
+      return null;
+    }
   }
 }

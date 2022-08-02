@@ -14,8 +14,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:blazing_blood",
-    "amount": 100
+    "amount": 8100
   },
   "result": "tconstruct:blazewood",
-  "cooling_time": 85
+  "cooling_time": 761
 }

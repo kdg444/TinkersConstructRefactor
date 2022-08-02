@@ -2,20 +2,20 @@
   "type": "forge:conditional",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
         "c:raw_materials/tungsten"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "recipes": [
     {
       "fabric:load_conditions": [
         {
+          "condition": "fabric:item_tags_populated",
           "values": [
             "c:ingots/platinum"
-          ],
-          "condition": "fabric:item_tags_populated"
+          ]
         }
       ],
       "recipe": {
@@ -41,7 +41,7 @@
     {
       "fabric:load_conditions": [
         {
-          "condition": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {

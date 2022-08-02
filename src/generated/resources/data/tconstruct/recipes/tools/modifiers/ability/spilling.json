@@ -31,14 +31,17 @@
       "tag": "c:ingots/copper"
     }
   ],
-  "tools": [
-    {
-      "tag": "tconstruct:modifiable/melee"
-    },
-    {
-      "tag": "tconstruct:modifiable/armor/chestplate"
-    }
-  ],
+  "tools": {
+    "type": "serialization_hooks:combined",
+    "children": [
+      {
+        "tag": "tconstruct:modifiable/melee"
+      },
+      {
+        "tag": "tconstruct:modifiable/armor/chestplate"
+      }
+    ]
+  },
   "slots": {
     "abilities": 1
   },

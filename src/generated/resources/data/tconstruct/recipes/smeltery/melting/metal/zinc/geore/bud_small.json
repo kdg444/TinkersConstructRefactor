@@ -2,10 +2,10 @@
   "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
         "c:geore_small_buds/zinc"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "ingredient": {

@@ -1,12 +1,17 @@
 {
   "type": "tconstruct:alloy",
-  "conditions": [
+  "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
-        "c:ingots/invar",
+        "c:ingots/invar"
+      ]
+    },
+    {
+      "condition": "fabric:item_tags_populated",
+      "values": [
         "c:ingots/nickel"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "inputs": [

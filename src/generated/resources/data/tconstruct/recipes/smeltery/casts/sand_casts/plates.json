@@ -2,10 +2,10 @@
   "type": "tconstruct:molding_table",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
         "c:plates"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "material": {

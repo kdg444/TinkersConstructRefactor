@@ -3,7 +3,7 @@
   "display": {
     "icon": {
       "item": "tconstruct:scorched_fuel_gauge",
-      "nbt": "{tank:{Amount:4000,FluidName:\"tconstruct:blazing_blood\"}}"
+      "nbt": "{tank:{Amount:324000L,Capacity:324000L,Variant:{fluid:\"tconstruct:blazing_blood\"}}}"
     },
     "title": {
       "translate": "advancements.tconstruct.foundry.blaze.title"
@@ -25,7 +25,7 @@
             "items": [
               "tconstruct:seared_fuel_tank"
             ],
-            "nbt": "{tank:{Amount:4000,FluidName:\"tconstruct:blazing_blood\"}}"
+            "nbt": "{tank:{Amount:324000L,Capacity:324000L,Variant:{fluid:\"tconstruct:blazing_blood\"}}}"
           }
         ]
       }
@@ -38,7 +38,7 @@
             "items": [
               "tconstruct:seared_fuel_gauge"
             ],
-            "nbt": "{tank:{Amount:4000,FluidName:\"tconstruct:blazing_blood\"}}"
+            "nbt": "{tank:{Amount:324000L,Capacity:324000L,Variant:{fluid:\"tconstruct:blazing_blood\"}}}"
           }
         ]
       }
@@ -51,7 +51,7 @@
             "items": [
               "tconstruct:seared_ingot_tank"
             ],
-            "nbt": "{tank:{Amount:4320,FluidName:\"tconstruct:blazing_blood\"}}"
+            "nbt": "{tank:{Amount:4320L,Capacity:4320L,Variant:{fluid:\"tconstruct:blazing_blood\"}}}"
           }
         ]
       }
@@ -64,7 +64,7 @@
             "items": [
               "tconstruct:seared_ingot_gauge"
             ],
-            "nbt": "{tank:{Amount:4320,FluidName:\"tconstruct:blazing_blood\"}}"
+            "nbt": "{tank:{Amount:4320L,Capacity:4320L,Variant:{fluid:\"tconstruct:blazing_blood\"}}}"
           }
         ]
       }
@@ -77,7 +77,7 @@
             "items": [
               "tconstruct:scorched_fuel_tank"
             ],
-            "nbt": "{tank:{Amount:4000,FluidName:\"tconstruct:blazing_blood\"}}"
+            "nbt": "{tank:{Amount:324000L,Capacity:324000L,Variant:{fluid:\"tconstruct:blazing_blood\"}}}"
           }
         ]
       }
@@ -90,7 +90,7 @@
             "items": [
               "tconstruct:scorched_fuel_gauge"
             ],
-            "nbt": "{tank:{Amount:4000,FluidName:\"tconstruct:blazing_blood\"}}"
+            "nbt": "{tank:{Amount:324000L,Capacity:324000L,Variant:{fluid:\"tconstruct:blazing_blood\"}}}"
           }
         ]
       }
@@ -103,7 +103,7 @@
             "items": [
               "tconstruct:scorched_ingot_tank"
             ],
-            "nbt": "{tank:{Amount:4320,FluidName:\"tconstruct:blazing_blood\"}}"
+            "nbt": "{tank:{Amount:4320L,Capacity:4320L,Variant:{fluid:\"tconstruct:blazing_blood\"}}}"
           }
         ]
       }
@@ -116,7 +116,7 @@
             "items": [
               "tconstruct:scorched_ingot_gauge"
             ],
-            "nbt": "{tank:{Amount:4320,FluidName:\"tconstruct:blazing_blood\"}}"
+            "nbt": "{tank:{Amount:4320L,Capacity:4320L,Variant:{fluid:\"tconstruct:blazing_blood\"}}}"
           }
         ]
       }

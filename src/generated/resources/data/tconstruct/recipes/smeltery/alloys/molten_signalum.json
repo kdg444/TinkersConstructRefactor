@@ -2,18 +2,28 @@
   "type": "tconstruct:alloy",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
-        "c:ingots/signalum",
-        "c:ingots/copper",
-        "c:ingots/silver"
-      ],
-      "condition": "fabric:item_tags_populated"
+        "c:ingots/signalum"
+      ]
     },
     {
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:ingots/copper"
+      ]
+    },
+    {
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:ingots/silver"
+      ]
+    },
+    {
+      "condition": "fabric:fluid_tags_populated",
       "values": [
         "c:redstone"
-      ],
-      "condition": "fabric:fluid_tags_populated"
+      ]
     }
   ],
   "inputs": [

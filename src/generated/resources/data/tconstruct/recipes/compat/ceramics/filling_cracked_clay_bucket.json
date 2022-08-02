@@ -2,12 +2,12 @@
   "type": "tconstruct:table_filling",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:all_mods_loaded",
       "values": [
         "ceramics"
-      ],
-      "condition": "fabric:all_mods_loaded"
+      ]
     }
   ],
-  "fluid_amount": 1000,
+  "fluid_amount": 81000,
   "container": "ceramics:cracked_clay_bucket"
 }

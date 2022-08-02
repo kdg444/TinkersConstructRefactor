@@ -4,8 +4,8 @@
     {
       "fabric:load_conditions": [
         {
-          "prop": "cheaper_netherite_alloy",
-          "condition": "tconstruct:config"
+          "condition": "tconstruct:config",
+          "prop": "cheaper_netherite_alloy"
         }
       ],
       "recipe": {

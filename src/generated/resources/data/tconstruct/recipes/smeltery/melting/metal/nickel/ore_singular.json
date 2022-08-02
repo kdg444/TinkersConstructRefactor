@@ -2,24 +2,23 @@
   "type": "forge:conditional",
   "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_difference_present",
       "registry": "minecraft:item",
       "base": "c:ores/nickel",
       "subtracted": [
         "c:ore_rates/sparse",
         "c:ore_rates/dense"
-      ],
-      "condition": "tconstruct:tag_difference_present"
+      ]
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/platinum",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "condition": "fabric:item_tags_populated",
+          "values": [
+            "c:ingots/platinum"
+          ]
         }
       ],
       "recipe": {
@@ -30,14 +29,17 @@
           "base": {
             "tag": "c:ores/nickel"
           },
-          "subtracted": [
-            {
-              "tag": "c:ore_rates/sparse"
-            },
-            {
-              "tag": "c:ore_rates/dense"
-            }
-          ]
+          "subtracted": {
+            "type": "serialization_hooks:combined",
+            "children": [
+              {
+                "tag": "c:ore_rates/sparse"
+              },
+              {
+                "tag": "c:ore_rates/dense"
+              }
+            ]
+          }
         },
         "result": {
           "fluid": "tconstruct:molten_nickel",
@@ -56,7 +58,7 @@
     {
       "fabric:load_conditions": [
         {
-          "condition": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {
@@ -67,14 +69,17 @@
           "base": {
             "tag": "c:ores/nickel"
           },
-          "subtracted": [
-            {
-              "tag": "c:ore_rates/sparse"
-            },
-            {
-              "tag": "c:ore_rates/dense"
-            }
-          ]
+          "subtracted": {
+            "type": "serialization_hooks:combined",
+            "children": [
+              {
+                "tag": "c:ore_rates/sparse"
+              },
+              {
+                "tag": "c:ore_rates/dense"
+              }
+            ]
+          }
         },
         "result": {
           "fluid": "tconstruct:molten_nickel",

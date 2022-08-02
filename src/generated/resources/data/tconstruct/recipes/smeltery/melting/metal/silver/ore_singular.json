@@ -1,25 +1,24 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_difference_present",
       "registry": "minecraft:item",
-      "base": "forge:ores/silver",
+      "base": "c:ores/silver",
       "subtracted": [
-        "forge:ore_rates/sparse",
-        "forge:ore_rates/dense"
-      ],
-      "type": "tconstruct:tag_difference_present"
+        "c:ore_rates/sparse",
+        "c:ore_rates/dense"
+      ]
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/lead",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "condition": "fabric:item_tags_populated",
+          "values": [
+            "c:ingots/lead"
+          ]
         }
       ],
       "recipe": {
@@ -30,14 +29,17 @@
           "base": {
             "tag": "c:ores/silver"
           },
-          "subtracted": [
-            {
-              "tag": "c:ore_rates/sparse"
-            },
-            {
-              "tag": "c:ore_rates/dense"
-            }
-          ]
+          "subtracted": {
+            "type": "serialization_hooks:combined",
+            "children": [
+              {
+                "tag": "c:ore_rates/sparse"
+              },
+              {
+                "tag": "c:ore_rates/dense"
+              }
+            ]
+          }
         },
         "result": {
           "fluid": "tconstruct:molten_silver",
@@ -56,7 +58,7 @@
     {
       "fabric:load_conditions": [
         {
-          "condition": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {
@@ -67,14 +69,17 @@
           "base": {
             "tag": "c:ores/silver"
           },
-          "subtracted": [
-            {
-              "tag": "c:ore_rates/sparse"
-            },
-            {
-              "tag": "c:ore_rates/dense"
-            }
-          ]
+          "subtracted": {
+            "type": "serialization_hooks:combined",
+            "children": [
+              {
+                "tag": "c:ore_rates/sparse"
+              },
+              {
+                "tag": "c:ore_rates/dense"
+              }
+            ]
+          }
         },
         "result": {
           "fluid": "tconstruct:molten_silver",

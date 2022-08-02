@@ -1,19 +1,29 @@
 {
   "type": "tconstruct:alloy",
-  "conditions": [
+  "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
-        "c:ingots/lumium",
-        "c:ingots/tin",
-        "c:ingots/silver"
-      ],
-      "condition": "fabric:item_tags_populated"
+        "c:ingots/lumium"
+      ]
     },
     {
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:ingots/tin"
+      ]
+    },
+    {
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:ingots/silver"
+      ]
+    },
+    {
+      "condition": "fabric:fluid_tags_populated",
       "values": [
         "c:glowstone"
-      ],
-      "condition": "fabric:fluid_tags_populated"
+      ]
     }
   ],
   "inputs": [

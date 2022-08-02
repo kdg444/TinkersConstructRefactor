@@ -1,13 +1,13 @@
 {
   "type": "tconstruct:ore_melting",
-  "conditions": [
+  "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_intersection_present",
       "registry": "minecraft:item",
       "tags": [
-        "forge:ores/emerald",
-        "forge:ore_rates/sparse"
-      ],
-      "type": "tconstruct:tag_intersection_present"
+        "c:ores/emerald",
+        "c:ore_rates/sparse"
+      ]
     }
   ],
   "rate": "gem",

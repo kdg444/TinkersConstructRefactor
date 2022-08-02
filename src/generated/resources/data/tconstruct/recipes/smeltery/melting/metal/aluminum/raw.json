@@ -2,10 +2,10 @@
   "type": "tconstruct:ore_melting",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
         "c:raw_materials/aluminum"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "rate": "metal",

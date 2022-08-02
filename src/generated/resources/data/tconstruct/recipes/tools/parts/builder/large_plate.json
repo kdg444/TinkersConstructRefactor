@@ -1,14 +1,17 @@
 {
   "type": "tconstruct:part_builder",
   "pattern": "tconstruct:large_plate",
-  "pattern_item": [
-    {
-      "tag": "tconstruct:patterns/default"
-    },
-    {
-      "item": "tconstruct:large_plate_cast"
-    }
-  ],
+  "pattern_item": {
+    "type": "serialization_hooks:combined",
+    "children": [
+      {
+        "tag": "tconstruct:patterns/default"
+      },
+      {
+        "item": "tconstruct:large_plate_cast"
+      }
+    ]
+  },
   "cost": 4,
   "result": {
     "item": "tconstruct:large_plate"

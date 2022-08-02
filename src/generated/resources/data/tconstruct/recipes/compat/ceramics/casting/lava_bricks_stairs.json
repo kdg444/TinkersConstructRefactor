@@ -1,11 +1,12 @@
 {
   "type": "tconstruct:casting_basin",
-  "fabric:load_conditions": [{
-    "values": [
-      "ceramics"
-    ],
-    "condition": "fabric:all_mods_loaded"
-  }
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "ceramics"
+      ]
+    }
   ],
   "cast": {
     "item": "minecraft:brick_stairs"
@@ -13,8 +14,8 @@
   "cast_consumed": true,
   "fluid": {
     "name": "minecraft:lava",
-    "amount": 100
+    "amount": 8100
   },
   "result": "ceramics:lava_bricks_stairs",
-  "cooling_time": 70
+  "cooling_time": 629
 }
