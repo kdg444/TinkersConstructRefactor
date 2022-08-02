@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:molten_obsidian",
-    "amount": 8000
+    "amount": 648000
   },
   "result": "minecraft:ender_chest",
-  "cooling_time": 625
+  "cooling_time": 563
 }

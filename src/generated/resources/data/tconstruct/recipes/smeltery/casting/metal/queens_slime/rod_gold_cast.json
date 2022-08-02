@@ -13,7 +13,7 @@
   },
   "fluid": {
     "tag": "tconstruct:molten_queens_slime",
-    "amount": 45
+    "amount": 4500
   },
   "result": {
     "tag": "c:rods/queens_slime"

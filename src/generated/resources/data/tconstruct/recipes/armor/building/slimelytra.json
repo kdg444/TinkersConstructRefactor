@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:ender_slime",
-    "amount": 8000
+    "amount": 648000
   },
   "result": "tconstruct:slime_chestplate",
-  "cooling_time": 300
+  "cooling_time": 270
 }

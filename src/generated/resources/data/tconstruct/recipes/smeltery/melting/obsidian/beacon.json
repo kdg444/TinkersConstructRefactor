@@ -5,14 +5,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_obsidian",
-    "amount": 3000
+    "amount": 243000
   },
   "temperature": 1000,
-  "time": 383,
+  "time": 345,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_glass",
-      "amount": 5000
+      "amount": 405000
     }
   ]
 }

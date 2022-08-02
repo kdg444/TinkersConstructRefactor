@@ -3,20 +3,20 @@
   "inputs": [
     {
       "tag": "c:molten_iron",
-      "amount": 90
+      "amount": 9000
     },
     {
       "tag": "tconstruct:blood",
-      "amount": 500
+      "amount": 40500
     },
     {
       "tag": "c:honey",
-      "amount": 250
+      "amount": 27000
     }
   ],
   "result": {
     "fluid": "tconstruct:molten_pig_iron",
-    "amount": 180
+    "amount": 18000
   },
   "temperature": 811
 }

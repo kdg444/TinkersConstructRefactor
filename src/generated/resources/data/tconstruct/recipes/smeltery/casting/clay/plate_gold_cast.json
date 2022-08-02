@@ -13,10 +13,10 @@
   },
   "fluid": {
     "tag": "tconstruct:molten_clay",
-    "amount": 250
+    "amount": 20250
   },
   "result": {
     "tag": "c:plates/brick"
   },
-  "cooling_time": 80
+  "cooling_time": 72
 }

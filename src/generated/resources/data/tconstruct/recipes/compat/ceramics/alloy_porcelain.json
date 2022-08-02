@@ -11,16 +11,16 @@
   "inputs": [
     {
       "tag": "tconstruct:molten_clay",
-      "amount": 750
+      "amount": 60750
     },
     {
       "tag": "tconstruct:molten_quartz",
-      "amount": 100
+      "amount": 8100
     }
   ],
   "result": {
     "fluid": "tconstruct:molten_porcelain",
-    "amount": 1000
+    "amount": 81000
   },
   "temperature": 700
 }

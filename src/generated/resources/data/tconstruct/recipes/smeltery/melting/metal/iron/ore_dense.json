@@ -36,14 +36,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_iron",
-          "amount": 540
+          "amount": 54000
         },
         "temperature": 800,
         "time": 271,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_nickel",
-            "amount": 540
+            "amount": 54000
           }
         ]
       }
@@ -70,14 +70,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_iron",
-          "amount": 540
+          "amount": 54000
         },
         "temperature": 800,
         "time": 271,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_copper",
-            "amount": 540
+            "amount": 54000
           }
         ]
       }

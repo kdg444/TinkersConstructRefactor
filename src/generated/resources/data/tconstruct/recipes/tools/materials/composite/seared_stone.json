@@ -3,7 +3,7 @@
   "input": "tconstruct:rock",
   "fluid": {
     "tag": "tconstruct:molten_clay",
-    "amount": 250
+    "amount": 20250
   },
   "temperature": 450,
   "output": "tconstruct:seared_stone"

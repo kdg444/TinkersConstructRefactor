@@ -6,6 +6,6 @@
   "filled": "tconstruct:lingering_bottle",
   "fluid": {
     "fluid": "tconstruct:potion",
-    "amount": 250
+    "amount": 27000
   }
 }

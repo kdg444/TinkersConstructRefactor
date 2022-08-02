@@ -14,7 +14,7 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:molten_knightslime",
-    "amount": 360
+    "amount": 36000
   },
   "result": {
     "tag": "c:gears/knightslime"

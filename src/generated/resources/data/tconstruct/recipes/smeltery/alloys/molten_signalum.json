@@ -29,11 +29,11 @@
   "inputs": [
     {
       "tag": "c:molten_copper",
-      "amount": 270
+      "amount": 27000
     },
     {
       "tag": "c:molten_silver",
-      "amount": 90
+      "amount": 9000
     },
     {
       "tag": "c:redstone",
@@ -42,7 +42,7 @@
   ],
   "result": {
     "fluid": "tconstruct:molten_signalum",
-    "amount": 360
+    "amount": 36000
   },
   "temperature": 1125
 }

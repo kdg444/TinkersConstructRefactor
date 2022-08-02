@@ -3,7 +3,7 @@
   "input": "tconstruct:bone",
   "fluid": {
     "tag": "tconstruct:blood",
-    "amount": 250
+    "amount": 20250
   },
   "temperature": 36,
   "output": "tconstruct:bloodbone"

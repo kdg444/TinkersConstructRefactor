@@ -14,7 +14,7 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:molten_slimesteel",
-    "amount": 45
+    "amount": 4500
   },
   "result": {
     "tag": "c:rods/slimesteel"

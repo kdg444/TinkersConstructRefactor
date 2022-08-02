@@ -3,7 +3,7 @@
   "input": "tconstruct:string",
   "fluid": {
     "tag": "tconstruct:molten_obsidian",
-    "amount": 250
+    "amount": 20250
   },
   "temperature": 1000,
   "output": "tconstruct:darkthread"

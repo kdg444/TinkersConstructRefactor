@@ -13,14 +13,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_clay",
-    "amount": 250
+    "amount": 20250
   },
   "temperature": 450,
   "time": 48,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_glass",
-      "amount": 62
+      "amount": 5062
     }
   ]
 }

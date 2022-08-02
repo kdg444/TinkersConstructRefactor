@@ -13,7 +13,7 @@
   },
   "fluid": {
     "tag": "tconstruct:molten_slimesteel",
-    "amount": 45
+    "amount": 4500
   },
   "result": {
     "tag": "c:wires/slimesteel"

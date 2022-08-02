@@ -13,14 +13,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_porcelain",
-    "amount": 500
+    "amount": 40500
   },
   "temperature": 700,
   "time": 76,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_gold",
-      "amount": 0
+      "amount": 62
     }
   ]
 }

@@ -3,20 +3,20 @@
   "inputs": [
     {
       "tag": "c:molten_iron",
-      "amount": 90
+      "amount": 9000
     },
     {
       "tag": "tconstruct:sky_slime",
-      "amount": 250
+      "amount": 20250
     },
     {
       "tag": "tconstruct:seared_stone",
-      "amount": 250
+      "amount": 20250
     }
   ],
   "result": {
     "fluid": "tconstruct:molten_slimesteel",
-    "amount": 180
+    "amount": 18000
   },
   "temperature": 900
 }

@@ -24,14 +24,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_quartz",
-    "amount": 50
+    "amount": 4050
   },
   "temperature": 637,
   "time": 55,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_amethyst",
-      "amount": 50
+      "amount": 4050
     }
   ]
 }

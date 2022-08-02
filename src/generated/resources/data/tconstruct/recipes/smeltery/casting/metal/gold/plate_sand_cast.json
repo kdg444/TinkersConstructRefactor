@@ -14,7 +14,7 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "c:molten_gold",
-    "amount": 90
+    "amount": 9000
   },
   "result": {
     "tag": "c:plates/gold"

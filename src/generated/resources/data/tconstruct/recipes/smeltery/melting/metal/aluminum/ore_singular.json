@@ -31,14 +31,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_aluminum",
-    "amount": 180
+    "amount": 18000
   },
   "temperature": 425,
   "time": 118,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_iron",
-      "amount": 180
+      "amount": 18000
     }
   ]
 }

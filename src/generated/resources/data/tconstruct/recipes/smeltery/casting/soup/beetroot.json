@@ -6,7 +6,7 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "c:beetroot_soup",
-    "amount": 250
+    "amount": 20250
   },
   "result": "minecraft:beetroot_soup",
   "cooling_time": 1

@@ -11,8 +11,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "c:magma",
-    "amount": 500
+    "amount": 40500
   },
   "result": "tconstruct:scorched_stone",
-  "cooling_time": 99
+  "cooling_time": 90
 }

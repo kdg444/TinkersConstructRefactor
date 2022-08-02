@@ -6,6 +6,6 @@
   "filled": "minecraft:potion",
   "fluid": {
     "tag": "c:potion",
-    "amount": 250
+    "amount": 27000
   }
 }

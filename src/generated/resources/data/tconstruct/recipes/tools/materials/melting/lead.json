@@ -12,6 +12,6 @@
   "temperature": 330,
   "result": {
     "fluid": "tconstruct:molten_lead",
-    "amount": 90
+    "amount": 9000
   }
 }

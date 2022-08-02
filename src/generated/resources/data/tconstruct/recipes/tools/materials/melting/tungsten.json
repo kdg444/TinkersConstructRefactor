@@ -12,6 +12,6 @@
   "temperature": 950,
   "result": {
     "fluid": "tconstruct:molten_tungsten",
-    "amount": 90
+    "amount": 9000
   }
 }

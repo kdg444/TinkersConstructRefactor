@@ -13,7 +13,7 @@
   },
   "fluid": {
     "tag": "c:molten_bronze",
-    "amount": 10
+    "amount": 1000
   },
   "result": {
     "tag": "c:nuggets/bronze"

@@ -13,7 +13,7 @@
   },
   "fluid": {
     "tag": "c:molten_osmium",
-    "amount": 45
+    "amount": 4500
   },
   "result": {
     "tag": "c:rods/osmium"

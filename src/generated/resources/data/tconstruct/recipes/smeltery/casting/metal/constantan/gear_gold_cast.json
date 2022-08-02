@@ -13,7 +13,7 @@
   },
   "fluid": {
     "tag": "c:molten_constantan",
-    "amount": 360
+    "amount": 36000
   },
   "result": {
     "tag": "c:gears/constantan"

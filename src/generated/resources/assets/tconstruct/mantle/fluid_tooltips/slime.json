@@ -3,11 +3,11 @@
   "units": [
     {
       "key": "gui.tconstruct.fluid.block",
-      "needed": 2250
+      "needed": 182250
     },
     {
       "key": "gui.tconstruct.fluid.slimeball",
-      "needed": 250
+      "needed": 20250
     }
   ]
 }

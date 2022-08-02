@@ -24,14 +24,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_cobalt",
-    "amount": 540
+    "amount": 54000
   },
   "temperature": 950,
   "time": 292,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_iron",
-      "amount": 540
+      "amount": 54000
     }
   ]
 }

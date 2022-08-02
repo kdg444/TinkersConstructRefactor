@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:molten_clay",
-    "amount": 125
+    "amount": 10125
   },
   "result": "tconstruct:seared_brick",
-  "cooling_time": 57
+  "cooling_time": 51
 }

@@ -6,7 +6,7 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "c:molten_iron",
-    "amount": 80
+    "amount": 8000
   },
   "result": "minecraft:lantern",
   "cooling_time": 57

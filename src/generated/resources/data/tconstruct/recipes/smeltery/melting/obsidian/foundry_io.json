@@ -10,14 +10,14 @@
   ],
   "result": {
     "fluid": "tconstruct:molten_obsidian",
-    "amount": 500
+    "amount": 40500
   },
   "temperature": 1000,
   "time": 166,
   "byproducts": [
     {
       "fluid": "tconstruct:scorched_stone",
-      "amount": 1000
+      "amount": 81000
     }
   ]
 }

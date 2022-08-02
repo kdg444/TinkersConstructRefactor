@@ -6,7 +6,7 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "c:rabbit_stew",
-    "amount": 250
+    "amount": 20250
   },
   "result": "minecraft:rabbit_stew",
   "cooling_time": 1

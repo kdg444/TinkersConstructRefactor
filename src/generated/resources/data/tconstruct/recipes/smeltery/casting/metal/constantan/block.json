@@ -10,7 +10,7 @@
   ],
   "fluid": {
     "tag": "c:molten_constantan",
-    "amount": 810
+    "amount": 81000
   },
   "result": {
     "tag": "c:storage_blocks/constantan"

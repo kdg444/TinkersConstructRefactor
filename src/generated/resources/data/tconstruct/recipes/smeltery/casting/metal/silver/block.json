@@ -10,7 +10,7 @@
   ],
   "fluid": {
     "tag": "c:molten_silver",
-    "amount": 810
+    "amount": 81000
   },
   "result": {
     "tag": "c:storage_blocks/silver"

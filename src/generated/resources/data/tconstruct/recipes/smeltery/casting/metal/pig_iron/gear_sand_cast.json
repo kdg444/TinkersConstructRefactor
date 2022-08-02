@@ -14,7 +14,7 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:molten_pig_iron",
-    "amount": 360
+    "amount": 36000
   },
   "result": {
     "tag": "c:gears/pig_iron"

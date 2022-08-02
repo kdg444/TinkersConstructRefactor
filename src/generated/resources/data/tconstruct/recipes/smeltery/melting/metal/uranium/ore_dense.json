@@ -36,14 +36,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_uranium",
-          "amount": 540
+          "amount": 54000
         },
         "temperature": 830,
         "time": 275,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_lead",
-            "amount": 540
+            "amount": 54000
           }
         ]
       }
@@ -70,14 +70,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_uranium",
-          "amount": 540
+          "amount": 54000
         },
         "temperature": 830,
         "time": 275,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_copper",
-            "amount": 540
+            "amount": 54000
           }
         ]
       }

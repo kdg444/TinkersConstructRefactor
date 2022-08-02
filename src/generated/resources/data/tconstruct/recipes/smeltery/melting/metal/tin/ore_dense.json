@@ -24,14 +24,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_tin",
-    "amount": 540
+    "amount": 54000
   },
   "temperature": 225,
   "time": 176,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_copper",
-      "amount": 540
+      "amount": 54000
     }
   ]
 }

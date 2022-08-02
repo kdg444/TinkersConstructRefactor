@@ -10,7 +10,7 @@
   ],
   "fluid": {
     "tag": "c:molten_osmium",
-    "amount": 810
+    "amount": 81000
   },
   "result": {
     "tag": "c:storage_blocks/osmium"

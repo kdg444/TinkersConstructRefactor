@@ -2,8 +2,8 @@
   "type": "tconstruct:casting_basin",
   "fluid": {
     "tag": "c:slime",
-    "amount": 1000
+    "amount": 81000
   },
   "result": "tconstruct:earth_congealed_slime",
-  "cooling_time": 103
+  "cooling_time": 92
 }

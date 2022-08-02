@@ -5,9 +5,9 @@
   },
   "result": {
     "fluid": "tconstruct:sky_slime",
-    "amount": 1750,
-    "unit_size": 50
+    "amount": 141750,
+    "unit_size": 4050
   },
   "temperature": 10,
-  "time": 126
+  "time": 114
 }

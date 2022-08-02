@@ -31,14 +31,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_osmium",
-    "amount": 180
+    "amount": 18000
   },
   "temperature": 975,
   "time": 164,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_iron",
-      "amount": 180
+      "amount": 18000
     }
   ]
 }

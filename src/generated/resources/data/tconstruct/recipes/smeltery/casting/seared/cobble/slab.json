@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:molten_clay",
-    "amount": 250
+    "amount": 20250
   },
   "result": "tconstruct:seared_cobble_slab",
-  "cooling_time": 80
+  "cooling_time": 72
 }

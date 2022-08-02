@@ -13,8 +13,8 @@
   },
   "fluid": {
     "tag": "tconstruct:molten_porcelain",
-    "amount": 250
+    "amount": 20250
   },
   "result": "ceramics:porcelain_brick",
-  "cooling_time": 95
+  "cooling_time": 85
 }

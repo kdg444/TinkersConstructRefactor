@@ -5,14 +5,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_iron",
-    "amount": 30
+    "amount": 3000
   },
   "temperature": 800,
   "time": 35,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_obsidian",
-      "amount": 250
+      "amount": 20250
     }
   ]
 }

@@ -31,14 +31,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_emerald",
-    "amount": 100
+    "amount": 8100
   },
   "temperature": 934,
   "time": 96,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_diamond",
-      "amount": 100
+      "amount": 8100
     }
   ]
 }

@@ -13,7 +13,7 @@
   },
   "fluid": {
     "tag": "c:molten_lumium",
-    "amount": 45
+    "amount": 4500
   },
   "result": {
     "tag": "c:wires/lumium"

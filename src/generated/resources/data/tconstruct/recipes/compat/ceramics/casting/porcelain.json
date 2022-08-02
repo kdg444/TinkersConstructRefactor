@@ -10,8 +10,8 @@
   ],
   "fluid": {
     "tag": "tconstruct:molten_porcelain",
-    "amount": 1000
+    "amount": 81000
   },
   "result": "ceramics:white_porcelain",
-  "cooling_time": 190
+  "cooling_time": 171
 }

@@ -17,20 +17,20 @@
   "inputs": [
     {
       "tag": "c:molten_lead",
-      "amount": 270
+      "amount": 27000
     },
     {
       "tag": "tconstruct:molten_diamond",
-      "amount": 100
+      "amount": 8100
     },
     {
       "tag": "c:ender",
-      "amount": 500
+      "amount": 40500
     }
   ],
   "result": {
     "fluid": "tconstruct:molten_enderium",
-    "amount": 180
+    "amount": 18000
   },
   "temperature": 1350
 }
