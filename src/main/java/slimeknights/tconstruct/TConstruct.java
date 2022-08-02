@@ -6,6 +6,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +14,9 @@ import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.data.AdvancementsProvider;
+import slimeknights.tconstruct.common.data.StructureUpdater;
+import slimeknights.tconstruct.common.data.loot.GlobalLootModifiersProvider;
+import slimeknights.tconstruct.common.data.loot.TConstructLootTableProvider;
 import slimeknights.tconstruct.common.data.tags.BiomeTagProvider;
 import slimeknights.tconstruct.common.data.tags.BlockEntityTypeTagProvider;
 import slimeknights.tconstruct.common.data.tags.BlockTagProvider;
@@ -124,14 +128,14 @@ public class TConstruct implements ModInitializer {
       datagenerator.addProvider(new FluidTagProvider(datagenerator));
       datagenerator.addProvider(new EntityTypeTagProvider(datagenerator));
       datagenerator.addProvider(new BlockEntityTypeTagProvider(datagenerator));
-//      datagenerator.addProvider(new TConstructLootTableProvider(datagenerator)); TODO: PORT
+      datagenerator.addProvider(new TConstructLootTableProvider(datagenerator));
       datagenerator.addProvider(new AdvancementsProvider(datagenerator));
       datagenerator.addProvider(new BiomeTagProvider(datagenerator));
-//      datagenerator.addProvider(new GlobalLootModifiersProvider(datagenerator)); TODO: PORT
-//      datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.SERVER_DATA, "structures"));
+      datagenerator.addProvider(new GlobalLootModifiersProvider(datagenerator));
+      datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.SERVER_DATA, "structures"));
 //    }
 //    if (event.includeClient()) {
-//      datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.CLIENT_RESOURCES, "book/structures"));
+      datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.CLIENT_RESOURCES, "book/structures"));
 //    }
   }
 
