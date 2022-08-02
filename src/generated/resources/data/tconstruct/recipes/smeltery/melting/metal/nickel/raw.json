@@ -1,23 +1,21 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:raw_materials/nickel",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "values": [
+        "c:raw_materials/nickel"
+      ],
+      "condition": "fabric:item_tags_populated"
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/platinum",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "values": [
+            "c:ingots/platinum"
+          ],
+          "condition": "fabric:item_tags_populated"
         }
       ],
       "recipe": {
@@ -41,9 +39,9 @@
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "forge:true"
         }
       ],
       "recipe": {

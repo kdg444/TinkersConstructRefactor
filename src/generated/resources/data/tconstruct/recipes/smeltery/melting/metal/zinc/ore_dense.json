@@ -12,13 +12,12 @@
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/tin",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "values": [
+            "c:ingots/tin"
+          ],
+          "condition": "fabric:item_tags_populated"
         }
       ],
       "recipe": {
@@ -50,9 +49,9 @@
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "forge:true"
         }
       ],
       "recipe": {

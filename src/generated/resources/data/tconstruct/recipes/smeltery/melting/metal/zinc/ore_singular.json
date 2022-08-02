@@ -1,25 +1,24 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
       "registry": "minecraft:item",
       "base": "forge:ores/zinc",
       "subtracted": [
-        "forge:ore_rates/sparse",
-        "forge:ore_rates/dense"
+        "c:ore_rates/sparse",
+        "c:ore_rates/dense"
       ],
-      "type": "tconstruct:tag_difference_present"
+      "condition": "tconstruct:tag_difference_present"
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/tin",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "values": [
+            "c:ingots/tin"
+          ],
+          "condition": "fabric:item_tags_populated"
         }
       ],
       "recipe": {
@@ -54,9 +53,9 @@
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "forge:true"
         }
       ],
       "recipe": {

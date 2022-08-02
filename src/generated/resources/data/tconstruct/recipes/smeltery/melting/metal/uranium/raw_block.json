@@ -1,23 +1,21 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:storage_blocks/raw_uranium",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "values": [
+        "c:storage_blocks/raw_uranium"
+      ],
+      "condition": "fabric:item_tags_populated"
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/lead",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "values": [
+            "c:ingots/lead"
+          ],
+          "condition": "fabric:item_tags_populated"
         }
       ],
       "recipe": {
@@ -41,9 +39,9 @@
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "forge:true"
         }
       ],
       "recipe": {

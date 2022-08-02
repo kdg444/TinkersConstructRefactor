@@ -1,24 +1,23 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
       "registry": "minecraft:item",
       "tags": [
-        "forge:ores/silver",
-        "forge:ore_rates/sparse"
+        "c:ores/silver",
+        "c:ore_rates/sparse"
       ],
-      "type": "tconstruct:tag_intersection_present"
+      "condition": "tconstruct:tag_intersection_present"
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/lead",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "values": [
+            "c:ingots/lead"
+          ],
+          "condition": "fabric:item_tags_populated"
         }
       ],
       "recipe": {
@@ -50,9 +49,9 @@
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "forge:true"
         }
       ],
       "recipe": {
