@@ -5,11 +5,9 @@ import io.github.fabricators_of_create.porting_lib.model.ModelLoaderRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import slimeknights.mantle.client.model.FaucetFluidLoader;
@@ -43,9 +41,7 @@ public class SmelteryClientEvents extends ClientEventBase {
   }
 
   static void addResourceListener() {
-    ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
-    if (resourceManager instanceof ReloadableResourceManager reloadable)
-      FaucetFluidLoader.initialize(reloadable);
+    FaucetFluidLoader.initialize();
   }
 
   static void registerRenderers() {
