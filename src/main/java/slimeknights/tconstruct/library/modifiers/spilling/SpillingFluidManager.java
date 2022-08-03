@@ -74,7 +74,6 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
   /** Adds the managers as datapack listeners */
   private void addDataPackListeners() {
     ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(this);
-//    conditionContext = event.getConditionContext(); TODO: PORT?
   }
 
   @Override
