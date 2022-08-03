@@ -1,16 +1,15 @@
 package slimeknights.tconstruct.tables.client.inventory.module;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import io.github.fabricators_of_create.porting_lib.extensions.SlotExtensions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import slimeknights.mantle.transfer.TransferUtil;
-import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.mantle.client.screen.MultiModuleScreen;
 import slimeknights.mantle.inventory.BaseContainerMenu;
 import slimeknights.mantle.inventory.EmptyItemHandler;
+import slimeknights.mantle.transfer.TransferUtil;
+import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.tconstruct.tables.block.entity.inventory.IScalingContainer;
 
 import java.util.Optional;
@@ -59,7 +58,7 @@ public class ScalingChestScreen<T extends BlockEntity> extends DynamicContainerS
 
   @Override
   public boolean shouldDrawSlot(Slot slot) {
-    if (((SlotExtensions)slot).getSlotIndex() >= this.scaling.getVisualSize()) {
+    if (slot.getSlotIndex() >= this.scaling.getVisualSize()) {
       return false;
     }
     return super.shouldDrawSlot(slot);

@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.tables.menu;
 
 import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
-import io.github.fabricators_of_create.porting_lib.extensions.SlotExtensions;
 import lombok.Getter;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -77,7 +76,7 @@ public class TinkerStationContainerMenu extends TabbedContainerMenu<TinkerStatio
       int index = slotType.getIndex();
       this.addSlot(new ArmorSlot(inv, slotType.getEquipmentSlot(), 152, 16 + (3 - index) * 18));
     }
-    this.addSlot(((SlotExtensions)new Slot(inv, 40, 132, 70)).setBackground(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD));
+    this.addSlot(new Slot(inv, 40, 132, 70).setBackground(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD));
 
     this.addInventorySlots();
   }
@@ -135,7 +134,7 @@ public class TinkerStationContainerMenu extends TabbedContainerMenu<TinkerStatio
       super(inv, 36 + slotType.getIndex(), xPosition, yPosition);
       this.player = inv.player;
       this.slotType = slotType;
-      ((SlotExtensions)this).setBackground(InventoryMenu.BLOCK_ATLAS, ARMOR_SLOT_BACKGROUNDS[slotType.getIndex()]);
+      this.setBackground(InventoryMenu.BLOCK_ATLAS, ARMOR_SLOT_BACKGROUNDS[slotType.getIndex()]);
     }
 
     @Override
