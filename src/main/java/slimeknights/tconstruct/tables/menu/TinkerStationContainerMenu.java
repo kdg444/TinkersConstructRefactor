@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -144,7 +145,7 @@ public class TinkerStationContainerMenu extends TabbedContainerMenu<TinkerStatio
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-      return true/*stack.canEquip(slotType, player)*/; // TODO: PORT
+      return Mob.getEquipmentSlotForItem(stack) == slotType;
     }
 
     @Override
