@@ -47,10 +47,8 @@ public class BaseTabbedScreen<TILE extends BlockEntity, CONTAINER extends Tabbed
     this.tile = container.getTile();
     this.container = container;
 
-
-    this.tabsScreen = new TinkerTabsScreen(this, container, playerInventory, title);
-
     if (COMPAT_SHOW_TABS) {
+      this.tabsScreen = new TinkerTabsScreen(this, container, playerInventory, title);
       this.addModule(this.tabsScreen);
 
       if (this.tile != null) {
