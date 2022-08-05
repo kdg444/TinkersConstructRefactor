@@ -30,11 +30,12 @@ import slimeknights.tconstruct.tables.menu.module.SideInventoryContainer;
 import slimeknights.tconstruct.tables.network.StationTabPacket;
 
 public class BaseTabbedScreen<TILE extends BlockEntity, CONTAINER extends TabbedContainerMenu<TILE>> extends MultiModuleScreen<CONTAINER> {
+
   protected static final Component COMPONENT_WARNING = TConstruct.makeTranslation("gui", "warning");
   protected static final Component COMPONENT_ERROR = TConstruct.makeTranslation("gui", "error");
 
   public static final ResourceLocation BLANK_BACK = TConstruct.getResource("textures/gui/blank.png");
-  
+
   public static boolean COMPAT_SHOW_TABS = true;
 
   protected final TILE tile;
@@ -46,8 +47,10 @@ public class BaseTabbedScreen<TILE extends BlockEntity, CONTAINER extends Tabbed
     this.tile = container.getTile();
     this.container = container;
 
+
+    this.tabsScreen = new TinkerTabsScreen(this, container, playerInventory, title);
+
     if (COMPAT_SHOW_TABS) {
-      this.tabsScreen = new TinkerTabsScreen(this, container, playerInventory, title);
       this.addModule(this.tabsScreen);
 
       if (this.tile != null) {
