@@ -2,12 +2,12 @@
   "type": "tconstruct:ore_melting",
   "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_intersection_present",
       "registry": "minecraft:item",
       "tags": [
         "c:ores/emerald",
         "c:ore_rates/dense"
-      ],
-      "condition": "tconstruct:tag_intersection_present"
+      ]
     }
   ],
   "rate": "gem",
@@ -24,14 +24,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_emerald",
-    "amount": 300
+    "amount": 24300
   },
   "temperature": 934,
   "time": 289,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_diamond",
-      "amount": 300
+      "amount": 24300
     }
   ]
 }

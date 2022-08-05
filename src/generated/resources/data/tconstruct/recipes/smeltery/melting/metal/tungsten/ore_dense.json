@@ -2,22 +2,22 @@
   "type": "forge:conditional",
   "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_intersection_present",
       "registry": "minecraft:item",
       "tags": [
         "c:ores/tungsten",
         "c:ore_rates/dense"
-      ],
-      "condition": "tconstruct:tag_intersection_present"
+      ]
     }
   ],
   "recipes": [
     {
       "fabric:load_conditions": [
         {
+          "condition": "fabric:item_tags_populated",
           "values": [
             "c:ingots/platinum"
-          ],
-          "condition": "fabric:item_tags_populated"
+          ]
         }
       ],
       "recipe": {
@@ -36,14 +36,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_tungsten",
-          "amount": 540
+          "amount": 54000
         },
         "temperature": 950,
         "time": 292,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_platinum",
-            "amount": 180
+            "amount": 18000
           }
         ]
       }
@@ -51,7 +51,7 @@
     {
       "fabric:load_conditions": [
         {
-          "condition": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {
@@ -70,14 +70,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_tungsten",
-          "amount": 540
+          "amount": 54000
         },
         "temperature": 950,
         "time": 292,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_gold",
-            "amount": 540
+            "amount": 54000
           }
         ]
       }

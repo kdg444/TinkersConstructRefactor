@@ -1,16 +1,19 @@
 {
   "type": "tconstruct:melting",
-  "ingredient": [
-    {
-      "tag": "c:ender_pearls"
-    },
-    {
-      "item": "minecraft:ender_eye"
-    }
-  ],
+  "ingredient": {
+    "type": "serialization_hooks:combined",
+    "children": [
+      {
+        "tag": "c:ender_pearls"
+      },
+      {
+        "item": "minecraft:ender_eye"
+      }
+    ]
+  },
   "result": {
     "fluid": "tconstruct:molten_ender",
-    "amount": 250
+    "amount": 20250
   },
   "temperature": 477,
   "time": 49

@@ -165,9 +165,9 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
       redirect = null;
     }
     if (material == null) {
-      return new MaterialJson(new JsonCondition(data.condition.getConditionId()), null, null, null, null, redirect);
+      return new MaterialJson(new JsonCondition(data.condition), null, null, null, null, redirect);
     }
-    return new MaterialJson(new JsonCondition(data.condition.getConditionId()), material.isCraftable(), material.getTier(), material.getSortOrder(), material.isHidden(), redirect);
+    return new MaterialJson(new JsonCondition(data.condition), material.isCraftable(), material.getTier(), material.getSortOrder(), material.isHidden(), redirect);
   }
 
   private record DataMaterial(@Nullable IMaterial material, @Nullable ConditionJsonProvider condition, JsonRedirect[] redirect) {}

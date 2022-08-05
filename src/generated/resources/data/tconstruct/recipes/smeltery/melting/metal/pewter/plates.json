@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:melting",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:plates/pewter",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:plates/pewter"
+      ]
     }
   ],
   "ingredient": {
@@ -14,7 +13,7 @@
   },
   "result": {
     "fluid": "tconstruct:molten_pewter",
-    "amount": 90
+    "amount": 9000
   },
   "temperature": 400,
   "time": 46

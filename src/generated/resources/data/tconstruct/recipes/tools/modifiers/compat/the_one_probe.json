@@ -1,9 +1,11 @@
 {
   "type": "tconstruct:modifier",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "modid": "theoneprobe",
-      "type": "forge:mod_loaded"
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "theoneprobe"
+      ]
     }
   ],
   "inputs": [
@@ -11,14 +13,17 @@
       "item": "theoneprobe:probe"
     }
   ],
-  "tools": [
-    {
-      "tag": "tconstruct:modifiable/armor/helmets"
-    },
-    {
-      "tag": "tconstruct:modifiable/held"
-    }
-  ],
+  "tools": {
+    "type": "serialization_hooks:combined",
+    "children": [
+      {
+        "tag": "tconstruct:modifiable/armor/helmets"
+      },
+      {
+        "tag": "tconstruct:modifiable/held"
+      }
+    ]
+  },
   "slots": {
     "upgrades": 1
   },

@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:blazing_blood",
-    "amount": 50
+    "amount": 4050
   },
   "result": "minecraft:magma_cream",
-  "cooling_time": 60
+  "cooling_time": 54
 }

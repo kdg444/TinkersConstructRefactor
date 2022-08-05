@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:melting",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:wires/slimesteel",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:wires/slimesteel"
+      ]
     }
   ],
   "ingredient": {
@@ -14,7 +13,7 @@
   },
   "result": {
     "fluid": "tconstruct:molten_slimesteel",
-    "amount": 45
+    "amount": 4500
   },
   "temperature": 900,
   "time": 13

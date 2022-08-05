@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "c:ender",
-    "amount": 250
+    "amount": 20250
   },
   "result": "minecraft:ender_eye",
-  "cooling_time": 82
+  "cooling_time": 74
 }

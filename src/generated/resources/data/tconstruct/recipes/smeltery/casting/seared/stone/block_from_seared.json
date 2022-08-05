@@ -2,8 +2,8 @@
   "type": "tconstruct:casting_basin",
   "fluid": {
     "tag": "tconstruct:seared_stone",
-    "amount": 1000
+    "amount": 81000
   },
   "result": "tconstruct:seared_stone",
-  "cooling_time": 178
+  "cooling_time": 160
 }

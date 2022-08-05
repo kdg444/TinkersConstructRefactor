@@ -10,14 +10,14 @@
   ],
   "result": {
     "fluid": "tconstruct:molten_amethyst",
-    "amount": 200
+    "amount": 16200
   },
   "temperature": 950,
-  "time": 97,
+  "time": 87,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_glass",
-      "amount": 500
+      "amount": 40500
     }
   ]
 }

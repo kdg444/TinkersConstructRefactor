@@ -2,10 +2,10 @@
   "type": "tconstruct:ore_melting",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
         "c:storage_blocks/raw_aluminum"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "rate": "metal",
@@ -14,14 +14,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_aluminum",
-    "amount": 810
+    "amount": 81000
   },
   "temperature": 425,
   "time": 283,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_iron",
-      "amount": 810
+      "amount": 81000
     }
   ]
 }

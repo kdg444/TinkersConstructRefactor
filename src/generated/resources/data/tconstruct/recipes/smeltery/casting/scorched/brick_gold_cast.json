@@ -5,8 +5,8 @@
   },
   "fluid": {
     "tag": "tconstruct:scorched_stone",
-    "amount": 250
+    "amount": 20250
   },
   "result": "tconstruct:scorched_brick",
-  "cooling_time": 83
+  "cooling_time": 75
 }

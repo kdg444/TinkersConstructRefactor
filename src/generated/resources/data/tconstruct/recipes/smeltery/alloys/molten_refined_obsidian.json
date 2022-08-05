@@ -2,30 +2,35 @@
   "type": "tconstruct:alloy",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
-        "c:ingots/refined_obsidian",
+        "c:ingots/refined_obsidian"
+      ]
+    },
+    {
+      "condition": "fabric:item_tags_populated",
+      "values": [
         "c:ingots/osmium"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "inputs": [
     {
       "tag": "tconstruct:molten_obsidian",
-      "amount": 250
+      "amount": 20250
     },
     {
       "tag": "tconstruct:molten_diamond",
-      "amount": 100
+      "amount": 8100
     },
     {
       "tag": "c:molten_osmium",
-      "amount": 90
+      "amount": 9000
     }
   ],
   "result": {
     "fluid": "tconstruct:molten_refined_obsidian",
-    "amount": 90
+    "amount": 9000
   },
   "temperature": 1475
 }

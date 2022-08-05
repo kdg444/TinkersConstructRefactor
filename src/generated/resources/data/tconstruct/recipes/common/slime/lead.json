@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "prop": "slime_recipe_fix",
-      "type": "tconstruct:config"
+      "condition": "tconstruct:config",
+      "prop": "slime_recipe_fix"
     }
   ],
   "pattern": [

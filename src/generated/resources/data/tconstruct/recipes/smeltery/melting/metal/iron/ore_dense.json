@@ -2,23 +2,22 @@
   "type": "forge:conditional",
   "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_intersection_present",
       "registry": "minecraft:item",
       "tags": [
         "c:ores/iron",
         "c:ore_rates/dense"
-      ],
-      "condition": "tconstruct:tag_intersection_present"
+      ]
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/nickel",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "condition": "fabric:item_tags_populated",
+          "values": [
+            "c:ingots/nickel"
+          ]
         }
       ],
       "recipe": {
@@ -37,14 +36,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_iron",
-          "amount": 540
+          "amount": 54000
         },
         "temperature": 800,
         "time": 271,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_nickel",
-            "amount": 540
+            "amount": 54000
           }
         ]
       }
@@ -52,7 +51,7 @@
     {
       "fabric:load_conditions": [
         {
-          "condition": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {
@@ -71,14 +70,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_iron",
-          "amount": 540
+          "amount": 54000
         },
         "temperature": 800,
         "time": 271,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_copper",
-            "amount": 540
+            "amount": 54000
           }
         ]
       }

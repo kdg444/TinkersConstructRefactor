@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:blood",
-    "amount": 1250
+    "amount": 101250
   },
   "result": "tconstruct:blood_slime",
-  "cooling_time": 112
+  "cooling_time": 101
 }

@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:melting",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:dusts/steel",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:dusts/steel"
+      ]
     }
   ],
   "ingredient": {
@@ -14,7 +13,7 @@
   },
   "result": {
     "fluid": "tconstruct:molten_steel",
-    "amount": 90
+    "amount": 9000
   },
   "temperature": 950,
   "time": 49

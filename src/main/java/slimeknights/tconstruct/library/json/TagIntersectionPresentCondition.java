@@ -58,11 +58,12 @@ public class TagIntersectionPresentCondition<T> implements ConditionJsonProvider
 
   public boolean test() {
     // if there is just one tag, just needs to be filled
-    List<Tag<Holder<?>>> tags = names.stream().map(tTagKey -> {
+    List<Tag<?>> tags = names.stream().map(tTagKey -> {
       for (Map.Entry<ResourceKey<?>, Map<ResourceLocation, Tag<Holder<?>>>> entry : ResourceConditionsImpl.LOADED_TAGS.get().entrySet()) {
-        return entry.getValue().get(tTagKey);
+        if (entry.getKey() == Registry.ITEM_REGISTRY && entry.getValue().get(tTagKey.location()) != null)
+          return entry.getValue().get(tTagKey.location());
       }
-      return null;
+      return Tag.empty();
     }).toList();
     if (tags.size() == 1) {
       return !tags.get(0).getValues().isEmpty();
@@ -77,7 +78,7 @@ public class TagIntersectionPresentCondition<T> implements ConditionJsonProvider
 
     // all tags have something, so find the first item that is in all tags
     itemLoop:
-    for (Holder<?> entry : tags.get(0).getValues()) {
+    for (Object entry : tags.get(0).getValues()) {
       // find the first item contained in all other intersection tags
       for (int i = 1; i < count; i++) {
         if (!tags.get(i).getValues().contains(entry)) {

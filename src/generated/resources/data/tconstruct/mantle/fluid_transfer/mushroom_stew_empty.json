@@ -6,6 +6,6 @@
   "filled": "minecraft:bowl",
   "fluid": {
     "fluid": "tconstruct:mushroom_stew",
-    "amount": 250
+    "amount": 20250
   }
 }

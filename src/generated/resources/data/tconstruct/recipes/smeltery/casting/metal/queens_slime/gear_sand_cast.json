@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:casting_table",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:gears/queens_slime",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:gears/queens_slime"
+      ]
     }
   ],
   "cast": {
@@ -15,7 +14,7 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:molten_queens_slime",
-    "amount": 360
+    "amount": 36000
   },
   "result": {
     "tag": "c:gears/queens_slime"

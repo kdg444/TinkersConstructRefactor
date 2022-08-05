@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:ore_melting",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:storage_blocks/raw_platinum",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:storage_blocks/raw_platinum"
+      ]
     }
   ],
   "rate": "metal",
@@ -15,14 +14,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_platinum",
-    "amount": 810
+    "amount": 81000
   },
   "temperature": 970,
   "time": 393,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_gold",
-      "amount": 810
+      "amount": 81000
     }
   ]
 }

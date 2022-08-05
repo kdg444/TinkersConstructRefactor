@@ -2,23 +2,23 @@
   "type": "forge:conditional",
   "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_difference_present",
       "registry": "minecraft:item",
       "base": "c:ores/uranium",
       "subtracted": [
         "c:ore_rates/sparse",
         "c:ore_rates/dense"
-      ],
-      "condition": "tconstruct:tag_difference_present"
+      ]
     }
   ],
   "recipes": [
     {
       "fabric:load_conditions": [
         {
+          "condition": "fabric:item_tags_populated",
           "values": [
             "c:ingots/lead"
-          ],
-          "condition": "fabric:items_tags_populated"
+          ]
         }
       ],
       "recipe": {
@@ -29,33 +29,36 @@
           "base": {
             "tag": "c:ores/uranium"
           },
-          "subtracted": [
-            {
-              "tag": "c:ore_rates/sparse"
-            },
-            {
-              "tag": "c:ore_rates/dense"
-            }
-          ]
+          "subtracted": {
+            "type": "serialization_hooks:combined",
+            "children": [
+              {
+                "tag": "c:ore_rates/sparse"
+              },
+              {
+                "tag": "c:ore_rates/dense"
+              }
+            ]
+          }
         },
         "result": {
           "fluid": "tconstruct:molten_uranium",
-          "amount": 180
+          "amount": 18000
         },
         "temperature": 830,
         "time": 153,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_lead",
-            "amount": 180
+            "amount": 18000
           }
         ]
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {
@@ -66,25 +69,28 @@
           "base": {
             "tag": "c:ores/uranium"
           },
-          "subtracted": [
-            {
-              "tag": "c:ore_rates/sparse"
-            },
-            {
-              "tag": "c:ore_rates/dense"
-            }
-          ]
+          "subtracted": {
+            "type": "serialization_hooks:combined",
+            "children": [
+              {
+                "tag": "c:ore_rates/sparse"
+              },
+              {
+                "tag": "c:ore_rates/dense"
+              }
+            ]
+          }
         },
         "result": {
           "fluid": "tconstruct:molten_uranium",
-          "amount": 180
+          "amount": 18000
         },
         "temperature": 830,
         "time": 153,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_copper",
-            "amount": 180
+            "amount": 18000
           }
         ]
       }

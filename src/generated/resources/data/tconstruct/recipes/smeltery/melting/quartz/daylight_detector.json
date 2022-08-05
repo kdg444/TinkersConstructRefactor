@@ -5,14 +5,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_quartz",
-    "amount": 300
+    "amount": 24300
   },
   "temperature": 637,
-  "time": 100,
+  "time": 90,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_glass",
-      "amount": 3000
+      "amount": 243000
     }
   ]
 }

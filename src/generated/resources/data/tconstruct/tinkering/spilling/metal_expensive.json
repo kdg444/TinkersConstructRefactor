@@ -1,7 +1,7 @@
 {
   "fluid": {
     "tag": "tconstruct:spilling/metal/expensive",
-    "amount": 10
+    "amount": 1000
   },
   "effects": [
     {

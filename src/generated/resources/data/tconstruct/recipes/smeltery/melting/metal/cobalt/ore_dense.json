@@ -2,12 +2,12 @@
   "type": "tconstruct:ore_melting",
   "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_intersection_present",
       "registry": "minecraft:item",
       "tags": [
         "c:ores/cobalt",
         "c:ore_rates/dense"
-      ],
-      "condition": "tconstruct:tag_intersection_present"
+      ]
     }
   ],
   "rate": "metal",
@@ -24,14 +24,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_cobalt",
-    "amount": 540
+    "amount": 54000
   },
   "temperature": 950,
   "time": 292,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_iron",
-      "amount": 540
+      "amount": 54000
     }
   ]
 }

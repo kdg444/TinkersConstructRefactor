@@ -1,23 +1,21 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:raw_materials/nickel",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:raw_materials/nickel"
+      ]
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/platinum",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "condition": "fabric:item_tags_populated",
+          "values": [
+            "c:ingots/platinum"
+          ]
         }
       ],
       "recipe": {
@@ -28,22 +26,22 @@
         },
         "result": {
           "fluid": "tconstruct:molten_nickel",
-          "amount": 90
+          "amount": 9000
         },
         "temperature": 950,
         "time": 97,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_platinum",
-            "amount": 30
+            "amount": 3000
           }
         ]
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {
@@ -54,14 +52,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_nickel",
-          "amount": 90
+          "amount": 9000
         },
         "temperature": 950,
         "time": 97,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_iron",
-            "amount": 90
+            "amount": 9000
           }
         ]
       }

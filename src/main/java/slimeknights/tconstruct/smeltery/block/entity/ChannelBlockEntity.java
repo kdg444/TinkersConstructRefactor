@@ -41,7 +41,7 @@ import java.util.Map;
  */
 public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacketReceiver, FluidTransferable, CustomRenderBoundingBoxBlockEntity {
 	/** Channel internal tank */
-	private final ChannelTank tank = new ChannelTank(FaucetBlockEntity.MB_PER_TICK * 3, this);
+	private final ChannelTank tank = new ChannelTank(FaucetBlockEntity.DROPLETS_PER_TICK * 3, this);
 	/** Handler to return from channel top */
 	private final LazyOptional<IFluidHandler> topHandler = LazyOptional.of(() -> new FillOnlyFluidHandler(tank));
 	/** Tanks for inserting on each side */
@@ -308,13 +308,13 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 			// if we have down and can flow, skip sides
 			boolean hasFlown = false;
 			if(state.getValue(ChannelBlock.DOWN)) {
-				hasFlown = trySide(Direction.DOWN, FaucetBlockEntity.MB_PER_TICK);
+				hasFlown = trySide(Direction.DOWN, FaucetBlockEntity.DROPLETS_PER_TICK);
 			}
 			// try sides if we have any sides
 			int outputs = countOutputs(state);
 			if(!hasFlown && outputs > 0) {
 				// split the fluid evenly between sides
-				long flowRate = Mth.clamp(tank.getMaxUsable() / outputs, 1, FaucetBlockEntity.MB_PER_TICK);
+				long flowRate = Mth.clamp(tank.getMaxUsable() / outputs, 1, FaucetBlockEntity.DROPLETS_PER_TICK);
 				// then transfer on each side
 				for(Direction side : Plane.HORIZONTAL) {
 					trySide(side, flowRate);

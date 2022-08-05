@@ -1,18 +1,17 @@
 {
   "type": "tconstruct:material_melting",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:ingots/silver",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:ingots/silver"
+      ]
     }
   ],
   "input": "tconstruct:silver",
   "temperature": 790,
   "result": {
     "fluid": "tconstruct:molten_silver",
-    "amount": 90
+    "amount": 9000
   }
 }

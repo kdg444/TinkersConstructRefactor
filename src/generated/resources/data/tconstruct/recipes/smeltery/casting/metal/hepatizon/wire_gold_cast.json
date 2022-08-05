@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:casting_table",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:wires/hepatizon",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:wires/hepatizon"
+      ]
     }
   ],
   "cast": {
@@ -14,7 +13,7 @@
   },
   "fluid": {
     "tag": "c:molten_hepatizon",
-    "amount": 45
+    "amount": 4500
   },
   "result": {
     "tag": "c:wires/hepatizon"

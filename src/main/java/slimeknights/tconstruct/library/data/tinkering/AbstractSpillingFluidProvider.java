@@ -16,6 +16,7 @@ import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.mantle.registration.object.FluidObject;
+import slimeknights.tconstruct.library.json.JsonCondition;
 import slimeknights.tconstruct.library.json.predicate.IJsonPredicate;
 import slimeknights.tconstruct.library.json.predicate.entity.LivingEntityPredicate;
 import slimeknights.tconstruct.library.modifiers.spilling.ISpillingEffect;
@@ -26,7 +27,6 @@ import slimeknights.tconstruct.library.modifiers.spilling.effects.DamageSpilling
 import slimeknights.tconstruct.library.modifiers.spilling.effects.SetFireSpillingEffect;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -131,7 +131,7 @@ public abstract class AbstractSpillingFluidProvider extends GenericDataProvider 
       if (effects.isEmpty()) {
         throw new IllegalStateException("Must have at least 1 effect");
       }
-      return new SpillingFluidJson(condition, ingredient, effects);
+      return new SpillingFluidJson(new JsonCondition(condition), ingredient, effects);
     }
   }
 
@@ -139,8 +139,7 @@ public abstract class AbstractSpillingFluidProvider extends GenericDataProvider 
   @SuppressWarnings({"ClassCanBeRecord", "unused"}) // breaks GSON
   @RequiredArgsConstructor
   private static class SpillingFluidJson {
-    @Nullable
-    private final ConditionJsonProvider condition;
+    private final JsonCondition condition;
     private final FluidIngredient fluid;
     private final List<ISpillingEffect> effects;
   }

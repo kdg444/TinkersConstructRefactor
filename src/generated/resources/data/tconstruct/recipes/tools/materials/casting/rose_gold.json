@@ -2,7 +2,7 @@
   "type": "tconstruct:material_fluid",
   "fluid": {
     "tag": "c:molten_rose_gold",
-    "amount": 90
+    "amount": 9000
   },
   "temperature": 550,
   "output": "tconstruct:rose_gold"

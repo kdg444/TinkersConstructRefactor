@@ -6,14 +6,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_gold",
-    "amount": 810
+    "amount": 81000
   },
   "temperature": 700,
   "time": 341,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_copper",
-      "amount": 810
+      "amount": 81000
     }
   ]
 }

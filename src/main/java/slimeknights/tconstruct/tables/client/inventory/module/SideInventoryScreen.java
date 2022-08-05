@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.tables.client.inventory.module;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import io.github.fabricators_of_create.porting_lib.extensions.SlotExtensions;
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -95,7 +94,7 @@ public class SideInventoryScreen<P extends MultiModuleScreen<?>, C extends Abstr
 
   @Override
   public boolean shouldDrawSlot(Slot slot) {
-    if (((SlotExtensions)slot).getSlotIndex() >= this.slotCount) {
+    if (slot.getSlotIndex() >= this.slotCount) {
       return false;
     }
 
@@ -104,7 +103,7 @@ public class SideInventoryScreen<P extends MultiModuleScreen<?>, C extends Abstr
       return true;
     }
 
-    return this.firstSlotId <= ((SlotExtensions)slot).getSlotIndex() && this.lastSlotId > ((SlotExtensions)slot).getSlotIndex();
+    return this.firstSlotId <= slot.getSlotIndex() && this.lastSlotId > slot.getSlotIndex();
   }
 
   @Override

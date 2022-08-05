@@ -2,23 +2,23 @@
   "type": "forge:conditional",
   "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_difference_present",
       "registry": "minecraft:item",
-      "base": "forge:ores/tungsten",
+      "base": "c:ores/tungsten",
       "subtracted": [
-        "forge:ore_rates/sparse",
-        "forge:ore_rates/dense"
-      ],
-      "condition": "tconstruct:tag_difference_present"
+        "c:ore_rates/sparse",
+        "c:ore_rates/dense"
+      ]
     }
   ],
   "recipes": [
     {
       "fabric:load_conditions": [
         {
+          "condition": "fabric:item_tags_populated",
           "values": [
             "c:ingots/platinum"
-          ],
-          "condition": "fabric:item_tags_populated"
+          ]
         }
       ],
       "recipe": {
@@ -29,33 +29,36 @@
           "base": {
             "tag": "c:ores/tungsten"
           },
-          "subtracted": [
-            {
-              "tag": "c:ore_rates/sparse"
-            },
-            {
-              "tag": "c:ore_rates/dense"
-            }
-          ]
+          "subtracted": {
+            "type": "serialization_hooks:combined",
+            "children": [
+              {
+                "tag": "c:ore_rates/sparse"
+              },
+              {
+                "tag": "c:ore_rates/dense"
+              }
+            ]
+          }
         },
         "result": {
           "fluid": "tconstruct:molten_tungsten",
-          "amount": 180
+          "amount": 18000
         },
         "temperature": 950,
         "time": 162,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_platinum",
-            "amount": 60
+            "amount": 6000
           }
         ]
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {
@@ -66,25 +69,28 @@
           "base": {
             "tag": "c:ores/tungsten"
           },
-          "subtracted": [
-            {
-              "tag": "c:ore_rates/sparse"
-            },
-            {
-              "tag": "c:ore_rates/dense"
-            }
-          ]
+          "subtracted": {
+            "type": "serialization_hooks:combined",
+            "children": [
+              {
+                "tag": "c:ore_rates/sparse"
+              },
+              {
+                "tag": "c:ore_rates/dense"
+              }
+            ]
+          }
         },
         "result": {
           "fluid": "tconstruct:molten_tungsten",
-          "amount": 180
+          "amount": 18000
         },
         "temperature": 950,
         "time": 162,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_gold",
-            "amount": 180
+            "amount": 18000
           }
         ]
       }

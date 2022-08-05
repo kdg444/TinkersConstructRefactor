@@ -20,6 +20,8 @@ import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.library.json.ConditionSerializer;
+import slimeknights.tconstruct.library.json.JsonCondition;
 import slimeknights.tconstruct.library.utils.JsonUtils;
 
 import javax.annotation.Nullable;
@@ -36,7 +38,8 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
   public static final String FOLDER = "tinkering/spilling";
   /** GSON instance */
   public static final Gson GSON = (new GsonBuilder())
-//    .registerTypeAdapter(ConditionJsonProvider.class, ConditionSerializer.INSTANCE) TODO: PORT?
+    .registerTypeAdapter(JsonCondition.class, ConditionSerializer.DESERIALIZER)
+    .registerTypeAdapter(JsonCondition.class, ConditionSerializer.SERIALIZER)
     .registerTypeHierarchyAdapter(ISpillingEffect.class, ISpillingEffect.LOADER)
     .registerTypeAdapter(FluidIngredient.class, FluidIngredient.SERIALIZER)
     .setPrettyPrinting()
@@ -71,7 +74,6 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
   /** Adds the managers as datapack listeners */
   private void addDataPackListeners() {
     ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(this);
-//    conditionContext = event.getConditionContext(); TODO: PORT?
   }
 
   @Override
@@ -95,8 +97,8 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
 
       // want to parse condition without parsing effects, as the effect serializer may be missing
       if (json.has(ResourceConditions.CONDITION_ID_KEY)) {
-        JsonObject condition = json.getAsJsonObject(ResourceConditions.CONDITION_ID_KEY);
-        if (!ResourceConditions.get(ResourceLocation.tryParse(GsonHelper.getAsString(condition, "type"))).test(condition))
+        JsonObject condition = json.getAsJsonObject(ResourceConditions.CONDITION_ID_KEY).getAsJsonArray(ResourceConditions.CONDITIONS_KEY).get(0).getAsJsonObject();
+        if (!ResourceConditions.get(ResourceLocation.tryParse(GsonHelper.getAsString(condition, ResourceConditions.CONDITION_ID_KEY))).test(condition))
           return null;
       }
       FluidIngredient ingredient = FluidIngredient.deserialize(json, "fluid");

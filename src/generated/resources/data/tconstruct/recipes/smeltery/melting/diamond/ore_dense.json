@@ -1,13 +1,13 @@
 {
   "type": "tconstruct:ore_melting",
-  "conditions": [
+  "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_intersection_present",
       "registry": "minecraft:item",
       "tags": [
-        "forge:ores/diamond",
-        "forge:ore_rates/dense"
-      ],
-      "type": "tconstruct:tag_intersection_present"
+        "c:ores/diamond",
+        "c:ore_rates/dense"
+      ]
     }
   ],
   "rate": "gem",
@@ -24,14 +24,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_diamond",
-    "amount": 300
+    "amount": 24300
   },
   "temperature": 1450,
   "time": 355,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_quartz",
-      "amount": 300
+      "amount": 24300
     }
   ]
 }

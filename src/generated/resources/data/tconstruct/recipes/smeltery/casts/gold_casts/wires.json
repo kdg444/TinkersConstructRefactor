@@ -2,10 +2,10 @@
   "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
         "c:wires"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "cast": {
@@ -15,7 +15,7 @@
   "switch_slots": true,
   "fluid": {
     "tag": "c:molten_gold",
-    "amount": 90
+    "amount": 9000
   },
   "result": "tconstruct:wire_cast",
   "cooling_time": 57

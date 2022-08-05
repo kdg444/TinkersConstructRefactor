@@ -3,7 +3,7 @@
   "input": "tconstruct:wood",
   "fluid": {
     "tag": "c:slime",
-    "amount": 250
+    "amount": 20250
   },
   "temperature": 50,
   "output": "tconstruct:slimewood#composite"

@@ -1,23 +1,21 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:storage_blocks/raw_zinc",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:storage_blocks/raw_zinc"
+      ]
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/tin",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "condition": "fabric:item_tags_populated",
+          "values": [
+            "c:ingots/tin"
+          ]
         }
       ],
       "recipe": {
@@ -28,22 +26,22 @@
         },
         "result": {
           "fluid": "tconstruct:molten_zinc",
-          "amount": 810
+          "amount": 81000
         },
         "temperature": 420,
         "time": 282,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_tin",
-            "amount": 810
+            "amount": 81000
           }
         ]
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {
@@ -54,14 +52,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_zinc",
-          "amount": 810
+          "amount": 81000
         },
         "temperature": 420,
         "time": 282,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_copper",
-            "amount": 810
+            "amount": 81000
           }
         ]
       }

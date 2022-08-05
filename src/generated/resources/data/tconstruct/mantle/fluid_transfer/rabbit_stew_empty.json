@@ -6,6 +6,6 @@
   "filled": "minecraft:bowl",
   "fluid": {
     "fluid": "tconstruct:rabbit_stew",
-    "amount": 250
+    "amount": 20250
   }
 }

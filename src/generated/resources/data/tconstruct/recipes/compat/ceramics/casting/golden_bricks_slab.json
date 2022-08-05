@@ -1,11 +1,12 @@
 {
   "type": "tconstruct:casting_basin",
-  "fabric:load_conditions": [{
-    "values": [
-      "ceramics"
-    ],
-    "condition": "fabric:all_mods_loaded"
-  }
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "ceramics"
+      ]
+    }
   ],
   "cast": {
     "item": "ceramics:porcelain_bricks_slab"
@@ -13,8 +14,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "c:molten_gold",
-    "amount": 0
+    "amount": 62
   },
   "result": "ceramics:golden_bricks_slab",
-  "cooling_time": 0
+  "cooling_time": 5
 }

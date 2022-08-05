@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "c:magma",
-    "amount": 125
+    "amount": 10125
   },
   "result": "tconstruct:scorched_brick",
-  "cooling_time": 50
+  "cooling_time": 45
 }

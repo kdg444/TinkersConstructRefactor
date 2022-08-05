@@ -1,38 +1,48 @@
 {
   "type": "tconstruct:alloy",
-  "conditions": [
+  "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
-        "c:ingots/lumium",
-        "c:ingots/tin",
-        "c:ingots/silver"
-      ],
-      "condition": "fabric:item_tags_populated"
+        "c:ingots/lumium"
+      ]
     },
     {
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:ingots/tin"
+      ]
+    },
+    {
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:ingots/silver"
+      ]
+    },
+    {
+      "condition": "fabric:fluid_tags_populated",
       "values": [
         "c:glowstone"
-      ],
-      "condition": "fabric:fluid_tags_populated"
+      ]
     }
   ],
   "inputs": [
     {
       "tag": "c:molten_tin",
-      "amount": 270
+      "amount": 27000
     },
     {
       "tag": "c:molten_silver",
-      "amount": 90
+      "amount": 9000
     },
     {
       "tag": "c:glowstone",
-      "amount": 500
+      "amount": 40500
     }
   ],
   "result": {
     "fluid": "tconstruct:molten_lumium",
-    "amount": 360
+    "amount": 36000
   },
   "temperature": 1050
 }

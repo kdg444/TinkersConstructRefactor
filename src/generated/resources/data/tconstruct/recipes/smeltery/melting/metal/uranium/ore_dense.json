@@ -1,24 +1,23 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_intersection_present",
       "registry": "minecraft:item",
       "tags": [
-        "forge:ores/uranium",
-        "forge:ore_rates/dense"
-      ],
-      "type": "tconstruct:tag_intersection_present"
+        "c:ores/uranium",
+        "c:ore_rates/dense"
+      ]
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/lead",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "condition": "fabric:item_tags_populated",
+          "values": [
+            "c:ingots/lead"
+          ]
         }
       ],
       "recipe": {
@@ -37,22 +36,22 @@
         },
         "result": {
           "fluid": "tconstruct:molten_uranium",
-          "amount": 540
+          "amount": 54000
         },
         "temperature": 830,
         "time": 275,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_lead",
-            "amount": 540
+            "amount": 54000
           }
         ]
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {
@@ -71,14 +70,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_uranium",
-          "amount": 540
+          "amount": 54000
         },
         "temperature": 830,
         "time": 275,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_copper",
-            "amount": 540
+            "amount": 54000
           }
         ]
       }

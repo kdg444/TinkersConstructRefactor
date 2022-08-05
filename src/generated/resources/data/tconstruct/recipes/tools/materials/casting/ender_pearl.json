@@ -2,7 +2,7 @@
   "type": "tconstruct:material_fluid",
   "fluid": {
     "tag": "c:ender",
-    "amount": 250
+    "amount": 20250
   },
   "temperature": 477,
   "output": "tconstruct:ender_pearl"

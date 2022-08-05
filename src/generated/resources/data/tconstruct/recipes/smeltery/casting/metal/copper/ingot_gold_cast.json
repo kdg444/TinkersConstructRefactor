@@ -5,7 +5,7 @@
   },
   "fluid": {
     "tag": "c:molten_copper",
-    "amount": 90
+    "amount": 9000
   },
   "result": "minecraft:copper_ingot",
   "cooling_time": 50

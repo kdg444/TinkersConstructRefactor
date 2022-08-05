@@ -4,8 +4,8 @@
     {
       "fabric:load_conditions": [
         {
-          "prop": "ichor_geodes",
-          "condition": "tconstruct:config"
+          "condition": "tconstruct:config",
+          "prop": "ichor_geodes"
         }
       ],
       "recipe": {
@@ -28,9 +28,9 @@
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {

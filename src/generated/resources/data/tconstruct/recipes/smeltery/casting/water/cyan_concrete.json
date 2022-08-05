@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "name": "minecraft:water",
-    "amount": 100
+    "amount": 8100
   },
   "result": "minecraft:cyan_concrete",
-  "cooling_time": 30
+  "cooling_time": 27
 }

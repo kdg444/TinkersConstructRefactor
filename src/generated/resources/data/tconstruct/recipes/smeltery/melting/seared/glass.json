@@ -5,14 +5,14 @@
   },
   "result": {
     "fluid": "tconstruct:seared_stone",
-    "amount": 1000
+    "amount": 81000
   },
   "temperature": 600,
   "time": 107,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_glass",
-      "amount": 1000
+      "amount": 81000
     }
   ]
 }

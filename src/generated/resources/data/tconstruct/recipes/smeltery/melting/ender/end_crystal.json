@@ -5,14 +5,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_ender",
-    "amount": 250
+    "amount": 20250
   },
   "temperature": 477,
-  "time": 82,
+  "time": 74,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_glass",
-      "amount": 7000
+      "amount": 567000
     }
   ]
 }

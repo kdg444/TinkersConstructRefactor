@@ -1,13 +1,13 @@
 {
   "type": "tconstruct:material",
-  "conditions": [
+  "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_difference_present",
       "registry": "minecraft:item",
       "base": "minecraft:logs",
       "subtracted": [
         "tconstruct:wood_variants/logs"
-      ],
-      "type": "tconstruct:tag_difference_present"
+      ]
     }
   ],
   "ingredient": {

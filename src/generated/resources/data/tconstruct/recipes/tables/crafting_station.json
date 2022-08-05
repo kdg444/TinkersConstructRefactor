@@ -10,14 +10,17 @@
     },
     "w": {
       "type": "forge:difference",
-      "base": [
-        {
-          "tag": "c:workbenches"
-        },
-        {
-          "tag": "tconstruct:tables"
-        }
-      ],
+      "base": {
+        "type": "serialization_hooks:combined",
+        "children": [
+          {
+            "tag": "c:workbenches"
+          },
+          {
+            "tag": "tconstruct:tables"
+          }
+        ]
+      },
       "subtracted": {
         "item": "tconstruct:crafting_station"
       }

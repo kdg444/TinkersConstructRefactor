@@ -1,19 +1,20 @@
 {
   "type": "tconstruct:damagable_melting",
-  "fabric:load_conditions": [{
-    "values": [
-      "ceramics"
-    ],
-    "condition": "fabric:all_mods_loaded"
-  }
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "ceramics"
+      ]
+    }
   ],
   "ingredient": {
     "item": "ceramics:clay_helmet"
   },
   "result": {
     "fluid": "tconstruct:molten_clay",
-    "amount": 1250,
-    "unit_size": 50
+    "amount": 101250,
+    "unit_size": 4050
   },
   "temperature": 450,
   "time": 108

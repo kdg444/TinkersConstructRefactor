@@ -2,10 +2,10 @@
   "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
         "c:rods/platinum"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "ingredient": {
@@ -13,7 +13,7 @@
   },
   "result": {
     "fluid": "tconstruct:molten_platinum",
-    "amount": 45
+    "amount": 4500
   },
   "temperature": 970,
   "time": 13

@@ -60,4 +60,6 @@ public class REIPlugin implements REIClientPlugin {
     List<AlloyRecipe> alloyRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.ALLOYING.get(), AlloyRecipe.class);
     alloyRecipes.forEach(alloyRecipe -> registry.add(new AlloyDisplay(alloyRecipe)));
   }
+
+
 }

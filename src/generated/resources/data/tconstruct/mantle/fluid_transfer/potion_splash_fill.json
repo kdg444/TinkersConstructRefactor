@@ -6,6 +6,6 @@
   "filled": "minecraft:splash_potion",
   "fluid": {
     "tag": "c:potion",
-    "amount": 250
+    "amount": 27000
   }
 }

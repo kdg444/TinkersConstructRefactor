@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "prop": "gravel_to_flint",
-      "type": "tconstruct:config"
+      "condition": "tconstruct:config",
+      "prop": "gravel_to_flint"
     }
   ],
   "ingredients": [

@@ -1,7 +1,7 @@
 {
   "fluid": {
     "name": "minecraft:lava",
-    "amount": 50
+    "amount": 4050
   },
   "effects": [
     {

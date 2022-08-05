@@ -7,13 +7,13 @@
   "fluid": [
     {
       "tag": "tconstruct:seared_stone",
-      "amount": 250
+      "amount": 20250
     },
     {
       "tag": "tconstruct:scorched_stone",
-      "amount": 250
+      "amount": 20250
     }
   ],
   "result": "tconstruct:seared_reinforcement",
-  "cooling_time": 89
+  "cooling_time": 80
 }

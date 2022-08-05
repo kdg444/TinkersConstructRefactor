@@ -2,10 +2,10 @@
   "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
         "c:plates/lead"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "ingredient": {
@@ -13,7 +13,7 @@
   },
   "result": {
     "fluid": "tconstruct:molten_lead",
-    "amount": 90
+    "amount": 9000
   },
   "temperature": 330,
   "time": 43

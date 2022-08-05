@@ -5,16 +5,16 @@
   },
   "result": {
     "fluid": "tconstruct:molten_netherite",
-    "amount": 90,
-    "unit_size": 10
+    "amount": 9000,
+    "unit_size": 1000
   },
   "temperature": 1250,
   "time": 74,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_diamond",
-      "amount": 100,
-      "unit_size": 25
+      "amount": 8100,
+      "unit_size": 2025
     }
   ]
 }

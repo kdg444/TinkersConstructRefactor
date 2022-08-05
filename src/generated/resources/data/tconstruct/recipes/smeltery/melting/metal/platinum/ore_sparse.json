@@ -2,12 +2,12 @@
   "type": "tconstruct:ore_melting",
   "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_intersection_present",
       "registry": "minecraft:item",
       "tags": [
         "c:ores/platinum",
         "c:ore_rates/sparse"
-      ],
-      "condition": "tconstruct:tag_intersection_present"
+      ]
     }
   ],
   "rate": "metal",
@@ -24,14 +24,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_platinum",
-    "amount": 90
+    "amount": 9000
   },
   "temperature": 970,
   "time": 98,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_gold",
-      "amount": 90
+      "amount": 9000
     }
   ]
 }

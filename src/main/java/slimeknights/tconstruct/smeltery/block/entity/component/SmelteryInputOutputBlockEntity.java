@@ -1,27 +1,24 @@
 package slimeknights.tconstruct.smeltery.block.entity.component;
 
-import slimeknights.mantle.transfer.fluid.FluidTransferable;
-import slimeknights.mantle.transfer.item.ItemTransferable;
+import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import slimeknights.mantle.transfer.TransferUtil;
-import slimeknights.mantle.transfer.fluid.FluidTransferable;
-import slimeknights.mantle.transfer.item.ItemTransferable;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
-import slimeknights.mantle.transfer.fluid.EmptyFluidHandler;
-import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.mantle.inventory.EmptyItemHandler;
+import slimeknights.mantle.transfer.TransferUtil;
+import slimeknights.mantle.transfer.fluid.EmptyFluidHandler;
+import slimeknights.mantle.transfer.fluid.FluidTransferable;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.item.IItemHandler;
+import slimeknights.mantle.transfer.item.ItemTransferable;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.entity.tank.ISmelteryTankHandler;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
@@ -52,9 +49,9 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
     }
   }
 
-//  @Override
+  @Override
   public void invalidateCaps() {
-//    super.invalidateCaps();
+    super.invalidateCaps();
     clearHandler();
   }
 

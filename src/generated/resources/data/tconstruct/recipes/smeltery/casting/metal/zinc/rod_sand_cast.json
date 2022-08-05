@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:casting_table",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:rods/zinc",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:rods/zinc"
+      ]
     }
   ],
   "cast": {
@@ -15,7 +14,7 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "c:molten_zinc",
-    "amount": 45
+    "amount": 4500
   },
   "result": {
     "tag": "c:rods/zinc"

@@ -3,20 +3,20 @@
   "inputs": [
     {
       "tag": "c:molten_cobalt",
-      "amount": 90
+      "amount": 9000
     },
     {
       "tag": "c:molten_gold",
-      "amount": 90
+      "amount": 9000
     },
     {
       "tag": "c:magma",
-      "amount": 250
+      "amount": 20250
     }
   ],
   "result": {
     "fluid": "tconstruct:molten_queens_slime",
-    "amount": 180
+    "amount": 18000
   },
   "temperature": 1150
 }

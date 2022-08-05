@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "c:slime",
-    "amount": 1250
+    "amount": 101250
   },
   "result": "minecraft:slime_block",
-  "cooling_time": 115
+  "cooling_time": 103
 }

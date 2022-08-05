@@ -6,6 +6,6 @@
   "filled": "minecraft:mushroom_stew",
   "fluid": {
     "tag": "c:mushroom_stew",
-    "amount": 250
+    "amount": 20250
   }
 }

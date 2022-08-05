@@ -1,23 +1,21 @@
 {
   "type": "forge:conditional",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:raw_materials/lead",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:raw_materials/lead"
+      ]
     }
   ],
   "recipes": [
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "value": {
-            "tag": "c:ingots/silver",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+          "condition": "fabric:item_tags_populated",
+          "values": [
+            "c:ingots/silver"
+          ]
         }
       ],
       "recipe": {
@@ -28,22 +26,22 @@
         },
         "result": {
           "fluid": "tconstruct:molten_lead",
-          "amount": 90
+          "amount": 9000
         },
         "temperature": 330,
         "time": 65,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_silver",
-            "amount": 90
+            "amount": 9000
           }
         ]
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {
@@ -54,14 +52,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_lead",
-          "amount": 90
+          "amount": 9000
         },
         "temperature": 330,
         "time": 65,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_gold",
-            "amount": 90
+            "amount": 9000
           }
         ]
       }

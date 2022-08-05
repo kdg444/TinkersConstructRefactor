@@ -31,6 +31,7 @@ public class CopperCanItem extends Item {
 
   public CopperCanItem(Properties properties) {
     super(properties);
+//    FluidStorage.ITEM.registerForItems((itemStack, context) -> new CopperCanFluidHandler(itemStack));
   }
 
 //  @Override TODO: PORT

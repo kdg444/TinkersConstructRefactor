@@ -2,10 +2,10 @@
   "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
         "c:geore_small_buds/tungsten"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "ingredient": {
@@ -13,7 +13,7 @@
   },
   "result": {
     "fluid": "tconstruct:molten_tungsten",
-    "amount": 90
+    "amount": 9000
   },
   "temperature": 950,
   "time": 65

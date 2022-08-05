@@ -32,7 +32,7 @@ public class FaucetBlockEntity extends MantleBlockEntity implements CustomRender
   /** amount of MB to extract from the input at a time */
   public static final long PACKET_SIZE = FluidValues.INGOT;
   /** Transfer rate of the faucet */
-  public static final int MB_PER_TICK = 10;
+  public static final int DROPLETS_PER_TICK = 810;
 
   public static final BlockEntityTicker<FaucetBlockEntity> SERVER_TICKER = (level, pos, world, self) -> self.tick();
 
@@ -278,7 +278,7 @@ public class FaucetBlockEntity extends MantleBlockEntity implements CustomRender
     LazyOptional<IFluidHandler> outputOptional = getOutputHandler();
     if (outputOptional.isPresent()) {
       FluidStack fillStack = drained.copy();
-      fillStack.setAmount(Math.min(drained.getAmount(), MB_PER_TICK));
+      fillStack.setAmount(Math.min(drained.getAmount(), DROPLETS_PER_TICK));
 
       // can we fill?
       IFluidHandler output = outputOptional.orElse(EmptyFluidHandler.INSTANCE);

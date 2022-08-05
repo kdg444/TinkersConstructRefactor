@@ -3,7 +3,7 @@
   "input": "tconstruct:flint",
   "fluid": {
     "tag": "c:magma",
-    "amount": 250
+    "amount": 20250
   },
   "temperature": 300,
   "output": "tconstruct:scorched_stone"

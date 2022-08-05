@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "prop": "wither_bone_conversion",
-      "type": "tconstruct:config"
+      "condition": "tconstruct:config",
+      "prop": "wither_bone_conversion"
     }
   ],
   "ingredients": [

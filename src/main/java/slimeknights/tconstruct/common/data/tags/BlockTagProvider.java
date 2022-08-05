@@ -516,7 +516,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
   private void addGlass(EnumObject<GlassColor,? extends Block> blockObj, String tagPrefix, TagAppender<Block> blockTag) {
     blockObj.forEach((color, block) -> {
       blockTag.add(block);
-      this.tag(TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("d", tagPrefix + color.getSerializedName()))).add(block);
+      this.tag(TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("c", tagPrefix + color.getSerializedName()))).add(block);
     });
   }
 

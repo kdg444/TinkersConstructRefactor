@@ -1,17 +1,16 @@
 {
   "type": "tconstruct:casting_basin",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:storage_blocks/platinum",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:storage_blocks/platinum"
+      ]
     }
   ],
   "fluid": {
     "tag": "c:molten_platinum",
-    "amount": 810
+    "amount": 81000
   },
   "result": {
     "tag": "c:storage_blocks/platinum"

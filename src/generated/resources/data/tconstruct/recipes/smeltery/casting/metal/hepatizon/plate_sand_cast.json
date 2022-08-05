@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:casting_table",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:plates/hepatizon",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:plates/hepatizon"
+      ]
     }
   ],
   "cast": {
@@ -15,7 +14,7 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "c:molten_hepatizon",
-    "amount": 90
+    "amount": 9000
   },
   "result": {
     "tag": "c:plates/hepatizon"

@@ -6,6 +6,6 @@
   "filled": "minecraft:glass_bottle",
   "fluid": {
     "fluid": "tconstruct:honey",
-    "amount": 250
+    "amount": 27000
   }
 }

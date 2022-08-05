@@ -2,12 +2,12 @@
   "type": "tconstruct:ore_melting",
   "fabric:load_conditions": [
     {
+      "condition": "tconstruct:tag_intersection_present",
       "registry": "minecraft:item",
       "tags": [
         "c:ores/gold",
         "c:ore_rates/dense"
-      ],
-      "condition": "tconstruct:tag_intersection_present"
+      ]
     }
   ],
   "rate": "metal",
@@ -24,14 +24,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_gold",
-    "amount": 540
+    "amount": 54000
   },
   "temperature": 700,
   "time": 256,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_copper",
-      "amount": 540
+      "amount": 54000
     }
   ]
 }

@@ -2,26 +2,31 @@
   "type": "tconstruct:alloy",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
-        "c:ingots/bronze",
+        "c:ingots/bronze"
+      ]
+    },
+    {
+      "condition": "fabric:item_tags_populated",
+      "values": [
         "c:ingots/tin"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "inputs": [
     {
       "tag": "c:molten_copper",
-      "amount": 270
+      "amount": 27000
     },
     {
       "tag": "c:molten_tin",
-      "amount": 90
+      "amount": 9000
     }
   ],
   "result": {
     "fluid": "tconstruct:molten_bronze",
-    "amount": 360
+    "amount": 36000
   },
   "temperature": 700
 }

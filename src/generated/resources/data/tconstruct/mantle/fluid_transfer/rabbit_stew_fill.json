@@ -6,6 +6,6 @@
   "filled": "minecraft:rabbit_stew",
   "fluid": {
     "tag": "c:rabbit_stew",
-    "amount": 250
+    "amount": 20250
   }
 }

@@ -1,11 +1,12 @@
 {
   "type": "tconstruct:melting",
-  "fabric:load_conditions": [{
-    "values": [
-      "ceramics"
-    ],
-    "condition": "fabric:all_mods_loaded"
-  }
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "ceramics"
+      ]
+    }
   ],
   "ingredient": [
     {
@@ -17,7 +18,7 @@
   ],
   "result": {
     "fluid": "tconstruct:molten_clay",
-    "amount": 750
+    "amount": 60750
   },
   "temperature": 450,
   "time": 43

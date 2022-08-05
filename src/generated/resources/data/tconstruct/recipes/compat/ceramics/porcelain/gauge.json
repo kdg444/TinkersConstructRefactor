@@ -2,10 +2,10 @@
   "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:all_mods_loaded",
       "values": [
         "ceramics"
-      ],
-      "condition": "fabric:all_mods_loaded"
+      ]
     }
   ],
   "ingredient": {
@@ -13,14 +13,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_porcelain",
-    "amount": 250
+    "amount": 20250
   },
   "temperature": 700,
   "time": 57,
   "byproducts": [
     {
       "fluid": "tconstruct:molten_glass",
-      "amount": 62
+      "amount": 5062
     }
   ]
 }

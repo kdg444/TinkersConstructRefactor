@@ -9,8 +9,8 @@
     }
   ],
   "result": {
-    "fluid": "minecraft:milk",
-    "amount": 100
+    "fluid": "milk:still_milk",
+    "amount": 8100
   },
   "damage": 2
 }

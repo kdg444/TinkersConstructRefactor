@@ -1,12 +1,11 @@
 {
   "type": "tconstruct:casting_table",
-  "conditions": [
+  "fabric:load_conditions": [
     {
-      "value": {
-        "tag": "c:rods/soulsteel",
-        "type": "forge:tag_empty"
-      },
-      "type": "forge:not"
+      "condition": "fabric:item_tags_populated",
+      "values": [
+        "c:rods/soulsteel"
+      ]
     }
   ],
   "cast": {
@@ -15,7 +14,7 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:molten_soulsteel",
-    "amount": 45
+    "amount": 4500
   },
   "result": {
     "tag": "c:rods/soulsteel"

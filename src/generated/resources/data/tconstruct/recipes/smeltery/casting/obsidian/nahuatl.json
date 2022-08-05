@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:molten_obsidian",
-    "amount": 1000
+    "amount": 81000
   },
   "result": "tconstruct:nahuatl",
-  "cooling_time": 221
+  "cooling_time": 199
 }

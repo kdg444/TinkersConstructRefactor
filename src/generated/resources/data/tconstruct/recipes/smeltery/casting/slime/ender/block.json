@@ -6,8 +6,8 @@
   "cast_consumed": true,
   "fluid": {
     "tag": "tconstruct:ender_slime",
-    "amount": 1250
+    "amount": 101250
   },
   "result": "tconstruct:ender_slime",
-  "cooling_time": 119
+  "cooling_time": 107
 }

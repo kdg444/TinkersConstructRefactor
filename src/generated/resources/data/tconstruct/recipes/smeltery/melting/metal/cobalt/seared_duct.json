@@ -5,14 +5,14 @@
   },
   "result": {
     "fluid": "tconstruct:molten_cobalt",
-    "amount": 180
+    "amount": 18000
   },
   "temperature": 950,
   "time": 162,
   "byproducts": [
     {
       "fluid": "tconstruct:seared_stone",
-      "amount": 1000
+      "amount": 81000
     }
   ]
 }

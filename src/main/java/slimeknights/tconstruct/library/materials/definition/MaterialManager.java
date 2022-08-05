@@ -3,12 +3,10 @@ package slimeknights.tconstruct.library.materials.definition;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.InstanceCreator;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.extern.log4j.Log4j2;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -51,8 +49,8 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
   public static final String FOLDER = "tinkering/materials/definition";
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
-    .registerTypeAdapter(JsonCondition.class, ConditionSerializer.INSTANCE)
-    .registerTypeAdapter(ConditionJsonProvider.class, (InstanceCreator<ConditionJsonProvider>) type -> null)
+    .registerTypeAdapter(JsonCondition.class, ConditionSerializer.DESERIALIZER)
+    .registerTypeAdapter(JsonCondition.class, ConditionSerializer.SERIALIZER)
     .setPrettyPrinting()
     .disableHtmlEscaping()
     .create();
@@ -198,7 +196,7 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
 
       // condition
       JsonCondition condition = materialJson.getCondition();
-      if (condition != null && !ResourceConditions.get(condition.id()).test(jsonObject)) {
+      if (condition != null && condition.getConditionId() != null && !ResourceConditions.get(condition.getConditionId()).test(jsonObject.getAsJsonObject(ResourceConditions.CONDITION_ID_KEY).getAsJsonArray(ResourceConditions.CONDITIONS_KEY).get(0).getAsJsonObject())) {
         log.debug("Skipped loading material {} as it did not match the condition", materialId);
         return null;
       }

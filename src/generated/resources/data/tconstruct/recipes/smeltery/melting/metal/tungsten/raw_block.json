@@ -2,20 +2,20 @@
   "type": "forge:conditional",
   "fabric:load_conditions": [
     {
+      "condition": "fabric:item_tags_populated",
       "values": [
         "c:storage_blocks/raw_tungsten"
-      ],
-      "condition": "fabric:item_tags_populated"
+      ]
     }
   ],
   "recipes": [
     {
       "fabric:load_conditions": [
         {
+          "condition": "fabric:item_tags_populated",
           "values": [
             "c:ingots/platinum"
-          ],
-          "condition": "fabric:item_tags_populated"
+          ]
         }
       ],
       "recipe": {
@@ -26,22 +26,22 @@
         },
         "result": {
           "fluid": "tconstruct:molten_tungsten",
-          "amount": 810
+          "amount": 81000
         },
         "temperature": 950,
         "time": 389,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_platinum",
-            "amount": 270
+            "amount": 27000
           }
         ]
       }
     },
     {
-      "conditions": [
+      "fabric:load_conditions": [
         {
-          "type": "forge:true"
+          "condition": "porting_lib:true"
         }
       ],
       "recipe": {
@@ -52,14 +52,14 @@
         },
         "result": {
           "fluid": "tconstruct:molten_tungsten",
-          "amount": 810
+          "amount": 81000
         },
         "temperature": 950,
         "time": 389,
         "byproducts": [
           {
             "fluid": "tconstruct:molten_gold",
-            "amount": 810
+            "amount": 81000
           }
         ]
       }
