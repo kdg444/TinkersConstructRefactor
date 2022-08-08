@@ -4,7 +4,8 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.serialization.Codec;
-import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Registry;
@@ -16,8 +17,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 
 /** Particle data for a fluid particle */
 @SuppressWarnings("removal")
@@ -60,9 +59,9 @@ public class FluidParticleData implements ParticleOptions {
   @Override
   public String writeToString() {
     StringBuilder builder = new StringBuilder();
-    builder.append(((RegistryNameProvider)getType()).getRegistryName());
+    builder.append(getType().getRegistryName());
     builder.append(" ");
-    builder.append(((RegistryNameProvider)fluid.getFluid()).getRegistryName());
+    builder.append(fluid.getFluid().getRegistryName());
     CompoundTag nbt = fluid.getTag();
     if (nbt != null) {
       builder.append(nbt);

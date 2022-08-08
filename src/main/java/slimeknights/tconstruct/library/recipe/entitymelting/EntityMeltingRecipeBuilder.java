@@ -1,12 +1,11 @@
 package slimeknights.tconstruct.library.recipe.entitymelting;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.mantle.recipe.ingredient.EntityIngredient;
@@ -30,7 +29,7 @@ public class EntityMeltingRecipeBuilder extends AbstractRecipeBuilder<EntityMelt
 
   @Override
   public void save(Consumer<FinishedRecipe> consumer) {
-    save(consumer, Objects.requireNonNull(((RegistryNameProvider)output.getFluid()).getRegistryName()));
+    save(consumer, Objects.requireNonNull(output.getFluid().getRegistryName()));
   }
 
   @Override

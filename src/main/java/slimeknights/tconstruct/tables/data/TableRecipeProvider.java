@@ -2,7 +2,6 @@ package slimeknights.tconstruct.tables.data;
 
 import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.NBTIngredient;
-import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -15,6 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
+import slimeknights.mantle.fabric.crafting.CompoundIngredient;
 import slimeknights.mantle.recipe.crafting.ShapedRetexturedRecipeBuilder;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.data.BaseRecipeProvider;
@@ -22,7 +22,6 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tables.recipe.TinkerStationDamagingRecipe;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class TableRecipeProvider extends BaseRecipeProvider {
@@ -62,8 +61,8 @@ public class TableRecipeProvider extends BaseRecipeProvider {
     // crafting station -> crafting table upgrade
     ShapedRecipeBuilder.shaped(TinkerTables.craftingStation)
       .define('p', TinkerTables.pattern)
-      .define('w', DifferenceIngredient.of(new CombinedIngredient(List.of(Ingredient.of(TinkerTags.Items.WORKBENCHES), Ingredient.of(TinkerTags.Items.TABLES))),
-                                           Ingredient.of(TinkerTables.craftingStation.get())))
+      .define('w', DifferenceIngredient.of(CompoundIngredient.of(Ingredient.of(TinkerTags.Items.WORKBENCHES), Ingredient.of(TinkerTags.Items.TABLES)),
+                                    Ingredient.of(TinkerTables.craftingStation.get())))
       .pattern("p")
       .pattern("w")
       .unlockedBy("has_item", has(TinkerTables.pattern))

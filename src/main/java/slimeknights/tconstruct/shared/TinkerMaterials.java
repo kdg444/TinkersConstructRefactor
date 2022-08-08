@@ -4,7 +4,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
+import slimeknights.mantle.fabric.crafting.CraftingHelper;
 import slimeknights.mantle.registration.object.FenceBuildingBlockObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.mantle.registration.object.MetalItemObject;
@@ -48,5 +48,9 @@ public final class TinkerMaterials extends TinkerModule {
    */
   void registerSerializers() {
     CraftingHelper.register(MaterialIngredient.Serializer.ID, MaterialIngredient.Serializer.INSTANCE);
+  }
+
+  public TinkerMaterials() {
+    registerSerializers();
   }
 }

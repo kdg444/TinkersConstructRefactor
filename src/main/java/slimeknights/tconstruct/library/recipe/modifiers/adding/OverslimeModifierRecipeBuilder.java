@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.library.recipe.modifiers.adding;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -35,7 +34,7 @@ public class OverslimeModifierRecipeBuilder extends AbstractRecipeBuilder<Oversl
     if (stacks.length == 0) {
       throw new IllegalStateException("Empty ingredient not allowed");
     }
-    save(consumer, Objects.requireNonNull(((RegistryNameProvider)stacks[0].getItem()).getRegistryName()));
+    save(consumer, Objects.requireNonNull(stacks[0].getItem().getRegistryName()));
   }
 
   @Override

@@ -1,17 +1,14 @@
 {
   "type": "tconstruct:part_builder",
   "pattern": "tconstruct:tool_handle",
-  "pattern_item": {
-    "type": "serialization_hooks:combined",
-    "children": [
-      {
-        "tag": "tconstruct:patterns/default"
-      },
-      {
-        "item": "tconstruct:tool_handle_cast"
-      }
-    ]
-  },
+  "pattern_item": [
+    {
+      "tag": "tconstruct:patterns/default"
+    },
+    {
+      "item": "tconstruct:tool_handle_cast"
+    }
+  ],
   "cost": 1,
   "result": {
     "item": "tconstruct:tool_handle"

@@ -4,7 +4,6 @@ import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient
 import io.github.fabricators_of_create.porting_lib.crafting.IntersectionIngredient;
 import io.github.fabricators_of_create.porting_lib.data.ConditionalRecipe;
 import io.github.fabricators_of_create.porting_lib.util.TrueCondition;
-import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
@@ -22,6 +21,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
+import slimeknights.mantle.fabric.crafting.CompoundIngredient;
 import slimeknights.mantle.recipe.data.ItemNameIngredient;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.recipe.ingredient.EntityIngredient;
@@ -64,9 +64,7 @@ import slimeknights.tconstruct.world.TinkerHeadType;
 import slimeknights.tconstruct.world.TinkerWorld;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.Consumer;
 
 @SuppressWarnings("removal")
@@ -1470,10 +1468,10 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
    */
   @SafeVarargs
   private static Ingredient ingredientFromTags(TagKey<Item>... tags) {
-    List<Ingredient> tagIngredients = new ArrayList<>(tags.length);
+    Ingredient[] tagIngredients = new Ingredient[tags.length];
     for (int i = 0; i < tags.length; i++) {
-      tagIngredients.add(Ingredient.of(tags[i]));
+      tagIngredients[i] = Ingredient.of(tags[i]);
     }
-    return new CombinedIngredient(tagIngredients);
+    return CompoundIngredient.of(tagIngredients);
   }
 }

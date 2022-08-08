@@ -1,20 +1,17 @@
 {
   "type": "tconstruct:melting",
-  "ingredient": {
-    "type": "serialization_hooks:combined",
-    "children": [
-      {
-        "type": "forge:nbt",
-        "item": "tconstruct:scorched_fuel_gauge",
-        "count": 1
-      },
-      {
-        "type": "forge:nbt",
-        "item": "tconstruct:scorched_ingot_gauge",
-        "count": 1
-      }
-    ]
-  },
+  "ingredient": [
+    {
+      "type": "forge:nbt",
+      "item": "tconstruct:scorched_fuel_gauge",
+      "count": 1
+    },
+    {
+      "type": "forge:nbt",
+      "item": "tconstruct:scorched_ingot_gauge",
+      "count": 1
+    }
+  ],
   "result": {
     "fluid": "tconstruct:scorched_stone",
     "amount": 81000

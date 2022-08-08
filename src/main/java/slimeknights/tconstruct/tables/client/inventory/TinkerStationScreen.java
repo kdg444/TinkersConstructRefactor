@@ -2,7 +2,6 @@ package slimeknights.tconstruct.tables.client.inventory;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -161,7 +160,7 @@ public class TinkerStationScreen extends BaseTabbedScreen<TinkerStationBlockEnti
     if (te == null) {
       this.defaultLayout = StationSlotLayout.EMPTY;
     } else {
-      this.defaultLayout = StationSlotLayoutLoader.getInstance().get(Objects.requireNonNull(((RegistryNameProvider)te.getBlockState().getBlock()).getRegistryName()));
+      this.defaultLayout = StationSlotLayoutLoader.getInstance().get(Objects.requireNonNull(te.getBlockState().getBlock().getRegistryName()));
     }
     this.currentLayout = this.defaultLayout;
     this.activeInputs = Math.min(defaultLayout.getInputCount(), max);

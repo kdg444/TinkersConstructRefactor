@@ -2,7 +2,6 @@ package slimeknights.tconstruct.library.recipe.melting;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -120,7 +119,7 @@ public class MeltingRecipeBuilder extends AbstractRecipeBuilder<MeltingRecipeBui
 
   @Override
   public void save(Consumer<FinishedRecipe> consumer) {
-    save(consumer, Objects.requireNonNull(((RegistryNameProvider)output.getFluid()).getRegistryName()));
+    save(consumer, Objects.requireNonNull(output.getFluid().getRegistryName()));
   }
 
   @Override

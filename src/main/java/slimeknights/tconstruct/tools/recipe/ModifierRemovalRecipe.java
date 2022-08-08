@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.tools.recipe;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -203,7 +202,7 @@ public class ModifierRemovalRecipe implements ITinkerStationRecipe {
 
     @Override
     public void save(Consumer<FinishedRecipe> consumer) {
-      save(consumer, Objects.requireNonNull(((RegistryNameProvider)container.getItem()).getRegistryName()));
+      save(consumer, Objects.requireNonNull(container.getItem().getRegistryName()));
     }
 
     @Override

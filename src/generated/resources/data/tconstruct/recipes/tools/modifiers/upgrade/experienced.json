@@ -11,17 +11,14 @@
       "item": "minecraft:experience_bottle"
     }
   ],
-  "tools": {
-    "type": "serialization_hooks:combined",
-    "children": [
-      {
-        "tag": "tconstruct:modifiable/melee_or_harvest"
-      },
-      {
-        "tag": "tconstruct:modifiable/armor/leggings"
-      }
-    ]
-  },
+  "tools": [
+    {
+      "tag": "tconstruct:modifiable/melee_or_harvest"
+    },
+    {
+      "tag": "tconstruct:modifiable/armor/leggings"
+    }
+  ],
   "slots": {
     "upgrades": 1
   },

@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.library.recipe.partbuilder;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -43,7 +42,7 @@ public class PartRecipeBuilder extends AbstractRecipeBuilder<PartRecipeBuilder> 
 
   @Override
   public void save(Consumer<FinishedRecipe> consumerIn) {
-    this.save(consumerIn, Objects.requireNonNull(((RegistryNameProvider)this.output.asItem()).getRegistryName()));
+    this.save(consumerIn, Objects.requireNonNull(this.output.asItem().getRegistryName()));
   }
 
   @Override
@@ -78,7 +77,7 @@ public class PartRecipeBuilder extends AbstractRecipeBuilder<PartRecipeBuilder> 
       json.addProperty("cost", cost);
 
       JsonObject jsonOutput = new JsonObject();
-      jsonOutput.addProperty("item", Objects.requireNonNull(((RegistryNameProvider)output.asItem()).getRegistryName()).toString());
+      jsonOutput.addProperty("item", Objects.requireNonNull(output.asItem().getRegistryName()).toString());
       if (outputAmount > 1) {
         jsonOutput.addProperty("count", outputAmount);
       }

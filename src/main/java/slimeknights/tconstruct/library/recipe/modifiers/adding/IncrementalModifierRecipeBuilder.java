@@ -3,7 +3,6 @@ package slimeknights.tconstruct.library.recipe.modifiers.adding;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -145,7 +144,7 @@ public class IncrementalModifierRecipeBuilder extends AbstractModifierRecipeBuil
    */
   public static JsonElement serializeResult(ItemStack result) {
     // if the item has NBT, write both, else write just the name
-    String itemName = Objects.requireNonNull(((RegistryNameProvider)result.getItem()).getRegistryName()).toString();
+    String itemName = Objects.requireNonNull(result.getItem().getRegistryName()).toString();
     if (result.hasTag()) {
       JsonObject jsonResult = new JsonObject();
       jsonResult.addProperty("item", itemName);

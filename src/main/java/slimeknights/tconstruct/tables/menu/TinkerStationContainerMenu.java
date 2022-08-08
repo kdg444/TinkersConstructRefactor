@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.tables.menu;
 
-import io.github.fabricators_of_create.porting_lib.extensions.RegistryNameProvider;
 import lombok.Getter;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -64,7 +63,7 @@ public class TinkerStationContainerMenu extends TabbedContainerMenu<TinkerStatio
       // add result slot, will fetch result cache
       this.addSlot(this.resultSlot = new LazyResultSlot(tile.getCraftingResult(), 114, 38));
       // set initial slot filters and activations
-      setToolSelection(StationSlotLayoutLoader.getInstance().get(Objects.requireNonNull(((RegistryNameProvider)tile.getBlockState().getBlock()).getRegistryName())));
+      setToolSelection(StationSlotLayoutLoader.getInstance().get(Objects.requireNonNull(tile.getBlockState().getBlock().getRegistryName())));
     }
     else {
       // requirement for final variable
