@@ -145,7 +145,6 @@ public class AlloyRecipeCategory implements TinkersCategory<AlloyDisplay> {
 
     // output
     Slot output = slot(137, 11, origin).markOutput()
-      .disableBackground()
       .entries(display.getOutputEntries().get(0));
     output.getEntries().forEach(entryStack -> ClientEntryStacks.setFluidRenderRatio(output.getCurrentEntry().cast(), entryStack.<dev.architectury.fluid.FluidStack>castValue().getAmount() / (float) maxAmount));
     TinkersCategory.setEntryTooltip(output, FLUID_TOOLTIP);
@@ -154,7 +153,6 @@ public class AlloyRecipeCategory implements TinkersCategory<AlloyDisplay> {
 
     // fuel
     Slot renderSlot = slot(94, 43, origin)
-      .disableBackground()
       .entries(EntryIngredients.of(VanillaEntryTypes.FLUID, TinkersCategory.toREIFluids(MeltingFuelHandler.getUsableFuels(display.getTemperature()))));
     TinkersCategory.setEntryTooltip(renderSlot, FUEL_TOOLTIP);
     renderSlot.getBounds().setSize(18, 18);
