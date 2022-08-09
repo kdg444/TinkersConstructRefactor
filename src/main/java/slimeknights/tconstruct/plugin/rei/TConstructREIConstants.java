@@ -4,16 +4,18 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.type.EntryType;
 import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
 import slimeknights.tconstruct.plugin.rei.casting.CastingDisplay;
 import slimeknights.tconstruct.plugin.rei.melting.MeltingDisplay;
+import slimeknights.tconstruct.plugin.rei.modifiers.ModifierRecipeDisplay;
 import slimeknights.tconstruct.plugin.rei.partbuilder.PartBuilderDisplay;
 
 public class TConstructREIConstants {
   // ingredient types
   @SuppressWarnings("rawtypes")
 //  public static final IIngredientType<EntityType> ENTITY_TYPE = () -> EntityType.class;
-//  public static final IIngredientType<ModifierEntry> MODIFIER_TYPE = () -> ModifierEntry.class;
+  public static final EntryType<ModifierEntry> MODIFIER_TYPE = EntryType.deferred(TConstruct.getResource("modifier_entry"));
   public static final EntryType<Pattern> PATTERN_TYPE = EntryType.deferred(TConstruct.getResource("pattern"));
 
   // casting
@@ -26,6 +28,9 @@ public class TConstructREIConstants {
   public static final CategoryIdentifier<MeltingDisplay> ENTITY_MELTING = type("entity_melting"/*, EntityMeltingRecipe.class*/);
   public static final CategoryIdentifier<AlloyDisplay> ALLOY = type("alloy");
   public static final CategoryIdentifier<MeltingDisplay> FOUNDRY = type("foundry");
+
+  // tinker station
+  public static final CategoryIdentifier<ModifierRecipeDisplay> MODIFIERS = type("modifiers");
 
   // part builder
   public static final CategoryIdentifier<PartBuilderDisplay> PART_BUILDER = type("part_builder");
