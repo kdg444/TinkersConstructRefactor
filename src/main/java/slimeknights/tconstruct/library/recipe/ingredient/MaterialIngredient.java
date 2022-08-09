@@ -3,6 +3,8 @@ package slimeknights.tconstruct.library.recipe.ingredient;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
+import io.github.tropheusj.serialization_hooks.ingredient.CustomIngredient;
+import io.github.tropheusj.serialization_hooks.ingredient.IngredientDeserializer;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
@@ -12,7 +14,6 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import slimeknights.mantle.fabric.crafting.IIngredientSerializer;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
@@ -29,11 +30,13 @@ import java.util.stream.Stream;
  * Extension of the vanilla ingredient to display materials on items and support matching by materials
  * TODO: abstract ingredient
  */
-public class MaterialIngredient extends Ingredient {
+public class MaterialIngredient extends Ingredient implements CustomIngredient {
   /** Material ID meaning any material matches */
   private static final MaterialId WILDCARD = IMaterial.UNKNOWN.getIdentifier();
 
   private final MaterialVariantId material;
+  @Nullable
+  private Value[] values;
   @Nullable
   private ItemStack[] materialStacks;
   protected MaterialIngredient(Stream<? extends Ingredient.Value> itemLists, MaterialVariantId material) {
@@ -136,31 +139,33 @@ public class MaterialIngredient extends Ingredient {
   }
 
   @Override
-  public void invalidate() {
-    super.invalidate();
-    this.materialStacks = null;
-  }
-
-  @Override
-  public boolean isSimple() {
-    return material == WILDCARD && super.isSimple();
-  }
-
-  @Override
-  public IIngredientSerializer<? extends Ingredient> getSerializer() {
+  public IngredientDeserializer getDeserializer() {
     return Serializer.INSTANCE;
+  }
+
+  @Override
+  public void toNetwork(FriendlyByteBuf buffer) {
+    buffer.writeResourceLocation(Serializer.ID);
+    // write first as the order of the stream is uncertain
+    buffer.writeUtf(this.material.toString());
+    // write stacks
+    ItemStack[] items = this.getPlainMatchingStacks();
+    buffer.writeVarInt(items.length);
+    for (ItemStack stack : items) {
+      buffer.writeItem(stack);
+    }
   }
 
   /**
    * Serializer instance
    */
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
-  public static class Serializer implements IIngredientSerializer<MaterialIngredient> {
+  public static class Serializer implements IngredientDeserializer {
     public static final ResourceLocation ID = TConstruct.getResource("material");
     public static final Serializer INSTANCE = new Serializer();
 
     @Override
-    public MaterialIngredient parse(JsonObject json) {
+    public Ingredient fromJson(JsonObject json) {
       MaterialId material;
       if (json.has("material")) {
         material = new MaterialId(GsonHelper.getAsString(json, "material"));
@@ -171,21 +176,9 @@ public class MaterialIngredient extends Ingredient {
     }
 
     @Override
-    public MaterialIngredient parse(FriendlyByteBuf buffer) {
+    public MaterialIngredient fromNetwork(FriendlyByteBuf buffer) {
       MaterialVariantId material = Objects.requireNonNull(MaterialVariantId.tryParse(buffer.readUtf()));
       return new MaterialIngredient(Stream.generate(() -> new ItemValue(buffer.readItem())).limit(buffer.readVarInt()), material);
-    }
-
-    @Override
-    public void write(FriendlyByteBuf buffer, MaterialIngredient ingredient) {
-      // write first as the order of the stream is uncertain
-      buffer.writeUtf(ingredient.material.toString());
-      // write stacks
-      ItemStack[] items = ingredient.getPlainMatchingStacks();
-      buffer.writeVarInt(items.length);
-      for (ItemStack stack : items) {
-        buffer.writeItem(stack);
-      }
     }
   }
 }

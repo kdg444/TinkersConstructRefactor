@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.recipe.modifiers.adding;
 
 import com.google.gson.JsonObject;
 import io.github.fabricators_of_create.porting_lib.util.Lazy;
+import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -10,7 +11,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import slimeknights.mantle.fabric.crafting.CompoundIngredient;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -183,7 +183,7 @@ public abstract class AbstractModifierRecipeBuilder<T extends AbstractModifierRe
       ingredient = Ingredient.of(TinkerTags.Items.UNARMED);
       // if null, both
     } else if (unarmed == null) {
-      ingredient = CompoundIngredient.of(ingredient, Ingredient.of(TinkerTags.Items.UNARMED));
+      ingredient = new CombinedIngredient(ingredient, Ingredient.of(TinkerTags.Items.UNARMED));
     }
     json.add("tools", ingredient.toJson());
     if (maxToolSize != ITinkerStationRecipe.DEFAULT_TOOL_STACK_SIZE) {

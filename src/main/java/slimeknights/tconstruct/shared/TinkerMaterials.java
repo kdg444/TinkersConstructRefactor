@@ -1,10 +1,10 @@
 package slimeknights.tconstruct.shared;
 
+import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import slimeknights.mantle.fabric.crafting.CraftingHelper;
 import slimeknights.mantle.registration.object.FenceBuildingBlockObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.mantle.registration.object.MetalItemObject;
