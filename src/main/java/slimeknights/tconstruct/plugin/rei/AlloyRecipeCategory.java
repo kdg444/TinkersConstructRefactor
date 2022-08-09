@@ -65,16 +65,6 @@ public class AlloyRecipeCategory implements TinkersCategory<AlloyDisplay> {
     this.tank = new WidgetHolder(BACKGROUND_LOC, 172, 17, 16, 16);
   }
 
-  @Override
-  public int getDisplayWidth(AlloyDisplay display) {
-    return 180;
-  }
-
-  @Override
-  public int getDisplayHeight() {
-    return 70;
-  }
-
   @SuppressWarnings("removal")
   @Override
   public CategoryIdentifier<AlloyDisplay> getCategoryIdentifier() {

@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.plugin.rei;
 
+import com.google.common.collect.ImmutableList;
 import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.RecipeManagerAccessor;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
@@ -60,6 +61,7 @@ public class REIPlugin implements REIClientPlugin {
     // casting
     registry.add(new CastingBasinCategory());
     registry.add(new CastingTableCategory());
+    registry.add(new MoldingRecipeCategory());
     // melting and casting
     registry.add(new MeltingCategory());
     registry.add(new AlloyRecipeCategory());
@@ -137,6 +139,13 @@ public class REIPlugin implements REIClientPlugin {
     // alloying
     List<AlloyRecipe> alloyRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.ALLOYING.get(), AlloyRecipe.class);
     alloyRecipes.forEach(alloyRecipe -> registry.add(new AlloyDisplay(alloyRecipe)));
+
+    // molding
+    List<MoldingRecipe> moldingRecipes = ImmutableList.<MoldingRecipe>builder()
+      .addAll(RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.MOLDING_TABLE.get(), MoldingRecipe.class))
+      .addAll(RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.MOLDING_BASIN.get(), MoldingRecipe.class))
+      .build();
+    moldingRecipes.forEach(moldingRecipe -> registry.add(new MoldingRecipeDisplay(moldingRecipe)));
 
     // modifiers
     List<IDisplayModifierRecipe> modifierRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.TINKER_STATION.get(), IDisplayModifierRecipe.class)

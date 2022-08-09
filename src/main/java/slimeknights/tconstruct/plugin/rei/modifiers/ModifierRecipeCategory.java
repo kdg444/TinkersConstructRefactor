@@ -90,16 +90,6 @@ public class ModifierRecipeCategory implements TinkersCategory<ModifierRecipeDis
     return TITLE;
   }
 
-  @Override
-  public int getDisplayHeight() {
-    return 85;
-  }
-
-  @Override
-  public int getDisplayWidth(ModifierRecipeDisplay display) {
-    return 136;
-  }
-
   /** Draws a single slot icon */
   private void drawSlot(Point origin, List<Widget> ingredients, IDisplayModifierRecipe recipe, int slot, int x, int y) {
     List<ItemStack> stacks = recipe.getDisplayItems(slot);

@@ -25,7 +25,7 @@ import java.util.function.Predicate;
 
 public interface TinkersCategory<T extends Display> extends DisplayCategory<T> {
 
-  void draw(T display, PoseStack matrixStack, double mouseX, double mouseY);
+  default void draw(T display, PoseStack matrixStack, double mouseX, double mouseY) {}
 
   void addWidgets(T display, List<Widget> ingredients, Point origin, Rectangle bounds);
 
@@ -33,6 +33,16 @@ public interface TinkersCategory<T extends Display> extends DisplayCategory<T> {
 
   default List<Component> getTooltipStrings(T display, List<Widget> widgets, double mouseX, double mouseY) {
     return Collections.emptyList();
+  }
+
+  @Override
+  default int getDisplayHeight() {
+    return getBackground().height() + 8;
+  }
+
+  @Override
+  default int getDisplayWidth(T display) {
+    return getBackground().width() + 8;
   }
 
   @Override

@@ -21,7 +21,7 @@ public class TConstructREIConstants {
   // casting
   public static final CategoryIdentifier<CastingDisplay> CASTING_BASIN = type("casting_basin");
   public static final CategoryIdentifier<CastingDisplay> CASTING_TABLE = type("casting_table");
-//  public static final CategoryIdentifier<MoldingRecipe> MOLDING = type("molding");
+  public static final CategoryIdentifier<MoldingRecipeDisplay> MOLDING = type("molding");
 
   // melting
   public static final CategoryIdentifier<MeltingDisplay> MELTING = type("melting");
