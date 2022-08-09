@@ -69,7 +69,7 @@ public interface TinkersCategory<T extends Display> extends DisplayCategory<T> {
   }
 
   default Slot slot(int x, int y, Point origin) {
-    return Widgets.createSlot(new Point(origin.x + x, origin.y + y));
+    return Widgets.createSlot(new Point(origin.x + x, origin.y + y)).disableBackground();
   }
 
   default Point point(int x, int y, Point origin) {
