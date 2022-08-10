@@ -343,7 +343,7 @@ public class Config {
       builder.comment("Settings related to compatibility").push("compatibility");
       {
         this.inventoryTabsCompat = builder
-          .comment("Whether to attempt to hide TCon tabs to allow InventoryTabs tabs to appear.")
+          .comment("If true and Inventory Tabs is loaded, TConstruct table tabs will be hidden so Inventory Tabs tabs can be used.")
           .define("inventoryTabs", true);
       }
       builder.pop();
