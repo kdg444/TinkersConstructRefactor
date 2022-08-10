@@ -8,6 +8,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.item.crafting.RecipeManager;
+import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.fluids.FluidClientEvents;
 import slimeknights.tconstruct.fluids.TinkerFluids;
@@ -62,7 +63,7 @@ public class TinkerClient implements ClientModInitializer {
     WorldClientEvents.clientSetup();
 
     // client mod compat checks
-    if (FabricLoader.getInstance().isModLoaded("inventorytabs")) {
+    if (FabricLoader.getInstance().isModLoaded("inventorytabs") && Config.CLIENT.inventoryTabsCompat.get()) {
       BaseTabbedScreen.COMPAT_SHOW_TABS = false;
     }
 

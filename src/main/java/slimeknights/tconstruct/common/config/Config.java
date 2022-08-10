@@ -267,6 +267,9 @@ public class Config {
     public final ForgeConfigSpec.EnumValue<Orientation2D> itemFrameLocation;
     public final ForgeConfigSpec.IntValue itemsPerRow;
 
+    // compat
+    public final ForgeConfigSpec.BooleanValue inventoryTabsCompat;
+
     Client(ForgeConfigSpec.Builder builder) {
       builder.comment("Client only settings").push("client");
 
@@ -334,6 +337,14 @@ public class Config {
             .defineInRange("itemsPerRow", 5, 0, 100);
         }
         builder.pop();
+      }
+      builder.pop();
+
+      builder.comment("Settings related to compatibility").push("compatibility");
+      {
+        this.inventoryTabsCompat = builder
+          .comment("Whether to attempt to hide TCon tabs to allow InventoryTabs tabs to appear.")
+          .define("inventoryTabs", true);
       }
       builder.pop();
 
