@@ -1179,6 +1179,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     slimeMelting(consumer, TinkerFluids.skySlime, SlimeType.SKY, slimeFolder);
     slimeMelting(consumer, TinkerFluids.enderSlime, SlimeType.ENDER, slimeFolder);
     slimeMelting(consumer, TinkerFluids.blood, SlimeType.BLOOD, slimeFolder);
+    slimeMelting(consumer, TinkerFluids.ichor, SlimeType.ICHOR, slimeFolder);
     // magma cream
     MeltingRecipeBuilder.melting(Ingredient.of(Items.MAGMA_CREAM), TinkerFluids.magma.get(), FluidValues.SLIMEBALL, 1.0f)
                         .save(consumer, modResource(slimeFolder + "magma/ball"));
