@@ -135,7 +135,7 @@ public class WorldEvents {
   }
 
   public static LootPool getPool(LootTable table, String name) {
-    return Lists.newArrayList(table.pools).stream().filter(e -> name.equals(/*e.name*/"")).findFirst().orElse(null); // TODO: PORT
+    return Lists.newArrayList(table.pools).stream().filter(e -> name.equals(e.getName())).findFirst().orElse(null);
   }
 
   /** Makes a seed injection loot entry */

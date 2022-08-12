@@ -148,12 +148,12 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   /* Indestructible items */
 
-//  @Override
+  @Override
   public boolean hasCustomEntity(ItemStack stack) {
     return IndestructibleItemEntity.hasCustomEntity(stack);
   }
 
-//  @Override
+  @Override
   public Entity createEntity(Level world, Entity original, ItemStack stack) {
     return IndestructibleItemEntity.createFrom(world, original, stack);
   }

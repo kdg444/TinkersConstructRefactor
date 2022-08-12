@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tables.block.entity.table;
 
 import io.github.fabricators_of_create.porting_lib.event.common.ItemCraftedCallback;
 import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.RecipeManagerAccessor;
+import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -11,8 +12,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.state.BlockState;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
@@ -237,7 +236,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
   private void shrinkSlot(int slot, int amount, Player player) {
     ItemStack stack = getItem(slot);
     if (!stack.isEmpty()) {
-      ItemStack container = new ItemStack(stack.getItem().getCraftingRemainingItem()); // TODO: PORT?
+      ItemStack container = stack.getItem().getCraftingRemainingItem().getDefaultInstance();
       if (amount > 0) {
         container.setCount(container.getCount() * amount);
       }

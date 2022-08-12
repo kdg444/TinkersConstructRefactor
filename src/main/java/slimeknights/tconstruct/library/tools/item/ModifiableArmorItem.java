@@ -92,7 +92,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return false;
   }
 
-//  @Override TODO: PORT
+  @Override
   public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
     return false;
   }
@@ -160,12 +160,12 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   /* Indestructible items */
 
-//  @Override TODO: PORT
+  @Override
   public boolean hasCustomEntity(ItemStack stack) {
     return ModifierUtil.checkVolatileFlag(stack, INDESTRUCTIBLE_ENTITY);
   }
 
-//  @Override
+  @Override
   public Entity createEntity(Level level, Entity original, ItemStack stack) {
     if (ModifierUtil.checkVolatileFlag(stack, INDESTRUCTIBLE_ENTITY)) {
       IndestructibleItemEntity entity = new IndestructibleItemEntity(level, original.getX(), original.getY(), original.getZ(), stack);
