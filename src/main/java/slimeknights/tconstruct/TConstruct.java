@@ -76,7 +76,7 @@ public class TConstruct implements ModInitializer {
     new TinkerGadgets();
     // world
     new TinkerWorld();
-    TinkerStructures structures = new TinkerStructures();
+    new TinkerStructures();
     // tools
    new TinkerTables();
    new TinkerModifiers();

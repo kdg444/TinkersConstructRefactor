@@ -6,6 +6,7 @@ import io.github.fabricators_of_create.porting_lib.biome.BiomeDictionary.Type;
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
@@ -46,6 +47,7 @@ import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 @SuppressWarnings("unused")
 public class WorldEvents {
@@ -69,58 +71,48 @@ public class WorldEvents {
   }
 
   static void onBiomeLoad() {
-//    BiomeGenerationSettingsBuilder generation = event.getGeneration();
-//    MobSpawnSettingsBuilder spawns = event.getSpawns();
-
     // setup for biome checks
-//    BiomeCategory category = event.getCategory();
-//    ResourceLocation name = event.getName();
-//    ResourceKey<Biome> key = name == null ? null : ResourceKey.create(Registry.BIOME_REGISTRY, name);
-//    boolean hasNoTypes = key == null || !BiomeDictionary.hasAnyType(key);
-
     // nether - any biome is fine
-//    if (matches(hasNoTypes, key, category, BiomeCategory.NETHER, Type.NETHER)) {
-      if (Config.COMMON.generateCobalt.get()) {
-        TinkerWorld.placedSmallCobaltOre.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.UNDERGROUND_DECORATION, holder.unwrapKey().get()));
-        TinkerWorld.placedLargeCobaltOre.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.UNDERGROUND_DECORATION, holder.unwrapKey().get()));
-      }
-      // ichor can be anywhere
-      if (Config.COMMON.ichorGeodes.get()) {
-        TinkerWorld.placedIchorGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
-      }
-//    }
+    if (Config.COMMON.generateCobalt.get()) {
+      TinkerWorld.placedSmallCobaltOre.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.UNDERGROUND_DECORATION, holder.unwrapKey().get()));
+      TinkerWorld.placedLargeCobaltOre.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.UNDERGROUND_DECORATION, holder.unwrapKey().get()));
+    }
+    // ichor can be anywhere
+    if (Config.COMMON.ichorGeodes.get()) {
+      TinkerWorld.placedIchorGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
+    }
     // end, mostly do stuff in the outer islands
-//    else if (matches(hasNoTypes, key, category, BiomeCategory.THEEND, Type.END)) {
-      // slime spawns anywhere, uses the grass
-      BiomeModifications.addSpawn(BiomeSelectors.foundInTheEnd(), MobCategory.MONSTER, TinkerWorld.enderSlimeEntity.get(), 10, 2, 4);
-      // geodes only on outer islands
-      if (Config.COMMON.enderGeodes.get()/* && key != null && !Biomes.THE_END.equals(key)*/) {
-        TinkerWorld.placedEnderGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(context -> context.canGenerateIn(LevelStem.END) && context.getBiomeKey() != Biomes.THE_END,Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
-      }
-//    }
+    // slime spawns anywhere, uses the grass
+    BiomeModifications.addSpawn(BiomeSelectors.foundInTheEnd(), MobCategory.MONSTER, TinkerWorld.enderSlimeEntity.get(), 10, 2, 4);
+    // geodes only on outer islands
+    if (Config.COMMON.enderGeodes.get()/* && key != null && !Biomes.THE_END.equals(key)*/) {
+      TinkerWorld.placedEnderGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(context -> context.canGenerateIn(LevelStem.END) && context.getBiomeKey() != Biomes.THE_END,Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
+    }
     // overworld gets tricky
-//    else if (matches(hasNoTypes, key, category, null, Type.OVERWORLD)) {
-      // slime spawns anywhere, uses the grass
-      BiomeModifications.addSpawn(BiomeSelectors.foundInOverworld(), MobCategory.MONSTER, TinkerWorld.earthSlimeEntity.get(), 100, 2, 4);
-      BiomeModifications.addSpawn(BiomeSelectors.foundInOverworld(), MobCategory.MONSTER, TinkerWorld.skySlimeEntity.get(), 100, 2, 4);
+    // slime spawns anywhere, uses the grass
+    BiomeModifications.addSpawn(BiomeSelectors.foundInOverworld(), MobCategory.MONSTER, TinkerWorld.earthSlimeEntity.get(), 100, 2, 4);
+    BiomeModifications.addSpawn(BiomeSelectors.foundInOverworld(), MobCategory.MONSTER, TinkerWorld.skySlimeEntity.get(), 100, 2, 4);
 
-      // earth spawns anywhere, sky does not spawn in ocean (looks weird)
-      if (Config.COMMON.earthGeodes.get()) {
-        TinkerWorld.placedEarthGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
-      }
-      // sky spawn in non-oceans, they look funny in the ocean as they spawn so high
-      if (Config.COMMON.skyGeodes.get()) {
+    // earth spawns anywhere, sky does not spawn in ocean (looks weird)
+    if (Config.COMMON.earthGeodes.get()) {
+      TinkerWorld.placedEarthGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
+    }
+    // sky spawn in non-oceans, they look funny in the ocean as they spawn so high
+    if (Config.COMMON.skyGeodes.get()) {
+      Predicate<BiomeSelectionContext> context = biomeSelectionContext -> {
         boolean add;
-//        if (hasNoTypes) {
-//          add = category != BiomeCategory.OCEAN && category != BiomeCategory.BEACH && category != BiomeCategory.RIVER;
-//        } else {
-//          add = !BiomeDictionary.hasType(key, Type.WATER) && !BiomeDictionary.hasType(key, Type.BEACH);
-//        }
-//        if (add) {
-//          TinkerWorld.placedSkyGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(Decoration.LOCAL_MODIFICATIONS, holder));
-//        }
-      }
-//    }
+        BiomeCategory category = Biome.getBiomeCategory(biomeSelectionContext.getBiomeRegistryEntry());
+        ResourceKey<Biome> key = biomeSelectionContext.getBiomeKey();
+        boolean hasNoTypes = key == null || !BiomeDictionary.hasAnyType(key);
+        if (hasNoTypes) {
+          add = category != BiomeCategory.OCEAN && category != BiomeCategory.BEACH && category != BiomeCategory.RIVER;
+        } else {
+          add = !BiomeDictionary.hasType(key, Type.WATER) && !BiomeDictionary.hasType(key, Type.BEACH);
+        }
+        return add;
+      };
+      TinkerWorld.placedSkyGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(context, Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
+    }
   }
 
 
