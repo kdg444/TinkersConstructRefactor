@@ -2,9 +2,8 @@ package slimeknights.tconstruct.tables.menu;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import slimeknights.mantle.transfer.TransferUtil;
-import slimeknights.mantle.transfer.item.IItemHandlerModifiable;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,6 +21,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.tuple.Pair;
 import slimeknights.mantle.inventory.EmptyItemHandler;
+import slimeknights.mantle.transfer.TransferUtil;
 import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.shared.inventory.TriggeringMultiModuleContainerMenu;
@@ -172,7 +172,7 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
    * @return True if compatible.
    */
   private static boolean hasItemHandler(BlockEntity tileEntity, @Nullable Direction direction) {
-    return TransferUtil.getItemHandler(tileEntity, direction).filter(cap -> cap instanceof IItemHandlerModifiable).isPresent();
+    return tileEntity instanceof Container container && TransferUtil.simplifyItem(InventoryStorage.of(container, direction)).isPresent();
   }
 
 

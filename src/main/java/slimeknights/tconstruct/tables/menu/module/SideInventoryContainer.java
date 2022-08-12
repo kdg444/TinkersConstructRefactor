@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.tables.menu.module;
 
 import lombok.Getter;
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
@@ -34,7 +36,7 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
     if (tile == null) {
       this.itemHandler = LazyOptional.of(() -> EmptyHandler.INSTANCE);
     } else {
-      this.itemHandler = TransferUtil.getItemHandler(tile, inventoryDirection);
+      this.itemHandler = TransferUtil.simplifyItem(InventoryStorage.of((Container) tile, inventoryDirection));
     }
 
     // slot properties
@@ -54,7 +56,7 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
           break;
         }
 
-        this.addSlot(this.createSlot(handler, index, x + c * 18, y + r * 18));
+        this.addSlot(new Slot((Container) tile, index, x + c * 18, y + r * 18));
         index++;
       }
     }
