@@ -1,19 +1,17 @@
 package slimeknights.tconstruct.tables.menu.module;
 
+import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
-import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.minecraft.core.Direction;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import slimeknights.mantle.transfer.TransferUtil;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-import slimeknights.mantle.transfer.item.IItemHandler;
-import slimeknights.mantle.transfer.item.EmptyHandler;
 import slimeknights.mantle.inventory.BaseContainerMenu;
 import slimeknights.mantle.inventory.SmartItemHandlerSlot;
+import slimeknights.mantle.transfer.TransferUtil;
+import slimeknights.mantle.transfer.item.EmptyHandler;
+import slimeknights.mantle.transfer.item.IItemHandler;
 
 import javax.annotation.Nullable;
 
@@ -36,7 +34,7 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
     if (tile == null) {
       this.itemHandler = LazyOptional.of(() -> EmptyHandler.INSTANCE);
     } else {
-      this.itemHandler = TransferUtil.simplifyItem(InventoryStorage.of((Container) tile, inventoryDirection));
+      this.itemHandler = TransferUtil.getItemHandler(tile, inventoryDirection);
     }
 
     // slot properties
@@ -56,7 +54,7 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
           break;
         }
 
-        this.addSlot(new Slot((Container) tile, index, x + c * 18, y + r * 18));
+        this.addSlot(createSlot(handler, index, x + c * 18, y + r * 18));
         index++;
       }
     }

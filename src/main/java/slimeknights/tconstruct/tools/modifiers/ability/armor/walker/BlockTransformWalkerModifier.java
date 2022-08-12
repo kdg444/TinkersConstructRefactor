@@ -58,7 +58,7 @@ public class BlockTransformWalkerModifier extends AbstractWalkerModifier {
       }
       // transform the block
       BlockState original = world.getBlockState(mutable);
-      BlockState transformed = original;//original.getToolModifiedState(context, action, false); TODO: PORT
+      BlockState transformed = original.getToolModifiedState(context, action, false);
       if (transformed != null) {
         world.setBlock(mutable, transformed, Block.UPDATE_ALL_IMMEDIATE);
         world.destroyBlock(target, true);
