@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery.item;
 
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -31,22 +32,17 @@ public class CopperCanItem extends Item {
 
   public CopperCanItem(Properties properties) {
     super(properties);
-//    FluidStorage.ITEM.registerForItems((itemStack, context) -> new CopperCanFluidHandler(itemStack));
+    FluidStorage.ITEM.registerForItems((itemStack, context) -> new CopperCanFluidHandler(context), this);
   }
-
-//  @Override TODO: PORT
-//  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-//    return new CopperCanFluidHandler(stack);
-//  }
 
 //  @Override
   public boolean hasContainerItem(ItemStack stack) {
-    return getFluid(stack) != Fluids.EMPTY;
+    return getFluid(stack.getTag()) != Fluids.EMPTY;
   }
 
 //  @Override
   public ItemStack getContainerItem(ItemStack stack) {
-    Fluid fluid = getFluid(stack);
+    Fluid fluid = getFluid(stack.getTag());
     if (fluid != Fluids.EMPTY) {
       return new ItemStack(this);
     }
@@ -55,9 +51,9 @@ public class CopperCanItem extends Item {
 
   @Override
   public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-    Fluid fluid = getFluid(stack);
+    Fluid fluid = getFluid(stack.getTag());
     if (fluid != Fluids.EMPTY) {
-      CompoundTag fluidTag = getFluidTag(stack);
+      CompoundTag fluidTag = getFluidTag(stack.getTag());
       MutableComponent text;
       if (fluidTag != null) {
         FluidStack displayFluid = new FluidStack(fluid, FluidValues.INGOT, fluidTag);
@@ -97,8 +93,7 @@ public class CopperCanItem extends Item {
   }
 
   /** Gets the fluid from the given stack */
-  public static Fluid getFluid(ItemStack stack) {
-    CompoundTag nbt = stack.getTag();
+  public static Fluid getFluid(CompoundTag nbt) {
     if (nbt != null) {
       ResourceLocation location = ResourceLocation.tryParse(nbt.getString(TAG_FLUID));
       if (location != null && Registry.FLUID.containsKey(location)) {
@@ -113,8 +108,7 @@ public class CopperCanItem extends Item {
 
   /** Gets the fluid NBT from the given stack */
   @Nullable
-  public static CompoundTag getFluidTag(ItemStack stack) {
-    CompoundTag nbt = stack.getTag();
+  public static CompoundTag getFluidTag(CompoundTag nbt) {
     if (nbt != null && nbt.contains(TAG_FLUID_TAG, Tag.TAG_COMPOUND)) {
       return nbt.getCompound(TAG_FLUID_TAG);
     }

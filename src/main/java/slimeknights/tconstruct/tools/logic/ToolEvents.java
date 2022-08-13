@@ -339,7 +339,6 @@ public class ToolEvents {
 
   /** Called the modifier hook when an entity's position changes */
   static void livingWalk(LivingEntity living) {
-//    LivingEntity living = event.getEntityLiving();
     // this event runs before vanilla updates prevBlockPos
     BlockPos pos = living.blockPosition();
     BlockPos lastPos = EntityHelper.getLastPos(living);

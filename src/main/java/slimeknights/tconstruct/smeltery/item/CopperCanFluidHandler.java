@@ -1,122 +1,96 @@
 package slimeknights.tconstruct.smeltery.item;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.minecraft.core.Direction;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.StoragePreconditions;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantItemStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import slimeknights.mantle.transfer.fluid.IFluidHandlerItem;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /** Capability handler instance for the copper can item */
-@AllArgsConstructor
-public class CopperCanFluidHandler implements IFluidHandlerItem/*, ICapabilityProvider*/ {
-  private final LazyOptional<IFluidHandlerItem> holder = LazyOptional.of(() -> this);
-
+@SuppressWarnings("UnstableApiUsage")
+public class CopperCanFluidHandler extends SingleVariantItemStorage<FluidVariant> {
   @Getter
-  private final ItemStack container;
+  private final ContainerItemContext container;
 
-//  @Nonnull
-//  @Override // TODO transfer WHAT???
-//  public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-//    return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.orEmpty(cap, holder);
-//  }
+  public CopperCanFluidHandler(ContainerItemContext container) {
+    super(container);
+    this.container = container;
+  }
 
 
   /* Tank properties */
 
   @Override
-  public int getTanks() {
-    return 1;
-  }
-
-  @Override
-  public boolean isFluidValid(int tank, FluidStack stack) {
-    return true;
-  }
-
-  @Override
-  public long getTankCapacity(int tank) {
+  public long getCapacity(FluidVariant variant) {
     return FluidValues.INGOT;
   }
 
   /** Gets the contained fluid */
-  private Fluid getFluid() {
-    return CopperCanItem.getFluid(container);
+  private Fluid getFluid(ItemVariant variant) {
+    return CopperCanItem.getFluid(variant.getNbt());
   }
 
   /** Gets the contained fluid */
   @Nullable
   private CompoundTag getFluidTag() {
-    return CopperCanItem.getFluidTag(container);
+    return CopperCanItem.getFluidTag(container.getItemVariant().getNbt());
   }
 
-  @Nonnull
   @Override
-  public FluidStack getFluidInTank(int tank) {
-    return new FluidStack(getFluid(), FluidValues.INGOT, getFluidTag());
+  protected FluidVariant getBlankResource() {
+    return FluidVariant.blank();
+  }
+
+  @Override
+  protected FluidVariant getResource(ItemVariant currentVariant) {
+    return FluidVariant.of(getFluid(currentVariant), getFluidTag());
+  }
+
+  @Override
+  protected long getAmount(ItemVariant currentVariant) {
+    return getFluid(currentVariant) == Fluids.EMPTY ? 0 : FluidValues.INGOT;
   }
 
 
   /* Interaction */
 
   @Override
-  public long fill(FluidStack resource, boolean sim) {
+  public long insert(FluidVariant insertedResource, long maxAmount, TransactionContext transaction) {
+    StoragePreconditions.notBlankNotNegative(insertedResource, maxAmount);
     // must not be filled, must have enough
-    if (getFluid() != Fluids.EMPTY || resource.getAmount() < FluidValues.INGOT) {
+    if (maxAmount < FluidValues.INGOT) {
       return 0;
     }
-    // update fluid and return
-    if (!sim) {
-      CopperCanItem.setFluid(container, resource);
-    }
-    return FluidValues.INGOT;
+    return super.insert(insertedResource, FluidValues.INGOT, transaction);
   }
 
-  @Nonnull
   @Override
-  public FluidStack drain(FluidStack resource, boolean sim) {
+  public long extract(FluidVariant extractedResource, long maxAmount, TransactionContext transaction) {
+    StoragePreconditions.notBlankNotNegative(extractedResource, maxAmount);
     // must be draining at least an ingot
-    if (resource.isEmpty() || resource.getAmount() < FluidValues.INGOT) {
-      return FluidStack.EMPTY;
+    if (maxAmount < FluidValues.INGOT) {
+      return 0;
     }
+
     // must have a fluid, must match what they are draining
-    Fluid fluid = getFluid();
-    if (fluid == Fluids.EMPTY || fluid != resource.getFluid()) {
-      return FluidStack.EMPTY;
+    Fluid fluid = getFluid(container.getItemVariant());
+    if (fluid == Fluids.EMPTY || fluid != extractedResource.getFluid()) {
+      return 0;
     }
-    // output 1 ingot
-    FluidStack output = new FluidStack(fluid, FluidValues.INGOT, getFluidTag());
-    if (!sim) {
-      CopperCanItem.setFluid(container, FluidStack.EMPTY);
-    }
-    return output;
+    return super.extract(extractedResource, FluidValues.INGOT, transaction);
   }
 
-  @Nonnull
   @Override
-  public FluidStack drain(long maxDrain, boolean sim) {
-    // must be draining at least an ingot
-    if (maxDrain < FluidValues.INGOT) {
-      return FluidStack.EMPTY;
-    }
-    // must have a fluid
-    Fluid fluid = getFluid();
-    if (fluid == Fluids.EMPTY) {
-      return FluidStack.EMPTY;
-    }
-    // output 1 ingot
-    FluidStack output = new FluidStack(fluid, FluidValues.INGOT, getFluidTag());
-    if (!sim) {
-      CopperCanItem.setFluid(container, FluidStack.EMPTY);
-    }
-    return output;
+  protected ItemVariant getUpdatedVariant(ItemVariant currentVariant, FluidVariant newResource, long newAmount) {
+    return ItemVariant.of(CopperCanItem.setFluid(currentVariant.toStack(), new FluidStack(newResource.getFluid(), newAmount, newResource.copyNbt())));
   }
 }

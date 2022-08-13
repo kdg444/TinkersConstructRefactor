@@ -55,7 +55,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import io.github.fabricators_of_create.porting_lib.model.IModelConfiguration;
 import io.github.fabricators_of_create.porting_lib.model.IModelGeometry;
 import io.github.fabricators_of_create.porting_lib.model.IModelLoader;
@@ -128,8 +127,8 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
       TextureAtlasSprite templateSprite = spriteGetter.apply(owner.resolveTexture("fluid"));
       if (templateSprite != null) {
         // build liquid layer (inside)
-        int luminosity = applyFluidLuminosity ? ((FluidExtensions)fluid.getFluid()).getAttributes().getLuminosity(fluid) : 0;
-        int color = ((FluidExtensions)fluid.getFluid()).getAttributes().getColor(fluid);
+        int luminosity = applyFluidLuminosity ? fluid.getFluid().getAttributes().getLuminosity(fluid) : 0;
+        int color = fluid.getFluid().getAttributes().getColor(fluid);
         builder.addQuads(ItemLayerModel.getLayerRenderType(luminosity > 0), ItemTextureQuadConverter.convertTexture(transform, templateSprite, fluidSprite, NORTH_Z_FLUID, Direction.NORTH, color, -1, luminosity));
         builder.addQuads(ItemLayerModel.getLayerRenderType(luminosity > 0), ItemTextureQuadConverter.convertTexture(transform, templateSprite, fluidSprite, SOUTH_Z_FLUID, Direction.SOUTH, color, -1, luminosity));
       }
@@ -197,9 +196,9 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
     public BakedModel resolve(BakedModel originalModel, ItemStack stack, @Nullable ClientLevel world, @Nullable LivingEntity entity, int seed) {
       BakedModel overriden = nested.resolve(originalModel, stack, world, entity, seed);
       if (overriden != originalModel) return overriden;
-      Fluid fluid = CopperCanItem.getFluid(stack);
+      Fluid fluid = CopperCanItem.getFluid(stack.getTag());
       if (fluid != Fluids.EMPTY) {
-        FluidStack fluidStack = new FluidStack(fluid, FluidValues.INGOT, CopperCanItem.getFluidTag(stack));
+        FluidStack fluidStack = new FluidStack(fluid, FluidValues.INGOT, CopperCanItem.getFluidTag(stack.getTag()));
         return cache.computeIfAbsent(fluidStack, this::getUncahcedModel);
       }
       return originalModel;
