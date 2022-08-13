@@ -118,6 +118,7 @@ dependencies {
 
     modRuntimeOnly("mcjty.theoneprobe:theoneprobe-fabric:${minecraft_base_version}-${probe_version}")
     modRuntimeOnly("maven.modrinth:lazydfu:0.1.2")
+    // modRuntimeOnly("com.github.Andrew6rant:InventoryTabs:inventorytabs-${inventorytabs_version}")
 
     // lombok
     compileOnly("org.projectlombok:lombok:1.18.22")
