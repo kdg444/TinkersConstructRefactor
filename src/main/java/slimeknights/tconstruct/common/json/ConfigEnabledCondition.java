@@ -104,14 +104,14 @@ public class ConfigEnabledCondition implements ConditionJsonProvider, LootItemCo
   }
 
   /* Properties */
-  public static final ConditionJsonProvider SPAWN_WITH_BOOK = add("spawn_with_book", Config.COMMON.shouldSpawnWithTinkersBook);
-  public static final ConditionJsonProvider GRAVEL_TO_FLINT = add("gravel_to_flint", Config.COMMON.addGravelToFlintRecipe);
-  public static final ConditionJsonProvider CHEAPER_NETHERITE_ALLOY = add("cheaper_netherite_alloy", Config.COMMON.cheaperNetheriteAlloy);
-  public static final ConditionJsonProvider WITHER_BONE_DROP = add("wither_bone_drop", Config.COMMON.witherBoneDrop);
-  public static final ConditionJsonProvider WITHER_BONE_CONVERSION = add("wither_bone_conversion", Config.COMMON.witherBoneConversion);
-  public static final ConditionJsonProvider SLIME_RECIPE_FIX = add("slime_recipe_fix", Config.COMMON.glassRecipeFix);
-  public static final ConditionJsonProvider GLASS_RECIPE_FIX = add("glass_recipe_fix", Config.COMMON.glassRecipeFix);
-  public static final ConditionJsonProvider FORCE_INTEGRATION_MATERIALS = add("force_integration_materials", Config.COMMON.forceIntegrationMaterials);
-  public static final ConditionJsonProvider ICHOR_GEODES = add("ichor_geodes", Config.COMMON.ichorGeodes);
+  public static final ConfigEnabledCondition SPAWN_WITH_BOOK = add("spawn_with_book", Config.COMMON.shouldSpawnWithTinkersBook);
+  public static final ConfigEnabledCondition GRAVEL_TO_FLINT = add("gravel_to_flint", Config.COMMON.addGravelToFlintRecipe);
+  public static final ConfigEnabledCondition CHEAPER_NETHERITE_ALLOY = add("cheaper_netherite_alloy", Config.COMMON.cheaperNetheriteAlloy);
+  public static final ConfigEnabledCondition WITHER_BONE_DROP = add("wither_bone_drop", Config.COMMON.witherBoneDrop);
+  public static final ConfigEnabledCondition WITHER_BONE_CONVERSION = add("wither_bone_conversion", Config.COMMON.witherBoneConversion);
+  public static final ConfigEnabledCondition SLIME_RECIPE_FIX = add("slime_recipe_fix", Config.COMMON.glassRecipeFix);
+  public static final ConfigEnabledCondition GLASS_RECIPE_FIX = add("glass_recipe_fix", Config.COMMON.glassRecipeFix);
+  public static final ConfigEnabledCondition FORCE_INTEGRATION_MATERIALS = add("force_integration_materials", Config.COMMON.forceIntegrationMaterials);
+  public static final ConfigEnabledCondition ICHOR_GEODES = add("ichor_geodes", Config.COMMON.ichorGeodes);
   public static final ConfigEnabledCondition SKY_GEODES = add("sky_geodes", Config.COMMON.skyGeodes);
 }
