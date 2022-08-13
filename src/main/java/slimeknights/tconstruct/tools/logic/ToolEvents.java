@@ -71,6 +71,7 @@ public class ToolEvents {
     LivingEntityEvents.ACTUALLY_HURT.register(ToolEvents::livingAttack);
     LivingEntityEvents.ACTUALLY_HURT.register(ToolEvents::livingHurt);
     LivingEntityEvents.TICK.register(ToolEvents::livingWalk);
+    LivingEntityEvents.VISIBILITY.register(ToolEvents::livingVisibility);
   }
 
   static void onBreakSpeed(PlayerBreakSpeedCallback.BreakSpeed event) {
@@ -360,11 +361,9 @@ public class ToolEvents {
   static double livingVisibility(LivingEntity living, @Nullable Entity lookingEntity, double current) {
     MutableDouble value = new MutableDouble(current);
     // always nonnull in vanilla, not sure when it would be nullable but I dont see a need for either modifier
-//    Entity lookingEntity = event.getLookingEntity();
     if (lookingEntity == null) {
       return current;
     }
-//    LivingEntity living = event.getEntityLiving();
     TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> {
       // mob disguise
       Multiset<EntityType<?>> disguises = data.get(MobDisguiseModifier.DISGUISES);
