@@ -8,20 +8,26 @@ import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
-import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.fabricmc.fabric.api.loot.v2.LootTableSource;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -65,7 +71,8 @@ public class WorldEvents {
   }
 
   public static void init() {
-    LootTableLoadingCallback.EVENT.register(WorldEvents::onLootTableLoad);
+    LootTableEvents.MODIFY.register(WorldEvents::onLootTableLoad);
+    LivingEntityEvents.VISIBILITY.register(WorldEvents::livingVisibility);
     LivingEntityEvents.DROPS.register(WorldEvents::creeperKill);
     onBiomeLoad();
   }
@@ -149,7 +156,7 @@ public class WorldEvents {
     return LootItem.lootTableItem(TinkerWorld.slimeSapling.get(type)).setWeight(weight).build();
   }
 
-  static void onLootTableLoad(ResourceManager resourceManager, LootTables manager, ResourceLocation name, FabricLootSupplierBuilder supplier, LootTableLoadingCallback.LootTableSetter setter) {
+  static void onLootTableLoad(ResourceManager resourceManager, LootTables manager, ResourceLocation name, LootTable.Builder tableBuilder, LootTableSource source) {
     if ("minecraft".equals(name.getNamespace())) {
       switch (name.getPath()) {
         // sky
@@ -219,22 +226,19 @@ public class WorldEvents {
 
 
   /* Heads */
-
-//  @SubscribeEvent TODO: PORT
-//  static void livingVisibility(LivingVisibilityEvent event) {
-//    Entity lookingEntity = event.getLookingEntity();
-//    if (lookingEntity == null) {
-//      return;
-//    }
-//    LivingEntity entity = event.getEntityLiving();
-//    ItemStack helmet = entity.getItemBySlot(EquipmentSlot.HEAD);
-//    Item item = helmet.getItem();
-//    if (item != Items.AIR && TinkerWorld.headItems.contains(item)) {
-//      if (lookingEntity.getType() == ((TinkerHeadType)((SkullBlock)((BlockItem)item).getBlock()).getType()).getType()) {
-//        event.modifyVisibility(0.5f);
-//      }
-//    }
-//  }
+  static double livingVisibility(LivingEntity entity, Entity lookingEntity, double originalMultiplier) {
+    if (lookingEntity == null) {
+      return originalMultiplier;
+    }
+    ItemStack helmet = entity.getItemBySlot(EquipmentSlot.HEAD);
+    Item item = helmet.getItem();
+    if (item != Items.AIR && TinkerWorld.headItems.contains(item)) {
+      if (lookingEntity.getType() == ((TinkerHeadType)((SkullBlock)((BlockItem)item).getBlock()).getType()).getType()) {
+        return 0.5f;
+      }
+    }
+    return originalMultiplier;
+  }
 
   static boolean creeperKill(LivingEntity target, DamageSource source, Collection<ItemEntity> drops) {
     if (source != null) {

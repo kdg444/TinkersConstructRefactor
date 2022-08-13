@@ -154,7 +154,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                      .addRecipe(c -> fastGrout.accept(ConsumerWrapperBuilder.wrap(new ResourceLocation("ceramics", "kiln")).build(c)))
                      .addCondition(TrueCondition.INSTANCE)
                      .addRecipe(fastGrout)
-//                     .generateAdvancement() TODO: PORT
+                     .generateAdvancement()
                      .build(consumer, wrap(TinkerSmeltery.searedBrick, folder, "_kiln"));
 
 
@@ -481,7 +481,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                      .addRecipe(c -> fastGrout.accept(ConsumerWrapperBuilder.wrap(new ResourceLocation("ceramics", "kiln")).build(c)))
                      .addCondition(TrueCondition.INSTANCE)
                      .addRecipe(fastGrout)
-//                     .generateAdvancement() TODO: PORT
+                     .generateAdvancement()
                      .build(consumer, wrap(TinkerSmeltery.scorchedBrick, folder, "_kiln"));
 
     // block from bricks
