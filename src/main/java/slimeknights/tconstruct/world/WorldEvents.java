@@ -107,6 +107,8 @@ public class WorldEvents {
     // sky spawn in non-oceans, they look funny in the ocean as they spawn so high
     if (Config.COMMON.skyGeodes.get()) {
       Predicate<BiomeSelectionContext> context = biomeSelectionContext -> {
+        if (!biomeSelectionContext.canGenerateIn(LevelStem.OVERWORLD))
+          return false;
         boolean add;
         BiomeCategory category = Biome.getBiomeCategory(biomeSelectionContext.getBiomeRegistryEntry());
         ResourceKey<Biome> key = biomeSelectionContext.getBiomeKey();
