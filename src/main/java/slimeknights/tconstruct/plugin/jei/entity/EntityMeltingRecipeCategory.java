@@ -31,7 +31,7 @@ import slimeknights.tconstruct.plugin.jei.TConstructJEIConstants;
 import slimeknights.tconstruct.plugin.jei.fabric.JEITypes;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.List;
 
 /**

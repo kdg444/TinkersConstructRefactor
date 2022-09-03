@@ -29,7 +29,7 @@ import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.IRecipeTooltipReplacement;
 import slimeknights.tconstruct.plugin.jei.fabric.JEITypes;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Collections;
 import java.util.List;
 

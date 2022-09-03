@@ -8,6 +8,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
@@ -288,6 +289,9 @@ public class JEIPlugin implements IModPlugin {
       MaterialVariantId materialId = IMaterialItem.getMaterialFromStack(stack);
       if (materialId.equals(IMaterial.UNKNOWN_ID)) {
         return IIngredientSubtypeInterpreter.NONE;
+      }
+      if (context == UidContext.Ingredient) {
+        return materialId.toString();
       }
       return materialId.getId().toString();
     };

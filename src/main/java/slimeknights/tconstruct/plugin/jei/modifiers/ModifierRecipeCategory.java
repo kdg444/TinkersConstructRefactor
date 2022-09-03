@@ -212,7 +212,7 @@ public class ModifierRecipeCategory implements IRecipeCategory<IDisplayModifierR
 
     // TODO: still needed?
     // if focusing on a tool, filter out other tools
-//    IFocus<ItemStack> focus = layout.getFocus(VanillaTypes.ITEM);
+//    IFocus<ItemStack> focus = layout.getFocus(VanillaTypes.ITEM_STACK);
 //    List<ItemStack> output = recipe.getToolWithModifier();
 //    items.set(-1, output);
 //    if (focus != null) {
