@@ -1,11 +1,15 @@
 package slimeknights.tconstruct.fluids;
 
+import io.github.fabricators_of_create.porting_lib.brewing.BrewingRecipeRegistry;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
+import io.github.tropheusj.milk.Milk;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.DispensibleContainerItem;
 import net.minecraft.world.item.Item;
@@ -189,7 +193,7 @@ public final class TinkerFluids extends TinkerModule {
         }
       }
     };
-    event.enqueueWork(() -> {
+//    event.enqueueWork(() -> {
       // slime
       DispenserBlock.registerBehavior(blood, dispenseBucket);
       DispenserBlock.registerBehavior(venom, dispenseBucket);
@@ -259,6 +263,6 @@ public final class TinkerFluids extends TinkerModule {
       DispenserBlock.registerBehavior(moltenSignalum, dispenseBucket);
       DispenserBlock.registerBehavior(moltenRefinedGlowstone, dispenseBucket);
       DispenserBlock.registerBehavior(moltenRefinedObsidian, dispenseBucket);
-    });
+//    });
   }
 }

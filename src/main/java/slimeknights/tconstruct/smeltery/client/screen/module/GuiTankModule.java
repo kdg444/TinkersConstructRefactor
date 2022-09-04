@@ -58,7 +58,7 @@ public class GuiTankModule {
    * @return  Fluid height
    */
   private long getFluidHeight() {
-    int capacity =  tank.getTankCapacity(TANK_INDEX);
+    long capacity =  tank.getTankCapacity(TANK_INDEX);
     if (capacity == 0) {
       return height;
     }
