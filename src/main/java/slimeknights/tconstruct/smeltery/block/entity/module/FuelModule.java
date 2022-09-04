@@ -95,6 +95,7 @@ public class FuelModule implements ContainerData {
   private void reset() {
     this.fluidHandler = null;
     this.itemHandler = null;
+    this.tankDisplayHandlers = null;
     this.lastPos = NULL_POS;
   }
 
@@ -255,6 +256,7 @@ public class FuelModule implements ContainerData {
       if (temperature.isPresent()) {
         itemHandler = null;
         fluidHandler = capability;
+        tankDisplayHandlers = null;
         capability.addListener(fluidListener);
         lastPos = pos;
         return temperature.get();
@@ -264,6 +266,7 @@ public class FuelModule implements ContainerData {
         temperature = itemCap.map(trySolidFuel(consume));
         if (temperature.isPresent()) {
           fluidHandler = null;
+          tankDisplayHandlers = null;
           itemHandler = itemCap;
           itemCap.addListener(itemListener);
           lastPos = pos;
@@ -397,6 +400,7 @@ public class FuelModule implements ContainerData {
         }
         fluidHandler = null;
         itemHandler = null;
+        tankDisplayHandlers = null;
       }
     }
   }
