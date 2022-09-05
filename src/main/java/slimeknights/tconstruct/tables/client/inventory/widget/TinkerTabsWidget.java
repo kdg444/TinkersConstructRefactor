@@ -3,6 +3,8 @@ package slimeknights.tconstruct.tables.client.inventory.widget;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
+import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -50,7 +52,7 @@ public class TinkerTabsWidget implements Widget, GuiEventListener, NarratableEnt
   public TinkerTabsWidget(BaseTabbedScreen<?, ?> parent) {
     this.parent = parent;
 
-    var tabs = collectTabs(this.parent.getMinecraft(), this.parent.getMenu());
+    var tabs = collectTabs(Screens.getClient(this.parent), this.parent.getMenu());
 
     this.tabs = new TabsWidget(parent, TAB_ELEMENT, TAB_ELEMENT, TAB_ELEMENT, ACTIVE_TAB_L_ELEMENT, ACTIVE_TAB_C_ELEMENT, ACTIVE_TAB_R_ELEMENT);
     this.tabs.tabsResource = TAB_IMAGE;
@@ -81,8 +83,13 @@ public class TinkerTabsWidget implements Widget, GuiEventListener, NarratableEnt
       for (Pair<BlockPos, BlockState> pair : menu.stationBlocks) {
         BlockState state = pair.getRight();
         BlockPos blockPos = pair.getLeft();
-        ItemStack stack = state.getBlock().getCloneItemStack(state, null, level, blockPos, minecraft.player);
-        tabs.add(Pair.of(stack, blockPos));
+        if (state.getBlock() instanceof BlockPickInteractionAware pickInteractionAware) {
+          ItemStack stack = pickInteractionAware.getPickedStack(state, level, blockPos, minecraft.player, null);
+          tabs.add(Pair.of(stack, blockPos));
+        } else {
+          ItemStack stack = state.getBlock().getCloneItemStack(level, blockPos, state);
+          tabs.add(Pair.of(stack, blockPos));
+        }
       }
     }
     return tabs;
@@ -98,8 +105,8 @@ public class TinkerTabsWidget implements Widget, GuiEventListener, NarratableEnt
   }
 
   private void onNewTabSelection(BlockPos pos) {
-    assert this.parent.getMinecraft() != null;
-    Level level = this.parent.getMinecraft().level;
+    assert Screens.getClient(this.parent) != null;
+    Level level = Screens.getClient(this.parent).level;
 
     if (level != null) {
       BlockState state = level.getBlockState(pos);
@@ -107,7 +114,7 @@ public class TinkerTabsWidget implements Widget, GuiEventListener, NarratableEnt
         TinkerNetwork.getInstance().sendToServer(new StationTabPacket(pos));
 
         // sound!
-        this.parent.getMinecraft().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+        Screens.getClient(this.parent).getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
       }
     }
   }
@@ -164,7 +171,7 @@ public class TinkerTabsWidget implements Widget, GuiEventListener, NarratableEnt
 
   protected void renterTooltip(PoseStack poseStack, int mouseX, int mouseY) {
     // highlighted tooltip
-    Level world = parent.getMinecraft().level;
+    Level world = Screens.getClient(parent).level;
     if (this.tabs.highlighted > -1 && world != null) {
       BlockPos pos = this.tabData.get(this.tabs.highlighted);
       Component title;
