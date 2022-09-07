@@ -34,6 +34,8 @@ public class BaseTabbedScreen<TILE extends BlockEntity, CONTAINER extends Tabbed
   protected final TILE tile;
   protected TinkerTabsWidget tabsScreen;
 
+  public static boolean COMPAT_SHOW_TABS = true;
+
   public BaseTabbedScreen(CONTAINER container, Inventory playerInventory, Component title) {
     super(container, playerInventory, title);
     this.tile = container.getTile();
@@ -43,7 +45,7 @@ public class BaseTabbedScreen<TILE extends BlockEntity, CONTAINER extends Tabbed
   protected void init() {
     super.init();
 
-    this.tabsScreen = addRenderableWidget(new TinkerTabsWidget(this));
+    if (COMPAT_SHOW_TABS) this.tabsScreen = addRenderableWidget(new TinkerTabsWidget(this));
   }
 
   @Nullable
@@ -90,13 +92,13 @@ public class BaseTabbedScreen<TILE extends BlockEntity, CONTAINER extends Tabbed
   @Override
   public List<Rect2i> getModuleAreas() {
     List<Rect2i> areas = super.getModuleAreas();
-    areas.add(tabsScreen.getArea());
+    if (COMPAT_SHOW_TABS) areas.add(tabsScreen.getArea());
     return areas;
   }
 
   @Override
   protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeft, int guiTop, int mouseButton) {
     return super.hasClickedOutside(mouseX, mouseY, guiLeft, guiTop, mouseButton)
-      && !tabsScreen.isMouseOver(mouseX, mouseY);
+      && (!COMPAT_SHOW_TABS || !tabsScreen.isMouseOver(mouseX, mouseY));
   }
 }
