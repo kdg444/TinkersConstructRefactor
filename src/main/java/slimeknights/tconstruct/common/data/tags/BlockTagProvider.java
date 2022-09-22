@@ -419,11 +419,11 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     tag(TinkerTags.Blocks.MINABLE_WITH_SHEARS)
       .add(Blocks.AZALEA, Blocks.COBWEB, Blocks.DRIED_KELP_BLOCK, Blocks.GLOW_LICHEN, Blocks.LILY_PAD, Blocks.REDSTONE_WIRE,
            Blocks.TRIPWIRE, Blocks.TWISTING_VINES_PLANT, Blocks.TWISTING_VINES, Blocks.VINE, Blocks.WEEPING_VINES_PLANT, Blocks.WEEPING_VINES)
-      .forceAddTag(BlockTags.CAVE_VINES, BlockTags.LEAVES).forceAddTag(BlockTags.WOOL,BlockTags.SAPLINGS, BlockTags.FLOWERS, BlockTags.REPLACEABLE_PLANTS, BlockTags.CORAL_PLANTS);
+      .forceAddTag(BlockTags.CAVE_VINES).forceAddTag(BlockTags.LEAVES).addTags(BlockTags.WOOL,BlockTags.SAPLINGS, BlockTags.FLOWERS, BlockTags.REPLACEABLE_PLANTS, BlockTags.CORAL_PLANTS);
     // scythe/kama does hoe or shear blocks
     tag(TinkerTags.Blocks.MINABLE_WITH_SCYTHE)
       .add(Blocks.ATTACHED_MELON_STEM, Blocks.ATTACHED_PUMPKIN_STEM, Blocks.BIG_DRIPLEAF_STEM, Blocks.BIG_DRIPLEAF, Blocks.KELP, Blocks.KELP_PLANT, Blocks.NETHER_WART, Blocks.SMALL_DRIPLEAF, Blocks.SPORE_BLOSSOM, Blocks.SUGAR_CANE, Blocks.SWEET_BERRY_BUSH)
-      .addTag(MINEABLE_WITH_HOE).addTag(TinkerTags.Blocks.MINABLE_WITH_SHEARS, BlockTags.CROPS);
+      .addTag(MINEABLE_WITH_HOE).addTags(TinkerTags.Blocks.MINABLE_WITH_SHEARS, BlockTags.CROPS);
     // sword list is filled to best ability, but will be a bit inexact as vanilla uses materials, hopefully putting this tag under forge will get people to tag their blocks
     tag(TinkerTags.Blocks.MINABLE_WITH_SWORD).add(Blocks.COBWEB)
       .add(Blocks.COCOA, Blocks.CHORUS_PLANT, Blocks.CHORUS_FLOWER, Blocks.SWEET_BERRY_BUSH, Blocks.VINE, Blocks.MOSS_CARPET, Blocks.MOSS_BLOCK,
