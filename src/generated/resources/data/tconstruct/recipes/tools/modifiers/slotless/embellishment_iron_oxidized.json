@@ -2,13 +2,13 @@
   "type": "tconstruct:swappable_modifier",
   "inputs": [
     {
-      "tag": "forge:raw_materials/iron"
+      "tag": "c:raw_materials/iron"
     },
     {
-      "tag": "forge:raw_materials/iron"
+      "tag": "c:raw_materials/iron"
     },
     {
-      "tag": "forge:raw_materials/iron"
+      "tag": "c:raw_materials/iron"
     }
   ],
   "tools": [

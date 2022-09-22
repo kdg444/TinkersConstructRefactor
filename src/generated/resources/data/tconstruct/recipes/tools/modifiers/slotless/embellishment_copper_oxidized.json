@@ -2,13 +2,13 @@
   "type": "tconstruct:swappable_modifier",
   "inputs": [
     {
-      "tag": "forge:raw_materials/copper"
+      "tag": "c:raw_materials/copper"
     },
     {
-      "tag": "forge:raw_materials/copper"
+      "tag": "c:raw_materials/copper"
     },
     {
-      "tag": "forge:raw_materials/copper"
+      "tag": "c:raw_materials/copper"
     }
   ],
   "tools": [

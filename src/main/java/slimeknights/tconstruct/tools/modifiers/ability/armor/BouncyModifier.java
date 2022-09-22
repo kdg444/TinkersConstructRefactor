@@ -29,7 +29,7 @@ public class BouncyModifier extends TotalArmorLevelModifier {
     }
     // can the entity bounce?
     if (ModifierUtil.getTotalModifierLevel(living, BOUNCY) == 0) {
-      return;
+        return;
     }
 
     // reduced fall damage when crouching

@@ -6,6 +6,7 @@ import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
 import io.github.fabricators_of_create.porting_lib.event.common.EntityEvents;
+import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.PlayerTickEvents;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import net.fabricmc.api.EnvType;
@@ -22,6 +23,7 @@ import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.context.EquipmentChangeContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.Map;
@@ -41,7 +43,7 @@ public class EquipmentChangeWatcher implements EntityComponentInitializer {
 //    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, event -> event.register(PlayerLastEquipment.class));
 
     // equipment change is used on both sides
-//    MinecraftForge.EVENT_BUS.addListener(EquipmentChangeWatcher::onEquipmentChange);
+    LivingEntityEvents.EQUIPMENT_CHANGE.register(EquipmentChangeWatcher::onEquipmentChange);
 
     // only need to use the cap and the player tick on the client
     if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
@@ -54,14 +56,13 @@ public class EquipmentChangeWatcher implements EntityComponentInitializer {
   /* Events */
 
   /** Serverside modifier hooks */
-//  private static void onEquipmentChange(LivingEquipmentChangeEvent event) {
-//    runModifierHooks(event.getEntityLiving(), event.getSlot(), event.getFrom(), event.getTo());
-//  }
+  private static void onEquipmentChange(LivingEntity entity, EquipmentSlot slot, @Nonnull ItemStack from, @Nonnull ItemStack to) {
+    runModifierHooks(entity, slot, from, to);
+  }
 
   /** Event listener to attach the capability */
   @Override
   public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-    register();
     registry.registerForPlayers(CAPABILITY, player -> {
 //        if (player.getCommandSenderWorld().isClientSide) {
           return new PlayerLastEquipment(player);

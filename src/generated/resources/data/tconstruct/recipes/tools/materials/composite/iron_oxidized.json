@@ -3,7 +3,7 @@
   "input": "tconstruct:iron",
   "fluid": {
     "tag": "mantle:water",
-    "amount": 250
+    "amount": 27000
   },
   "temperature": 1,
   "output": "tconstruct:iron#oxidized"

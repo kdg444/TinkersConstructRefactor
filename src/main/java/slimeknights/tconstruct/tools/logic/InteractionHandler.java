@@ -61,7 +61,7 @@ public class InteractionHandler {
       // exit on first successful result
       InteractionResult result = entry.getModifier().beforeEntityUse(tool, entry.getLevel(), player, target, hand, slotType);
       if (result.consumesAction()) {
-        return result;
+        return result == InteractionResult.PASS ? null : result;
       }
     }
     return null;
@@ -80,7 +80,7 @@ public class InteractionHandler {
         // initial entity interaction
         InteractionResult result = target.interact(player, hand);
         if (result.consumesAction()) {
-          return result;
+          return null;
         }
 
         // after entity use for chestplates
@@ -97,7 +97,7 @@ public class InteractionHandler {
         // did not interact with an entity? try direct interaction
         // needs to be run here as the interact empty hook does not fire when targeting entities
         result = onChestplateUse(player, chestplate, hand);
-        return result;
+        return null;
       }
     }
     return null;
@@ -260,7 +260,7 @@ public class InteractionHandler {
   }
 
   public static void init() {
-    EntityInteractCallback.EVENT.register(InteractionHandler::beforeEntityInteract);
+    EntityInteractCallback.EVENT.register(Event.DEFAULT_PHASE, InteractionHandler::beforeEntityInteract);
     EntityInteractCallback.EVENT.register(TConstruct.getResource("event_phase"), InteractionHandler::afterEntityInteract);
     EntityInteractCallback.EVENT.addPhaseOrdering(Event.DEFAULT_PHASE, TConstruct.getResource("event_phase"));
     UseBlockCallback.EVENT.register(InteractionHandler::chestplateInteractWithBlock);
