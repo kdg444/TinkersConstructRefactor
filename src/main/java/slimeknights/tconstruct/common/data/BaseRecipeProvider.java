@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 public abstract class BaseRecipeProvider extends FabricRecipeProvider implements /*IConditionBuilder,*/ IRecipeHelper {
   public BaseRecipeProvider(FabricDataGenerator generator) {
     super(generator);
+    TConstruct.sealTinkersClass(this, "BaseRecipeProvider", "BaseRecipeProvider is trivial to recreate and directly extending can lead to addon recipes polluting our namespace.");
   }
 
   @Override
