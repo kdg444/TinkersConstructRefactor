@@ -101,4 +101,8 @@ public class CraftingStationContainerMenu extends TabbedContainerMenu<CraftingSt
   public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
     return slot != this.resultSlot && super.canTakeItemForPickAll(stack, slot);
   }
+
+  public PlayerSensitiveLazyResultSlot getResultSlot() {
+    return resultSlot;
+  }
 }
