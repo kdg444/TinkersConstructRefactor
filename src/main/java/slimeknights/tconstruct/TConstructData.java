@@ -25,7 +25,7 @@ public class TConstructData implements DataGeneratorEntrypoint {
       true, null, null);
     TConstruct.onInitializeDataGenerator(fabricDataGenerator, helper);
     TinkerSmeltery.gatherData(fabricDataGenerator);
-    TinkerModifiers.gatherData(fabricDataGenerator);
+    TinkerModifiers.gatherData(fabricDataGenerator, helper);
 
     TinkerTools.gatherData(fabricDataGenerator, helper);
     TinkerFluids.gatherData(fabricDataGenerator);

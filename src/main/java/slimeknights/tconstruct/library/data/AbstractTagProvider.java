@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.data;
 
 import com.google.common.collect.Maps;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.impl.datagen.FabricTagBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
@@ -76,7 +77,7 @@ public abstract class AbstractTagProvider<T> extends GenericDataProvider {
     // Optional tags should not be validated
 
     if (entry instanceof Tag.TagEntry nonOptionalEntry) {
-      return !existingFileHelper.exists(nonOptionalEntry.getId(), resourceType);
+      return !existingFileHelper.exists(nonOptionalEntry.id, resourceType);
     }
     return false;
   }
@@ -155,7 +156,7 @@ public abstract class AbstractTagProvider<T> extends GenericDataProvider {
 
     /** Sets the tag to replace */
     public TagAppender<T> replace(boolean value) {
-      internalBuilder.replace(value);
+      ((FabricTagBuilder)internalBuilder).fabric_setReplace(value);
       return this;
     }
 
@@ -188,8 +189,9 @@ public abstract class AbstractTagProvider<T> extends GenericDataProvider {
      * @return The builder for chaining
      */
     public TagAppender<T> remove(ResourceLocation location) {
-      internalBuilder.removeElement(location, modID);
-      return this;
+//      internalBuilder.removeElement(location, modID);
+      throw new RuntimeException("TODO: Port unsupported!");
+//      return this;
     }
 
     /**
@@ -211,8 +213,9 @@ public abstract class AbstractTagProvider<T> extends GenericDataProvider {
      * @return The builder for chaining
      */
     public TagAppender<T> remove(TagKey<T> tag) {
-      internalBuilder.removeTag(tag.location(), modID);
-      return this;
+//      internalBuilder.removeTag(tag.location(), modID);
+//      return this;
+      throw new RuntimeException("TODO: Port unsupported!");
     }
 
     /**

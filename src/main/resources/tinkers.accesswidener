@@ -80,6 +80,8 @@ transitive-accessible class net/minecraft/world/level/storage/loot/functions/App
 transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$FormulaDeserializer
 transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$OreDrops
 transitive-accessible class net/minecraft/world/level/storage/loot/functions/ApplyBonusCount$UniformBonusCount
+transitive-accessible class net/minecraft/tags/Tag$TagEntry
+transitive-accessible field net/minecraft/tags/Tag$TagEntry id Lnet/minecraft/resources/ResourceLocation;
 
 transitive-accessible method net/minecraft/world/level/block/BeehiveBlock angerNearbyBees (Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V
 transitive-accessible method net/minecraft/world/level/block/BeehiveBlock hiveContainsBees (Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Z

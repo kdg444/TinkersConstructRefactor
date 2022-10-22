@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerEffect;
@@ -495,12 +496,10 @@ public final class TinkerModifiers extends TinkerModule {
     chrysophiliteBonusFunction = Registry.register(Registry.LOOT_FUNCTION_TYPE, ChrysophiliteBonusFunction.ID, new LootItemFunctionType(ChrysophiliteBonusFunction.SERIALIZER));
   }
 
-  public static void gatherData(FabricDataGenerator generator) {
-//    if (event.includeServer()) {
-      generator.addProvider(new ModifierProvider(generator));
-      generator.addProvider(new ModifierRecipeProvider(generator));
-      generator.addProvider(new SpillingFluidProvider(generator));
-      generator.addProvider(new ModifierTagProvider(generator, event.getExistingFileHelper()));
-    }
+  public static void gatherData(FabricDataGenerator generator, ExistingFileHelper helper) {
+    generator.addProvider(new ModifierProvider(generator));
+    generator.addProvider(new ModifierRecipeProvider(generator));
+    generator.addProvider(new SpillingFluidProvider(generator));
+    generator.addProvider(new ModifierTagProvider(generator, helper));
   }
 }

@@ -5,19 +5,19 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.blaze3d.vertex.PoseStack;
+import io.github.fabricators_of_create.porting_lib.event.client.TextureStitchCallback;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import slimeknights.mantle.data.IEarlySafeManagerReloadListener;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -37,7 +37,7 @@ import java.util.function.Consumer;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Log4j2
-public class ModifierIconManager implements IEarlySafeManagerReloadListener {
+public class ModifierIconManager implements IEarlySafeManagerReloadListener, IdentifiableResourceReloadListener {
   /** Icon file to load, has merging behavior but forge prevents multiple mods from loading the same file */
   private static final String ICONS = "tinkering/modifier_icons.json";
   /** First layer of the default icon, will be tinted */
@@ -54,23 +54,21 @@ public class ModifierIconManager implements IEarlySafeManagerReloadListener {
    * Initializes this manager, registering it relevant event busses
    */
   public static void init() {
-    IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-    bus.addListener(ModifierIconManager::textureStitch);
-    bus.addListener(ModifierIconManager::onResourceManagerRegister);
+    TextureStitchCallback.PRE.register(ModifierIconManager::textureStitch);
+    ModifierIconManager.onResourceManagerRegister();
   }
 
   /** Called on resource manager build to add the manager */
-  private static void onResourceManagerRegister(RegisterClientReloadListenersEvent manager) {
-    manager.registerReloadListener(INSTANCE);
+  private static void onResourceManagerRegister() {
+    ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(INSTANCE);
   }
 
   /** Called on texture stitch to add the new textures */
-  private static void textureStitch(TextureStitchEvent.Pre event) {
-    if (event.getAtlas().location().equals(InventoryMenu.BLOCK_ATLAS)) {
-      Consumer<ResourceLocation> spriteAdder = event::addSprite;
+  private static void textureStitch(TextureAtlas atlas, Consumer<ResourceLocation> spriteAdder) {
+    if (atlas.location().equals(InventoryMenu.BLOCK_ATLAS)) {
       modifierIcons.values().forEach(list -> list.forEach(spriteAdder));
-      event.addSprite(DEFAULT_COVER);
-      event.addSprite(DEFAULT_PAGES);
+      spriteAdder.accept(DEFAULT_COVER);
+      spriteAdder.accept(DEFAULT_PAGES);
     }
   }
 
@@ -147,5 +145,10 @@ public class ModifierIconManager implements IEarlySafeManagerReloadListener {
       Screen.blit(matrices, x, y, z, size, size, atlas.getSprite(DEFAULT_COVER));
       RenderUtils.setColorRGBA(-1);
     }
+  }
+
+  @Override
+  public ResourceLocation getFabricId() {
+    return TConstruct.getResource("modifier_icon_manager");
   }
 }
