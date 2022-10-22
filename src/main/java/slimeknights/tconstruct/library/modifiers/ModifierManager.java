@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.minecraft.core.Registry;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -20,32 +21,46 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
+import net.minecraft.tags.TagLoader;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import slimeknights.mantle.data.GenericLoaderRegistry;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.json.JsonRedirect;
+import slimeknights.tconstruct.library.utils.GenericTagUtil;
 import slimeknights.tconstruct.library.utils.JsonUtils;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /** Modifier registry and JSON loader */
 @Log4j2
 public class ModifierManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloadListener {
+  /** Location of dynamic modifiers */
   public static final String FOLDER = "tinkering/modifiers";
+  /** Location of modifier tags */
+  public static final String TAG_FOLDER = "tinkering/tags/modifiers";
+  /** Registry key to make tag keys */
+  private static final ResourceKey<? extends Registry<Modifier>> REGISTRY_KEY = ResourceKey.createRegistryKey(TConstruct.getResource("modifiers"));
+
+  /** GSON instance for loading dynamic modifiers */
   public static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
 
   /** ID of the default modifier */
@@ -71,6 +86,11 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
 
   /** Modifiers loaded from JSON */
   private Map<ModifierId,Modifier> dynamicModifiers = Collections.emptyMap();
+  /** Modifier tags loaded from JSON */
+  private Map<ResourceLocation,Tag<Modifier>> tags = Collections.emptyMap();
+  /** Map from modifier to tags on the modifier */
+  private Map<ModifierId,Set<TagKey<Modifier>>> reverseTags = Collections.emptyMap();
+
   /** If true, dynamic modifiers have been loaded from datapacks, so its safe to fetch dynamic modifiers */
   @Getter
   boolean dynamicModifiersLoaded = false;
@@ -89,7 +109,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
   public void init() {
     this.fireRegistryEvent();
     this.addDataPackListeners();
-    ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> JsonUtils.syncPackets(player, joined, new UpdateModifiersPacket(this.dynamicModifiers)));
+    ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> JsonUtils.syncPackets(player, joined, new UpdateModifiersPacket(this.dynamicModifiers, this.tags)));
   }
 
   /** Fires the modifier registry event */
@@ -141,7 +161,20 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
 
     // TODO: this should be set back to false at some point
     dynamicModifiersLoaded = true;
-    log.info("Loaded {} dynamic modifiers and {} modifier redirects in {} ms", modifierSize, redirects.size(), (System.nanoTime() - time) / 1000000f);
+    long timeStep = System.nanoTime();
+    log.info("Loaded {} dynamic modifiers and {} modifier redirects in {} ms", modifierSize, redirects.size(), (timeStep - time) / 1000000f);
+
+    // load modifier tags
+    TagLoader<Modifier> tagLoader = new TagLoader<>(id -> {
+      Modifier modifier = ModifierManager.getValue(new ModifierId(id));
+      if (modifier == defaultValue) {
+        return Optional.empty();
+      }
+      return Optional.of(modifier);
+    }, TAG_FOLDER);
+    this.tags = tagLoader.loadAndBuild(pResourceManager);
+    this.reverseTags = GenericTagUtil.reverseTags(REGISTRY_KEY, Modifier::getId, tags);
+    log.info("Loaded {} modifier tags for {} modifiers in {} ms", tags.size(), this.reverseTags.size(), (System.nanoTime() - timeStep) / 1000000f);
 
     new ModifiersLoadedEvent().sendEvent();
   }
@@ -181,9 +214,11 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
   }
 
   /** Updates the modifiers from the server */
-  void updateModifiersFromServer(Map<ModifierId,Modifier> modifiers) {
+  void updateModifiersFromServer(Map<ModifierId,Modifier> modifiers, Map<ResourceLocation,Tag<Modifier>> tags) {
     this.dynamicModifiers = modifiers;
     this.dynamicModifiersLoaded = true;
+    this.tags = tags;
+    this.reverseTags = GenericTagUtil.reverseTags(REGISTRY_KEY, Modifier::getId, tags);
     new ModifiersLoadedEvent().sendEvent();
   }
 
@@ -193,6 +228,11 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
   /** Fetches a static modifier by ID, only use if you need access to modifiers before the world loads*/
   public Modifier getStatic(ModifierId id) {
     return staticModifiers.getOrDefault(id, defaultValue);
+  }
+
+  /** Checks if the given static modifier exists */
+  public boolean containsStatic(ModifierId id) {
+    return staticModifiers.containsKey(id) || expectedDynamicModifiers.containsKey(id);
   }
 
   /** Checks if the registry contains the given modifier */
@@ -279,6 +319,31 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
   @Override
   public ResourceLocation getFabricId() {
     return TConstruct.getResource("modifier_manager");
+  }
+
+
+  /* Tags */
+
+  /** Creates a tag key for a modifier */
+  public static TagKey<Modifier> getTag(ResourceLocation id) {
+    return TagKey.create(REGISTRY_KEY, id);
+  }
+
+  /**
+   * Checks if the given modifier is in the given tag
+   * @return  True if the modifier is in the tag
+   */
+  public static boolean isInTag(ModifierId modifier, TagKey<Modifier> tag) {
+    return INSTANCE.reverseTags.getOrDefault(modifier, Collections.emptySet()).contains(tag);
+  }
+
+  /**
+   * Gets all values contained in the given tag
+   * @param tag  Tag instance
+   * @return  Contained values
+   */
+  public static List<Modifier> getTagValues(TagKey<Modifier> tag) {
+    return INSTANCE.tags.getOrDefault(tag.location(), Tag.empty()).getValues();
   }
 
 

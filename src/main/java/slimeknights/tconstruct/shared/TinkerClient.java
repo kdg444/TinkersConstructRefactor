@@ -19,8 +19,7 @@ import slimeknights.tconstruct.library.client.data.spritetransformer.GreyToSprit
 import slimeknights.tconstruct.library.client.data.spritetransformer.IColorMapping;
 import slimeknights.tconstruct.library.client.data.spritetransformer.ISpriteTransformer;
 import slimeknights.tconstruct.library.client.data.spritetransformer.RecolorSpriteTransformer;
-import slimeknights.tconstruct.smeltery.SmelteryClientEvents;
-import slimeknights.tconstruct.tables.TableClientEvents;
+import slimeknights.tconstruct.library.client.modifiers.ModifierIconManager;
 import slimeknights.tconstruct.tables.client.PatternGuiTextureLoader;
 import slimeknights.tconstruct.tables.client.inventory.BaseTabbedScreen;
 import slimeknights.tconstruct.tools.ToolClientEvents;
@@ -44,6 +43,7 @@ public class TinkerClient implements ClientModInitializer {
     TinkerBook.initBook();
     // needs to register listeners early enough for minecraft to load
     PatternGuiTextureLoader.init();
+    ModifierIconManager.init();
 
     // add the recipe cache invalidator to the client
     Consumer<RecipeManager> recipesUpdated = event -> RecipeCacheInvalidator.reload(true);

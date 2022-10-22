@@ -6,18 +6,26 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.extern.log4j.Log4j2;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
+import net.minecraft.tags.TagLoader;
 import net.minecraft.util.profiling.ProfilerFiller;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.exception.TinkerJSONException;
 import slimeknights.tconstruct.library.json.ConditionSerializer;
 import slimeknights.tconstruct.library.json.JsonCondition;
 import slimeknights.tconstruct.library.json.JsonRedirect;
 import slimeknights.tconstruct.library.materials.json.MaterialJson;
+import slimeknights.tconstruct.library.modifiers.Modifier;
+import slimeknights.tconstruct.library.utils.GenericTagUtil;
 import slimeknights.tconstruct.library.utils.Util;
 
 import javax.annotation.Nullable;
@@ -30,7 +38,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -46,7 +54,14 @@ import static java.util.Objects.requireNonNullElse;
  */
 @Log4j2
 public class MaterialManager extends SimpleJsonResourceReloadListener implements IdentifiableResourceReloadListener {
+  /** Location of materials */
   public static final String FOLDER = "tinkering/materials/definition";
+  /** Location of material tags */
+  public static final String TAG_FOLDER = "tinkering/tags/materials";
+  /** Registry key to make tag keys */
+  private static final ResourceKey<? extends Registry<IMaterial>> REGISTRY_KEY = ResourceKey.createRegistryKey(TConstruct.getResource("materials"));
+
+  /** GSON for loading materials */
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
     .registerTypeAdapter(JsonCondition.class, ConditionSerializer.DESERIALIZER)
@@ -63,6 +78,11 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
   private Map<MaterialId,MaterialId> redirects = Collections.emptyMap();
   /** Sorted list of visible materials */
   private List<IMaterial> sortedMaterials = Collections.emptyList();
+
+  /** Modifier tags loaded from JSON */
+  private Map<ResourceLocation,Tag<IMaterial>> tags = Collections.emptyMap();
+  /** Map from modifier to tags on the modifier */
+  private Map<MaterialId,Set<TagKey<IMaterial>>> reverseTags = Collections.emptyMap();
   /** Context for conditions */
 //  @Setter
 //  private IContext conditionContext = IContext.EMPTY;
@@ -111,6 +131,32 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
     return redirects.getOrDefault(materialId, materialId);
   }
 
+
+  /* Tags */
+
+  /** Creates a tag key for a material */
+  public static TagKey<IMaterial> getTag(ResourceLocation id) {
+    return TagKey.create(REGISTRY_KEY, id);
+  }
+
+  /**
+   * Checks if the given modifier is in the given tag
+   * @return  True if the modifier is in the tag
+   */
+  public boolean isIn(MaterialId id, TagKey<IMaterial> tag) {
+    return reverseTags.getOrDefault(id, Collections.emptySet()).contains(tag);
+  }
+
+  /**
+   * Gets all values contained in the given tag
+   * @param tag  Tag instance
+   * @return  Contained values
+   */
+  public List<IMaterial> getValues(TagKey<Modifier> tag) {
+    return tags.getOrDefault(tag.location(), Tag.empty()).getValues();
+  }
+
+
   /**
    * Recreates the fluid lookup and sorted list using the new materials list
    */
@@ -123,17 +169,12 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
 
   /**
    * Updates the material list from the server.list. Should only be called client side
-   * @param materialList  Server material list
-   * @param redirects     Map of material redirects
    */
-  public void updateMaterialsFromServer(Collection<IMaterial> materialList, Map<MaterialId,MaterialId> redirects) {
-    this.materials = materialList.stream()
-      .filter(Objects::nonNull)
-      .collect(Collectors.toMap(
-        IMaterial::getIdentifier,
-        Function.identity())
-      );
+  public void updateMaterialsFromServer(Map<MaterialId,IMaterial> materials, Map<MaterialId,MaterialId> redirects, Map<ResourceLocation,Tag<IMaterial>> tags) {
+    this.materials = materials;
     this.redirects = redirects;
+    this.tags = tags;
+    this.reverseTags = GenericTagUtil.reverseTags(REGISTRY_KEY, IMaterial::getIdentifier, tags);
     onMaterialUpdate();
   }
 
@@ -163,7 +204,15 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
     
     log.debug("Loaded materials: {}", Util.toIndentedStringList(materials.keySet()));
     log.debug("Loaded redirects: {}", Util.toIndentedStringList(redirects.keySet()));
-    log.info("Loaded {} materials in {} ms", materials.size(), (System.nanoTime() - time) / 1000000f);
+    long timeStep = System.nanoTime();
+    log.info("Loaded {} materials in {} ms", materials.size(), (timeStep - time) / 1000000f);
+
+
+    // load modifier tags
+    TagLoader<IMaterial> tagLoader = new TagLoader<>(id -> getMaterial(new MaterialId(id)), TAG_FOLDER);
+    this.tags = tagLoader.loadAndBuild(resourceManagerIn);
+    this.reverseTags = GenericTagUtil.reverseTags(REGISTRY_KEY, IMaterial::getIdentifier, tags);
+    log.info("Loaded {} material tags for {} materials in {} ms", tags.size(), reverseTags.size(), (System.nanoTime() - timeStep) / 1000000f);
   }
 
   /**
@@ -171,7 +220,7 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
    * @return  Packet object
    */
   public UpdateMaterialsPacket getUpdatePacket() {
-    return new UpdateMaterialsPacket(materials.values(), redirects);
+    return new UpdateMaterialsPacket(materials, redirects, tags);
   }
 
   @Nullable

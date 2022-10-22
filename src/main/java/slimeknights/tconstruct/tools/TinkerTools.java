@@ -23,6 +23,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.config.ConfigurableAction;
+import slimeknights.tconstruct.common.data.tags.MaterialTagProvider;
 import slimeknights.tconstruct.library.client.data.material.GeneratorPartTextureJsonGenerator;
 import slimeknights.tconstruct.library.client.data.material.MaterialPartTextureGenerator;
 import slimeknights.tconstruct.library.json.AddToolDataFunction;
@@ -173,22 +174,20 @@ public final class TinkerTools extends TinkerModule {
   }
 
   public static void gatherData(FabricDataGenerator generator, ExistingFileHelper existingFileHelper) {
-//    if (event.includeServer()) {
-      generator.addProvider(new ToolsRecipeProvider(generator));
-      generator.addProvider(new MaterialRecipeProvider(generator));
-      MaterialDataProvider materials = new MaterialDataProvider(generator);
-      generator.addProvider(materials);
-      generator.addProvider(new MaterialStatsDataProvider(generator, materials));
-      generator.addProvider(new MaterialTraitsDataProvider(generator, materials));
-      generator.addProvider(new ToolDefinitionDataProvider(generator));
-      generator.addProvider(new StationSlotLayoutProvider(generator));
-//    }
-//    if (event.includeClient()) {
-      TinkerMaterialSpriteProvider materialSprites = new TinkerMaterialSpriteProvider();
-      TinkerPartSpriteProvider partSprites = new TinkerPartSpriteProvider();
-      generator.addProvider(new MaterialRenderInfoProvider(generator, materialSprites));
-      generator.addProvider(new GeneratorPartTextureJsonGenerator(generator, TConstruct.MOD_ID, partSprites));
-      generator.addProvider(new MaterialPartTextureGenerator(generator, existingFileHelper, partSprites, materialSprites));
-//    }
+    generator.addProvider(new ToolsRecipeProvider(generator));
+    generator.addProvider(new MaterialRecipeProvider(generator));
+    MaterialDataProvider materials = new MaterialDataProvider(generator);
+    generator.addProvider(materials);
+    generator.addProvider(new MaterialStatsDataProvider(generator, materials));
+    generator.addProvider(new MaterialTraitsDataProvider(generator, materials));
+    generator.addProvider(new ToolDefinitionDataProvider(generator));
+    generator.addProvider(new StationSlotLayoutProvider(generator));
+    generator.addProvider(new MaterialTagProvider(generator, existingFileHelper));
+
+    TinkerMaterialSpriteProvider materialSprites = new TinkerMaterialSpriteProvider();
+    TinkerPartSpriteProvider partSprites = new TinkerPartSpriteProvider();
+    generator.addProvider(new MaterialRenderInfoProvider(generator, materialSprites));
+    generator.addProvider(new GeneratorPartTextureJsonGenerator(generator, TConstruct.MOD_ID, partSprites));
+    generator.addProvider(new MaterialPartTextureGenerator(generator, existingFileHelper, partSprites, materialSprites));
   }
 }

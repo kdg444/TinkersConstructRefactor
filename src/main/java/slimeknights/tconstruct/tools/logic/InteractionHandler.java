@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
+import slimeknights.mantle.client.TooltipKey;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -220,14 +221,14 @@ public class InteractionHandler {
    * @param player  Player instance
    * @return true if the player has a modifiable helmet
    */
-  public static boolean startArmorInteract(Player player, EquipmentSlot slotType) {
+  public static boolean startArmorInteract(Player player, EquipmentSlot slotType, TooltipKey modifierKey) {
     if (!player.isSpectator()) {
       ItemStack helmet = player.getItemBySlot(slotType);
       if (helmet.is(TinkerTags.Items.ARMOR)) {
         ToolStack tool = ToolStack.from(helmet);
         for (ModifierEntry entry : tool.getModifierList()) {
           IArmorInteractModifier helmetInteract = entry.getModifier().getModule(IArmorInteractModifier.class);
-          if (helmetInteract != null && helmetInteract.startArmorInteract(tool, entry.getLevel(), player, slotType)) {
+          if (helmetInteract != null && helmetInteract.startArmorInteract(tool, entry.getLevel(), player, slotType, modifierKey)) {
             break;
           }
         }

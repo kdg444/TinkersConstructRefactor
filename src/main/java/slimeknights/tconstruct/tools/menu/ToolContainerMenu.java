@@ -75,6 +75,7 @@ public class ToolContainerMenu extends AbstractContainerMenu {
       } else {
         this.addSlot(new Slot(playerInventory, 40, x, y));
       }
+      slots++;
     }
 
     this.playerInventoryStart = this.slots.size();
