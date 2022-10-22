@@ -6,7 +6,9 @@ import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import me.alphamode.star.client.renderers.UpsideDownFluidRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.item.crafting.RecipeManager;
+import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.fluids.FluidClientEvents;
 import slimeknights.tconstruct.fluids.TinkerFluids;
@@ -20,6 +22,7 @@ import slimeknights.tconstruct.library.client.data.spritetransformer.RecolorSpri
 import slimeknights.tconstruct.smeltery.SmelteryClientEvents;
 import slimeknights.tconstruct.tables.TableClientEvents;
 import slimeknights.tconstruct.tables.client.PatternGuiTextureLoader;
+import slimeknights.tconstruct.tables.client.inventory.BaseTabbedScreen;
 import slimeknights.tconstruct.tools.ToolClientEvents;
 import slimeknights.tconstruct.tools.client.ClientInteractionHandler;
 import slimeknights.tconstruct.tools.client.ModifierClientEvents;
@@ -62,9 +65,9 @@ public class TinkerClient implements ClientModInitializer {
     ClientInteractionHandler.init();
 
     // client mod compat checks
-//    if (FabricLoader.getInstance().isModLoaded("inventorytabs") && Config.CLIENT.inventoryTabsCompat.get()) { TODO: tab rework
-//      BaseTabbedScreen.COMPAT_SHOW_TABS = false;
-//    }
+    if (FabricLoader.getInstance().isModLoaded("inventorytabs") && Config.CLIENT.inventoryTabsCompat.get()) {
+      BaseTabbedScreen.COMPAT_SHOW_TABS = false;
+    }
 
     ModelsBakedCallback.EVENT.register((manager, models, loader) -> {
       FluidAttributes attributes = TinkerFluids.ichor.getStill().getAttributes();
