@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.tools.logic;
 
-import io.github.fabricators_of_create.porting_lib.event.common.EntityInteractCallback;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -40,7 +40,7 @@ import java.util.function.Function;
  */
 public class InteractionHandler {
   /** Implements {@link slimeknights.tconstruct.library.modifiers.Modifier#beforeEntityUse(IToolStackView, int, Player, Entity, InteractionHand, EquipmentSlot)} */
-  static InteractionResult beforeEntityInteract(Player player, InteractionHand hand, Entity target) {
+  static InteractionResult beforeEntityInteract(Player player, Level world, InteractionHand hand, Entity target, @Nullable EntityHitResult hitResult) {
     ItemStack stack = player.getItemInHand(hand);
     EquipmentSlot slotType = Util.getSlotType(hand);
     if (!stack.is(TinkerTags.Items.HELD)) {
@@ -50,10 +50,10 @@ public class InteractionHandler {
         if (stack.is(TinkerTags.Items.CHESTPLATES)) {
           slotType = EquipmentSlot.CHEST;
         } else {
-          return null;
+          return InteractionResult.PASS;
         }
       } else {
-        return null;
+        return InteractionResult.PASS;
       }
     }
     // actual interaction hook
@@ -62,14 +62,14 @@ public class InteractionHandler {
       // exit on first successful result
       InteractionResult result = entry.getModifier().beforeEntityUse(tool, entry.getLevel(), player, target, hand, slotType);
       if (result.consumesAction()) {
-        return result == InteractionResult.PASS ? null : result;
+        return result;
       }
     }
-    return null;
+    return InteractionResult.PASS;
   }
 
   /** Implements {@link slimeknights.tconstruct.library.modifiers.Modifier#afterEntityUse(IToolStackView, int, Player, LivingEntity, InteractionHand, EquipmentSlot)} for chestplates */
-  static InteractionResult afterEntityInteract(Player player, InteractionHand hand, Entity target) {
+  static InteractionResult afterEntityInteract(Player player, Level world, InteractionHand hand, Entity target, @Nullable EntityHitResult hitResult) {
     if (player.getItemInHand(hand).isEmpty() && !player.isSpectator()) {
       ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
       if (chestplate.is(TinkerTags.Items.CHESTPLATES)) {
@@ -81,7 +81,7 @@ public class InteractionHandler {
         // initial entity interaction
         InteractionResult result = target.interact(player, hand);
         if (result.consumesAction()) {
-          return null;
+          return InteractionResult.PASS;
         }
 
         // after entity use for chestplates
@@ -98,10 +98,10 @@ public class InteractionHandler {
         // did not interact with an entity? try direct interaction
         // needs to be run here as the interact empty hook does not fire when targeting entities
         result = onChestplateUse(player, chestplate, hand);
-        return null;
+        return InteractionResult.PASS;
       }
     }
-    return null;
+    return InteractionResult.PASS;
   }
 
   /** Runs one of the two blockUse hooks for a chestplate */
@@ -261,9 +261,9 @@ public class InteractionHandler {
   }
 
   public static void init() {
-    EntityInteractCallback.EVENT.register(Event.DEFAULT_PHASE, InteractionHandler::beforeEntityInteract);
-    EntityInteractCallback.EVENT.register(TConstruct.getResource("event_phase"), InteractionHandler::afterEntityInteract);
-    EntityInteractCallback.EVENT.addPhaseOrdering(Event.DEFAULT_PHASE, TConstruct.getResource("event_phase"));
+    UseEntityCallback.EVENT.register(InteractionHandler::beforeEntityInteract);
+    UseEntityCallback.EVENT.register(TConstruct.getResource("event_phase"), InteractionHandler::afterEntityInteract);
+    UseEntityCallback.EVENT.addPhaseOrdering(Event.DEFAULT_PHASE, TConstruct.getResource("event_phase"));
     UseBlockCallback.EVENT.register(InteractionHandler::chestplateInteractWithBlock);
     AttackEntityCallback.EVENT.register(InteractionHandler::onChestplateAttack);
   }
