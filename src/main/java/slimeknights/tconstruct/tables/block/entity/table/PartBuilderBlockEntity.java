@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.state.BlockState;
+import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
@@ -244,7 +245,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
   private void shrinkSlot(int slot, int amount, Player player) {
     ItemStack stack = getItem(slot);
     if (!stack.isEmpty()) {
-      ItemStack container = stack.getItem().hasCraftingRemainingItem() ? stack.getItem().getCraftingRemainingItem().getDefaultInstance() : ItemStack.EMPTY;
+      ItemStack container = stack.getRecipeRemainder().copy();
       if (amount > 0) {
         container.setCount(container.getCount() * amount);
       }
@@ -252,7 +253,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
         setItem(slot, container);
       } else {
         stack.shrink(amount);
-        player.getInventory().placeItemBackInInventory(container);
+        ItemHandlerHelper.giveItemToPlayer(player, container);
       }
     }
   }

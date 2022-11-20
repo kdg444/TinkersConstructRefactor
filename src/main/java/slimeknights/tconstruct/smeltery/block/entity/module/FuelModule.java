@@ -170,7 +170,7 @@ public class FuelModule implements ContainerData {
             temperature = SOLID_TEMPERATURE;
             parent.setChangedFast();
             // return the container
-            ItemStack container = new ItemStack(extracted.getItem().getCraftingRemainingItem());
+            ItemStack container = extracted.getRecipeRemainder();
             if (!container.isEmpty()) {
               // if we cannot insert the container back, spit it on the ground
               ItemStack notInserted = ItemHandlerHelper.insertItem(handler, container, false);
