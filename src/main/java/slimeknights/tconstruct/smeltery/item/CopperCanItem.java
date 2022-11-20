@@ -35,13 +35,8 @@ public class CopperCanItem extends Item {
     FluidStorage.ITEM.registerForItems((itemStack, context) -> new CopperCanFluidHandler(context), this);
   }
 
-//  @Override
-  public boolean hasContainerItem(ItemStack stack) {
-    return getFluid(stack.getTag()) != Fluids.EMPTY;
-  }
-
-//  @Override
-  public ItemStack getContainerItem(ItemStack stack) {
+  @Override
+  public ItemStack getRecipeRemainder(ItemStack stack) {
     Fluid fluid = getFluid(stack.getTag());
     if (fluid != Fluids.EMPTY) {
       return new ItemStack(this);
