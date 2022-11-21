@@ -52,7 +52,6 @@ import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.shared.block.SlimeType;
-import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.TinkerToolParts;
 import slimeknights.tconstruct.tools.TinkerTools;
@@ -985,48 +984,48 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                          .saveSalvage(consumer, prefix(TinkerModifiers.autosmelt, abilitySalvage))
                          .save(consumer, prefix(TinkerModifiers.autosmelt, abilityFolder));
     // fluid stuff
-    ModifierRecipeBuilder.modifier(TinkerModifiers.melting)
-                         .addInput(Items.BLAZE_ROD)
-                         .addInput(Ingredient.of(TinkerSmeltery.searedMelter, TinkerSmeltery.smelteryController, TinkerSmeltery.foundryController))
-                         .addInput(Items.BLAZE_ROD)
-                         .addInput(Items.LAVA_BUCKET)
-                         .addInput(Items.LAVA_BUCKET)
-                         .setMaxLevel(1)
-                         .setSlots(SlotType.ABILITY, 1)
-                         .setTools(TinkerTags.Items.MELEE_OR_HARVEST)
-                         .includeUnarmed()
-                         .saveSalvage(consumer, prefix(TinkerModifiers.melting, abilitySalvage))
-                         .save(consumer, prefix(TinkerModifiers.melting, abilityFolder));
-    SizedIngredient faucets = SizedIngredient.fromItems(TinkerSmeltery.searedFaucet, TinkerSmeltery.scorchedFaucet); // no salvage as don't want conversion between seared and scorched
-    ModifierRecipeBuilder.modifier(TinkerModifiers.bucketing)
-                         .addInput(faucets)
-                         .addInput(Items.BUCKET)
-                         .addInput(faucets)
-                         .addInput(Tags.Items.ENDER_PEARLS)
-                         .addInput(Tags.Items.ENDER_PEARLS)
-                         .setMaxLevel(1)
-                         .setSlots(SlotType.ABILITY, 1)
-                         .setTools(TinkerTags.Items.INTERACTABLE)
-                         .saveSalvage(consumer, prefix(TinkerModifiers.bucketing, abilitySalvage))
-                         .save(consumer, prefix(TinkerModifiers.bucketing, abilityFolder));
-    SizedIngredient channels = SizedIngredient.fromItems(TinkerSmeltery.searedChannel, TinkerSmeltery.scorchedChannel);
-    ModifierRecipeBuilder.modifier(TinkerModifiers.spilling)
-                         .addInput(channels)
-                         .addInput(TinkerTags.Items.TANKS)
-                         .addInput(channels)
-                         .addInput(Tags.Items.INGOTS_COPPER)
-                         .addInput(Tags.Items.INGOTS_COPPER)
-                         .setSlots(SlotType.ABILITY, 1)
-                         .setTools(ingredientFromTags(TinkerTags.Items.MELEE, TinkerTags.Items.CHESTPLATES))
-                         .saveSalvage(consumer, prefix(TinkerModifiers.spilling, abilitySalvage))
-                         .save(consumer, prefix(TinkerModifiers.spilling, abilityFolder));
-    ModifierRecipeBuilder.modifier(TinkerModifiers.tank)
-                         .addInput(TinkerTags.Items.TANKS) // no salvage as don't want conversion between seared and scorched
-                         .setMaxLevel(5)
-                         .setSlots(SlotType.UPGRADE, 1)
-                         .setTools(ingredientFromTags(TinkerTags.Items.INTERACTABLE, TinkerTags.Items.HELMETS, TinkerTags.Items.LEGGINGS))
-                         .saveSalvage(consumer, prefix(TinkerModifiers.tank, upgradeSalvage))
-                         .save(consumer, prefix(TinkerModifiers.tank, upgradeFolder));
+//    ModifierRecipeBuilder.modifier(TinkerModifiers.melting)
+//                         .addInput(Items.BLAZE_ROD)
+//                         .addInput(Ingredient.of(TinkerSmeltery.searedMelter, TinkerSmeltery.smelteryController, TinkerSmeltery.foundryController))
+//                         .addInput(Items.BLAZE_ROD)
+//                         .addInput(Items.LAVA_BUCKET)
+//                         .addInput(Items.LAVA_BUCKET)
+//                         .setMaxLevel(1)
+//                         .setSlots(SlotType.ABILITY, 1)
+//                         .setTools(TinkerTags.Items.MELEE_OR_HARVEST)
+//                         .includeUnarmed()
+//                         .saveSalvage(consumer, prefix(TinkerModifiers.melting, abilitySalvage))
+//                         .save(consumer, prefix(TinkerModifiers.melting, abilityFolder));
+//    SizedIngredient faucets = SizedIngredient.fromItems(TinkerSmeltery.searedFaucet, TinkerSmeltery.scorchedFaucet); // no salvage as don't want conversion between seared and scorched
+//    ModifierRecipeBuilder.modifier(TinkerModifiers.bucketing)
+//                         .addInput(faucets)
+//                         .addInput(Items.BUCKET)
+//                         .addInput(faucets)
+//                         .addInput(Tags.Items.ENDER_PEARLS)
+//                         .addInput(Tags.Items.ENDER_PEARLS)
+//                         .setMaxLevel(1)
+//                         .setSlots(SlotType.ABILITY, 1)
+//                         .setTools(TinkerTags.Items.INTERACTABLE)
+//                         .saveSalvage(consumer, prefix(TinkerModifiers.bucketing, abilitySalvage))
+//                         .save(consumer, prefix(TinkerModifiers.bucketing, abilityFolder));
+//    SizedIngredient channels = SizedIngredient.fromItems(TinkerSmeltery.searedChannel, TinkerSmeltery.scorchedChannel);
+//    ModifierRecipeBuilder.modifier(TinkerModifiers.spilling)
+//                         .addInput(channels)
+//                         .addInput(TinkerTags.Items.TANKS)
+//                         .addInput(channels)
+//                         .addInput(Tags.Items.INGOTS_COPPER)
+//                         .addInput(Tags.Items.INGOTS_COPPER)
+//                         .setSlots(SlotType.ABILITY, 1)
+//                         .setTools(ingredientFromTags(TinkerTags.Items.MELEE, TinkerTags.Items.CHESTPLATES))
+//                         .saveSalvage(consumer, prefix(TinkerModifiers.spilling, abilitySalvage))
+//                         .save(consumer, prefix(TinkerModifiers.spilling, abilityFolder));
+//    ModifierRecipeBuilder.modifier(TinkerModifiers.tank)
+//                         .addInput(TinkerTags.Items.TANKS) // no salvage as don't want conversion between seared and scorched
+//                         .setMaxLevel(5)
+//                         .setSlots(SlotType.UPGRADE, 1)
+//                         .setTools(ingredientFromTags(TinkerTags.Items.INTERACTABLE, TinkerTags.Items.HELMETS, TinkerTags.Items.LEGGINGS))
+//                         .saveSalvage(consumer, prefix(TinkerModifiers.tank, upgradeSalvage))
+//                         .save(consumer, prefix(TinkerModifiers.tank, upgradeFolder));
     // expanders
     ModifierRecipeBuilder.modifier(TinkerModifiers.expanded)
                          .addInput(Items.PISTON)
