@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.library.modifiers.hook;
 
+import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolAction;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHook;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;

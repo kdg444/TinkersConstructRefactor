@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.network.packet.ISimplePacket;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.common.network.TinkerNetwork;

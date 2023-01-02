@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.fluids.item;
 
 import com.mojang.datafixers.util.Pair;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -14,8 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.FluidStack;
 import slimeknights.tconstruct.fluids.util.ConstantFluidContainerWrapper;
 
 import javax.annotation.Nullable;
@@ -59,7 +58,7 @@ public class ContainerFoodItem extends Item {
 
   @Override
   public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity living) {
-    ItemStack container = stack.getContainerItem();
+    ItemStack container = stack.getRecipeRemainder();
     ItemStack result = super.finishUsingItem(stack, level, living);
     Player player = living instanceof Player p ? p : null;
     if (player == null || !player.getAbilities().instabuild) {

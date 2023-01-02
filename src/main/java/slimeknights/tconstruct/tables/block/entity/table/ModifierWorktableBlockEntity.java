@@ -1,5 +1,8 @@
 package slimeknights.tconstruct.tables.block.entity.table;
 
+import io.github.fabricators_of_create.porting_lib.event.common.ItemCraftedCallback;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
+import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -8,10 +11,9 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraft.world.phys.AABB;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.recipe.RecipeResult;
@@ -217,7 +219,7 @@ public class ModifierWorktableBlockEntity extends RetexturedTableBlockEntity imp
 
     // we are definitely crafting at this point
     resultItem.onCraftedBy(this.level, player, amount);
-    ForgeEventFactory.firePlayerCraftingEvent(player, resultItem, this.inventoryWrapper);
+    ItemCraftedCallback.EVENT.invoker().onCraft(player, resultItem, this.inventoryWrapper);
     this.playCraftSound(player);
 
     // run the recipe, will shrink inputs

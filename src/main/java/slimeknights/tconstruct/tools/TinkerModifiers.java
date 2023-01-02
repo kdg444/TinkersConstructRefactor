@@ -1,6 +1,10 @@
 package slimeknights.tconstruct.tools;
 
-import net.minecraft.data.DataGenerator;
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
+import io.github.fabricators_of_create.porting_lib.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.util.ToolActions;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -352,7 +356,7 @@ public final class TinkerModifiers extends TinkerModule {
 
   // fluid abilities
   public static final StaticModifier<MeltingModifier> melting = MODIFIERS.register("melting", MeltingModifier::new);
-  public static final StaticModifier<TankModifier> tank = MODIFIERS.register("tank", () -> new TankModifier(FluidAttributes.BUCKET_VOLUME));
+  public static final StaticModifier<TankModifier> tank = MODIFIERS.register("tank", () -> new TankModifier(FluidConstants.BUCKET));
   public static final StaticModifier<BucketingModifier> bucketing = MODIFIERS.register("bucketing", BucketingModifier::new);
   public static final StaticModifier<SpillingModifier> spilling = MODIFIERS.register("spilling", SpillingModifier::new);
   
@@ -530,7 +534,6 @@ public final class TinkerModifiers extends TinkerModule {
     ModifierLevelDisplay.LOADER.register(TConstruct.getResource("unique"), UniqueForLevels.LOADER);
   }
 
-  @SubscribeEvent
   void commonSetup() {
     TinkerDataCapability.register();
     PersistentDataCapability.register();

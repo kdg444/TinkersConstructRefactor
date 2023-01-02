@@ -303,7 +303,7 @@ public class TankModifier extends Modifier {
     }
 
     @Override
-    public int getTankCapacity(IToolStackView tool, ModifierEntry modifier, int tank) {
+    public long getTankCapacity(IToolStackView tool, ModifierEntry modifier, int tank) {
       return getTankCapacity(tool, modifier.getLevel(), tank);
     }
 
@@ -313,18 +313,18 @@ public class TankModifier extends Modifier {
     }
 
     @Override
-    public int fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
-      return fill(tool, modifier.getLevel(), resource, action);
+    public long fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, boolean simulate) {
+      return fill(tool, modifier.getLevel(), resource, simulate);
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
-      return drain(tool, modifier.getLevel(), resource, action);
+    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, boolean simulate) {
+      return drain(tool, modifier.getLevel(), resource, simulate);
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, int maxDrain, FluidAction action) {
-      return drain(tool, modifier.getLevel(), maxDrain, action);
+    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, long maxDrain, boolean simulate) {
+      return drain(tool, modifier.getLevel(), maxDrain, simulate);
     }
   }
 }

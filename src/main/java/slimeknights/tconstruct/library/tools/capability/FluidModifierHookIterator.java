@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.library.tools.capability;
 
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.capability.ToolFluidCapability.FluidModifierHook;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
@@ -24,15 +23,15 @@ abstract class FluidModifierHookIterator<I> extends CompoundIndexHookIterator<Fl
    * Fills the tank with the given resource
    * @param tool     Tool to fill
    * @param resource Resource to fill with
-   * @param action   Whether to simulate or execute
+   * @param simulate   Whether to simulate or execute
    * @return Amount filled
    */
-  protected int fill(IToolStackView tool, FluidStack resource, FluidAction action) {
+  protected long fill(IToolStackView tool, FluidStack resource, boolean simulate) {
     int totalFilled = 0;
     Iterator<I> iterator = getIterator(tool);
     while(iterator.hasNext()) {
       // try filling each modifier
-      int filled = getHook(iterator.next()).fill(tool, indexEntry, resource, action);
+      long filled = getHook(iterator.next()).fill(tool, indexEntry, resource, simulate);
       if (filled > 0) {
         // if we filled the entire stack, we are done
         if (filled >= resource.getAmount()) {
@@ -54,15 +53,15 @@ abstract class FluidModifierHookIterator<I> extends CompoundIndexHookIterator<Fl
    * Drains the tool of the specified resource
    * @param tool     Tool to drain
    * @param resource Resource to drain
-   * @param action   Whether to simulate or execute
+   * @param simulate   Whether to simulate or execute
    * @return Drained resource
    */
-  public FluidStack drain(IToolStackView tool, FluidStack resource, FluidAction action) {
+  public FluidStack drain(IToolStackView tool, FluidStack resource, boolean simulate) {
     FluidStack drainedSoFar = FluidStack.EMPTY;
     Iterator<I> iterator = getIterator(tool);
     while(iterator.hasNext()) {
       // try draining each modifier
-      FluidStack drained = getHook(iterator.next()).drain(tool, indexEntry, resource, action);
+      FluidStack drained = getHook(iterator.next()).drain(tool, indexEntry, resource, simulate);
       if (!drained.isEmpty()) {
         // if we managed to drain something, add it into our current drained stack, and decrease the amount we still want to drain
         if (drainedSoFar.isEmpty()) {
@@ -91,10 +90,10 @@ abstract class FluidModifierHookIterator<I> extends CompoundIndexHookIterator<Fl
    * Drains the tool of the given amount
    * @param tool     Tool to drain
    * @param maxDrain Amount to drain
-   * @param action   Whether to simulate or execute
+   * @param simulate   Whether to simulate or execute
    * @return Drained resource
    */
-  public FluidStack drain(IToolStackView tool, int maxDrain, FluidAction action) {
+  public FluidStack drain(IToolStackView tool, long maxDrain, boolean simulate) {
     FluidStack drainedSoFar = FluidStack.EMPTY;
     FluidStack toDrain = FluidStack.EMPTY;
     Iterator<I> iterator = getIterator(tool);
@@ -103,7 +102,7 @@ abstract class FluidModifierHookIterator<I> extends CompoundIndexHookIterator<Fl
       // try draining each modifier
       // if we have no drained anything yet, use the type insensitive hook
       if (toDrain.isEmpty()) {
-        FluidStack drained = getHook(next).drain(tool, indexEntry, maxDrain, action);
+        FluidStack drained = getHook(next).drain(tool, indexEntry, maxDrain, simulate);
         if (!drained.isEmpty()) {
           // if we finished draining, we are done, otherwise try again later with the type senstive hooks
           maxDrain -= drained.getAmount();
@@ -116,7 +115,7 @@ abstract class FluidModifierHookIterator<I> extends CompoundIndexHookIterator<Fl
         }
       } else {
         // if we already drained some fluid, type sensitive and increase our results
-        FluidStack drained = getHook(next).drain(tool, indexEntry, toDrain, action);
+        FluidStack drained = getHook(next).drain(tool, indexEntry, toDrain, simulate);
         if (!drained.isEmpty()) {
           drainedSoFar.grow(drained.getAmount());
           toDrain.shrink(drained.getAmount());

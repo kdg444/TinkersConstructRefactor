@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.common;
 
+import io.github.fabricators_of_create.porting_lib.loot.GlobalLootModifierSerializer;
+import io.github.fabricators_of_create.porting_lib.loot.LootModifierManager;
 import io.github.fabricators_of_create.porting_lib.util.LazyRegistrar;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
@@ -22,10 +24,11 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import slimeknights.mantle.item.BlockTooltipItem;
 import slimeknights.mantle.item.TooltipItem;
-import io.github.fabricators_of_create.porting_lib.loot.GlobalLootModifierSerializer;
-import io.github.fabricators_of_create.porting_lib.loot.LootModifierManager;
 import slimeknights.mantle.registration.deferred.BlockEntityTypeDeferredRegister;
 import slimeknights.mantle.registration.deferred.EntityTypeDeferredRegister;
 import slimeknights.mantle.registration.deferred.FluidDeferredRegister;
@@ -69,9 +72,9 @@ public abstract class TinkerModule {
   // datapacks
   protected static final LazyRegistrar<RecipeSerializer<?>> RECIPE_SERIALIZERS = LazyRegistrar.create(Registry.RECIPE_SERIALIZER, TConstruct.MOD_ID);
   protected static final LazyRegistrar<GlobalLootModifierSerializer> GLOBAL_LOOT_MODIFIERS = LazyRegistrar.create(LootModifierManager.SERIALIZER, TConstruct.MOD_ID);
-  protected static final DeferredRegister<LootItemConditionType> LOOT_CONDITIONS = DeferredRegister.create(Registry.LOOT_ITEM_REGISTRY, TConstruct.MOD_ID);
-  protected static final DeferredRegister<LootItemFunctionType> LOOT_FUNCTIONS = DeferredRegister.create(Registry.LOOT_FUNCTION_REGISTRY, TConstruct.MOD_ID);
-  protected static final DeferredRegister<LootPoolEntryType> LOOT_ENTRIES = DeferredRegister.create(Registry.LOOT_ENTRY_REGISTRY, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<LootItemConditionType> LOOT_CONDITIONS = LazyRegistrar.create(Registry.LOOT_ITEM_REGISTRY, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<LootItemFunctionType> LOOT_FUNCTIONS = LazyRegistrar.create(Registry.LOOT_FUNCTION_REGISTRY, TConstruct.MOD_ID);
+  protected static final LazyRegistrar<LootPoolEntryType> LOOT_ENTRIES = LazyRegistrar.create(Registry.LOOT_ENTRY_REGISTRY, TConstruct.MOD_ID);
   // worldgen
   protected static final LazyRegistrar<Feature<?>> FEATURES = LazyRegistrar.create(Registry.FEATURE, TConstruct.MOD_ID);
   protected static final ConfiguredFeatureDeferredRegister CONFIGURED_FEATURES = new ConfiguredFeatureDeferredRegister(TConstruct.MOD_ID);
@@ -112,9 +115,9 @@ public abstract class TinkerModule {
     // datapacks
     RECIPE_SERIALIZERS.register();
     GLOBAL_LOOT_MODIFIERS.register();
-    LOOT_CONDITIONS.register(bus);
-    LOOT_FUNCTIONS.register(bus);
-    LOOT_ENTRIES.register(bus);
+    LOOT_CONDITIONS.register();
+    LOOT_FUNCTIONS.register();
+    LOOT_ENTRIES.register();
     TinkerRecipeTypes.init();
     // worldgen
     FEATURES.register();

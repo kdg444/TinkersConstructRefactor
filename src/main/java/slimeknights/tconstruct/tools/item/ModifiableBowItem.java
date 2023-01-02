@@ -14,7 +14,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.ForgeEventFactory;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;
@@ -197,7 +196,7 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
     else if (ModifierUtil.getModifierLevel(bow, TinkerModifiers.scope.getId()) > 0) {
       int chargeTime = this.getUseDuration(bow) - chargeRemaining;
       if (chargeTime > 0) {
-        living.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
+        TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> {
           float totalTime = data.get(DRAWSPEED, 0f);
           if (totalTime > 0) {
             data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).set(SCOPE, 1 - (0.6f * Math.min(totalTime * chargeTime, 1)));

@@ -54,7 +54,7 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
     }
 
     @Override
-    public int getTankCapacity(IToolStackView tool, ModifierEntry modifier, int tank) {
+    public long getTankCapacity(IToolStackView tool, ModifierEntry modifier, int tank) {
       IFluidModifier hook = modifier.getModifier().getModule(IFluidModifier.class);
       if (hook != null) {
         return hook.getTankCapacity(tool, modifier.getLevel(), tank);
@@ -72,28 +72,28 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
     }
 
     @Override
-    public int fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
+    public long fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, boolean simulate) {
       IFluidModifier hook = modifier.getModifier().getModule(IFluidModifier.class);
       if (hook != null) {
-        return hook.fill(tool, modifier.getLevel(), resource, action);
+        return hook.fill(tool, modifier.getLevel(), resource, simulate);
       }
       return 0;
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
+    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, boolean simulate) {
       IFluidModifier hook = modifier.getModifier().getModule(IFluidModifier.class);
       if (hook != null) {
-        return hook.drain(tool, modifier.getLevel(), resource, action);
+        return hook.drain(tool, modifier.getLevel(), resource, simulate);
       }
       return FluidStack.EMPTY;
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, int maxDrain, FluidAction action) {
+    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, long maxDrain, boolean simulate) {
       IFluidModifier hook = modifier.getModifier().getModule(IFluidModifier.class);
       if (hook != null) {
-        return hook.drain(tool, modifier.getLevel(), maxDrain, action);
+        return hook.drain(tool, modifier.getLevel(), maxDrain, simulate);
       }
       return FluidStack.EMPTY;
     }
@@ -153,8 +153,8 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
   }
 
   @Override
-  public int fill(FluidStack resource, FluidAction action) {
-    return fill(tool.get(), resource, action);
+  public long fill(FluidStack resource, boolean simulate) {
+    return fill(tool.get(), resource, simulate);
   }
 
   @Nonnull
@@ -165,8 +165,8 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
 
   @Nonnull
   @Override
-  public FluidStack drain(long maxDrain, FluidAction action) {
-    return drain(tool.get(), maxDrain, action);
+  public FluidStack drain(long maxDrain, boolean simulate) {
+    return drain(tool.get(), maxDrain, simulate);
   }
 
   /** @deprecated use {@link #addTanks(IToolContext, Modifier, ModDataNBT, FluidModifierHook)} */
@@ -291,7 +291,7 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
      * @param tank      Tank index
      * @return  Fluid in the given tank
      */
-    default int getTankCapacity(IToolStackView tool, ModifierEntry modifier, int tank) {
+    default long getTankCapacity(IToolStackView tool, ModifierEntry modifier, int tank) {
       return 0;
     }
 
@@ -312,32 +312,32 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
      * @param tool      Tool instance
      * @param modifier  Entry instance
      * @param resource  FluidStack representing the Fluid and maximum amount of fluid to be filled. If you want to store this stack, make a copy
-     * @param action   If SIMULATE, fill will only be simulated.
+     * @param simulate  If true, fill will only be simulated.
      * @return Amount of resource that was (or would have been, if simulated) filled.
      */
-    int fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action);
+    long fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, boolean simulate);
 
     /**
      * Drains fluid out of tanks, distribution is left entirely to the IFluidHandler.
      * @param tool      Tool instance
      * @param modifier  Entry instance
      * @param resource  FluidStack representing the Fluid and maximum amount of fluid to be drained.
-     * @param action    If SIMULATE, drain will only be simulated.
+     * @param simulate  If true, drain will only be simulated.
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
-    FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action);
+    FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, boolean simulate);
 
     /**
      * Drains fluid out of internal tanks, distribution is left entirely to the IFluidHandler.
      * @param tool      Tool instance
      * @param modifier  Entry instance
      * @param maxDrain  Maximum amount of fluid to drain.
-     * @param action    If SIMULATE, drain will only be simulated.
+     * @param simulate  If true, drain will only be simulated.
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
-    FluidStack drain(IToolStackView tool, ModifierEntry modifier, int maxDrain, FluidAction action);
+    FluidStack drain(IToolStackView tool, ModifierEntry modifier, long maxDrain, boolean simulate);
   }
 
   /** Logic to merge multiple fluid hooks */
@@ -381,7 +381,7 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
     }
 
     @Override
-    public int getTankCapacity(IToolStackView tool, ModifierEntry modifier, int tank) {
+    public long getTankCapacity(IToolStackView tool, ModifierEntry modifier, int tank) {
       FluidModifierHook hook = findHook(tool, modifier, tank);
       if (hook != null) {
         return hook.getTankCapacity(tool, modifier, tank - startIndex);
@@ -399,21 +399,21 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
     }
 
     @Override
-    public int fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
+    public long fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, boolean simulate) {
       indexEntry = modifier;
-      return fill(tool, resource, action);
+      return fill(tool, resource, simulate);
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
+    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, boolean simulate) {
       indexEntry = modifier;
-      return drain(tool, resource, action);
+      return drain(tool, resource, simulate);
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, int maxDrain, FluidAction action) {
+    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, long maxDrain, boolean simulate) {
       indexEntry = modifier;
-      return drain(tool, maxDrain, action);
+      return drain(tool, maxDrain, simulate);
     }
   }
 

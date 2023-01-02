@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.traits.melee;
 
 import com.google.common.collect.Lists;
+import io.github.fabricators_of_create.porting_lib.event.common.EntityEvents;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,8 +17,6 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;
@@ -39,7 +38,7 @@ public class EnderferenceModifier extends Modifier implements ProjectileHitModif
     MinecraftForge.EVENT_BUS.addListener(EnderferenceModifier::onTeleport);
   }
 
-  private static void onTeleport(EntityTeleportEvent event) {
+  private static void onTeleport(EntityEvents.Teleport.EntityTeleportEvent event) {
     if (event.getEntity() instanceof LivingEntity living && living.hasEffect(TinkerModifiers.enderferenceEffect.get())) {
       event.setCanceled(true);
     }
