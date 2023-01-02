@@ -56,6 +56,8 @@ public class TinkerTags {
     /** Materials that can be used to craft wooden tool tables */
     public static final TagKey<Block> PLANKLIKE = tag("planklike");
     /** Metals that can be used to craft the anvil */
+    public static final TagKey<Block> WORKSTATION_ROCK = tag("workstation_rock");
+    /** Metals that can be used to craft the anvil */
     public static final TagKey<Block> ANVIL_METAL = tag("anvil_metal");
 
     /** Things the platform connects to */
@@ -187,6 +189,8 @@ public class TinkerTags {
     /** Materials that can be used to craft wooden tool tables */
     public static final TagKey<Item> PLANKLIKE = tag("planklike");
     /** Metals that can be used to craft the anvil */
+    public static final TagKey<Item> WORKSTATION_ROCK = tag("workstation_rock");
+    /** Metals that can be used to craft the anvil */
     public static final TagKey<Item> ANVIL_METAL = tag("anvil_metal");
     /** Copper platform variants */
     public static final TagKey<Item> COPPER_PLATFORMS = tag("copper_platforms");
@@ -290,26 +294,39 @@ public class TinkerTags {
     public static final TagKey<Item> MULTIPART_TOOL = tag("modifiable/multipart");
     /** Modifiable items that can have range increased */
     public static final TagKey<Item> AOE = tag("modifiable/aoe");
-    /** Modifiable items that can be held in a single hand */
+    /** @deprecated use {@link #HELD} or {@link #INTERACTABLE_RIGHT} */
+    @Deprecated
     public static final TagKey<Item> ONE_HANDED = tag("modifiable/one_handed");
-    /** Modifiable items that prevent usage of the offhand */
+    /** @deprecated use {@link #HELD} or {@link #INTERACTABLE_RIGHT} */
+    @Deprecated
     public static final TagKey<Item> TWO_HANDED = tag("modifiable/two_handed");
     /** Tools that use durability and can be repaired. Items in this tag support the {@link ToolStats#DURABILITY} stat. */
     public static final TagKey<Item> DURABILITY = tag("modifiable/durability");
 
-    /** This is a common combination for modifiers, so figured it is worth a tag. Should not be added to directly typically */
+    /** @deprecated This used to be common, but the melee unarmed combo ended up being more common, and a compound ingredient is pretty trivial */
     public static final TagKey<Item> MELEE_OR_HARVEST = tag("modifiable/melee_or_harvest");
-    /** Items in this tag support the @link ToolStats#ATTACK_DAMAGE} stat. Should not be added to directly typically, use {@link #MELEE} or {@link #CHESTPLATES} */
-    public static final TagKey<Item> MELEE_OR_UNARMED = tag("modifiable/melee_or_unarmed");
-    /** Anything that is used in the player's hand */
+    /** Anything that is used in the player's hand, mostly tools that support interaction, but other tools can be added directly */
     public static final TagKey<Item> HELD = tag("modifiable/held");
     /** Anything that can use interaction modifiers */
     public static final TagKey<Item> INTERACTABLE = tag("modifiable/interactable");
+    /** Tools that can interact on right click */
+    public static final TagKey<Item> INTERACTABLE_RIGHT = tag("modifiable/interactable/right");
+    /** Tools that can interact on left click */
+    public static final TagKey<Item> INTERACTABLE_LEFT = tag("modifiable/interactable/left");
+    /** Tools that can interact when worn as armor */
+    public static final TagKey<Item> INTERACTABLE_ARMOR = tag("modifiable/interactable/armor");
 
-    /** Modifiable items that support melee attacks. Items in this tag support the {@link ToolStats#ATTACK_SPEED} stat (plus those from {@link #MELEE_OR_UNARMED}). */
+    /** Items in this tag support the @link ToolStats#ATTACK_DAMAGE} stat. Should not be added to directly typically, use {@link #MELEE} or {@link #CHESTPLATES}
+     * TODO 1.19: rename to "modifiable/melee" */
+    public static final TagKey<Item> MELEE_OR_UNARMED = tag("modifiable/melee_or_unarmed");
+    /** Modifiable items that support melee attacks. Items in this tag support the {@link ToolStats#ATTACK_SPEED} stat (plus those from {@link #MELEE_OR_UNARMED}).
+     * TODO 1.19: rename to "modifiable/melee/held" */
     public static final TagKey<Item> MELEE = tag("modifiable/melee");
     /** Modifiable items that specifically are designed for melee, removes melee penalties */
     public static final TagKey<Item> MELEE_PRIMARY = tag("modifiable/melee/primary");
+    /** Modifiable items that boost unarmed attack damage. By default this is just chestplates, but added as a tag to make it easier for adds to change
+     * TODO 1.19: rename to "modifiable/unarmed" */
+    public static final TagKey<Item> UNARMED = tag("modifiable/unarmed");
     /** Modifiable items that are also swords, typically no use outside of combat */
     public static final TagKey<Item> SWORD = tag("modifiable/melee/sword");
 
@@ -330,10 +347,15 @@ public class TinkerTags {
     public static final TagKey<Item> CHESTPLATES = tag("modifiable/armor/chestplate");
     /** Modifiable items that are worn as helmets */
     public static final TagKey<Item> HELMETS = tag("modifiable/armor/helmets");
-    /** Modifiable items that boost unarmed attack damage. By default this is just chestplates, but added as a tag to make it easier for adds to change */
-    public static final TagKey<Item> UNARMED = tag("modifiable/unarmed");
-    // /** Modifiable items that support ranged attacks, such as bows */
-    // public static final TagKey<Item> RANGED = tag("modifiable/ranged");
+
+    /** Modifiable items that support ranged attacks. Items in this tag support {@link ToolStats#DRAW_SPEED}, {@link ToolStats#VELOCITY}, {@link ToolStats#PROJECTILE_DAMAGE} and {@link ToolStats#ACCURACY} */
+    public static final TagKey<Item> RANGED = tag("modifiable/ranged");
+    /** Any modifiable ranged items that are a bow, includes crosbows and longbows */
+    public static final TagKey<Item> BOWS = tag("modifiable/ranged/bows");
+    /** Any modifiable bows that fire arrows on release */
+    public static final TagKey<Item> LONGBOWS = tag("modifiable/ranged/longbows");
+    /** Any modifiable bows that store an arrow then fire on next use */
+    public static final TagKey<Item> CROSSBOWS = tag("modifiable/ranged/crossbows");
 
     /** Tag so mods like thermal know our scyhtes can harvest */
     public static final TagKey<Item> SCYTHES = forgeTag("tools/scythe");
@@ -453,6 +475,8 @@ public class TinkerTags {
     private static void init() {}
     /** Gem modifiers, one of which is needed for netherite */
     public static final TagKey<Modifier> GEMS = tag("gems");
+    /** Blacklist for modifiers that cannot be hidden with invisible ink */
+    public static final TagKey<Modifier> INVISIBLE_INK_BLACKLIST = tag("invisible_ink_blacklist");
 
     private static TagKey<Modifier> tag(String name) {
       return ModifierManager.getTag(TConstruct.getResource(name));

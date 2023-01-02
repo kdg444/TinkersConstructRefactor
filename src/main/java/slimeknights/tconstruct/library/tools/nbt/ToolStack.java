@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -561,10 +563,31 @@ public class ToolStack implements IToolStackView {
 
   /* Utilities */
 
+  @Nullable
+  public Component tryValidate() {
+    // first check slot counts
+    for (SlotType slotType : SlotType.getAllSlotTypes()) {
+      if (getFreeSlots(slotType) < 0) {
+        return new TranslatableComponent(KEY_VALIDATE_SLOTS, slotType.getDisplayName());
+      }
+    }
+    // next, ensure modifiers validate
+    ValidatedResult result;
+    for (ModifierEntry entry : getModifierList()) {
+      result = entry.getModifier().validate(this, entry.getLevel());
+      if (result.hasError()) {
+        return result.getMessage();
+      }
+    }
+    return null;
+  }
+
   /**
    * Checks if this tool stack is in a valid state
    * @return  Pass if the tool is valid, failure result if invalid
+   * @deprecated use {@link #tryValidate()}
    */
+  @Deprecated
   public ValidatedResult validate() {
     // first check slot counts
     for (SlotType slotType : SlotType.getAllSlotTypes()) {

@@ -42,7 +42,6 @@ import slimeknights.tconstruct.library.tools.nbt.MaterialNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.library.utils.Util;
-import slimeknights.tconstruct.tools.TinkerModifiers;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -54,6 +53,10 @@ import java.util.function.BiPredicate;
 
 /** Helper functions for adding tooltips to tools */
 public class TooltipUtil {
+  /** Translation key for the tool name format string */
+  private static final String KEY_FORMAT = TConstruct.makeTranslationKey("item", "tool.format");
+  /** Translation key for the tool name format string */
+  private static final Component MATERIAL_SEPARATOR = TConstruct.makeTranslation("item", "tool.material_separator");
   /** Tool tag to set that makes a tool a display tool */
   public static final String KEY_DISPLAY = "tic_display";
   /** Function to show all attributes in the tooltip */
@@ -103,9 +106,9 @@ public class TooltipUtil {
     if (Util.canTranslate(formatKey)) {
       return new TranslatableComponent(formatKey, itemName);
     }
-    // base name
+    // base name with generic format
     if (Util.canTranslate(materialKey)) {
-      return new TranslatableComponent(materialKey).append(" ").append(itemName);
+      return new TranslatableComponent(KEY_FORMAT, new TranslatableComponent(materialKey), itemName);
     }
     return null;
   }
@@ -148,11 +151,9 @@ public class TooltipUtil {
     Iterator<Component> iter = materials.iterator();
     name.append(iter.next());
     while (iter.hasNext()) {
-      name.append("-").append(iter.next());
+      name.append(MATERIAL_SEPARATOR).append(iter.next());
     }
-    name.append(" ").append(itemName);
-
-    return name;
+    return new TranslatableComponent(KEY_FORMAT, name, itemName);
   }
 
   /**
@@ -342,6 +343,12 @@ public class TooltipUtil {
     if (tool.hasTag(TinkerTags.Items.DURABILITY)) {
       builder.addDurability();
     }
+    if (tool.hasTag(TinkerTags.Items.RANGED)) {
+      builder.add(ToolStats.DRAW_SPEED);
+      builder.add(ToolStats.VELOCITY);
+      builder.add(ToolStats.PROJECTILE_DAMAGE);
+      builder.add(ToolStats.ACCURACY);
+    }
     if (tool.hasTag(TinkerTags.Items.MELEE)) {
       builder.addWithAttribute(ToolStats.ATTACK_DAMAGE, Attributes.ATTACK_DAMAGE);
       builder.add(ToolStats.ATTACK_SPEED);
@@ -384,7 +391,7 @@ public class TooltipUtil {
       builder.addOptional(ToolStats.ARMOR_TOUGHNESS);
       builder.addOptional(ToolStats.KNOCKBACK_RESISTANCE, 10f);
     }
-    if (tool.hasTag(TinkerTags.Items.UNARMED) && tool.getModifierLevel(TinkerModifiers.unarmed.getId()) > 0) {
+    if (tool.hasTag(TinkerTags.Items.UNARMED)) {
       builder.addWithAttribute(ToolStats.ATTACK_DAMAGE, Attributes.ATTACK_DAMAGE);
     }
 

@@ -16,7 +16,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import io.github.fabricators_of_create.porting_lib.util.ToolAction;
+import slimeknights.tconstruct.library.modifiers.ModifierEntry;
+import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.hook.BlockTransformModifierHook;
+import slimeknights.tconstruct.library.modifiers.hook.interaction.BlockInteractionModifierHook;
+import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
 import slimeknights.tconstruct.library.modifiers.impl.InteractionModifier;
+import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
 import slimeknights.tconstruct.library.tools.definition.aoe.IAreaOfEffectIterator;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
@@ -25,7 +31,7 @@ import slimeknights.tconstruct.library.utils.MutableUseOnContext;
 import java.util.Iterator;
 
 @RequiredArgsConstructor
-public class BlockTransformModifier extends InteractionModifier.NoLevels {
+public class BlockTransformModifier extends InteractionModifier.NoLevels implements BlockInteractionModifierHook {
   @Getter
   private final int priority;
   private final ToolAction action;
@@ -35,6 +41,12 @@ public class BlockTransformModifier extends InteractionModifier.NoLevels {
 
   public BlockTransformModifier(int priority, ToolAction action, SoundEvent sound, boolean requireGround) {
     this(priority, action, sound, requireGround, -1);
+  }
+
+  @Override
+  protected void registerHooks(Builder hookBuilder) {
+    super.registerHooks(hookBuilder);
+    hookBuilder.addHook(this, TinkerHooks.BLOCK_INTERACT);
   }
 
   @Override
@@ -48,7 +60,7 @@ public class BlockTransformModifier extends InteractionModifier.NoLevels {
   }
 
   @Override
-  public InteractionResult afterBlockUse(IToolStackView tool, int level, UseOnContext context, EquipmentSlot slotType) {
+  public InteractionResult afterBlockUse(IToolStackView tool, ModifierEntry modifier, UseOnContext context, InteractionSource source) {
     // tool must not be broken
     if (tool.isBroken()) {
       return InteractionResult.PASS;
@@ -72,10 +84,13 @@ public class BlockTransformModifier extends InteractionModifier.NoLevels {
     boolean didTransform = transform(context, original, true);
 
     // if we made a successful transform, client can stop early
+    EquipmentSlot slotType = source.getSlot(context.getHand());
     if (didTransform) {
       if (world.isClientSide) {
         return InteractionResult.SUCCESS;
       }
+
+      BlockTransformModifierHook.afterTransformBlock(tool, context, original, pos, action);
 
       // if the tool breaks or it was a campfire, we are done
       if (ToolDamageUtil.damage(tool, 1, player, stack)) {
@@ -109,8 +124,14 @@ public class BlockTransformModifier extends InteractionModifier.NoLevels {
             totalTransformed++;
             didTransform = true;
 
+            if (world.isClientSide) {
+              break;
+            }
+
+            BlockTransformModifierHook.afterTransformBlock(tool, context, newTarget, newPos, action);
+
             // stop if the tool broke
-            if (world.isClientSide || ToolDamageUtil.damageAnimated(tool, 1, player, slotType)) {
+            if (ToolDamageUtil.damageAnimated(tool, 1, player, slotType)) {
               break;
             }
           }

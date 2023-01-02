@@ -166,6 +166,7 @@ public class BlockLootTableProvider extends BlockLoot {
     this.add(TinkerTables.partBuilder.get(), addTable);
     this.add(TinkerTables.tinkerStation.get(), addTable);
     this.add(TinkerTables.tinkersAnvil.get(), addTable);
+    this.add(TinkerTables.modifierWorktable.get(), addTable);
     this.add(TinkerTables.scorchedAnvil.get(), addTable);
   }
 
@@ -192,6 +193,8 @@ public class BlockLootTableProvider extends BlockLoot {
 
     // saplings
     TinkerWorld.slimeSapling.forEach(this::dropSelf);
+    TinkerWorld.pottedSlimeSapling.forEach(this::dropPottedContents);
+    TinkerWorld.pottedSlimeFern.forEach(this::dropPottedContents);
 
     // foliage
     TinkerWorld.slimeTallGrass.forEach(block -> this.add(block, BlockLootTableProvider::onlyShears));

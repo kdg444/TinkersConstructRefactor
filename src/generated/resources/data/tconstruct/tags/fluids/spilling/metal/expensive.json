@@ -3,13 +3,9 @@
   "values": [
     "#tconstruct:molten_diamond",
     "#tconstruct:molten_debris",
-    "#c:molten_manyullyn",
-    "#c:molten_hepatizon",
-    "#tconstruct:molten_queens_slime",
-    "#c:molten_netherite",
-    "#c:molten_enderium",
-    "#c:molten_lumium",
-    "#c:molten_signalum",
-    "#c:molten_refined_obsidian"
+    "#forge:molten_enderium",
+    "#forge:molten_lumium",
+    "#forge:molten_signalum",
+    "#forge:molten_refined_obsidian"
   ]
 }

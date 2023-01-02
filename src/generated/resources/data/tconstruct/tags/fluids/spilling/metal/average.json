@@ -3,17 +3,6 @@
   "values": [
     "#tconstruct:molten_quartz",
     "#tconstruct:molten_emerald",
-    "#c:molten_cobalt",
-    "#tconstruct:molten_amethyst_bronze",
-    "#c:molten_rose_gold",
-    "#tconstruct:molten_slimesteel",
-    "#c:molten_bronze",
-    "#c:molten_brass",
-    "#c:molten_electrum",
-    "#c:molten_invar",
-    "#c:molten_constantan",
-    "#c:molten_pewter",
-    "#c:molten_steel",
-    "#c:molten_refined_glowstone"
+    "#forge:molten_refined_glowstone"
   ]
 }

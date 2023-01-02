@@ -1,18 +1,9 @@
 {
   "replace": false,
   "values": [
-    "#tconstruct:seared_stone",
-    "#tconstruct:scorched_stone",
-    "#c:molten_iron",
-    "#c:molten_tin",
-    "#c:molten_aluminum",
-    "#c:molten_lead",
-    "#c:molten_silver",
-    "#c:molten_nickel",
-    "#c:molten_zinc",
-    "#c:molten_platinum",
-    "#c:molten_tungsten",
-    "#c:molten_osmium",
+    "#forge:molten_platinum",
+    "#forge:molten_tungsten",
+    "#forge:molten_osmium",
     "#tconstruct:molten_amethyst"
   ]
 }

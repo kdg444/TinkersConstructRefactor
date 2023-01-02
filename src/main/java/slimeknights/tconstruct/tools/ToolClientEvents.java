@@ -13,10 +13,13 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.entity.player.Player;
 import slimeknights.mantle.client.SafeClientAccess;
 import slimeknights.mantle.client.TooltipKey;
@@ -25,6 +28,8 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
+import slimeknights.tconstruct.library.client.model.DynamicTextureLoader;
+import slimeknights.tconstruct.library.client.model.TinkerItemProperties;
 import slimeknights.tconstruct.library.client.model.tools.MaterialModel;
 import slimeknights.tconstruct.library.client.model.tools.ToolModel;
 import slimeknights.tconstruct.library.client.modifiers.BreakableDyedModifierModel;
@@ -36,8 +41,10 @@ import slimeknights.tconstruct.library.client.modifiers.ModifierModelManager.Mod
 import slimeknights.tconstruct.library.client.modifiers.NormalModifierModel;
 import slimeknights.tconstruct.library.client.modifiers.TankModifierModel;
 import slimeknights.tconstruct.library.modifiers.ModifierManager;
+import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.utils.HarvestTiers;
 import slimeknights.tconstruct.tools.client.ArmorModelHelper;
+import slimeknights.tconstruct.tools.client.CrystalshotRenderer;
 import slimeknights.tconstruct.tools.client.OverslimeModifierModel;
 import slimeknights.tconstruct.tools.client.PlateArmorModel;
 import slimeknights.tconstruct.tools.client.SlimelytraArmorModel;
@@ -45,9 +52,12 @@ import slimeknights.tconstruct.tools.client.SlimeskullArmorModel;
 import slimeknights.tconstruct.tools.client.ToolContainerScreen;
 import slimeknights.tconstruct.tools.client.particles.AxeAttackParticle;
 import slimeknights.tconstruct.tools.client.particles.HammerAttackParticle;
+import slimeknights.tconstruct.tools.item.ModifiableCrossbowItem;
 import slimeknights.tconstruct.tools.logic.InteractionHandler;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.DoubleJumpModifier;
 import slimeknights.tconstruct.tools.network.TinkerControlPacket;
+
+import java.util.Objects;
 
 import static slimeknights.tconstruct.library.client.model.tools.ToolModel.registerItemColors;
 
@@ -69,6 +79,7 @@ public class ToolClientEvents extends ClientEventBase {
   static void addResourceListener() {
     ModifierModelManager.init(ResourceManagerHelper.get(PackType.CLIENT_RESOURCES));
     MaterialTooltipCache.init(ResourceManagerHelper.get(PackType.CLIENT_RESOURCES));
+    DynamicTextureLoader.init(manager);
     ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(MODIFIER_RELOAD_LISTENER);
     ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(PlateArmorModel.RELOAD_LISTENER);
     ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(SlimeskullArmorModel.RELOAD_LISTENER);
@@ -93,6 +104,7 @@ public class ToolClientEvents extends ClientEventBase {
 
   static void registerRenderers() {
     EntityRendererRegistry.register(TinkerTools.indestructibleItem.get(), ItemEntityRenderer::new);
+    event.registerEntityRenderer(TinkerTools.crystalshotEntity.get(), CrystalshotRenderer::new);
   }
 
   public static void clientSetupEvent() {
@@ -104,7 +116,26 @@ public class ToolClientEvents extends ClientEventBase {
     KeyBindingHelper.registerKeyBinding(LEGGINGS_INTERACT);
 
     // screens
-    ScreenRegistry.register(TinkerTools.toolContainer.get(), ToolContainerScreen::new);
+    MenuScreens.register(TinkerTools.toolContainer.get(), ToolContainerScreen::new);
+
+    // properties
+    TinkerItemProperties.registerBowProperties(TinkerTools.crossbow.asItem());
+    TinkerItemProperties.registerBowProperties(TinkerTools.longbow.asItem());
+    // no sense having two keys for ammo, just set 1 for arrow, 2 for fireworks
+    String fireworksID = Objects.requireNonNull(Items.FIREWORK_ROCKET.getRegistryName()).toString();
+    ItemProperties.register(TinkerTools.crossbow.asItem(), TConstruct.getResource("ammo"), (stack, level, entity, seed) -> {
+      CompoundTag nbt = stack.getTag();
+      if (nbt != null) {
+        CompoundTag persistentData = nbt.getCompound(ToolStack.TAG_PERSISTENT_MOD_DATA);
+        if (!persistentData.isEmpty()) {
+          CompoundTag ammo = persistentData.getCompound(ModifiableCrossbowItem.KEY_CROSSBOW_AMMO.toString());
+          if (!ammo.isEmpty()) {
+            return ammo.getString("id").equals(fireworksID) ? 2 : 1;
+          }
+        }
+      }
+      return 0;
+    });
 
     registerRenderers();
     registerParticleFactories();
@@ -140,6 +171,8 @@ public class ToolClientEvents extends ClientEventBase {
     registerItemColors(TinkerTools.dagger);
     registerItemColors(TinkerTools.sword);
     registerItemColors(TinkerTools.cleaver);
+    // bow
+    registerItemColors(colors, TinkerTools.longbow);
   }
 
   // values to check if a key was being pressed last tick, safe as a static value as we only care about a single player client side

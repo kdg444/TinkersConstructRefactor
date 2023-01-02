@@ -8,14 +8,17 @@ import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.library.client.model.block.TableModel;
+import slimeknights.tconstruct.shared.block.entity.TableBlockEntity;
 import slimeknights.tconstruct.tables.block.entity.chest.TinkersChestBlockEntity;
 import slimeknights.tconstruct.tables.client.TableTileEntityRenderer;
 import slimeknights.tconstruct.tables.client.inventory.CraftingStationScreen;
+import slimeknights.tconstruct.tables.client.inventory.ModifierWorktableScreen;
 import slimeknights.tconstruct.tables.client.inventory.PartBuilderScreen;
 import slimeknights.tconstruct.tables.client.inventory.TinkerChestScreen;
 import slimeknights.tconstruct.tables.client.inventory.TinkerStationScreen;
@@ -36,16 +39,19 @@ public class TableClientEvents extends ClientEventBase {
   }
 
   static void registerRenderers() {
-    BlockEntityRendererRegistry.register(TinkerTables.craftingStationTile.get(), TableTileEntityRenderer::new);
-    BlockEntityRendererRegistry.register(TinkerTables.tinkerStationTile.get(), TableTileEntityRenderer::new);
-    BlockEntityRendererRegistry.register(TinkerTables.partBuilderTile.get(), TableTileEntityRenderer::new);
+    BlockEntityRendererProvider<TableBlockEntity> tableRenderer = TableTileEntityRenderer::new;
+    event.registerBlockEntityRenderer(TinkerTables.craftingStationTile.get(), tableRenderer);
+    event.registerBlockEntityRenderer(TinkerTables.tinkerStationTile.get(), tableRenderer);
+    event.registerBlockEntityRenderer(TinkerTables.modifierWorktableTile.get(), tableRenderer);
+    event.registerBlockEntityRenderer(TinkerTables.partBuilderTile.get(), tableRenderer);
   }
 
   static void setupClient() {
-    ScreenRegistry.register(TinkerTables.craftingStationContainer.get(), CraftingStationScreen::new);
-    ScreenRegistry.register(TinkerTables.tinkerStationContainer.get(), TinkerStationScreen::new);
-    ScreenRegistry.register(TinkerTables.partBuilderContainer.get(), PartBuilderScreen::new);
-    ScreenRegistry.register(TinkerTables.tinkerChestContainer.get(), TinkerChestScreen::new);
+    MenuScreens.register(TinkerTables.craftingStationContainer.get(), CraftingStationScreen::new);
+    MenuScreens.register(TinkerTables.tinkerStationContainer.get(), TinkerStationScreen::new);
+    MenuScreens.register(TinkerTables.partBuilderContainer.get(), PartBuilderScreen::new);
+    MenuScreens.register(TinkerTables.modifierWorktableContainer.get(), ModifierWorktableScreen::new);
+    MenuScreens.register(TinkerTables.tinkerChestContainer.get(), TinkerChestScreen::new);
   }
 
   static void registerBlockColors() {

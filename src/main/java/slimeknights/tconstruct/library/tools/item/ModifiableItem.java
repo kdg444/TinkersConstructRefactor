@@ -28,7 +28,6 @@ import net.minecraft.world.entity.EquipmentSlot.Type;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -45,10 +44,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import slimeknights.mantle.client.SafeClientAccess;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
+import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
 import slimeknights.tconstruct.library.tools.IndestructibleItemEntity;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
 import slimeknights.tconstruct.library.tools.context.ToolHarvestContext;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
+import slimeknights.tconstruct.library.tools.helper.ModifiableItemUtil;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.library.tools.helper.ToolAttackUtil;
 import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
@@ -57,16 +59,13 @@ import slimeknights.tconstruct.library.tools.helper.ToolHarvestLogic;
 import slimeknights.tconstruct.library.tools.helper.TooltipUtil;
 import slimeknights.tconstruct.library.tools.nbt.IModDataView;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
-import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.tools.TinkerToolActions;
 
 import javax.annotation.Nullable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -236,25 +235,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   @Override
   public Multimap<Attribute,AttributeModifier> getAttributeModifiers(IToolStackView tool, EquipmentSlot slot) {
-    ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-    if (!tool.isBroken()) {
-      // base stats
-      if (slot == EquipmentSlot.MAINHAND) {
-        StatsNBT statsNBT = tool.getStats();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "tconstruct.tool.attack_damage", statsNBT.get(ToolStats.ATTACK_DAMAGE), AttributeModifier.Operation.ADDITION));
-        // base attack speed is 4, but our numbers start from 4
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "tconstruct.tool.attack_speed", statsNBT.get(ToolStats.ATTACK_SPEED) - 4d, AttributeModifier.Operation.ADDITION));
-      }
-
-      // grab attributes from modifiers, only do for hands (other slots would just be weird)
-      if (slot.getType() == Type.HAND) {
-        BiConsumer<Attribute,AttributeModifier> attributeConsumer = builder::put;
-        for (ModifierEntry entry : tool.getModifierList()) {
-          entry.getModifier().addAttributes(tool, entry.getLevel(), slot, attributeConsumer);
-        }
-      }
-    }
-    return builder.build();
+    return ModifiableItemUtil.getMeleeAttributeModifiers(tool, slot);
   }
 
   @Override
@@ -330,24 +311,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   @Override
   public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-    super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
-
-    // don't care about non-living, they skip most tool context
-    if (entityIn instanceof LivingEntity) {
-      ToolStack tool = ToolStack.from(stack);
-      if (!worldIn.isClientSide) {
-        tool.ensureHasData();
-      }
-      List<ModifierEntry> modifiers = tool.getModifierList();
-      if (!modifiers.isEmpty()) {
-        LivingEntity living = (LivingEntity) entityIn;
-        // we pass in the stack for most custom context, but for the sake of armor its easier to tell them that this is the correct slot for effects
-        boolean isHeld = isSelected || living.getOffhandItem() == stack;
-        for (ModifierEntry entry : modifiers) {
-          entry.getModifier().onInventoryTick(tool, entry.getLevel(), worldIn, living, itemSlot, isSelected, isHeld, stack);
-        }
-      }
-    }
+    ModifiableItemUtil.heldInventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
   }
   
   /* Right click hooks */
@@ -374,9 +338,8 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     ToolStack tool = ToolStack.from(stack);
     InteractionHand hand = context.getHand();
     if (shouldInteract(context.getPlayer(), tool, hand)) {
-      EquipmentSlot slot = Util.getSlotType(hand);
       for (ModifierEntry entry : tool.getModifierList()) {
-        InteractionResult result = entry.getModifier().beforeBlockUse(tool, entry.getLevel(), context, slot);
+        InteractionResult result = entry.getHook(TinkerHooks.BLOCK_INTERACT).beforeBlockUse(tool, entry, context, InteractionSource.RIGHT_CLICK);
         if (result.consumesAction()) {
           return result;
         }
@@ -390,9 +353,8 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     ToolStack tool = ToolStack.from(context.getItemInHand());
     InteractionHand hand = context.getHand();
     if (shouldInteract(context.getPlayer(), tool, hand)) {
-      EquipmentSlot slot = Util.getSlotType(hand);
       for (ModifierEntry entry : tool.getModifierList()) {
-        InteractionResult result = entry.getModifier().afterBlockUse(tool, entry.getLevel(), context, slot);
+        InteractionResult result = entry.getHook(TinkerHooks.BLOCK_INTERACT).afterBlockUse(tool, entry, context, InteractionSource.RIGHT_CLICK);
         if (result.consumesAction()) {
           return result;
         }
@@ -405,9 +367,8 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   public InteractionResult interactLivingEntity(ItemStack stack, Player playerIn, LivingEntity target, InteractionHand hand) {
     ToolStack tool = ToolStack.from(stack);
     if (shouldInteract(playerIn, tool, hand)) {
-      EquipmentSlot slot = Util.getSlotType(hand);
       for (ModifierEntry entry : tool.getModifierList()) {
-        InteractionResult result = entry.getModifier().afterEntityUse(tool, entry.getLevel(), playerIn, target, hand, slot);
+        InteractionResult result = entry.getHook(TinkerHooks.ENTITY_INTERACT).afterEntityUse(tool, entry, playerIn, target, hand, InteractionSource.RIGHT_CLICK);
         if (result.consumesAction()) {
           return result;
         }
@@ -421,9 +382,8 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     ItemStack stack = playerIn.getItemInHand(hand);
     ToolStack tool = ToolStack.from(stack);
     if (shouldInteract(playerIn, tool, hand)) {
-      EquipmentSlot slot = Util.getSlotType(hand);
       for (ModifierEntry entry : tool.getModifierList()) {
-        InteractionResult result = entry.getModifier().onToolUse(tool, entry.getLevel(), worldIn, playerIn, hand, slot);
+        InteractionResult result = entry.getHook(TinkerHooks.GENERAL_INTERACT).onToolUse(tool, entry, playerIn, hand, InteractionSource.RIGHT_CLICK);
         if (result.consumesAction()) {
           return new InteractionResultHolder<>(result, stack);
         }
@@ -441,7 +401,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving) {
     ToolStack tool = ToolStack.from(stack);
     for (ModifierEntry entry : tool.getModifierList()) {
-      if (entry.getModifier().onFinishUsing(tool, entry.getLevel(), worldIn, entityLiving)) {
+      if (entry.getHook(TinkerHooks.GENERAL_INTERACT).onFinishUsing(tool, entry, entityLiving)) {
         return stack;
       }
     }
@@ -452,7 +412,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   public void releaseUsing(ItemStack stack, Level worldIn, LivingEntity entityLiving, int timeLeft) {
     ToolStack tool = ToolStack.from(stack);
     for (ModifierEntry entry : tool.getModifierList()) {
-      boolean result = entry.getModifier().onStoppedUsing(tool, entry.getLevel(), worldIn, entityLiving, timeLeft);
+      boolean result = entry.getHook(TinkerHooks.GENERAL_INTERACT).onStoppedUsing(tool, entry, entityLiving, timeLeft);
       if (result) {
         return;
       }
@@ -463,7 +423,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   public int getUseDuration(ItemStack stack) {
     ToolStack tool = ToolStack.from(stack);
     for (ModifierEntry entry : tool.getModifierList()) {
-      int result = entry.getModifier().getUseDuration(tool, entry.getLevel());
+      int result = entry.getHook(TinkerHooks.GENERAL_INTERACT).getUseDuration(tool, entry);
       if (result > 0) {
         return result;
       }
@@ -475,7 +435,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   public UseAnim getUseAnimation(ItemStack stack) {
     ToolStack tool = ToolStack.from(stack);
     for (ModifierEntry entry : tool.getModifierList()) {
-      UseAnim result = entry.getModifier().getUseAction(tool, entry.getLevel());
+      UseAnim result = entry.getHook(TinkerHooks.GENERAL_INTERACT).getUseAction(tool, entry);
       if (result != UseAnim.NONE) {
         return result;
       }
@@ -534,46 +494,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   @Override
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-    if (oldStack == newStack) {
-      return false;
-    }
-    // basic changes
-    if (slotChanged || oldStack.getItem() != newStack.getItem()) {
-      return true;
-    }
-
-    // if the tool props changed,
-    ToolStack oldTool = ToolStack.from(oldStack);
-    ToolStack newTool = ToolStack.from(newStack);
-
-    // check if modifiers or materials changed
-    if (!oldTool.getMaterials().equals(newTool.getMaterials())) {
-      return true;
-    }
-    if (!oldTool.getModifierList().equals(newTool.getModifierList())) {
-      return true;
-    }
-
-    // if the attributes changed, reequip
-    Multimap<Attribute, AttributeModifier> attributesNew = newStack.getAttributeModifiers(EquipmentSlot.MAINHAND);
-    Multimap<Attribute, AttributeModifier> attributesOld = oldStack.getAttributeModifiers(EquipmentSlot.MAINHAND);
-    if (attributesNew.size() != attributesOld.size()) {
-      return true;
-    }
-    for (Attribute attribute : attributesOld.keySet()) {
-      if (!attributesNew.containsKey(attribute)) {
-        return true;
-      }
-      Iterator<AttributeModifier> iter1 = attributesNew.get(attribute).iterator();
-      Iterator<AttributeModifier> iter2 = attributesOld.get(attribute).iterator();
-      while (iter1.hasNext() && iter2.hasNext()) {
-        if (!iter1.next().equals(iter2.next())) {
-          return true;
-        }
-      }
-    }
-    // no changes, no reequip
-    return false;
+    return ModifiableItemUtil.shouldCauseReequip(oldStack, newStack, slotChanged);
   }
 
 

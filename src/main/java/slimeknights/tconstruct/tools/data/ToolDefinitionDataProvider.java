@@ -33,6 +33,9 @@ import slimeknights.tconstruct.tools.ToolDefinitions;
 import slimeknights.tconstruct.tools.item.ArmorSlotType;
 import slimeknights.tconstruct.tools.stats.SkullStats;
 
+import static slimeknights.tconstruct.tools.TinkerToolParts.bowGrip;
+import static slimeknights.tconstruct.tools.TinkerToolParts.bowLimb;
+import static slimeknights.tconstruct.tools.TinkerToolParts.bowstring;
 import static slimeknights.tconstruct.tools.TinkerToolParts.broadAxeHead;
 import static slimeknights.tconstruct.tools.TinkerToolParts.broadBlade;
 import static slimeknights.tconstruct.tools.TinkerToolParts.hammerHead;
@@ -127,7 +130,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .multiplier(ToolStats.ATTACK_DAMAGE, 1.1f)
       // traits
       .trait(TinkerModifiers.knockback, 1)
-      .trait(TinkerModifiers.hoeTill)
+      .trait(TinkerModifiers.tilling)
       // harvest
       .action(ToolActions.AXE_DIG)
       .action(ToolActions.SHOVEL_DIG)
@@ -152,7 +155,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .multiplier(ToolStats.MINING_SPEED, 0.75f)
       .multiplier(ToolStats.ATTACK_DAMAGE, 1.15f)
       // traits
-      .trait(TinkerModifiers.shovelFlatten)
+      .trait(TinkerModifiers.pathing)
       .trait(ModifierIds.baneOfSssss)
       // harvest
       .action(ToolActions.PICKAXE_DIG)
@@ -175,7 +178,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .largeToolStartingSlots()
       // traits
       .trait(TinkerModifiers.knockback, 2)
-      .trait(TinkerModifiers.shovelFlatten)
+      .trait(TinkerModifiers.pathing)
       // harvest
       .action(ToolActions.SHOVEL_DIG)
       .effective(BlockTags.MINEABLE_WITH_SHOVEL)
@@ -194,7 +197,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .smallToolStartingSlots()
       // traits
       .trait(TinkerModifiers.axeScrape)
-      .trait(TinkerModifiers.axeStrip)
+      .trait(TinkerModifiers.stripping)
       .trait(TinkerModifiers.axeWaxOff)
       // harvest
       .action(ToolActions.AXE_DIG)
@@ -218,7 +221,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .largeToolStartingSlots()
       // traits
       .trait(TinkerModifiers.axeScrape)
-      .trait(TinkerModifiers.axeStrip)
+      .trait(TinkerModifiers.stripping)
       .trait(TinkerModifiers.axeWaxOff)
       // harvest
       .action(ToolActions.AXE_DIG)
@@ -267,7 +270,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .multiplier(ToolStats.DURABILITY, 2.5f)
       .largeToolStartingSlots()
       // traits
-      .trait(TinkerModifiers.hoeTill)
+      .trait(TinkerModifiers.tilling)
       .trait(TinkerModifiers.aoeSilkyShears)
       .trait(TinkerModifiers.harvest)
       // behavior
@@ -344,13 +347,37 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
       .harvestLogic(swordLogic)
       .attack(new SweepWeaponAttack(2));
 
+    // bows
+    define(ToolDefinitions.CROSSBOW)
+      // parts
+      .part(bowLimb)
+      .part(bowGrip)
+      .part(bowstring)
+      // stats
+      .stat(ToolStats.ATTACK_DAMAGE, 0f)
+      .stat(ToolStats.ATTACK_SPEED, 1.0f)
+      .multiplier(ToolStats.DURABILITY, 2f)
+      .smallToolStartingSlots();
+    define(ToolDefinitions.LONGBOW)
+      // parts
+      .part(bowLimb)
+      .part(bowLimb)
+      .part(bowGrip)
+      .part(bowstring)
+      // stats
+      .stat(ToolStats.DURABILITY, 120)
+      .stat(ToolStats.ATTACK_DAMAGE, 0f)
+      .stat(ToolStats.ATTACK_SPEED, 1.0f)
+      .multiplier(ToolStats.DURABILITY, 1.5f) // gets effectively 2x durability from having 2 heads
+      .largeToolStartingSlots();
+
     // special
     define(ToolDefinitions.FLINT_AND_BRICK)
       // stats
       .stat(ToolStats.DURABILITY, 100)
       .startingSlots(SlotType.UPGRADE, 1)
       // traits
-      .trait(TinkerModifiers.firestarterHidden)
+      .trait(TinkerModifiers.firestarter)
       .trait(TinkerModifiers.fiery);
 
 

@@ -37,6 +37,8 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
   public static final int ORDER_WEAPON = 2;
   /** General purpose materials */
   public static final int ORDER_SPECIAL = 3;
+  /** Ranged exclusive materials */
+  public static final int ORDER_RANGED = 4;
   /** Order for mod integration materials */
   public static final int ORDER_COMPAT = 5;
   /** Order for nether materials in tiers 1-3 */
@@ -127,9 +129,14 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
   }
 
   /** Creates a new compat material */
+  protected void addCompatMaterial(MaterialId location, int tier, int order, String tagName, boolean craftable) {
+    ICondition condition = new OrCondition(ConfigEnabledCondition.FORCE_INTEGRATION_MATERIALS, tagExistsCondition(tagName));
+    addMaterial(location, tier, order, craftable, false, condition);
+  }
+
+  /** Creates a new compat material */
   protected void addCompatMetalMaterial(MaterialId location, int tier, int order, String ingotName) {
-    ConditionJsonProvider condition = DefaultResourceConditions.or(ConfigEnabledCondition.FORCE_INTEGRATION_MATERIALS, tagExistsCondition("ingots/" + ingotName));
-    addMaterial(location, tier, order, false, false, condition);
+    addCompatMaterial(location, tier, order, "ingots/" + ingotName, false);
   }
 
   /** Creates a new compat material */

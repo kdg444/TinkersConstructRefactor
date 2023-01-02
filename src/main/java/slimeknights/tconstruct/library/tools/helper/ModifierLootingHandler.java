@@ -7,9 +7,18 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import slimeknights.tconstruct.common.TinkerTags;
+import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.hook.LootingModifierHook;
+import slimeknights.tconstruct.library.tools.capability.EntityModifierCapability;
+import slimeknights.tconstruct.library.tools.capability.PersistentDataCapability;
+import slimeknights.tconstruct.library.tools.nbt.DummyToolStack;
+import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
+import slimeknights.tconstruct.library.tools.nbt.ModifierNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import javax.annotation.Nullable;
@@ -62,18 +71,30 @@ public class ModifierLootingHandler {
     }
     Entity source = damageSource.getEntity();
     if (source instanceof LivingEntity holder) {
-      // TODO: consider bow usage, as the attack time is not the same as the death time
-      EquipmentSlot slotType = getLootingSlot(holder);
-      ItemStack held = holder.getItemBySlot(slotType);
-//      int level = event.getLootingLevel();
-      if (held.is(TinkerTags.Items.MODIFIABLE)) {
-        ToolStack tool = ToolStack.from(held);
-        level = ModifierUtil.getLootingLevel(tool, holder, target, damageSource);
-        // ignore default looting if we are looting from another slot
-      } else if (slotType != EquipmentSlot.MAINHAND) {
-        level = 0;
+      Entity direct = damageSource.getDirectEntity();
+      int level = event.getLootingLevel();
+      LivingEntity target = event.getEntityLiving();
+      if (direct instanceof AbstractArrow) {
+        // need to build a context from the relevant capabilities to use the modifier
+        ModifierNBT modifiers = EntityModifierCapability.getOrEmpty(direct);
+        if (!modifiers.isEmpty()) {
+          ModDataNBT persistentData = direct.getCapability(PersistentDataCapability.CAPABILITY).map(ModDataNBT::new).orElseGet(ModDataNBT::new);
+          DummyToolStack tool = new DummyToolStack(Items.AIR, modifiers, persistentData);
+          level = LootingModifierHook.getLootingValue(TinkerHooks.PROJECTILE_LOOTING, tool, holder, target, damageSource, 0);
+        }
+      } else {
+        // not an arrow? means the held tool is to blame
+        EquipmentSlot slotType = getLootingSlot(holder);
+        ItemStack held = holder.getItemBySlot(slotType);
+        if (held.is(TinkerTags.Items.MODIFIABLE)) {
+          ToolStack tool = ToolStack.from(held);
+          level = ModifierUtil.getLootingLevel(tool, holder, event.getEntityLiving(), damageSource);
+          // ignore default looting if we are looting from another slot
+        } else if (slotType != EquipmentSlot.MAINHAND) {
+          level = 0;
+        }
       }
-      // boot looting with pants
+      // boost looting with pants regardless, hopefully you did not switch your pants mid arrow firing
       level = ModifierUtil.getLeggingsLootingLevel(holder, target, damageSource, level);
       return level;
     }

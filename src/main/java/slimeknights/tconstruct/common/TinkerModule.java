@@ -69,6 +69,9 @@ public abstract class TinkerModule {
   // datapacks
   protected static final LazyRegistrar<RecipeSerializer<?>> RECIPE_SERIALIZERS = LazyRegistrar.create(Registry.RECIPE_SERIALIZER, TConstruct.MOD_ID);
   protected static final LazyRegistrar<GlobalLootModifierSerializer> GLOBAL_LOOT_MODIFIERS = LazyRegistrar.create(LootModifierManager.SERIALIZER, TConstruct.MOD_ID);
+  protected static final DeferredRegister<LootItemConditionType> LOOT_CONDITIONS = DeferredRegister.create(Registry.LOOT_ITEM_REGISTRY, TConstruct.MOD_ID);
+  protected static final DeferredRegister<LootItemFunctionType> LOOT_FUNCTIONS = DeferredRegister.create(Registry.LOOT_FUNCTION_REGISTRY, TConstruct.MOD_ID);
+  protected static final DeferredRegister<LootPoolEntryType> LOOT_ENTRIES = DeferredRegister.create(Registry.LOOT_ENTRY_REGISTRY, TConstruct.MOD_ID);
   // worldgen
   protected static final LazyRegistrar<Feature<?>> FEATURES = LazyRegistrar.create(Registry.FEATURE, TConstruct.MOD_ID);
   protected static final ConfiguredFeatureDeferredRegister CONFIGURED_FEATURES = new ConfiguredFeatureDeferredRegister(TConstruct.MOD_ID);
@@ -109,6 +112,9 @@ public abstract class TinkerModule {
     // datapacks
     RECIPE_SERIALIZERS.register();
     GLOBAL_LOOT_MODIFIERS.register();
+    LOOT_CONDITIONS.register(bus);
+    LOOT_FUNCTIONS.register(bus);
+    LOOT_ENTRIES.register(bus);
     TinkerRecipeTypes.init();
     // worldgen
     FEATURES.register();

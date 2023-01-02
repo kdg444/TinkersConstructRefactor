@@ -21,6 +21,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import slimeknights.mantle.client.screen.ElementScreen;
+import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
 
 @SuppressWarnings("removal")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -256,5 +257,11 @@ public final class GuiUtil {
       GuiComponent.fill(matrices, x, y, x + width, y + height, 0x80FFFFFF);
       RenderSystem.colorMask(true, true, true, true);
       RenderSystem.enableDepthTest();
+  }
+
+  /** Renders a pattern at the given location */
+  public static void renderPattern(PoseStack matrices, Pattern pattern, int x, int y) {
+    TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(pattern.getTexture());
+    GuiComponent.blit(matrices, x, y, 100, 16, 16, sprite);
   }
 }

@@ -13,12 +13,13 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import slimeknights.tconstruct.library.modifiers.hooks.IArmorWalkModifier;
+import net.minecraftforge.common.util.BlockSnapshot;
+import net.minecraftforge.event.ForgeEventFactory;
 import slimeknights.tconstruct.library.tools.context.EquipmentContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
-public class FrostWalkerModifier extends AbstractWalkerModifier implements IArmorWalkModifier {
+public class FrostWalkerModifier extends AbstractWalkerModifier {
   @Override
   protected float getRadius(IToolStackView tool, int level) {
     return 3 + tool.getModifierLevel(TinkerModifiers.expanded.getId());
@@ -38,7 +39,7 @@ public class FrostWalkerModifier extends AbstractWalkerModifier implements IArmo
       boolean isFull = below.getBlock() == Blocks.WATER && below.getValue(LiquidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
       if (below.getMaterial() == Material.WATER && isFull
           && frostedIce.canSurvive(world, mutable) && world.isUnobstructed(frostedIce, mutable, CollisionContext.empty())
-          /*&& !ForgeEventFactory.onBlockPlace(living, BlockSnapshot.create(world.dimension(), world, mutable), Direction.UP)*/) { // TODO: PORT?
+          && !ForgeEventFactory.onBlockPlace(living, BlockSnapshot.create(world.dimension(), world, mutable), Direction.UP)) {
         world.setBlockAndUpdate(mutable, frostedIce);
         world.scheduleTick(mutable, Blocks.FROSTED_ICE, Mth.nextInt(living.getRandom(), 60, 120));
       }

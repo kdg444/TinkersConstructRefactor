@@ -32,6 +32,7 @@ import slimeknights.tconstruct.world.TinkerHeadType;
 import slimeknights.tconstruct.world.TinkerWorld;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static me.alphamode.forgetags.Tags.Blocks.NEEDS_GOLD_TOOL;
@@ -93,12 +94,18 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
     // impermeable for all glass
     TagAppender<Block> impermeable = tag(BlockTags.IMPERMEABLE);
+    TagAppender<Block> silicaGlass = tag(Tags.Blocks.GLASS_SILICA);
     impermeable.add(TinkerCommons.clearGlass.get(), TinkerCommons.soulGlass.get(), TinkerSmeltery.searedGlass.get(), TinkerCommons.clearTintedGlass.get());
+    silicaGlass.add(TinkerCommons.clearGlass.get());
     TinkerCommons.clearStainedGlass.values().forEach(impermeable::add);
+    TinkerCommons.clearStainedGlass.values().forEach(silicaGlass::add);
 
     // soul speed on glass
     this.tag(BlockTags.SOUL_SPEED_BLOCKS).add(TinkerCommons.soulGlass.get(), TinkerCommons.soulGlassPane.get());
     this.tag(BlockTags.SOUL_FIRE_BASE_BLOCKS).add(TinkerCommons.soulGlass.get());
+
+    this.tag(TinkerTags.Blocks.WORKSTATION_ROCK)
+      .addTags(TinkerTags.Blocks.STONE, TinkerTags.Blocks.BLACKSTONE, TinkerTags.Blocks.GRANITE, TinkerTags.Blocks.DIORITE, TinkerTags.Blocks.ANDESITE, TinkerTags.Blocks.DEEPSLATE, TinkerTags.Blocks.BASALT);
 
     TagsProvider.TagAppender<Block> builder = this.tag(TinkerTags.Blocks.ANVIL_METAL)
         // tier 3
@@ -223,6 +230,10 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     }));
     TinkerWorld.slimeDirt.forEach((type, block) -> this.tag(type.getDirtBlockTag()).add(block));
     endermanHoldable.addTag(TinkerTags.Blocks.SLIMY_SOIL);
+
+    Consumer<Block> flowerPotAppender = this.tag(BlockTags.FLOWER_POTS)::add;
+    TinkerWorld.pottedSlimeFern.forEach(flowerPotAppender);
+    TinkerWorld.pottedSlimeSapling.forEach(flowerPotAppender);
 
     // slime spawns
     this.tag(TinkerTags.Blocks.SKY_SLIME_SPAWN).add(TinkerWorld.earthGeode.getBlock(), TinkerWorld.earthGeode.getBudding()).addTag(SlimeType.SKY.getGrassBlockTag());
@@ -400,6 +411,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
     // tables
     tagBlocks(MINEABLE_WITH_AXE, TinkerTables.craftingStation, TinkerTables.tinkerStation, TinkerTables.partBuilder, TinkerTables.tinkersChest, TinkerTables.partChest);
+    tagBlocks(MINEABLE_WITH_PICKAXE, TinkerTables.modifierWorktable);
     tagBlocks(MINEABLE_WITH_PICKAXE, NEEDS_STONE_TOOL, TinkerTables.castChest);
     tagBlocks(MINEABLE_WITH_PICKAXE, NEEDS_IRON_TOOL, TinkerTables.tinkersAnvil, TinkerTables.scorchedAnvil);
 

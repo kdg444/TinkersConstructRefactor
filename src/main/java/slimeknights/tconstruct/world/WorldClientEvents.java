@@ -105,8 +105,10 @@ public class WorldClientEvents extends ClientEventBase {
       BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.enderSlimeGrass.get(type), cutoutMipped);
       BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.ichorSlimeGrass.get(type), cutoutMipped);
       BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.slimeFern.get(type), cutout);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.pottedSlimeFern.get(type), cutout);
       BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.slimeTallGrass.get(type), cutout);
       BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.slimeSapling.get(type), cutout);
+      BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.pottedSlimeSapling.get(type), cutout);
     }
     BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.enderSlimeVine.get(), cutout);
     BlockRenderLayerMap.INSTANCE.putBlock(TinkerWorld.skySlimeVine.get(), cutout);
@@ -177,7 +179,7 @@ public class WorldClientEvents extends ClientEventBase {
         TinkerWorld.slimeLeaves.get(type));
       ColorProviderRegistry.BLOCK.register(
         (state, reader, pos, index) -> getSlimeColorByPos(pos, type, null),
-        TinkerWorld.slimeFern.get(type), TinkerWorld.slimeTallGrass.get(type));
+        TinkerWorld.slimeFern.get(type), TinkerWorld.slimeTallGrass.get(type), TinkerWorld.pottedSlimeFern.get(type));
     }
 
     // vines

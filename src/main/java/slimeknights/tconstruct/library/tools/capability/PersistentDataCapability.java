@@ -23,6 +23,10 @@ import slimeknights.tconstruct.common.network.SyncPersistentDataPacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.tools.nbt.NamespacedNBT;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Optional;
+
 /**
  * Capability to store persistent NBT data on an entity. For players, this is automatically synced to the client on load, but not during gameplay.
  * Persists after death, will reassess if we need some data to not persist death
@@ -33,6 +37,16 @@ public class PersistentDataCapability implements EntityComponentInitializer {
   private static final ResourceLocation ID = TConstruct.getResource("persistent_data");
   /** Capability type */
   public static final ComponentKey<NamespacedNBT> CAPABILITY = ComponentRegistry.getOrCreate(ID, NamespacedNBT.class);
+
+  /** Gets the data or warns if its missing */
+  public static NamespacedNBT getOrWarn(Entity entity) {
+    Optional<NamespacedNBT> data = entity.getCapability(CAPABILITY).resolve();
+    if (data.isEmpty()) {
+      TConstruct.LOG.warn("Missing Tinkers NBT on entity {}, this should not happen", entity.getType());
+      return new NamespacedNBT();
+    }
+    return data.get();
+  }
 
   /** Registers this capability */
   public static void register() {
@@ -45,16 +59,14 @@ public class PersistentDataCapability implements EntityComponentInitializer {
   }
 
   /** Event listener to attach the capability */
-  @Override
-  public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-    register();
-    registry.registerForPlayers(CAPABILITY, player -> new NamespacedNBT());
-//    EntityEvents.ON_REMOVE.register((entity, reason) -> );
-//    if (event.getObject() instanceof Player) {
-//      Provider provider = new Provider();
-//      event.addCapability(ID, provider);
-//      event.addListener(provider);
-//    }
+  private static void attachCapability(AttachCapabilitiesEvent<Entity> event) {
+    Entity entity = event.getObject();
+    // must be on players, but also support anything else with modifiers, this is their data
+    if (entity instanceof Player || EntityModifierCapability.supportCapability(entity)) {
+      Provider provider = new Provider();
+      event.addCapability(ID, provider);
+      event.addListener(provider);
+    }
   }
 
   /** Syncs the data to the given player */

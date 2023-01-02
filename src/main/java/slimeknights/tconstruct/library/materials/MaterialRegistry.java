@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.players.PlayerList;
 import slimeknights.mantle.network.packet.ISimplePacket;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.events.MaterialsLoadedEvent;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
@@ -20,18 +21,31 @@ import slimeknights.tconstruct.library.materials.stats.MaterialStatsManager;
 import slimeknights.tconstruct.library.materials.stats.UpdateMaterialStatsPacket;
 import slimeknights.tconstruct.library.materials.traits.MaterialTraitsManager;
 import slimeknights.tconstruct.library.materials.traits.UpdateMaterialTraitsPacket;
+import slimeknights.tconstruct.tools.stats.BowstringMaterialStats;
 import slimeknights.tconstruct.tools.stats.ExtraMaterialStats;
+import slimeknights.tconstruct.tools.stats.GripMaterialStats;
 import slimeknights.tconstruct.tools.stats.HandleMaterialStats;
 import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
+import slimeknights.tconstruct.tools.stats.LimbMaterialStats;
 import slimeknights.tconstruct.tools.stats.RepairKitStats;
 import slimeknights.tconstruct.tools.stats.SkullStats;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 public final class MaterialRegistry {
+  /** Internal material stats ID for the sake of adding traits exclusive to melee or harvest materials */
+  public static final MaterialStatsId MELEE_HARVEST = new MaterialStatsId(TConstruct.getResource("melee_harvest"));
+  /** Internal material stats ID for the sake of adding traits exclusive to ranged materials */
+  public static final MaterialStatsId RANGED = new MaterialStatsId(TConstruct.getResource("ranged"));
+
   static MaterialRegistry INSTANCE;
+
+  /** Map of each stat type to its first material */
+  private static final Map<MaterialStatsId,IMaterial> FIRST_MATERIALS = new HashMap<>();
 
   private final MaterialManager materialManager;
   private final MaterialStatsManager materialStatsManager;
@@ -85,9 +99,12 @@ public final class MaterialRegistry {
     });
     registry = new MaterialRegistryImpl(materialManager, materialStatsManager, materialTraitsManager);
 
-    registry.registerStatType(HeadMaterialStats.DEFAULT, HeadMaterialStats.class, HeadMaterialStats::new);
-    registry.registerStatType(HandleMaterialStats.DEFAULT, HandleMaterialStats.class, HandleMaterialStats::new);
-    registry.registerStatType(ExtraMaterialStats.DEFAULT, ExtraMaterialStats.class, buffer -> ExtraMaterialStats.DEFAULT);
+    registry.registerStatType(HeadMaterialStats.DEFAULT, HeadMaterialStats.class, HeadMaterialStats::new, MELEE_HARVEST);
+    registry.registerStatType(HandleMaterialStats.DEFAULT, HandleMaterialStats.class, HandleMaterialStats::new, MELEE_HARVEST);
+    registry.registerStatType(ExtraMaterialStats.DEFAULT, ExtraMaterialStats.class, buffer -> ExtraMaterialStats.DEFAULT, MELEE_HARVEST);
+    registry.registerStatType(LimbMaterialStats.DEFAULT, LimbMaterialStats.class, LimbMaterialStats::new, RANGED);
+    registry.registerStatType(GripMaterialStats.DEFAULT, GripMaterialStats.class, GripMaterialStats::new, RANGED);
+    registry.registerStatType(BowstringMaterialStats.DEFAULT, BowstringMaterialStats.class, buffer -> BowstringMaterialStats.DEFAULT, RANGED);
     registry.registerStatType(RepairKitStats.DEFAULT, RepairKitStats.class, RepairKitStats::new);
     registry.registerStatType(SkullStats.DEFAULT, SkullStats.class, SkullStats::new);
   }
@@ -170,6 +187,23 @@ public final class MaterialRegistry {
     return INSTANCE.materialStatsManager.getStatDecoder(id);
   }
 
+  /** Loads the first material of a stat type */
+  private static final Function<MaterialStatsId,IMaterial> FIRST_LOADER = statsId -> {
+    IMaterialRegistry instance = getInstance();
+    for (IMaterial material : instance.getVisibleMaterials()) {
+      if (instance.getMaterialStats(material.getIdentifier(), statsId).isPresent()) {
+        return material;
+      }
+    }
+    return IMaterial.UNKNOWN;
+  };
+
+  /** Gets the first material with the given stat type */
+  public static IMaterial firstWithStatType(MaterialStatsId id) {
+    return FIRST_MATERIALS.computeIfAbsent(id, FIRST_LOADER);
+  }
+
+
 
   /* Loading */
 
@@ -180,6 +214,7 @@ public final class MaterialRegistry {
       statsLoaded = false;
       traitsLoaded = false;
       fullyLoaded = true;
+      FIRST_MATERIALS.clear();
       MaterialsLoadedEvent.EVENT.invoker().onLoad();
     } else {
       fullyLoaded = false;

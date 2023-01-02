@@ -15,7 +15,11 @@ import net.minecraft.util.GsonHelper;
 
 import java.lang.reflect.Type;
 
-/** Serializer for a forge condition */
+/**
+ * Serializer for a forge condition
+ * @deprecated use {@link slimeknights.tconstruct.common.json.BlockOrEntityCondition.ConditionSerializer}
+ */
+@Deprecated
 public interface ConditionSerializer {
   ConditionSerializer.Deserializer DESERIALIZER = new ConditionSerializer.Deserializer();
   ConditionSerializer.Serializer SERIALIZER = new ConditionSerializer.Serializer();

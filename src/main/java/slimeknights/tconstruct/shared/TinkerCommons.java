@@ -4,7 +4,6 @@ import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.object.builder.v1.advancement.CriterionRegistry;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.MobType;
@@ -20,7 +19,7 @@ import net.minecraft.world.level.block.WeatheringCopper.WeatherState;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import org.apache.logging.log4j.Logger;
 import slimeknights.mantle.item.EdibleItem;
@@ -35,6 +34,8 @@ import slimeknights.tconstruct.common.json.TinkerConditons;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.library.json.TagDifferencePresentCondition;
 import slimeknights.tconstruct.library.json.TagIntersectionPresentCondition;
+import slimeknights.tconstruct.library.json.TagNotEmptyLootCondition;
+import slimeknights.tconstruct.library.json.TagPreferenceLootEntry;
 import slimeknights.tconstruct.library.json.predicate.block.BlockPredicate;
 import slimeknights.tconstruct.library.json.predicate.block.SetBlockPredicate;
 import slimeknights.tconstruct.library.json.predicate.block.TagBlockPredicate;
@@ -122,9 +123,10 @@ public final class TinkerCommons extends TinkerModule {
   public static final RegistryObject<ParticleType<FluidParticleData>> fluidParticle = PARTICLE_TYPES.register("fluid", FluidParticleData.Type::new);
 
   /* Loot conditions */
-  public static LootItemConditionType lootConfig;
-  public static LootItemConditionType lootBlockOrEntity;
-  public static LootItemFunctionType lootSetFluid;
+  public static final RegistryObject<LootItemConditionType> lootConfig = LOOT_CONDITIONS.register(ConfigEnabledCondition.ID.getPath(), () -> new LootItemConditionType(ConfigEnabledCondition.SERIALIZER));
+  public static final RegistryObject<LootItemConditionType> lootBlockOrEntity = LOOT_CONDITIONS.register("block_or_entity", () -> new LootItemConditionType(new BlockOrEntityCondition.ConditionSerializer()));
+  public static final RegistryObject<LootItemConditionType> lootTagNotEmptyCondition = LOOT_CONDITIONS.register("tag_not_empty", () -> new LootItemConditionType(new TagNotEmptyLootCondition.ConditionSerializer()));
+  public static final RegistryObject<LootPoolEntryType> lootTagPreference = LOOT_ENTRIES.register("tag_preference", () -> new LootPoolEntryType(new TagPreferenceLootEntry.Serializer()));
 
   /* Slime Balls are edible, believe it or not */
   public static final EnumObject<SlimeType, Item> slimeball = new EnumObject.Builder<SlimeType, Item>(SlimeType.class)
@@ -145,11 +147,10 @@ public final class TinkerCommons extends TinkerModule {
     registerRecipeSerializers();
   }
 
-  void registerRecipeSerializers() {
-    ResourceConditions.register(ConfigEnabledCondition.ID, TinkerConditons::isConfigEnabledPredicate);
-    lootConfig = Registry.register(Registry.LOOT_CONDITION_TYPE, ConfigEnabledCondition.ID, new LootItemConditionType(ConfigEnabledCondition.SERIALIZER));
-    lootBlockOrEntity = Registry.register(Registry.LOOT_CONDITION_TYPE, BlockOrEntityCondition.ID, new LootItemConditionType(BlockOrEntityCondition.SERIALIZER));
-    CriterionRegistry.register(CONTAINER_OPENED_TRIGGER);
+  @SubscribeEvent
+  void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
+    CraftingHelper.register(ConfigEnabledCondition.SERIALIZER);
+    CriteriaTriggers.register(CONTAINER_OPENED_TRIGGER);
 
 
     ResourceConditions.register(TagIntersectionPresentCondition.NAME, TinkerConditons::tagIntersectionPresentPredicate);

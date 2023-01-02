@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.With;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import slimeknights.tconstruct.library.modifiers.util.LazyModifier;
 import slimeknights.tconstruct.library.tools.nbt.IToolContext;
@@ -69,6 +70,11 @@ public class ModifierEntry implements Comparable<ModifierEntry> {
     return modifier.get().getEffectiveLevel(tool, level);
   }
 
+  /** Gets the given hook from the modifier, returning default instance if not present */
+  public final <T> T getHook(ModifierHook<T> hook) {
+    return modifier.get().getHook(hook);
+  }
+
   /** Checks if this entry matches the given modifier */
   public boolean matches(ModifierId id) {
     return modifier.getId().equals(id);
@@ -77,6 +83,11 @@ public class ModifierEntry implements Comparable<ModifierEntry> {
   /** Checks if this entry matches the given modifier */
   public boolean matches(Modifier modifier) {
     return matches(modifier.getId());
+  }
+
+  /** Checks if the modifier is in the given tag */
+  public boolean matches(TagKey<Modifier> tag) {
+    return modifier.is(tag);
   }
 
   @Override

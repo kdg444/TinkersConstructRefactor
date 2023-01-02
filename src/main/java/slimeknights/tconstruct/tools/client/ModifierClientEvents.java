@@ -23,6 +23,7 @@ import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.Icons;
 import slimeknights.tconstruct.library.events.ToolEquipmentChangeEvent;
+import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.data.FloatMultiplier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataKeys;
@@ -140,9 +141,9 @@ public class ModifierClientEvents {
         IToolStackView tool = context.getToolInSlot(EquipmentSlot.LEGS);
         if (tool != null) {
           ShieldStrapModifier modifier = TinkerModifiers.shieldStrap.get();
-          int level = tool.getModifierLevel(modifier);
-          if (level > 0) {
-            nextOffhand = modifier.getStack(tool, level, 0);
+          ModifierEntry entry = tool.getModifiers().getEntry(modifier.getId());
+          if (entry != null) {
+            nextOffhand = modifier.getStack(tool, entry, 0);
             return;
           }
         }

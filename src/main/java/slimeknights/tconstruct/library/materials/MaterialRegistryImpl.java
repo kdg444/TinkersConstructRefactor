@@ -12,6 +12,7 @@ import slimeknights.tconstruct.library.materials.traits.MaterialTraitsManager;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -98,6 +99,14 @@ public class MaterialRegistryImpl implements IMaterialRegistry {
   @Override
   public <T extends IMaterialStats> void registerStatType(T defaultStats, Class<T> clazz, Function<FriendlyByteBuf,T> decoder) {
     materialStatsManager.registerMaterialStat(defaultStats, clazz, decoder);
+  }
+
+  @Override
+  public <T extends IMaterialStats> void registerStatType(T defaultStats, Class<T> clazz, Function<FriendlyByteBuf,T> decoder, @Nullable MaterialStatsId fallback) {
+    registerStatType(defaultStats, clazz, decoder);
+    if (fallback != null) {
+      materialTraitsManager.registerStatTypeFallback(defaultStats.getIdentifier(), fallback);
+    }
   }
 
 

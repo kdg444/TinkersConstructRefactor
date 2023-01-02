@@ -1,37 +1,6 @@
 {
-  "condition": {
-    "fabric:load_conditions": [
-      {
-        "condition": "fabric:or",
-        "values": [
-          {
-            "condition": "tconstruct:config",
-            "prop": "force_integration_materials"
-          },
-          {
-            "condition": "fabric:item_tags_populated",
-            "values": [
-              "c:ingots/aluminum"
-            ]
-          },
-          {
-            "condition": "fabric:item_tags_populated",
-            "values": [
-              "c:ingots/tin"
-            ]
-          },
-          {
-            "condition": "fabric:item_tags_populated",
-            "values": [
-              "c:ingots/zinc"
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "craftable": false,
+  "craftable": true,
   "tier": 2,
-  "sortOrder": 8,
+  "sortOrder": 15,
   "hidden": false
 }
