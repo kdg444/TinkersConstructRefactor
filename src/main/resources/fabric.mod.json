@@ -40,7 +40,8 @@
       "slimeknights.tconstruct.gadgets.capability.PiggybackCapability",
       "slimeknights.tconstruct.tools.logic.EquipmentChangeWatcher",
       "slimeknights.tconstruct.library.tools.capability.TinkerDataCapability",
-      "slimeknights.tconstruct.library.tools.capability.PersistentDataCapability"
+      "slimeknights.tconstruct.library.tools.capability.PersistentDataCapability",
+      "slimeknights.tconstruct.library.tools.capability.EntityModifierCapability"
     ]
   },
   "accessWidener": "tinkers.accesswidener",
@@ -54,7 +55,8 @@
       "tconstruct:piggyback",
       "tconstruct:equipment_watcher",
       "tconstruct:persistent_data",
-      "tconstruct:modifier_data"
+      "tconstruct:modifier_data",
+      "tconstruct:modifiers"
     ],
     "banner": "Mantle.png"
   }
