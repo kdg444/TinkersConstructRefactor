@@ -1,10 +1,10 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.melee;
 
+import me.alphamode.forgetags.Tags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import me.alphamode.forgetags.Tags;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.recipe.modifiers.severing.SeveringRecipe;

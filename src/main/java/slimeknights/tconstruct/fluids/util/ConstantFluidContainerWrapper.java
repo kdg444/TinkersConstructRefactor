@@ -3,12 +3,10 @@ package slimeknights.tconstruct.fluids.util;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.transfer.fluid.IFluidHandlerItem;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /** Represents a capability handler for a container with a constant fluid */
 public class ConstantFluidContainerWrapper implements IFluidHandlerItem/*, ICapabilityProvider*/ {

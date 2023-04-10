@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.shared;
 
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import slimeknights.tconstruct.shared.block.SlimeType;
 
 @SuppressWarnings("WeakerAccess")

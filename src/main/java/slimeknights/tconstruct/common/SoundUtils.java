@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.common;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Entity;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 
 public class SoundUtils {

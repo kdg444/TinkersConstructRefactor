@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 
+import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -8,7 +9,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 
 public class PathingModifier extends BlockTransformModifier {
   public PathingModifier(int priority) {

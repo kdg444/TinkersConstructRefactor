@@ -1,10 +1,5 @@
 package slimeknights.tconstruct.smeltery.block.entity;
 
-import slimeknights.mantle.transfer.fluid.FluidTransferable;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
-import slimeknights.mantle.transfer.item.wrapper.SidedInvWrapper;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
@@ -31,6 +26,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
+import slimeknights.mantle.transfer.fluid.FluidTransferable;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.item.ItemHandlerHelper;
+import slimeknights.mantle.transfer.item.wrapper.SidedInvWrapper;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;

@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.client.data.util;
 
-import lombok.RequiredArgsConstructor;
 import com.mojang.blaze3d.platform.NativeImage;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;

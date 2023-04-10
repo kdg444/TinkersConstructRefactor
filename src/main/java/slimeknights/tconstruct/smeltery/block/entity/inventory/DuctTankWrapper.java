@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.entity.inventory;
 
-import lombok.AllArgsConstructor;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import lombok.AllArgsConstructor;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
 
 @AllArgsConstructor

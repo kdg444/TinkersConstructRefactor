@@ -1,13 +1,12 @@
 package slimeknights.tconstruct.tools.modifiers.traits.harvest;
 
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -93,7 +92,7 @@ public class TemperateModifier extends Modifier implements ConditionalStatModifi
         }
       }
       if (bonus > 0.01f) {
-        tooltip.add(applyStyle(new TextComponent(Util.PERCENT_FORMAT.format(diminishingPercent(bonus * 2)) + " ").append(REINFORCED)));
+        tooltip.add(applyStyle(Component.literal(Util.PERCENT_FORMAT.format(diminishingPercent(bonus * 2)) + " ").append(REINFORCED)));
       }
     }
   }

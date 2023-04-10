@@ -16,7 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -25,8 +24,8 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.GuiUtil;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
-import slimeknights.tconstruct.plugin.rei.TinkersCategory;
 import slimeknights.tconstruct.plugin.rei.IRecipeTooltipReplacement;
+import slimeknights.tconstruct.plugin.rei.TinkersCategory;
 import slimeknights.tconstruct.plugin.rei.widgets.ArrowWidget;
 import slimeknights.tconstruct.plugin.rei.widgets.WidgetHolder;
 
@@ -73,7 +72,7 @@ public abstract class AbstractCastingCategory implements TinkersCategory<Casting
   @Override
   public List<Component> getTooltipStrings(CastingDisplay display, List<Widget> widgets, double mouseX, double mouseY) {
     if (display.hasCast() && GuiUtil.isHovered((int)mouseX, (int)mouseY, 63, 39, 13, 11)) {
-      return Collections.singletonList(new TranslatableComponent(display.isConsumed() ? KEY_CAST_CONSUMED : KEY_CAST_KEPT));
+      return Collections.singletonList(Component.translatable(display.isConsumed() ? KEY_CAST_CONSUMED : KEY_CAST_KEPT));
     }
     return Collections.emptyList();
   }

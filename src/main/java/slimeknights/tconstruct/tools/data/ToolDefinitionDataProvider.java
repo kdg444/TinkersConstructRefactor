@@ -1,10 +1,10 @@
 package slimeknights.tconstruct.tools.data;
 
+import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Blocks;
-import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.data.tinkering.AbstractToolDefinitionDataProvider;

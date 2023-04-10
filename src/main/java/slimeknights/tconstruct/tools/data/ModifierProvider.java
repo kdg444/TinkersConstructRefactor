@@ -2,7 +2,6 @@ package slimeknights.tconstruct.tools.data;
 
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import io.github.fabricators_of_create.porting_lib.attributes.PortingLibAttributes;
-import me.alphamode.forgetags.Tags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;

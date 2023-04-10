@@ -2,14 +2,12 @@ package slimeknights.tconstruct.shared.command.subcommand;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.RecipeManagerAccessor;
 import io.github.fabricators_of_create.porting_lib.util.TablePrinter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import slimeknights.mantle.command.MantleCommand;
 import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -37,7 +35,7 @@ import java.util.stream.Stream;
 
 /** Command that prints a list of all modifiers and how they are used in current datapacks */
 public class ModifierUsageCommand {
-  private static final Component SUCCESS = new TranslatableComponent("command.tconstruct.modifier_usage");
+  private static final Component SUCCESS = Component.translatable("command.tconstruct.modifier_usage");
 
   /**
    * Registers this sub command with the root command

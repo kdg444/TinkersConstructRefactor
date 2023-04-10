@@ -10,7 +10,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.Tag;
 import net.minecraft.tags.Tag.BuilderEntry;
 import net.minecraft.tags.TagKey;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import slimeknights.mantle.data.GenericDataProvider;
 
 import java.io.IOException;

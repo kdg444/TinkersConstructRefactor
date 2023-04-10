@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 
+import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.BlockPos;
@@ -15,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
-import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;
 import slimeknights.tconstruct.library.modifiers.hook.BlockTransformModifierHook;

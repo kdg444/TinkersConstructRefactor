@@ -1,17 +1,16 @@
 package slimeknights.tconstruct.smeltery.client.screen.module;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.Mantle;
 import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.library.client.GuiUtil;
 
 import javax.annotation.Nullable;
@@ -24,7 +23,7 @@ import java.util.function.BiConsumer;
  */
 public class GuiTankModule {
   /** Tooltip for when the capacity is 0, it breaks some stuff */
-  private static final Component NO_CAPACITY = new TranslatableComponent(Mantle.makeDescriptionId("gui", "fluid.millibucket"), 0).withStyle(ChatFormatting.GRAY);
+  private static final Component NO_CAPACITY = Component.translatable(Mantle.makeDescriptionId("gui", "fluid.millibucket"), 0).withStyle(ChatFormatting.GRAY);
 
   private static final int TANK_INDEX = 0;
   private final AbstractContainerScreen<?> screen;

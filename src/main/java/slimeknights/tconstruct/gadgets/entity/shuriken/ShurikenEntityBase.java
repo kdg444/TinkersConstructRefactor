@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.gadgets.entity.shuriken;
 
+import io.github.fabricators_of_create.porting_lib.entity.ExtraSpawnDataEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -13,7 +14,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import io.github.fabricators_of_create.porting_lib.entity.ExtraSpawnDataEntity;
 
 import javax.annotation.Nonnull;
 

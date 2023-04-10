@@ -5,7 +5,6 @@ import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -44,7 +43,7 @@ public class PotionFluidAttributes extends FluidAttributes {
   @Override
   public Component getDisplayName(FluidStack stack) {
     // stupid forge, not calling the stack sensitive translation key in super...
-    return new TranslatableComponent(getTranslationKey(stack));
+    return Component.translatable(getTranslationKey(stack));
   }
 
   @Override

@@ -2,8 +2,8 @@ package slimeknights.tconstruct.library.utils;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 
 import javax.annotation.Nullable;
 import java.util.Set;

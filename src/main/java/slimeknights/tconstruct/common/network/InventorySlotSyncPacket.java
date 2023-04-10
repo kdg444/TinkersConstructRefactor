@@ -6,9 +6,9 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.mantle.transfer.TransferUtil;
 import slimeknights.mantle.transfer.item.IItemHandlerModifiable;
-import slimeknights.mantle.network.packet.IThreadsafePacket;
 
 public class InventorySlotSyncPacket implements IThreadsafePacket {
 

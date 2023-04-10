@@ -1,12 +1,12 @@
 package slimeknights.tconstruct.plugin.jei.melting;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluid;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.Lazy;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import io.github.fabricators_of_create.porting_lib.util.Lazy;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluid;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 
 import java.util.Arrays;

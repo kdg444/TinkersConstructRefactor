@@ -1,10 +1,10 @@
 package slimeknights.tconstruct.tables.block.entity.inventory;
 
-import slimeknights.mantle.transfer.item.ItemStackHandler;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
+import slimeknights.mantle.transfer.item.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

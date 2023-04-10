@@ -3,7 +3,6 @@ package slimeknights.tconstruct.tools.data;
 import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
-import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;

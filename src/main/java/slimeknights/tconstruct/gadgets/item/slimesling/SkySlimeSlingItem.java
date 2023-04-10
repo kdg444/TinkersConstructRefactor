@@ -3,12 +3,10 @@ package slimeknights.tconstruct.gadgets.item.slimesling;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import slimeknights.tconstruct.library.utils.SlimeBounceHandler;
 import slimeknights.tconstruct.shared.block.SlimeType;
-
-import net.minecraft.world.item.Item.Properties;
 
 public class SkySlimeSlingItem extends BaseSlimeSlingItem {
   private static final float DEGREE_TO_RAD = (float) Math.PI / 180.0F;

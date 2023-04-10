@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.world;
 
 import lombok.RequiredArgsConstructor;
-import net.minecraft.world.level.block.SkullBlock.Type;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.SkullBlock.Type;
 
 import javax.annotation.Nullable;
 import java.util.Locale;

@@ -1,10 +1,9 @@
 package slimeknights.tconstruct.library.fluid;
 
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
 
 import javax.annotation.Nonnull;
-
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
 
 /**
  * Fluid handler wrapper that only allows filling

@@ -1,17 +1,15 @@
 package slimeknights.tconstruct.common.registration;
 
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
-import slimeknights.mantle.registration.RegistrationHelper;
 import slimeknights.mantle.registration.deferred.BlockDeferredRegister;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.EnumObject.Builder;

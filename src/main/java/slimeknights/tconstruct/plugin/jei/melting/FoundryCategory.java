@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.plugin.jei.melting;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

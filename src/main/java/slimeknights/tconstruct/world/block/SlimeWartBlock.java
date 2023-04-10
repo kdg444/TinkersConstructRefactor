@@ -1,12 +1,10 @@
 package slimeknights.tconstruct.world.block;
 
-import net.minecraft.world.level.block.Block;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.NonNullList;
+import net.minecraft.world.level.block.Block;
 import slimeknights.tconstruct.shared.block.SlimeType;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /** Simple block to hide ichor */
 public class SlimeWartBlock extends Block {

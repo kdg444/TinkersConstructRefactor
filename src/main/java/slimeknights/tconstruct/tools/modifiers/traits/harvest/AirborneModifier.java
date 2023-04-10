@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.tools.modifiers.traits.harvest;
 
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;
 import slimeknights.tconstruct.library.modifiers.hook.ConditionalStatModifierHook;

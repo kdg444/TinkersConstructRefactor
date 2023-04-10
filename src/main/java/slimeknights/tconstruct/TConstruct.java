@@ -1,12 +1,11 @@
 package slimeknights.tconstruct;
 
+import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import slimeknights.tconstruct.common.TinkerModule;
@@ -249,7 +248,7 @@ public class TConstruct implements ModInitializer {
    * @return  Translation key
    */
   public static MutableComponent makeTranslation(String base, String name) {
-    return new TranslatableComponent(makeTranslationKey(base, name));
+    return Component.translatable(makeTranslationKey(base, name));
   }
 
   /**
@@ -260,7 +259,7 @@ public class TConstruct implements ModInitializer {
    * @return  Translation key
    */
   public static MutableComponent makeTranslation(String base, String name, Object... arguments) {
-    return new TranslatableComponent(makeTranslationKey(base, name), arguments);
+    return Component.translatable(makeTranslationKey(base, name), arguments);
   }
 
   /**

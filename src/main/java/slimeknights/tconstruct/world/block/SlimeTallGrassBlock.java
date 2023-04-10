@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.world.block;
 
 import com.google.common.collect.Lists;
+import io.github.fabricators_of_create.porting_lib.extensions.IShearable;
 import io.github.fabricators_of_create.porting_lib.util.IPlantable;
+import io.github.fabricators_of_create.porting_lib.util.PlantType;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -15,8 +17,6 @@ import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import io.github.fabricators_of_create.porting_lib.util.PlantType;
-import io.github.fabricators_of_create.porting_lib.extensions.IShearable;
 import slimeknights.tconstruct.shared.block.SlimeType;
 import slimeknights.tconstruct.world.TinkerWorld;
 

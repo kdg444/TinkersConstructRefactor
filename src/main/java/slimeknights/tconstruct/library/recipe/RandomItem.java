@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.mantle.recipe.helper.ItemOutput;
+import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 
 import java.util.Random;
 

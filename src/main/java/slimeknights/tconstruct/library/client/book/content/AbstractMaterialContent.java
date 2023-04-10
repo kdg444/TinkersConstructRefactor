@@ -11,8 +11,6 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +22,6 @@ import slimeknights.mantle.client.book.data.element.TextData;
 import slimeknights.mantle.client.screen.book.BookScreen;
 import slimeknights.mantle.client.screen.book.element.BookElement;
 import slimeknights.mantle.client.screen.book.element.ItemElement;
-import slimeknights.mantle.client.screen.book.element.TextComponentElement;
 import slimeknights.mantle.client.screen.book.element.TextElement;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.mantle.util.RegistryHelper;
@@ -231,12 +228,12 @@ public abstract class AbstractMaterialContent extends PageContent {
     List<TextComponentData> lineData = Lists.newArrayList();
     // add lines of tool information
     List<Component> localizedDescription = stats.get().getLocalizedDescriptions();
-    if (!localizedDescription.isEmpty() && (localizedDescription.size() > 1 || localizedDescription.get(0) != TextComponent.EMPTY)) {
+    if (!localizedDescription.isEmpty() && (localizedDescription.size() > 1 || localizedDescription.get(0) != Component.empty())) {
       lineData.addAll(getStatLines(stats.get()));
     }
     lineData.addAll(getTraitLines(traits));
 
-    list.add(new TextComponentElement(x, y, w, BookScreen.PAGE_HEIGHT, lineData));
+    list.add(Component.literalElement(x, y, w, BookScreen.PAGE_HEIGHT, lineData));
 
     return y + (lineData.size() * 5) + 3;
   }
@@ -247,7 +244,7 @@ public abstract class AbstractMaterialContent extends PageContent {
 
     List<Component> localizedDescription = stats.getLocalizedDescriptions();
     for (int i = 0; i < stats.getLocalizedInfo().size(); i++) {
-      TextComponentData text = new TextComponentData(stats.getLocalizedInfo().get(i));
+      TextComponentData text = Component.literalData(stats.getLocalizedInfo().get(i));
       if (localizedDescription.get(i).getString().isEmpty()) {
         text.tooltips = null;
       } else {
@@ -255,7 +252,7 @@ public abstract class AbstractMaterialContent extends PageContent {
       }
 
       lineData.add(text);
-      lineData.add(new TextComponentData("\n"));
+      lineData.add(Component.literalData("\n"));
     }
 
     return lineData;
@@ -267,14 +264,14 @@ public abstract class AbstractMaterialContent extends PageContent {
 
     for (ModifierEntry trait : traits) {
       Modifier mod = trait.getModifier();
-      TextComponentData textComponentData = new TextComponentData(mod.getDisplayName());
+      TextComponentData textComponentData = Component.literalData(mod.getDisplayName());
 
       List<Component> textComponents = mod.getDescriptionList(trait.getLevel());
       textComponentData.tooltips = textComponents.toArray(new Component[0]);
       textComponentData.text = textComponentData.text.copy().withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.UNDERLINE);
 
       lineData.add(textComponentData);
-      lineData.add(new TextComponentData("\n"));
+      lineData.add(Component.literalData("\n"));
     }
 
     return lineData;
@@ -304,7 +301,7 @@ public abstract class AbstractMaterialContent extends PageContent {
       FluidStack firstFluid = fluids.stream()
                                     .flatMap(recipe -> recipe.getFluids().stream())
                                     .findFirst().orElse(FluidStack.EMPTY);
-      elementItem.tooltip = ImmutableList.of(new TranslatableComponent(CAST_FROM, firstFluid.getFluid().getAttributes().getDisplayName(firstFluid)));
+      elementItem.tooltip = ImmutableList.of(Component.translatable(CAST_FROM, firstFluid.getFluid().getAttributes().getDisplayName(firstFluid)));
       displayTools.add(elementItem);
     }
 
@@ -320,7 +317,7 @@ public abstract class AbstractMaterialContent extends PageContent {
                                                                                       .map(part -> part.withMaterial(inputId))
                                                                                       .collect(Collectors.toList()));
         FluidStack firstFluid = composite.getFluids().stream().findFirst().orElse(FluidStack.EMPTY);
-        elementItem.tooltip = ImmutableList.of(new TranslatableComponent(COMPOSITE_FROM, firstFluid.getFluid().getAttributes().getDisplayName(firstFluid), MaterialTooltipCache.getDisplayName(inputId)));
+        elementItem.tooltip = ImmutableList.of(Component.translatable(COMPOSITE_FROM, firstFluid.getFluid().getAttributes().getDisplayName(firstFluid), MaterialTooltipCache.getDisplayName(inputId)));
         displayTools.add(elementItem);
       }
     }

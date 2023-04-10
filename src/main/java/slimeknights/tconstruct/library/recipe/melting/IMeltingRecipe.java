@@ -1,10 +1,10 @@
 package slimeknights.tconstruct.library.recipe.melting;
 
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.recipe.ICustomOutputRecipe;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;

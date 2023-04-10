@@ -1,12 +1,12 @@
 package slimeknights.tconstruct.smeltery.item;
 
-import slimeknights.mantle.transfer.fluid.FluidTank;
-import slimeknights.mantle.transfer.fluid.IFluidHandlerItem;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.world.item.ItemStack;
+import slimeknights.mantle.transfer.fluid.FluidTank;
+import slimeknights.mantle.transfer.fluid.IFluidHandlerItem;
 import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity;
 
 import javax.annotation.Nonnull;

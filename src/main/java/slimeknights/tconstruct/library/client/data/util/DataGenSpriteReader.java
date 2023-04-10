@@ -1,12 +1,12 @@
 package slimeknights.tconstruct.library.client.data.util;
 
+import com.mojang.blaze3d.platform.NativeImage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import com.mojang.blaze3d.platform.NativeImage;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.Resource;
+import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 
 import java.io.IOException;
 

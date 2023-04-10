@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.library.modifiers;
 
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
+import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
@@ -8,8 +10,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
@@ -33,8 +33,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
-import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import slimeknights.mantle.client.ResourceColorManager;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
@@ -227,7 +225,7 @@ public class Modifier implements IHaveLoader<Modifier> {
    * @return  Display name
    */
   protected Component makeDisplayName() {
-    return new TranslatableComponent(getTranslationKey());
+    return Component.translatable(getTranslationKey());
   }
 
   /**
@@ -245,7 +243,7 @@ public class Modifier implements IHaveLoader<Modifier> {
    */
   public Component getDisplayName() {
     if (displayName == null) {
-      displayName = new TranslatableComponent(getTranslationKey()).withStyle(style -> style.withColor(getTextColor()));
+      displayName = Component.translatable(getTranslationKey()).withStyle(style -> style.withColor(getTextColor()));
     }
     return displayName;
   }
@@ -300,8 +298,8 @@ public class Modifier implements IHaveLoader<Modifier> {
   public List<Component> getDescriptionList() {
     if (descriptionList == null) {
       descriptionList = Arrays.asList(
-        new TranslatableComponent(getTranslationKey() + ".flavor").withStyle(ChatFormatting.ITALIC),
-        new TranslatableComponent(getTranslationKey() + ".description"));
+        Component.translatable(getTranslationKey() + ".flavor").withStyle(ChatFormatting.ITALIC),
+        Component.translatable(getTranslationKey() + ".description"));
     }
     return descriptionList;
   }
@@ -328,9 +326,9 @@ public class Modifier implements IHaveLoader<Modifier> {
   /** Converts a list of text components to a single text component, newline separated */
   private static Component listToComponent(List<Component> list) {
     if (list.isEmpty()) {
-      return TextComponent.EMPTY;
+      return Component.empty();
     }
-    MutableComponent textComponent = new TextComponent("");
+    MutableComponent textComponent = Component.literal("");
     Iterator<Component> iterator = list.iterator();
     textComponent.append(iterator.next());
     while (iterator.hasNext()) {
@@ -1044,7 +1042,7 @@ public class Modifier implements IHaveLoader<Modifier> {
    * @param tooltip  Tooltip list
    */
   protected void addFlatBoost(Component name, double bonus, List<Component> tooltip) {
-    tooltip.add(applyStyle(new TextComponent(Util.BONUS_FORMAT.format(bonus) + " ").append(name)));
+    tooltip.add(applyStyle(Component.literal(Util.BONUS_FORMAT.format(bonus) + " ").append(name)));
   }
 
   /**
@@ -1054,7 +1052,7 @@ public class Modifier implements IHaveLoader<Modifier> {
    * @param tooltip  Tooltip list
    */
   protected void addPercentTooltip(Component name, double bonus, List<Component> tooltip) {
-    tooltip.add(applyStyle(new TextComponent(Util.PERCENT_BOOST_FORMAT.format(bonus) + " ").append(name)));
+    tooltip.add(applyStyle(Component.literal(Util.PERCENT_BOOST_FORMAT.format(bonus) + " ").append(name)));
   }
 
   /**
@@ -1067,7 +1065,7 @@ public class Modifier implements IHaveLoader<Modifier> {
    */
   protected void addStatTooltip(IToolStackView tool, FloatToolStat stat, TagKey<Item> condition, float amount, List<Component> tooltip) {
     if (tool.hasTag(condition)) {
-      addFlatBoost(new TranslatableComponent(getTranslationKey() + "." + stat.getName().getPath()), amount * tool.getMultiplier(stat), tooltip);
+      addFlatBoost(Component.translatable(getTranslationKey() + "." + stat.getName().getPath()), amount * tool.getMultiplier(stat), tooltip);
     }
   }
 

@@ -2,10 +2,8 @@ package slimeknights.tconstruct.fluids.item;
 
 import com.mojang.datafixers.util.Pair;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import slimeknights.tconstruct.fluids.util.ConstantFluidContainerWrapper;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -44,12 +41,12 @@ public class ContainerFoodItem extends Item {
     for (Pair<MobEffectInstance, Float> pair : Objects.requireNonNull(stack.getItem().getFoodProperties()).getEffects()) {
       MobEffectInstance effect = pair.getFirst();
       if (effect != null) {
-        MutableComponent mutable = new TranslatableComponent(effect.getDescriptionId());
+        MutableComponent mutable = Component.translatable(effect.getDescriptionId());
         if (effect.getAmplifier() > 0) {
-          mutable = new TranslatableComponent("potion.withAmplifier", mutable, new TranslatableComponent("potion.potency." + effect.getAmplifier()));
+          mutable = Component.translatable("potion.withAmplifier", mutable, Component.translatable("potion.potency." + effect.getAmplifier()));
         }
         if (effect.getDuration() > 20) {
-          mutable = new TranslatableComponent("potion.withDuration", mutable, MobEffectUtil.formatDuration(effect, 1.0f));
+          mutable = Component.translatable("potion.withDuration", mutable, MobEffectUtil.formatDuration(effect, 1.0f));
         }
         tooltip.add(mutable.withStyle(effect.getEffect().getCategory().getTooltipFormatting()));
       }

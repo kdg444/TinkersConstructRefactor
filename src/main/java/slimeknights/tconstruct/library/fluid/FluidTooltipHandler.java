@@ -1,11 +1,11 @@
 package slimeknights.tconstruct.library.fluid;
 
 import com.google.gson.Gson;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 

@@ -1,5 +1,8 @@
 package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 
+import io.github.fabricators_of_create.porting_lib.extensions.IShearable;
+import io.github.fabricators_of_create.porting_lib.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.world.InteractionHand;
@@ -11,9 +14,6 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import io.github.fabricators_of_create.porting_lib.extensions.IShearable;
-import io.github.fabricators_of_create.porting_lib.util.ToolAction;
-import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 import slimeknights.tconstruct.library.events.TinkerToolEvent.ToolShearEvent;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;

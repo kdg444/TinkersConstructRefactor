@@ -1,12 +1,12 @@
 package slimeknights.tconstruct.tables.menu.slot;
 
+import io.github.fabricators_of_create.porting_lib.event.common.ItemCraftedCallback;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.inventory.CustomResultSlot;
 import slimeknights.mantle.inventory.IContainerCraftingCustom;
-import io.github.fabricators_of_create.porting_lib.event.common.ItemCraftedCallback;
 
 import javax.annotation.Nonnull;
 
