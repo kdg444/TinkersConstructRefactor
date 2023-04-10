@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
 import io.github.fabricators_of_create.porting_lib.event.common.PlayerTickEvents;
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -32,7 +32,7 @@ public class SlurpingModifier extends TankModifier implements KeybindInteractMod
   private static final float DEGREE_TO_RADIANS = (float)Math.PI / 180F;
   private static final TinkerDataKey<SlurpingInfo> SLURP_FINISH_TIME = TConstruct.createKey("slurping_finish");
   public SlurpingModifier() {
-    super(FluidAttributes.BUCKET_VOLUME);
+    super(FluidConstants.BUCKET);
     PlayerTickEvents.END.register(this::playerTick);
   }
 

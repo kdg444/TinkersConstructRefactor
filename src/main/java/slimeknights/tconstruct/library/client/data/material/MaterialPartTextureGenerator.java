@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.library.client.data.material;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
@@ -40,8 +41,8 @@ public class MaterialPartTextureGenerator extends GenericTextureGenerator {
   /** Materials to provide */
   private final AbstractMaterialSpriteProvider[] materialProviders;
 
-  public MaterialPartTextureGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper, AbstractPartSpriteProvider spriteProvider, AbstractMaterialSpriteProvider... materialProviders) {
-    super(generator, FOLDER);
+  public MaterialPartTextureGenerator(FabricDataOutput output, ExistingFileHelper existingFileHelper, AbstractPartSpriteProvider spriteProvider, AbstractMaterialSpriteProvider... materialProviders) {
+    super(output, FOLDER);
     this.spriteReader = new DataGenSpriteReader(existingFileHelper, FOLDER);
     this.existingFileHelper = existingFileHelper;
     this.partProvider = spriteProvider;
@@ -63,7 +64,7 @@ public class MaterialPartTextureGenerator extends GenericTextureGenerator {
 
 
   @Override
-  public void run(HashCache cache) throws IOException {
+  public CompletableFuture<?> run(CachedOutput cache) throws IOException {
     runCallbacks(existingFileHelper, null);
     
     // ensure we have parts
@@ -92,6 +93,7 @@ public class MaterialPartTextureGenerator extends GenericTextureGenerator {
     spriteReader.closeAll();
     partProvider.cleanCache();
     runCallbacks(null, null);
+    return null;
   }
 
   /**

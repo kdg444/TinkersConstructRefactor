@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.harvest;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -51,9 +51,9 @@ public class MomentumModifier extends Modifier implements ProjectileLaunchModifi
   }
 
   @Override
-  public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+  public void onBreakSpeed(IToolStackView tool, int level, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (isEffective) {
-      event.newSpeed = event.newSpeed * (1 + getBonus(event.player, TinkerModifiers.momentumEffect, level, 128f)); // TODO: PORT getEntityLiving?
+      event.setNewSpeed(event.getNewSpeed() * (1 + getBonus(event.getEntity(), TinkerModifiers.momentumEffect, level, 128f)));
     }
   }
 

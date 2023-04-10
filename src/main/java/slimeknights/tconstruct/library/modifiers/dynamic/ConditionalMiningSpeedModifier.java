@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.modifiers.dynamic;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -36,9 +36,9 @@ public class ConditionalMiningSpeedModifier extends IncrementalModifier {
   }
 
   @Override
-  public void onBreakSpeed(IToolStackView tool, int level, PlayerBreakSpeedCallback.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
-    if ((isEffective || !requireEffective) && predicate.matches(event.state)) {
-      event.newSpeed = event.newSpeed + (getScaledLevel(tool, level) * bonus * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier);
+  public void onBreakSpeed(IToolStackView tool, int level, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+    if ((isEffective || !requireEffective) && predicate.matches(event.getState())) {
+      event.setNewSpeed(event.getNewSpeed() + (getScaledLevel(tool, level) * bonus * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier));
     }
   }
 

@@ -112,7 +112,7 @@ public final class TinkerCommons extends TinkerModule {
   public static final ItemObject<EdibleItem> bacon = ITEMS.register("bacon", () -> new EdibleItem(TinkerFood.BACON, TAB_GENERAL));
   public static final ItemObject<EdibleItem> jeweledApple = ITEMS.register("jeweled_apple", () -> new EdibleItem(TinkerFood.JEWELED_APPLE, TAB_GENERAL));
 
-  private static final Item.Properties BOOK = new Item.Properties().tab(TAB_GENERAL).stacksTo(1);
+  private static final Item.Properties BOOK = new Item.Properties()/*.tab(TAB_GENERAL)*/.stacksTo(1);
   public static final ItemObject<TinkerBookItem> materialsAndYou = ITEMS.register("materials_and_you", () -> new TinkerBookItem(BOOK, BookType.MATERIALS_AND_YOU));
   public static final ItemObject<TinkerBookItem> punySmelting = ITEMS.register("puny_smelting", () -> new TinkerBookItem(BOOK, BookType.PUNY_SMELTING));
   public static final ItemObject<TinkerBookItem> mightySmelting = ITEMS.register("mighty_smelting", () -> new TinkerBookItem(BOOK, BookType.MIGHTY_SMELTING));
@@ -179,7 +179,7 @@ public final class TinkerCommons extends TinkerModule {
     MobTypePredicate.MOB_TYPES.register(new ResourceLocation("water"), MobType.WATER);
   }
 
-  public static void gatherData(final FabricDataGenerator datagenerator) {
-    datagenerator.addProvider(new CommonRecipeProvider(datagenerator));
+  public static void gatherData(final FabricDataGenerator.Pack pack) {
+    pack.addProvider(CommonRecipeProvider::new);
   }
 }

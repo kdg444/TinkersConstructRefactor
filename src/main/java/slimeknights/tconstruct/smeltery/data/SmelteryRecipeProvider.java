@@ -10,7 +10,7 @@ import io.github.fabricators_of_create.porting_lib.util.TrueCondition;
 import io.github.tropheusj.milk.Milk;
 import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
 import me.alphamode.forgetags.Tags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
 import net.minecraft.core.Registry;
@@ -80,8 +80,8 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("removal")
 public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelteryRecipeHelper, ICommonRecipeHelper {
-  public SmelteryRecipeProvider(FabricDataGenerator generator) {
-    super(generator);
+  public SmelteryRecipeProvider(FabricDataOutput output) {
+    super(output);
   }
 
   @Override
@@ -90,7 +90,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
   }
 
   @Override
-  protected void generateRecipes(Consumer<FinishedRecipe> consumer) {
+  public void buildRecipes(Consumer<FinishedRecipe> consumer) {
     this.addCraftingRecipes(consumer);
     this.addSmelteryRecipes(consumer);
     this.addFoundryRecipes(consumer);
@@ -770,7 +770,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     String folder = "smeltery/casting/";
 
     // container filling
-    ContainerFillingRecipeBuilder.tableRecipe(Items.BUCKET, FluidAttributes.BUCKET_VOLUME)
+    ContainerFillingRecipeBuilder.tableRecipe(Items.BUCKET, FluidConstants.BUCKET)
                                  .save(consumer, modResource(folder + "filling/bucket"));
     ContainerFillingRecipeBuilder.tableRecipe(TinkerSmeltery.copperCan, FluidValues.INGOT)
                                  .save(consumer, modResource(folder + "filling/copper_can"));
@@ -797,9 +797,9 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                                  .save(consumer, modResource(folder + "filling/seared_ingot_tank"));
     ContainerFillingRecipeBuilder.basinRecipe(TinkerSmeltery.searedTank.get(TankType.INGOT_GAUGE), FluidValues.INGOT)
                                  .save(consumer, modResource(folder + "filling/seared_ingot_gauge"));
-    ContainerFillingRecipeBuilder.basinRecipe(TinkerSmeltery.searedTank.get(TankType.FUEL_TANK), FluidAttributes.BUCKET_VOLUME / 4)
+    ContainerFillingRecipeBuilder.basinRecipe(TinkerSmeltery.searedTank.get(TankType.FUEL_TANK), FluidConstants.BUCKET / 4)
                                  .save(consumer, modResource(folder + "filling/seared_fuel_tank"));
-    ContainerFillingRecipeBuilder.basinRecipe(TinkerSmeltery.searedTank.get(TankType.FUEL_GAUGE), FluidAttributes.BUCKET_VOLUME / 4)
+    ContainerFillingRecipeBuilder.basinRecipe(TinkerSmeltery.searedTank.get(TankType.FUEL_GAUGE), FluidConstants.BUCKET / 4)
                                  .save(consumer, modResource(folder + "filling/seared_fuel_gauge"));
     ContainerFillingRecipeBuilder.tableRecipe(TinkerSmeltery.searedLantern, FluidValues.NUGGET)
                                  .save(consumer, modResource(folder + "filling/seared_lantern_pixel"));
@@ -810,9 +810,9 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                                  .save(consumer, modResource(folder + "filling/scorched_ingot_tank"));
     ContainerFillingRecipeBuilder.basinRecipe(TinkerSmeltery.scorchedTank.get(TankType.INGOT_GAUGE), FluidValues.INGOT)
                                  .save(consumer, modResource(folder + "filling/scorched_ingot_gauge"));
-    ContainerFillingRecipeBuilder.basinRecipe(TinkerSmeltery.scorchedTank.get(TankType.FUEL_TANK), FluidAttributes.BUCKET_VOLUME / 4)
+    ContainerFillingRecipeBuilder.basinRecipe(TinkerSmeltery.scorchedTank.get(TankType.FUEL_TANK), FluidConstants.BUCKET / 4)
                                  .save(consumer, modResource(folder + "filling/scorched_fuel_tank"));
-    ContainerFillingRecipeBuilder.basinRecipe(TinkerSmeltery.scorchedTank.get(TankType.FUEL_GAUGE), FluidAttributes.BUCKET_VOLUME / 4)
+    ContainerFillingRecipeBuilder.basinRecipe(TinkerSmeltery.scorchedTank.get(TankType.FUEL_GAUGE), FluidConstants.BUCKET / 4)
                                  .save(consumer, modResource(folder + "filling/scorched_fuel_gauge"));
     ContainerFillingRecipeBuilder.tableRecipe(TinkerSmeltery.scorchedLantern, FluidValues.NUGGET)
                                  .save(consumer, modResource(folder + "filling/scorched_lantern_pixel"));
@@ -940,7 +940,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     // water
     String waterFolder = folder + "water/";
     ItemCastingRecipeBuilder.basinRecipe(TinkerCommons.mudBricks)
-                            .setFluidAndTime(new FluidStack(Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 10))
+                            .setFluidAndTime(new FluidStack(Fluids.WATER, FluidConstants.BUCKET / 10))
                             .setCast(Items.DIRT, true)
                             .save(consumer, prefix(TinkerCommons.mudBricks, waterFolder));
     ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromStack(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER)))
@@ -961,7 +961,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     // casting concrete
     BiConsumer<Block,Block> concreteCasting = (powder, block) ->
       ItemCastingRecipeBuilder.basinRecipe(block)
-                              .setFluidAndTime(new FluidStack(Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 10))
+                              .setFluidAndTime(new FluidStack(Fluids.WATER, FluidConstants.BUCKET / 10))
                               .setCast(powder, true)
                               .save(consumer, prefix(block, waterFolder));
     concreteCasting.accept(Blocks.WHITE_CONCRETE_POWDER,      Blocks.WHITE_CONCRETE);
@@ -983,26 +983,26 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
 
     // misc
     ItemCastingRecipeBuilder.basinRecipe(TinkerCommons.lavawood)
-                            .setFluidAndTime(new FluidStack(Fluids.LAVA, FluidAttributes.BUCKET_VOLUME / 10))
+                            .setFluidAndTime(new FluidStack(Fluids.LAVA, FluidConstants.BUCKET / 10))
                             .setCast(ItemTags.PLANKS, true)
                             .save(consumer, prefix(TinkerCommons.lavawood, folder));
     ItemCastingRecipeBuilder.basinRecipe(TinkerCommons.blazewood)
-                            .setFluidAndTime(TinkerFluids.blazingBlood, false, FluidAttributes.BUCKET_VOLUME / 10)
+                            .setFluidAndTime(TinkerFluids.blazingBlood, false, FluidConstants.BUCKET / 10)
                             .setCast(IntersectionIngredient.of(Ingredient.of(ItemTags.PLANKS), Ingredient.of(ItemTags.NON_FLAMMABLE_WOOD)), true)
                             .save(consumer, prefix(TinkerCommons.blazewood, folder));
 
     // cast molten blaze into blazing stuff
-    castingWithCast(consumer, TinkerFluids.blazingBlood, false, FluidAttributes.BUCKET_VOLUME / 10, TinkerSmeltery.rodCast, Items.BLAZE_ROD, folder + "blaze/rod");
+    castingWithCast(consumer, TinkerFluids.blazingBlood, false, FluidConstants.BUCKET / 10, TinkerSmeltery.rodCast, Items.BLAZE_ROD, folder + "blaze/rod");
     ItemCastingRecipeBuilder.tableRecipe(Items.MAGMA_CREAM)
-                            .setFluidAndTime(TinkerFluids.blazingBlood, false, FluidAttributes.BUCKET_VOLUME / 20)
+                            .setFluidAndTime(TinkerFluids.blazingBlood, false, FluidConstants.BUCKET / 20)
                             .setCast(Tags.Items.SLIMEBALLS, true)
                             .save(consumer, modResource(folder + "blaze/cream"));
     ItemCastingRecipeBuilder.basinRecipe(Blocks.MAGMA_BLOCK)
-                            .setFluidAndTime(TinkerFluids.blazingBlood, false, FluidAttributes.BUCKET_VOLUME / 5)
+                            .setFluidAndTime(TinkerFluids.blazingBlood, false, FluidConstants.BUCKET / 5)
                             .setCast(TinkerTags.Items.CONGEALED_SLIME, true)
                             .save(consumer, modResource(folder + "blaze/congealed"));
     ItemCastingRecipeBuilder.tableRecipe(TinkerMaterials.blazingBone)
-                            .setFluidAndTime(TinkerFluids.blazingBlood, false, FluidAttributes.BUCKET_VOLUME / 5)
+                            .setFluidAndTime(TinkerFluids.blazingBlood, false, FluidConstants.BUCKET / 5)
                             .setCast(TinkerTags.Items.WITHER_BONES, true)
                             .save(consumer, modResource(folder + "blaze/bone"));
 
@@ -1091,7 +1091,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                             .setCast(Items.ENDER_EYE, true)
                             .save(consumer, modResource(folder + "obsidian/chest"));
     ItemCastingRecipeBuilder.basinRecipe(TinkerMaterials.nahuatl)
-                            .setFluidAndTime(TinkerFluids.moltenObsidian, false, FluidAttributes.BUCKET_VOLUME)
+                            .setFluidAndTime(TinkerFluids.moltenObsidian, false, FluidConstants.BUCKET)
                             .setCast(ItemTags.PLANKS, true)
                             .save(consumer, modResource(folder + "obsidian/nahuatl"));
     // overworld stones from quartz
@@ -1113,18 +1113,18 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     String folder = "smeltery/melting/";
 
     // water from ice
-    MeltingRecipeBuilder.melting(Ingredient.of(Items.ICE), Fluids.WATER, FluidAttributes.BUCKET_VOLUME, 1.0f)
+    MeltingRecipeBuilder.melting(Ingredient.of(Items.ICE), Fluids.WATER, FluidConstants.BUCKET, 1.0f)
                         .save(consumer, modResource(folder + "water/ice"));
-    MeltingRecipeBuilder.melting(Ingredient.of(Items.PACKED_ICE), Fluids.WATER, FluidAttributes.BUCKET_VOLUME * 9, 3.0f)
+    MeltingRecipeBuilder.melting(Ingredient.of(Items.PACKED_ICE), Fluids.WATER, FluidConstants.BUCKET * 9, 3.0f)
                         .save(consumer, modResource(folder + "water/packed_ice"));
-    MeltingRecipeBuilder.melting(Ingredient.of(Items.BLUE_ICE), Fluids.WATER, FluidAttributes.BUCKET_VOLUME * 81, 9.0f)
+    MeltingRecipeBuilder.melting(Ingredient.of(Items.BLUE_ICE), Fluids.WATER, FluidConstants.BUCKET * 81, 9.0f)
                         .save(consumer, modResource(folder + "water/blue_ice"));
     // water from snow
-    MeltingRecipeBuilder.melting(Ingredient.of(Items.SNOWBALL), Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 8, 0.5f)
+    MeltingRecipeBuilder.melting(Ingredient.of(Items.SNOWBALL), Fluids.WATER, FluidConstants.BUCKET / 8, 0.5f)
                         .save(consumer, modResource(folder + "water/snowball"));
-    MeltingRecipeBuilder.melting(Ingredient.of(Items.SNOW_BLOCK), Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 2, 0.75f)
+    MeltingRecipeBuilder.melting(Ingredient.of(Items.SNOW_BLOCK), Fluids.WATER, FluidConstants.BUCKET / 2, 0.75f)
                         .save(consumer, modResource(folder + "water/snow_block"));
-    MeltingRecipeBuilder.melting(Ingredient.of(Items.SNOW), Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 8, 0.5f)
+    MeltingRecipeBuilder.melting(Ingredient.of(Items.SNOW), Fluids.WATER, FluidConstants.BUCKET / 8, 0.5f)
                         .save(consumer, modResource(folder + "water/snow_layer"));
 
     // ores
@@ -1613,13 +1613,13 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     // obsidian: 1 water + 1 lava = 2
     // note this is not a progression break, as the same tier lets you combine glass and copper for same mining level
     AlloyRecipeBuilder.alloy(TinkerFluids.moltenObsidian.get(), FluidValues.GLASS_BLOCK / 10)
-                      .addInput(Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 20)
-                      .addInput(Fluids.LAVA, FluidAttributes.BUCKET_VOLUME / 10)
+                      .addInput(Fluids.WATER, FluidConstants.BUCKET / 20)
+                      .addInput(Fluids.LAVA, FluidConstants.BUCKET / 10)
                       .save(consumer, prefix(TinkerFluids.moltenObsidian, folder));
     // nether obsidian recipe: when water is rare, use the soup
     AlloyRecipeBuilder.alloy(TinkerFluids.moltenObsidian.get(), FluidValues.GLASS_BLOCK / 4)
                       .addInput(TinkerFluids.mushroomStew.getForgeTag(), FluidValues.BOWL)
-                      .addInput(Fluids.LAVA, FluidAttributes.BUCKET_VOLUME / 4)
+                      .addInput(Fluids.LAVA, FluidConstants.BUCKET / 4)
                       .save(consumer, wrap(TinkerFluids.moltenObsidian, folder, "_from_soup"));
 
     // tier 4
@@ -1762,9 +1762,9 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                         .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.ZOMBIE), headFolder));
     // drowned are weird, there is water flowing through their veins
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.DROWNED),
-                                       new FluidStack(Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 50), 2)
+                                       new FluidStack(Fluids.WATER, FluidConstants.BUCKET / 50), 2)
                               .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.DROWNED), folder));
-    MeltingRecipeBuilder.melting(Ingredient.of(TinkerWorld.heads.get(TinkerHeadType.DROWNED)), Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 4)
+    MeltingRecipeBuilder.melting(Ingredient.of(TinkerWorld.heads.get(TinkerHeadType.DROWNED)), Fluids.WATER, FluidConstants.BUCKET / 4)
                         .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.DROWNED), headFolder));
     // melt spiders into venom
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.SPIDER, EntityType.CAVE_SPIDER),
@@ -1777,14 +1777,14 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.CREEPER),
                                        new FluidStack(TinkerFluids.moltenGlass.get(), FluidValues.GLASS_BLOCK / 20), 2)
                               .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.CREEPER), folder));
-    MeltingRecipeBuilder.melting(Ingredient.of(Items.CREEPER_HEAD), TinkerFluids.moltenGlass.get(), FluidAttributes.BUCKET_VOLUME / 4)
+    MeltingRecipeBuilder.melting(Ingredient.of(Items.CREEPER_HEAD), TinkerFluids.moltenGlass.get(), FluidConstants.BUCKET / 4)
                         .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.CREEPER), headFolder));
 
     // melt skeletons to get the milk out
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityIngredient.of(EntityTypeTags.SKELETONS), EntityIngredient.of(EntityType.SKELETON_HORSE)),
-                                       new FluidStack(Milk.STILL_MILK, FluidAttributes.BUCKET_VOLUME / 10))
+                                       new FluidStack(Milk.STILL_MILK, FluidConstants.BUCKET / 10))
                               .save(consumer, modResource(folder + "skeletons"));
-    MeltingRecipeBuilder.melting(Ingredient.of(Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL, TinkerWorld.heads.get(TinkerHeadType.STRAY)), Milk.STILL_MILK, FluidAttributes.BUCKET_VOLUME / 4)
+    MeltingRecipeBuilder.melting(Ingredient.of(Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL, TinkerWorld.heads.get(TinkerHeadType.STRAY)), Milk.STILL_MILK, FluidConstants.BUCKET / 4)
                         .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.SKELETON), headFolder));
 
     // slimes melt into slime, shocker
@@ -1805,13 +1805,13 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     // 4 * 9 gives 36, which is larger
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.IRON_GOLEM), new FluidStack(TinkerFluids.moltenIron.get(), FluidValues.NUGGET), 4)
                               .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.IRON_GOLEM), folder));
-    EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.SNOW_GOLEM), new FluidStack(Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 10))
+    EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.SNOW_GOLEM), new FluidStack(Fluids.WATER, FluidConstants.BUCKET / 10))
                               .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.SNOW_GOLEM), folder));
 
     // "melt" blazes to get fuel
-    EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.BLAZE), new FluidStack(TinkerFluids.blazingBlood.get(), FluidAttributes.BUCKET_VOLUME / 50), 2)
+    EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.BLAZE), new FluidStack(TinkerFluids.blazingBlood.get(), FluidConstants.BUCKET / 50), 2)
                               .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.BLAZE), folder));
-    MeltingRecipeBuilder.melting(Ingredient.of(TinkerWorld.heads.get(TinkerHeadType.BLAZE)), new FluidStack(TinkerFluids.blazingBlood.get(), FluidAttributes.BUCKET_VOLUME / 10), 1000, IMeltingRecipe.calcTime(1500, 1.0f))
+    MeltingRecipeBuilder.melting(Ingredient.of(TinkerWorld.heads.get(TinkerHeadType.BLAZE)), new FluidStack(TinkerFluids.blazingBlood.get(), FluidConstants.BUCKET / 10), 1000, IMeltingRecipe.calcTime(1500, 1.0f))
                         .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.BLAZE), headFolder));
 
     // guardians are rock, seared stone is rock, don't think about it too hard
@@ -1870,13 +1870,13 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     String ceramics = "ceramics";
     String ceramicsFolder = folder + ceramics + "/";
     Function<String,ResourceLocation> ceramicsId = name -> new ResourceLocation(ceramics, name);
-    Function<String,TagKey<Item>> ceramicsTag = name -> TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(ceramics, name));
+    Function<String,TagKey<Item>> ceramicsTag = name -> TagKey.create(Registries.ITEM, new ResourceLocation(ceramics, name));
     Consumer<FinishedRecipe> ceramicsConsumer = withCondition(consumer, DefaultResourceConditions.allModsLoaded(ceramics));
 
     // fill clay and cracked clay buckets
-    ContainerFillingRecipeBuilder.tableRecipe(ceramicsId.apply("clay_bucket"), FluidAttributes.BUCKET_VOLUME)
+    ContainerFillingRecipeBuilder.tableRecipe(ceramicsId.apply("clay_bucket"), FluidConstants.BUCKET)
                                  .save(ceramicsConsumer, modResource(ceramicsFolder + "filling_clay_bucket"));
-    ContainerFillingRecipeBuilder.tableRecipe(ceramicsId.apply("cracked_clay_bucket"), FluidAttributes.BUCKET_VOLUME)
+    ContainerFillingRecipeBuilder.tableRecipe(ceramicsId.apply("cracked_clay_bucket"), FluidConstants.BUCKET)
                                  .save(ceramicsConsumer, modResource(ceramicsFolder + "filling_cracked_clay_bucket"));
 
     // porcelain for ceramics
@@ -1918,12 +1918,12 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                         .save(ceramicsConsumer, modResource(clayFolder + "kiln"));
     // lava bricks, lava byproduct
     MeltingRecipeBuilder.melting(ItemNameIngredient.from(ceramicsId.apply("lava_bricks_slab")), new FluidStack(TinkerFluids.moltenClay.get(), FluidValues.SLIMEBALL * 2), 1.33f)
-                        .addByproduct(new FluidStack(Fluids.LAVA, FluidAttributes.BUCKET_VOLUME / 20))
+                        .addByproduct(new FluidStack(Fluids.LAVA, FluidConstants.BUCKET / 20))
                         .save(ceramicsConsumer, modResource(clayFolder + "lava_bricks_slab"));
     MeltingRecipeBuilder.melting(ItemNameIngredient.from(
       ceramicsId.apply("lava_bricks"), ceramicsId.apply("lava_bricks_stairs"), ceramicsId.apply("lava_bricks_wall")
     ), new FluidStack(TinkerFluids.moltenClay.get(), FluidValues.SLIMEBALL * 4), 2f)
-                        .addByproduct(new FluidStack(Fluids.LAVA, FluidAttributes.BUCKET_VOLUME / 10))
+                        .addByproduct(new FluidStack(Fluids.LAVA, FluidConstants.BUCKET / 10))
                         .save(ceramicsConsumer, modResource(clayFolder + "lava_bricks_block"));
     // gauge, partially glass
     MeltingRecipeBuilder.melting(ItemNameIngredient.from(ceramicsId.apply("terracotta_gauge")), new FluidStack(TinkerFluids.moltenClay.get(), FluidValues.SLIMEBALL), 1f)
@@ -2002,19 +2002,19 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     // lava bricks
     ItemCastingRecipeBuilder.basinRecipe(ItemNameOutput.fromName(ceramicsId.apply("lava_bricks")))
                             .setCast(Blocks.BRICKS, true)
-                            .setFluidAndTime(new FluidStack(Fluids.LAVA, FluidAttributes.BUCKET_VOLUME / 10))
+                            .setFluidAndTime(new FluidStack(Fluids.LAVA, FluidConstants.BUCKET / 10))
                             .save(ceramicsConsumer, modResource(castingFolder + "lava_bricks"));
     ItemCastingRecipeBuilder.basinRecipe(ItemNameOutput.fromName(ceramicsId.apply("lava_bricks_slab")))
                             .setCast(Blocks.BRICK_SLAB, true)
-                            .setFluidAndTime(new FluidStack(Fluids.LAVA, FluidAttributes.BUCKET_VOLUME / 20))
+                            .setFluidAndTime(new FluidStack(Fluids.LAVA, FluidConstants.BUCKET / 20))
                             .save(ceramicsConsumer, modResource(castingFolder + "lava_bricks_slab"));
     ItemCastingRecipeBuilder.basinRecipe(ItemNameOutput.fromName(ceramicsId.apply("lava_bricks_stairs")))
                             .setCast(Blocks.BRICK_STAIRS, true)
-                            .setFluidAndTime(new FluidStack(Fluids.LAVA, FluidAttributes.BUCKET_VOLUME / 10))
+                            .setFluidAndTime(new FluidStack(Fluids.LAVA, FluidConstants.BUCKET / 10))
                             .save(ceramicsConsumer, modResource(castingFolder + "lava_bricks_stairs"));
     ItemCastingRecipeBuilder.basinRecipe(ItemNameOutput.fromName(ceramicsId.apply("lava_bricks_wall")))
                             .setCast(Blocks.BRICK_WALL, true)
-                            .setFluidAndTime(new FluidStack(Fluids.LAVA, FluidAttributes.BUCKET_VOLUME / 10))
+                            .setFluidAndTime(new FluidStack(Fluids.LAVA, FluidConstants.BUCKET / 10))
                             .save(ceramicsConsumer, modResource(castingFolder + "lava_bricks_wall"));
 
     // golden bricks

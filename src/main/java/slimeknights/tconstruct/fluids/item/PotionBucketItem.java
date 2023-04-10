@@ -123,7 +123,7 @@ public class PotionBucketItem extends PotionItem {
 //    @Override
 //    public FluidStack getFluid() {
 //      return new FluidStack(((PotionBucketItem)container.getItem()).getFluid(),
-//                            FluidAttributes.BUCKET_VOLUME, container.getTag());
+//                            FluidConstants.BUCKET, container.getTag());
 //    }
 //  }
 }

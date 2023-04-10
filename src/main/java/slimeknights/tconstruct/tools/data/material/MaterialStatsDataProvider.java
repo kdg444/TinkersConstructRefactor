@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.data.material;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.DataGenerator;
 import slimeknights.tconstruct.library.data.material.AbstractMaterialDataProvider;
 import slimeknights.tconstruct.library.data.material.AbstractMaterialStatsDataProvider;
@@ -20,8 +21,8 @@ import static net.minecraft.world.item.Tiers.STONE;
 import static net.minecraft.world.item.Tiers.WOOD;
 
 public class MaterialStatsDataProvider extends AbstractMaterialStatsDataProvider {
-  public MaterialStatsDataProvider(DataGenerator gen, AbstractMaterialDataProvider materials) {
-    super(gen, materials);
+  public MaterialStatsDataProvider(FabricDataOutput output, AbstractMaterialDataProvider materials) {
+    super(output, materials);
   }
 
   @Override

@@ -35,7 +35,7 @@ public class EnderSlimeSlingItem extends BaseSlimeSlingItem {
     // find teleport target
     BlockPos furthestPos = null;
     while (Math.abs(offX) > .5 || Math.abs(offY) > .5 || Math.abs(offZ) > .5) { // while not too close to player
-      BlockPos posAttempt = new BlockPos(player.getX() + offX, player.getY() + offY, player.getZ() + offZ);
+      BlockPos posAttempt = BlockPos.containing(player.getX() + offX, player.getY() + offY, player.getZ() + offZ);
 
       // if we do not have a position yet, see if this one is valid
       if (furthestPos == null) {

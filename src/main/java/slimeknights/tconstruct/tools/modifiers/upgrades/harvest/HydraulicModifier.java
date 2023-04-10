@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.harvest;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.FluidTags;
@@ -37,11 +37,11 @@ public class HydraulicModifier extends IncrementalModifier {
   }
 
   @Override
-  public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+  public void onBreakSpeed(IToolStackView tool, int level, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (!isEffective) {
       return;
     }
-    Player player = event.player;
+    Player player = event.getPlayer();
     float bonus = getBonus(player);
     if (bonus > 0) {
       // if not enchanted with aqua affinity, multiply by 5 to cancel out the effects of water
@@ -49,7 +49,7 @@ public class HydraulicModifier extends IncrementalModifier {
         bonus *= 5;
       }
       bonus *= getScaledLevel(tool, level) * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier;
-      event.newSpeed = event.newSpeed + bonus;
+      event.setNewSpeed(event.getNewSpeed() + bonus);
     }
   }
 

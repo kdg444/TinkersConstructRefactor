@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.entity.controller;
 
 import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
-import io.github.fabricators_of_create.porting_lib.model.IModelData;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
@@ -124,7 +123,7 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
 
   /* Client display */
   @Getter
-  private final IModelData modelData = new SinglePropertyData<>(IDisplayFluidListener.PROPERTY);
+  private final SinglePropertyData<FluidStack> modelData = new SinglePropertyData<>(IDisplayFluidListener.PROPERTY);
   private final List<WeakReference<IDisplayFluidListener>> fluidDisplayListeners = new ArrayList<>();
 
   /* Misc helpers */

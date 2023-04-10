@@ -1,8 +1,7 @@
 package slimeknights.tconstruct.tools.data;
 
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import io.github.fabricators_of_create.porting_lib.attributes.PortingLibAttributes;
-import net.minecraft.data.DataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -43,8 +42,8 @@ import slimeknights.tconstruct.tools.modifiers.slotless.OverslimeModifier;
 import static slimeknights.tconstruct.common.TinkerTags.Items.ARMOR;
 
 public class ModifierProvider extends AbstractModifierProvider {
-  public ModifierProvider(DataGenerator generator) {
-    super(generator);
+  public ModifierProvider(FabricDataOutput output) {
+    super(output);
   }
 
   @Override
@@ -125,8 +124,8 @@ public class ModifierProvider extends AbstractModifierProvider {
     addModifier(ModifierIds.shiny,      StatBoostModifier.builder().addFlag(IModifiable.SHINY).rarity(Rarity.EPIC).display(ModifierLevelDisplay.NO_LEVELS).build());
     // general abilities
     addModifier(ModifierIds.reach, StatBoostModifier.builder()
-      .attribute("tconstruct.modifier.reach", ReachEntityAttributes.REACH, Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
-      .attribute("tconstruct.modifier.range", ReachEntityAttributes.ATTACK_RANGE,   Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
+      .attribute("tconstruct.modifier.reach", PortingLibAttributes.REACH_DISTANCE, Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
+      .attribute("tconstruct.modifier.range", PortingLibAttributes.ATTACK_RANGE,   Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
       .build());
 
     // loot

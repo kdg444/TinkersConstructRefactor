@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.component;
 
-import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock;
+import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,12 +27,13 @@ import slimeknights.tconstruct.smeltery.block.entity.component.SmelteryComponent
 import javax.annotation.Nullable;
 
 /** Filtering drain block, have to reimplement either inventory block logic or seared block logic unfortunately */
-public class SearedDuctBlock extends InventoryBlock implements CustomPathNodeTypeBlock {
+public class SearedDuctBlock extends InventoryBlock implements LandPathNodeTypesRegistry.StaticPathNodeTypeProvider {
   public static final BooleanProperty IN_STRUCTURE = SearedBlock.IN_STRUCTURE;
   public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
   public SearedDuctBlock(Properties properties) {
     super(properties);
     this.registerDefaultState(this.defaultBlockState().setValue(IN_STRUCTURE, false));
+    LandPathNodeTypesRegistry.register(this, this);
   }
 
   @Nullable
@@ -68,7 +69,7 @@ public class SearedDuctBlock extends InventoryBlock implements CustomPathNodeTyp
 
   @Nullable
   @Override
-  public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity) {
+  public BlockPathTypes getPathNodeType(BlockState state, boolean neighbor) {
     return state.getValue(IN_STRUCTURE) ? BlockPathTypes.DAMAGE_FIRE : BlockPathTypes.OPEN;
   }
 

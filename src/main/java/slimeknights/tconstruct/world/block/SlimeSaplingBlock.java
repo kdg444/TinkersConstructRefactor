@@ -1,10 +1,7 @@
 package slimeknights.tconstruct.world.block;
 
-import io.github.fabricators_of_create.porting_lib.util.PlantType;
+import io.github.fabricators_of_create.porting_lib.common.util.PlantType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -42,10 +39,10 @@ public class SlimeSaplingBlock extends SaplingBlock {
     return false;
   }
 
-  @Override
-  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-    if (this.foliageType != SlimeType.ICHOR) {
-      super.fillItemCategory(group, items);
-    }
-  }
+//  @Override TODO: PORT
+//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+//    if (this.foliageType != SlimeType.ICHOR) {
+//      super.fillItemCategory(group, items);
+//    }
+//  }
 }

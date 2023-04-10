@@ -1,10 +1,10 @@
 package slimeknights.tconstruct.library.data.material;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
-import net.minecraft.core.Registry;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import slimeknights.mantle.client.book.data.JsonCondition;
@@ -18,10 +18,13 @@ import slimeknights.tconstruct.library.materials.definition.MaterialManager;
 import slimeknights.tconstruct.library.materials.json.MaterialJson;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -56,8 +59,8 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
   /** Boolean just in case material stats run first */
   private boolean addMaterialsRun = false;
 
-  public AbstractMaterialDataProvider(DataGenerator gen) {
-    super(gen, MaterialManager.FOLDER, MaterialManager.GSON);
+  public AbstractMaterialDataProvider(FabricDataOutput output) {
+    super(output, MaterialManager.FOLDER, MaterialManager.GSON);
   }
 
   /**
@@ -74,9 +77,11 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
   }
 
   @Override
-  public void run(HashCache cache) {
+  public CompletableFuture<?> run(CachedOutput cache) {
     ensureAddMaterialsRun();
-    allMaterials.forEach((id, data) -> saveThing(cache, id, convert(data)));
+    List<CompletableFuture<?>> futures = new ArrayList<>();
+    allMaterials.forEach((id, data) -> futures.add(saveThing(cache, id, convert(data))));
+    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 
   /**
@@ -115,7 +120,7 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
 
   /** Conditions on a forge tag existing */
   protected static ConditionJsonProvider tagExistsCondition(String name) {
-    return DefaultResourceConditions.itemTagsPopulated(TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("c", name)));
+    return DefaultResourceConditions.itemTagsPopulated(TagKey.create(Registries.ITEM, new ResourceLocation("c", name)));
   }
 
   /** Creates a normal material with a condition and a redirect */

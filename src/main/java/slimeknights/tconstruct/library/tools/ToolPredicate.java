@@ -144,7 +144,7 @@ public class ToolPredicate extends ItemPredicate {
     // tag
     TagKey<Item> tag = null;
     if (json.has("tag")) {
-      tag = TagKey.create(Registry.ITEM_REGISTRY, JsonHelper.getResourceLocation(json, "tag"));
+      tag = TagKey.create(Registries.ITEM, JsonHelper.getResourceLocation(json, "tag"));
     }
     // materials
     List<MaterialId> materials = Collections.emptyList();

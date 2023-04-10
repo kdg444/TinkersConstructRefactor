@@ -5,6 +5,7 @@ import io.github.fabricators_of_create.porting_lib.event.common.ExplosionEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,7 +43,7 @@ public class EflnBallEntity extends ThrowableItemProjectile implements ExtraSpaw
     if (!this.level.isClientSide) {
       EFLNExplosion explosion = new EFLNExplosion(this.level, this, null, null, this.getX(), this.getY(), this.getZ(), 6f, false, Explosion.BlockInteraction.NONE);
       if (!ExplosionEvents.START.invoker().onExplosionStart(this.level, explosion)) {
-        Exploder.startExplosion(this.level, explosion, this, new BlockPos(this.getX(), this.getY(), this.getZ()), 6f, 6f);
+        Exploder.startExplosion(this.level, explosion, this, BlockPos.containing(this.getX(), this.getY(), this.getZ()), 6f, 6f);
       }
     }
 
@@ -64,7 +65,7 @@ public class EflnBallEntity extends ThrowableItemProjectile implements ExtraSpaw
 
   @Nonnull
   @Override
-  public Packet<?> getAddEntityPacket() {
+  public Packet<ClientGamePacketListener> getAddEntityPacket() {
     return new ClientboundAddEntityPacket(this);
   }
 }

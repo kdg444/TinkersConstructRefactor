@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.library.data.tinkering;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.core.Registry;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.ItemLike;
@@ -24,11 +24,12 @@ import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.tools.item.ArmorSlotType;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -41,8 +42,8 @@ public abstract class AbstractToolDefinitionDataProvider extends GenericDataProv
   /** Mod ID to filter definitions we care about */
   private final String modId;
 
-  public AbstractToolDefinitionDataProvider(DataGenerator generator, String modId) {
-    super(generator, PackType.SERVER_DATA, ToolDefinitionLoader.FOLDER, ToolDefinitionLoader.GSON);
+  public AbstractToolDefinitionDataProvider(FabricDataOutput output, String modId) {
+    super(output, PackType.SERVER_DATA, ToolDefinitionLoader.FOLDER, ToolDefinitionLoader.GSON);
     this.modId = modId;
   }
 
@@ -58,7 +59,7 @@ public abstract class AbstractToolDefinitionDataProvider extends GenericDataProv
 
   /** Defines the given ID as a tool definition */
   protected ToolDefinitionDataBuilder define(ItemLike item) {
-    return define(Objects.requireNonNull(Registry.ITEM.getKey(item.asItem())));
+    return define(BuiltInRegistries.ITEM.getKey(item.asItem()));
   }
 
   /** Defines the given ID as a tool definition */
@@ -72,7 +73,7 @@ public abstract class AbstractToolDefinitionDataProvider extends GenericDataProv
   }
 
   @Override
-  public void run(HashCache cache) throws IOException {
+  public CompletableFuture<?> run(CachedOutput cache) {
     addToolDefinitions();
     Map<ResourceLocation,ToolDefinition> relevantDefinitions = ToolDefinitionLoader.getInstance().getRegisteredToolDefinitions().stream()
                                                                                    .filter(def -> def.getId().getNamespace().equals(modId))
@@ -84,6 +85,7 @@ public abstract class AbstractToolDefinitionDataProvider extends GenericDataProv
         throw new IllegalStateException(String.format("Missing tool definition for '%s'", name));
       }
     }
+    List<CompletableFuture<?>> futures = new ArrayList<>();
     // ensure all included ones are required, and the built ones are valid
     for (Entry<ResourceLocation,ToolDefinitionDataBuilder> entry : allTools.entrySet()) {
       ResourceLocation id = entry.getKey();
@@ -93,8 +95,9 @@ public abstract class AbstractToolDefinitionDataProvider extends GenericDataProv
       }
       ToolDefinitionData data = entry.getValue().build();
       definition.validate(data);
-      saveThing(cache, id, data);
+      futures.add(saveThing(cache, id, data));
     }
+    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 
   /** Builder for an armor material to batch certain hooks */

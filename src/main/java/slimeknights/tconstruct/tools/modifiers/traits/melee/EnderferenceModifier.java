@@ -2,7 +2,6 @@ package slimeknights.tconstruct.tools.modifiers.traits.melee;
 
 import com.google.common.collect.Lists;
 import io.github.fabricators_of_create.porting_lib.event.common.EntityEvents;
-import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.DamageSourceAccessor;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
@@ -115,9 +114,9 @@ public class EnderferenceModifier extends Modifier implements ProjectileHitModif
         Entity owner = arrow.getOwner();
         DamageSource damageSource;
         if (attacker instanceof Player player) {
-          damageSource = DamageSource.playerAttack(player);
+          damageSource = owner.damageSources().playerAttack(player);
         } else if (attacker != null) {
-          damageSource = DamageSource.mobAttack(attacker);
+          damageSource = owner.damageSources().mobAttack(attacker);
         } else {
           damageSource = FALLBACK;
         }

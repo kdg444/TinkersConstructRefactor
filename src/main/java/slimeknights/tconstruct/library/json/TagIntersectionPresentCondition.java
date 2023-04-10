@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.impl.resource.conditions.ResourceConditionsImpl;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
@@ -60,7 +61,7 @@ public class TagIntersectionPresentCondition<T> implements ConditionJsonProvider
     // if there is just one tag, just needs to be filled
     List<Tag<?>> tags = names.stream().map(tTagKey -> {
       for (Map.Entry<ResourceKey<?>, Map<ResourceLocation, Tag<Holder<?>>>> entry : ResourceConditionsImpl.LOADED_TAGS.get().entrySet()) {
-        if (entry.getKey() == Registry.ITEM_REGISTRY && entry.getValue().get(tTagKey.location()) != null)
+        if (entry.getKey() == Registries.ITEM && entry.getValue().get(tTagKey.location()) != null)
           return entry.getValue().get(tTagKey.location());
       }
       return Tag.empty();

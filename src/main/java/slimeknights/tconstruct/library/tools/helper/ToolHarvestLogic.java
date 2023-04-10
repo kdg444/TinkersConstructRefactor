@@ -1,7 +1,8 @@
 package slimeknights.tconstruct.library.tools.helper;
 
+import io.github.fabricators_of_create.porting_lib.common.util.ToolActions;
+import io.github.fabricators_of_create.porting_lib.extensions.extensions.ItemExtensions;
 import io.github.fabricators_of_create.porting_lib.util.PortingHooks;
-import io.github.fabricators_of_create.porting_lib.util.ToolActions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.ListTag;
@@ -193,7 +194,7 @@ public class ToolHarvestLogic {
 
   /**
    * Call on block break to break a block.
-   * Used in {@link io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions#onBlockStartBreak(ItemStack, BlockPos, Player)}.
+   * Used in {@link ItemExtensions#onBlockStartBreak(ItemStack, BlockPos, Player)}.
    * See also {@link net.minecraft.client.multiplayer.MultiPlayerGameMode#destroyBlock(BlockPos)} (client)
    * and {@link net.minecraft.server.level.ServerPlayerGameMode#destroyBlock(BlockPos)} (server)
    * @param stack   Stack instance

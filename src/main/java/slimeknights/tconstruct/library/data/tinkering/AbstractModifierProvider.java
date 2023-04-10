@@ -2,10 +2,10 @@ package slimeknights.tconstruct.library.data.tinkering;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.server.packs.PackType;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.library.json.JsonRedirect;
@@ -15,16 +15,18 @@ import slimeknights.tconstruct.library.modifiers.ModifierManager;
 import slimeknights.tconstruct.library.modifiers.util.DynamicModifier;
 
 import javax.annotation.Nullable;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 /** Datagen for dynamic modifiers */
 public abstract class AbstractModifierProvider extends GenericDataProvider {
   private final Map<ModifierId,Result> allModifiers = new HashMap<>();
 
-  public AbstractModifierProvider(DataGenerator generator) {
-    super(generator, PackType.SERVER_DATA, ModifierManager.FOLDER, ModifierManager.GSON);
+  public AbstractModifierProvider(FabricDataOutput output) {
+    super(output, PackType.SERVER_DATA, ModifierManager.FOLDER, ModifierManager.GSON);
   }
 
   /**
@@ -81,9 +83,11 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
   }
 
   @Override
-  public void run(HashCache cache) throws IOException {
+  public CompletableFuture<?> run(CachedOutput cache) {
     addModifiers();
-    allModifiers.forEach((id, data) -> saveThing(cache, id, convert(data)));
+    List<CompletableFuture<?>> futures = new ArrayList<>();
+    allModifiers.forEach((id, data) -> futures.add(saveThing(cache, id, convert(data))));
+    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 
   /** Converts the given object to json */

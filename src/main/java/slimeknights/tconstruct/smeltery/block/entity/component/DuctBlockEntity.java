@@ -2,7 +2,7 @@ package slimeknights.tconstruct.smeltery.block.entity.component;
 
 
 import io.github.fabricators_of_create.porting_lib.block.CustomUpdateTagHandlingBlockEntity;
-import io.github.fabricators_of_create.porting_lib.model.IModelData;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
@@ -43,7 +43,7 @@ public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider, It
   private final DuctItemHandler itemHandler = new DuctItemHandler(this);
   private final LazyOptional<IItemHandler> itemCapability = LazyOptional.of(() -> itemHandler);
   @Getter
-  private final IModelData modelData = new SinglePropertyData<>(IDisplayFluidListener.PROPERTY);
+  private final SinglePropertyData<FluidStack> modelData = new SinglePropertyData<>(IDisplayFluidListener.PROPERTY);
 
   public DuctBlockEntity(BlockPos pos, BlockState state) {
     this(TinkerSmeltery.duct.get(), pos, state);

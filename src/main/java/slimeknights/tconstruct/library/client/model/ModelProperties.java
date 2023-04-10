@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.client.model;
 
-import io.github.fabricators_of_create.porting_lib.model.ModelProperty;
+import slimeknights.mantle.client.model.ModelProperty;
 import slimeknights.mantle.transfer.fluid.FluidTank;
 
 public class ModelProperties {

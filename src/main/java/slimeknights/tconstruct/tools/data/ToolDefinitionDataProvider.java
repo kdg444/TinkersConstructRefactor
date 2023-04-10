@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.data;
 
-import io.github.fabricators_of_create.porting_lib.util.ToolActions;
+import io.github.fabricators_of_create.porting_lib.common.util.ToolActions;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Tiers;
@@ -49,8 +50,8 @@ import static slimeknights.tconstruct.tools.TinkerToolParts.toolHandle;
 import static slimeknights.tconstruct.tools.TinkerToolParts.toughHandle;
 
 public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvider {
-  public ToolDefinitionDataProvider(DataGenerator generator) {
-    super(generator, TConstruct.MOD_ID);
+  public ToolDefinitionDataProvider(FabricDataOutput output) {
+    super(output, TConstruct.MOD_ID);
   }
 
   @Override

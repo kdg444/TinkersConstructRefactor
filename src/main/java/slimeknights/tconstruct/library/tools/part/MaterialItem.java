@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.tools.part;
 
-import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +26,7 @@ import java.util.List;
  * Represents an item that has a Material associated with it. The NBT of the itemstack identifies which material the
  * itemstack of this item has.
  */
-public class MaterialItem extends Item implements IMaterialItem, ItemExtensions {
+public class MaterialItem extends Item implements IMaterialItem {
   private static final String ADDED_BY = TConstruct.makeTranslationKey("tooltip", "part.added_by");
 
   public MaterialItem(Properties properties) {
@@ -52,34 +52,34 @@ public class MaterialItem extends Item implements IMaterialItem, ItemExtensions 
     return getMaterialId(stack.getTag());
   }
 
-  @Override
-  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-    if (this.allowdedIn(group) && MaterialRegistry.isFullyLoaded()) {
-      // if a specific material is set in the config, try adding that
-      String showOnlyId = Config.COMMON.showOnlyPartMaterial.get();
-      boolean added = false;
-      if (!showOnlyId.isEmpty()) {
-        MaterialVariantId materialId = MaterialVariantId.tryParse(showOnlyId);
-        if (materialId != null && canUseMaterial(materialId.getId())) {
-          items.add(this.withMaterialForDisplay(materialId));
-          added = true;
-        }
-      }
-      // if no material is set or we failed to find it, iterate all materials
-      if (!added) {
-        for (IMaterial material : MaterialRegistry.getInstance().getVisibleMaterials()) {
-          MaterialId id = material.getIdentifier();
-          if (this.canUseMaterial(id)) {
-            items.add(this.withMaterial(id));
-            // if a specific material was requested and not found, stop after first
-            if (!showOnlyId.isEmpty()) {
-              break;
-            }
-          }
-        }
-      }
-    }
-  }
+//  @Override TODO: PORT
+//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+//    if (this.allowdedIn(group) && MaterialRegistry.isFullyLoaded()) {
+//      // if a specific material is set in the config, try adding that
+//      String showOnlyId = Config.COMMON.showOnlyPartMaterial.get();
+//      boolean added = false;
+//      if (!showOnlyId.isEmpty()) {
+//        MaterialVariantId materialId = MaterialVariantId.tryParse(showOnlyId);
+//        if (materialId != null && canUseMaterial(materialId.getId())) {
+//          items.add(this.withMaterialForDisplay(materialId));
+//          added = true;
+//        }
+//      }
+//      // if no material is set or we failed to find it, iterate all materials
+//      if (!added) {
+//        for (IMaterial material : MaterialRegistry.getInstance().getVisibleMaterials()) {
+//          MaterialId id = material.getIdentifier();
+//          if (this.canUseMaterial(id)) {
+//            items.add(this.withMaterial(id));
+//            // if a specific material was requested and not found, stop after first
+//            if (!showOnlyId.isEmpty()) {
+//              break;
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
 
   @Nullable
   private static Component getName(String baseKey, MaterialVariantId material) {
@@ -133,7 +133,7 @@ public class MaterialItem extends Item implements IMaterialItem, ItemExtensions 
     if (!IMaterial.UNKNOWN_ID.equals(material)) {
       return material.getId().getNamespace();
     }
-    ResourceLocation id = this.getRegistryName();
+    ResourceLocation id = BuiltInRegistries.ITEM.getKey(this);
     return id == null ? null : id.getNamespace();
   }
 

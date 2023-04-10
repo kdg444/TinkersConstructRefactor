@@ -1,20 +1,24 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.world.TinkerWorld;
 
+import java.util.concurrent.CompletableFuture;
+
 @SuppressWarnings("unchecked")
 public class EntityTypeTagProvider extends FabricTagProvider.EntityTypeTagProvider {
 
-  public EntityTypeTagProvider(FabricDataGenerator generatorIn) {
-    super(generatorIn);
+  public EntityTypeTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    super(output, registriesFuture);
   }
 
   @Override
-  public void generateTags() {
+  public void addTags(HolderLookup.Provider provider) {
     this.tag(TinkerTags.EntityTypes.SLIMES)
         .add(EntityType.SLIME, TinkerWorld.earthSlimeEntity.get(), TinkerWorld.skySlimeEntity.get(), TinkerWorld.enderSlimeEntity.get(), TinkerWorld.terracubeEntity.get());
     this.tag(TinkerTags.EntityTypes.BACON_PRODUCER).add(EntityType.PIG, EntityType.PIGLIN, EntityType.HOGLIN);
@@ -30,6 +34,11 @@ public class EntityTypeTagProvider extends FabricTagProvider.EntityTypeTagProvid
     this.tag(TinkerTags.EntityTypes.KILLAGERS).addTag(TinkerTags.EntityTypes.VILLAGERS).addTag(TinkerTags.EntityTypes.ILLAGERS).add(EntityType.IRON_GOLEM, EntityType.RAVAGER);
 
     this.tag(TinkerTags.EntityTypes.SMALL_ARMOR).addTag(TinkerTags.EntityTypes.SLIMES);
+  }
+
+  @Override
+  protected FabricTagBuilder tag(TagKey<EntityType<?>> tagKey) {
+    return getOrCreateTagBuilder(tagKey);
   }
 
   @Override

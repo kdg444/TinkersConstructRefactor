@@ -1,12 +1,12 @@
 package slimeknights.tconstruct.tools.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import io.github.fabricators_of_create.porting_lib.event.client.FOVModifierCallback;
+import io.github.fabricators_of_create.porting_lib.event.client.FieldOfViewEvents;
 import io.github.fabricators_of_create.porting_lib.event.client.RenderHandCallback;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -45,15 +45,15 @@ public class ModifierClientEvents {
 
     RenderHandCallback.EVENT.register(ModifierClientEvents::renderHand);
     ToolEquipmentChangeEvent.EVENT.register(ModifierClientEvents::equipmentChange);
-    FOVModifierCallback.EVENT.register(ModifierClientEvents::handleZoom);
+    FieldOfViewEvents.MODIFY.register(ModifierClientEvents::handleZoom);
   }
 
   static void onTooltipEvent(ItemStack stack, TooltipFlag context, List<Component> lines) {
     // suppress durability from advanced, we display our own
     if (stack.getItem() instanceof IModifiableDisplay) {
       lines.removeIf(text -> {
-        if (text instanceof TranslatableComponent) {
-          return ((TranslatableComponent)text).getKey().equals("item.durability");
+        if (text.getContents() instanceof TranslatableContents translatableContents) {
+          return translatableContents.getKey().equals("item.durability");
         }
         return false;
       });
@@ -91,7 +91,7 @@ public class ModifierClientEvents {
       if (!player.isInvisible() && mainhand.getItem() != Items.FILLED_MAP && ModifierUtil.getTotalModifierLevel(player, TinkerDataKeys.SHOW_EMPTY_OFFHAND) > 0) {
         PoseStack matrices = event.getPoseStack();
         matrices.pushPose();
-        Minecraft.getInstance().getItemInHandRenderer().renderPlayerArm(matrices, event.getMultiBufferSource(), event.getPackedLight(), event.getEquipProgress(), event.getSwingProgress(), player.getMainArm().getOpposite());
+        Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().renderPlayerArm(matrices, event.getMultiBufferSource(), event.getPackedLight(), event.getEquipProgress(), event.getSwingProgress(), player.getMainArm().getOpposite());
         matrices.popPose();
         event.setCanceled(true);
       }

@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.client;
 
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
+import io.github.fabricators_of_create.porting_lib.attributes.PortingLibAttributes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -83,7 +83,7 @@ public class RayTracer {
    * @return the block reach distance from the server
    */
   private static double getBlockReachDistanceServer(ServerPlayer player) {
-    return player.getAttributeValue(ReachEntityAttributes.REACH);
+    return player.getAttributeValue(PortingLibAttributes.REACH_DISTANCE);
   }
 
   private static class ClientOnly {

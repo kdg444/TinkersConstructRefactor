@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.gadgets.block;
 
 import com.google.common.collect.ImmutableMap;
-import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock;
+import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -31,7 +31,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class PunjiBlock extends Block implements CustomPathNodeTypeBlock {
+public class PunjiBlock extends Block implements LandPathNodeTypesRegistry.StaticPathNodeTypeProvider {
 
   public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
@@ -50,11 +50,12 @@ public class PunjiBlock extends Block implements CustomPathNodeTypeBlock {
                                             .setValue(NORTHEAST, false)
                                             .setValue(NORTHWEST, false)
                                             .setValue(WATERLOGGED, false));
+    LandPathNodeTypesRegistry.register(this, this);
   }
 
   @Nullable
   @Override
-  public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity) {
+  public BlockPathTypes getPathNodeType(BlockState state, boolean neighbor) {
     return BlockPathTypes.DAMAGE_OTHER;
   }
 
@@ -196,7 +197,7 @@ public class PunjiBlock extends Block implements CustomPathNodeTypeBlock {
       if (entityIn.fallDistance > 0) {
         damage += entityIn.fallDistance + 1;
       }
-      entityIn.hurt(DamageSource.CACTUS, damage);
+      entityIn.hurt(entityIn.damageSources().cactus(), damage);
     }
   }
 

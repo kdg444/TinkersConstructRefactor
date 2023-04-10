@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.harvest;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -23,16 +23,16 @@ public class LightspeedModifier extends IncrementalModifier {
   }
 
   @Override
-  public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+  public void onBreakSpeed(IToolStackView tool, int level, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (!isEffective) {
       return;
     }
-    BlockPos pos = event.pos;
+    BlockPos pos = event.getPos();
     if (pos != null) {
-      int light = event.player.getCommandSenderWorld().getBrightness(LightLayer.BLOCK, pos.relative(sideHit));
+      int light = event.getEntity().getCommandSenderWorld().getBrightness(LightLayer.BLOCK, pos.relative(sideHit));
       // bonus is +9 mining speed at light level 15, +3 at light level 10, +1 at light level 5
       float boost = (float)(level * Math.pow(3, (light - 5) / 5f) * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier);
-      event.newSpeed = event.newSpeed + boost;
+      event.setNewSpeed(event.getNewSpeed() + boost);
     }
   }
 

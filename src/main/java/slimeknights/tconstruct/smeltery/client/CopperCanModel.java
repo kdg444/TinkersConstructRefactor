@@ -36,10 +36,13 @@ import io.github.fabricators_of_create.porting_lib.model.ItemLayerModel;
 import io.github.fabricators_of_create.porting_lib.model.ItemMultiLayerBakedModel;
 import io.github.fabricators_of_create.porting_lib.model.ItemTextureQuadConverter;
 import io.github.fabricators_of_create.porting_lib.model.PerspectiveMapWrapper;
+import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
+import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.RequiredArgsConstructor;
 import lombok.With;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
@@ -48,12 +51,12 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -75,7 +78,7 @@ import java.util.function.Function;
  */
 @SuppressWarnings("removal")
 @RequiredArgsConstructor
-public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
+public final class CopperCanModel implements IUnbakedGeometry<CopperCanModel> {
   public static final Loader LOADER = new Loader();
 
   // minimal Z offset to prevent depth-fighting
@@ -91,17 +94,17 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
   private final boolean applyFluidLuminosity;
 
   @Override
-  public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
+  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
     // fetch fluid sprite and cover sprite
     ResourceLocation stillTexture = fluid.getFluid().getAttributes().getStillTexture(fluid);
     TextureAtlasSprite fluidSprite = !fluid.isEmpty() ? spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, stillTexture)) : null;
-    Material baseLocation = owner.isTexturePresent("base") ? owner.resolveTexture("base") : null;
-    TextureAtlasSprite coverSprite = ((!coverIsMask || baseLocation != null) && owner.isTexturePresent("cover")) ? spriteGetter.apply(owner.resolveTexture("cover")) : null;
+    Material baseLocation = owner.hasTexture("base") ? owner.getMaterial("base") : null;
+    TextureAtlasSprite coverSprite = ((!coverIsMask || baseLocation != null) && owner.hasTexture("cover")) ? spriteGetter.apply(owner.getMaterial("cover")) : null;
 
     // particle sprite
     TextureAtlasSprite particleSprite;
-    if (owner.isTexturePresent("particle")) {
-      particleSprite = spriteGetter.apply(owner.resolveTexture("particle"));
+    if (owner.hasTexture("particle")) {
+      particleSprite = spriteGetter.apply(owner.getMaterial("particle"));
     } else if (fluidSprite != null) {
       particleSprite = fluidSprite;
     } else if (!coverIsMask && coverSprite != null) {
@@ -113,7 +116,7 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
     // setup builder
     ModelState transformsFromModel = owner.getCombinedTransform();
     ImmutableMap<TransformType,Transformation> transformMap = PerspectiveMapWrapper.getTransforms(new CompositeModelState(transformsFromModel, modelTransform));
-    ItemMultiLayerBakedModel.Builder builder = ItemMultiLayerBakedModel.builder(owner, particleSprite, new ContainedFluidOverrideHandler(overrides, bakery, owner, this), transformMap);
+    ItemMultiLayerBakedModel.Builder builder = ItemMultiLayerBakedModel.builder(owner, particleSprite, new ContainedFluidOverrideHandler(overrides, baker, owner, this), transformMap);
     Transformation transform = modelTransform.getRotation();
 
     // start with the base
@@ -160,12 +163,9 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
     return texs;
   }
 
-  private static class Loader implements IModelLoader<CopperCanModel> {
+  private static class Loader implements IGeometryLoader<CopperCanModel> {
     @Override
-    public void onResourceManagerReload(ResourceManager resourceManager) {}
-
-    @Override
-    public CopperCanModel read(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
+    public CopperCanModel read(JsonObject modelContents, JsonDeserializationContext deserializationContext) {
       boolean coverIsMask = GsonHelper.getAsBoolean(modelContents, "coverIsMask", true);
       boolean applyFluidLuminosity = GsonHelper.getAsBoolean(modelContents, "applyFluidLuminosity", true);
       return new CopperCanModel(FluidStack.EMPTY, coverIsMask, applyFluidLuminosity);
@@ -176,20 +176,20 @@ public final class CopperCanModel implements IModelGeometry<CopperCanModel> {
     private static final ResourceLocation BAKE_LOCATION = TConstruct.getResource("copper_can_dynamic");
     private final Map<FluidStack,BakedModel> cache = Maps.newHashMap(); // contains all the baked models since they'll never change
     private final ItemOverrides nested;
-    private final ModelBakery bakery;
-    private final IModelConfiguration owner;
+    private final ModelBaker baker;
+    private final BlockModel owner;
     private final CopperCanModel parent;
 
-    private ContainedFluidOverrideHandler(ItemOverrides nested, ModelBakery bakery, IModelConfiguration owner, CopperCanModel parent) {
+    private ContainedFluidOverrideHandler(ItemOverrides nested, ModelBaker baker, BlockModel owner, CopperCanModel parent) {
       this.nested = nested;
-      this.bakery = bakery;
+      this.baker = baker;
       this.owner = owner;
       this.parent = parent;
     }
 
     /** Gets the model directly, for creating the cached models */
     private BakedModel getUncahcedModel(FluidStack fluid) {
-      return this.parent.withFluid(fluid).bake(owner, bakery, Material::sprite, BlockModelRotation.X0_Y0, ItemOverrides.EMPTY, BAKE_LOCATION);
+      return this.parent.withFluid(fluid).bake(owner, baker, Material::sprite, BlockModelRotation.X0_Y0, ItemOverrides.EMPTY, BAKE_LOCATION);
     }
 
     @Override

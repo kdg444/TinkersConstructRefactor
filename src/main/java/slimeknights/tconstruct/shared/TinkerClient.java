@@ -1,8 +1,7 @@
 package slimeknights.tconstruct.shared;
 
-import io.github.fabricators_of_create.porting_lib.event.client.ModelsBakedCallback;
+import io.github.fabricators_of_create.porting_lib.client_events.event.client.ModelEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.RecipesUpdatedCallback;
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import me.alphamode.star.client.renderers.UpsideDownFluidRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
@@ -71,9 +70,9 @@ public class TinkerClient implements ClientModInitializer {
       BaseTabbedScreen.COMPAT_SHOW_TABS = false;
     }
 
-    ModelsBakedCallback.EVENT.register((manager, models, loader) -> {
-      FluidAttributes attributes = TinkerFluids.ichor.getStill().getAttributes();
-      FluidRenderHandlerRegistry.INSTANCE.register(TinkerFluids.ichor.getStill(), TinkerFluids.ichor.getFlowing(), new UpsideDownFluidRenderer(attributes::getStillTexture, attributes::getFlowingTexture, attributes::getOverlayTexture, attributes.getColor()));
-    });
+//    ModelEvents.MODELS_BAKED.register((manager, models, loader) -> {
+//      FluidAttributes attributes = TinkerFluids.ichor.getStill().getAttributes();
+//      FluidRenderHandlerRegistry.INSTANCE.register(TinkerFluids.ichor.getStill(), TinkerFluids.ichor.getFlowing(), new UpsideDownFluidRenderer(attributes::getStillTexture, attributes::getFlowingTexture, attributes::getOverlayTexture, attributes.getColor()));
+//    });
   }
 }

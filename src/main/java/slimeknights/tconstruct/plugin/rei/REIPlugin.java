@@ -3,7 +3,7 @@ package slimeknights.tconstruct.plugin.rei;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import dev.architectury.fluid.FluidStack;
-import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.RecipeManagerAccessor;
+import io.github.fabricators_of_create.porting_lib.mixin.accessors.common.accessor.RecipeManagerAccessor;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
@@ -18,7 +18,8 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
@@ -119,7 +120,7 @@ public class REIPlugin implements REIClientPlugin {
     registry.addWorkstations(TConstructREIConstants.FOUNDRY, EntryStacks.of(TinkerSmeltery.foundryController));
 
     // modifiers
-    for (Holder<Item> item : Objects.requireNonNull(Registry.ITEM.getTagOrEmpty(TinkerTags.Items.MELEE))) {
+    for (Holder<Item> item : Objects.requireNonNull(BuiltInRegistries.ITEM.getTagOrEmpty(TinkerTags.Items.MELEE))) {
       registry.addWorkstations(TConstructREIConstants.SEVERING, EntryStacks.of(IModifiableDisplay.getDisplayStack(item.value())));
     }
   }
@@ -246,12 +247,12 @@ public class REIPlugin implements REIClientPlugin {
 
   /** Helper to get an item tag */
   private static Iterable<Holder<Item>> getTag(ResourceLocation name) {
-    return getTag(TagKey.create(Registry.ITEM_REGISTRY, name));
+    return getTag(TagKey.create(Registries.ITEM, name));
   }
 
   /** Helper to get an item tag */
   private static Iterable<Holder<Item>> getTag(TagKey<Item> name) {
-    return Objects.requireNonNull(Registry.ITEM.getTagOrEmpty(name));
+    return Objects.requireNonNull(BuiltInRegistries.ITEM.getTagOrEmpty(name));
   }
 
   /**

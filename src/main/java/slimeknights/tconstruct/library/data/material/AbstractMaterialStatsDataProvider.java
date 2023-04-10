@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.library.data.material;
 
 import lombok.AllArgsConstructor;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.resources.ResourceLocation;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /** Base data generator for use in addons, depends on the regular material provider */
@@ -25,8 +26,8 @@ public abstract class AbstractMaterialStatsDataProvider extends GenericDataProvi
   /* Materials data provider for validation */
   private final AbstractMaterialDataProvider materials;
 
-  public AbstractMaterialStatsDataProvider(DataGenerator gen, AbstractMaterialDataProvider materials) {
-    super(gen, MaterialStatsManager.FOLDER);
+  public AbstractMaterialStatsDataProvider(FabricDataOutput output, AbstractMaterialDataProvider materials) {
+    super(output, MaterialStatsManager.FOLDER);
     this.materials = materials;
   }
 
@@ -34,7 +35,7 @@ public abstract class AbstractMaterialStatsDataProvider extends GenericDataProvi
   protected abstract void addMaterialStats();
 
   @Override
-  public void run(HashCache cache) {
+  public CompletableFuture<?> run(CachedOutput cache) {
     addMaterialStats();
 
     // ensure we have stats for all materials
@@ -46,7 +47,9 @@ public abstract class AbstractMaterialStatsDataProvider extends GenericDataProvi
     }
     // does not ensure we have materials for all stats, we may be adding stats for another mod
     // generate finally
-    allMaterialStats.forEach((materialId, materialStats) -> saveThing(cache, materialId, convert(materialStats)));
+    List<CompletableFuture<?>> futures = new ArrayList<>();
+    allMaterialStats.forEach((materialId, materialStats) -> futures.add(saveThing(cache, materialId, convert(materialStats))));
+    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 
 

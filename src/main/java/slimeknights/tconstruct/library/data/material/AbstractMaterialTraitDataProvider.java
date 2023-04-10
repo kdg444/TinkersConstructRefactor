@@ -2,8 +2,8 @@ package slimeknights.tconstruct.library.data.material;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.resources.ResourceLocation;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
@@ -14,10 +14,13 @@ import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.library.modifiers.util.LazyModifier;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /** Base data generator for use in addons */
@@ -35,8 +38,8 @@ public abstract class AbstractMaterialTraitDataProvider extends GenericDataProvi
   /* Materials data provider for validation */
   private final AbstractMaterialDataProvider materials;
 
-  public AbstractMaterialTraitDataProvider(DataGenerator gen, AbstractMaterialDataProvider materials) {
-    super(gen, MaterialTraitsManager.FOLDER, GSON);
+  public AbstractMaterialTraitDataProvider(FabricDataOutput output, AbstractMaterialDataProvider materials) {
+    super(output, MaterialTraitsManager.FOLDER, GSON);
     this.materials = materials;
   }
 
@@ -44,7 +47,7 @@ public abstract class AbstractMaterialTraitDataProvider extends GenericDataProvi
   protected abstract void addMaterialTraits();
 
   @Override
-  public void run(HashCache cache) {
+  public CompletableFuture<?> run(CachedOutput cache) {
     addMaterialTraits();
 
     // ensure we have traits for all materials
@@ -57,7 +60,9 @@ public abstract class AbstractMaterialTraitDataProvider extends GenericDataProvi
     }
 
     // generate
-    allMaterialTraits.forEach((materialId, traits) -> saveThing(cache, materialId, traits.serialize()));
+    List<CompletableFuture<?>> futures = new ArrayList<>();
+    allMaterialTraits.forEach((materialId, traits) -> futures.add(saveThing(cache, materialId, traits.serialize())));
+    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 
 

@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.fluids.util;
 
 import io.github.fabricators_of_create.porting_lib.brewing.BrewingRecipe;
-import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.PotionBrewingAccessor;
+import io.github.fabricators_of_create.porting_lib.mixin.accessors.common.accessor.PotionBrewingAccessor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionBrewing;

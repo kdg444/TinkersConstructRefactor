@@ -69,7 +69,7 @@ public class MaterialRegistryImpl implements IMaterialRegistry {
   }
 
   @Override
-  public List<IMaterial> getTagValues(TagKey<Modifier> tag) {
+  public Collection<IMaterial> getTagValues(TagKey<Modifier> tag) {
     return materialManager.getValues(tag);
   }
 

@@ -2,14 +2,13 @@ package slimeknights.tconstruct.library.tools.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
-import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
 import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
+import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.item.ReequipAnimationItem;
+import io.github.fabricators_of_create.porting_lib.item.ShieldBlockItem;
 import io.github.fabricators_of_create.porting_lib.item.UseFirstBehaviorItem;
-import io.github.fabricators_of_create.porting_lib.util.DamageableItem;
-import io.github.fabricators_of_create.porting_lib.util.ShieldBlockItem;
-import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import lombok.Getter;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.BlockPos;
@@ -72,7 +71,7 @@ import java.util.function.Consumer;
  * A standard modifiable item which implements melee hooks
  * This class handles how all the modifier hooks and display data for items made out of different materials
  */
-public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, ItemExtensions, DamageableItem, ShieldBlockItem, CustomMaxCountItem, ReequipAnimationItem, CustomEnchantingBehaviorItem {
+public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, DamageableItem, ShieldBlockItem, CustomMaxCountItem, ReequipAnimationItem, CustomEnchantingBehaviorItem {
   /** Tool definition for the given tool */
   @Getter
   private final ToolDefinition toolDefinition;
@@ -469,12 +468,12 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   /* Display items */
 
-  @Override
-  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-    if (this.allowdedIn(group)) {
-      ToolBuildHandler.addDefaultSubItems(this, items);
-    }
-  }
+//  @Override TODO: PORT
+//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+//    if (this.allowdedIn(group)) {
+//      ToolBuildHandler.addDefaultSubItems(this, items);
+//    }
+//  }
 
   @Override
   public ItemStack getRenderTool() {

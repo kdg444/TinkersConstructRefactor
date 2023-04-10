@@ -2,7 +2,7 @@ package slimeknights.tconstruct.tools.logic;
 
 import com.google.common.collect.Multiset;
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.ProjectileImpactCallback;
 import io.github.fabricators_of_create.porting_lib.util.EntityHelper;
 import net.minecraft.core.BlockPos;
@@ -12,7 +12,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -75,22 +74,22 @@ import java.util.Objects;
 public class ToolEvents {
 
   public static void init() {
-    PlayerBreakSpeedCallback.EVENT.register(ToolEvents::onBreakSpeed);
+    PlayerEvents.BREAK_SPEED.register(ToolEvents::onBreakSpeed);
     ToolHarvestEvent.EVENT.register(ToolEvents::onHarvest);
-    LivingEntityEvents.ACTUALLY_HURT.register(ToolEvents::enderDragonDamage);
-    LivingEntityEvents.ACTUALLY_HURT.register(ToolEvents::livingAttack);
-    LivingEntityEvents.ACTUALLY_HURT.register(ToolEvents::livingHurt);
+    LivingEntityEvents.HURT.register(ToolEvents::enderDragonDamage);
+    LivingEntityEvents.HURT.register(ToolEvents::livingAttack);
+    LivingEntityEvents.HURT.register(ToolEvents::livingHurt);
     LivingEntityEvents.TICK.register(ToolEvents::livingWalk);
     LivingEntityEvents.VISIBILITY.register(ToolEvents::livingVisibility);
     ProjectileImpactCallback.EVENT.register(ToolEvents::projectileHit);
   }
 
-  static void onBreakSpeed(PlayerBreakSpeedCallback.BreakSpeed event) {
-    Player player = event.player;
+  static void onBreakSpeed(PlayerEvents.BreakSpeed event) {
+    Player player = event.getPlayer();
 
     // if we are underwater, have the aqua affinity modifier, and are not under the effects of vanilla aqua affinity, cancel the underwater modifier
     if (player.isEyeInFluid(FluidTags.WATER) && ModifierUtil.getTotalModifierLevel(player, TinkerDataKeys.AQUA_AFFINITY) > 0 && !EnchantmentHelper.hasAquaAffinity(player)) {
-      event.newSpeed= event.newSpeed * 5;
+      event.setNewSpeed(event.getNewSpeed() * 5);
     }
 
     // tool break speed hook
@@ -102,14 +101,14 @@ public class ToolEvents {
         if (!modifiers.isEmpty()) {
           // modifiers using additive boosts may want info on the original boosts provided
           float miningSpeedModifier = Modifier.getMiningModifier(player);
-          boolean isEffective = stack.isCorrectToolForDrops(event.state);
+          boolean isEffective = stack.isCorrectToolForDrops(event.getState());
           Direction direction = BlockSideHitListener.getSideHit(player);
           for (ModifierEntry entry : tool.getModifierList()) {
             entry.getModifier().onBreakSpeed(tool, entry.getLevel(), event, direction, isEffective, miningSpeedModifier);
             // if any modifier cancels mining, stop right here
-//            if (event.isCanceled()) { TODO: PORT (allow canceling?)
-//              return;
-//            }
+            if (event.isCanceled()) {
+              return;
+            }
           }
         }
       }
@@ -119,7 +118,7 @@ public class ToolEvents {
     float armorHaste = ModifierUtil.getTotalModifierFloat(player, HasteArmorModifier.HASTE);
     if (armorHaste > 0) {
       // adds in 10% per level
-      event.newSpeed = event.newSpeed * (1 + 0.1f * armorHaste);
+      event.setNewSpeed(event.getNewSpeed() * (1 + 0.1f * armorHaste));
     }
   }
 

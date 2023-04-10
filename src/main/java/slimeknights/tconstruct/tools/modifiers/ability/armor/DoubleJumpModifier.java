@@ -5,6 +5,7 @@ import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEven
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;
@@ -12,8 +13,6 @@ import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
 import slimeknights.tconstruct.library.tools.capability.PersistentDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
-
-import java.util.Random;
 
 public class DoubleJumpModifier extends TotalArmorLevelModifier {
   private static final ResourceLocation JUMPS = TConstruct.getResource("jumps");
@@ -59,7 +58,7 @@ public class DoubleJumpModifier extends TotalArmorLevelModifier {
           int jumps = data.getInt(JUMPS);
           if (jumps < maxJumps) {
             entity.jumpFromGround();
-            Random random = entity.getCommandSenderWorld().getRandom();
+            RandomSource random = entity.getCommandSenderWorld().getRandom();
             for (int i = 0; i < 4; i++) {
               entity.getCommandSenderWorld().addParticle(ParticleTypes.HAPPY_VILLAGER, entity.getX() - 0.25f + random.nextFloat() * 0.5f, entity.getY(), entity.getZ() - 0.25f + random.nextFloat() * 0.5f, 0, 0, 0);
             }

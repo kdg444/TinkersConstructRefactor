@@ -1,7 +1,11 @@
 package slimeknights.tconstruct.tools.modifiers;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.loot.GlobalLootModifierSerializer;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.github.fabricators_of_create.porting_lib.loot.IGlobalLootModifier;
 import io.github.fabricators_of_create.porting_lib.loot.LootModifier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -21,6 +25,7 @@ import java.util.List;
 
 /** Global loot modifier for modifiers */
 public class ModifierLootModifier extends LootModifier {
+  public static final Supplier<Codec<ModifierLootModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> codecStart(inst).apply(inst, ModifierLootModifier::new)));
   protected ModifierLootModifier(LootItemCondition[] conditionsIn) {
     super(conditionsIn);
   }
@@ -54,15 +59,8 @@ public class ModifierLootModifier extends LootModifier {
     return generatedLoot;
   }
 
-  public static class Serializer extends GlobalLootModifierSerializer<ModifierLootModifier> {
-    @Override
-    public ModifierLootModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] conditions) {
-      return new ModifierLootModifier(conditions);
-    }
-
-    @Override
-    public JsonObject write(ModifierLootModifier instance) {
-      return makeConditions(instance.conditions);
-    }
+  @Override
+  public Codec<ModifierLootModifier> codec() {
+    return CODEC.get();
   }
 }

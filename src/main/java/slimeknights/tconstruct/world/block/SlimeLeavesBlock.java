@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -41,7 +42,7 @@ public class SlimeLeavesBlock extends LeavesBlock {
   }
 
   @Override
-  public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
+  public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
     worldIn.setBlock(pos, updateDistance(state, worldIn, pos), 3);
   }
 
@@ -79,10 +80,10 @@ public class SlimeLeavesBlock extends LeavesBlock {
 //    return this.isAir(state, world, pos) || state.is(BlockTags.LEAVES) || state.is(TinkerTags.Blocks.SLIMY_LEAVES);
 //  }
 
-  @Override
-  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-    if (this.foliageType != SlimeType.ICHOR) {
-      super.fillItemCategory(group, items);
-    }
-  }
+//  @Override TODO: PORT
+//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+//    if (this.foliageType != SlimeType.ICHOR) {
+//      super.fillItemCategory(group, items);
+//    }
+//  }
 }

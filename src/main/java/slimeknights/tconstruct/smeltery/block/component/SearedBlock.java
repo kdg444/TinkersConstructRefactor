@@ -1,11 +1,9 @@
 package slimeknights.tconstruct.smeltery.block.component;
 
-import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock;
+import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -19,12 +17,13 @@ import slimeknights.tconstruct.smeltery.block.entity.component.SmelteryComponent
 
 import javax.annotation.Nullable;
 
-public class SearedBlock extends Block implements EntityBlock, CustomPathNodeTypeBlock {
+public class SearedBlock extends Block implements EntityBlock, LandPathNodeTypesRegistry.StaticPathNodeTypeProvider {
   public static final BooleanProperty IN_STRUCTURE = BooleanProperty.create("in_structure");
 
   public SearedBlock(Properties properties) {
     super(properties);
     this.registerDefaultState(this.defaultBlockState().setValue(IN_STRUCTURE, false));
+    LandPathNodeTypesRegistry.register(this, this);
   }
 
   @Override
@@ -62,7 +61,7 @@ public class SearedBlock extends Block implements EntityBlock, CustomPathNodeTyp
 
   @Nullable
   @Override
-  public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity) {
+  public BlockPathTypes getPathNodeType(BlockState state, boolean neighbor) {
     return state.getValue(IN_STRUCTURE) ? BlockPathTypes.DAMAGE_FIRE : BlockPathTypes.OPEN;
   }
 }

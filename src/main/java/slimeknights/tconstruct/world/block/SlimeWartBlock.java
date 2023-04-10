@@ -14,10 +14,10 @@ public class SlimeWartBlock extends Block {
     this.foliageType = foliageType;
   }
 
-  @Override
-  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-    if (foliageType != SlimeType.ICHOR) {
-      super.fillItemCategory(group, items);
-    }
-  }
+//  @Override TODO: PORT
+//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+//    if (foliageType != SlimeType.ICHOR) {
+//      super.fillItemCategory(group, items);
+//    }
+//  }
 }

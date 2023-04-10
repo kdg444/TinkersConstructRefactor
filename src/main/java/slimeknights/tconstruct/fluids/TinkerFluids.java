@@ -2,7 +2,6 @@ package slimeknights.tconstruct.fluids;
 
 import io.github.fabricators_of_create.porting_lib.brewing.BrewingRecipe;
 import io.github.fabricators_of_create.porting_lib.brewing.BrewingRecipeRegistry;
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import io.github.tropheusj.milk.Milk;
@@ -26,6 +25,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.material.Material;
 import slimeknights.mantle.fluid.UnplaceableFluid;
+import slimeknights.mantle.fluid.attributes.FluidAttributes;
 import slimeknights.mantle.registration.ItemProperties;
 import slimeknights.mantle.registration.ModelFluidAttributes;
 import slimeknights.mantle.registration.object.EnumObject;
@@ -70,7 +70,7 @@ public final class TinkerFluids extends TinkerModule {
     new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
                                  .effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 1800), 1.0f)
                                  .effect(new MobEffectInstance(MobEffects.POISON, 450), 1.0f)
-                                 .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
+                                 .build())/*.tab(TAB_GENERAL)*/.stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
     () -> new FluidStack(venom.get(), FluidValues.BOTTLE))
   );
 
@@ -94,36 +94,36 @@ public final class TinkerFluids extends TinkerModule {
       new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
                                    .effect(new MobEffectInstance(MobEffects.LUCK, 1500), 1.0f)
                                    .effect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
-                                   .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
+                                   .build())/*.tab(TAB_GENERAL)*/.stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
       () -> new FluidStack(earthSlime.get(), FluidValues.BOTTLE))))
     .put(SlimeType.SKY, ITEMS.register("sky_slime_bottle", () -> new FluidContainerFoodItem(
       new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
                                    .effect(new MobEffectInstance(MobEffects.JUMP, 1800), 1.0f)
                                    .effect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
-                                   .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
+                                   .build())/*.tab(TAB_GENERAL)*/.stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
       () -> new FluidStack(skySlime.get(), FluidValues.BOTTLE))))
     .put(SlimeType.ENDER, ITEMS.register("ender_slime_bottle", () -> new FluidContainerFoodItem(
       new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
                                    .effect(new MobEffectInstance(MobEffects.LEVITATION, 450), 1.0f)
                                    .effect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
-                                   .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
+                                   .build())/*.tab(TAB_GENERAL)*/.stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
       () -> new FluidStack(enderSlime.get(), FluidValues.BOTTLE))))
     .put(SlimeType.ICHOR, ITEMS.register("ichor_bottle", () -> new ContainerFoodItem(
       new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
                                    .effect(new MobEffectInstance(MobEffects.ABSORPTION, 500), 1.0f)
                                    .effect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
-                                   .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE))))
+                                   .build())/*.tab(TAB_GENERAL)*/.stacksTo(1).craftRemainder(Items.GLASS_BOTTLE))))
     .put(SlimeType.BLOOD, ITEMS.register("blood_bottle", () -> new FluidContainerFoodItem(
       new Item.Properties().food(new FoodProperties.Builder()
                                    .nutrition(6).saturationMod(0.1F)
                                    .effect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 600), 0.8f)
-                                   .build()).tab(TAB_GENERAL).stacksTo(16).craftRemainder(Items.GLASS_BOTTLE),
+                                   .build())/*.tab(TAB_GENERAL)*/.stacksTo(16).craftRemainder(Items.GLASS_BOTTLE),
       () -> new FluidStack(blood.get(), FluidValues.BOTTLE))))
     .build();
   public static final ItemObject<Item> magmaBottle = ITEMS.register("magma_bottle", () -> new FluidContainerFoodItem(
     new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
                                  .effect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600), 1.0f)
-                                 .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
+                                 .build())/*.tab(TAB_GENERAL)*/.stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
     () -> new FluidStack(magma.get(), FluidValues.BOTTLE)));
 
   // foods
@@ -216,8 +216,8 @@ public final class TinkerFluids extends TinkerModule {
     return ModelFluidAttributes.builder().density(2000).viscosity(10000).temperature(1000).sound(SoundEvents.BUCKET_FILL_LAVA, SoundEvents.BUCKET_EMPTY_LAVA);
   }
 
-  public static void gatherData(final FabricDataGenerator datagenerator) {
-    datagenerator.addProvider(new FluidTooltipProvider(datagenerator));
+  public static void gatherData(final FabricDataGenerator.Pack pack) {
+    pack.addProvider(FluidTooltipProvider::new);
   }
 
   void commonSetup() {

@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.general;
 
-import io.github.fabricators_of_create.porting_lib.util.Lazy;
+import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import slimeknights.tconstruct.library.modifiers.Modifier;

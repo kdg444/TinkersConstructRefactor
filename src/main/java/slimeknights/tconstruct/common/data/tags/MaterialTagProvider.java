@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.common.data.tags;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.DataGenerator;
 import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -8,8 +9,8 @@ import slimeknights.tconstruct.library.data.tinkering.AbstractMaterialTagProvide
 import slimeknights.tconstruct.tools.data.material.MaterialIds;
 
 public class MaterialTagProvider extends AbstractMaterialTagProvider {
-  public MaterialTagProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-    super(generator, TConstruct.MOD_ID, existingFileHelper);
+  public MaterialTagProvider(FabricDataOutput output, ExistingFileHelper existingFileHelper) {
+    super(output, TConstruct.MOD_ID, existingFileHelper);
   }
 
   @Override

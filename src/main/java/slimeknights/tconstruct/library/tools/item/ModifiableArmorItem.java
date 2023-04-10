@@ -2,11 +2,10 @@ package slimeknights.tconstruct.library.tools.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
-import io.github.fabricators_of_create.porting_lib.extensions.ItemExtensions;
+import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.item.PiglinsNeutralItem;
-import io.github.fabricators_of_create.porting_lib.util.DamageableItem;
-import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import lombok.Getter;
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -60,7 +59,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, ItemExtensions, DamageableItem, PiglinsNeutralItem, FabricElytraItem, CustomEnchantingBehaviorItem {
+public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, DamageableItem, PiglinsNeutralItem, FabricElytraItem, CustomEnchantingBehaviorItem {
   /** Volatile modifier tag to make piglins neutal when worn */
   public static final ResourceLocation PIGLIN_NEUTRAL = TConstruct.getResource("piglin_neutral");
   /** Volatile modifier tag to make this item an elytra */
@@ -254,7 +253,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   @Override
   public Multimap<Attribute,AttributeModifier> getAttributeModifiers(IToolStackView tool, EquipmentSlot slot) {
-    if (slot != getSlot()) {
+    if (slot != getEquipmentSlot()) {
       return ImmutableMultimap.of();
     }
 
@@ -282,7 +281,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
   @Override
   public Multimap<Attribute,AttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
     CompoundTag nbt = stack.getTag();
-    if (slot != getSlot() || nbt == null) {
+    if (slot != getEquipmentSlot() || nbt == null) {
       return ImmutableMultimap.of();
     }
     return getAttributeModifiers(ToolStack.from(stack), slot);
@@ -293,7 +292,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   @Override
   public boolean useCustomElytra(LivingEntity entity, ItemStack stack, boolean tickElytra) {
-    if (slot == EquipmentSlot.CHEST && !ToolDamageUtil.isBroken(stack) && ModifierUtil.checkVolatileFlag(stack, ELYTRA)) {
+    if (getEquipmentSlot() == EquipmentSlot.CHEST && !ToolDamageUtil.isBroken(stack) && ModifierUtil.checkVolatileFlag(stack, ELYTRA)) {
       if (tickElytra)
         elytraFlightTick(stack, entity, entity.getFallFlyingTicks());
       return true;
@@ -302,7 +301,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
   }
 
   public boolean elytraFlightTick(ItemStack stack, LivingEntity entity, int flightTicks) {
-    if (slot == EquipmentSlot.CHEST) {
+    if (this.type == Type.CHESTPLATE) {
       ToolStack tool = ToolStack.from(stack);
       if (!tool.isBroken()) {
         // if any modifier says stop flying, stop flying
@@ -337,7 +336,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
       List<ModifierEntry> modifiers = tool.getModifierList();
       if (!modifiers.isEmpty()) {
         LivingEntity living = (LivingEntity) entityIn;
-        boolean isCorrectSlot = living.getItemBySlot(slot) == stack;
+        boolean isCorrectSlot = living.getItemBySlot(getEquipmentSlot()) == stack;
         // we pass in the stack for most custom context, but for the sake of armor its easier to tell them that this is the correct slot for effects
         for (ModifierEntry entry : modifiers) {
           entry.getModifier().onInventoryTick(tool, entry.getLevel(), levelIn, living, itemSlot, isSelected, isCorrectSlot, stack);
@@ -362,14 +361,14 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
   @Override
   public List<Component> getStatInformation(IToolStackView tool, @Nullable Player player, List<Component> tooltips, slimeknights.tconstruct.library.utils.TooltipKey key, TooltipFlag tooltipFlag) {
     tooltips = TooltipUtil.getArmorStats(tool, player, tooltips, key.asMantle(), tooltipFlag);
-    TooltipUtil.addAttributes(this, tool, player, tooltips, TooltipUtil.SHOW_ARMOR_ATTRIBUTES, getSlot());
+    TooltipUtil.addAttributes(this, tool, player, tooltips, TooltipUtil.SHOW_ARMOR_ATTRIBUTES, getEquipmentSlot());
     return tooltips;
   }
 
   @Override
   public List<Component> getStatInformation(IToolStackView tool, @Nullable Player player, List<Component> tooltips, TooltipKey key, TooltipFlag tooltipFlag) {
     tooltips = TooltipUtil.getArmorStats(tool, player, tooltips, key, tooltipFlag);
-    TooltipUtil.addAttributes(this, tool, player, tooltips, TooltipUtil.SHOW_ARMOR_ATTRIBUTES, getSlot());
+    TooltipUtil.addAttributes(this, tool, player, tooltips, TooltipUtil.SHOW_ARMOR_ATTRIBUTES, getEquipmentSlot());
     return tooltips;
   }
 
@@ -380,12 +379,12 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   /* Display items */
 
-  @Override
-  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-    if (this.allowdedIn(group)) {
-      ToolBuildHandler.addDefaultSubItems(this, items);
-    }
-  }
+//  @Override TODO: PORT
+//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+//    if (this.allowdedIn(group)) {
+//      ToolBuildHandler.addDefaultSubItems(this, items);
+//    }
+//  }
 
   @Override
   public ItemStack getRenderTool() {

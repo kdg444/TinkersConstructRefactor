@@ -2,8 +2,8 @@ package slimeknights.tconstruct.library.client.data.material;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import slimeknights.mantle.data.GenericDataProvider;
@@ -14,8 +14,11 @@ import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 /** Base data generator for use in addons */
 public abstract class AbstractMaterialRenderInfoProvider extends GenericDataProvider {
@@ -24,23 +27,25 @@ public abstract class AbstractMaterialRenderInfoProvider extends GenericDataProv
   @Nullable
   private final AbstractMaterialSpriteProvider materialSprites;
 
-  public AbstractMaterialRenderInfoProvider(DataGenerator gen, @Nullable AbstractMaterialSpriteProvider materialSprites) {
-    super(gen, PackType.CLIENT_RESOURCES, MaterialRenderInfoLoader.FOLDER, MaterialRenderInfoLoader.GSON);
+  public AbstractMaterialRenderInfoProvider(FabricDataOutput output, @Nullable AbstractMaterialSpriteProvider materialSprites) {
+    super(output, PackType.CLIENT_RESOURCES, MaterialRenderInfoLoader.FOLDER, MaterialRenderInfoLoader.GSON);
     this.materialSprites = materialSprites;
   }
 
-  public AbstractMaterialRenderInfoProvider(DataGenerator gen) {
-    this(gen, null);
+  public AbstractMaterialRenderInfoProvider(FabricDataOutput output) {
+    this(output, null);
   }
 
   /** Adds all relevant material stats */
   protected abstract void addMaterialRenderInfo();
 
   @Override
-  public void run(HashCache cache) {
+  public CompletableFuture<?> run(CachedOutput cache) {
     addMaterialRenderInfo();
     // generate
-    allRenderInfo.forEach((materialId, info) -> saveThing(cache, materialId.getLocation('/'), info.build()));
+    List<CompletableFuture<?>> futures = new ArrayList<>();
+    allRenderInfo.forEach((materialId, info) -> futures.add(saveThing(cache, materialId.getLocation('/'), info.build())));
+    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 
 

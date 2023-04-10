@@ -2,16 +2,14 @@ package slimeknights.tconstruct.smeltery.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import net.minecraft.client.Minecraft;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.client.model.FaucetFluidLoader;
@@ -23,8 +21,6 @@ import slimeknights.mantle.client.render.MantleRenderTypes;
 import slimeknights.mantle.client.render.RenderingHelper;
 import slimeknights.tconstruct.smeltery.block.FaucetBlock;
 import slimeknights.tconstruct.smeltery.block.entity.FaucetBlockEntity;
-
-import java.util.function.Function;
 
 @SuppressWarnings("removal")
 public class FaucetBlockEntityRenderer implements BlockEntityRenderer<FaucetBlockEntity> {
@@ -52,13 +48,12 @@ public class FaucetBlockEntityRenderer implements BlockEntityRenderer<FaucetBloc
       boolean isRotated = RenderingHelper.applyRotation(matrices, direction);
 
       // fluid props
-      FluidAttributes attributes = renderFluid.getFluid().getAttributes();
-      int color = attributes.getColor(renderFluid);
-      Function<ResourceLocation, TextureAtlasSprite> spriteGetter = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS);
-      TextureAtlasSprite still = spriteGetter.apply(attributes.getStillTexture(renderFluid));
-      TextureAtlasSprite flowing = spriteGetter.apply(attributes.getFlowingTexture(renderFluid));
-      boolean isGas = attributes.isGaseous(renderFluid);
-      combinedLightIn = FluidRenderer.withBlockLight(combinedLightIn, attributes.getLuminosity(renderFluid));
+      var sprites = FluidVariantRendering.getSprites(renderFluid.getType());
+      int color = FluidVariantRendering.getColor(renderFluid.getType());
+      TextureAtlasSprite still = sprites[0];
+      TextureAtlasSprite flowing = sprites[1];
+      boolean isGas = FluidVariantAttributes.isLighterThanAir(renderFluid.getType());
+      combinedLightIn = FluidRenderer.withBlockLight(combinedLightIn, FluidVariantAttributes.getLuminance(renderFluid.getType()));
 
       // render all cubes in the model
       VertexConsumer buffer = bufferIn.getBuffer(MantleRenderTypes.FLUID);

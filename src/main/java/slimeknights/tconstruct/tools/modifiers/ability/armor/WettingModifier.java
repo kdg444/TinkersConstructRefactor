@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("removal")
 public class WettingModifier extends TankModifier {
   public WettingModifier() {
-    super(FluidAttributes.BUCKET_VOLUME);
+    super(FluidConstants.BUCKET);
   }
 
   /** Spawns particles at the given entity */

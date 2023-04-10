@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.world.entity;
 
-import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.SlimeAccessor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -51,7 +51,7 @@ public class ArmoredSlimeEntity extends Slime {
     SpawnGroupData spawnData = super.finalizeSpawn(pLevel, difficulty, pReason, pSpawnData, pDataTag);
     this.setCanPickUpLoot(this.random.nextFloat() < (0.55f * difficulty.getSpecialMultiplier()));
 
-    this.populateDefaultEquipmentSlots(difficulty);
+    this.populateDefaultEquipmentSlots(pLevel.getRandom(), difficulty);
 
     // pumpkins on halloween
     if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
@@ -66,12 +66,12 @@ public class ArmoredSlimeEntity extends Slime {
   }
 
   @Override
-  protected void populateDefaultEquipmentSlots(DifficultyInstance difficulty) {
+  protected void populateDefaultEquipmentSlots(RandomSource randomSource, DifficultyInstance difficulty) {
     // no-op, let each slime type choose how to implement
   }
 
   @Override
-  protected void populateDefaultEquipmentEnchantments(DifficultyInstance difficulty) {
+  protected void populateDefaultEquipmentEnchantments(RandomSource randomSource, DifficultyInstance difficulty) {
     // no-op, unused
   }
 
@@ -133,7 +133,7 @@ public class ArmoredSlimeEntity extends Slime {
         slime.setCustomName(name);
         slime.setNoAi(noAi);
         slime.setInvulnerable(invulnerable);
-        ((SlimeAccessor)slime).port_lib$setSize(newSize, true);
+        slime.setSize(newSize, true);
         if (i == helmetIndex) {
           slime.setItemSlot(EquipmentSlot.HEAD, helmet.copy());
           setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);

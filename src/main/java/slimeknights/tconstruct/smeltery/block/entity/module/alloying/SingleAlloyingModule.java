@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.entity.module.alloying;
 
-import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.RecipeManagerAccessor;
+import io.github.fabricators_of_create.porting_lib.mixin.accessors.common.accessor.RecipeManagerAccessor;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.world.level.Level;
 import slimeknights.mantle.block.entity.MantleBlockEntity;

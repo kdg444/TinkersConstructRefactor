@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.shared.block;
 
-import io.github.fabricators_of_create.porting_lib.tags.ToolTags;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -27,7 +27,7 @@ public class WaxedPlatformBlock extends PlatformBlock {
 
   public InteractionResult getToolModifiedState(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
     BlockState state = world.getBlockState(hitResult.getBlockPos());
-    if (player.getItemInHand(hand).is(ToolTags.AXES) && state.is(this)) {
+    if (player.getItemInHand(hand).is(ItemTags.AXES) && state.is(this)) {
       world.setBlockAndUpdate(hitResult.getBlockPos(), TinkerCommons.copperPlatform.get(age).withPropertiesOf(state));
       return InteractionResult.SUCCESS;
     }

@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.world;
 
 import com.google.common.collect.ImmutableMap;
+import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
 import io.github.fabricators_of_create.porting_lib.event.client.CreateSkullModelsCallback;
-import io.github.fabricators_of_create.porting_lib.util.Lazy;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;

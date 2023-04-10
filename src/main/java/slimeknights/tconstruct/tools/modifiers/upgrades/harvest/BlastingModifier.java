@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.harvest;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -21,15 +21,15 @@ public class BlastingModifier extends IncrementalModifier {
   }
 
   @Override
-  public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+  public void onBreakSpeed(IToolStackView tool, int level, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (isEffective) {
-      float blastResistance = event.state.getBlock().getExplosionResistance();
+      float blastResistance = event.getState().getBlock().getExplosionResistance();
 
       // formula makes a boost of 9 at a hardness of 3 (most ores), boost of 3 at a hardness of 4.5, and a boost of 1 at hardness of 6 (stone)
       double boost = getScaledLevel(tool, level) * (Math.min(10f, Math.pow(3f, (6f - blastResistance)/1.5f))) * miningSpeedModifier;
       // factor in tool definition to prevent this being too strong on hammers
       boost *= tool.getMultiplier(ToolStats.MINING_SPEED);
-      event.newSpeed = event.newSpeed + (float)boost;
+      event.setNewSpeed(event.getNewSpeed() + (float)boost);
     }
   }
 

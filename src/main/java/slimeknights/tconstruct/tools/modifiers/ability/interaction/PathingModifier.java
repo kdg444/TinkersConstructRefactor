@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 
-import io.github.fabricators_of_create.porting_lib.util.ToolActions;
+import io.github.fabricators_of_create.porting_lib.common.util.ToolActions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

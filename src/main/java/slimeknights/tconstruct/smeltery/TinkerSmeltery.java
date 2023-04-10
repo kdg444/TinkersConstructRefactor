@@ -101,7 +101,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public final class TinkerSmeltery extends TinkerModule {
   /** Tab for all blocks related to the smeltery */
-  public static final CreativeModeTab TAB_SMELTERY = new SupplierCreativeTab(TConstruct.MOD_ID, "smeltery", () -> new ItemStack(TinkerSmeltery.smelteryController));
+  public static final CreativeModeTab TAB_SMELTERY = SupplierCreativeTab.create(TConstruct.MOD_ID, "smeltery", () -> new ItemStack(TinkerSmeltery.smelteryController)).build();
   public static final Logger log = Util.getLogger("tinker_smeltery");
 
   /* Bricks */
@@ -110,7 +110,7 @@ public final class TinkerSmeltery extends TinkerModule {
   /*
    * Block base properties
    */
-  private static final Item.Properties SMELTERY_PROPS = new Item.Properties().tab(TAB_SMELTERY);
+  private static final Item.Properties SMELTERY_PROPS = new Item.Properties()/*.tab(TAB_SMELTERY)*/;
   private static final Function<Block,? extends BlockItem> TOOLTIP_BLOCK_ITEM = (b) -> new BlockTooltipItem(b, SMELTERY_PROPS);
 
   /*
@@ -269,7 +269,7 @@ public final class TinkerSmeltery extends TinkerModule {
    */
   public static final ItemObject<Item> searedBrick = ITEMS.register("seared_brick", SMELTERY_PROPS);
   public static final ItemObject<Item> scorchedBrick = ITEMS.register("scorched_brick", SMELTERY_PROPS);
-  public static final ItemObject<Item> copperCan = ITEMS.register("copper_can", () -> new CopperCanItem(new Item.Properties().stacksTo(16).tab(TAB_SMELTERY)));
+  public static final ItemObject<Item> copperCan = ITEMS.register("copper_can", () -> new CopperCanItem(new Item.Properties().stacksTo(16)/*.tab(TAB_SMELTERY)*/));
 
   // casts
   // basic
@@ -349,10 +349,8 @@ public final class TinkerSmeltery extends TinkerModule {
     FluidContainerTransferManager.TRANSFER_LOADERS.registerDeserializer(EmptyPotionTransfer.ID, EmptyPotionTransfer.DESERIALIZER);
   }
 
-  public static void gatherData(FabricDataGenerator datagenerator) {
-//    if (event.includeServer()) {
-      datagenerator.addProvider(new SmelteryRecipeProvider(datagenerator));
-      datagenerator.addProvider(new FluidContainerTransferProvider(datagenerator));
-//    }
+  public static void gatherData(FabricDataGenerator.Pack pack) {
+      pack.addProvider(SmelteryRecipeProvider::new);
+      pack.addProvider(FluidContainerTransferProvider::new);
   }
 }

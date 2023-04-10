@@ -2,15 +2,15 @@ package slimeknights.tconstruct.smeltery.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
-import io.github.fabricators_of_create.porting_lib.extensions.Vector3fExtensions;
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import slimeknights.mantle.client.render.FluidRenderer;
 import slimeknights.tconstruct.library.client.TinkerRenderTypes;
 import slimeknights.tconstruct.smeltery.block.entity.tank.SmelteryTank;
@@ -110,11 +110,10 @@ public class SmelteryTankRenderer {
       return;
     }
     // fluid attributes
-    FluidAttributes attributes = fluid.getFluid().getAttributes();
-    TextureAtlasSprite still = FluidRenderer.getBlockSprite(/*FluidVariantRendering.getSprite(fluid.getType()).getName()*/attributes.getFlowingTexture(fluid));
-    int color = attributes.getColor(fluid);//FluidVariantRendering.getColor(fluid.getType());
-    brightness = FluidRenderer.withBlockLight(brightness, attributes.getLuminosity(fluid));
-    boolean upsideDown = attributes.isGaseous(fluid);//FluidVariantRendering.fillsFromTop(fluid.getType());
+    TextureAtlasSprite still = FluidVariantRendering.getSprite(fluid.getType());
+    int color = FluidVariantRendering.getColor(fluid.getType());
+    brightness = FluidRenderer.withBlockLight(brightness, FluidVariantAttributes.getLuminance(fluid.getType()));
+    boolean upsideDown = FluidVariantAttributes.isLighterThanAir(fluid.getType());
 
     // the liquid can stretch over more blocks than the subtracted height is if yMin's decimal is bigger than yMax's decimal (causing UV over 1)
     // ignoring the decimals prevents this, as yd then equals exactly how many ints are between the two
@@ -142,7 +141,7 @@ public class SmelteryTankRenderer {
           if (y == yd) FluidRenderer.putTexturedQuad(builder, matrix, still, from, to, Direction.UP,    color, brightness, rotation, false);
           if (y == 0) {
             // increase Y position slightly to prevent z fighting on neighboring fluids
-            ((Vector3fExtensions)(Object)from).setY(from.y() + 0.001f);
+            from.y = from.y() + 0.001f;
             FluidRenderer.putTexturedQuad(builder, matrix, still,   from, to, Direction.DOWN,  color, brightness, rotation, false);
           }
         }

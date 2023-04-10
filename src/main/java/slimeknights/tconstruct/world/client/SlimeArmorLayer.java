@@ -58,7 +58,7 @@ public class SlimeArmorLayer<T extends Slime, M extends HierarchicalModel<T>, A 
 
       Item item = helmet.getItem();
       // helmet renderer, based on humanoid armor layer
-      if (item instanceof ArmorItem armor && armor.getSlot() == EquipmentSlot.HEAD) {
+      if (item instanceof ArmorItem armor && armor.getType() == ArmorItem.Type.HELMET) {
         this.getParentModel().copyPropertiesTo(armorModel);
         armorModel.setAllVisible(false);
         armorModel.head.visible = true;

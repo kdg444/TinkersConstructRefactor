@@ -112,9 +112,7 @@ public class MaterialRenderInfoLoader implements IEarlySafeManagerReloadListener
 
       // read in the JSON data
       try (
-        Resource resource = manager.getResource(location);
-        InputStream inputstream = resource.getInputStream();
-        Reader reader = new BufferedReader(new InputStreamReader(inputstream, StandardCharsets.UTF_8))
+        Reader reader = manager.getResourceOrThrow(location).openAsReader()
       ) {
         MaterialRenderInfoJson json = GSON.fromJson(reader, MaterialRenderInfoJson.class);
         if (json == null) {

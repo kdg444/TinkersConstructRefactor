@@ -58,14 +58,14 @@ public final class TinkerGadgets extends TinkerModule {
     slimeSling.values(); // Force enums to register
   }
   /** Tab for all special tools added by the mod */
-  public static final CreativeModeTab TAB_GADGETS = new SupplierCreativeTab(TConstruct.MOD_ID, "gadgets", () -> new ItemStack(TinkerGadgets.slimeSling.get(SlimeType.EARTH)));
+  public static final CreativeModeTab TAB_GADGETS = SupplierCreativeTab.create(TConstruct.MOD_ID, "gadgets", () -> new ItemStack(TinkerGadgets.slimeSling.get(SlimeType.EARTH))).build();
   static final Logger log = Util.getLogger("tinker_gadgets");
 
   /*
    * Block base properties
    */
-  private static final Item.Properties GADGET_PROPS = new Item.Properties().tab(TAB_GADGETS);
-  private static final Item.Properties UNSTACKABLE_PROPS = new Item.Properties().tab(TAB_GADGETS).stacksTo(1);
+  private static final Item.Properties GADGET_PROPS = new Item.Properties()/*.tab(TAB_GADGETS)*/;
+  private static final Item.Properties UNSTACKABLE_PROPS = new Item.Properties()/*.tab(TAB_GADGETS)*/.stacksTo(1);
   private static final Function<Block,? extends BlockItem> DEFAULT_BLOCK_ITEM = (b) -> new BlockItem(b, GADGET_PROPS);
   private static final Function<Block,? extends BlockItem> TOOLTIP_BLOCK_ITEM = (b) -> new BlockTooltipItem(b, GADGET_PROPS);
   private static final Function<Block,? extends BlockItem> UNSTACKABLE_BLOCK_ITEM = (b) -> new BlockTooltipItem(b, UNSTACKABLE_PROPS);
@@ -78,10 +78,10 @@ public final class TinkerGadgets extends TinkerModule {
   /*
    * Items
    */
-  public static final ItemObject<PiggyBackPackItem> piggyBackpack = ITEMS_DEFFERED.register("piggy_backpack", () -> new PiggyBackPackItem(new Properties().tab(TinkerGadgets.TAB_GADGETS).stacksTo(16)));
+  public static final ItemObject<PiggyBackPackItem> piggyBackpack = ITEMS_DEFFERED.register("piggy_backpack", () -> new PiggyBackPackItem(new Properties()/*.tab(TinkerGadgets.TAB_GADGETS)*/.stacksTo(16)));
   public static final EnumObject<FrameType,FancyItemFrameItem> itemFrame = ITEMS_DEFFERED.registerEnum(FrameType.values(), "item_frame", (type) -> new FancyItemFrameItem(GADGET_PROPS, (world, pos, dir) -> new FancyItemFrameEntity(world, pos, dir, type)));
   // slime tools
-  private static final Item.Properties SLING_PROPS = new Item.Properties().tab(TAB_GADGETS).stacksTo(1).durability(250);
+  private static final Item.Properties SLING_PROPS = new Item.Properties()/*.tab(TAB_GADGETS)*/.stacksTo(1).durability(250);
   public static final EnumObject<SlimeType, BaseSlimeSlingItem> slimeSling = new EnumObject.Builder<SlimeType, BaseSlimeSlingItem>(SlimeType.class)
     .put(SlimeType.EARTH, ITEMS_DEFFERED.register("earth_slime_sling", () -> new EarthSlimeSlingItem(SLING_PROPS)))
     .put(SlimeType.SKY, ITEMS_DEFFERED.register("sky_slime_sling", () -> new SkySlimeSlingItem(SLING_PROPS)))
@@ -98,7 +98,7 @@ public final class TinkerGadgets extends TinkerModule {
   public static final ItemObject<FoodCakeBlock> magmaCake = BLOCKS_DEFFERED.register("magma_cake", () -> new FoodCakeBlock(CAKE, TinkerFood.MAGMA_CAKE), UNSTACKABLE_BLOCK_ITEM);
 
   // Shurikens
-  private static final Item.Properties THROWABLE_PROPS = new Item.Properties().stacksTo(16).tab(TAB_GADGETS);
+  private static final Item.Properties THROWABLE_PROPS = new Item.Properties().stacksTo(16)/*.tab(TAB_GADGETS)*/;
   public static final ItemObject<ShurikenItem> quartzShuriken = ITEMS_DEFFERED.register("quartz_shuriken", () -> new ShurikenItem(THROWABLE_PROPS, QuartzShurikenEntity::new));
   public static final ItemObject<ShurikenItem> flintShuriken = ITEMS_DEFFERED.register("flint_shuriken", () -> new ShurikenItem(THROWABLE_PROPS, FlintShurikenEntity::new));
 
@@ -163,7 +163,7 @@ public final class TinkerGadgets extends TinkerModule {
 //    });
   }
 
-  public static void gatherData(final FabricDataGenerator datagenerator) {
-    datagenerator.addProvider(new GadgetRecipeProvider(datagenerator));
+  public static void gatherData(final FabricDataGenerator.Pack pack) {
+    pack.addProvider(GadgetRecipeProvider::new);
   }
 }

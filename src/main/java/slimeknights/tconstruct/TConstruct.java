@@ -4,8 +4,10 @@ import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import slimeknights.tconstruct.common.TinkerModule;
@@ -56,7 +58,7 @@ public class TConstruct implements ModInitializer {
 
   public static final String MOD_ID = "tconstruct";
   public static final Logger LOG = LogManager.getLogger(MOD_ID);
-  public static final Random RANDOM = new Random();
+  public static final RandomSource RANDOM = RandomSource.create();
 
   /* Instance of this mod, used for grabbing prototype fields */
   public static TConstruct instance;
@@ -117,18 +119,16 @@ public class TConstruct implements ModInitializer {
     StationSlotLayoutLoader.init();
   }
 
-  public static void onInitializeDataGenerator(FabricDataGenerator datagenerator, ExistingFileHelper existingFileHelper) {
-//    if (event.includeServer()) {
-      BlockTagProvider blockTags = new BlockTagProvider(datagenerator);
-      datagenerator.addProvider(blockTags);
-      datagenerator.addProvider(new ItemTagProvider(datagenerator, blockTags));
-      datagenerator.addProvider(new FluidTagProvider(datagenerator));
-      datagenerator.addProvider(new EntityTypeTagProvider(datagenerator));
-      datagenerator.addProvider(new BlockEntityTypeTagProvider(datagenerator));
-      datagenerator.addProvider(new TConstructLootTableProvider(datagenerator));
-      datagenerator.addProvider(new AdvancementsProvider(datagenerator));
-      datagenerator.addProvider(new BiomeTagProvider(datagenerator));
-      datagenerator.addProvider(new GlobalLootModifiersProvider(datagenerator));
+  public static void onInitializeDataGenerator(FabricDataGenerator.Pack pack, ExistingFileHelper existingFileHelper) {
+      BlockTagProvider blockTags = pack.addProvider(BlockTagProvider::new);
+      pack.addProvider((output, registriesFuture) -> new ItemTagProvider(output, registriesFuture, blockTags));
+      pack.addProvider(FluidTagProvider::new);
+      pack.addProvider(EntityTypeTagProvider::new);
+      pack.addProvider(BlockEntityTypeTagProvider::new);
+      pack.addProvider(TConstructLootTableProvider::new);
+      pack.addProvider(AdvancementsProvider::new);
+      pack.addProvider(BiomeTagProvider::new);
+      pack.addProvider(GlobalLootModifiersProvider::new);
 //      datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.SERVER_DATA, "structures"));
 //    }
 //    if (event.includeClient()) {

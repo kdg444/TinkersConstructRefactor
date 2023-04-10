@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -22,6 +23,7 @@ import slimeknights.mantle.client.book.data.element.TextData;
 import slimeknights.mantle.client.screen.book.BookScreen;
 import slimeknights.mantle.client.screen.book.element.BookElement;
 import slimeknights.mantle.client.screen.book.element.ItemElement;
+import slimeknights.mantle.client.screen.book.element.TextComponentElement;
 import slimeknights.mantle.client.screen.book.element.TextElement;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.mantle.util.RegistryHelper;
@@ -233,7 +235,7 @@ public abstract class AbstractMaterialContent extends PageContent {
     }
     lineData.addAll(getTraitLines(traits));
 
-    list.add(Component.literalElement(x, y, w, BookScreen.PAGE_HEIGHT, lineData));
+    list.add(new TextComponentElement(x, y, w, BookScreen.PAGE_HEIGHT, lineData));
 
     return y + (lineData.size() * 5) + 3;
   }
@@ -244,7 +246,7 @@ public abstract class AbstractMaterialContent extends PageContent {
 
     List<Component> localizedDescription = stats.getLocalizedDescriptions();
     for (int i = 0; i < stats.getLocalizedInfo().size(); i++) {
-      TextComponentData text = Component.literalData(stats.getLocalizedInfo().get(i));
+      TextComponentData text = new TextComponentData(stats.getLocalizedInfo().get(i));
       if (localizedDescription.get(i).getString().isEmpty()) {
         text.tooltips = null;
       } else {
@@ -252,7 +254,7 @@ public abstract class AbstractMaterialContent extends PageContent {
       }
 
       lineData.add(text);
-      lineData.add(Component.literalData("\n"));
+      lineData.add(new TextComponentData("\n"));
     }
 
     return lineData;
@@ -264,14 +266,14 @@ public abstract class AbstractMaterialContent extends PageContent {
 
     for (ModifierEntry trait : traits) {
       Modifier mod = trait.getModifier();
-      TextComponentData textComponentData = Component.literalData(mod.getDisplayName());
+      TextComponentData textComponentData = new TextComponentData(mod.getDisplayName());
 
       List<Component> textComponents = mod.getDescriptionList(trait.getLevel());
       textComponentData.tooltips = textComponents.toArray(new Component[0]);
       textComponentData.text = textComponentData.text.copy().withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.UNDERLINE);
 
       lineData.add(textComponentData);
-      lineData.add(Component.literalData("\n"));
+      lineData.add(new TextComponentData("\n"));
     }
 
     return lineData;
@@ -335,7 +337,7 @@ public abstract class AbstractMaterialContent extends PageContent {
     if (displayTools.size() < 9) {
       MaterialId materialId = materialVariant.getId();
       toolLoop:
-      for (Holder<Item> item : Registry.ITEM.getTagOrEmpty(TinkerTags.Items.MULTIPART_TOOL)) {
+      for (Holder<Item> item : BuiltInRegistries.ITEM.getTagOrEmpty(TinkerTags.Items.MULTIPART_TOOL)) {
         if (item.value() instanceof IModifiable tool) {
           List<PartRequirement> requirements = tool.getToolDefinition().getData().getParts();
           // start building the tool with the given material
@@ -383,7 +385,7 @@ public abstract class AbstractMaterialContent extends PageContent {
 
   /** Gets a list of all tool parts */
   private List<IToolPart> getToolParts() {
-    return RegistryHelper.getTagValueStream(Registry.ITEM, TinkerTags.Items.TOOL_PARTS)
+    return RegistryHelper.getTagValueStream(BuiltInRegistries.ITEM, TinkerTags.Items.TOOL_PARTS)
                          .filter(item -> item instanceof IToolPart)
                          .map(item -> (IToolPart) item)
                          .collect(Collectors.toList());

@@ -80,7 +80,7 @@ public class TagDifferencePresentCondition<T> implements ConditionJsonProvider {
 
   @Override
   public void writeParameters(JsonObject json) {
-    json.addProperty("registry", Registry.ITEM_REGISTRY.location().toString());
+    json.addProperty("registry", Registries.ITEM.location().toString());
     json.addProperty("base", this.base.location().toString());
     JsonArray names = new JsonArray();
     for (TagKey<?> name : this.subtracted) {

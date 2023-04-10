@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.smeltery.block.entity.module;
 
-import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.DamageSourceAccessor;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.world.damagesource.DamageSource;

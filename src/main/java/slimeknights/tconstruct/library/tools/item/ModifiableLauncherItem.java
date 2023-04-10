@@ -2,11 +2,11 @@ package slimeknights.tconstruct.library.tools.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
 import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
-import io.github.fabricators_of_create.porting_lib.util.DamageableItem;
-import io.github.fabricators_of_create.porting_lib.util.ShieldBlockItem;
-import io.github.fabricators_of_create.porting_lib.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
+import io.github.fabricators_of_create.porting_lib.item.ShieldBlockItem;
 import lombok.Getter;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.NonNullList;
@@ -306,12 +306,12 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
 
   /* Display items */
 
-  @Override
-  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-    if (this.allowdedIn(group)) {
-      ToolBuildHandler.addDefaultSubItems(this, items);
-    }
-  }
+//  @Override TODO: PORT
+//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+//    if (this.allowdedIn(group)) {
+//      ToolBuildHandler.addDefaultSubItems(this, items);
+//    }
+//  }
 
   @Override
   public ItemStack getRenderTool() {

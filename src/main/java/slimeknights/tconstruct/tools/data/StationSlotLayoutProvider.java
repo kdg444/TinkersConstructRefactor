@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.data;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -14,8 +15,8 @@ import slimeknights.tconstruct.tools.TinkerTools;
 import java.util.function.Consumer;
 
 public class StationSlotLayoutProvider extends AbstractStationSlotLayoutProvider {
-  public StationSlotLayoutProvider(DataGenerator generator) {
-    super(generator);
+  public StationSlotLayoutProvider(FabricDataOutput output) {
+    super(output);
   }
 
   @Override

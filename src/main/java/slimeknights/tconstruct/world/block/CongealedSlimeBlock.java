@@ -1,12 +1,10 @@
 package slimeknights.tconstruct.world.block;
 
-import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock;
+import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -20,11 +18,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CongealedSlimeBlock extends Block implements CustomPathNodeTypeBlock {
+public class CongealedSlimeBlock extends Block implements LandPathNodeTypesRegistry.StaticPathNodeTypeProvider {
 
   private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 15, 15);
   public CongealedSlimeBlock(Properties properties) {
     super(properties);
+    LandPathNodeTypesRegistry.register(this, this);
   }
 
   @Deprecated
@@ -40,7 +39,7 @@ public class CongealedSlimeBlock extends Block implements CustomPathNodeTypeBloc
 
   @Nullable
   @Override
-  public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity) {
+  public BlockPathTypes getPathNodeType(BlockState state, boolean neighbor) {
     return BlockPathTypes.STICKY_HONEY;
   }
 
@@ -69,7 +68,7 @@ public class CongealedSlimeBlock extends Block implements CustomPathNodeTypeBloc
   @Override
   public void fallOn(Level worldIn, BlockState state, BlockPos pos, Entity entityIn, float fallDistance) {
     // no fall damage on congealed slime
-    entityIn.causeFallDamage(fallDistance, 0.0F, DamageSource.FALL);
+    entityIn.causeFallDamage(fallDistance, 0.0F, entityIn.damageSources().fall());
   }
 
   @Override

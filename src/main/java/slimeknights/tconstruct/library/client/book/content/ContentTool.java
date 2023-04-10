@@ -3,11 +3,11 @@ package slimeknights.tconstruct.library.client.book.content;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gson.annotations.SerializedName;
-import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.RecipeManagerAccessor;
+import io.github.fabricators_of_create.porting_lib.mixin.accessors.common.accessor.RecipeManagerAccessor;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -104,7 +104,7 @@ public class ContentTool extends PageContent {
   @SuppressWarnings("unused")
   public ContentTool(IModifiableDisplay tool) {
     this.tool = tool;
-    this.toolName = Objects.requireNonNull(Registry.ITEM.getKey(tool.asItem())).toString();
+    this.toolName = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(tool.asItem())).toString();
   }
 
   public IModifiableDisplay getTool() {
@@ -112,7 +112,7 @@ public class ContentTool extends PageContent {
       if (this.toolName == null) {
         this.toolName = this.parent.name;
       }
-      Item tool = Registry.ITEM.get(new ResourceLocation(this.toolName));
+      Item tool = BuiltInRegistries.ITEM.get(new ResourceLocation(this.toolName));
       if (tool instanceof IModifiableDisplay) {
         this.tool = (IModifiableDisplay) tool;
       } else {
@@ -140,7 +140,7 @@ public class ContentTool extends PageContent {
         // get the stacks for the first crafting table recipe
         Recipe<CraftingContainer> recipe = Optional.ofNullable(Minecraft.getInstance().level)
                                                    .flatMap(world -> ((RecipeManagerAccessor)world.getRecipeManager()).port_lib$byType(RecipeType.CRAFTING).values().stream()
-                                                                          .filter(r -> r.getResultItem().getItem() == getTool().asItem())
+                                                                          .filter(r -> r.getResultItem(world.registryAccess()).getItem() == getTool().asItem())
                                                                           .findFirst())
                                                    .orElse(null);
         if (recipe != null) {

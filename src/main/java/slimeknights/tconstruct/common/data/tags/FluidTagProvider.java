@@ -1,21 +1,25 @@
 package slimeknights.tconstruct.common.data.tags;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.core.HolderLookup;
 import slimeknights.mantle.datagen.MantleTags;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 
+import java.util.concurrent.CompletableFuture;
+
 @SuppressWarnings("unchecked")
 public class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
 
-  public FluidTagProvider(FabricDataGenerator generatorIn) {
-    super(generatorIn);
+  public FluidTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    super(output, registriesFuture);
   }
 
   @Override
-  public void generateTags() {
+  public void addTags(HolderLookup.Provider provider) {
     // first, register common tags
     // slime
     tagLocal(TinkerFluids.blood);
@@ -96,7 +100,7 @@ public class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
         .addTag(TinkerFluids.skySlime.getLocalTag())
         .addTag(TinkerFluids.enderSlime.getLocalTag());
 
-    this.tag(TinkerTags.Fluids.POTION).add(TinkerFluids.potion.get());
+    this.getOrCreateTagBuilder(TinkerTags.Fluids.POTION).add(TinkerFluids.potion.get());
 
     // tooltips //
     this.tag(TinkerTags.Fluids.GLASS_TOOLTIPS).addTag(TinkerFluids.moltenGlass.getLocalTag()).addTag(TinkerFluids.liquidSoul.getLocalTag()).addTag(TinkerFluids.moltenObsidian.getLocalTag());
@@ -160,7 +164,7 @@ public class FluidTagProvider extends FabricTagProvider.FluidTagProvider {
 
   /** Tags this fluid using local tags */
   private void tagLocal(FluidObject<?> fluid) {
-    tag(fluid.getLocalTag()).add(fluid.getStill(), fluid.getFlowing());
+    getOrCreateTagBuilder(fluid.getLocalTag()).add(fluid.getStill(), fluid.getFlowing());
   }
 
   /** Tags this fluid with local and forge tags */

@@ -13,7 +13,7 @@ import slimeknights.tconstruct.library.json.predicate.TagPredicateLoader;
  */
 @RequiredArgsConstructor
 public class TagBlockPredicate implements BlockPredicate {
-  public static final TagPredicateLoader<Block,TagBlockPredicate> LOADER = new TagPredicateLoader<>(Registry.BLOCK_REGISTRY, TagBlockPredicate::new, c -> c.tag);
+  public static final TagPredicateLoader<Block,TagBlockPredicate> LOADER = new TagPredicateLoader<>(Registries.BLOCK, TagBlockPredicate::new, c -> c.tag);
   private final TagKey<Block> tag;
 
   @Override

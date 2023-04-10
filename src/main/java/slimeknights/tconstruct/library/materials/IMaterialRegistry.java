@@ -60,7 +60,7 @@ public interface IMaterialRegistry {
    * @param tag  Tag instance
    * @return  Contained values
    */
-  List<IMaterial> getTagValues(TagKey<Modifier> tag);
+  Collection<IMaterial> getTagValues(TagKey<Modifier> tag);
 
 
   /* Stats */

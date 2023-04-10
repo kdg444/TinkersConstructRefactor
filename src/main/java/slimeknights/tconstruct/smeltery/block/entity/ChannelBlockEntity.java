@@ -3,7 +3,7 @@ package slimeknights.tconstruct.smeltery.block.entity;
 import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.common.util.NonNullConsumer;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -295,6 +295,9 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 		TinkerNetwork.getInstance().sendToClientsAround(new ChannelFlowPacket(worldPosition, side, flowing), level, worldPosition);
 	}
 
+  public static long clampL(long f, long g, long h) {
+    return f < g ? g : Math.min(f, h);
+  }
 
 	/* Flow */
 
@@ -314,7 +317,7 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 			int outputs = countOutputs(state);
 			if(!hasFlown && outputs > 0) {
 				// split the fluid evenly between sides
-				long flowRate = Mth.clamp(tank.getMaxUsable() / outputs, 1, FaucetBlockEntity.DROPLETS_PER_TICK);
+				long flowRate = clampL(tank.getMaxUsable() / outputs, 1, FaucetBlockEntity.DROPLETS_PER_TICK);
 				// then transfer on each side
 				for(Direction side : Plane.HORIZONTAL) {
 					trySide(side, flowRate);

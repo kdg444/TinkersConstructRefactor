@@ -2,9 +2,12 @@ package slimeknights.tconstruct.common.data.tags;
 
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -32,6 +35,7 @@ import slimeknights.tconstruct.tools.item.ArmorSlotType;
 import slimeknights.tconstruct.world.TinkerHeadType;
 import slimeknights.tconstruct.world.TinkerWorld;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import static net.minecraft.tags.ItemTags.CLUSTER_MAX_HARVESTABLES;
@@ -68,12 +72,12 @@ import static slimeknights.tconstruct.common.TinkerTags.Items.UNARMED;
 @SuppressWarnings("unchecked")
 public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
-  public ItemTagProvider(FabricDataGenerator generatorIn, BlockTagProvider blockTagProvider) {
-    super(generatorIn, blockTagProvider);
+  public ItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture, BlockTagProvider blockTagProvider) {
+    super(output, registriesFuture, blockTagProvider);
   }
 
   @Override
-  protected void generateTags() {
+  protected void addTags(HolderLookup.Provider provider) {
     this.addCommon();
     this.addWorld();
     this.addSmeltery();
@@ -130,9 +134,9 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     copy(Tags.Blocks.STAINED_GLASS_PANES, Tags.Items.STAINED_GLASS_PANES);
     for (DyeColor color : DyeColor.values()) {
       ResourceLocation name = new ResourceLocation("c", "glass/" + color.getSerializedName());
-      copy(TagKey.create(Registry.BLOCK_REGISTRY, name), TagKey.create(Registry.ITEM_REGISTRY, name));
+      copy(TagKey.create(Registries.BLOCK, name), TagKey.create(Registries.ITEM, name));
       name = new ResourceLocation("c", "glass_panes/" + color.getSerializedName());
-      copy(TagKey.create(Registry.BLOCK_REGISTRY, name), TagKey.create(Registry.ITEM_REGISTRY, name));
+      copy(TagKey.create(Registries.BLOCK, name), TagKey.create(Registries.ITEM, name));
     }
 
     copy(TinkerTags.Blocks.WORKBENCHES, TinkerTags.Items.WORKBENCHES);
@@ -141,7 +145,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     copy(TinkerTags.Blocks.ANVIL_METAL, TinkerTags.Items.ANVIL_METAL);
     copy(TinkerTags.Blocks.PLANKLIKE, TinkerTags.Items.PLANKLIKE);
 
-    TagAppender<Item> slimeslings = this.tag(TinkerTags.Items.SLIMESLINGS);
+    FabricTagBuilder slimeslings = this.tag(TinkerTags.Items.SLIMESLINGS);
     TinkerGadgets.slimeSling.values().forEach(slimeslings::add);
 
     // piglins like gold and dislike zombie piglin heads
@@ -162,7 +166,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
   }
 
   private void addWorld() {
-    TagAppender<Item> heads = this.tag(Tags.Items.HEADS);
+    FabricTagBuilder heads = getOrCreateTagBuilder(Tags.Items.HEADS);
     TinkerWorld.heads.forEach(head -> heads.add(head.asItem()));
 
     this.copy(TinkerTags.Blocks.SLIME_BLOCK, TinkerTags.Items.SLIME_BLOCK);
@@ -210,21 +214,21 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
   private void addTools() {
     this.tag(TWO_HANDED);
     // stone
-    addToolTags(TinkerTools.pickaxe,      MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, STONE_HARVEST, MELEE,         ONE_HANDED, AOE, CLUSTER_MAX_HARVESTABLES, ConventionalItemTags.PICKAXES);
-    addToolTags(TinkerTools.sledgeHammer, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, STONE_HARVEST, MELEE_PRIMARY, ONE_HANDED, AOE, CLUSTER_MAX_HARVESTABLES, ConventionalItemTags.PICKAXES);
-    addToolTags(TinkerTools.veinHammer,   MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, STONE_HARVEST, MELEE,         ONE_HANDED, AOE, CLUSTER_MAX_HARVESTABLES, ConventionalItemTags.PICKAXES);
+    addToolTags(TinkerTools.pickaxe,      MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, STONE_HARVEST, MELEE,         ONE_HANDED, AOE, CLUSTER_MAX_HARVESTABLES, ItemTags.PICKAXES);
+    addToolTags(TinkerTools.sledgeHammer, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, STONE_HARVEST, MELEE_PRIMARY, ONE_HANDED, AOE, CLUSTER_MAX_HARVESTABLES, ItemTags.PICKAXES);
+    addToolTags(TinkerTools.veinHammer,   MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, STONE_HARVEST, MELEE,         ONE_HANDED, AOE, CLUSTER_MAX_HARVESTABLES, ItemTags.PICKAXES);
     // dirtD
     addToolTags(TinkerTools.mattock,   MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE, ONE_HANDED, AOE);
     addToolTags(TinkerTools.pickadze,  MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE, ONE_HANDED, AOE, STONE_HARVEST);
     addToolTags(TinkerTools.excavator, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE, ONE_HANDED, AOE);
     // wood
-    addToolTags(TinkerTools.handAxe,  MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE_PRIMARY, ONE_HANDED, AOE, ConventionalItemTags.AXES);
-    addToolTags(TinkerTools.broadAxe, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE_PRIMARY, ONE_HANDED, AOE, ConventionalItemTags.AXES);
+    addToolTags(TinkerTools.handAxe,  MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE_PRIMARY, ONE_HANDED, AOE, ItemTags.AXES);
+    addToolTags(TinkerTools.broadAxe, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE_PRIMARY, ONE_HANDED, AOE, ItemTags.AXES);
     // plants
     addToolTags(TinkerTools.kama,   MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE,         ONE_HANDED, AOE);
     addToolTags(TinkerTools.scythe, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE_PRIMARY, ONE_HANDED, AOE);
     // sword
-    addToolTags(TinkerTools.dagger,  MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, ConventionalItemTags.SWORDS);
+    addToolTags(TinkerTools.dagger,  MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, ItemTags.SWORDS);
     addToolTags(TinkerTools.sword,   MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, SWORD, AOE, ConventionalItemTags.SWORDS);
     addToolTags(TinkerTools.cleaver, MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, SWORD, AOE, ConventionalItemTags.SWORDS);
     // bow
@@ -291,7 +295,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
 						 TinkerToolParts.bowLimb.get(), TinkerToolParts.bowGrip.get(), TinkerToolParts.bowstring.get(),
 						 TinkerToolParts.repairKit.get()); // repair kit is not strictly a tool part, but this list just helps out JEI
 
-    TagAppender<Item> slimySeeds = this.tag(TinkerTags.Items.SLIMY_SEEDS);
+    FabricTagBuilder slimySeeds = this.tag(TinkerTags.Items.SLIMY_SEEDS);
     TinkerWorld.slimeGrassSeeds.values().forEach(slimySeeds::add);
 
     // contains any ground stones
@@ -351,11 +355,11 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     this.tag(TinkerTags.Items.FOUNDRY_DEBUG).addTag(TinkerTags.Items.GENERAL_STRUCTURE_DEBUG).addTag(TinkerTags.Items.FOUNDRY);
 
     // tag each type of cast
-    TagAppender<Item> goldCasts = this.tag(TinkerTags.Items.GOLD_CASTS);
-    TagAppender<Item> sandCasts = this.tag(TinkerTags.Items.SAND_CASTS);
-    TagAppender<Item> redSandCasts = this.tag(TinkerTags.Items.RED_SAND_CASTS);
-    TagAppender<Item> singleUseCasts = this.tag(TinkerTags.Items.SINGLE_USE_CASTS);
-    TagAppender<Item> multiUseCasts = this.tag(TinkerTags.Items.MULTI_USE_CASTS);
+    FabricTagBuilder goldCasts = this.tag(TinkerTags.Items.GOLD_CASTS);
+    FabricTagBuilder sandCasts = this.tag(TinkerTags.Items.SAND_CASTS);
+    FabricTagBuilder redSandCasts = this.tag(TinkerTags.Items.RED_SAND_CASTS);
+    FabricTagBuilder singleUseCasts = this.tag(TinkerTags.Items.SINGLE_USE_CASTS);
+    FabricTagBuilder multiUseCasts = this.tag(TinkerTags.Items.MULTI_USE_CASTS);
     Consumer<CastItemObject> addCast = cast -> {
       // tag based on material
       goldCasts.add(cast.get());
@@ -463,7 +467,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     });
   }
 
-  public FabricTagBuilder<Item> tag(TagKey<Item> tag) {
+  public FabricTagBuilder tag(TagKey<Item> tag) {
     return getOrCreateTagBuilder(tag);
   }
 }

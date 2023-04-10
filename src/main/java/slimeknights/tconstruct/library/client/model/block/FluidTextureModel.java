@@ -4,10 +4,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
-import io.github.fabricators_of_create.porting_lib.model.IModelConfiguration;
-import io.github.fabricators_of_create.porting_lib.model.IModelData;
-import io.github.fabricators_of_create.porting_lib.model.IModelGeometry;
-import io.github.fabricators_of_create.porting_lib.model.IModelLoader;
+import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
+import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AllArgsConstructor;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
@@ -16,10 +14,12 @@ import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.client.renderer.block.model.BlockElement;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.SimpleBakedModel;
@@ -28,9 +28,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.client.model.RetexturedModel;
+import slimeknights.mantle.client.model.data.SinglePropertyData;
 import slimeknights.mantle.client.model.util.ColoredBlockModel;
 import slimeknights.mantle.client.model.util.DynamicBakedWrapper;
 import slimeknights.mantle.client.model.util.SimpleBlockModel;
@@ -52,16 +54,16 @@ import java.util.function.Supplier;
  * Model that replaces fluid textures with the fluid from model data
  */
 @AllArgsConstructor
-public class FluidTextureModel implements IModelGeometry<FluidTextureModel> {
+public class FluidTextureModel implements IUnbakedGeometry<FluidTextureModel> {
   public static final Loader LOADER = new Loader();
 
   private final SimpleBlockModel model;
   private final Set<String> fluids;
 
-  @Override
-  public Collection<Material> getTextures(IModelConfiguration owner, Function<ResourceLocation,UnbakedModel> modelGetter, Set<Pair<String,String>> missingTextureErrors) {
-    return model.getTextures(owner, modelGetter, missingTextureErrors);
-  }
+//  @Override
+//  public Collection<Material> getTextures(IModelConfiguration owner, Function<ResourceLocation,UnbakedModel> modelGetter, Set<Pair<String,String>> missingTextureErrors) {
+//    return model.getTextures(owner, modelGetter, missingTextureErrors);
+//  }
 
   /** Trims the # character off the beginning of a texture name (if present) */
   private static String trimTextureName(String name) {
@@ -72,7 +74,7 @@ public class FluidTextureModel implements IModelGeometry<FluidTextureModel> {
   }
 
   @Override
-  public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material,TextureAtlasSprite> spriteGetter, ModelState transform, ItemOverrides overrides, ResourceLocation modelLocation) {
+  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState transform, ItemOverrides overrides, ResourceLocation modelLocation) {
     BakedModel baked = model.bakeModel(owner, transform, overrides, spriteGetter, modelLocation);
     Set<String> fluidTextures = RetexturedModel.getAllRetextured(owner, model, this.fluids);
 
@@ -102,11 +104,11 @@ public class FluidTextureModel implements IModelGeometry<FluidTextureModel> {
   private static class Baked extends DynamicBakedWrapper<BakedModel> {
     private final Map<FluidStack,BakedModel> cache = new ConcurrentHashMap<>();
     private final List<BlockElement> elements;
-    private final IModelConfiguration owner;
+    private final BlockModel owner;
     private final ModelState transform;
     private final Set<String> fluids;
     private final BitSet fluidParts;
-    protected Baked(BakedModel originalModel, List<BlockElement> elements, IModelConfiguration owner, ModelState transform, Set<String> fluids, BitSet fluidParts) {
+    protected Baked(BakedModel originalModel, List<BlockElement> elements, BlockModel owner, ModelState transform, Set<String> fluids, BitSet fluidParts) {
       super(originalModel);
       this.elements = elements;
       this.owner = owner;
@@ -119,13 +121,13 @@ public class FluidTextureModel implements IModelGeometry<FluidTextureModel> {
     private BakedModel getRetexturedModel(FluidStack fluid) {
       // setup model baking
       Function<Material,TextureAtlasSprite> spriteGetter = Material::sprite;
-      TextureAtlasSprite particle = spriteGetter.apply(owner.resolveTexture("particle"));
-      SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(owner.useSmoothLighting(), owner.isSideLit(), owner.isShadedInGui(), owner.getCameraTransforms(), ItemOverrides.EMPTY).particle(particle);
+      TextureAtlasSprite particle = spriteGetter.apply(owner.getMaterial("particle"));
+      SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(owner.hasAmbientOcclusion(), owner.isSideLit(), owner.isShadedInGui(), owner.getCameraTransforms(), ItemOverrides.EMPTY).particle(particle);
 
       // get fluid details
       int color = FluidVariantRendering.getColor(fluid.getType());
       int luminosity = FluidVariantAttributes.getLuminance(fluid.getType());
-      IModelConfiguration textured = new RetexturedModel.RetexturedConfiguration(this.owner, this.fluids, FluidVariantRendering.getSprite(fluid.getType()).getName());
+      BlockModel textured = new RetexturedModel.RetexturedConfiguration(this.owner, this.fluids, FluidVariantRendering.getSprite(fluid.getType()).contents().name());
 
       // add in elements
       int size = elements.size();
@@ -146,8 +148,8 @@ public class FluidTextureModel implements IModelGeometry<FluidTextureModel> {
     }
 
     @Override
-    public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
-      if(blockView instanceof RenderAttachedBlockView renderAttachedBlockView && renderAttachedBlockView.getBlockEntityRenderAttachment(pos) instanceof IModelData data) {
+    public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, RenderContext context) {
+      if(blockView instanceof RenderAttachedBlockView renderAttachedBlockView && renderAttachedBlockView.getBlockEntityRenderAttachment(pos) instanceof SinglePropertyData<?> data) {
         FluidStack fluid = data.getData(IDisplayFluidListener.PROPERTY);
         if (fluid != null && !fluid.isEmpty()) {
           ((FabricBakedModel)getCachedModel(fluid)).emitBlockQuads(blockView, state, pos, randomSupplier, context);
@@ -159,12 +161,9 @@ public class FluidTextureModel implements IModelGeometry<FluidTextureModel> {
   }
 
   /** Model loader class */
-  private static class Loader implements IModelLoader<FluidTextureModel> {
+  private static class Loader implements IGeometryLoader<FluidTextureModel> {
     @Override
-    public void onResourceManagerReload(ResourceManager resourceManager) {}
-
-    @Override
-    public FluidTextureModel read(JsonDeserializationContext context, JsonObject json) {
+    public FluidTextureModel read(JsonObject json, JsonDeserializationContext context) {
       SimpleBlockModel model = SimpleBlockModel.deserialize(context, json);
       Set<String> fluids = ImmutableSet.copyOf(JsonHelper.parseList(json, "fluids", GsonHelper::convertToString));
       return new FluidTextureModel(model, fluids);

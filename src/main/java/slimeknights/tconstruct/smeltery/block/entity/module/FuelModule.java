@@ -2,8 +2,8 @@ package slimeknights.tconstruct.smeltery.block.entity.module;
 
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
-import io.github.fabricators_of_create.porting_lib.util.NonNullFunction;
+import io.github.fabricators_of_create.porting_lib.common.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.common.util.NonNullFunction;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

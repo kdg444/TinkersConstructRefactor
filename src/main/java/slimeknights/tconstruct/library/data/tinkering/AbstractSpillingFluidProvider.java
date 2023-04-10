@@ -5,9 +5,10 @@ import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.TagKey;
@@ -28,18 +29,20 @@ import slimeknights.tconstruct.library.modifiers.spilling.effects.SetFireSpillin
 import slimeknights.tconstruct.library.recipe.FluidValues;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 /** Data provider for spilling fluids */
 public abstract class AbstractSpillingFluidProvider extends GenericDataProvider {
   private final String modId;
   private final Map<ResourceLocation,Builder> entries = new HashMap<>();
 
-  public AbstractSpillingFluidProvider(DataGenerator generator, String modId) {
-    super(generator, PackType.SERVER_DATA, SpillingFluidManager.FOLDER, SpillingFluidManager.GSON);
+  public AbstractSpillingFluidProvider(FabricDataOutput output, String modId) {
+    super(output, PackType.SERVER_DATA, SpillingFluidManager.FOLDER, SpillingFluidManager.GSON);
     this.modId = modId;
   }
 
@@ -47,9 +50,11 @@ public abstract class AbstractSpillingFluidProvider extends GenericDataProvider 
   protected abstract void addFluids();
 
   @Override
-  public void run(HashCache cache) throws IOException {
+  public CompletableFuture<?> run(CachedOutput cache) {
     addFluids();
-    entries.forEach((id, data) -> saveThing(cache, id, data.build()));
+    List<CompletableFuture<?>> futures = new ArrayList<>();
+    entries.forEach((id, data) -> futures.add(saveThing(cache, id, data.build())));
+    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 
   /* Helpers */
@@ -71,12 +76,12 @@ public abstract class AbstractSpillingFluidProvider extends GenericDataProvider 
 
   /** Creates a builder for a fluid stack */
   protected Builder addFluid(FluidStack fluid) {
-    return addFluid(Objects.requireNonNull(fluid.getFluid().getRegistryName()).getPath(), FluidIngredient.of(fluid));
+    return addFluid(Objects.requireNonNull(BuiltInRegistries.FLUID.getKey(fluid.getFluid())).getPath(), FluidIngredient.of(fluid));
   }
 
   /** Creates a builder for a fluid and amount */
   protected Builder addFluid(Fluid fluid, long amount) {
-    return addFluid(Objects.requireNonNull(fluid.getRegistryName()).getPath(), FluidIngredient.of(fluid, amount));
+    return addFluid(Objects.requireNonNull(BuiltInRegistries.FLUID.getKey(fluid)).getPath(), FluidIngredient.of(fluid, amount));
   }
 
   /** Creates a builder for a tag and amount */

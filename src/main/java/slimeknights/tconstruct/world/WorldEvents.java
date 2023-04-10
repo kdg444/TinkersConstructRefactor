@@ -242,7 +242,7 @@ public class WorldEvents {
     return originalMultiplier;
   }
 
-  static boolean creeperKill(LivingEntity target, DamageSource source, Collection<ItemEntity> drops) {
+  static boolean creeperKill(LivingEntity target, DamageSource source, Collection<ItemEntity> drops, int lootingLevel, boolean recentlyHit) {
     if (source != null) {
       Entity entity = source.getEntity();
       if (entity instanceof Creeper creeper) {

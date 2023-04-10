@@ -1,14 +1,12 @@
 package slimeknights.tconstruct.world.block;
 
 import com.google.common.collect.Lists;
-import io.github.fabricators_of_create.porting_lib.extensions.IShearable;
-import io.github.fabricators_of_create.porting_lib.util.IPlantable;
-import io.github.fabricators_of_create.porting_lib.util.PlantType;
+import io.github.fabricators_of_create.porting_lib.common.util.IPlantable;
+import io.github.fabricators_of_create.porting_lib.common.util.PlantType;
+import io.github.fabricators_of_create.porting_lib.extensions.extensions.IShearable;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -32,7 +30,7 @@ public class SlimeTallGrassBlock extends BushBlock implements IShearable, IPlant
   private final SlimeType foliageType;
 
   public SlimeTallGrassBlock(Properties properties, SlimeType foliageType) {
-    super(properties);
+    super(properties.offsetType(Block.OffsetType.XYZ));
     this.foliageType = foliageType;
   }
 
@@ -40,15 +38,6 @@ public class SlimeTallGrassBlock extends BushBlock implements IShearable, IPlant
   @Override
   public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
     return SHAPE;
-  }
-
-  /**
-   * Get the OffsetType for this Block. Determines if the model is rendered slightly offset.
-   */
-  @Nonnull
-  @Override
-  public Block.OffsetType getOffsetType() {
-    return Block.OffsetType.XYZ;
   }
 
   /* Forge/MC callbacks */
@@ -70,10 +59,10 @@ public class SlimeTallGrassBlock extends BushBlock implements IShearable, IPlant
     return TinkerWorld.slimeDirt.contains(block) || TinkerWorld.vanillaSlimeGrass.contains(block) || TinkerWorld.earthSlimeGrass.contains(block) || TinkerWorld.skySlimeGrass.contains(block) || TinkerWorld.enderSlimeGrass.contains(block) || TinkerWorld.ichorSlimeGrass.contains(block);
   }
 
-  @Override
-  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-    if (this.foliageType != SlimeType.ICHOR) {
-      super.fillItemCategory(group, items);
-    }
-  }
+//  @Override TODO: PORT
+//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+//    if (this.foliageType != SlimeType.ICHOR) {
+//      super.fillItemCategory(group, items);
+//    }
+//  }
 }

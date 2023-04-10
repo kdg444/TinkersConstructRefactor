@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
 
 public class OlympicModifier extends Modifier implements ProjectileLaunchModifierHook, ProjectileHitModifierHook {
   private static final ResourceLocation OLYMPIC_START = TConstruct.getResource("olympic_start");
-  private static final TagKey<Item> PLATINUM_NUGGET = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("c", "nuggets/platinum"));
+  private static final TagKey<Item> PLATINUM_NUGGET = TagKey.create(Registries.ITEM, new ResourceLocation("c", "nuggets/platinum"));
 
   /** Gets the nugget for the given distance */
   private static Item getNugget(double distanceSq) {

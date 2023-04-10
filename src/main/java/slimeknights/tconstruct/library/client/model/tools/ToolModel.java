@@ -12,12 +12,8 @@ import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Transformation;
-import com.mojang.math.Vector3f;
-import io.github.fabricators_of_create.porting_lib.model.IModelConfiguration;
-import io.github.fabricators_of_create.porting_lib.model.IModelGeometry;
-import io.github.fabricators_of_create.porting_lib.model.IModelLoader;
-import io.github.fabricators_of_create.porting_lib.model.PerspectiveMapWrapper;
-import io.github.fabricators_of_create.porting_lib.render.TransformTypeDependentItemBakedModel;
+import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
+import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
@@ -28,12 +24,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.UnbakedModel;
@@ -41,6 +39,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -81,7 +80,7 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @RequiredArgsConstructor
-public class ToolModel implements IModelGeometry<ToolModel> {
+public class ToolModel implements IUnbakedGeometry<ToolModel> {
   /** Shared loader instance */
   public static final Loader LOADER = new Loader();
 
@@ -252,7 +251,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
    * @param overrides       Override instance to use, will either be empty or {@link MaterialOverrideHandler}
    * @return  Baked model
    */
-  private static BakedModel bakeInternal(IModelConfiguration owner, Function<Material, TextureAtlasSprite> spriteGetter, @Nullable Transformation largeTransforms,
+  private static BakedModel bakeInternal(BlockModel owner, Function<Material, TextureAtlasSprite> spriteGetter, @Nullable Transformation largeTransforms,
                                          List<ToolPart> parts, Map<ModifierId,IBakedModifierModel> modifierModels, List<ModifierId> firstModifiers,
                                          List<MaterialVariantId> materials, @Nullable IToolStackView tool, ItemOverrides overrides) {
     boolean isBroken = tool != null && tool.isBroken();
@@ -324,7 +323,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
   }
 
   @Override
-  public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
+  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
     // load in modifiers
     // Map<Modifier,IBakedModifierModel> modifierModels = ModifierModelManager.getModelsForTool(smallModifierRoots, isLarge ? largeModifierRoots : Collections.emptyList());
 
@@ -398,7 +397,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
       .build();
 
     // parameters needed for rebaking
-    private final IModelConfiguration owner;
+    private final BlockModel owner;
     private final List<ToolPart> toolParts;
     private final List<ModifierId> firstModifiers;
     @Nullable
@@ -406,7 +405,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
     private final Map<ModifierId,IBakedModifierModel> modifierModels;
     private final ItemOverrides nested;
 
-    private MaterialOverrideHandler(IModelConfiguration owner, List<ToolPart> toolParts, List<ModifierId> firstModifiers, @Nullable Transformation largeTransforms, Map<ModifierId,IBakedModifierModel> modifierModels, ItemOverrides nested) {
+    private MaterialOverrideHandler(BlockModel owner, List<ToolPart> toolParts, List<ModifierId> firstModifiers, @Nullable Transformation largeTransforms, Map<ModifierId,IBakedModifierModel> modifierModels, ItemOverrides nested) {
       this.owner = owner;
       this.toolParts = toolParts;
       this.firstModifiers = firstModifiers;
@@ -508,7 +507,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
     }
 
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, Random rand) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand) {
       if (side == null) {
         return largeQuads;
       }
@@ -555,7 +554,7 @@ public class ToolModel implements IModelGeometry<ToolModel> {
     }
 
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, Random rand) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand) {
       // these quads are only shown in handle perspective for GUI
       if (side == null) {
         return guiQuads;
@@ -572,12 +571,9 @@ public class ToolModel implements IModelGeometry<ToolModel> {
   /**
    * Model loader logic, use {@link #LOADER} to access instance
    */
-  private static class Loader implements IModelLoader<ToolModel> {
+  private static class Loader implements IGeometryLoader<ToolModel> {
     @Override
-    public void onResourceManagerReload(ResourceManager resourceManager) {}
-
-    @Override
-    public ToolModel read(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
+    public ToolModel read(JsonObject modelContents, JsonDeserializationContext deserializationContext) {
       List<ToolPart> parts = Collections.emptyList();
       if (modelContents.has("parts")) {
         parts = JsonHelper.parseList(modelContents, "parts", ToolPart::read);

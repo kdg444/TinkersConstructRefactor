@@ -91,7 +91,7 @@ public final class TinkerTools extends TinkerModule {
   }
 
   /** Creative tab for all tool items */
-  public static final CreativeModeTab TAB_TOOLS = new SupplierCreativeTab(TConstruct.MOD_ID, "tools", () -> TinkerTools.pickaxe.get().getRenderTool());
+  public static final CreativeModeTab TAB_TOOLS = SupplierCreativeTab.create(TConstruct.MOD_ID, "tools", () -> TinkerTools.pickaxe.get().getRenderTool()).build();
 
   /** Loot function type for tool add data */
   public static final RegistryObject<LootItemFunctionType> lootAddToolData = LOOT_FUNCTIONS.register("add_tool_data", () -> new LootItemFunctionType(AddToolDataFunction.SERIALIZER));
@@ -99,7 +99,7 @@ public final class TinkerTools extends TinkerModule {
   /*
    * Items
    */
-  private static final Item.Properties TOOL = new FabricItemSettings().stacksTo(1).tab(TAB_TOOLS);
+  private static final Item.Properties TOOL = new FabricItemSettings().stacksTo(1)/*.tab(TAB_TOOLS)*/;
 
   public static final ItemObject<ModifiableItem> pickaxe = ITEMS.register("pickaxe", () -> new ModifiableItem(TOOL, ToolDefinitions.PICKAXE));
   public static final ItemObject<ModifiableItem> sledgeHammer = ITEMS.register("sledge_hammer", () -> new ModifiableItem(TOOL, ToolDefinitions.SLEDGE_HAMMER));
@@ -134,7 +134,7 @@ public final class TinkerTools extends TinkerModule {
     .build();
 
   // arrows
-  public static final ItemObject<ArrowItem> crystalshotItem = ITEMS.register("crystalshot", () -> new CrystalshotItem(new Item.Properties().tab(TAB_TOOLS)));
+  public static final ItemObject<ArrowItem> crystalshotItem = ITEMS.register("crystalshot", () -> new CrystalshotItem(new Item.Properties()/*.tab(TAB_TOOLS)*/));
 
   /* Particles */
   public static final RegistryObject<SimpleParticleType> hammerAttackParticle = PARTICLE_TYPES.register("hammer_attack", () -> FabricParticleTypes.simple(true));
@@ -188,21 +188,20 @@ public final class TinkerTools extends TinkerModule {
     IWeaponAttack.LOADER.register(TConstruct.getResource("particle"), ParticleWeaponAttack.LOADER);
   }
 
-  public static void gatherData(FabricDataGenerator generator, ExistingFileHelper existingFileHelper) {
-    generator.addProvider(new ToolsRecipeProvider(generator));
-    generator.addProvider(new MaterialRecipeProvider(generator));
-    MaterialDataProvider materials = new MaterialDataProvider(generator);
-    generator.addProvider(materials);
-    generator.addProvider(new MaterialStatsDataProvider(generator, materials));
-    generator.addProvider(new MaterialTraitsDataProvider(generator, materials));
-    generator.addProvider(new ToolDefinitionDataProvider(generator));
-    generator.addProvider(new StationSlotLayoutProvider(generator));
-    generator.addProvider(new MaterialTagProvider(generator, existingFileHelper));
+  public static void gatherData(FabricDataGenerator.Pack pack, ExistingFileHelper existingFileHelper) {
+    pack.addProvider(ToolsRecipeProvider::new);
+    pack.addProvider(MaterialRecipeProvider::new);
+    MaterialDataProvider materials = pack.addProvider(MaterialDataProvider::new);
+    pack.addProvider((output, registriesFuture) -> new MaterialStatsDataProvider(output, materials));
+    pack.addProvider((output, registriesFuture) -> new MaterialTraitsDataProvider(output, materials));
+    pack.addProvider(ToolDefinitionDataProvider::new);
+    pack.addProvider(StationSlotLayoutProvider::new);
+    pack.addProvider((output, registriesFuture) -> new MaterialTagProvider(output, existingFileHelper));
 
     TinkerMaterialSpriteProvider materialSprites = new TinkerMaterialSpriteProvider();
     TinkerPartSpriteProvider partSprites = new TinkerPartSpriteProvider();
-    generator.addProvider(new MaterialRenderInfoProvider(generator, materialSprites));
-    generator.addProvider(new GeneratorPartTextureJsonGenerator(generator, TConstruct.MOD_ID, partSprites));
-    generator.addProvider(new MaterialPartTextureGenerator(generator, existingFileHelper, partSprites, materialSprites));
+    pack.addProvider((output, registriesFuture) -> new MaterialRenderInfoProvider(output, materialSprites));
+    pack.addProvider((output, registriesFuture) -> new GeneratorPartTextureJsonGenerator(output, TConstruct.MOD_ID, partSprites));
+    pack.addProvider((output, registriesFuture) -> new MaterialPartTextureGenerator(output, existingFileHelper, partSprites, materialSprites));
   }
 }

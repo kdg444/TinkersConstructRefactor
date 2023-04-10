@@ -1,12 +1,13 @@
 package slimeknights.tconstruct.shared.block;
 
-import io.github.fabricators_of_create.porting_lib.tags.ToolTags;
 import lombok.Getter;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -21,7 +22,6 @@ import slimeknights.tconstruct.shared.TinkerCommons;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.Random;
 
 public class WeatheringPlatformBlock extends PlatformBlock implements WeatheringCopper {
   @Getter
@@ -38,7 +38,7 @@ public class WeatheringPlatformBlock extends PlatformBlock implements Weathering
   }
 
   @Override
-  public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
+  public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
     this.onRandomTick(pState, pLevel, pPos, pRandom);
   }
 
@@ -77,7 +77,7 @@ public class WeatheringPlatformBlock extends PlatformBlock implements Weathering
 
   public InteractionResult getToolModifiedState(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
     BlockState state = world.getBlockState(hitResult.getBlockPos());
-    if (player.getItemInHand(hand).is(ToolTags.AXES) && state.is(this)) {
+    if (player.getItemInHand(hand).is(ItemTags.AXES) && state.is(this)) {
       WeatherState prev = getPrevious(age);
       if (prev != null) {
         world.setBlockAndUpdate(hitResult.getBlockPos(), TinkerCommons.copperPlatform.get(prev).withPropertiesOf(state));

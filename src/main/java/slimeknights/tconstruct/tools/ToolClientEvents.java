@@ -1,23 +1,23 @@
 package slimeknights.tconstruct.tools;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import io.github.fabricators_of_create.porting_lib.event.client.ModelLoadCallback;
 import io.github.fabricators_of_create.porting_lib.event.common.PlayerTickEvents;
-import io.github.fabricators_of_create.porting_lib.model.ModelLoaderRegistry;
+import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
+import io.github.fabricators_of_create.porting_lib.models.geometry.RegisterGeometryLoadersCallback;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
@@ -57,7 +57,7 @@ import slimeknights.tconstruct.tools.logic.InteractionHandler;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.DoubleJumpModifier;
 import slimeknights.tconstruct.tools.network.TinkerControlPacket;
 
-import java.util.Objects;
+import java.util.Map;
 
 import static slimeknights.tconstruct.library.client.model.tools.ToolModel.registerItemColors;
 
@@ -87,9 +87,9 @@ public class ToolClientEvents extends ClientEventBase {
     ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(HarvestTiers.RELOAD_LISTENER);
   }
 
-  static void registerModelLoaders(ResourceManager manager, BlockColors colors, ProfilerFiller profiler, int mipLevel) {
-    ModelLoaderRegistry.registerLoader(TConstruct.getResource("material"), MaterialModel.LOADER);
-    ModelLoaderRegistry.registerLoader(TConstruct.getResource("tool"), ToolModel.LOADER);
+  static void registerModelLoaders(Map<ResourceLocation, IGeometryLoader<?>> loaders) {
+    loaders.put(TConstruct.getResource("material"), MaterialModel.LOADER);
+    loaders.put(TConstruct.getResource("tool"), ToolModel.LOADER);
   }
 
   static void registerModifierModels(ModifierModelRegistrationEvent event) {
@@ -122,7 +122,7 @@ public class ToolClientEvents extends ClientEventBase {
     TinkerItemProperties.registerBowProperties(TinkerTools.crossbow.asItem());
     TinkerItemProperties.registerBowProperties(TinkerTools.longbow.asItem());
     // no sense having two keys for ammo, just set 1 for arrow, 2 for fireworks
-    String fireworksID = Objects.requireNonNull(Items.FIREWORK_ROCKET.getRegistryName()).toString();
+    String fireworksID = BuiltInRegistries.ITEM.getKey(Items.FIREWORK_ROCKET).toString();
     ItemProperties.register(TinkerTools.crossbow.asItem(), TConstruct.getResource("ammo"), (stack, level, entity, seed) -> {
       CompoundTag nbt = stack.getTag();
       if (nbt != null) {
@@ -142,7 +142,7 @@ public class ToolClientEvents extends ClientEventBase {
     itemColors();
     addResourceListener();
     ModifierModelRegistrationEvent.EVENT.register(ToolClientEvents::registerModifierModels);
-    ModelLoadCallback.EVENT.register(ToolClientEvents::registerModelLoaders);
+    RegisterGeometryLoadersCallback.EVENT.register(ToolClientEvents::registerModelLoaders);
   }
 
   static void registerParticleFactories() {

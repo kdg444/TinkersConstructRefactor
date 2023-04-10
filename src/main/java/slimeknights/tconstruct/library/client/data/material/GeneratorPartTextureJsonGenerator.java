@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import slimeknights.mantle.data.GenericDataProvider;
@@ -15,6 +15,9 @@ import slimeknights.tconstruct.library.client.data.material.AbstractPartSpritePr
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /** Generates the file that tells the part generator command which parts are needed for your tools */
 public class GeneratorPartTextureJsonGenerator extends GenericDataProvider {
@@ -28,14 +31,14 @@ public class GeneratorPartTextureJsonGenerator extends GenericDataProvider {
 
   private final String modId;
   private final AbstractPartSpriteProvider spriteProvider;
-  public GeneratorPartTextureJsonGenerator(DataGenerator generator, String modId, AbstractPartSpriteProvider spriteProvider) {
-    super(generator, PackType.CLIENT_RESOURCES, "tinkering", GSON);
+  public GeneratorPartTextureJsonGenerator(FabricDataOutput output, String modId, AbstractPartSpriteProvider spriteProvider) {
+    super(output, PackType.CLIENT_RESOURCES, "tinkering", GSON);
     this.modId = modId;
     this.spriteProvider = spriteProvider;
   }
 
   @Override
-  public void run(HashCache cache) throws IOException {
+  public CompletableFuture<?> run(CachedOutput cache) {
     JsonObject json = new JsonObject();
     json.addProperty("replace", false);
     JsonArray parts = new JsonArray();
@@ -43,7 +46,10 @@ public class GeneratorPartTextureJsonGenerator extends GenericDataProvider {
       parts.add(GSON.toJsonTree(spriteInfo));
     }
     json.add("parts", parts);
-    saveThing(cache, new ResourceLocation(modId, "generator_part_textures"), json);
+    List<CompletableFuture<?>> futures = new ArrayList<>();
+    futures.add(saveThing(cache, new ResourceLocation(modId, "generator_part_textures"), json));
+
+    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 
   @Override

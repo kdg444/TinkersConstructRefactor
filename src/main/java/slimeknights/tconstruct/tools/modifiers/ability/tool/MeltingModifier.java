@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.tools.modifiers.ability.tool;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import lombok.Setter;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -34,7 +34,7 @@ public class MeltingModifier extends TankModifier {
   private static final MeltingContainer inventory = new MeltingContainer();
 
   public MeltingModifier() {
-    super(FluidAttributes.BUCKET_VOLUME);
+    super(FluidConstants.BUCKET);
   }
 
   @Override

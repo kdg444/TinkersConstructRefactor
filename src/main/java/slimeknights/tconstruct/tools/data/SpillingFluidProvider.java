@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.tools.data;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import me.alphamode.forgetags.Tags;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
-import net.minecraft.data.DataGenerator;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -41,25 +41,25 @@ import java.util.function.Function;
 
 @SuppressWarnings("removal")
 public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
-  public SpillingFluidProvider(DataGenerator generator) {
-    super(generator, TConstruct.MOD_ID);
+  public SpillingFluidProvider(FabricDataOutput output) {
+    super(output, TConstruct.MOD_ID);
   }
 
   @Override
   protected void addFluids() {
     // vanilla
-    addFluid(Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 20)
+    addFluid(Fluids.WATER, FluidConstants.BUCKET / 20)
       .addEffect(LivingEntityPredicate.WATER_SENSITIVE, new DamageSpillingEffect(DamageType.PIERCING, 2f))
       .addEffect(ExtinguishSpillingEffect.INSTANCE);
-    addFluid(Fluids.LAVA, FluidAttributes.BUCKET_VOLUME / 20)
+    addFluid(Fluids.LAVA, FluidConstants.BUCKET / 20)
       .addEffect(LivingEntityPredicate.FIRE_IMMUNE.inverted(), new DamageSpillingEffect(DamageType.FIRE, 2f))
       .addEffect(new SetFireSpillingEffect(10));
-    addFluid(Tags.Fluids.MILK, FluidAttributes.BUCKET_VOLUME / 10)
+    addFluid(Tags.Fluids.MILK, FluidConstants.BUCKET / 10)
       .addEffect(new CureEffectsSpillingEffect(new ItemStack(Items.MILK_BUCKET)))
       .addEffect(StrongBonesModifier.SPILLING_EFFECT);
 
     // blaze - more damage, less fire
-    burningFluid("blazing_blood", TinkerFluids.blazingBlood.getLocalTag(), FluidAttributes.BUCKET_VOLUME / 20, 3f, 5);
+    burningFluid("blazing_blood", TinkerFluids.blazingBlood.getLocalTag(), FluidConstants.BUCKET / 20, 3f, 5);
 
     // slime
     int slimeballPiece = FluidValues.SLIMEBALL / 5;
@@ -88,11 +88,11 @@ public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
     addFluid(TinkerFluids.magma.getForgeTag(), slimeballPiece)
       .addEffect(new EffectSpillingEffect(MobEffects.FIRE_RESISTANCE, 25, 1));
     // soul - slowness and blindness
-    addFluid(TinkerFluids.liquidSoul.getLocalTag(), FluidAttributes.BUCKET_VOLUME / 20)
+    addFluid(TinkerFluids.liquidSoul.getLocalTag(), FluidConstants.BUCKET / 20)
       .addEffect(new EffectSpillingEffect(MobEffects.MOVEMENT_SLOWDOWN, 25, 2))
       .addEffect(new EffectSpillingEffect(MobEffects.BLINDNESS, 5, 1));
     // ender - teleporting
-    addFluid(TinkerFluids.moltenEnder.getForgeTag(), FluidAttributes.BUCKET_VOLUME / 20)
+    addFluid(TinkerFluids.moltenEnder.getForgeTag(), FluidConstants.BUCKET / 20)
       .addEffect(new DamageSpillingEffect(DamageType.MAGIC, 1f))
       .addEffect(TeleportSpillingEffect.INSTANCE);
 
@@ -152,7 +152,7 @@ public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
     metalborn(TinkerFluids.moltenQueensSlime.getLocalTag(), 1f).addEffect(new EffectSpillingEffect(MobEffects.LEVITATION, 5, 1));
 
     // multi-recipes
-    burningFluid("glass",           TinkerTags.Fluids.GLASS_SPILLING,           FluidAttributes.BUCKET_VOLUME / 10, 1f,   3);
+    burningFluid("glass",           TinkerTags.Fluids.GLASS_SPILLING,           FluidConstants.BUCKET / 10, 1f,   3);
     burningFluid("clay",            TinkerTags.Fluids.CLAY_SPILLING,            FluidValues.BRICK / 5,              1.5f, 3);
     burningFluid("metal_cheap",     TinkerTags.Fluids.CHEAP_METAL_SPILLING,     FluidValues.NUGGET,                 1.5f, 7);
     burningFluid("metal_average",   TinkerTags.Fluids.AVERAGE_METAL_SPILLING,   FluidValues.NUGGET,                 2f,   7);
@@ -169,7 +169,7 @@ public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
       return new TagPredicate(compound);
     };
     String create = "create";
-    addFluid("potion_create", FluidNameIngredient.of(new ResourceLocation(create, "potion"), FluidAttributes.BUCKET_VOLUME / 8))
+    addFluid("potion_create", FluidNameIngredient.of(new ResourceLocation(create, "potion"), FluidConstants.BUCKET / 8))
       .condition(DefaultResourceConditions.allModsLoaded(create))
       .addEffect(new PotionFluidEffect(0.25f, createBottle.apply("REGULAR")))
       .addEffect(new PotionFluidEffect(0.5f, createBottle.apply("SPLASH")))

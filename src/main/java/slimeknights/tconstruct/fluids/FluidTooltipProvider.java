@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.fluids;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
-import net.minecraft.data.DataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import slimeknights.mantle.fluid.tooltip.AbstractFluidTooltipProvider;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -21,8 +21,8 @@ import static slimeknights.tconstruct.common.TinkerTags.Fluids.WATER_TOOLTIPS;
 
 @SuppressWarnings("removal")
 public class FluidTooltipProvider extends AbstractFluidTooltipProvider {
-  public FluidTooltipProvider(DataGenerator generator) {
-    super(generator, TConstruct.MOD_ID);
+  public FluidTooltipProvider(FabricDataOutput output) {
+    super(output, TConstruct.MOD_ID);
   }
 
   @Override
@@ -59,12 +59,12 @@ public class FluidTooltipProvider extends AbstractFluidTooltipProvider {
       .addUnit("pane", FluidValues.GLASS_PANE);
 
     add("water", WATER_TOOLTIPS)
-      .addUnit("kilobucket", "mantle", FluidAttributes.BUCKET_VOLUME * 1000)
-      .addUnit("bucket",     "mantle", FluidAttributes.BUCKET_VOLUME)
+      .addUnit("kilobucket", "mantle", FluidConstants.BUCKET * 1000)
+      .addUnit("bucket",     "mantle", FluidConstants.BUCKET)
       .addUnit("bottle", FluidValues.BOTTLE);
     add("venom", TinkerFluids.venom.getLocalTag())
-      .addUnit("kilobucket", "mantle", FluidAttributes.BUCKET_VOLUME * 1000)
-      .addUnit("bucket",     "mantle", FluidAttributes.BUCKET_VOLUME)
+      .addUnit("kilobucket", "mantle", FluidConstants.BUCKET * 1000)
+      .addUnit("bucket",     "mantle", FluidConstants.BUCKET)
       .addUnit("bottle", FluidValues.BOTTLE);
     add("honey", TinkerFluids.honey.getForgeTag())
       .addUnit("block", FluidValues.BOTTLE * 4)

@@ -4,7 +4,6 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSyntaxException;
-import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.DamageSourceAccessor;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import net.minecraft.resources.ResourceLocation;
@@ -31,9 +30,9 @@ public record DamageSpillingEffect(DamageType type, float damage) implements ISp
     DamageSource source;
     Player player = context.getPlayerAttacker();
     if (player != null) {
-      source = DamageSource.playerAttack(player);
+      source = player.damageSources().playerAttack(player);
     } else {
-      source = DamageSource.mobAttack(context.getAttacker());
+      source = player.damageSources().mobAttack(context.getAttacker());
     }
     // special effects
     type.apply(source);

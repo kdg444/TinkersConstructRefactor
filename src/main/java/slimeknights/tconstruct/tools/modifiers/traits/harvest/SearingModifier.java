@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.harvest;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.Direction;
@@ -54,16 +54,16 @@ public class SearingModifier extends Modifier {
   }
 
   @Override
-  public void onBreakSpeed(IToolStackView tool, int level, PlayerBreakSpeedCallback.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+  public void onBreakSpeed(IToolStackView tool, int level, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (isEffective) {
-      BlockState state = event.state;
+      BlockState state = event.getState();
       Item item = state.getBlock().asItem();
       if (item != Items.AIR) {
-        Level world = event.player.level;
+        Level world = event.getPlayer().level;
         // +7 per level if it has a melting recipe, cache to save lookup time
         // TODO: consider whether we should use getCloneItemStack, problem is I don't want a position based logic and its possible the result is BE based
         if (BOOSTED_BLOCKS.computeIfAbsent(item, i -> isEffective(world, i)) == Boolean.TRUE) {
-          event.newSpeed = event.newSpeed + level * 6 * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier;
+          event.setNewSpeed(event.getNewSpeed() + level * 6 * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier);
         }
       }
     }

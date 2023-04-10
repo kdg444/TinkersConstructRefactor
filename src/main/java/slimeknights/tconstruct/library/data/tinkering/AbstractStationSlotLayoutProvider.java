@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.library.data.tinkering;
 
-import net.minecraft.core.Registry;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.ItemLike;
@@ -12,9 +12,11 @@ import slimeknights.tconstruct.library.tools.layout.StationSlotLayout;
 import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 /** Base data generator to generate station slot layouts */
@@ -31,8 +33,8 @@ public abstract class AbstractStationSlotLayoutProvider extends GenericDataProvi
 
   private final Map<ResourceLocation,StationSlotLayout.Builder> allLayouts = new HashMap<>();
 
-  public AbstractStationSlotLayoutProvider(DataGenerator generator) {
-    super(generator, PackType.SERVER_DATA, StationSlotLayoutLoader.FOLDER, StationSlotLayoutLoader.GSON);
+  public AbstractStationSlotLayoutProvider(FabricDataOutput output) {
+    super(output, PackType.SERVER_DATA, StationSlotLayoutLoader.FOLDER, StationSlotLayoutLoader.GSON);
   }
 
   /**
@@ -47,12 +49,12 @@ public abstract class AbstractStationSlotLayoutProvider extends GenericDataProvi
 
   /** Defines the given ID as a item layout */
   protected StationSlotLayout.Builder define(ItemLike item) {
-    return define(Objects.requireNonNull(Registry.ITEM.getKey(item.asItem())));
+    return define(BuiltInRegistries.ITEM.getKey(item.asItem()));
   }
 
   /** Defines the given ID as a tool layout, sets icon and name */
   protected StationSlotLayout.Builder defineModifiable(IModifiableDisplay item) {
-    return define(Objects.requireNonNull(Registry.ITEM.getKey(item.asItem())))
+    return define(BuiltInRegistries.ITEM.getKey(item.asItem()))
       .translationKey(item.asItem().getDescriptionId())
       .icon(item.getRenderTool());
   }
@@ -63,8 +65,10 @@ public abstract class AbstractStationSlotLayoutProvider extends GenericDataProvi
   }
 
   @Override
-  public void run(HashCache cache) throws IOException {
+  public CompletableFuture<?> run(CachedOutput cache) {
     addLayouts();
-    allLayouts.forEach((id, builder) -> saveThing(cache, id, builder.build()));
+    List<CompletableFuture<?>> futures = new ArrayList<>();
+    allLayouts.forEach((id, builder) -> futures.add(saveThing(cache, id, builder.build())));
+    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 }

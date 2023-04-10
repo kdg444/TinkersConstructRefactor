@@ -2,6 +2,7 @@ package slimeknights.tconstruct.common.data;
 
 import com.mojang.datafixers.DataFixer;
 import com.mojang.datafixers.DataFixerUpper;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
@@ -51,7 +52,7 @@ public class StructureUpdater implements DataProvider {
   }
 
   @Override
-  public void run(HashCache cache) throws IOException {
+  public void run(CachedOutput cache) throws IOException {
     for(ResourceLocation loc : resources.listResources(basePath, file -> file.endsWith(".nbt"))) {
       if (loc.getNamespace().equals(modid)) {
         process(loc, cache);
@@ -59,7 +60,7 @@ public class StructureUpdater implements DataProvider {
     }
   }
 
-  private void process(ResourceLocation loc, HashCache cache) throws IOException {
+  private void process(ResourceLocation loc, CachedOutput cache) throws IOException {
     CompoundTag inputNBT = NbtIo.readCompressed(resources.getResource(loc).getInputStream());
     CompoundTag converted = updateNBT(inputNBT);
     if (!converted.equals(inputNBT)) {

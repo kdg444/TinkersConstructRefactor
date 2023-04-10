@@ -2,21 +2,23 @@ package slimeknights.tconstruct.library.data;
 
 import com.google.common.collect.Maps;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.impl.datagen.FabricTagBuilder;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.tags.Tag;
-import net.minecraft.tags.Tag.BuilderEntry;
+import net.minecraft.tags.TagBuilder;
 import net.minecraft.tags.TagKey;
 import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import slimeknights.mantle.data.GenericDataProvider;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -25,8 +27,6 @@ import java.util.stream.Stream;
 /** Generic class for generating tags at any location even for non-registries */
 @Log4j2
 public abstract class AbstractTagProvider<T> extends GenericDataProvider {
-  /** Data generator instance */
-  protected final DataGenerator generator;
   /** Mod ID for the tags */
   private final String modId;
   /** Predicate to validate non-optional values. If the contents only exist in datapacks, they should be defined as optional */
@@ -38,11 +38,10 @@ public abstract class AbstractTagProvider<T> extends GenericDataProvider {
   /** Resource type for the existing file helper */
   private final ExistingFileHelper.IResourceType resourceType;
 
-  protected final Map<ResourceLocation, Tag.Builder> builders = Maps.newLinkedHashMap();
+  protected final Map<ResourceLocation, TagBuilder> builders = Maps.newLinkedHashMap();
 
-  protected AbstractTagProvider(DataGenerator generator, String modId, String folder, Function<T,ResourceLocation> keyGetter, Predicate<ResourceLocation> staticValuePredicate, ExistingFileHelper existingFileHelper) {
-    super(generator, PackType.SERVER_DATA, folder);
-    this.generator = generator;
+  protected AbstractTagProvider(FabricDataOutput output, String modId, String folder, Function<T,ResourceLocation> keyGetter, Predicate<ResourceLocation> staticValuePredicate, ExistingFileHelper existingFileHelper) {
+    super(output, PackType.SERVER_DATA, folder);
     this.modId = modId;
     this.keyGetter = keyGetter;
     this.staticValuePredicate = staticValuePredicate;
@@ -54,9 +53,10 @@ public abstract class AbstractTagProvider<T> extends GenericDataProvider {
   protected abstract void addTags();
 
   @Override
-  public void run(HashCache cache) throws IOException {
+  public CompletableFuture<?> run(CachedOutput cache) throws IOException {
     this.builders.clear();
     this.addTags();
+    List<CompletableFuture<?>> futures = new ArrayList<>();
     this.builders.forEach((id, builder) -> {
       List<BuilderEntry> list = builder.getEntries()
                                        .filter((value) -> !value.entry().verifyIfPresent(staticValuePredicate, this.builders::containsKey))
@@ -65,9 +65,10 @@ public abstract class AbstractTagProvider<T> extends GenericDataProvider {
       if (!list.isEmpty()) {
         throw new IllegalArgumentException(String.format("Couldn't define tag %s as it is missing following references: %s", id, list.stream().map(Objects::toString).collect(Collectors.joining(","))));
       } else {
-        saveThing(cache, id, builder.serializeToJson());
+        futures.add(saveThing(cache, id, builder.serializeToJson()));
       }
     });
+    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 
   /** Checks if a given reference exists in another data pack */

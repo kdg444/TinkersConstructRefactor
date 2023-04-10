@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.library.modifiers;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
-import io.github.fabricators_of_create.porting_lib.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
@@ -411,7 +411,7 @@ public class Modifier implements IHaveLoader<Modifier> {
    * Alternatives:
    * <ul>
    *   <li>{@link #addAttributes(IToolStackView, int, EquipmentSlot, BiConsumer)}: Allows dynamic stats based on any tool stat, but does not support mining speed, mining level, or durability.</li>
-   *   <li>{@link #onBreakSpeed(IToolStackView, int, BreakSpeed, Direction, boolean, float)}: Allows dynamic mining speed based on the block mined and the entity mining. Will not show in tooltips.</li>
+   *   <li>{@link #onBreakSpeed(IToolStackView, int, PlayerEvents.BreakSpeed, Direction, boolean, float)}: Allows dynamic mining speed based on the block mined and the entity mining. Will not show in tooltips.</li>
    * </ul>
    * @param context         Context about the tool beilt. Partial view of {@link IToolStackView} as the tool is not fully built. Note this hook runs after volatile data builds
    * @param level           Modifier level
@@ -627,7 +627,7 @@ public class Modifier implements IHaveLoader<Modifier> {
    * @param isEffective          If true, the tool is effective against this block type
    * @param miningSpeedModifier  Calculated modifier from potion effects such as haste and environment such as water, use for additive bonuses to ensure consistency with the mining speed stat
    */
-  public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {}
+  public void onBreakSpeed(IToolStackView tool, int level, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {}
 
   /**
    * Adds harvest loot table related enchantments from this modifier's effect, called before breaking a block.

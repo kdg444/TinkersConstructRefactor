@@ -1,20 +1,20 @@
 package slimeknights.tconstruct.common.data.loot;
 
-import com.google.common.collect.Sets;
-import io.github.fabricators_of_create.porting_lib.util.CanToolPerformAction;
-import io.github.fabricators_of_create.porting_lib.util.ToolActions;
+import io.github.fabricators_of_create.porting_lib.common.util.ToolActions;
+import io.github.fabricators_of_create.porting_lib.data.ModdedBlockLootSubProvider;
+import io.github.fabricators_of_create.porting_lib.loot.CanToolPerformAction;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
-import net.minecraft.core.Registry;
-import net.minecraft.data.loot.BlockLoot;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -51,46 +51,25 @@ import slimeknights.tconstruct.world.TinkerWorld;
 import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class BlockLootTableProvider extends BlockLoot {
+public class BlockLootTableProvider extends ModdedBlockLootSubProvider {
 
   protected BlockLootTableProvider() {
-    super();
-  }
-
-  public void accept(BiConsumer<ResourceLocation, LootTable.Builder> p_124179_) {
-    this.addTables();
-    Set<ResourceLocation> set = Sets.newHashSet();
-
-    for(Block block : getKnownBlocks()) {
-      ResourceLocation resourcelocation = block.getLootTable();
-      if (resourcelocation != BuiltInLootTables.EMPTY && set.add(resourcelocation)) {
-        LootTable.Builder loottable$builder = this.map.remove(resourcelocation);
-        if (loottable$builder == null) {
-//          throw new IllegalStateException(String.format("Missing loottable '%s' for '%s'", resourcelocation, Registry.BLOCK.getKey(block)));
-          continue;
-        }
-
-        p_124179_.accept(resourcelocation, loottable$builder);
-      }
-    }
-
-    if (!this.map.isEmpty()) {
-      throw new IllegalStateException("Created block loot tables for non-blocks: " + this.map.keySet());
-    }
+    super(Set.of(), FeatureFlags.REGISTRY.allFlags());
   }
 
   @Nonnull
+  @Override
   protected Iterable<Block> getKnownBlocks() {
-    return Registry.BLOCK.stream()
-                                 .filter((block) -> TConstruct.MOD_ID.equals(Objects.requireNonNull(Registry.BLOCK.getKey(block)).getNamespace()))
-                                 .collect(Collectors.toList());
+    return BuiltInRegistries.BLOCK.stream()
+      .filter((block) -> TConstruct.MOD_ID.equals(BuiltInRegistries.BLOCK.getKey(block).getNamespace()))
+      .collect(Collectors.toList());
   }
 
-  protected void addTables() {
+  @Override
+  public void generate() {
     this.addCommon();
     this.addDecorative();
     this.addGadgets();
@@ -149,7 +128,7 @@ public class BlockLootTableProvider extends BlockLoot {
     // tinker chest - name and color
     this.add(TinkerTables.tinkersChest.get(), block -> droppingWithFunctions(block, builder ->
       builder.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY))
-             .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy(TinkersChestBlockEntity.TAG_CHEST_COLOR, "display.color"))));
+        .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy(TinkersChestBlockEntity.TAG_CHEST_COLOR, "display.color"))));
     // part chest - just name
     this.add(TinkerTables.partChest.get(), block ->
       droppingWithFunctions(block, builder ->
@@ -157,17 +136,15 @@ public class BlockLootTableProvider extends BlockLoot {
     // cast chest - name and inventory
     this.add(TinkerTables.castChest.get(), block -> droppingWithFunctions(block, builder ->
       builder.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY))
-             .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy("Items", "TinkerData.Items"))));
+        .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy("Items", "TinkerData.Items"))));
 
     // tables with legs
-    Function<Block, LootTable.Builder> addTable = block -> droppingWithFunctions(block, (builder) ->
-      builder.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY)).apply(RetexturedLootFunction::new));
-    this.add(TinkerTables.craftingStation.get(), addTable);
-    this.add(TinkerTables.partBuilder.get(), addTable);
-    this.add(TinkerTables.tinkerStation.get(), addTable);
-    this.add(TinkerTables.tinkersAnvil.get(), addTable);
-    this.add(TinkerTables.modifierWorktable.get(), addTable);
-    this.add(TinkerTables.scorchedAnvil.get(), addTable);
+    this.dropTable(TinkerTables.craftingStation.get());
+    this.dropTable(TinkerTables.partBuilder.get());
+    this.dropTable(TinkerTables.tinkerStation.get());
+    this.dropTable(TinkerTables.tinkersAnvil.get());
+    this.dropTable(TinkerTables.modifierWorktable.get());
+    this.dropTable(TinkerTables.scorchedAnvil.get());
   }
 
   private void addWorld() {
@@ -236,7 +213,7 @@ public class BlockLootTableProvider extends BlockLoot {
     // controller
     this.dropSelf(TinkerSmeltery.searedMelter.get());
     this.dropSelf(TinkerSmeltery.searedHeater.get());
-    this.dropSelf(TinkerSmeltery.smelteryController.get());
+    this.dropTable(TinkerSmeltery.smelteryController.get());
 
     // smeltery component
     this.registerBuildingLootTables(TinkerSmeltery.searedStone);
@@ -249,13 +226,13 @@ public class BlockLootTableProvider extends BlockLoot {
     this.dropSelf(TinkerSmeltery.searedLadder.get());
     this.dropSelf(TinkerSmeltery.searedGlass.get());
     this.dropSelf(TinkerSmeltery.searedGlassPane.get());
-    this.dropSelf(TinkerSmeltery.searedDrain.get());
-    this.dropSelf(TinkerSmeltery.searedChute.get());
-    this.dropSelf(TinkerSmeltery.searedDuct.get());
+    this.dropTable(TinkerSmeltery.searedDrain.get());
+    this.dropTable(TinkerSmeltery.searedChute.get());
+    this.dropTable(TinkerSmeltery.searedDuct.get());
 
     Function<Block, LootTable.Builder> dropTank = block -> droppingWithFunctions(block, builder ->
       builder.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY))
-             .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy(NBTTags.TANK, NBTTags.TANK)));
+        .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy(NBTTags.TANK, NBTTags.TANK)));
     TinkerSmeltery.searedTank.forEach(block -> this.add(block, dropTank));
     this.add(TinkerSmeltery.searedLantern.get(), dropTank);
 
@@ -272,7 +249,7 @@ public class BlockLootTableProvider extends BlockLoot {
     this.dropSelf(TinkerSmeltery.netherGrout.get());
     // controller
     this.dropSelf(TinkerSmeltery.scorchedAlloyer.get());
-    this.dropSelf(TinkerSmeltery.foundryController.get());
+    this.dropTable(TinkerSmeltery.foundryController.get());
 
     // smeltery component
     this.dropSelf(TinkerSmeltery.scorchedStone.get());
@@ -283,13 +260,13 @@ public class BlockLootTableProvider extends BlockLoot {
     this.dropSelf(TinkerSmeltery.scorchedLadder.get());
     this.dropSelf(TinkerSmeltery.scorchedGlass.get());
     this.dropSelf(TinkerSmeltery.scorchedGlassPane.get());
-    this.dropSelf(TinkerSmeltery.scorchedDrain.get());
-    this.dropSelf(TinkerSmeltery.scorchedChute.get());
-    this.dropSelf(TinkerSmeltery.scorchedDuct.get());
+    this.dropTable(TinkerSmeltery.scorchedDrain.get());
+    this.dropTable(TinkerSmeltery.scorchedChute.get());
+    this.dropTable(TinkerSmeltery.scorchedDuct.get());
 
     Function<Block, LootTable.Builder> dropTank = block -> droppingWithFunctions(block, builder ->
       builder.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY))
-             .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy(NBTTags.TANK, NBTTags.TANK)));
+        .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy(NBTTags.TANK, NBTTags.TANK)));
     TinkerSmeltery.scorchedTank.forEach(block -> this.add(block, dropTank));
     this.add(TinkerSmeltery.scorchedLantern.get(), dropTank);
 
@@ -319,21 +296,21 @@ public class BlockLootTableProvider extends BlockLoot {
     return createSelfDropDispatchTable(block, SILK_TOUCH_OR_SHEARS, alternativeLootEntry);
   }
 
-  private static LootTable.Builder dropSapling(Block blockIn, Block saplingIn, float... fortuneIn) {
+  private LootTable.Builder dropSapling(Block blockIn, Block saplingIn, float... fortuneIn) {
     return droppingSilkOrShears(blockIn, applyExplosionCondition(blockIn, LootItem.lootTableItem(saplingIn)).when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, fortuneIn)));
   }
 
-  private static LootTable.Builder randomDropSlimeBallOrSapling(SlimeType foliageType, Block blockIn, Block sapling, float... fortuneIn) {
+  private LootTable.Builder randomDropSlimeBallOrSapling(SlimeType foliageType, Block blockIn, Block sapling, float... fortuneIn) {
     return dropSapling(blockIn, sapling, fortuneIn)
       .withPool(LootPool.lootPool()
-                           .setRolls(ConstantValue.exactly(1))
-                           .when(HAS_NO_SHEARS_OR_SILK_TOUCH)
-                           .add(applyExplosionCondition(blockIn, LootItem.lootTableItem(TinkerCommons.slimeball.get(foliageType)))
-                                       .when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, 1/50f, 1/45f, 1/40f, 1/30f, 1/20f))));
+        .setRolls(ConstantValue.exactly(1))
+        .when(HAS_NO_SHEARS_OR_SILK_TOUCH)
+        .add(applyExplosionCondition(blockIn, LootItem.lootTableItem(TinkerCommons.slimeball.get(foliageType)))
+          .when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, 1/50f, 1/45f, 1/40f, 1/30f, 1/20f))));
 
   }
 
-  private static LootTable.Builder droppingWithFunctions(Block block, Function<LootItem.Builder<?>,LootItem.Builder<?>> mapping) {
+  private LootTable.Builder droppingWithFunctions(Block block, Function<LootItem.Builder<?>,LootItem.Builder<?>> mapping) {
     return LootTable.lootTable().withPool(applyExplosionCondition(block, LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(mapping.apply(LootItem.lootTableItem(block)))));
   }
 
@@ -343,7 +320,7 @@ public class BlockLootTableProvider extends BlockLoot {
    */
   private void registerBuildingLootTables(BuildingBlockObject object) {
     this.dropSelf(object.get());
-    this.add(object.getSlab(), BlockLoot::createSlabItemTable);
+    this.add(object.getSlab(), this::createSlabItemTable);
     this.dropSelf(object.getStairs());
   }
 
@@ -375,7 +352,7 @@ public class BlockLootTableProvider extends BlockLoot {
     this.dropSelf(object.getStrippedWood());
     // door
     this.dropSelf(object.getFenceGate());
-    this.add(object.getDoor(), BlockLoot::createDoorTable);
+    this.add(object.getDoor(), this::createDoorTable);
     this.dropSelf(object.getTrapdoor());
     // redstone
     this.dropSelf(object.getPressurePlate());
@@ -384,16 +361,24 @@ public class BlockLootTableProvider extends BlockLoot {
     this.dropSelf(object.getSign());
   }
 
+  private Function<Block, LootTable.Builder> ADD_TABLE = block -> droppingWithFunctions(block, (builder) ->
+    builder.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY)).apply(RetexturedLootFunction::new));
+
+  /** Registers a block that drops with its own texture stored in NBT */
+  private void dropTable(Block table) {
+    this.add(table, ADD_TABLE);
+  }
+
   /** Adds all loot tables relevant to the given geode block set */
   private void registerGeode(GeodeItemObject geode) {
     this.dropSelf(geode.getBlock());
     // cluster
     this.add(geode.getBud(BudSize.CLUSTER), block -> createSilkTouchDispatchTable(
       block, LootItem.lootTableItem(geode.get())
-                     .apply(SetItemCountFunction.setCount(ConstantValue.exactly(4.0F)))
-                     .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
-                     .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ItemTags.CLUSTER_MAX_HARVESTABLES)))
-                     .otherwise(applyExplosionDecay(block, LootItem.lootTableItem(geode.get()).apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F)))))));
+        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(4.0F)))
+        .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+        .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ItemTags.CLUSTER_MAX_HARVESTABLES)))
+        .otherwise(applyExplosionDecay(block, LootItem.lootTableItem(geode.get()).apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F)))))));
     // buds
     for (BudSize size : BudSize.SIZES) {
       this.dropWhenSilkTouch(geode.getBud(size));

@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.tools.client;
 
-import io.github.fabricators_of_create.porting_lib.event.client.OnStartUseItemCallback;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
