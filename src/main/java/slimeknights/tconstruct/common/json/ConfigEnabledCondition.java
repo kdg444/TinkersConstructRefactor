@@ -54,6 +54,12 @@ public class ConfigEnabledCondition implements ConditionJsonProvider, LootItemCo
     return supplier.getAsBoolean();
   }
 
+  public static boolean test(JsonObject json) {
+    String prop = GsonHelper.getAsString(json, "prop");
+    ConfigEnabledCondition config = PROPS.get(prop.toLowerCase(Locale.ROOT));
+    return config.test();
+  }
+
   @Override
   public LootItemConditionType getType() {
     return TinkerCommons.lootConfig.get();
