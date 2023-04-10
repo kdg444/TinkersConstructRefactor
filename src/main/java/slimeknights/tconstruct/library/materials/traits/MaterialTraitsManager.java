@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import slimeknights.mantle.data.MergingJsonDataLoader;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.exception.TinkerAPIMaterialException;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.json.MaterialTraitsJson;

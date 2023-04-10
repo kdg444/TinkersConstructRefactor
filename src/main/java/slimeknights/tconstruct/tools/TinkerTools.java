@@ -146,10 +146,10 @@ public final class TinkerTools extends TinkerModule {
                       .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
                       .fireImmune());
   public static final RegistryObject<EntityType<CrystalshotEntity>> crystalshotEntity = ENTITIES.register("crystalshot", () ->
-    EntityType.Builder.<CrystalshotEntity>of(CrystalshotEntity::new, MobCategory.MISC)
-                      .sized(0.5F, 0.5F)
-                      .clientTrackingRange(4)
-                      .updateInterval(20));
+    FabricEntityTypeBuilder.<CrystalshotEntity>create(MobCategory.MISC, CrystalshotEntity::new)
+                      .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
+                      .trackRangeChunks(4)
+                      .trackedUpdateRate(20));
 
   /* Containers */
   public static final RegistryObject<MenuType<ToolContainerMenu>> toolContainer = MENUS.register("tool_container", ToolContainerMenu::forClient);

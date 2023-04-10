@@ -224,7 +224,6 @@ public final class TinkerModifiers extends TinkerModule {
     ModifierManager.INSTANCE.init();
     DynamicModifier.init();
     SpillingFluidManager.INSTANCE.init();
-    registerRecipeSerializers();
     commonSetup();
     registerSerializers();
   }

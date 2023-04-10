@@ -60,7 +60,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @param amount  amount of fluid
    * @return  Builder instance
    */
-  public PotionCastingRecipeBuilder setFluid(TagKey<Fluid> tagIn, int amount) {
+  public PotionCastingRecipeBuilder setFluid(TagKey<Fluid> tagIn, long amount) {
     return this.setFluid(FluidIngredient.of(tagIn, amount));
   }
 

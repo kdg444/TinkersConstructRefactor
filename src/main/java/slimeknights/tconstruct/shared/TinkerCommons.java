@@ -4,6 +4,8 @@ import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.object.builder.v1.advancement.CriterionRegistry;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.MobType;
@@ -147,9 +149,8 @@ public final class TinkerCommons extends TinkerModule {
     registerRecipeSerializers();
   }
 
-  @SubscribeEvent
-  void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
-    CraftingHelper.register(ConfigEnabledCondition.SERIALIZER);
+  void registerRecipeSerializers() {
+//    Registry.register(Registry.LOOT_ITEM_REGISTRY, ConfigEnabledCondition.ID, ConfigEnabledCondition.SERIALIZER);
     CriteriaTriggers.register(CONTAINER_OPENED_TRIGGER);
 
 

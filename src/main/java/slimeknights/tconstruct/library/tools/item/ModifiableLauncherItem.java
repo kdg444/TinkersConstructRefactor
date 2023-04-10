@@ -2,8 +2,13 @@ package slimeknights.tconstruct.library.tools.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
+import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
+import io.github.fabricators_of_create.porting_lib.util.DamageableItem;
+import io.github.fabricators_of_create.porting_lib.util.ShieldBlockItem;
 import io.github.fabricators_of_create.porting_lib.util.ToolAction;
 import lombok.Getter;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -50,7 +55,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /** Base class for any items that launch projectiles */
-public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implements IModifiableDisplay {
+public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implements IModifiableDisplay, CustomEnchantingBehaviorItem, DamageableItem, CustomMaxCountItem, ShieldBlockItem {
   /** Drawspeed as of the time this launcher started charging, used clientside for various features including scope and the model.
    * Not necessary to clear as its only used by logic that checks other hooks to see if a bow is drawing */
   public static final TinkerDataKey<Float> DRAWSPEED = TConstruct.createKey("drawspeed");
@@ -67,6 +72,7 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   public ModifiableLauncherItem(Properties properties, ToolDefinition toolDefinition) {
     super(properties);
     this.toolDefinition = toolDefinition;
+    ((FabricItemSettings)properties).customDamage(this::damageItem);
   }
 
 
@@ -89,7 +95,7 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
 
   @Override
   public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-    return enchantment.isCurse() && super.canApplyAtEnchantingTable(stack, enchantment);
+    return enchantment.isCurse() && CustomEnchantingBehaviorItem.super.canApplyAtEnchantingTable(stack, enchantment);
   }
 
   @Override
@@ -100,11 +106,11 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
 
   /* Loading */
 
-  @Nullable
-  @Override
-  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-    return new ToolCapabilityProvider(stack);
-  }
+//  @Nullable TODO: PORT
+//  @Override
+//  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+//    return new ToolCapabilityProvider(stack);
+//  }
 
   @Override
   public void verifyTagAfterLoad(CompoundTag nbt) {
@@ -148,7 +154,7 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
 
   /* Damage/Durability */
 
-  @Override
+//  @Override TODO: PORT
   public boolean isRepairable(ItemStack stack) {
     // handle in the tinker station
     return false;
@@ -185,7 +191,6 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
     }
   }
 
-  @Override
   public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T damager, Consumer<T> onBroken) {
     // We basically emulate Itemstack.damageItem here. We always return 0 to skip the handling in ItemStack.
     // If we don't tools ignore our damage logic
@@ -320,15 +325,15 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
 
   /* Misc */
 
-  @Override
-  public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
-    return shouldCauseReequipAnimation(oldStack, newStack, false);
-  }
-
-  @Override
-  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-    return ModifiableItemUtil.shouldCauseReequip(oldStack, newStack, slotChanged);
-  }
+//  @Override TODO: PORT
+//  public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
+//    return shouldCauseReequipAnimation(oldStack, newStack, false);
+//  }
+//
+//  @Override
+//  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+//    return ModifiableItemUtil.shouldCauseReequip(oldStack, newStack, slotChanged);
+//  }
 
 
   /* Multishot helper */

@@ -1757,74 +1757,74 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     // zombies give less blood, they lost a lot already
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.ZOMBIE, EntityType.HUSK, EntityType.ZOMBIFIED_PIGLIN, EntityType.ZOGLIN, EntityType.ZOMBIE_HORSE),
                                        new FluidStack(TinkerFluids.blood.get(), FluidValues.SLIMEBALL / 10), 2)
-                              .save(consumer, prefix(EntityType.ZOMBIE, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.ZOMBIE), folder));
     MeltingRecipeBuilder.melting(Ingredient.of(Items.ZOMBIE_HEAD, TinkerWorld.heads.get(TinkerHeadType.HUSK), TinkerWorld.heads.get(TinkerHeadType.PIGLIN), TinkerWorld.heads.get(TinkerHeadType.PIGLIN_BRUTE), TinkerWorld.heads.get(TinkerHeadType.ZOMBIFIED_PIGLIN)), TinkerFluids.blood.get(), FluidValues.SLIMEBALL * 2)
-                        .save(consumer, prefix(EntityType.ZOMBIE, headFolder));
+                        .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.ZOMBIE), headFolder));
     // drowned are weird, there is water flowing through their veins
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.DROWNED),
                                        new FluidStack(Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 50), 2)
-                              .save(consumer, prefix(EntityType.DROWNED, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.DROWNED), folder));
     MeltingRecipeBuilder.melting(Ingredient.of(TinkerWorld.heads.get(TinkerHeadType.DROWNED)), Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 4)
-                        .save(consumer, prefix(EntityType.DROWNED, headFolder));
+                        .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.DROWNED), headFolder));
     // melt spiders into venom
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.SPIDER, EntityType.CAVE_SPIDER),
                                        new FluidStack(TinkerFluids.venom.get(), FluidValues.BOTTLE / 10), 2)
-                              .save(consumer, prefix(EntityType.SPIDER, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.SPIDER), folder));
     MeltingRecipeBuilder.melting(Ingredient.of(TinkerWorld.heads.get(TinkerHeadType.SPIDER), TinkerWorld.heads.get(TinkerHeadType.CAVE_SPIDER)), TinkerFluids.venom.get(), FluidValues.SLIMEBALL * 2)
-                        .save(consumer, prefix(EntityType.SPIDER, headFolder));
+                        .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.SPIDER), headFolder));
 
     // creepers are based on explosives, tnt is explosive, tnt is made from sand, sand melts into glass. therefore, creepers melt into glass
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.CREEPER),
                                        new FluidStack(TinkerFluids.moltenGlass.get(), FluidValues.GLASS_BLOCK / 20), 2)
-                              .save(consumer, prefix(EntityType.CREEPER, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.CREEPER), folder));
     MeltingRecipeBuilder.melting(Ingredient.of(Items.CREEPER_HEAD), TinkerFluids.moltenGlass.get(), FluidAttributes.BUCKET_VOLUME / 4)
-                        .save(consumer, prefix(EntityType.CREEPER, headFolder));
+                        .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.CREEPER), headFolder));
 
     // melt skeletons to get the milk out
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityIngredient.of(EntityTypeTags.SKELETONS), EntityIngredient.of(EntityType.SKELETON_HORSE)),
                                        new FluidStack(Milk.STILL_MILK, FluidAttributes.BUCKET_VOLUME / 10))
                               .save(consumer, modResource(folder + "skeletons"));
     MeltingRecipeBuilder.melting(Ingredient.of(Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL, TinkerWorld.heads.get(TinkerHeadType.STRAY)), Milk.STILL_MILK, FluidAttributes.BUCKET_VOLUME / 4)
-                        .save(consumer, prefix(EntityType.SKELETON, headFolder));
+                        .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.SKELETON), headFolder));
 
     // slimes melt into slime, shocker
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.SLIME, TinkerWorld.earthSlimeEntity.get()), new FluidStack(TinkerFluids.earthSlime.get(), FluidValues.SLIMEBALL / 10))
-                              .save(consumer, prefix(EntityType.SLIME, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.SLIME), folder));
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(TinkerWorld.skySlimeEntity.get()), new FluidStack(TinkerFluids.skySlime.get(), FluidValues.SLIMEBALL / 10))
-                              .save(consumer, prefix(TinkerWorld.skySlimeEntity, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(TinkerWorld.skySlimeEntity.get()), folder));
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(TinkerWorld.enderSlimeEntity.get()), new FluidStack(TinkerFluids.enderSlime.get(), FluidValues.SLIMEBALL / 10))
-                              .save(consumer, prefix(TinkerWorld.enderSlimeEntity, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(TinkerWorld.enderSlimeEntity.get()), folder));
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(TinkerWorld.terracubeEntity.get()), new FluidStack(TinkerFluids.moltenClay.get(), FluidValues.SLIMEBALL / 10))
-                              .save(consumer, prefix(TinkerWorld.terracubeEntity, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(TinkerWorld.terracubeEntity.get()), folder));
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.MAGMA_CUBE), new FluidStack(TinkerFluids.magma.get(), FluidValues.SLIMEBALL / 10))
-                              .save(consumer, prefix(EntityType.MAGMA_CUBE, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.MAGMA_CUBE), folder));
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.BEE), new FluidStack(TinkerFluids.honey.get(), FluidValues.BOTTLE / 10))
-                              .save(consumer, prefix(EntityType.BEE, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.BEE), folder));
 
     // iron golems can be healed using an iron ingot 25 health
     // 4 * 9 gives 36, which is larger
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.IRON_GOLEM), new FluidStack(TinkerFluids.moltenIron.get(), FluidValues.NUGGET), 4)
-                              .save(consumer, prefix(EntityType.IRON_GOLEM, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.IRON_GOLEM), folder));
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.SNOW_GOLEM), new FluidStack(Fluids.WATER, FluidAttributes.BUCKET_VOLUME / 10))
-                              .save(consumer, prefix(EntityType.SNOW_GOLEM, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.SNOW_GOLEM), folder));
 
     // "melt" blazes to get fuel
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.BLAZE), new FluidStack(TinkerFluids.blazingBlood.get(), FluidAttributes.BUCKET_VOLUME / 50), 2)
-                              .save(consumer, prefix(EntityType.BLAZE, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.BLAZE), folder));
     MeltingRecipeBuilder.melting(Ingredient.of(TinkerWorld.heads.get(TinkerHeadType.BLAZE)), new FluidStack(TinkerFluids.blazingBlood.get(), FluidAttributes.BUCKET_VOLUME / 10), 1000, IMeltingRecipe.calcTime(1500, 1.0f))
-                        .save(consumer, prefix(EntityType.BLAZE, headFolder));
+                        .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.BLAZE), headFolder));
 
     // guardians are rock, seared stone is rock, don't think about it too hard
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.GUARDIAN, EntityType.ELDER_GUARDIAN), new FluidStack(TinkerFluids.searedStone.get(), FluidValues.BRICK / 5), 4)
-                              .save(consumer, prefix(EntityType.GUARDIAN, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.GUARDIAN), folder));
     // silverfish also seem like rock, sorta?
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.SILVERFISH), new FluidStack(TinkerFluids.searedStone.get(), FluidValues.BRICK / 5), 2)
-                              .save(consumer, prefix(EntityType.SILVERFISH, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.SILVERFISH), folder));
 
     // villagers melt into emerald, but they die quite quick
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(TinkerTags.EntityTypes.VILLAGERS),
                                        new FluidStack(TinkerFluids.moltenEmerald.get(), FluidValues.GEM_SHARD), 5)
-                              .save(consumer, prefix(EntityType.VILLAGER, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.VILLAGER), folder));
     // illagers are more resistant, they resist the villager culture afterall
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(TinkerTags.EntityTypes.ILLAGERS),
                                        new FluidStack(TinkerFluids.moltenEmerald.get(), FluidValues.GEM_SHARD), 2)
@@ -1835,14 +1835,14 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                                        new FluidStack(TinkerFluids.moltenEnder.get(), FluidValues.SLIMEBALL / 10), 2)
                               .save(consumer, modResource(folder + "ender"));
     MeltingRecipeBuilder.melting(Ingredient.of(TinkerWorld.heads.get(TinkerHeadType.ENDERMAN)), TinkerFluids.moltenEnder.get(), FluidValues.SLIMEBALL * 2)
-                        .save(consumer, prefix(EntityType.ENDERMAN, headFolder));
+                        .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.ENDERMAN), headFolder));
     MeltingRecipeBuilder.melting(Ingredient.of(Items.DRAGON_HEAD), TinkerFluids.moltenEnder.get(), FluidValues.SLIMEBALL * 4)
-                        .save(consumer, prefix(EntityType.ENDER_DRAGON, headFolder));
+                        .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.ENDER_DRAGON), headFolder));
 
     // if you can get him to stay, wither is a source of free liquid soul
     EntityMeltingRecipeBuilder.melting(EntityIngredient.of(EntityType.WITHER),
                                        new FluidStack(TinkerFluids.liquidSoul.get(), FluidValues.GLASS_BLOCK / 20), 2)
-                              .save(consumer, prefix(EntityType.WITHER, folder));
+                              .save(consumer, prefix(Registry.ENTITY_TYPE.getKey(EntityType.WITHER), folder));
   }
 
   private void addCompatRecipes(Consumer<FinishedRecipe> consumer) {

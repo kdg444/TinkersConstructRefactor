@@ -129,7 +129,7 @@ public class ModifiableCrossbowItem extends ModifiableLauncherItem {
       if (BowAmmoModifierHook.hasAmmo(tool, bow, player, getSupportedHeldProjectiles())) {
         player.startUsingItem(hand);
         float drawspeed = ConditionalStatModifierHook.getModifiedStat(tool, player, ToolStats.DRAW_SPEED) / 20f;
-        player.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> data.put(DRAWSPEED, drawspeed));
+        TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> data.put(DRAWSPEED, drawspeed));
         // we want an int version to make sounds more precise
         persistentData.putInt(KEY_DRAWTIME, (int)Math.ceil(1 / drawspeed));
         if (!level.isClientSide) {
@@ -215,7 +215,7 @@ public class ModifiableCrossbowItem extends ModifiableLauncherItem {
 
         // add modifiers to the projectile, will let us use them on impact
         ModifierNBT modifiers = tool.getModifiers();
-        projectile.getCapability(EntityModifierCapability.CAPABILITY).ifPresent(cap -> cap.setModifiers(modifiers));
+        EntityModifierCapability.CAPABILITY.maybeGet(projectile).ifPresent(cap -> cap.setModifiers(modifiers));
 
         // fetch the persistent data for the arrow as modifiers may want to store data
         NamespacedNBT projectileData = PersistentDataCapability.getOrWarn(projectile);

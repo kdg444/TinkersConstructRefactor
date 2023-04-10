@@ -75,7 +75,7 @@ public class CraftingStationBlockEntity extends RetexturedTableBlockEntity imple
       RecipeManager manager = this.level.getServer().getRecipeManager();
 
       // first, try the cached recipe
-      ForgeHooks.setCraftingPlayer(player);
+//      ForgeHooks.setCraftingPlayer(player);
       CraftingRecipe recipe = lastRecipe;
       // if it does not match, find a new recipe
       // note we intentionally have no player access during matches, that could lead to an unstable recipe
@@ -93,7 +93,7 @@ public class CraftingStationBlockEntity extends RetexturedTableBlockEntity imple
           this.syncToRelevantPlayers(this::syncRecipe);
         }
       }
-      ForgeHooks.setCraftingPlayer(null);
+//      ForgeHooks.setCraftingPlayer(null);
     }
     else if (this.lastRecipe != null && this.lastRecipe.matches(this.craftingInventory, this.level)) {
 //      ForgeHooks.setCraftingPlayer(player);

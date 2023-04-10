@@ -145,3 +145,10 @@ transitive-accessible field net/minecraft/world/item/alchemy/PotionBrewing$Mix f
 transitive-accessible field net/minecraft/world/item/alchemy/PotionBrewing$Mix ingredient Lnet/minecraft/world/item/crafting/Ingredient;
 
 transitive-accessible field net/minecraft/data/loot/BlockLoot map Ljava/util/Map;
+
+accessible field net/minecraft/world/entity/projectile/AbstractArrow piercingIgnoreEntityIds Lit/unimi/dsi/fastutil/ints/IntOpenHashSet;
+accessible field net/minecraft/world/entity/projectile/AbstractArrow piercedAndKilledEntities Ljava/util/List;
+accessible field net/minecraft/world/entity/projectile/AbstractArrow soundEvent Lnet/minecraft/sounds/SoundEvent;
+accessible method net/minecraft/world/entity/projectile/AbstractArrow doPostHurtEffects (Lnet/minecraft/world/entity/LivingEntity;)V
+accessible method net/minecraft/world/entity/projectile/AbstractArrow getPickupItem ()Lnet/minecraft/world/item/ItemStack;
+accessible field net/minecraft/client/renderer/item/ItemProperties PROPERTIES Ljava/util/Map;

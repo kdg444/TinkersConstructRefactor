@@ -3,6 +3,7 @@ package slimeknights.tconstruct.tools.logic;
 import com.google.common.collect.Multiset;
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback;
+import io.github.fabricators_of_create.porting_lib.event.common.ProjectileImpactCallback;
 import io.github.fabricators_of_create.porting_lib.util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,7 +36,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -82,6 +82,7 @@ public class ToolEvents {
     LivingEntityEvents.ACTUALLY_HURT.register(ToolEvents::livingHurt);
     LivingEntityEvents.TICK.register(ToolEvents::livingWalk);
     LivingEntityEvents.VISIBILITY.register(ToolEvents::livingVisibility);
+    ProjectileImpactCallback.EVENT.register(ToolEvents::projectileHit);
   }
 
   static void onBreakSpeed(PlayerBreakSpeedCallback.BreakSpeed event) {
@@ -392,13 +393,10 @@ public class ToolEvents {
   }
 
   /** Implements projectile hit hook */
-  @SubscribeEvent
-  static void projectileHit(ProjectileImpactEvent event) {
-    Projectile projectile = event.getProjectile();
+  static boolean projectileHit(Projectile projectile, HitResult hit) {
     ModifierNBT modifiers = EntityModifierCapability.getOrEmpty(projectile);
     if (!modifiers.isEmpty()) {
       NamespacedNBT nbt = PersistentDataCapability.getOrWarn(projectile);
-      HitResult hit = event.getRayTraceResult();
       HitResult.Type type = hit.getType();
       // extract a firing entity as that is a common need
       LivingEntity attacker = projectile.getOwner() instanceof LivingEntity l ? l : null;
@@ -410,22 +408,26 @@ public class ToolEvents {
           if (entityHit.getEntity().getType() != EntityType.ENDERMAN || modifiers.getLevel(TinkerModifiers.enderference.getId()) > 0) {
             // extract a living target as that is the most common need
             LivingEntity target = ToolAttackUtil.getLivingEntity(entityHit.getEntity());
+            boolean cancel = false;
             for (ModifierEntry entry : modifiers.getModifiers()) {
               if (entry.getHook(TinkerHooks.PROJECTILE_HIT).onProjectileHitEntity(modifiers, nbt, entry, projectile, entityHit, attacker, target)) {
-                event.setCanceled(true);
+                cancel = true;
               }
             }
+            if (cancel)
+              return true;
           }
         }
         case BLOCK -> {
           BlockHitResult blockHit = (BlockHitResult)hit;
           for (ModifierEntry entry : modifiers.getModifiers()) {
             if (entry.getHook(TinkerHooks.PROJECTILE_HIT).onProjectileHitBlock(modifiers, nbt, entry, projectile, blockHit, attacker)) {
-              event.setCanceled(true);
+              return true;
             }
           }
         }
       }
     }
+    return false;
   }
 }

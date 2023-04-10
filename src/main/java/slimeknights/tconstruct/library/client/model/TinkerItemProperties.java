@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.client.model;
 
+import com.google.common.collect.Maps;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +17,7 @@ public class TinkerItemProperties {
     if (holder == null || holder.getUseItem() != stack) {
       return 0.0F;
     }
-    float drawSpeed = holder.getCapability(TinkerDataCapability.CAPABILITY).resolve().map(data -> data.get(ModifiableLauncherItem.DRAWSPEED)).orElse(1/20f);
+    float drawSpeed = TinkerDataCapability.CAPABILITY.maybeGet(holder).map(data -> data.get(ModifiableLauncherItem.DRAWSPEED)).orElse(1/20f);
     return (float)(stack.getUseDuration() - holder.getUseItemRemainingTicks()) * drawSpeed;
   };
 
@@ -27,7 +28,7 @@ public class TinkerItemProperties {
 
   /** Registers properties for a bow */
   public static void registerBowProperties(Item item) {
-    ItemProperties.register(item, PULL_ID, PULL);
-    ItemProperties.register(item, PULLING_ID, PULLING);
+    ItemProperties.PROPERTIES.computeIfAbsent(item, itemx -> Maps.newHashMap()).put(PULL_ID, PULL);
+    ItemProperties.PROPERTIES.computeIfAbsent(item, itemx -> Maps.newHashMap()).put(PULLING_ID, PULLING);
   }
 }

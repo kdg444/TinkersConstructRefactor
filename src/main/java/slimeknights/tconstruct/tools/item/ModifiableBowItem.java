@@ -73,7 +73,7 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
 
     boolean hasAmmo = BowAmmoModifierHook.hasAmmo(tool, bow, player, getSupportedHeldProjectiles());
     // ask forge if it has any different opinions
-    InteractionResultHolder<ItemStack> override = ForgeEventFactory.onArrowNock(bow, level, player, hand, hasAmmo);
+    InteractionResultHolder<ItemStack> override = null;//ForgeEventFactory.onArrowNock(bow, level, player, hand, hasAmmo);
     if (override != null) {
       return override;
     }
@@ -83,7 +83,7 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
     player.startUsingItem(hand);
     // property for scope, release, and item model
     float drawspeed = ConditionalStatModifierHook.getModifiedStat(tool, player, ToolStats.DRAW_SPEED) / 20f;
-    player.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> data.put(DRAWSPEED, drawspeed));
+    TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> data.put(DRAWSPEED, drawspeed));
     // we want an int version to make sounds more precise
     tool.getPersistentData().putInt(KEY_DRAWTIME, (int)Math.ceil(1 / drawspeed));
     if (!level.isClientSide) {
@@ -96,7 +96,7 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
   public void releaseUsing(ItemStack bow, Level level, LivingEntity living, int timeLeft) {
     // clear zoom regardless, does not matter if the tool broke, we should not be zooming
     if (level.isClientSide) {
-      living.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).remove(SCOPE));
+      TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).remove(SCOPE));
     }
 
     // need player
@@ -116,7 +116,7 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
     boolean creative = player.getAbilities().instabuild;
     // ask forge its thoughts on shooting
     int chargeTime = this.getUseDuration(bow) - timeLeft;
-    chargeTime = ForgeEventFactory.onArrowLoose(bow, level, player, chargeTime, !ammo.isEmpty() || creative);
+//    chargeTime = ForgeEventFactory.onArrowLoose(bow, level, player, chargeTime, !ammo.isEmpty() || creative); TODO: HOOKS
 
     // no ammo? no charge? nothing to do
     if (chargeTime < 0 || (ammo.isEmpty() && !creative)) {
@@ -160,7 +160,7 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
 
         // just store all modifiers on the tool for simplicity
         ModifierNBT modifiers = tool.getModifiers();
-        arrow.getCapability(EntityModifierCapability.CAPABILITY).ifPresent(cap -> cap.setModifiers(modifiers));
+        EntityModifierCapability.CAPABILITY.maybeGet(arrow).ifPresent(cap -> cap.setModifiers(modifiers));
 
         // fetch the persistent data for the arrow as modifiers may want to store data
         NamespacedNBT arrowData = PersistentDataCapability.getOrWarn(arrow);

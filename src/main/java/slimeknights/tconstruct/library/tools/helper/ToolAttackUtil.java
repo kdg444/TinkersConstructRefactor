@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.tools.helper;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.entity.PartEntity;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;

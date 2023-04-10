@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.materials.json;
 
 import lombok.Data;
-import slimeknights.tconstruct.library.json.JsonCondition;
+import slimeknights.mantle.client.book.data.JsonCondition;
 import slimeknights.tconstruct.library.json.JsonRedirect;
 
 import javax.annotation.Nullable;

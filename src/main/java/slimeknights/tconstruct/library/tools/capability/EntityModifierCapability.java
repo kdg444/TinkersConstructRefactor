@@ -1,11 +1,19 @@
 package slimeknights.tconstruct.library.tools.capability;
 
+import dev.onyxstudios.cca.api.v3.component.Component;
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
+import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
+import dev.onyxstudios.cca.api.v3.component.TransientComponent;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.Projectile;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.tools.nbt.ModifierNBT;
 
@@ -16,7 +24,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /** Capability to allow an entity to store modifiers, used on projectiles fired from modifiable items */
-public class EntityModifierCapability {
+public class EntityModifierCapability implements EntityComponentInitializer {
   /** Default instance to use with orElse */
   public static final EntityModifiers EMPTY = new EntityModifiers() {
     @Override
@@ -38,11 +46,11 @@ public class EntityModifierCapability {
   /** Capability ID */
   private static final ResourceLocation ID = TConstruct.getResource("modifiers");
   /** Capability type */
-  public static final Capability<EntityModifiers> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+  public static final ComponentKey<EntityModifiers> CAPABILITY = ComponentRegistry.getOrCreate(ID, EntityModifiers.class);
 
   /** Gets the data or an empty instance if missing */
   public static ModifierNBT getOrEmpty(Entity entity) {
-    return entity.getCapability(CAPABILITY).orElse(EMPTY).getModifiers();
+    return CAPABILITY.maybeGet(entity).orElse(EMPTY).getModifiers();
   }
 
   /** Checks if the given entity supports this capability */
@@ -62,55 +70,36 @@ public class EntityModifierCapability {
 
   /** Registers this capability with relevant busses*/
   public static void register() {
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, event -> event.register(ModifierNBT.class));
-    MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EntityModifierCapability::attachCapability);
   }
 
   /** Event listener to attach the capability */
-  private static void attachCapability(AttachCapabilitiesEvent<Entity> event) {
-    if (supportCapability(event.getObject())) {
-      Provider provider = new Provider();
-      event.addCapability(ID, provider);
-      event.addListener(provider);
-    }
+  public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
+    registry.registerFor(Projectile.class, CAPABILITY, projectile -> new Provider());
+//    if (supportCapability(event.getObject())) { TODO: PORT
+//      Provider provider = new Provider();
+//      event.addCapability(ID, provider);
+//      event.addListener(provider);
+//    }
   }
 
   /** Capability provider instance */
-  private static class Provider implements ICapabilitySerializable<ListTag>, Runnable, EntityModifiers {
+  private static class Provider implements EntityModifiers {
     @Getter @Setter
     private ModifierNBT modifiers = ModifierNBT.EMPTY;
-    private LazyOptional<EntityModifiers> capability;
-    private Provider() {
-      this.capability = LazyOptional.of(() -> this);
-    }
 
-    @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-      return CAPABILITY.orEmpty(cap, capability);
+    public void readFromNbt(CompoundTag tag) {
+      modifiers = ModifierNBT.readFromNBT(tag.get("modifiers"));
     }
 
     @Override
-    public void run() {
-      // called when capabilities invalidate, create a new cap just in case they are revived later
-      capability.invalidate();
-      capability = LazyOptional.of(() -> this);
-    }
-
-    @Override
-    public ListTag serializeNBT() {
-      return modifiers.serializeToNBT();
-    }
-
-    @Override
-    public void deserializeNBT(ListTag nbt) {
-      modifiers = ModifierNBT.readFromNBT(nbt);
-      run();
+    public void writeToNbt(CompoundTag tag) {
+      tag.put("modifiers", modifiers.serializeToNBT());
     }
   }
 
   /** Interface for callers to use */
-  public interface EntityModifiers {
+  public interface EntityModifiers extends TransientComponent {
     /** Gets the stored modifiers */
     ModifierNBT getModifiers();
 

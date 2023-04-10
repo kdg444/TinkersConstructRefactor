@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.shared;
 
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.util.NetworkUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.core.BlockPos;
@@ -50,30 +51,30 @@ public class CommonsEvents {
   }
 
   /** Handles opening our containers as the vanilla logic does not grant TE access */
-  @SubscribeEvent
-  static void openSpectatorMenu(RightClickBlock event) {
-    Player player = event.getPlayer();
-    if (player.isSpectator()) {
-      BlockPos pos = event.getPos();
-      Level world = event.getWorld();
-      BlockState state = world.getBlockState(pos);
-      // only handle our blocks, no guarantee this will work with other mods
-      if (TConstruct.MOD_ID.equals(Objects.requireNonNull(state.getBlock().getRegistryName()).getNamespace())) {
-        MenuProvider provider = state.getMenuProvider(world, pos);
-        event.setCanceled(true);
-        if (provider != null) {
-          if (player instanceof ServerPlayer serverPlayer) {
-            NetworkHooks.openGui(serverPlayer, provider, pos);
-            if (player.containerMenu instanceof BaseContainerMenu<?> menu) {
-              menu.syncOnOpen(serverPlayer);
-            }
-          }
-          event.setCancellationResult(InteractionResult.SUCCESS);
-        }
-        event.setCancellationResult(InteractionResult.PASS);
-      }
-    }
-  }
+//  @SubscribeEvent TODO: PORT
+//  static void openSpectatorMenu(RightClickBlock event) {
+//    Player player = event.getPlayer();
+//    if (player.isSpectator()) {
+//      BlockPos pos = event.getPos();
+//      Level world = event.getWorld();
+//      BlockState state = world.getBlockState(pos);
+//      // only handle our blocks, no guarantee this will work with other mods
+//      if (TConstruct.MOD_ID.equals(Objects.requireNonNull(state.getBlock().getRegistryName()).getNamespace())) {
+//        MenuProvider provider = state.getMenuProvider(world, pos);
+//        event.setCanceled(true);
+//        if (provider != null) {
+//          if (player instanceof ServerPlayer serverPlayer) {
+//            NetworkUtil.openGui(serverPlayer, provider, pos);
+//            if (player.containerMenu instanceof BaseContainerMenu<?> menu) {
+//              menu.syncOnOpen(serverPlayer);
+//            }
+//          }
+//          event.setCancellationResult(InteractionResult.SUCCESS);
+//        }
+//        event.setCancellationResult(InteractionResult.PASS);
+//      }
+//    }
+//  }
 
   private static void bounce(Entity entity, float amount) {
     entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, amount, 0.0D));

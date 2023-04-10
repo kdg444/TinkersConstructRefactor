@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.modifiers.traits.melee;
 
 import com.google.common.collect.Lists;
 import io.github.fabricators_of_create.porting_lib.event.common.EntityEvents;
+import io.github.fabricators_of_create.porting_lib.mixin.common.accessor.DamageSourceAccessor;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,10 +33,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class EnderferenceModifier extends Modifier implements ProjectileHitModifierHook {
-  private static final DamageSource FALLBACK = new DamageSource("arrow");
+  private static final DamageSource FALLBACK = DamageSourceAccessor.port_lib$init("arrow");
 
   public EnderferenceModifier() {
-    MinecraftForge.EVENT_BUS.addListener(EnderferenceModifier::onTeleport);
+    EntityEvents.TELEPORT.register(EnderferenceModifier::onTeleport);
   }
 
   private static void onTeleport(EntityEvents.Teleport.EntityTeleportEvent event) {

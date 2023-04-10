@@ -6,6 +6,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -40,10 +42,10 @@ public class TableClientEvents extends ClientEventBase {
 
   static void registerRenderers() {
     BlockEntityRendererProvider<TableBlockEntity> tableRenderer = TableTileEntityRenderer::new;
-    event.registerBlockEntityRenderer(TinkerTables.craftingStationTile.get(), tableRenderer);
-    event.registerBlockEntityRenderer(TinkerTables.tinkerStationTile.get(), tableRenderer);
-    event.registerBlockEntityRenderer(TinkerTables.modifierWorktableTile.get(), tableRenderer);
-    event.registerBlockEntityRenderer(TinkerTables.partBuilderTile.get(), tableRenderer);
+    BlockEntityRenderers.register(TinkerTables.craftingStationTile.get(), tableRenderer);
+    BlockEntityRenderers.register(TinkerTables.tinkerStationTile.get(), tableRenderer);
+    BlockEntityRenderers.register(TinkerTables.modifierWorktableTile.get(), tableRenderer);
+    BlockEntityRenderers.register(TinkerTables.partBuilderTile.get(), tableRenderer);
   }
 
   static void setupClient() {

@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.nbt.CompoundTag;
@@ -79,7 +80,7 @@ public class ToolClientEvents extends ClientEventBase {
   static void addResourceListener() {
     ModifierModelManager.init(ResourceManagerHelper.get(PackType.CLIENT_RESOURCES));
     MaterialTooltipCache.init(ResourceManagerHelper.get(PackType.CLIENT_RESOURCES));
-    DynamicTextureLoader.init(manager);
+    DynamicTextureLoader.init();
     ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(MODIFIER_RELOAD_LISTENER);
     ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(PlateArmorModel.RELOAD_LISTENER);
     ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(SlimeskullArmorModel.RELOAD_LISTENER);
@@ -104,7 +105,7 @@ public class ToolClientEvents extends ClientEventBase {
 
   static void registerRenderers() {
     EntityRendererRegistry.register(TinkerTools.indestructibleItem.get(), ItemEntityRenderer::new);
-    event.registerEntityRenderer(TinkerTools.crystalshotEntity.get(), CrystalshotRenderer::new);
+    EntityRendererRegistry.register(TinkerTools.crystalshotEntity.get(), CrystalshotRenderer::new);
   }
 
   public static void clientSetupEvent() {
@@ -172,7 +173,7 @@ public class ToolClientEvents extends ClientEventBase {
     registerItemColors(TinkerTools.sword);
     registerItemColors(TinkerTools.cleaver);
     // bow
-    registerItemColors(colors, TinkerTools.longbow);
+    registerItemColors(TinkerTools.longbow);
   }
 
   // values to check if a key was being pressed last tick, safe as a static value as we only care about a single player client side

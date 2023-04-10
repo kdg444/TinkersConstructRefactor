@@ -49,9 +49,9 @@ public class BlockDeferredRegisterExtension extends BlockDeferredRegister {
    * @return  Potted block instance
    */
   public RegistryObject<FlowerPotBlock> registerPotted(String name, Supplier<? extends Block> block) {
-    Supplier<FlowerPotBlock> flowerPot = RegistrationHelper.castDelegate(Blocks.FLOWER_POT.delegate);
-    RegistryObject<FlowerPotBlock> potted = registerNoItem("potted_" + name, () -> new FlowerPotBlock(flowerPot, block, POTTED_PROPS));
-    flowerPot.get().addPlant(resource(name), potted);
+//    Supplier<FlowerPotBlock> flowerPot = RegistrationHelper.castDelegate(Blocks.FLOWER_POT.delegate); TODO: PORT
+    RegistryObject<FlowerPotBlock> potted = registerNoItem("potted_" + name, () -> new FlowerPotBlock(/*flowerPot, */block.get(), POTTED_PROPS));
+//    flowerPot.get().addPlant(resource(name), potted);
     return potted;
   }
 

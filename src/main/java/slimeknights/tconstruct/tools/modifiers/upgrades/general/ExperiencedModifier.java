@@ -5,12 +5,9 @@ import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEven
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
-import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.tools.capability.EntityModifierCapability;
@@ -23,8 +20,8 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 public class ExperiencedModifier extends Modifier {
   private static final TinkerDataKey<Integer> EXPERIENCED = TConstruct.createKey("experienced");
   public ExperiencedModifier() {
-    LivingEntityEvents.EXPERIENCE_DROP.register(this::onExperienceDrop);
-    MinecraftForge.EVENT_BUS.addListener(this::onEntityKilled);
+    LivingEntityEvents.EXPERIENCE_DROP_WITH_ENTITY.register(this::onExperienceDrop);
+//    MinecraftForge.EVENT_BUS.addListener(this::onEntityKilled); TODO: PORT
     BlockEvents.BLOCK_BREAK.register(this::beforeBlockBreak);
   }
 
@@ -60,30 +57,29 @@ public class ExperiencedModifier extends Modifier {
   }
 
   /** Mark entities killed by our arrows */
-  private void onEntityKilled(LivingDeathEvent event) {
-    DamageSource source = event.getSource();
-    if (source != null && source.getDirectEntity() instanceof Projectile projectile) {
-      ModifierNBT modifiers = EntityModifierCapability.getOrEmpty(projectile);
-      // it is very unlikely that we fire an arrow on a bow with no modifiers, if that ever happens though we will not be able to identify its our arrow
-      if (!modifiers.isEmpty()) {
-        event.getEntityLiving().getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> data.put(EXPERIENCED, modifiers.getLevel(this.getId())));
-      }
-    }
-  }
+//  private void onEntityKilled(LivingDeathEvent event) {
+//    DamageSource source = event.getSource();
+//    if (source != null && source.getDirectEntity() instanceof Projectile projectile) {
+//      ModifierNBT modifiers = EntityModifierCapability.getOrEmpty(projectile);
+//      // it is very unlikely that we fire an arrow on a bow with no modifiers, if that ever happens though we will not be able to identify its our arrow
+//      if (!modifiers.isEmpty()) {
+//        event.getEntityLiving().getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> data.put(EXPERIENCED, modifiers.getLevel(this.getId())));
+//      }
+//    }
+//  }
 
   /**
    * Event handled locally as its pretty specialized
    * @param amount  amount of xp
    * @param player current player
    */
-  private void onExperienceDrop(LivingExperienceDropEvent event) {
+  private int onExperienceDrop(int amount, Player player, LivingEntity entity) {
     // if the entity was killed by one of our arrows, boost the experience from that
-    int experienced = event.getEntityLiving().getCapability(TinkerDataCapability.CAPABILITY).resolve().map(data -> data.get(EXPERIENCED)).orElse(-1);
+    int experienced = TinkerDataCapability.CAPABILITY.maybeGet(entity).map(data -> data.get(EXPERIENCED)).orElse(-1);
     if (experienced > 0) {
-      event.setDroppedExperience(boost(event.getDroppedExperience(), experienced));
+      return boost(amount, experienced);
       // experienced being zero means it was our arrow but it was not modified, do not check the held item in that case
     } else if (experienced != 0) {
-      Player player = event.getAttackingPlayer();
       if (player != null) {
         int level = 0;
         // held tool
@@ -93,7 +89,7 @@ public class ExperiencedModifier extends Modifier {
         tool = getHeldTool(player, EquipmentSlot.LEGS);
         if (tool != null) level += tool.getModifierLevel(this);
         if (level > 0) {
-          event.setDroppedExperience(boost(event.getDroppedExperience(), level));
+          return boost(amount, level);
         }
       }
     }

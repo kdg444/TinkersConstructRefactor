@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.tools.capability;
 
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
@@ -35,7 +36,7 @@ public class PersistentDataCapability implements EntityComponentInitializer {
 
   /** Gets the data or warns if its missing */
   public static NamespacedNBT getOrWarn(Entity entity) {
-    Optional<NamespacedNBT> data = entity.getCapability(CAPABILITY).resolve();
+    Optional<NamespacedNBT> data = CAPABILITY.maybeGet(entity);
     if (data.isEmpty()) {
       TConstruct.LOG.warn("Missing Tinkers NBT on entity {}, this should not happen", entity.getType());
       return new NamespacedNBT();
@@ -54,14 +55,14 @@ public class PersistentDataCapability implements EntityComponentInitializer {
   }
 
   /** Event listener to attach the capability */
-  private static void attachCapability(AttachCapabilitiesEvent<Entity> event) {
-    Entity entity = event.getObject();
-    // must be on players, but also support anything else with modifiers, this is their data
-    if (entity instanceof Player || EntityModifierCapability.supportCapability(entity)) {
-      Provider provider = new Provider();
-      event.addCapability(ID, provider);
-      event.addListener(provider);
-    }
+  public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
+//    Entity entity = event.getObject(); TODO: PORT
+//    // must be on players, but also support anything else with modifiers, this is their data
+//    if (entity instanceof Player || EntityModifierCapability.supportCapability(entity)) {
+//      Provider provider = new Provider();
+//      event.addCapability(ID, provider);
+//      event.addListener(provider);
+//    }
   }
 
   /** Syncs the data to the given player */

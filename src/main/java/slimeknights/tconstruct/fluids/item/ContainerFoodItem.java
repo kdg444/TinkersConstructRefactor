@@ -81,10 +81,10 @@ public class ContainerFoodItem extends Item {
       this.fluid = fluid;
     }
 
-    @Nullable
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-      return new ConstantFluidContainerWrapper(fluid.get(), stack);
-    }
+//    @Nullable TODO: PORT
+//    @Override
+//    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+//      return new ConstantFluidContainerWrapper(fluid.get(), stack);
+//    }
   }
 }

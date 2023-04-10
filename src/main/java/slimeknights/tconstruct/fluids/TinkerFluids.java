@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.fluids;
 
+import io.github.fabricators_of_create.porting_lib.brewing.BrewingRecipe;
 import io.github.fabricators_of_create.porting_lib.brewing.BrewingRecipeRegistry;
 import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import io.github.tropheusj.milk.Milk;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -66,8 +68,8 @@ public final class TinkerFluids extends TinkerModule {
   public static final FluidObject<SimpleFlowableFluid> venom = FLUIDS.register("venom", coolBuilder().density(1400).viscosity(1300).temperature(310), Material.WATER, 0);
   public static final ItemObject<Item> venomBottle = ITEMS.register("venom_bottle", () -> new FluidContainerFoodItem(
     new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
-                                 .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 1800), 1.0f)
-                                 .effect(() -> new MobEffectInstance(MobEffects.POISON, 450), 1.0f)
+                                 .effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 1800), 1.0f)
+                                 .effect(new MobEffectInstance(MobEffects.POISON, 450), 1.0f)
                                  .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
     () -> new FluidStack(venom.get(), FluidValues.BOTTLE))
   );
@@ -90,37 +92,37 @@ public final class TinkerFluids extends TinkerModule {
   public static final EnumObject<SlimeType, Item> slimeBottle = new EnumObject.Builder<SlimeType,Item>(SlimeType.class)
     .put(SlimeType.EARTH, ITEMS.register("earth_slime_bottle", () -> new FluidContainerFoodItem(
       new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
-                                   .effect(() -> new MobEffectInstance(MobEffects.LUCK, 1500), 1.0f)
-                                   .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
+                                   .effect(new MobEffectInstance(MobEffects.LUCK, 1500), 1.0f)
+                                   .effect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
                                    .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
       () -> new FluidStack(earthSlime.get(), FluidValues.BOTTLE))))
     .put(SlimeType.SKY, ITEMS.register("sky_slime_bottle", () -> new FluidContainerFoodItem(
       new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
-                                   .effect(() -> new MobEffectInstance(MobEffects.JUMP, 1800), 1.0f)
-                                   .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
+                                   .effect(new MobEffectInstance(MobEffects.JUMP, 1800), 1.0f)
+                                   .effect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
                                    .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
       () -> new FluidStack(skySlime.get(), FluidValues.BOTTLE))))
     .put(SlimeType.ENDER, ITEMS.register("ender_slime_bottle", () -> new FluidContainerFoodItem(
       new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
-                                   .effect(() -> new MobEffectInstance(MobEffects.LEVITATION, 450), 1.0f)
-                                   .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
+                                   .effect(new MobEffectInstance(MobEffects.LEVITATION, 450), 1.0f)
+                                   .effect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
                                    .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
       () -> new FluidStack(enderSlime.get(), FluidValues.BOTTLE))))
     .put(SlimeType.ICHOR, ITEMS.register("ichor_bottle", () -> new ContainerFoodItem(
       new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
-                                   .effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 500), 1.0f)
-                                   .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
+                                   .effect(new MobEffectInstance(MobEffects.ABSORPTION, 500), 1.0f)
+                                   .effect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900), 1.0f)
                                    .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE))))
     .put(SlimeType.BLOOD, ITEMS.register("blood_bottle", () -> new FluidContainerFoodItem(
       new Item.Properties().food(new FoodProperties.Builder()
                                    .nutrition(6).saturationMod(0.1F)
-                                   .effect(() -> new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 600), 0.8f)
+                                   .effect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 600), 0.8f)
                                    .build()).tab(TAB_GENERAL).stacksTo(16).craftRemainder(Items.GLASS_BOTTLE),
       () -> new FluidStack(blood.get(), FluidValues.BOTTLE))))
     .build();
   public static final ItemObject<Item> magmaBottle = ITEMS.register("magma_bottle", () -> new FluidContainerFoodItem(
     new Item.Properties().food(new FoodProperties.Builder().alwaysEat()
-                                 .effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600), 1.0f)
+                                 .effect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600), 1.0f)
                                  .build()).tab(TAB_GENERAL).stacksTo(1).craftRemainder(Items.GLASS_BOTTLE),
     () -> new FluidStack(magma.get(), FluidValues.BOTTLE)));
 
@@ -219,17 +221,15 @@ public final class TinkerFluids extends TinkerModule {
   }
 
   void commonSetup() {
-    event.enqueueWork(() -> {
-      CauldronInteraction.WATER.put(splashBottle.get(), new FillBottle(Items.SPLASH_POTION));
-      CauldronInteraction.WATER.put(lingeringBottle.get(), new FillBottle(Items.LINGERING_POTION));
-      CauldronInteraction.WATER.put(Items.SPLASH_POTION,    new EmptyBottleIntoWater(splashBottle,    CauldronInteraction.WATER.get(Items.SPLASH_POTION)));
-      CauldronInteraction.WATER.put(Items.LINGERING_POTION, new EmptyBottleIntoWater(lingeringBottle, CauldronInteraction.WATER.get(Items.LINGERING_POTION)));
-      CauldronInteraction.EMPTY.put(Items.SPLASH_POTION,    new EmptyBottleIntoEmpty(splashBottle,    CauldronInteraction.EMPTY.get(Items.SPLASH_POTION)));
-      CauldronInteraction.EMPTY.put(Items.LINGERING_POTION, new EmptyBottleIntoEmpty(lingeringBottle, CauldronInteraction.EMPTY.get(Items.LINGERING_POTION)));
-      // brew bottles into each other, bit weird but feels better than shapeless
-      BrewingRecipeRegistry.addRecipe(new BottleBrewingRecipe(Ingredient.of(Items.GLASS_BOTTLE), Items.POTION, Items.SPLASH_POTION, new ItemStack(splashBottle)));
-      BrewingRecipeRegistry.addRecipe(new BottleBrewingRecipe(Ingredient.of(TinkerTags.Items.SPLASH_BOTTLE), Items.SPLASH_POTION, Items.LINGERING_POTION, new ItemStack(lingeringBottle)));
-    });
+    CauldronInteraction.WATER.put(splashBottle.get(), new FillBottle(Items.SPLASH_POTION));
+    CauldronInteraction.WATER.put(lingeringBottle.get(), new FillBottle(Items.LINGERING_POTION));
+    CauldronInteraction.WATER.put(Items.SPLASH_POTION,    new EmptyBottleIntoWater(splashBottle,    CauldronInteraction.WATER.get(Items.SPLASH_POTION)));
+    CauldronInteraction.WATER.put(Items.LINGERING_POTION, new EmptyBottleIntoWater(lingeringBottle, CauldronInteraction.WATER.get(Items.LINGERING_POTION)));
+    CauldronInteraction.EMPTY.put(Items.SPLASH_POTION,    new EmptyBottleIntoEmpty(splashBottle,    CauldronInteraction.EMPTY.get(Items.SPLASH_POTION)));
+    CauldronInteraction.EMPTY.put(Items.LINGERING_POTION, new EmptyBottleIntoEmpty(lingeringBottle, CauldronInteraction.EMPTY.get(Items.LINGERING_POTION)));
+    // brew bottles into each other, bit weird but feels better than shapeless
+    BrewingRecipeRegistry.addRecipe(new BottleBrewingRecipe(Ingredient.of(Items.GLASS_BOTTLE), Items.POTION, Items.SPLASH_POTION, new ItemStack(splashBottle)));
+    BrewingRecipeRegistry.addRecipe(new BottleBrewingRecipe(Ingredient.of(TinkerTags.Items.SPLASH_BOTTLE), Items.SPLASH_POTION, Items.LINGERING_POTION, new ItemStack(lingeringBottle)));
 
     // dispense buckets
     DispenseItemBehavior dispenseBucket = new DefaultDispenseItemBehavior() {

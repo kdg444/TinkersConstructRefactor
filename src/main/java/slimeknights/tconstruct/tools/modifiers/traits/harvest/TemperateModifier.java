@@ -55,10 +55,10 @@ public class TemperateModifier extends Modifier implements ConditionalStatModifi
   public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     // break faster in the cold
     if (isEffective) {
-      float bonus = getBonus(event.getPlayer(), event.getPos(), level);
+      float bonus = getBonus(event.player, event.pos, level);
       if (bonus < 0) {
         // temperature ranges from 0 to 1.25. Division makes it 0 to 0.125 per level
-        event.setNewSpeed(event.getNewSpeed() - (bonus * MAX_MINING_BOOST * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier));
+        event.newSpeed = (event.newSpeed - (bonus * MAX_MINING_BOOST * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier));
       }
     }
   }

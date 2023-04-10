@@ -1,20 +1,17 @@
 package slimeknights.tconstruct.fluids.util;
 
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import slimeknights.mantle.transfer.fluid.IFluidHandlerItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /** Represents a capability handler for a container with a constant fluid */
-public class ConstantFluidContainerWrapper implements IFluidHandlerItem, ICapabilityProvider {
+public class ConstantFluidContainerWrapper implements IFluidHandlerItem/*, ICapabilityProvider*/ {
   private final LazyOptional<IFluidHandlerItem> holder = LazyOptional.of(() -> this);
 
   /** Contained fluid */
@@ -37,7 +34,7 @@ public class ConstantFluidContainerWrapper implements IFluidHandlerItem, ICapabi
   }
 
   @Override
-  public int getTankCapacity(int tank) {
+  public long getTankCapacity(int tank) {
     return fluid.getAmount();
   }
 
@@ -53,19 +50,19 @@ public class ConstantFluidContainerWrapper implements IFluidHandlerItem, ICapabi
   }
 
   @Override
-  public int fill(FluidStack resource, FluidAction action) {
+  public long fill(FluidStack resource, boolean sim) {
     return 0;
   }
 
   @Nonnull
   @Override
-  public FluidStack drain(FluidStack resource, FluidAction action) {
+  public FluidStack drain(FluidStack resource, boolean sim) {
     // cannot drain if: already drained, requested the wrong type, or requested too little
     if (empty || resource.getFluid() != fluid.getFluid() || resource.getAmount() < fluid.getAmount()) {
       return FluidStack.EMPTY;
     }
-    if (action == FluidAction.EXECUTE) {
-      container = container.getContainerItem();
+    if (!sim) {
+      container = container.getRecipeRemainder();
       empty = true;
     }
     return fluid.copy();
@@ -73,21 +70,21 @@ public class ConstantFluidContainerWrapper implements IFluidHandlerItem, ICapabi
 
   @Nonnull
   @Override
-  public FluidStack drain(int maxDrain, FluidAction action) {
+  public FluidStack drain(long maxDrain, boolean sim) {
     // cannot drain if: already drained, requested the wrong type, or requested too little
     if (empty || maxDrain < fluid.getAmount()) {
       return FluidStack.EMPTY;
     }
-    if (action == FluidAction.EXECUTE) {
-      container = container.getContainerItem();
+    if (!sim) {
+      container = container.getRecipeRemainder();
       empty = true;
     }
     return fluid.copy();
   }
 
-  @Nonnull
-  @Override
-  public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
-    return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.orEmpty(capability, holder);
-  }
+//  @Nonnull
+//  @Override
+//  public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
+//    return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.orEmpty(capability, holder);
+//  }
 }

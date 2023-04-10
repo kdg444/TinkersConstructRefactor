@@ -72,13 +72,11 @@ public class ModifierLootingHandler {
     Entity source = damageSource.getEntity();
     if (source instanceof LivingEntity holder) {
       Entity direct = damageSource.getDirectEntity();
-      int level = event.getLootingLevel();
-      LivingEntity target = event.getEntityLiving();
       if (direct instanceof AbstractArrow) {
         // need to build a context from the relevant capabilities to use the modifier
         ModifierNBT modifiers = EntityModifierCapability.getOrEmpty(direct);
         if (!modifiers.isEmpty()) {
-          ModDataNBT persistentData = direct.getCapability(PersistentDataCapability.CAPABILITY).map(ModDataNBT::new).orElseGet(ModDataNBT::new);
+          ModDataNBT persistentData = PersistentDataCapability.CAPABILITY.maybeGet(direct).map(ModDataNBT::new).orElseGet(ModDataNBT::new);
           DummyToolStack tool = new DummyToolStack(Items.AIR, modifiers, persistentData);
           level = LootingModifierHook.getLootingValue(TinkerHooks.PROJECTILE_LOOTING, tool, holder, target, damageSource, 0);
         }
@@ -88,7 +86,7 @@ public class ModifierLootingHandler {
         ItemStack held = holder.getItemBySlot(slotType);
         if (held.is(TinkerTags.Items.MODIFIABLE)) {
           ToolStack tool = ToolStack.from(held);
-          level = ModifierUtil.getLootingLevel(tool, holder, event.getEntityLiving(), damageSource);
+          level = ModifierUtil.getLootingLevel(tool, holder, target, damageSource);
           // ignore default looting if we are looting from another slot
         } else if (slotType != EquipmentSlot.MAINHAND) {
           level = 0;

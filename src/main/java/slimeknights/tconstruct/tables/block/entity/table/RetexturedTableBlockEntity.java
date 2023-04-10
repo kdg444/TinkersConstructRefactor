@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.shared.block.entity.TableBlockEntity;
@@ -41,7 +42,7 @@ public abstract class RetexturedTableBlockEntity extends TableBlockEntity implem
 
   @Nonnull
   @Override
-  public Object getRenderAttachmentData() {
+  public IModelData getRenderAttachmentData() {
     return this.data.get();
   }
 

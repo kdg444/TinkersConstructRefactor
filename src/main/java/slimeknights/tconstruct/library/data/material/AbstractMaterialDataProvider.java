@@ -7,9 +7,9 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import slimeknights.mantle.client.book.data.JsonCondition;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
-import slimeknights.tconstruct.library.json.JsonCondition;
 import slimeknights.tconstruct.library.json.JsonRedirect;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.Material;
@@ -130,7 +130,7 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
 
   /** Creates a new compat material */
   protected void addCompatMaterial(MaterialId location, int tier, int order, String tagName, boolean craftable) {
-    ICondition condition = new OrCondition(ConfigEnabledCondition.FORCE_INTEGRATION_MATERIALS, tagExistsCondition(tagName));
+    ConditionJsonProvider condition = DefaultResourceConditions.or(ConfigEnabledCondition.FORCE_INTEGRATION_MATERIALS, tagExistsCondition(tagName));
     addMaterial(location, tier, order, craftable, false, condition);
   }
 

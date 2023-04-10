@@ -4,7 +4,9 @@ import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEven
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -16,25 +18,26 @@ import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 public class SoulboundModifier extends NoLevelsModifier {
   private static final ResourceLocation SLOT = TConstruct.getResource("soulbound_slot");
   public SoulboundModifier() {
     // high priority so we do it before other possibly death-inventory-modifying mods
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, this::onPlayerDeath);
+    ServerPlayerEvents.ALLOW_DEATH.register(this::onPlayerDeath);
     LivingEntityEvents.DROPS.register(this::onPlayerDropItems);
     ServerPlayerEvents.COPY_FROM.register(this::onPlayerClone);
   }
 
   /** Called when the player dies to store the item in the original inventory */
-  private void onPlayerDeath(LivingDeathEvent event) {
-    if (event.isCanceled()) {
-      return;
-    }
+  private boolean onPlayerDeath(ServerPlayer player, DamageSource damageSource, float damageAmount) {
+//    if (event.isCanceled()) {
+//      return;
+//    }
     // this is the latest we can add slot markers to the items so we can return them to slots
     // for simplicity, only care about held items
-    if (event.getEntityLiving() instanceof Player player && !(player.isFake())) {
+    if (/*event.getEntityLiving() instanceof Player player && */!(player.isFake())) {
       for (EquipmentSlot slot : EquipmentSlot.values()) {
         if (slot != EquipmentSlot.MAINHAND) {
           ItemStack stack = player.getItemBySlot(slot);
@@ -47,13 +50,14 @@ public class SoulboundModifier extends NoLevelsModifier {
         }
       }
     }
+    return true;
   }
 
   /** Called when the player dies to store the item in the original inventory */
-  private void onPlayerDropItems(LivingDropsEvent event) {
-    if (event.isCanceled()) {
-      return;
-    }
+  private boolean onPlayerDropItems(LivingEntity entity, DamageSource source, Collection<ItemEntity> drops) {
+//    if (event.isCanceled()) {
+//      return;
+//    }
     // only care about real players with keep inventory off
     if (!entity.getCommandSenderWorld().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY) && entity instanceof Player player /*&& !(entity instanceof FakePlayer)*/) { // TODO: PORT (fake players?)
       Iterator<ItemEntity> iter = drops.iterator();

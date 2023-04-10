@@ -2,8 +2,11 @@ package slimeknights.tconstruct.tools.data;
 
 import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.IntersectionIngredient;
+import io.github.fabricators_of_create.porting_lib.crafting.PartialNBTIngredient;
 import io.github.fabricators_of_create.porting_lib.data.ConditionalRecipe;
+import io.github.fabricators_of_create.porting_lib.util.FluidAttributes;
 import io.github.fabricators_of_create.porting_lib.util.TrueCondition;
+import io.github.tropheusj.milk.Milk;
 import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -58,6 +61,7 @@ import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.shared.block.SlimeType;
+import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.TinkerToolParts;
 import slimeknights.tconstruct.tools.TinkerTools;
@@ -1317,7 +1321,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                                  .addLeftover(Blocks.SPONGE)
                                  .save(consumer, modResource(worktableFolder + "remove_modifier_sponge"));
     ModifierRemovalRecipe.Builder.removal()
-                                 .addInput(CompoundIngredient.of(FluidContainerIngredient.fromFluid(TinkerFluids.venom, false),
+                                 .addInput(new CombinedIngredient(FluidContainerIngredient.fromFluid(TinkerFluids.venom, false),
                                                                  FluidContainerIngredient.fromIngredient(FluidIngredient.of(TinkerFluids.venom.getLocalTag(), FluidValues.BOTTLE),
                                                                                                          Ingredient.of(TinkerFluids.venomBottle))))
                                  .save(consumer, modResource(worktableFolder + "remove_modifier_venom"));
@@ -1330,7 +1334,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                                      .addInput(PartialNBTIngredient.of(Items.POTION, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.INVISIBILITY).getOrCreateTag()))
                                      .save(consumer, modResource(worktableFolder + "invisible_ink_adding"));
     ModifierSetWorktableRecipeBuilder.setRemoving(hiddenModifiers, blacklist)
-                                     .addInput(FluidContainerIngredient.fromIngredient(FluidIngredient.of(Fluids.MILK, FluidAttributes.BUCKET_VOLUME), Ingredient.of(Items.MILK_BUCKET)))
+                                     .addInput(FluidContainerIngredient.fromIngredient(FluidIngredient.of(Milk.STILL_MILK, FluidAttributes.BUCKET_VOLUME), Ingredient.of(Items.MILK_BUCKET)))
                                      .save(consumer, modResource(worktableFolder + "invisible_ink_removing"));
 
     // compatability

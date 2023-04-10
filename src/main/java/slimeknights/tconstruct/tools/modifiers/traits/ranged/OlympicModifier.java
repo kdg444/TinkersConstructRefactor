@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.ranged;
 
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
@@ -32,7 +33,7 @@ import javax.annotation.Nullable;
 
 public class OlympicModifier extends Modifier implements ProjectileLaunchModifierHook, ProjectileHitModifierHook {
   private static final ResourceLocation OLYMPIC_START = TConstruct.getResource("olympic_start");
-  private static final TagKey<Item> PLATINUM_NUGGET = ItemTags.create(new ResourceLocation("forge", "nuggets/platinum"));
+  private static final TagKey<Item> PLATINUM_NUGGET = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("c", "nuggets/platinum"));
 
   /** Gets the nugget for the given distance */
   private static Item getNugget(double distanceSq) {

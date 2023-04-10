@@ -17,6 +17,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagKey;
 import net.minecraft.tags.TagLoader;
 import net.minecraft.util.profiling.ProfilerFiller;
+import slimeknights.mantle.client.book.data.JsonCondition;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.mantle.data.ConditionSerializer;
 import slimeknights.tconstruct.TConstruct;
@@ -63,8 +64,7 @@ public class MaterialManager extends SimpleJsonResourceReloadListener implements
   /** GSON for loading materials */
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
-    .registerTypeAdapter(JsonCondition.class, ConditionSerializer.DESERIALIZER)
-    .registerTypeAdapter(JsonCondition.class, ConditionSerializer.SERIALIZER)
+    .registerTypeAdapter(JsonCondition.class, ConditionSerializer.INSTANCE)
     .setPrettyPrinting()
     .disableHtmlEscaping()
     .create();

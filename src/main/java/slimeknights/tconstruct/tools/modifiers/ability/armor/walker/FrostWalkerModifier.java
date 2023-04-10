@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor.walker;
 
 import io.github.fabricators_of_create.porting_lib.util.BlockSnapshot;
+import io.github.fabricators_of_create.porting_lib.util.PortingHooks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
@@ -37,8 +38,8 @@ public class FrostWalkerModifier extends AbstractWalkerModifier {
       BlockState below = world.getBlockState(mutable);
       boolean isFull = below.getBlock() == Blocks.WATER && below.getValue(LiquidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
       if (below.getMaterial() == Material.WATER && isFull
-          && frostedIce.canSurvive(world, mutable) && world.isUnobstructed(frostedIce, mutable, CollisionContext.empty())
-          && !ForgeEventFactory.onBlockPlace(living, BlockSnapshot.create(world.dimension(), world, mutable), Direction.UP)) {
+          && frostedIce.canSurvive(world, mutable) && world.isUnobstructed(frostedIce, mutable, CollisionContext.empty())/*
+          && !PortingHooks.onBlockPlace(living, BlockSnapshot.create(world.dimension(), world, mutable), Direction.UP)*/) {
         world.setBlockAndUpdate(mutable, frostedIce);
         world.scheduleTick(mutable, Blocks.FROSTED_ICE, Mth.nextInt(living.getRandom(), 60, 120));
       }

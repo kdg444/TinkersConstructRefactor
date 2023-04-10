@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.client.model;
 
+import io.github.fabricators_of_create.porting_lib.event.client.TextureStitchCallback;
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.Material;
@@ -31,9 +32,9 @@ public class DynamicTextureLoader {
   }
 
   /** Registers this manager */
-  public static void init(RegisterClientReloadListenersEvent event) {
+  public static void init() {
     // clear cache on texture stitch, no longer need it then as its too late to lookup textures
-    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, TextureStitchEvent.Post.class, e -> clearCache());
+    TextureStitchCallback.POST.register(e -> clearCache());
   }
 
   /** Checks if a texture exists */

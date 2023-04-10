@@ -66,7 +66,7 @@ public class ZoomModifier extends NoLevelsModifier implements KeybindInteractMod
       player.playSound(SoundEvents.SPYGLASS_USE, 1.0F, 1.0F);
       player.startUsingItem(hand);
       if (player.level.isClientSide) {
-        player.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).set(ZOOM, 0.1f));
+        TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).set(ZOOM, 0.1f));
       }
       tool.getPersistentData().putBoolean(ZOOM, true);
       return InteractionResult.CONSUME;
@@ -89,7 +89,7 @@ public class ZoomModifier extends NoLevelsModifier implements KeybindInteractMod
     if (tool.getPersistentData().getBoolean(ZOOM)) {
       entity.playSound(SoundEvents.SPYGLASS_STOP_USING, 1.0F, 1.0F);
       if (entity.level.isClientSide) {
-        entity.getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).remove(ZOOM));
+        TinkerDataCapability.CAPABILITY.maybeGet(entity).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).remove(ZOOM));
       }
       tool.getPersistentData().remove(ZOOM);
       return true;

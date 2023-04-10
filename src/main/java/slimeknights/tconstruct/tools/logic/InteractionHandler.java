@@ -282,20 +282,20 @@ public class InteractionHandler {
   }
 
   /** Sets the event result and swings the hand */
-  private static void setLeftClickEventResult(PlayerInteractEvent event, InteractionResult result) {
-    if (result.consumesAction()) {
-      // success means swing hand
-      if (result == InteractionResult.SUCCESS) {
-        event.getPlayer().swing(event.getHand());
-      }
-      event.setCancellationResult(result);
-      // don't cancel the result in survival as it does not actually prevent breaking the block, just causes really weird desyncs
-      // leaving uncanceled lets us still do blocky stuff but if you hold click it digs
-      if (event.getPlayer().getAbilities().instabuild) {
-        event.setCanceled(true);
-      }
-    }
-  }
+//  private static void setLeftClickEventResult(PlayerInteractEvent event, InteractionResult result) { TODO: PORT
+//    if (result.consumesAction()) {
+//      // success means swing hand
+//      if (result == InteractionResult.SUCCESS) {
+//        event.getPlayer().swing(event.getHand());
+//      }
+//      event.setCancellationResult(result);
+//      // don't cancel the result in survival as it does not actually prevent breaking the block, just causes really weird desyncs
+//      // leaving uncanceled lets us still do blocky stuff but if you hold click it digs
+//      if (event.getPlayer().getAbilities().instabuild) {
+//        event.setCanceled(true);
+//      }
+//    }
+//  }
 
   /** Simple class to track the last tick */
   private static class LastTick {
@@ -317,53 +317,53 @@ public class InteractionHandler {
   private static final ComputableDataKey<LastTick> LAST_TICK = TConstruct.createKey("last_tick", LastTick::new);
 
   /** Implements {@link slimeknights.tconstruct.library.modifiers.hook.interaction.BlockInteractionModifierHook} for weapons with left click */
-  @SubscribeEvent
-  static void leftClickBlock(LeftClickBlock event) {
-    // ensure we have not fired this tick
-    Player player = event.getPlayer();
-    if (player.getCapability(TinkerDataCapability.CAPABILITY).filter(data -> data.computeIfAbsent(LAST_TICK).update(player)).isEmpty()) {
-      return;
-    }
-    // must support interaction
-    ItemStack stack = event.getItemStack();
-    if (!stack.is(TinkerTags.Items.INTERACTABLE_LEFT) || player.getCooldowns().isOnCooldown(stack.getItem())) {
-      return;
-    }
-
-    // build usage context
-    InteractionHand hand = event.getHand();
-    BlockPos pos = event.getPos();
-    Direction direction = event.getFace();
-    if (direction == null) {
-      direction = player.getDirection().getOpposite();
-    }
-    UseOnContext context = new UseOnContext(player, hand, new BlockHitResult(Util.toHitVec(pos, direction), direction, pos, false));
-
-    // run modifier hooks
-    ToolStack tool = ToolStack.from(stack);
-    List<ModifierEntry> modifiers = tool.getModifierList();
-    for (ModifierEntry entry : modifiers) {
-      InteractionResult result = entry.getHook(TinkerHooks.BLOCK_INTERACT).beforeBlockUse(tool, entry, context, InteractionSource.LEFT_CLICK);
-      if (result.consumesAction()) {
-        setLeftClickEventResult(event, result);
-        return;
-      }
-    }
-    // TODO: don't think there is an equivalence to block interactions
-    for (ModifierEntry entry : modifiers) {
-      InteractionResult result = entry.getHook(TinkerHooks.BLOCK_INTERACT).afterBlockUse(tool, entry, context, InteractionSource.LEFT_CLICK);
-      if (result.consumesAction()) {
-        setLeftClickEventResult(event, result);
-        return;
-      }
-    }
-
-    // fallback to default interaction
-    InteractionResult result = onLeftClickInteraction(tool, player, hand);
-    if (result.consumesAction()) {
-      setLeftClickEventResult(event, result);
-    }
-  }
+//  @SubscribeEvent TODO: PORT
+//  static void leftClickBlock(LeftClickBlock event) {
+//    // ensure we have not fired this tick
+//    Player player = event.getPlayer();
+//    if (player.getCapability(TinkerDataCapability.CAPABILITY).filter(data -> data.computeIfAbsent(LAST_TICK).update(player)).isEmpty()) {
+//      return;
+//    }
+//    // must support interaction
+//    ItemStack stack = event.getItemStack();
+//    if (!stack.is(TinkerTags.Items.INTERACTABLE_LEFT) || player.getCooldowns().isOnCooldown(stack.getItem())) {
+//      return;
+//    }
+//
+//    // build usage context
+//    InteractionHand hand = event.getHand();
+//    BlockPos pos = event.getPos();
+//    Direction direction = event.getFace();
+//    if (direction == null) {
+//      direction = player.getDirection().getOpposite();
+//    }
+//    UseOnContext context = new UseOnContext(player, hand, new BlockHitResult(Util.toHitVec(pos, direction), direction, pos, false));
+//
+//    // run modifier hooks
+//    ToolStack tool = ToolStack.from(stack);
+//    List<ModifierEntry> modifiers = tool.getModifierList();
+//    for (ModifierEntry entry : modifiers) {
+//      InteractionResult result = entry.getHook(TinkerHooks.BLOCK_INTERACT).beforeBlockUse(tool, entry, context, InteractionSource.LEFT_CLICK);
+//      if (result.consumesAction()) {
+//        setLeftClickEventResult(event, result);
+//        return;
+//      }
+//    }
+//    // TODO: don't think there is an equivalence to block interactions
+//    for (ModifierEntry entry : modifiers) {
+//      InteractionResult result = entry.getHook(TinkerHooks.BLOCK_INTERACT).afterBlockUse(tool, entry, context, InteractionSource.LEFT_CLICK);
+//      if (result.consumesAction()) {
+//        setLeftClickEventResult(event, result);
+//        return;
+//      }
+//    }
+//
+//    // fallback to default interaction
+//    InteractionResult result = onLeftClickInteraction(tool, player, hand);
+//    if (result.consumesAction()) {
+//      setLeftClickEventResult(event, result);
+//    }
+//  }
 
   public static void init() {
     UseEntityCallback.EVENT.register(InteractionHandler::beforeEntityInteract);

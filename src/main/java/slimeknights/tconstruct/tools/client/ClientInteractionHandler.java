@@ -69,28 +69,28 @@ public class ClientInteractionHandler {
   }
 
   /** Implements the client side of left click interaction for {@link slimeknights.tconstruct.library.modifiers.hook.interaction.GeneralInteractionModifierHook#onToolUse(IToolStackView, ModifierEntry, Player, InteractionHand, InteractionSource)} */
-  @SubscribeEvent
-  static void leftClickAir(LeftClickEmpty event) {
-    // not sure if anyone sets the result, but just in case listen to it so they can stop us running
-    if (event.getCancellationResult() != InteractionResult.PASS) {
-      return;
-    }
-    // figure out if we have a chestplate making us care
-    Player player = event.getPlayer();
-    ItemStack tool = event.getItemStack();
-    if (!player.isSpectator() && tool.is(TinkerTags.Items.INTERACTABLE_LEFT)) {
-      // found an interaction, time to notify the server and run logic for the client
-      InteractionHand hand = event.getHand();
-      TinkerNetwork.getInstance().sendToServer(InteractWithAirPacket.LEFT_CLICK);
-      InteractionResult result = InteractionHandler.onLeftClickInteraction(player, tool, hand);
-      if (result.consumesAction()) {
-        if (result.shouldSwing()) {
-          player.swing(hand);
-        }
-        Minecraft.getInstance().gameRenderer.itemInHandRenderer.itemUsed(hand);
-        // set the result so later listeners see we did something
-        event.setCancellationResult(result);
-      }
-    }
-  }
+//  @SubscribeEvent TODO: PORT
+//  static void leftClickAir(LeftClickEmpty event) {
+//    // not sure if anyone sets the result, but just in case listen to it so they can stop us running
+//    if (event.getCancellationResult() != InteractionResult.PASS) {
+//      return;
+//    }
+//    // figure out if we have a chestplate making us care
+//    Player player = event.getPlayer();
+//    ItemStack tool = event.getItemStack();
+//    if (!player.isSpectator() && tool.is(TinkerTags.Items.INTERACTABLE_LEFT)) {
+//      // found an interaction, time to notify the server and run logic for the client
+//      InteractionHand hand = event.getHand();
+//      TinkerNetwork.getInstance().sendToServer(InteractWithAirPacket.LEFT_CLICK);
+//      InteractionResult result = InteractionHandler.onLeftClickInteraction(player, tool, hand);
+//      if (result.consumesAction()) {
+//        if (result.shouldSwing()) {
+//          player.swing(hand);
+//        }
+//        Minecraft.getInstance().gameRenderer.itemInHandRenderer.itemUsed(hand);
+//        // set the result so later listeners see we did something
+//        event.setCancellationResult(result);
+//      }
+//    }
+//  }
 }

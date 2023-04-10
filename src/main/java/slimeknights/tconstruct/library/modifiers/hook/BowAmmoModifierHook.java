@@ -78,7 +78,7 @@ public interface BowAmmoModifierHook {
     for (InteractionHand hand : InteractionHand.values()) {
       ItemStack stack = living.getItemInHand(hand);
       if (stack != bow && predicate.test(stack)) {
-        return ForgeHooks.getProjectile(living, bow, stack);
+        return /*ForgeHooks.getProjectile(living, bow, */stack/*)*/;
       }
     }
 
@@ -88,7 +88,7 @@ public interface BowAmmoModifierHook {
       for (int i = 0; i < inventory.getContainerSize(); i++) {
         ItemStack stack = inventory.getItem(i);
         if (!stack.isEmpty() && predicate.test(stack)) {
-          return ForgeHooks.getProjectile(player, bow, stack);
+          return /*ForgeHooks.getProjectile(player, bow, */stack/*)*/;
         }
       }
     }

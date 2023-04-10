@@ -35,7 +35,7 @@ public class ArmorSlot extends Slot {
 
   @Override
   public boolean mayPlace(ItemStack stack) {
-    return stack.canEquip(slotType, player);
+    return true;//stack.canEquip(slotType, player); TODO: PORT
   }
 
   @Override
