@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.modifiers.defense;
 
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -35,7 +36,7 @@ public class FireProtectionModifier extends IncrementalModifier {
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (!source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && source.is(DamageTypeTags.IS_FIRE)) {
+    if (!source.is(DamageTypeTags.BYPASSES_EFFECTS) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && source.is(DamageTypeTags.IS_FIRE)) {
       modifierValue += getScaledLevel(tool, level) * 2;
     }
     return modifierValue;

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.entity.tank;
 
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.nbt.CompoundTag;
 import slimeknights.mantle.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
@@ -20,7 +21,7 @@ public class ChannelTank extends FluidTank {
 	private final ChannelBlockEntity parent;
 
 	public ChannelTank(int capacity, ChannelBlockEntity parent) {
-		super(capacity, fluid -> !fluid.getFluid().getAttributes().isGaseous(fluid));
+		super(capacity, fluid -> !FluidVariantAttributes.isLighterThanAir(fluid.getType()));
 		this.parent = parent;
 	}
 

@@ -12,9 +12,9 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -41,6 +41,7 @@ import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.gadgets.entity.FrameType;
+import slimeknights.tconstruct.library.data.recipe.SpecialRecipeBuilder;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -138,7 +139,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                             .save(consumer, prefix(TinkerCommons.jeweledApple.getRegistryName(), folder));
 
     // silky cloth
-    ShapedRecipeBuilder.shaped(TinkerModifiers.silkyCloth)
+    ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerModifiers.silkyCloth)
                        .define('s', Tags.Items.STRING)
                        .define('g', TinkerMaterials.roseGold.getIngotTag())
                        .pattern("sss")
@@ -148,7 +149,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                        .save(consumer, prefix(TinkerModifiers.silkyCloth.getRegistryName(), folder));
 
     // wither bone purifying
-    ShapelessRecipeBuilder.shapeless(Items.BONE)
+    ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BONE)
                           .requires(TinkerTags.Items.WITHER_BONES)
                           .unlockedBy("has_bone", has(TinkerTags.Items.WITHER_BONES))
                           .save(withCondition(consumer, ConfigEnabledCondition.WITHER_BONE_CONVERSION), modResource(folder + "wither_bone_conversion"));

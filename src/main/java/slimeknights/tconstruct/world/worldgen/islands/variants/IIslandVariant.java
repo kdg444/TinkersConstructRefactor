@@ -35,7 +35,7 @@ public interface IIslandVariant {
   BlockState getLakeFluid();
 
   /** Gets the decorate lake edges with */
-  BlockState getCongealedSlime(Random random);
+  BlockState getCongealedSlime(RandomSource random);
 
   /** Gets the vine block state to place around the island, needs to extend slime vines, return null to prevent vine placement */
   @Nullable

@@ -3,6 +3,7 @@ package slimeknights.tconstruct.tools.modifiers.ability.armor;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -42,7 +43,7 @@ public class WettingModifier extends TankModifier {
 
   /** Checks if the modifier triggers */
   protected boolean doesTrigger(DamageSource source, boolean isDirectDamage) {
-    return !source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
+    return !source.is(DamageTypeTags.BYPASSES_EFFECTS) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
   }
 
   @Override

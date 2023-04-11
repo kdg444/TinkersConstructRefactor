@@ -59,8 +59,8 @@ public class CrystalshotItem extends ArrowItem {
 //    return EnchantmentHelper.getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.INFINITY_ARROWS, bow) > 0;
 //  }
 
-  @Override
-  public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {}
+//  @Override
+//  public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {}
 
   /** Creates a crystal shot with the given variant */
   public static ItemStack withVariant(String variant, int size) {

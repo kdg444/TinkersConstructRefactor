@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.defense;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,7 +35,7 @@ public class DragonbornModifier extends AbstractProtectionModifier<ModifierMaxLe
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (!source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && isAirborne(context.getEntity())) {
+    if (!source.is(DamageTypeTags.BYPASSES_EFFECTS) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && isAirborne(context.getEntity())) {
       modifierValue += getScaledLevel(tool, level) * 2.5;
     }
     return modifierValue;

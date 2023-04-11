@@ -20,6 +20,7 @@ import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipeCache;
+import slimeknights.tconstruct.shared.TinkerDamageTypes;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -32,11 +33,6 @@ import java.util.function.Supplier;
  */
 @RequiredArgsConstructor
 public class EntityMeltingModule {
-  /** Standard damage source for melting most mobs */
-  public static final DamageSource SMELTERY_DAMAGE = ((DamageSourceAccessor)DamageSourceAccessor.port_lib$init(TConstruct.prefix("smeltery_heat"))).port_lib$setFireDamage();
-  /** Special damage source for "absorbing" hot entities */
-  public static final DamageSource SMELTERY_MAGIC = DamageSourceAccessor.port_lib$init(TConstruct.prefix("smeltery_magic")).setMagic();
-
   private final MantleBlockEntity parent;
   private final IFluidHandler tank;
   /** Supplier that returns true if the tank has space */
@@ -88,7 +84,7 @@ public class EntityMeltingModule {
    */
   private boolean canMeltEntity(LivingEntity entity) {
     // fire based mobs are absorbed instead of damaged
-    return !entity.isInvulnerableTo(entity.fireImmune() ? SMELTERY_MAGIC : SMELTERY_DAMAGE)
+    return !entity.isInvulnerableTo(entity.fireImmune() ? TinkerDamageTypes.getSource(entity.level.registryAccess(), TinkerDamageTypes.SMELTERY_MAGIC) : TinkerDamageTypes.getSource(entity.level.registryAccess(), TinkerDamageTypes.SMELTERY_DAMAGE))
            // have to special case players because for some dumb reason creative players do not return true to invulnerable to
            && !(entity instanceof Player && ((Player)entity).getAbilities().invulnerable)
            // also have to special case fire resistance, so a blaze with fire resistance is immune to the smeltery
@@ -146,7 +142,7 @@ public class EntityMeltingModule {
           }
 
           // if the entity is successfully damaged, fill the tank with fluid
-          if (entity.hurt(entity.fireImmune() ? SMELTERY_MAGIC : SMELTERY_DAMAGE, damage)) {
+          if (entity.hurt(entity.fireImmune() ? TinkerDamageTypes.getSource(entity.level.registryAccess(), TinkerDamageTypes.SMELTERY_MAGIC) : TinkerDamageTypes.getSource(entity.level.registryAccess(), TinkerDamageTypes.SMELTERY_DAMAGE), damage)) {
             // its fine if we don't fill it all, leftover fluid is just lost
             tank.fill(fluid, false);
             melted = true;

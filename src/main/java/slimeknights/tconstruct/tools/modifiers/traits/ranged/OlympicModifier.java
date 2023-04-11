@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.ranged;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;

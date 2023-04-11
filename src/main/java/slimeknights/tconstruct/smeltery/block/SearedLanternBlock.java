@@ -4,6 +4,7 @@ import io.github.fabricators_of_create.porting_lib.block.LightEmissiveBlock;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,9 +44,9 @@ public class SearedLanternBlock extends LanternBlock implements ITankBlock, Enti
   @Override
   public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
     BlockEntity te = world.getBlockEntity(pos);
-    if (te instanceof TankBlockEntity) {
-      FluidStack fluid = ((TankBlockEntity) te).getTank().getFluid();
-      return fluid.getFluid().getAttributes().getLuminosity(fluid);
+    if (te instanceof TankBlockEntity tank) {
+      FluidStack fluid = tank.getTank().getFluid();
+      return FluidVariantAttributes.getLuminance(fluid.getType());
     }
     return 0;
   }

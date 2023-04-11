@@ -2,9 +2,11 @@ package slimeknights.tconstruct.tools.modifiers.defense;
 
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
 import slimeknights.tconstruct.TConstruct;
@@ -33,7 +35,7 @@ public class ShulkingModifier extends AbstractProtectionModifier<ModifierMaxLeve
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (context.getEntity().isCrouching() && !source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+    if (context.getEntity().isCrouching() && !source.is(DamageTypeTags.BYPASSES_EFFECTS) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
       modifierValue += getScaledLevel(tool, level) * 2;
     }
     return modifierValue;
@@ -44,7 +46,7 @@ public class ShulkingModifier extends AbstractProtectionModifier<ModifierMaxLeve
     AbstractProtectionModifier.addResistanceTooltip(this, tool, level, 2f, tooltip);
   }
 
-  private static float onAttack(DamageSource source, float amount) {
+  private static float onAttack(DamageSource source, LivingEntity damaged, float amount) {
     // if the attacker is crouching, deal less damage
     Entity attacker = source.getEntity();
     AtomicReference<Float> newAmount = new AtomicReference<>(amount);

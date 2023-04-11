@@ -26,7 +26,7 @@ public class RespirationModifier extends TotalArmorLevelModifier {
            && living.isEyeInFluid(FluidTags.WATER)
            && !MobEffectUtil.hasWaterBreathing(living)
            && !(living instanceof Player player && player.getAbilities().invulnerable)
-           && !living.level.getBlockState(new BlockPos(living.getX(), living.getEyeY(), living.getZ())).is(Blocks.BUBBLE_COLUMN);
+           && !living.level.getBlockState(BlockPos.containing(living.getX(), living.getEyeY(), living.getZ())).is(Blocks.BUBBLE_COLUMN);
   }
 
   /** Called before air is lost to add an air buffer */

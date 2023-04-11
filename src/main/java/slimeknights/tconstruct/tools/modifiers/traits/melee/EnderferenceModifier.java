@@ -4,9 +4,11 @@ import com.google.common.collect.Lists;
 import io.github.fabricators_of_create.porting_lib.event.common.EntityEvents;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -32,7 +34,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class EnderferenceModifier extends Modifier implements ProjectileHitModifierHook {
-  private static final DamageSource FALLBACK = DamageSourceAccessor.port_lib$init("arrow");
 
   public EnderferenceModifier() {
     EntityEvents.TELEPORT.register(EnderferenceModifier::onTeleport);
@@ -118,7 +119,7 @@ public class EnderferenceModifier extends Modifier implements ProjectileHitModif
         } else if (attacker != null) {
           damageSource = owner.damageSources().mobAttack(attacker);
         } else {
-          damageSource = FALLBACK;
+          damageSource = new DamageSource(owner.level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypes.ARROW));
         }
         if (attacker != null) {
           attacker.setLastHurtMob(target);

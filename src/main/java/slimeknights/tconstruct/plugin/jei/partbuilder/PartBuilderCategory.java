@@ -41,18 +41,6 @@ public class PartBuilderCategory implements IRecipeCategory<IDisplayPartBuilderR
     this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(TinkerTables.partBuilder));
   }
 
-  @SuppressWarnings("removal")
-  @Override
-  public ResourceLocation getUid() {
-    return TConstructJEIConstants.PART_BUILDER.getUid();
-  }
-
-  @SuppressWarnings("removal")
-  @Override
-  public Class<? extends IDisplayPartBuilderRecipe> getRecipeClass() {
-    return IDisplayPartBuilderRecipe.class;
-  }
-
   @Override
   public RecipeType<IDisplayPartBuilderRecipe> getRecipeType() {
     return TConstructJEIConstants.PART_BUILDER;
@@ -82,6 +70,6 @@ public class PartBuilderCategory implements IRecipeCategory<IDisplayPartBuilderR
     // TODO: material input?
 
     // output
-    builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 15).addItemStack(recipe.getResultItem());
+    builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 15).addItemStack(recipe.getResultItem(Minecraft.getInstance().level.registryAccess()));
   }
 }

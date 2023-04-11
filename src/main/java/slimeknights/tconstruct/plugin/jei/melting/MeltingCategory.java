@@ -62,12 +62,6 @@ public class MeltingCategory extends AbstractMeltingCategory {
     this.solidFuel = helper.drawableBuilder(BACKGROUND_LOC, 164, 0, 18, 20).build();
   }
 
-  @SuppressWarnings("removal")
-  @Override
-  public ResourceLocation getUid() {
-    return TConstructJEIConstants.MELTING.getUid();
-  }
-
   @Override
   public RecipeType<MeltingRecipe> getRecipeType() {
     return TConstructJEIConstants.MELTING;

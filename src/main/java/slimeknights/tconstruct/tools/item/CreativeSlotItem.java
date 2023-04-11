@@ -66,17 +66,17 @@ public class CreativeSlotItem extends Item {
     }
   }
 
-  @Override
-  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-    if (allowdedIn(group)) {
-      Collection<SlotType> allTypes = SlotType.getAllSlotTypes();
-      if (allTypes.isEmpty()) {
-        items.add(new ItemStack(this));
-      } else {
-        for (SlotType type : allTypes) {
-          items.add(withSlot(new ItemStack(this), type));
-        }
-      }
-    }
-  }
+//  @Override TODO: PORT
+//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+//    if (allowdedIn(group)) {
+//      Collection<SlotType> allTypes = SlotType.getAllSlotTypes();
+//      if (allTypes.isEmpty()) {
+//        items.add(new ItemStack(this));
+//      } else {
+//        for (SlotType type : allTypes) {
+//          items.add(withSlot(new ItemStack(this), type));
+//        }
+//      }
+//    }
+//  }
 }

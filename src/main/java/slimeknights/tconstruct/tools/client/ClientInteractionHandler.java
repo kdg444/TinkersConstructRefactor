@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.client;
 
+import io.github.fabricators_of_create.porting_lib.event.client.InteractEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -8,6 +9,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.HitResult;
 import slimeknights.mantle.fabric.event.ClientRightClickAir;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -52,7 +54,7 @@ public class ClientInteractionHandler {
   }
 
   /** Prevents an empty right click from running the offhand */
-  static InteractionResult preventDoubleInteract(InteractionHand hand) {
+  static InteractionResult preventDoubleInteract(Minecraft mc, HitResult hit, InteractionHand hand) {
     if (cancelNextOffhand) {
       cancelNextOffhand = false;
       if (hand == InteractionHand.OFF_HAND) {
@@ -64,7 +66,7 @@ public class ClientInteractionHandler {
 
   public static void init() {
     ClientRightClickAir.EVENT.register(ClientInteractionHandler::chestplateToolUse);
-    OnStartUseItemCallback.EVENT.register(ClientInteractionHandler::preventDoubleInteract);
+    InteractEvents.USE.register(ClientInteractionHandler::preventDoubleInteract);
   }
 
   /** Implements the client side of left click interaction for {@link slimeknights.tconstruct.library.modifiers.hook.interaction.GeneralInteractionModifierHook#onToolUse(IToolStackView, ModifierEntry, Player, InteractionHand, InteractionSource)} */

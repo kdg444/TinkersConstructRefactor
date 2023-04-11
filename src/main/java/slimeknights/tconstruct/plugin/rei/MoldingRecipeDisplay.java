@@ -3,6 +3,7 @@ package slimeknights.tconstruct.plugin.rei;
 import lombok.Getter;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
+import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -20,7 +21,7 @@ public class MoldingRecipeDisplay implements Display {
   public MoldingRecipeDisplay(MoldingRecipe recipe) {
     this.recipe = recipe;
     this.inputEntries = List.of(EntryIngredients.ofIngredient(recipe.getMaterial()));
-    this.outputEntries = List.of(EntryIngredients.of(recipe.getResultItem()));
+    this.outputEntries = List.of(EntryIngredients.of(recipe.getResultItem(BasicDisplay.registryAccess())));
   }
 
   @Override

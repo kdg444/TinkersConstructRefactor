@@ -3,6 +3,7 @@ package slimeknights.tconstruct.plugin.jei.transfer;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.transfer.IRecipeTransferInfo;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
 import slimeknights.tconstruct.plugin.jei.TConstructJEIConstants;
@@ -10,6 +11,7 @@ import slimeknights.tconstruct.tables.menu.TinkerStationContainerMenu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TinkerStationTransferInfo implements IRecipeTransferInfo<TinkerStationContainerMenu,IDisplayModifierRecipe> {
   @Override
@@ -17,16 +19,9 @@ public class TinkerStationTransferInfo implements IRecipeTransferInfo<TinkerStat
     return TinkerStationContainerMenu.class;
   }
 
-  @SuppressWarnings("removal")
   @Override
-  public Class<IDisplayModifierRecipe> getRecipeClass() {
-    return IDisplayModifierRecipe.class;
-  }
-
-  @SuppressWarnings("removal")
-  @Override
-  public ResourceLocation getRecipeCategoryUid() {
-    return TConstructJEIConstants.MODIFIERS.getUid();
+  public Optional<MenuType<TinkerStationContainerMenu>> getMenuType() {
+    return Optional.empty();
   }
 
   @Override

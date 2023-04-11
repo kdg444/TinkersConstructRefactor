@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 
+import io.github.fabricators_of_create.porting_lib.event.BaseEvent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.BlockPos;
@@ -168,7 +169,7 @@ public class HarvestAbilityModifier extends InteractionModifier.NoLevels impleme
     // if we found one, replant, no seed means break
     if (hasSeed) {
       world.setBlockAndUpdate(pos, replant);
-      state.spawnAfterBreak(world, pos, stack);
+      state.spawnAfterBreak(world, pos, stack, true);
       // set block state will not play sounds, destory block will
       world.playSound(null, pos, state.getSoundType(/*world, pos, player*/).getBreakSound(), SoundSource.BLOCKS, 1.0f, 1.0f);
     } else {
@@ -202,9 +203,9 @@ public class HarvestAbilityModifier extends InteractionModifier.NoLevels impleme
     }
     // try harvest event
     boolean didHarvest = false;
-    InteractionResult result = new ToolHarvestEvent(tool, context, world, state, pos, source).fire();
-    if (result != InteractionResult.PASS) {
-      didHarvest = result == InteractionResult.SUCCESS;
+    BaseEvent.Result result = new ToolHarvestEvent(tool, context, world, state, pos, source).fire();
+    if (result != BaseEvent.Result.DEFAULT) {
+      didHarvest = result == BaseEvent.Result.ALLOW;
 
       // crops that work based on right click interact (berry bushes)
     } else if (holder.is(TinkerTags.Blocks.HARVESTABLE_INTERACT)) {

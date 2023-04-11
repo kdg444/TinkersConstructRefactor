@@ -31,12 +31,6 @@ public class FoundryCategory extends AbstractMeltingCategory {
     this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(TinkerSmeltery.foundryController));
   }
 
-  @SuppressWarnings("removal")
-  @Override
-  public ResourceLocation getUid() {
-    return TConstructJEIConstants.FOUNDRY.getUid();
-  }
-
   @Override
   public RecipeType<MeltingRecipe> getRecipeType() {
     return TConstructJEIConstants.FOUNDRY;

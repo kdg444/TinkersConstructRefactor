@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.general;
 
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.fake_players.FakePlayer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -54,12 +55,12 @@ public class SoulboundModifier extends NoLevelsModifier {
   }
 
   /** Called when the player dies to store the item in the original inventory */
-  private boolean onPlayerDropItems(LivingEntity entity, DamageSource source, Collection<ItemEntity> drops) {
+  private boolean onPlayerDropItems(LivingEntity entity, DamageSource source, Collection<ItemEntity> drops, int lootingLevel, boolean recentlyHit) {
 //    if (event.isCanceled()) {
 //      return;
 //    }
     // only care about real players with keep inventory off
-    if (!entity.getCommandSenderWorld().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY) && entity instanceof Player player /*&& !(entity instanceof FakePlayer)*/) { // TODO: PORT (fake players?)
+    if (!entity.getCommandSenderWorld().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY) && entity instanceof Player player && !(entity instanceof FakePlayer)) {
       Iterator<ItemEntity> iter = drops.iterator();
       Inventory inventory = player.getInventory();
       while (iter.hasNext()) {

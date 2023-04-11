@@ -4,6 +4,7 @@ import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.ItemStack;
@@ -79,21 +80,21 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
     toolBuilding(consumer, TinkerTools.longbow, folder);
 
     // specialized
-    ShapelessRecipeBuilder.shapeless(TinkerTools.flintAndBrick)
+    ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, TinkerTools.flintAndBrick)
                           .requires(Items.FLINT)
                           .requires(Ingredient.of(TinkerSmeltery.searedBrick, TinkerSmeltery.scorchedBrick))
                           .unlockedBy("has_seared", has(TinkerSmeltery.searedBrick))
                           .unlockedBy("has_scorched", has(TinkerSmeltery.scorchedBrick))
-                          .save(consumer, prefix(TinkerTools.flintAndBrick, folder));
+                          .save(consumer, prefix(TinkerTools.flintAndBrick.getRegistryName(), folder));
     SpecializedRepairRecipeBuilder.repair(TinkerTools.flintAndBrick, MaterialIds.searedStone)
-                                  .buildRepairKit(consumer, wrap(TinkerTools.flintAndBrick, repairFolder, "_seared_repair_kit"))
-                                  .save(consumer, wrap(TinkerTools.flintAndBrick, repairFolder, "_seared_station"));
+                                  .buildRepairKit(consumer, wrap(TinkerTools.flintAndBrick.getRegistryName(), repairFolder, "_seared_repair_kit"))
+                                  .save(consumer, wrap(TinkerTools.flintAndBrick.getRegistryName(), repairFolder, "_seared_station"));
     SpecializedRepairRecipeBuilder.repair(TinkerTools.flintAndBrick, MaterialIds.scorchedStone)
-                                  .buildRepairKit(consumer, wrap(TinkerTools.flintAndBrick, repairFolder, "_scorched_repair_kit"))
-                                  .save(consumer, wrap(TinkerTools.flintAndBrick, repairFolder, "_scorched_station"));
+                                  .buildRepairKit(consumer, wrap(TinkerTools.flintAndBrick.getRegistryName(), repairFolder, "_scorched_repair_kit"))
+                                  .save(consumer, wrap(TinkerTools.flintAndBrick.getRegistryName(), repairFolder, "_scorched_station"));
 
     // travelers gear
-    ShapedRecipeBuilder.shaped(TinkerTools.travelersGear.get(ArmorSlotType.HELMET))
+    ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerTools.travelersGear.get(ArmorSlotType.HELMET))
                        .pattern("l l")
                        .pattern("glg")
                        .pattern("c c")
@@ -102,7 +103,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                        .define('g', Tags.Items.GLASS_PANES_COLORLESS)
                        .unlockedBy("has_item", has(Tags.Items.INGOTS_COPPER))
                        .save(consumer, modResource(armorFolder + "travelers_goggles"));
-    ShapedRecipeBuilder.shaped(TinkerTools.travelersGear.get(ArmorSlotType.CHESTPLATE))
+    ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerTools.travelersGear.get(ArmorSlotType.CHESTPLATE))
                        .pattern("l l")
                        .pattern("lcl")
                        .pattern("lcl")
@@ -110,7 +111,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                        .define('l', Tags.Items.LEATHER)
                        .unlockedBy("has_item", has(Tags.Items.INGOTS_COPPER))
                        .save(consumer, modResource(armorFolder + "travelers_chestplate"));
-    ShapedRecipeBuilder.shaped(TinkerTools.travelersGear.get(ArmorSlotType.LEGGINGS))
+    ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerTools.travelersGear.get(ArmorSlotType.LEGGINGS))
                        .pattern("lll")
                        .pattern("c c")
                        .pattern("l l")
@@ -118,7 +119,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                        .define('l', Tags.Items.LEATHER)
                        .unlockedBy("has_item", has(Tags.Items.INGOTS_COPPER))
                        .save(consumer, modResource(armorFolder + "travelers_pants"));
-    ShapedRecipeBuilder.shaped(TinkerTools.travelersGear.get(ArmorSlotType.BOOTS))
+    ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerTools.travelersGear.get(ArmorSlotType.BOOTS))
                        .pattern("c c")
                        .pattern("l l")
                        .define('c', Tags.Items.INGOTS_COPPER)
@@ -134,14 +135,14 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                                   .save(consumer, modResource(armorRepairFolder + "travelers_leather_station"));
 
     // plate armor
-    ShapedRecipeBuilder.shaped(TinkerTools.plateArmor.get(ArmorSlotType.HELMET))
+    ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerTools.plateArmor.get(ArmorSlotType.HELMET))
                        .pattern("mmm")
                        .pattern("ccc")
                        .define('m', TinkerMaterials.cobalt.getIngotTag())
                        .define('c', Items.CHAIN)
                        .unlockedBy("has_item", has(TinkerMaterials.cobalt.getIngotTag()))
                        .save(consumer, modResource(armorFolder + "plate_helmet"));
-    ShapedRecipeBuilder.shaped(TinkerTools.plateArmor.get(ArmorSlotType.CHESTPLATE))
+    ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerTools.plateArmor.get(ArmorSlotType.CHESTPLATE))
                        .pattern("m m")
                        .pattern("mmm")
                        .pattern("cmc")
@@ -149,7 +150,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                        .define('c', Items.CHAIN)
                        .unlockedBy("has_item", has(TinkerMaterials.cobalt.getIngotTag()))
                        .save(consumer, modResource(armorFolder + "plate_chestplate"));
-    ShapedRecipeBuilder.shaped(TinkerTools.plateArmor.get(ArmorSlotType.LEGGINGS))
+    ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerTools.plateArmor.get(ArmorSlotType.LEGGINGS))
                        .pattern("mmm")
                        .pattern("m m")
                        .pattern("c c")
@@ -157,7 +158,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                        .define('c', Items.CHAIN)
                        .unlockedBy("has_item", has(TinkerMaterials.cobalt.getIngotTag()))
                        .save(consumer, modResource(armorFolder + "plate_leggings"));
-    ShapedRecipeBuilder.shaped(TinkerTools.plateArmor.get(ArmorSlotType.BOOTS))
+    ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerTools.plateArmor.get(ArmorSlotType.BOOTS))
                        .pattern("m m")
                        .pattern("m m")
                        .define('m', TinkerMaterials.cobalt.getIngotTag())

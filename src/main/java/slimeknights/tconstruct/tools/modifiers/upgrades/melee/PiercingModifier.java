@@ -59,9 +59,9 @@ public class PiercingModifier extends IncrementalModifier implements ProjectileH
     DamageSource source;
     Player player = context.getPlayerAttacker();
     if (player != null) {
-      source = DamageSource.playerAttack(player);
+      source = player.damageSources().playerAttack(player);
     } else {
-      source = DamageSource.mobAttack(context.getAttacker());
+      source = context.getAttacker().damageSources().mobAttack(context.getAttacker());
     }
     source.bypassArmor();
     float secondaryDamage = (getScaledLevel(tool, level) * tool.getMultiplier(ToolStats.ATTACK_DAMAGE) - tool.getVolatileData().getFloat(PIERCING_DEBUFF)) * context.getCooldown();

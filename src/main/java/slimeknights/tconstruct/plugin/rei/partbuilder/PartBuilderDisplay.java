@@ -2,6 +2,7 @@ package slimeknights.tconstruct.plugin.rei.partbuilder;
 
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
+import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +21,7 @@ public class PartBuilderDisplay implements Display {
   public PartBuilderDisplay(IDisplayPartBuilderRecipe recipe) {
     this.recipe = recipe;
     this.input = EntryIngredients.ofIngredients(recipe.getIngredients());
-    this.output = Collections.singletonList(EntryIngredients.of(recipe.getResultItem()));
+    this.output = Collections.singletonList(EntryIngredients.of(recipe.getResultItem(BasicDisplay.registryAccess())));
   }
 
   public MaterialVariant getMaterial() {

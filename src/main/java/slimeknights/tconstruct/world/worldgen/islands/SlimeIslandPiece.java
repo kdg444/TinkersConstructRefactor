@@ -2,6 +2,7 @@ package slimeknights.tconstruct.world.worldgen.islands;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -50,14 +51,14 @@ public class SlimeIslandPiece extends TemplateStructurePiece {
     this(manager, variant, variant.getStructureName(templateName), templatePos, tree, rotation, mirror);
   }
 
-  public SlimeIslandPiece(StructureTemplateManager templateManager, CompoundTag nbt) {
-    super(TinkerStructures.slimeIslandPiece.get(), nbt, templateManager, context -> makeSettings(Rotation.valueOf(nbt.getString("Rot")), Mirror.valueOf(nbt.getString("Mi"))));
+  public SlimeIslandPiece(StructurePieceSerializationContext pContext, CompoundTag nbt) {
+    super(TinkerStructures.slimeIslandPiece.get(), nbt, pContext.structureTemplateManager(), context -> makeSettings(Rotation.valueOf(nbt.getString("Rot")), Mirror.valueOf(nbt.getString("Mi"))));
     this.variant = IslandVariants.getVariantFromIndex(nbt.getInt("Variant"));
     this.numberOfTreesPlaced = nbt.getInt("NumberOfTreesPlaced");
     this.tree = Optional.of(nbt.getString("Tree"))
                         .filter(s -> !s.isEmpty())
                         .map(ResourceLocation::tryParse)
-                        .flatMap(BuiltinRegistries.CONFIGURED_FEATURE::getOptional)
+                        .flatMap(pContext.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE)::getOptional)
                         .orElse(null);
   }
 
@@ -73,7 +74,7 @@ public class SlimeIslandPiece extends TemplateStructurePiece {
     tag.putString("Mi", this.placeSettings.getMirror().name());
     tag.putInt("NumberOfTreesPlaced", this.numberOfTreesPlaced);
     if (tree != null) {
-      ResourceLocation key = BuiltinRegistries.CONFIGURED_FEATURE.getKey(tree);
+      ResourceLocation key = pContext.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getKey(tree);
       if (key != null) {
         tag.putString("Tree", key.toString());
       }

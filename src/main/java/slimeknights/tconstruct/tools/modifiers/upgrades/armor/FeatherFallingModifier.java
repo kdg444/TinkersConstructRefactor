@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.armor;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +18,7 @@ import java.util.List;
 public class FeatherFallingModifier extends IncrementalModifier {
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (source.isFall()) {
+    if (source.is(DamageTypeTags.IS_FALL)) {
       modifierValue += getScaledLevel(tool, level) * 3;
     }
     return modifierValue;

@@ -3,6 +3,7 @@ package slimeknights.tconstruct.tools.modifiers.ability.tool;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.fabricmc.fabric.mixin.transfer.BucketItemAccessor;
 import net.minecraft.core.BlockPos;
@@ -202,13 +203,13 @@ public class BucketingModifier extends TankModifier implements BlockInteractionM
         world.destroyBlock(target, true);
       }
       if (world.setBlockAndUpdate(target, fluid.defaultFluidState().createLegacyBlock()) || existing.getFluidState().isSource()) {
-        world.playSound(null, target, fluid.getAttributes().getEmptySound(fluidStack), SoundSource.BLOCKS, 1.0F, 1.0F);
+        world.playSound(null, target, FluidVariantAttributes.getEmptySound(fluidStack.getType()), SoundSource.BLOCKS, 1.0F, 1.0F);
         placed = true;
       }
     } else if (existing.getBlock() instanceof LiquidBlockContainer container) {
       // if not replaceable, it must be a liquid container
       container.placeLiquid(world, target, existing, ((FlowingFluid)fluid).getSource(false));
-      world.playSound(null, target, fluid.getAttributes().getEmptySound(fluidStack), SoundSource.BLOCKS, 1.0F, 1.0F);
+      world.playSound(null, target, FluidVariantAttributes.getEmptySound(fluidStack.getType()), SoundSource.BLOCKS, 1.0F, 1.0F);
       placed = true;
     }
 
@@ -258,7 +259,7 @@ public class BucketingModifier extends TankModifier implements BlockInteractionM
       if (!bucket.isEmpty() && bucket.getItem() instanceof BucketItem bucketItem) {
         Fluid pickedUpFluid = ((BucketItemAccessor)bucketItem).fabric_getFluid();
         if (pickedUpFluid != Fluids.EMPTY) {
-          player.playSound(pickedUpFluid.getAttributes().getFillSound(fluidStack), 1.0F, 1.0F);
+          player.playSound(FluidVariantAttributes.getFillSound(FluidVariant.of(pickedUpFluid)), 1.0F, 1.0F);
           // set the fluid if empty, increase the fluid if filled
           if (!world.isClientSide) {
             if (fluidStack.isEmpty()) {

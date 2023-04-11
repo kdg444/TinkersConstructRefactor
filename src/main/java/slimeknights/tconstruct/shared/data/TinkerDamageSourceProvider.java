@@ -22,5 +22,7 @@ public class TinkerDamageSourceProvider extends FabricTagProvider<DamageType> {
     getOrCreateTagBuilder(DamageTypeTags.IS_EXPLOSION).add(TinkerDamageTypes.SELF_DESTRUCT);
 
     getOrCreateTagBuilder(DamageTypeTags.BYPASSES_EFFECTS).add(TinkerDamageTypes.BLEEDING);
+
+    getOrCreateTagBuilder(DamageTypeTags.IS_FIRE).add(TinkerDamageTypes.SMELTERY_DAMAGE);
   }
 }

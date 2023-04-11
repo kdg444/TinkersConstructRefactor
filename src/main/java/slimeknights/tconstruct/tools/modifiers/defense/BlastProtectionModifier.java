@@ -37,7 +37,7 @@ public class BlastProtectionModifier extends AbstractProtectionModifier<BlastDat
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (!source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && source.isExplosion()) {
+    if (!source.is(DamageTypeTags.BYPASSES_EFFECTS) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && source.is(DamageTypeTags.IS_EXPLOSION)) {
       modifierValue += getScaledLevel(tool, level) * 2;
     }
     return modifierValue;

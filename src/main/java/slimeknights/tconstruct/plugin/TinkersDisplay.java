@@ -2,6 +2,7 @@ package slimeknights.tconstruct.plugin;
 
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
+import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.world.item.crafting.Recipe;
@@ -25,7 +26,7 @@ public class TinkersDisplay<R extends Recipe<?>> implements Display {
     this.castingRecipe = null;
     this.modifierRecipe = null;
     this.input = EntryIngredients.ofIngredients(recipe.getIngredients());
-    this.output = Collections.singletonList(EntryIngredients.of(recipe.getResultItem()));
+    this.output = Collections.singletonList(EntryIngredients.of(recipe.getResultItem(BasicDisplay.registryAccess())));
     this.uid = id;
   }
 

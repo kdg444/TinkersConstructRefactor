@@ -15,8 +15,10 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityDimensions;
@@ -60,6 +62,8 @@ import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import org.apache.logging.log4j.Logger;
@@ -221,8 +225,8 @@ public final class TinkerWorld extends TinkerModule {
     Function<SlimeType,BlockBehaviour.Properties> props = type -> builder(Material.PLANT, type.getMapColor(), type.isNether() ? SoundType.FUNGUS : SoundType.GRASS).instabreak().noCollission();
     return new EnumObject.Builder<SlimeType,Block>(SlimeType.class)
       .putAll(BLOCKS.registerEnum(SlimeType.OVERWORLD, "slime_sapling", (type) -> new SlimeSaplingBlock(new SlimeTree(type), type, props.apply(type).randomTicks()), TOOLTIP_BLOCK_ITEM))
-      .put(SlimeType.BLOOD, BLOCKS.register("blood_slime_sapling", () -> new SlimeFungusBlock(props.apply(SlimeType.BLOOD), () -> Holder.hackyErase(TinkerStructures.bloodSlimeFungus.getHolder().orElseThrow())), TOOLTIP_BLOCK_ITEM))
-      .put(SlimeType.ICHOR, BLOCKS.register("ichor_slime_sapling", () -> new SlimeFungusBlock(props.apply(SlimeType.ICHOR), () -> Holder.hackyErase(TinkerStructures.ichorSlimeFungus.getHolder().orElseThrow())), HIDDEN_BLOCK_ITEM))
+      .put(SlimeType.BLOOD, BLOCKS.register("blood_slime_sapling", () -> new SlimeFungusBlock(props.apply(SlimeType.BLOOD), ResourceKey.create(Registries.CONFIGURED_FEATURE, TConstruct.getResource("blood_slime_fungus"))), TOOLTIP_BLOCK_ITEM))
+      .put(SlimeType.ICHOR, BLOCKS.register("ichor_slime_sapling", () -> new SlimeFungusBlock(props.apply(SlimeType.ICHOR), ResourceKey.create(Registries.CONFIGURED_FEATURE, TConstruct.getResource("ichor_slime_fungus"))), HIDDEN_BLOCK_ITEM))
       .build();
   });
   public static final EnumObject<SlimeType,FlowerPotBlock> pottedSlimeSapling = BLOCKS.registerPottedEnum(SlimeType.values(), "slime_sapling", slimeSapling);
@@ -312,10 +316,11 @@ public final class TinkerWorld extends TinkerModule {
    * Features
    */
   // small veins, standard distribution
-  public static RegistryObject<ConfiguredFeature<OreConfiguration,Feature<OreConfiguration>>> configuredSmallCobaltOre = CONFIGURED_FEATURES.registerSupplier("cobalt_ore_small", () -> Feature.ORE, () -> new OreConfiguration(OreFeatures.NETHERRACK, cobaltOre.get().defaultBlockState(), 4));
+  public static final RuleTest NETHERRACK = new BlockMatchTest(Blocks.NETHERRACK);
+  public static RegistryObject<ConfiguredFeature<OreConfiguration,Feature<OreConfiguration>>> configuredSmallCobaltOre = CONFIGURED_FEATURES.registerSupplier("cobalt_ore_small", () -> Feature.ORE, () -> new OreConfiguration(NETHERRACK, cobaltOre.get().defaultBlockState(), 4));
   public static RegistryObject<PlacedFeature> placedSmallCobaltOre = PLACED_FEATURES.register("cobalt_ore_small", configuredSmallCobaltOre, CountPlacement.of(5), InSquarePlacement.spread(), PlacementUtils.RANGE_8_8, BiomeFilter.biome());
   // large veins, around y=16, up to 48
-  public static RegistryObject<ConfiguredFeature<OreConfiguration,Feature<OreConfiguration>>> configuredLargeCobaltOre = CONFIGURED_FEATURES.registerSupplier("cobalt_ore_large", () -> Feature.ORE, () -> new OreConfiguration(OreFeatures.NETHERRACK, cobaltOre.get().defaultBlockState(), 6));
+  public static RegistryObject<ConfiguredFeature<OreConfiguration,Feature<OreConfiguration>>> configuredLargeCobaltOre = CONFIGURED_FEATURES.registerSupplier("cobalt_ore_large", () -> Feature.ORE, () -> new OreConfiguration(NETHERRACK, cobaltOre.get().defaultBlockState(), 6));
   public static RegistryObject<PlacedFeature> placedLargeCobaltOre = PLACED_FEATURES.register("cobalt_ore_large", configuredSmallCobaltOre, CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.absolute(8), VerticalAnchor.absolute(32)), BiomeFilter.biome());
 
 

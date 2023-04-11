@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,7 +26,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import org.joml.Vector3f;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Quaternionf;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;
@@ -50,7 +52,6 @@ import slimeknights.tconstruct.tools.TinkerModifiers;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Predicate;
 
 public class ModifiableCrossbowItem extends ModifiableLauncherItem {
@@ -94,7 +95,7 @@ public class ModifiableCrossbowItem extends ModifiableLauncherItem {
   /* Arrow launching */
 
   /** Gets the arrow pitch */
-  private static float getRandomShotPitch(float angle, Random pRandom) {
+  private static float getRandomShotPitch(float angle, RandomSource pRandom) {
     if (angle == 0) {
       return 1.0f;
     }
@@ -205,9 +206,10 @@ public class ModifiableCrossbowItem extends ModifiableLauncherItem {
         // TODO: can we get piglins/illagers to use our crossbow?
 
         // setup projectile
-        Vector3f targetVector = new Vector3f(player.getViewVector(1.0f));
+        Vec3 targetVector = player.getViewVector(1.0f);
+        Vec3 upVector = player.getUpVector(1.0f);
         float angle = startAngle + (10 * arrowIndex);
-        targetVector.transform(new Quaternion(new Vector3f(player.getUpVector(1.0f)), angle, true));
+        targetVector.toVector3f().rotate(new Quaternionf().setAngleAxis(angle * (float) (Math.PI / 180.0), upVector.x, upVector.y, upVector.z));
         projectile.shoot(targetVector.x(), targetVector.y(), targetVector.z(), velocity * speed, inaccuracy);
 
         // add modifiers to the projectile, will let us use them on impact

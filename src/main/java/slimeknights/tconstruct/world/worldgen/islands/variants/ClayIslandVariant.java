@@ -37,7 +37,7 @@ public class ClayIslandVariant implements IIslandVariant {
   }
 
   @Override
-  public BlockState getCongealedSlime(Random random) {
+  public BlockState getCongealedSlime(RandomSource random) {
     return Blocks.SAND.defaultBlockState();
   }
 

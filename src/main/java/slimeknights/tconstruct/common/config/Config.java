@@ -1,8 +1,7 @@
 package slimeknights.tconstruct.common.config;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraftforge.api.ModLoadingContext;
+import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
@@ -75,14 +74,14 @@ public class Config {
 
       builder.comment("Tweaks to vanilla damage sources to better work with armor").push("damageTweaks");
       ImmutableList.Builder<ConfigurableAction> actions = ImmutableList.builder();
-      actions.add(new ConfigurableAction(builder, "wither", true, "Makes withering damage count as magic", DamageSource.WITHER::setMagic));
-      actions.add(new ConfigurableAction(builder, "dragon_breath", true, "Makes dragons breath count as magic", DamageSource.DRAGON_BREATH::setMagic));
-      actions.add(new ConfigurableAction(builder, "falling_block", false, "Makes falling blocks count as projectile", () -> {
-        DamageSource.FALLING_BLOCK.setProjectile();
-        DamageSource.ANVIL.setProjectile();
-        DamageSource.FALLING_STALACTITE.setProjectile();
-      }));
-      actions.add(new ConfigurableAction(builder, "lightning", true, "Makes lightning count as fire damage", ((DamageSourceAccessor)DamageSource.LIGHTNING_BOLT)::port_lib$setFireDamage));
+//      actions.add(new ConfigurableAction(builder, "wither", true, "Makes withering damage count as magic", DamageSource.WITHER::setMagic)); TODO: PORT?
+//      actions.add(new ConfigurableAction(builder, "dragon_breath", true, "Makes dragons breath count as magic", DamageSource.DRAGON_BREATH::setMagic));
+//      actions.add(new ConfigurableAction(builder, "falling_block", false, "Makes falling blocks count as projectile", () -> {
+//        DamageSource.FALLING_BLOCK.setProjectile();
+//        DamageSource.ANVIL.setProjectile();
+//        DamageSource.FALLING_STALACTITE.setProjectile();
+//      }));
+//      actions.add(new ConfigurableAction(builder, "lightning", true, "Makes lightning count as fire damage", ((DamageSourceAccessor)DamageSource.LIGHTNING_BOLT)::port_lib$setFireDamage));
       damageSourceTweaks = actions.build();
 
       builder.pop();
@@ -375,8 +374,8 @@ public class Config {
 
   /** Registers any relevant listeners for config */
   public static void init() {
-    ModLoadingContext.registerConfig(TConstruct.MOD_ID, ModConfig.Type.COMMON, Config.commonSpec);
-    ModLoadingContext.registerConfig(TConstruct.MOD_ID, ModConfig.Type.CLIENT, Config.clientSpec);
+    ForgeConfigRegistry.INSTANCE.register(TConstruct.MOD_ID, ModConfig.Type.COMMON, Config.commonSpec);
+    ForgeConfigRegistry.INSTANCE.register(TConstruct.MOD_ID, ModConfig.Type.CLIENT, Config.clientSpec);
   }
 
   /** Configuration for an ore rate, such as melter or foundry */

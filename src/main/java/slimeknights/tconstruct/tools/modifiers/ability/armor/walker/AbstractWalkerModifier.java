@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.modifiers.ability.armor.walker;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -35,7 +36,7 @@ public abstract class AbstractWalkerModifier extends NoLevelsModifier implements
       Level world = living.level;
       Vec3 posVec = living.position();
       BlockPos center = BlockPos.containing(posVec.x, posVec.y + 0.5, posVec.z);
-      for (BlockPos pos : BlockPos.betweenClosed(center.offset(-radius, 0, -radius), center.offset(radius, 0, radius))) {
+      for (BlockPos pos : BlockPos.betweenClosed(center.offset(Mth.floor(-radius), 0, Mth.floor(-radius)), center.offset(Mth.floor(radius), 0, Mth.floor(radius)))) {
         if (pos.closerToCenterThan(living.position(), radius)) {
           walkOn(tool, modifier.getLevel(), living, world, pos, mutable);
           if (tool.isBroken()) {

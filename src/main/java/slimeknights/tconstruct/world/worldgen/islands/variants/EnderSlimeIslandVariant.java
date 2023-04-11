@@ -27,7 +27,7 @@ public class EnderSlimeIslandVariant extends AbstractSlimeIslandVariant {
   }
 
   @Override
-  protected SlimeType getCongealedSlimeType(Random random) {
+  protected SlimeType getCongealedSlimeType(RandomSource random) {
     return SlimeType.ENDER;
   }
 

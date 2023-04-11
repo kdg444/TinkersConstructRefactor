@@ -31,7 +31,7 @@ public class EarthSlimeIslandVariant extends AbstractSlimeIslandVariant {
   }
 
   @Override
-  protected SlimeType getCongealedSlimeType(Random random) {
+  protected SlimeType getCongealedSlimeType(RandomSource random) {
     return SlimeType.EARTH;
   }
 

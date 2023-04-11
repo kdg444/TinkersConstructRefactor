@@ -148,7 +148,7 @@ public final class TinkerStructures extends TinkerModule {
   /*
    * Structures
    */
-  public static final RegistryObject<StructurePieceType> slimeIslandPiece = STRUCTURE_PIECE.register("slime_island_piece", () -> (StructureTemplateType)SlimeIslandPiece::new);
+  public static final RegistryObject<StructurePieceType> slimeIslandPiece = STRUCTURE_PIECE.register("slime_island_piece", () -> SlimeIslandPiece::new);
   // earthslime)
   public static final RegistryObject<StructureType<EarthSlimeIslandStructure>> earthSlimeIsland = STRUCTURE_TYPES.register("earth_slime_island", () -> () -> EarthSlimeIslandStructure.CODEC);
   public static final ResourceKey<Structure> earthSlimeIslandKey = registerKey("earth_slime_island");

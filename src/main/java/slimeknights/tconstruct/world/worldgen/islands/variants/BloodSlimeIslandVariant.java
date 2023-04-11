@@ -36,7 +36,7 @@ public class BloodSlimeIslandVariant extends AbstractSlimeIslandVariant {
   }
 
   @Override
-  protected SlimeType getCongealedSlimeType(Random random) {
+  protected SlimeType getCongealedSlimeType(RandomSource random) {
     return random.nextBoolean() ? SlimeType.BLOOD : SlimeType.ICHOR;
   }
 

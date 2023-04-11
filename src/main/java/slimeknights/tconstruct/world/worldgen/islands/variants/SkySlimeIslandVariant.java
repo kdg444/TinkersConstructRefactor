@@ -29,7 +29,7 @@ public class SkySlimeIslandVariant extends AbstractSlimeIslandVariant {
   }
 
   @Override
-  protected SlimeType getCongealedSlimeType(Random random) {
+  protected SlimeType getCongealedSlimeType(RandomSource random) {
     return random.nextBoolean() ? SlimeType.SKY : SlimeType.EARTH;
   }
 

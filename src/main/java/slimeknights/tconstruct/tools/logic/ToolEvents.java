@@ -213,7 +213,7 @@ public class ToolEvents {
     }
 
     // a lot of counterattack hooks want to detect direct attacks, so save time by calculating once
-    boolean isDirectDamage = source.getEntity() != null && source instanceof EntityDamageSource entityDamage && !entityDamage.isThorns();
+    boolean isDirectDamage = source.getEntity() != null && !source.is(DamageTypes.THORNS);
 
     // determine if there is any modifiable armor, handles the target wearing modifiable armor
     EquipmentContext context = new EquipmentContext(entity);
@@ -287,7 +287,7 @@ public class ToolEvents {
     // for our own armor, we have boosts from modifiers to consider
     if (context.hasModifiableArmor()) {
       // first, fetch vanilla enchant level, assuming its not bypassed in vanilla
-      if (!source.isBypassMagic()) {
+      if (!source.is(DamageTypeTags.BYPASSES_EFFECTS)) {
         modifierValue = vanillaModifier = EnchantmentHelper.getDamageProtection(entity.getArmorSlots(), source);
       }
 
@@ -306,7 +306,7 @@ public class ToolEvents {
       if (entity.getType().is(TinkerTags.EntityTypes.SMALL_ARMOR)) {
         modifierValue *= 4;
       }
-    } else if (!source.isBypassMagic() && entity.getType().is(TinkerTags.EntityTypes.SMALL_ARMOR)) {
+    } else if (!source.is(DamageTypeTags.BYPASSES_EFFECTS) && entity.getType().is(TinkerTags.EntityTypes.SMALL_ARMOR)) {
       vanillaModifier = EnchantmentHelper.getDamageProtection(entity.getArmorSlots(), source);
       modifierValue = vanillaModifier * 4;
     }

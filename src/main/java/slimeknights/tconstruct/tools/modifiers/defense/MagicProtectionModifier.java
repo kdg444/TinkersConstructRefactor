@@ -4,6 +4,7 @@ import io.github.fabricators_of_create.porting_lib.event.common.PotionEvents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -31,7 +32,7 @@ public class MagicProtectionModifier extends AbstractProtectionModifier<Modifier
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (!source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && source.isMagic()) {
+    if (!source.is(DamageTypeTags.BYPASSES_EFFECTS) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && source.is(DamageTypes.MAGIC)) {
       modifierValue += getScaledLevel(tool, level) * 2;
     }
     return modifierValue;
