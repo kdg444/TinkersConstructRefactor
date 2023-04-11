@@ -87,8 +87,8 @@ public class FluidModifierModel extends NormalModifierModel {
           int color = FluidVariantRendering.getColor(fluid.getType());
           int luminosity = FluidVariantAttributes.getLuminance(fluid.getType());
           TextureAtlasSprite templateSprite = spriteGetter.apply(template);
-          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 7.498f / 16f, Direction.NORTH, color, -1, luminosity));
-          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 8.502f / 16f, Direction.SOUTH, color, -1, luminosity));
+//          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 7.498f / 16f, Direction.NORTH, color, -1, luminosity)); TODO: PORT
+//          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 8.502f / 16f, Direction.SOUTH, color, -1, luminosity));
           quads = builder.build();
         }
       }

@@ -576,11 +576,11 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
       // regular logs is handled by slimy logs tag
       this.tag(BlockTags.LOGS_THAT_BURN).addTag(object.getLogBlockTag());
     } else {
-      this.tag(BlockTags.NON_FLAMMABLE_WOOD)
-          .add(object.get(), object.getSlab(), object.getStairs(),
-               object.getFence(), object.getFenceGate(), object.getDoor(), object.getTrapdoor(),
-               object.getPressurePlate(), object.getButton())
-          .addTag(object.getLogBlockTag());
+//      this.tag(BlockTags.NON_FLAMMABLE_WOOD)
+//          .add(object.get(), object.getSlab(), object.getStairs(),
+//               object.getFence(), object.getFenceGate(), object.getDoor(), object.getTrapdoor(),
+//               object.getPressurePlate(), object.getButton())
+//          .addTag(object.getLogBlockTag());
     }
 
     // signs

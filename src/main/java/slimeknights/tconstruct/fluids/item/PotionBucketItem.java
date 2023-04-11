@@ -95,7 +95,7 @@ public class PotionBucketItem extends PotionItem {
         player.getInventory().add(new ItemStack(Items.BUCKET));
       }
     }
-    level.gameEvent(living, GameEvent.DRINKING_FINISH, living.eyeBlockPosition());
+    living.gameEvent(GameEvent.DRINK);
     return stack;
   }
 

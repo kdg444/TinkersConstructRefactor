@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 
 import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
 import io.github.fabricators_of_create.porting_lib.common.util.ToolActions;
+import io.github.fabricators_of_create.porting_lib.event.BaseEvent;
 import io.github.fabricators_of_create.porting_lib.extensions.extensions.IShearable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -133,9 +134,9 @@ public class ShearsAbilityModifier extends InteractionModifier.NoLevels implemen
    */
   private static boolean shearEntity(ItemStack itemStack, IToolStackView tool, Level world, Player player, Entity entity, int fortune) {
     // event to override entity shearing
-    InteractionResult result = new ToolShearEvent(itemStack, tool, world, player, entity, fortune).fire();
-    if (result != InteractionResult.PASS) {
-      return result == InteractionResult.SUCCESS;
+    BaseEvent.Result result = new ToolShearEvent(itemStack, tool, world, player, entity, fortune).fire();
+    if (result != BaseEvent.Result.DEFAULT) {
+      return result == BaseEvent.Result.ALLOW;
     }
     // fallback to forge shearable
     if (entity instanceof IShearable target && target.isShearable(itemStack, world, entity.blockPosition())) {

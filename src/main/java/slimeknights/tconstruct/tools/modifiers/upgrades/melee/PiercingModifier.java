@@ -83,11 +83,11 @@ public class PiercingModifier extends IncrementalModifier implements ProjectileH
     // deals 1 pierce damage per level
     DamageSource source;
     if (attacker instanceof Player player) {
-      source = DamageSource.playerAttack(player).bypassArmor();
+      source = projectile.damageSources().playerAttack(player).bypassArmor();
     } else if (attacker != null) {
-      source = DamageSource.mobAttack(attacker).bypassArmor();
+      source = projectile.damageSources().mobAttack(attacker).bypassArmor();
     } else {
-      source = DamageSource.GENERIC;
+      source = projectile.damageSources().generic();
     }
     ToolAttackUtil.attackEntitySecondary(source, persistentData.getFloat(getId()), hit.getEntity(), target, true);
     return false;

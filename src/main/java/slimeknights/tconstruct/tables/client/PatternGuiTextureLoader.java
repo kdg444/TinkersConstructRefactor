@@ -16,7 +16,7 @@ public class PatternGuiTextureLoader extends ResourceValidator {
   /** Initializes the loader */
   public static void init() {
     PatternGuiTextureLoader loader = new PatternGuiTextureLoader();
-    TextureStitchCallback.PRE.register(loader::onTextureStitch);
+//    TextureStitchCallback.PRE.register(loader::onTextureStitch); TODO: PORT
   }
 
   private PatternGuiTextureLoader() {
