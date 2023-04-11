@@ -10,6 +10,7 @@ import net.minecraft.world.damagesource.DamageType;
 import slimeknights.tconstruct.TConstruct;
 
 public class TinkerDamageTypes {
+  /** Self damage source */
   public static final ResourceKey<DamageType> SELF_DESTRUCT = ResourceKey.create(Registries.DAMAGE_TYPE, TConstruct.getResource("self_destruct"));
   public static final ResourceKey<DamageType> BLEEDING = ResourceKey.create(Registries.DAMAGE_TYPE, TConstruct.getResource("bleed"));
   /** Standard damage source for melting most mobs */

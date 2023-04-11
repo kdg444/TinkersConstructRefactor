@@ -59,25 +59,25 @@ public record DamageSpillingEffect(DamageType type, float damage) implements ISp
     FIRE {
       @Override
       public void apply(DamageSource source) {
-        ((DamageSourceAccessor)source).port_lib$setFireDamage();
+//        ((DamageSourceAccessor)source).port_lib$setFireDamage(); TODO: PORT
       }
     },
     MAGIC {
       @Override
       public void apply(DamageSource source) {
-        source.setMagic();
+//        source.setMagic();
       }
     },
     EXPLOSION {
       @Override
       public void apply(DamageSource source) {
-        source.setExplosion();
+//        source.setExplosion();
       }
     },
     PIERCING {
       @Override
       public void apply(DamageSource source) {
-        source.bypassArmor();
+//        source.bypassArmor();
       }
     };
 

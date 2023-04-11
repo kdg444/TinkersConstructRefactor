@@ -98,15 +98,15 @@ public final class CopperCanModel implements IUnbakedGeometry<CopperCanModel> {
     }
 
     // setup builder
-    ModelState transformsFromModel = owner.getCombinedTransform();
-    ImmutableMap<TransformType,Transformation> transformMap = PerspectiveMapWrapper.getTransforms(new CompositeModelState(transformsFromModel, modelTransform));
-    ItemMultiLayerBakedModel.Builder builder = ItemMultiLayerBakedModel.builder(owner, particleSprite, new ContainedFluidOverrideHandler(overrides, baker, owner, this), transformMap);
-    Transformation transform = modelTransform.getRotation();
+//    ModelState transformsFromModel = owner.getCombinedTransform(); TODO: PORT
+//    ImmutableMap<TransformType,Transformation> transformMap = PerspectiveMapWrapper.getTransforms(new CompositeModelState(transformsFromModel, modelTransform));
+//    ItemMultiLayerBakedModel.Builder builder = ItemMultiLayerBakedModel.builder(owner, particleSprite, new ContainedFluidOverrideHandler(overrides, baker, owner, this), transformMap);
+//    Transformation transform = modelTransform.getRotation();
 
     // start with the base
     if (baseLocation != null) {
       // build base (insidest)
-      builder.addQuads(ItemLayerModel.getLayerRenderType(false), ItemLayerModel.getQuadsForSprites(ImmutableList.of(baseLocation), transform, spriteGetter));
+//      builder.addQuads(ItemLayerModel.getLayerRenderType(false), ItemLayerModel.getQuadsForSprites(ImmutableList.of(baseLocation), transform, spriteGetter));
     }
 
     // add in the fluid
@@ -114,27 +114,27 @@ public final class CopperCanModel implements IUnbakedGeometry<CopperCanModel> {
       TextureAtlasSprite templateSprite = spriteGetter.apply(owner.getMaterial("fluid"));
       if (templateSprite != null) {
         // build liquid layer (inside)
-        int luminosity = applyFluidLuminosity ? fluid.getFluid().getAttributes().getLuminosity(fluid) : 0;
-        int color = fluid.getFluid().getAttributes().getColor(fluid);
-        builder.addQuads(ItemLayerModel.getLayerRenderType(luminosity > 0), ItemTextureQuadConverter.convertTexture(transform, templateSprite, fluidSprite, NORTH_Z_FLUID, Direction.NORTH, color, -1, luminosity));
-        builder.addQuads(ItemLayerModel.getLayerRenderType(luminosity > 0), ItemTextureQuadConverter.convertTexture(transform, templateSprite, fluidSprite, SOUTH_Z_FLUID, Direction.SOUTH, color, -1, luminosity));
+//        int luminosity = applyFluidLuminosity ? fluid.getFluid().getAttributes().getLuminosity(fluid) : 0;
+//        int color = fluid.getFluid().getAttributes().getColor(fluid);
+//        builder.addQuads(ItemLayerModel.getLayerRenderType(luminosity > 0), ItemTextureQuadConverter.convertTexture(transform, templateSprite, fluidSprite, NORTH_Z_FLUID, Direction.NORTH, color, -1, luminosity));
+//        builder.addQuads(ItemLayerModel.getLayerRenderType(luminosity > 0), ItemTextureQuadConverter.convertTexture(transform, templateSprite, fluidSprite, SOUTH_Z_FLUID, Direction.SOUTH, color, -1, luminosity));
       }
     }
 
     if (coverIsMask) {
       if (coverSprite != null) {
         TextureAtlasSprite baseSprite = spriteGetter.apply(baseLocation);
-        builder.addQuads(ItemLayerModel.getLayerRenderType(false), ItemTextureQuadConverter.convertTexture(transform, coverSprite, baseSprite, NORTH_Z_COVER, Direction.NORTH, 0xFFFFFFFF, 2));
-        builder.addQuads(ItemLayerModel.getLayerRenderType(false), ItemTextureQuadConverter.convertTexture(transform, coverSprite, baseSprite, SOUTH_Z_COVER, Direction.SOUTH, 0xFFFFFFFF, 2));
+//        builder.addQuads(ItemLayerModel.getLayerRenderType(false), ItemTextureQuadConverter.convertTexture(transform, coverSprite, baseSprite, NORTH_Z_COVER, Direction.NORTH, 0xFFFFFFFF, 2));
+//        builder.addQuads(ItemLayerModel.getLayerRenderType(false), ItemTextureQuadConverter.convertTexture(transform, coverSprite, baseSprite, SOUTH_Z_COVER, Direction.SOUTH, 0xFFFFFFFF, 2));
       }
     } else if (coverSprite != null) {
-      builder.addQuads(ItemLayerModel.getLayerRenderType(false), ItemTextureQuadConverter.genQuad(transform, 0, 0, 16, 16, NORTH_Z_COVER, coverSprite, Direction.NORTH, 0xFFFFFFFF, 2));
-      builder.addQuads(ItemLayerModel.getLayerRenderType(false), ItemTextureQuadConverter.genQuad(transform, 0, 0, 16, 16, SOUTH_Z_COVER, coverSprite, Direction.SOUTH, 0xFFFFFFFF, 2));
+//      builder.addQuads(ItemLayerModel.getLayerRenderType(false), ItemTextureQuadConverter.genQuad(transform, 0, 0, 16, 16, NORTH_Z_COVER, coverSprite, Direction.NORTH, 0xFFFFFFFF, 2));
+//      builder.addQuads(ItemLayerModel.getLayerRenderType(false), ItemTextureQuadConverter.genQuad(transform, 0, 0, 16, 16, SOUTH_Z_COVER, coverSprite, Direction.SOUTH, 0xFFFFFFFF, 2));
     }
 
-    builder.setParticle(particleSprite);
+//    builder.setParticle(particleSprite);
 
-    return builder.build();
+    return null;//builder.build();
   }
 
 //  @Override

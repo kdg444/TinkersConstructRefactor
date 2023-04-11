@@ -64,25 +64,25 @@ public class TagIntersectionPresentCondition<T> implements ConditionJsonProvider
         if (entry.getKey() == Registries.ITEM && entry.getValue().get(tTagKey.location()) != null)
           return entry.getValue().get(tTagKey.location());
       }
-      return Tag.empty();
+      return List.of();
     }).toList();
     if (tags.size() == 1) {
-      return !tags.get(0).getValues().isEmpty();
+      return !tags.get(0).isEmpty();
     }
     // if any remaining tag is empty, give up
     int count = tags.size();
     for (int i = 1; i < count; i++) {
-      if (tags.get(i).getValues().isEmpty()) {
+      if (tags.get(i).isEmpty()) {
         return false;
       }
     }
 
     // all tags have something, so find the first item that is in all tags
     itemLoop:
-    for (Object entry : tags.get(0).getValues()) {
+    for (Object entry : tags.get(0)) {
       // find the first item contained in all other intersection tags
       for (int i = 1; i < count; i++) {
-        if (!tags.get(i).getValues().contains(entry)) {
+        if (!tags.get(i).contains(entry)) {
           continue itemLoop;
         }
       }

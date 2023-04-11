@@ -47,7 +47,7 @@ public class ThornsModifier extends IncrementalModifier {
     } else {
       source = player.damageSources().mobAttack(context.getAttacker());
     }
-    source.bypassArmor();
+//    source.bypassArmor(); TODO: PORT
     float secondaryDamage = (getScaledLevel(tool, level) * tool.getMultiplier(ToolStats.ATTACK_DAMAGE) * 0.75f) * context.getCooldown();
     if (context.isCritical()) {
       secondaryDamage *= 1.5f;

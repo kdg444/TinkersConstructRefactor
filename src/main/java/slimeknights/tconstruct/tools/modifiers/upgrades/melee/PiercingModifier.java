@@ -63,7 +63,7 @@ public class PiercingModifier extends IncrementalModifier implements ProjectileH
     } else {
       source = context.getAttacker().damageSources().mobAttack(context.getAttacker());
     }
-    source.bypassArmor();
+//    source.bypassArmor(); TODO: PORT
     float secondaryDamage = (getScaledLevel(tool, level) * tool.getMultiplier(ToolStats.ATTACK_DAMAGE) - tool.getVolatileData().getFloat(PIERCING_DEBUFF)) * context.getCooldown();
     if (context.isCritical()) {
       secondaryDamage *= 1.5f;
@@ -83,9 +83,9 @@ public class PiercingModifier extends IncrementalModifier implements ProjectileH
     // deals 1 pierce damage per level
     DamageSource source;
     if (attacker instanceof Player player) {
-      source = projectile.damageSources().playerAttack(player).bypassArmor();
+      source = projectile.damageSources().playerAttack(player)/*.bypassArmor() TODO: PORT*/;
     } else if (attacker != null) {
-      source = projectile.damageSources().mobAttack(attacker).bypassArmor();
+      source = projectile.damageSources().mobAttack(attacker)/*.bypassArmor() TODO: PORT*/;
     } else {
       source = projectile.damageSources().generic();
     }

@@ -3,11 +3,13 @@ package slimeknights.tconstruct.gadgets.entity;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -51,7 +53,7 @@ public class EFLNExplosion extends Explosion {
           int d = j * j + k * k + l * l;
           // inside the sphere?
           if (d <= r) {
-            BlockPos blockpos = new BlockPos(j, k, l).offset(this.x, this.y, this.z);
+            BlockPos blockpos = new BlockPos(j, k, l).offset(Mth.floor(this.x), Mth.floor(this.y), Mth.floor(this.z));
             // no air blocks
             if (this.level.isEmptyBlock(blockpos)) {
               continue;
@@ -89,7 +91,7 @@ public class EFLNExplosion extends Explosion {
     this.level.addParticle(ParticleTypes.EXPLOSION, this.x, this.y, this.z, 1.0D, 0.0D, 0.0D);
 
     ObjectArrayList<Pair<ItemStack, BlockPos>> arrayList = new ObjectArrayList<>();
-    Collections.shuffle(this.toBlow, this.level.random);
+    Util.shuffle(this.toBlow, this.level.random);
 
     for (BlockPos blockpos : this.toBlow) {
       BlockState blockstate = this.level.getBlockState(blockpos);

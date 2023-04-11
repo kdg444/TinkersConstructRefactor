@@ -54,7 +54,7 @@ public class CopperCanItem extends Item {
         FluidStack displayFluid = new FluidStack(fluid, FluidValues.INGOT, fluidTag);
         text = displayFluid.getDisplayName().plainCopy();
       } else {
-        text = Component.translatable(fluid.getAttributes().getTranslationKey());
+        text = Component.empty();//Component.translatable(fluid.getAttributes().getTranslationKey()); TODO: PORT
       }
       tooltip.add(Component.translatable(this.getDescriptionId() + ".contents", text).withStyle(ChatFormatting.GRAY));
     } else {
