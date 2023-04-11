@@ -60,7 +60,6 @@ import java.util.Map;
 public final class TinkerFluids extends TinkerModule {
   public TinkerFluids() {
     Milk.enableMilkFluid();
-    commonSetup();
   }
 
   // basic
@@ -220,7 +219,7 @@ public final class TinkerFluids extends TinkerModule {
     pack.addProvider(FluidTooltipProvider::new);
   }
 
-  void commonSetup() {
+  public static void commonSetup() {
     CauldronInteraction.WATER.put(splashBottle.get(), new FillBottle(Items.SPLASH_POTION));
     CauldronInteraction.WATER.put(lingeringBottle.get(), new FillBottle(Items.LINGERING_POTION));
     CauldronInteraction.WATER.put(Items.SPLASH_POTION,    new EmptyBottleIntoWater(splashBottle,    CauldronInteraction.WATER.get(Items.SPLASH_POTION)));

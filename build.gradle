@@ -134,7 +134,7 @@ dependencies {
     modImplementation(include("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${project.forge_config_version}"))
     modImplementation(include("slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"))
     modImplementation(include("io.github.tropheusj:serialization-hooks:0.4.27"))
-    modImplementation(include("io.github.tropheusj:milk-lib:1.0.51"))
+    modImplementation(include("io.github.tropheusj:milk-lib:${project.milk_lib_version}"))
 
     api(include("com.github.LlamaLad7:MixinExtras:0.0.6"))
     annotationProcessor(include("com.github.LlamaLad7:MixinExtras:0.0.6"))

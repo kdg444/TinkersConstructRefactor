@@ -88,6 +88,7 @@ public class TConstruct implements ModInitializer {
 
     // init deferred registers
     TinkerModule.initRegisters();
+    TinkerFluids.commonSetup();
     TinkerGadgets.commonSetup();
     TinkerWorld.init();
     TinkerTags.init();
