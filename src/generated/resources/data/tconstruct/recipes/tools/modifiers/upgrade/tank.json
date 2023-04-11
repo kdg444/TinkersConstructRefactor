@@ -17,14 +17,17 @@
     },
     {
       "tag": "tconstruct:modifiable/armor/leggings"
+    },
+    {
+      "tag": "tconstruct:modifiable/shields"
     }
   ],
   "slots": {
     "upgrades": 1
   },
+  "allow_crystal": true,
   "result": {
     "name": "tconstruct:tank",
     "level": 1
-  },
-  "max_level": 5
+  }
 }

@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -20,6 +21,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.entity.living.ShieldBlockEvent;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.client.TooltipKey;
@@ -27,6 +30,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.hook.ConditionalStatModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.EntityInteractionModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.GeneralInteractionModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
@@ -34,13 +38,19 @@ import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.Com
 import slimeknights.tconstruct.library.tools.helper.ToolAttackUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+import slimeknights.tconstruct.library.tools.stat.ToolStats;
+import slimeknights.tconstruct.library.utils.Util;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.function.Function;
 
 /**
  * This class handles interaction based event hooks
  */
 public class InteractionHandler {
+  public static final EquipmentSlot[] HAND_SLOTS = {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND};
+
   /** Implements {@link EntityInteractionModifierHook#beforeEntityUse(IToolStackView, ModifierEntry, Player, Entity, InteractionHand, InteractionSource)} */
   static InteractionResult beforeEntityInteract(Player player, Level world, InteractionHand hand, Entity target, @Nullable EntityHitResult hitResult) {
     ItemStack stack = player.getItemInHand(hand);
@@ -58,13 +68,15 @@ public class InteractionHandler {
         return InteractionResult.PASS;
       }
     }
-    // actual interaction hook
-    ToolStack tool = ToolStack.from(stack);
-    for (ModifierEntry entry : tool.getModifierList()) {
+    if (!player.getCooldowns().isOnCooldown(stack.getItem())) {
+      // actual interaction hook
+      ToolStack tool = ToolStack.from(stack);
+      for (ModifierEntry entry : tool.getModifierList()) {
       // exit on first successful result
       InteractionResult result = entry.getHook(TinkerHooks.ENTITY_INTERACT).beforeEntityUse(tool, entry, player, target, hand, source);
       if (result.consumesAction()) {
         return result;
+        }
       }
     }
     return InteractionResult.PASS;
@@ -74,7 +86,7 @@ public class InteractionHandler {
   static InteractionResult afterEntityInteract(Player player, Level world, InteractionHand hand, Entity target, @Nullable EntityHitResult hitResult) {
     if (player.getItemInHand(hand).isEmpty() && !player.isSpectator()) {
       ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
-      if (chestplate.is(TinkerTags.Items.INTERACTABLE_ARMOR)) {
+      if (chestplate.is(TinkerTags.Items.INTERACTABLE_ARMOR) && !player.getCooldowns().isOnCooldown(chestplate.getItem())) {
         // from this point on, we are taking over interaction logic, to ensure chestplate hooks run in the right order
 //        event.setCanceled(true);
 
@@ -134,7 +146,7 @@ public class InteractionHandler {
     if (player.getItemInHand(hand).isEmpty() && !player.isSpectator()) {
       // item must be a chestplate
       ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
-      if (chestplate.is(TinkerTags.Items.INTERACTABLE_ARMOR)) {
+      if (chestplate.is(TinkerTags.Items.INTERACTABLE_ARMOR) && !player.getCooldowns().isOnCooldown(chestplate.getItem())) {
         // no turning back, from this point we are fully in charge of interaction logic (since we need to ensure order of the hooks)
 
         // begin interaction
@@ -195,7 +207,7 @@ public class InteractionHandler {
     // first, run the modifier hook
     ToolStack tool = ToolStack.from(chestplate);
     for (ModifierEntry entry : tool.getModifierList()) {
-      InteractionResult result = entry.getHook(TinkerHooks.GENERAL_INTERACT).onToolUse(tool, entry, player, hand, InteractionSource.ARMOR);
+      InteractionResult result = entry.getHook(TinkerHooks.CHARGEABLE_INTERACT).onToolUse(tool, entry, player, hand, InteractionSource.ARMOR);
       if (result.consumesAction()) {
         return result;
       }
@@ -204,14 +216,20 @@ public class InteractionHandler {
   }
 
   /** Handles attacking using the chestplate */
-  static InteractionResult onChestplateAttack(Player attacker, Level world, InteractionHand hand, Entity target, @Nullable EntityHitResult hitResult) {
-    if (attacker.getMainHandItem().isEmpty()) {
-      ItemStack chestplate = attacker.getItemBySlot(EquipmentSlot.CHEST);
-      if (chestplate.is(TinkerTags.Items.UNARMED)) {
-        ToolStack tool = ToolStack.from(chestplate);
-        if (!tool.isBroken()) {
-          ToolAttackUtil.attackEntity(tool, attacker, InteractionHand.MAIN_HAND, target, ToolAttackUtil.getCooldownFunction(attacker, InteractionHand.MAIN_HAND), false, EquipmentSlot.CHEST);
-          return InteractionResult.SUCCESS;
+  @SubscribeEvent(priority = EventPriority.LOW)
+  static void onChestplateAttack(AttackEntityEvent event) {
+    // Carry On is dumb and fires the attack entity event when they are not attacking entities, causing us to punch instead
+    // they should not be doing that, but the author has not done anything to fix it, so just use a hacky check
+    if (event.getClass() == AttackEntityEvent.class) {
+      Player attacker = event.getPlayer();
+      if (attacker.getMainHandItem().isEmpty()) {
+        ItemStack chestplate = attacker.getItemBySlot(EquipmentSlot.CHEST);
+        if (chestplate.is(TinkerTags.Items.UNARMED)) {
+          ToolStack tool = ToolStack.from(chestplate);
+          if (!tool.isBroken()) {
+            ToolAttackUtil.attackEntity(tool, attacker, InteractionHand.MAIN_HAND, event.getTarget(), ToolAttackUtil.getCooldownFunction(attacker, InteractionHand.MAIN_HAND), false, EquipmentSlot.CHEST);
+            event.setCanceled(true);
+          }
         }
       }
     }
@@ -261,7 +279,7 @@ public class InteractionHandler {
   /** Runs the left click interaction for left click */
   private static InteractionResult onLeftClickInteraction(IToolStackView tool, Player player, InteractionHand hand) {
     for (ModifierEntry entry : tool.getModifierList()) {
-      InteractionResult result = entry.getHook(TinkerHooks.GENERAL_INTERACT).onToolUse(tool, entry, player, hand, InteractionSource.LEFT_CLICK);
+      InteractionResult result = entry.getHook(TinkerHooks.CHARGEABLE_INTERACT).onToolUse(tool, entry, player, hand, InteractionSource.LEFT_CLICK);
       if (result.consumesAction()) {
         return result;
       }
@@ -313,53 +331,57 @@ public class InteractionHandler {
   private static final ComputableDataKey<LastTick> LAST_TICK = TConstruct.createKey("last_tick", LastTick::new);
 
   /** Implements {@link slimeknights.tconstruct.library.modifiers.hook.interaction.BlockInteractionModifierHook} for weapons with left click */
-//  @SubscribeEvent TODO: PORT
-//  static void leftClickBlock(LeftClickBlock event) {
-//    // ensure we have not fired this tick
-//    Player player = event.getPlayer();
-//    if (player.getCapability(TinkerDataCapability.CAPABILITY).filter(data -> data.computeIfAbsent(LAST_TICK).update(player)).isEmpty()) {
-//      return;
-//    }
-//    // must support interaction
-//    ItemStack stack = event.getItemStack();
-//    if (!stack.is(TinkerTags.Items.INTERACTABLE_LEFT) || player.getCooldowns().isOnCooldown(stack.getItem())) {
-//      return;
-//    }
-//
-//    // build usage context
-//    InteractionHand hand = event.getHand();
-//    BlockPos pos = event.getPos();
-//    Direction direction = event.getFace();
-//    if (direction == null) {
-//      direction = player.getDirection().getOpposite();
-//    }
-//    UseOnContext context = new UseOnContext(player, hand, new BlockHitResult(Util.toHitVec(pos, direction), direction, pos, false));
-//
-//    // run modifier hooks
-//    ToolStack tool = ToolStack.from(stack);
-//    List<ModifierEntry> modifiers = tool.getModifierList();
-//    for (ModifierEntry entry : modifiers) {
-//      InteractionResult result = entry.getHook(TinkerHooks.BLOCK_INTERACT).beforeBlockUse(tool, entry, context, InteractionSource.LEFT_CLICK);
-//      if (result.consumesAction()) {
-//        setLeftClickEventResult(event, result);
-//        return;
-//      }
-//    }
-//    // TODO: don't think there is an equivalence to block interactions
-//    for (ModifierEntry entry : modifiers) {
-//      InteractionResult result = entry.getHook(TinkerHooks.BLOCK_INTERACT).afterBlockUse(tool, entry, context, InteractionSource.LEFT_CLICK);
-//      if (result.consumesAction()) {
-//        setLeftClickEventResult(event, result);
-//        return;
-//      }
-//    }
-//
-//    // fallback to default interaction
-//    InteractionResult result = onLeftClickInteraction(tool, player, hand);
-//    if (result.consumesAction()) {
-//      setLeftClickEventResult(event, result);
-//    }
-//  }
+  @SubscribeEvent TODO: PORT
+  static void leftClickBlock(LeftClickBlock event) {
+    // ensure we have not fired this tick
+    Player player = event.getPlayer();
+    if (player.getCapability(TinkerDataCapability.CAPABILITY).filter(data -> data.computeIfAbsent(LAST_TICK).update(player)).isEmpty()) {
+      return;
+    }
+    // must support interaction
+    ItemStack stack = event.getItemStack();
+    if (!stack.is(TinkerTags.Items.INTERACTABLE_LEFT) || player.getCooldowns().isOnCooldown(stack.getItem())) {
+      return;
+    }
+
+    // build usage context
+    InteractionHand hand = event.getHand();
+    BlockPos pos = event.getPos();
+    Direction direction = event.getFace();
+    if (direction == null) {
+      direction = player.getDirection().getOpposite();
+    }
+    UseOnContext context = new UseOnContext(player, hand, new BlockHitResult(Util.toHitVec(pos, direction), direction, pos, false));
+
+    // run modifier hooks
+    ToolStack tool = ToolStack.from(stack);
+    List<ModifierEntry> modifiers = tool.getModifierList();
+    for (ModifierEntry entry : modifiers) {
+      InteractionResult result = entry.getHook(TinkerHooks.BLOCK_INTERACT).beforeBlockUse(tool, entry, context, InteractionSource.LEFT_CLICK);
+      if (result.consumesAction()) {
+        setLeftClickEventResult(event, result);
+        // always cancel block interaction, prevents breaking glows/fires
+        event.setCanceled(true);
+        return;
+      }
+    }
+    // TODO: don't think there is an equivalence to block interactions
+    for (ModifierEntry entry : modifiers) {
+      InteractionResult result = entry.getHook(TinkerHooks.BLOCK_INTERACT).afterBlockUse(tool, entry, context, InteractionSource.LEFT_CLICK);
+      if (result.consumesAction()) {
+        setLeftClickEventResult(event, result);
+        // always cancel block interaction, prevents breaking glows/fires
+        event.setCanceled(true);
+        return;
+      }
+    }
+
+    // fallback to default interaction
+    InteractionResult result = onLeftClickInteraction(tool, player, hand);
+    if (result.consumesAction()) {
+      setLeftClickEventResult(event, result);
+    }
+  }
 
   public static void init() {
     UseEntityCallback.EVENT.register(InteractionHandler::beforeEntityInteract);
@@ -367,5 +389,48 @@ public class InteractionHandler {
     UseEntityCallback.EVENT.addPhaseOrdering(Event.DEFAULT_PHASE, TConstruct.getResource("event_phase"));
     UseBlockCallback.EVENT.register(InteractionHandler::chestplateInteractWithBlock);
     AttackEntityCallback.EVENT.register(InteractionHandler::onChestplateAttack);
+  }
+
+  /** Checks if the shield block angle allows blocking this attack */
+  public static boolean canBlock(LivingEntity holder, @Nullable Vec3 sourcePosition, IToolStackView tool) {
+    // source position should never be null (checked by livingentity) but safety as its marked nullable
+    if (sourcePosition == null) {
+      return false;
+    }
+    // divide by 2 as the stat is 0 to 180 (more intutive) but logic is 0 to 90 (simplier to work with)
+    // we could potentially do a quick exit here, but that would mean this method is not applicable for modifiers like reflection
+    // that skip the vanilla check first
+    float blockAngle = ConditionalStatModifierHook.getModifiedStat(tool, holder, ToolStats.BLOCK_ANGLE) / 2;
+
+    // want the angle between the view vector and the
+    Vec3 viewVector = holder.getViewVector(1.0f);
+    Vec3 entityPosition = holder.position();
+    Vec3 direction = new Vec3(entityPosition.x - sourcePosition.x, 0, entityPosition.z - sourcePosition.z);
+    double length = viewVector.length() * direction.length();
+    // prevent zero vector from messing with us
+    if (length < 1.0E-4D) {
+      return false;
+    }
+    // acos will return between 90 and 270, we want an absolute angle from 0 to 180
+    double angle = Math.abs(180 - Math.acos(direction.dot(viewVector) / length) * Mth.RAD_TO_DEG);
+    return blockAngle >= angle;
+  }
+
+  /** Implements shield stats */
+  @SubscribeEvent
+  static void onBlock(ShieldBlockEvent event) {
+    LivingEntity entity = event.getEntityLiving();
+    ItemStack activeStack = entity.getUseItem();
+    if (!activeStack.isEmpty() && activeStack.is(TinkerTags.Items.MODIFIABLE)) {
+      ToolStack tool = ToolStack.from(activeStack);
+      // first check block angle
+      if (!tool.isBroken() && canBlock(event.getEntityLiving(), event.getDamageSource().getSourcePosition(), tool)) {
+        // TODO: hook for conditioning block amount based on on damage type
+        event.setBlockedDamage(Math.min(event.getBlockedDamage(), tool.getStats().get(ToolStats.BLOCK_AMOUNT)));
+        // TODO: consider handling the item damage ourself
+      } else {
+        event.setCanceled(true);
+      }
+    }
   }
 }

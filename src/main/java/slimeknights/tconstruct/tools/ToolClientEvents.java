@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.player.Input;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,6 +27,7 @@ import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.data.fabric.IdentifiableISafeManagerReloadListener;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.ClientEventBase;
+import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
 import slimeknights.tconstruct.library.client.model.DynamicTextureLoader;
@@ -40,9 +42,13 @@ import slimeknights.tconstruct.library.client.modifiers.ModifierModelManager;
 import slimeknights.tconstruct.library.client.modifiers.ModifierModelManager.ModifierModelRegistrationEvent;
 import slimeknights.tconstruct.library.client.modifiers.NormalModifierModel;
 import slimeknights.tconstruct.library.client.modifiers.TankModifierModel;
+import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.library.modifiers.ModifierManager;
+import slimeknights.tconstruct.library.tools.item.IModifiable;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.library.utils.HarvestTiers;
+import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.tools.client.ArmorModelHelper;
 import slimeknights.tconstruct.tools.client.CrystalshotRenderer;
 import slimeknights.tconstruct.tools.client.OverslimeModifierModel;
@@ -52,12 +58,10 @@ import slimeknights.tconstruct.tools.client.SlimeskullArmorModel;
 import slimeknights.tconstruct.tools.client.ToolContainerScreen;
 import slimeknights.tconstruct.tools.client.particles.AxeAttackParticle;
 import slimeknights.tconstruct.tools.client.particles.HammerAttackParticle;
-import slimeknights.tconstruct.tools.item.ModifiableCrossbowItem;
+import slimeknights.tconstruct.tools.item.ModifierCrystalItem;
 import slimeknights.tconstruct.tools.logic.InteractionHandler;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.DoubleJumpModifier;
 import slimeknights.tconstruct.tools.network.TinkerControlPacket;
-
-import java.util.Map;
 
 import static slimeknights.tconstruct.library.client.model.tools.ToolModel.registerItemColors;
 
@@ -109,6 +113,7 @@ public class ToolClientEvents extends ClientEventBase {
 
   public static void clientSetupEvent() {
     PlayerTickEvents.START.register(ToolClientEvents::handleKeyBindings);
+    MinecraftForge.EVENT_BUS.addListener(ToolClientEvents::handleInput);
     ArmorModelHelper.init();
 
     // keybinds
@@ -119,23 +124,34 @@ public class ToolClientEvents extends ClientEventBase {
     MenuScreens.register(TinkerTools.toolContainer.get(), ToolContainerScreen::new);
 
     // properties
-    TinkerItemProperties.registerBowProperties(TinkerTools.crossbow.asItem());
+    // stone
+    TinkerItemProperties.registerToolProperties(TinkerTools.pickaxe.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.sledgeHammer.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.veinHammer.asItem());
+    // dirt
+    TinkerItemProperties.registerToolProperties(TinkerTools.mattock.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.pickadze.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.excavator.asItem());
+    // axe
+    TinkerItemProperties.registerToolProperties(TinkerTools.handAxe.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.broadAxe.asItem());
+    // leaves
+    TinkerItemProperties.registerToolProperties(TinkerTools.kama.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.scythe.asItem());
+    // sword
+    TinkerItemProperties.registerToolProperties(TinkerTools.dagger.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.sword.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.cleaver.asItem());
+    // bow
+    TinkerItemProperties.registerCrossbowProperties(TinkerTools.crossbow.asItem());
     TinkerItemProperties.registerBowProperties(TinkerTools.longbow.asItem());
-    // no sense having two keys for ammo, just set 1 for arrow, 2 for fireworks
-    String fireworksID = BuiltInRegistries.ITEM.getKey(Items.FIREWORK_ROCKET).toString();
-    ItemProperties.register(TinkerTools.crossbow.asItem(), TConstruct.getResource("ammo"), (stack, level, entity, seed) -> {
-      CompoundTag nbt = stack.getTag();
-      if (nbt != null) {
-        CompoundTag persistentData = nbt.getCompound(ToolStack.TAG_PERSISTENT_MOD_DATA);
-        if (!persistentData.isEmpty()) {
-          CompoundTag ammo = persistentData.getCompound(ModifiableCrossbowItem.KEY_CROSSBOW_AMMO.toString());
-          if (!ammo.isEmpty()) {
-            return ammo.getString("id").equals(fireworksID) ? 2 : 1;
-          }
-        }
-      }
-      return 0;
-    });
+    // misc
+    TinkerItemProperties.registerToolProperties(TinkerTools.flintAndBrick.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.skyStaff.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.earthStaff.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.ichorStaff.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.travelersShield.asItem());
+    TinkerItemProperties.registerToolProperties(TinkerTools.plateShield.asItem());
 
     registerRenderers();
     registerParticleFactories();
@@ -173,6 +189,15 @@ public class ToolClientEvents extends ClientEventBase {
     registerItemColors(TinkerTools.cleaver);
     // bow
     registerItemColors(TinkerTools.longbow);
+
+    // modifier crystal
+    colors.register((stack, index) -> {
+      ModifierId modifier = ModifierCrystalItem.getModifier(stack);
+      if (modifier != null) {
+        return ResourceColorManager.getColor(Util.makeTranslationKey("modifier", modifier));
+      }
+      return -1;
+    }, TinkerModifiers.modifierCrystal.asItem());
   }
 
   // values to check if a key was being pressed last tick, safe as a static value as we only care about a single player client side
@@ -228,6 +253,25 @@ public class ToolClientEvents extends ClientEventBase {
 
       wasHelmetInteracting = isHelmetInteracting;
       wasLeggingsInteracting = isLeggingsInteract;
+    }
+  }
+
+  private static void handleInput(MovementInputUpdateEvent event) {
+    Player player = event.getPlayer();
+    if (player.isUsingItem() && !player.isPassenger()) {
+      ItemStack using = player.getUseItem();
+      if (using.is(TinkerTags.Items.HELD)) {
+        ToolStack tool = ToolStack.from(using);
+        // multiply by 5 to cancel out the vanilla 20%
+        float speed = 5 * (tool.getStats().get(ToolStats.USE_ITEM_SPEED));
+        // FAST_USE_ITEM was originally 80% move speed, since the stat defaults to 20% this makes it act the same as long as you don't modify the stat
+        if (tool.getVolatileData().getBoolean(IModifiable.FAST_USE_ITEM)) {
+          speed = Math.min(5, speed + 5 * 0.6f);
+        }
+        Input input = event.getInput();
+        input.leftImpulse *= speed;
+        input.forwardImpulse *= speed;
+      }
     }
   }
 }

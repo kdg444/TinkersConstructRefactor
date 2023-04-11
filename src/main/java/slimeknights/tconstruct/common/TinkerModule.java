@@ -17,10 +17,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
-import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
@@ -32,13 +28,13 @@ import slimeknights.mantle.registration.deferred.BlockEntityTypeDeferredRegister
 import slimeknights.mantle.registration.deferred.EntityTypeDeferredRegister;
 import slimeknights.mantle.registration.deferred.FluidDeferredRegister;
 import slimeknights.mantle.registration.deferred.MenuTypeDeferredRegister;
+import slimeknights.mantle.registration.deferred.SynchronizedDeferredRegister;
 import slimeknights.mantle.util.SupplierCreativeTab;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.registration.BlockDeferredRegisterExtension;
 import slimeknights.tconstruct.common.registration.ConfiguredFeatureDeferredRegister;
 import slimeknights.tconstruct.common.registration.ItemDeferredRegisterExtension;
 import slimeknights.tconstruct.common.registration.PlacedFeatureDeferredRegister;
-import slimeknights.tconstruct.library.modifiers.util.ModifierDeferredRegister;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.block.SlimeType;
@@ -61,27 +57,22 @@ public abstract class TinkerModule {
   protected static final ItemDeferredRegisterExtension ITEMS = new ItemDeferredRegisterExtension(TConstruct.MOD_ID);
   protected static final ItemDeferredRegisterExtension ITEMS_DEFFERED = new ItemDeferredRegisterExtension(TConstruct.MOD_ID);
   protected static final FluidDeferredRegister FLUIDS = new FluidDeferredRegister(TConstruct.MOD_ID);
-  protected static final LazyRegistrar<MobEffect> MOB_EFFECTS = LazyRegistrar.create(Registries.MOB_EFFECT, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<ParticleType<?>> PARTICLE_TYPES = LazyRegistrar.create(Registries.PARTICLE_TYPE, TConstruct.MOD_ID);
-  protected static final ModifierDeferredRegister MODIFIERS = ModifierDeferredRegister.create(TConstruct.MOD_ID);
+  protected static final SynchronizedDeferredRegister<MobEffect> MOB_EFFECTS = SynchronizedDeferredRegister.create(ForgeRegistries.MOB_EFFECTS, TConstruct.MOD_ID);
+  protected static final SynchronizedDeferredRegister<ParticleType<?>> PARTICLE_TYPES = SynchronizedDeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, TConstruct.MOD_ID);
   // gameplay instances
   protected static final BlockEntityTypeDeferredRegister BLOCK_ENTITIES = new BlockEntityTypeDeferredRegister(TConstruct.MOD_ID);
   protected static final EntityTypeDeferredRegister ENTITIES = new EntityTypeDeferredRegister(TConstruct.MOD_ID);
   protected static final MenuTypeDeferredRegister MENUS = new MenuTypeDeferredRegister(TConstruct.MOD_ID);
   // datapacks
-  protected static final LazyRegistrar<RecipeSerializer<?>> RECIPE_SERIALIZERS = LazyRegistrar.create(Registries.RECIPE_SERIALIZER, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<Codec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIERS = LazyRegistrar.create(PortingLibRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<LootItemConditionType> LOOT_CONDITIONS = LazyRegistrar.create(Registries.LOOT_CONDITION_TYPE, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<LootItemFunctionType> LOOT_FUNCTIONS = LazyRegistrar.create(Registries.LOOT_FUNCTION_TYPE, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<LootPoolEntryType> LOOT_ENTRIES = LazyRegistrar.create(Registries.LOOT_POOL_ENTRY_TYPE, TConstruct.MOD_ID);
+  protected static final SynchronizedDeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = SynchronizedDeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TConstruct.MOD_ID);
+  protected static final SynchronizedDeferredRegister<GlobalLootModifierSerializer<?>> GLOBAL_LOOT_MODIFIERS = SynchronizedDeferredRegister.create(Keys.LOOT_MODIFIER_SERIALIZERS, TConstruct.MOD_ID);
+  protected static final SynchronizedDeferredRegister<LootItemConditionType> LOOT_CONDITIONS = SynchronizedDeferredRegister.create(Registry.LOOT_ITEM_REGISTRY, TConstruct.MOD_ID);
+  protected static final SynchronizedDeferredRegister<LootItemFunctionType> LOOT_FUNCTIONS = SynchronizedDeferredRegister.create(Registry.LOOT_FUNCTION_REGISTRY, TConstruct.MOD_ID);
+  protected static final SynchronizedDeferredRegister<LootPoolEntryType> LOOT_ENTRIES = SynchronizedDeferredRegister.create(Registry.LOOT_ENTRY_REGISTRY, TConstruct.MOD_ID);
   // worldgen
-  protected static final LazyRegistrar<Feature<?>> FEATURES = LazyRegistrar.create(Registries.FEATURE, TConstruct.MOD_ID);
-  protected static final ConfiguredFeatureDeferredRegister CONFIGURED_FEATURES = new ConfiguredFeatureDeferredRegister(TConstruct.MOD_ID);
   protected static final PlacedFeatureDeferredRegister PLACED_FEATURES = new PlacedFeatureDeferredRegister(TConstruct.MOD_ID);
-  protected static final LazyRegistrar<StructureType<?>> STRUCTURE_TYPES = LazyRegistrar.create(Registries.STRUCTURE_TYPE, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<StructurePieceType> STRUCTURE_PIECE = LazyRegistrar.create(Registries.STRUCTURE_PIECE, TConstruct.MOD_ID);
-  protected static final LazyRegistrar<BlockStateProviderType<?>> BLOCK_STATE_PROVIDER_TYPES = LazyRegistrar.create(Registries.BLOCK_STATE_PROVIDER_TYPE, TConstruct.MOD_ID);
-
+  protected static final ConfiguredFeatureDeferredRegister CONFIGURED_FEATURES = new ConfiguredFeatureDeferredRegister(TConstruct.MOD_ID);
+  //
 
   /** Creative tab for items that do not fit in another tab */
   @SuppressWarnings("WeakerAccess")
@@ -98,14 +89,13 @@ public abstract class TinkerModule {
   /** Called during construction to initialize the registers for this mod */
   public static void initRegisters() {
     // gameplay singleton
-    BLOCKS.register();
+    BLOCKS.register(bus);
     BLOCKS_DEFFERED.register();
-    ITEMS.register();
+    ITEMS.register(bus);
     ITEMS_DEFFERED.register();
-    FLUIDS.register();
-    MOB_EFFECTS.register();
-    PARTICLE_TYPES.register();
-    MODIFIERS.register();
+    FLUIDS.register(bus);
+    MOB_EFFECTS.register(bus);
+    PARTICLE_TYPES.register(bus);
     // gameplay instance
     BLOCK_ENTITIES.register();
     ENTITIES.register();
@@ -118,12 +108,8 @@ public abstract class TinkerModule {
     LOOT_ENTRIES.register();
     TinkerRecipeTypes.init();
     // worldgen
-    FEATURES.register();
-    CONFIGURED_FEATURES.register();
-    PLACED_FEATURES.register();
-    STRUCTURE_TYPES.register();
-    STRUCTURE_PIECE.register();
-    BLOCK_STATE_PROVIDER_TYPES.register();
+    CONFIGURED_FEATURES.register(bus);
+    PLACED_FEATURES.register(bus);
   }
 
   /**

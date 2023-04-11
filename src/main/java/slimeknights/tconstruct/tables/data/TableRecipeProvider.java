@@ -16,6 +16,7 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import slimeknights.mantle.recipe.crafting.ShapedRetexturedRecipeBuilder;
+import slimeknights.mantle.recipe.ingredient.SizedIngredient;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.data.BaseRecipeProvider;
 import slimeknights.tconstruct.library.data.recipe.SpecialRecipeBuilder;
@@ -23,6 +24,7 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tables.recipe.PartBuilderToolRecycle;
 import slimeknights.tconstruct.tables.recipe.TinkerStationDamagingRecipe;
+import slimeknights.tconstruct.tools.TinkerTools;
 
 import java.util.function.Consumer;
 
@@ -201,7 +203,16 @@ public class TableRecipeProvider extends BaseRecipeProvider {
                                  .build(consumer, modResource(folder + "scorched_forge"));
 
     // recycling singleton
-    consumer.accept(new PartBuilderToolRecycle.Finished(modResource(folder + "tool_recycling"), Ingredient.of(TinkerTags.Items.PATTERNS)));
+    consumer.accept(new PartBuilderToolRecycle.Finished(
+      modResource(folder + "tool_recycling"),
+      SizedIngredient.of(DifferenceIngredient.of(Ingredient.of(TinkerTags.Items.MULTIPART_TOOL), Ingredient.of(TinkerTags.Items.UNSALVAGABLE))),
+      Ingredient.of(TinkerTags.Items.PATTERNS)
+    ));
+    consumer.accept(new PartBuilderToolRecycle.Finished(
+      modResource(folder + "dagger_recycling"),
+      SizedIngredient.fromItems(2, TinkerTools.dagger),
+      Ingredient.of(TinkerTags.Items.PATTERNS)
+    ));
 
     // tool repair recipe
     SpecialRecipeBuilder.special(TinkerTables.tinkerStationRepairSerializer.get())

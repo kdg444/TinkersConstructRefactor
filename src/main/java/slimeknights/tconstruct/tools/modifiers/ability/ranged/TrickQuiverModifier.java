@@ -106,7 +106,7 @@ public class TrickQuiverModifier extends InventoryMenuModifier implements BowAmm
           if (selectedStack.isEmpty()) {
             player.displayClientMessage(Component.translatable(EMPTY, newSelected + 1), true);
           } else {
-            player.displayClientMessage(Component.translatable(SELECTED, selectedStack.getDisplayName(), newSelected + 1), true);
+            player.displayClientMessage(Component.translatable(SELECTED, selectedStack.getHoverName(), newSelected + 1), true);
           }
         }
       }

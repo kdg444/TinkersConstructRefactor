@@ -23,6 +23,8 @@ public class ToolStats {
 
   /** Tools durability, determines how long it lasts */
   public static final FloatToolStat DURABILITY = register(new FloatToolStat(name("durability"), 0xFF47CC47, 1, 1, Integer.MAX_VALUE, TinkerTags.Items.DURABILITY));
+  /** Movement speed percentage when using this item, applicable to charging tools, pulling back bows, and shield blocking among other actions */
+  public static final FloatToolStat USE_ITEM_SPEED = register(new FloatToolStat(name("use_item_speed"), 0xFF78A0CD, 0.2f, 0, 1, TinkerTags.Items.HELD));
 
   // melee
   /** Tools attack damage for melee */
@@ -43,6 +45,12 @@ public class ToolStats {
   public static final FloatToolStat ARMOR_TOUGHNESS = register(new FloatToolStat(name("armor_toughness"), 0xFF8547CC, 0, 0, 20, TinkerTags.Items.ARMOR));
   /** Knockback resistance percentage */
   public static final FloatToolStat KNOCKBACK_RESISTANCE = register(new FloatToolStat(name("knockback_resistance"), 0xFF8547CC, 0, 0, 1, TinkerTags.Items.ARMOR));
+
+  // shield
+  /** Maximum damage blocked by the shield. If more than this number is dealt, the damage is reduced by this number */
+  public static final FloatToolStat BLOCK_AMOUNT = register(new FloatToolStat(name("block_amount"), 0xFF78A0CD, 5, 0, 2048, TinkerTags.Items.HELD));
+  /** Maximum angle of blocking in degrees. 180 is vanilla (90 degrees either direction). */
+  public static final FloatToolStat BLOCK_ANGLE = register(new FloatToolStat(name("block_angle"), 0xFF78A0CD, 120, 0, 180, TinkerTags.Items.HELD));
 
   // ranged
   /** Number of times per second a tool can be used */

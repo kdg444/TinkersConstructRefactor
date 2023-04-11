@@ -1,17 +1,11 @@
 {
   "condition": {
-    "fabric:load_conditions": [
-      {
-        "condition": "fabric:all_mods_loaded",
-        "values": [
-          "create"
-        ]
-      }
-    ]
+    "modid": "create",
+    "type": "forge:mod_loaded"
   },
   "fluid": {
     "name": "create:potion",
-    "amount": 10125
+    "amount": 50
   },
   "effects": [
     {
@@ -26,7 +20,7 @@
     },
     {
       "type": "tconstruct:potion_fluid",
-      "scale": 1.0,
+      "scale": 0.75,
       "predicate": "{Bottle:\"LINGERING\"}"
     }
   ]

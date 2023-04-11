@@ -113,7 +113,7 @@ public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
 
     // metals, lose reference to mistborn (though a true fan would probably get angry at how much I stray from the source)
     metalborn(TinkerFluids.moltenIron.getForgeTag(), 2f).addEffect(new EffectSpillingEffect(TinkerModifiers.magneticEffect.get(), 4, 2));
-    metalborn(TinkerFluids.moltenSteel.getForgeTag(), 2f).addEffect(new EffectSpillingEffect(TinkerModifiers.replusiveEffect.get(), 4, 2));
+    metalborn(TinkerFluids.moltenSteel.getForgeTag(), 2f).addEffect(new EffectSpillingEffect(TinkerModifiers.repulsiveEffect.get(), 4, 2));
     metalborn(TinkerFluids.moltenCopper.getForgeTag(), 1.5f).addEffect(new AddBreathSpillingEffect(80));
     metalborn(TinkerFluids.moltenBronze.getForgeTag(), 2f).addEffect(new AddInsomniaSpillingEffect(-2000));
     metalborn(TinkerFluids.moltenAmethystBronze.getLocalTag(), 1.5f).addEffect(new AddInsomniaSpillingEffect(2000));
@@ -159,8 +159,9 @@ public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
     burningFluid("metal_expensive", TinkerTags.Fluids.EXPENSIVE_METAL_SPILLING, FluidValues.NUGGET,                 3f,   7);
 
     // potion fluid compat
-    // standard potion is 250 mb, but we want a smaller number. For the effects, we really want to divide into 4 pieces
-    addFluid("potion_fluid", TinkerTags.Fluids.POTION, FluidValues.BOTTLE / 2).addEffect(new PotionFluidEffect(0.5f, TagPredicate.ANY));
+    // standard potion is 250 mb, but we want a smaller number. divide into 5 pieces at 25% a piece (so healing is 1 health), means you gain 25% per potion
+    int bottleSip = FluidValues.BOTTLE / 5;
+    addFluid("potion_fluid", TinkerTags.Fluids.POTION, bottleSip).addEffect(new PotionFluidEffect(0.25f, TagPredicate.ANY));
 
     // create has three types of bottles stored on their fluid, react to it to boost
     Function<String,TagPredicate> createBottle = value -> {
@@ -169,11 +170,11 @@ public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
       return new TagPredicate(compound);
     };
     String create = "create";
-    addFluid("potion_create", FluidNameIngredient.of(new ResourceLocation(create, "potion"), FluidConstants.BUCKET / 8))
+    addFluid("potion_create", FluidNameIngredient.of(new ResourceLocation(create, "potion"), bottleSip))
       .condition(DefaultResourceConditions.allModsLoaded(create))
       .addEffect(new PotionFluidEffect(0.25f, createBottle.apply("REGULAR")))
       .addEffect(new PotionFluidEffect(0.5f, createBottle.apply("SPLASH")))
-      .addEffect(new PotionFluidEffect(1f, createBottle.apply("LINGERING")));
+      .addEffect(new PotionFluidEffect(0.75f, createBottle.apply("LINGERING")));
 
   }
 

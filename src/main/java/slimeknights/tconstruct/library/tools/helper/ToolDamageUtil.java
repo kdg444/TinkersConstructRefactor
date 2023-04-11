@@ -9,12 +9,14 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 /**
  * Handles tool damage and repair, along with a quick broken check
@@ -139,6 +141,15 @@ public class ToolDamageUtil {
     return damageAnimated(tool, amount, entity, InteractionHand.MAIN_HAND);
   }
 
+  /** Implements {@link net.minecraft.world.item.Item#damageItem(ItemStack, int, LivingEntity, Consumer)} for a modifiable item */
+  public static <T extends LivingEntity> void handleDamageItem(ItemStack stack, int amount, T damager, Consumer<T> onBroken) {
+    // We basically emulate Itemstack.damageItem here. We always return 0 to skip the handling in ItemStack.
+    // If we don't tools ignore our damage logic
+    if (stack.getItem().canBeDepleted() && ToolDamageUtil.damage(ToolStack.from(stack), amount, damager, stack)) {
+      onBroken.accept(damager);
+    }
+  }
+
   /**
    * Repairs the given tool stack
    * @param amount  Amount to repair
@@ -177,7 +188,7 @@ public class ToolDamageUtil {
         return show;
       }
     }
-    return tool.getDamage() > 0;
+    return tool.getDamage() > 0 && stack.is(TinkerTags.Items.DURABILITY);
   }
 
   /**

@@ -3,7 +3,6 @@ package slimeknights.tconstruct.tools.modifiers.defense;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.EquipmentSlot.Type;
 import net.minecraft.world.entity.LivingEntity;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -11,8 +10,10 @@ import slimeknights.tconstruct.library.modifiers.data.ModifierMaxLevel;
 import slimeknights.tconstruct.library.modifiers.impl.IncrementalModifier;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
 import slimeknights.tconstruct.library.tools.context.EquipmentChangeContext;
+import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.utils.Util;
+import slimeknights.tconstruct.tools.TinkerModifiers;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public abstract class AbstractProtectionModifier<T extends ModifierMaxLevel> ext
   public void onUnequip(IToolStackView tool, int level, EquipmentChangeContext context) {
     LivingEntity entity = context.getEntity();
     EquipmentSlot slot = context.getChangedSlot();
-    if (slot.getType() == Type.ARMOR && !entity.level.isClientSide) {
+    if (ModifierUtil.validArmorSlot(tool, slot) && !entity.level.isClientSide) {
       context.getTinkerData().ifPresent(data -> {
         T modData = data.get(key);
         if (modData != null) {
@@ -66,7 +67,7 @@ public abstract class AbstractProtectionModifier<T extends ModifierMaxLevel> ext
   public void onEquip(IToolStackView tool, int level, EquipmentChangeContext context) {
     LivingEntity entity = context.getEntity();
     EquipmentSlot slot = context.getChangedSlot();
-    if (!entity.level.isClientSide && slot.getType() == Type.ARMOR && !tool.isBroken()) {
+    if (!entity.level.isClientSide && ModifierUtil.validArmorSlot(tool, slot) && !tool.isBroken()) {
       float scaledLevel = getScaledLevel(tool, level);
       context.getTinkerData().ifPresent(data -> {
         T modData = data.get(key);
@@ -91,7 +92,8 @@ public abstract class AbstractProtectionModifier<T extends ModifierMaxLevel> ext
    */
   public static void addResistanceTooltip(Modifier modifier, IToolStackView tool, int level, float multiplier, List<Component> tooltip) {
     if (tool.hasTag(TinkerTags.Items.ARMOR)) {
-      tooltip.add(modifier.applyStyle(Component.literal(Util.PERCENT_BOOST_FORMAT.format(Math.min(modifier.getEffectiveLevel(tool, level) * multiplier / 25f, 0.8f)))
+      float cap = Math.min(0.95f, 0.8f + tool.getModifierLevel(TinkerModifiers.boundless.getId()) * 0.1f);
+      tooltip.add(modifier.applyStyle(Component.literal(Util.PERCENT_BOOST_FORMAT.format(Math.min(modifier.getEffectiveLevel(tool, level) * multiplier / 25f, cap)))
                                         .append(" ")
                                         .append(Component.translatable(modifier.getTranslationKey() + ".resistance"))));
     }

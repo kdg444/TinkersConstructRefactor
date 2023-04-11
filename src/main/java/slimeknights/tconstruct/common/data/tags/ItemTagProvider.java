@@ -46,12 +46,17 @@ import static slimeknights.tconstruct.common.TinkerTags.Items.BOWS;
 import static slimeknights.tconstruct.common.TinkerTags.Items.CHESTPLATES;
 import static slimeknights.tconstruct.common.TinkerTags.Items.CROSSBOWS;
 import static slimeknights.tconstruct.common.TinkerTags.Items.DURABILITY;
+import static slimeknights.tconstruct.common.TinkerTags.Items.DYEABLE;
+import static slimeknights.tconstruct.common.TinkerTags.Items.EMBELLISHMENT_METAL;
+import static slimeknights.tconstruct.common.TinkerTags.Items.EMBELLISHMENT_SLIME;
 import static slimeknights.tconstruct.common.TinkerTags.Items.HARVEST;
 import static slimeknights.tconstruct.common.TinkerTags.Items.HARVEST_PRIMARY;
 import static slimeknights.tconstruct.common.TinkerTags.Items.HELD;
+import static slimeknights.tconstruct.common.TinkerTags.Items.HELD_ARMOR;
 import static slimeknights.tconstruct.common.TinkerTags.Items.HELMETS;
 import static slimeknights.tconstruct.common.TinkerTags.Items.INTERACTABLE;
 import static slimeknights.tconstruct.common.TinkerTags.Items.INTERACTABLE_ARMOR;
+import static slimeknights.tconstruct.common.TinkerTags.Items.INTERACTABLE_DUAL;
 import static slimeknights.tconstruct.common.TinkerTags.Items.INTERACTABLE_LEFT;
 import static slimeknights.tconstruct.common.TinkerTags.Items.INTERACTABLE_RIGHT;
 import static slimeknights.tconstruct.common.TinkerTags.Items.LEGGINGS;
@@ -63,11 +68,16 @@ import static slimeknights.tconstruct.common.TinkerTags.Items.MELEE_PRIMARY;
 import static slimeknights.tconstruct.common.TinkerTags.Items.MODIFIABLE;
 import static slimeknights.tconstruct.common.TinkerTags.Items.MULTIPART_TOOL;
 import static slimeknights.tconstruct.common.TinkerTags.Items.ONE_HANDED;
+import static slimeknights.tconstruct.common.TinkerTags.Items.PARRY;
 import static slimeknights.tconstruct.common.TinkerTags.Items.RANGED;
+import static slimeknights.tconstruct.common.TinkerTags.Items.SHIELDS;
+import static slimeknights.tconstruct.common.TinkerTags.Items.STAFFS;
 import static slimeknights.tconstruct.common.TinkerTags.Items.STONE_HARVEST;
 import static slimeknights.tconstruct.common.TinkerTags.Items.SWORD;
 import static slimeknights.tconstruct.common.TinkerTags.Items.TWO_HANDED;
 import static slimeknights.tconstruct.common.TinkerTags.Items.UNARMED;
+import static slimeknights.tconstruct.common.TinkerTags.Items.UNSALVAGABLE;
+import static slimeknights.tconstruct.common.TinkerTags.Items.WORN_ARMOR;
 
 @SuppressWarnings("unchecked")
 public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
@@ -226,20 +236,28 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     addToolTags(TinkerTools.kama,   MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE,         ONE_HANDED, AOE);
     addToolTags(TinkerTools.scythe, MULTIPART_TOOL, DURABILITY, HARVEST_PRIMARY, MELEE_PRIMARY, ONE_HANDED, AOE);
     // sword
-    addToolTags(TinkerTools.dagger,  MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, ItemTags.SWORDS);
-    addToolTags(TinkerTools.sword,   MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, SWORD, AOE, ItemTags.SWORDS);
-    addToolTags(TinkerTools.cleaver, MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, SWORD, AOE, ItemTags.SWORDS);
+    addToolTags(TinkerTools.dagger,  MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, PARRY, UNSALVAGABLE);
+    addToolTags(TinkerTools.sword,   MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, SWORD, AOE);
+    addToolTags(TinkerTools.cleaver, MULTIPART_TOOL, DURABILITY, HARVEST, MELEE_PRIMARY, ONE_HANDED, SWORD, AOE);
     // bow
     addToolTags(TinkerTools.crossbow, MULTIPART_TOOL, DURABILITY, MELEE, CROSSBOWS, INTERACTABLE_LEFT);
     addToolTags(TinkerTools.longbow,  MULTIPART_TOOL, DURABILITY, MELEE, LONGBOWS,  INTERACTABLE_LEFT);
     // specialized
     addToolTags(TinkerTools.flintAndBrick, DURABILITY, MELEE, ONE_HANDED, AOE);
+    addToolTags(TinkerTools.skyStaff,      DURABILITY, STAFFS, HELD_ARMOR, INTERACTABLE_DUAL, AOE, DYEABLE, EMBELLISHMENT_METAL);
+    addToolTags(TinkerTools.earthStaff,    DURABILITY, STAFFS, HELD_ARMOR, INTERACTABLE_DUAL, AOE, DYEABLE, EMBELLISHMENT_METAL);
+    addToolTags(TinkerTools.ichorStaff,    DURABILITY, STAFFS, HELD_ARMOR, INTERACTABLE_DUAL, AOE, DYEABLE, EMBELLISHMENT_METAL);
 
     // armor
-    addArmorTags(TinkerTools.travelersGear, DURABILITY, ItemTags.FREEZE_IMMUNE_WEARABLES);
-    addArmorTags(TinkerTools.plateArmor,    DURABILITY);
-    addArmorTags(TinkerTools.slimesuit,     DURABILITY);
+    addArmorTags(TinkerTools.travelersGear, DURABILITY, DYEABLE, ItemTags.FREEZE_IMMUNE_WEARABLES);
+    addArmorTags(TinkerTools.plateArmor,    DURABILITY, EMBELLISHMENT_METAL);
+    addArmorTags(TinkerTools.slimesuit,     DURABILITY, EMBELLISHMENT_SLIME);
     addToolTags(TinkerTools.slimesuit.get(ArmorSlotType.HELMET), MULTIPART_TOOL);
+
+    // shields
+    addToolTags(TinkerTools.travelersShield, DURABILITY, DYEABLE, SHIELDS, INTERACTABLE_LEFT, EMBELLISHMENT_METAL);
+    addToolTags(TinkerTools.plateShield,     DURABILITY, DYEABLE, SHIELDS, INTERACTABLE_LEFT, EMBELLISHMENT_METAL);
+
 
     // add tags to other tags
     // harvest primary and stone harvest are both automatically harvest
@@ -251,13 +269,16 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     this.tag(MELEE_OR_UNARMED).addTag(MELEE).addTag(UNARMED);
     this.tag(UNARMED).addTag(CHESTPLATES);
     // migrating one handed and two handed to interactable right
-    this.tag(INTERACTABLE_RIGHT).addTags(ONE_HANDED, TWO_HANDED);
+    this.tag(INTERACTABLE_RIGHT).addTags(ONE_HANDED, TWO_HANDED, INTERACTABLE_DUAL);
+    this.tag(INTERACTABLE_LEFT).addTag(INTERACTABLE_DUAL);
     // interactable armor is mostly so some mod could disable all chestplate interactions in one swing
     this.tag(INTERACTABLE_ARMOR).addTag(CHESTPLATES);
     // left and right handed are held, but not armor
     this.tag(HELD).addTags(INTERACTABLE_RIGHT, INTERACTABLE_LEFT);
     this.tag(INTERACTABLE).addTags(INTERACTABLE_LEFT, INTERACTABLE_RIGHT, INTERACTABLE_ARMOR);
-    this.tag(ARMOR).addTag(BOOTS).addTag(LEGGINGS).addTag(CHESTPLATES).addTag(HELMETS);
+    this.tag(WORN_ARMOR).addTags(BOOTS, LEGGINGS, CHESTPLATES, HELMETS);
+    this.tag(HELD_ARMOR).addTag(SHIELDS);
+    this.tag(ARMOR).addTags(WORN_ARMOR, HELD_ARMOR);
     this.tag(AOE).addTag(BOOTS); // boot walk modifiers
     this.tag(RANGED).addTag(BOWS);
     this.tag(BOWS).addTags(LONGBOWS, CROSSBOWS);
@@ -267,6 +288,8 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
         .addTag(MULTIPART_TOOL).addTag(DURABILITY)
         .addTag(MELEE_OR_HARVEST).addTag(AOE)
         .addTag(HELD);
+    // disable parry mod on our items, we have our own modifier for that
+    this.tag(TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("parry", "excluded_shields"))).addTag(HELD);
 
     // kamas are a shear type, when broken we don't pass it to loot tables
     this.tag(Tags.Items.SHEARS).add(TinkerTools.kama.get());
@@ -335,7 +358,9 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
   private void addSmeltery() {
     this.copy(TinkerTags.Blocks.SEARED_BRICKS, TinkerTags.Items.SEARED_BRICKS);
     this.copy(TinkerTags.Blocks.SEARED_BLOCKS, TinkerTags.Items.SEARED_BLOCKS);
+    this.copy(TinkerTags.Blocks.SMELTERY_BRICKS, TinkerTags.Items.SMELTERY_BRICKS);
     this.copy(TinkerTags.Blocks.SCORCHED_BLOCKS, TinkerTags.Items.SCORCHED_BLOCKS);
+    this.copy(TinkerTags.Blocks.FOUNDRY_BRICKS, TinkerTags.Items.FOUNDRY_BRICKS);
     this.copy(BlockTags.SOUL_FIRE_BASE_BLOCKS, ItemTags.SOUL_FIRE_BASE_BLOCKS);
 
     // smeltery and foundry structure blocks

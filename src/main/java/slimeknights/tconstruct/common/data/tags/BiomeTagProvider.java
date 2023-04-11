@@ -47,4 +47,9 @@ public class BiomeTagProvider extends FabricTagProvider<Biome> {
   public FabricTagBuilder tag(TagKey<Biome> tag) {
     return getOrCreateTagBuilder(tag);
   }
+
+  @Override
+  public String getName() {
+    return "Tinkers' Construct Biome Tags";
+  }
 }

@@ -117,6 +117,7 @@ public class AdvancementsProvider extends GenericDataProvider {
       with.accept(MaterialIds.leather);
       with.accept(MaterialIds.string);
       with.accept(MaterialIds.vine);
+      with.accept(MaterialIds.bamboo);
       // tier 2
       with.accept(MaterialIds.iron);
       with.accept(MaterialIds.searedStone);
@@ -129,7 +130,7 @@ public class AdvancementsProvider extends GenericDataProvider {
       with.accept(MaterialIds.roseGold);
       with.accept(MaterialIds.slimesteel);
       with.accept(MaterialIds.nahuatl);
-      with.accept(MaterialIds.bronze);
+      with.accept(MaterialIds.amethystBronze);
       with.accept(MaterialIds.pigIron);
       with.accept(MaterialIds.cobalt);
       with.accept(MaterialIds.darkthread);
@@ -243,17 +244,17 @@ public class AdvancementsProvider extends GenericDataProvider {
       withL.accept(TinkerModifiers.doubleJump);
       withL.accept(TinkerModifiers.flamewake);
       withL.accept(TinkerModifiers.frostWalker);
-      with.accept(ModifierIds.looting);
       withL.accept(TinkerModifiers.pathMaker);
       withL.accept(TinkerModifiers.plowing);
       with.accept(ModifierIds.pockets);
-      withL.accept(TinkerModifiers.shieldStrap);
       withL.accept(TinkerModifiers.slurping);
       withL.accept(TinkerModifiers.snowdrift);
       with.accept(ModifierIds.strength);
       with.accept(ModifierIds.toolBelt);
       withL.accept(TinkerModifiers.ambidextrous);
       withL.accept(TinkerModifiers.zoom);
+      withL.accept(TinkerModifiers.longFall);
+      withL.accept(TinkerModifiers.reflecting);
       // harvest
       withL.accept(TinkerModifiers.autosmelt);
       withL.accept(TinkerModifiers.exchanging);
@@ -270,6 +271,13 @@ public class AdvancementsProvider extends GenericDataProvider {
       withL.accept(TinkerModifiers.dualWielding);
       withL.accept(TinkerModifiers.melting);
       withL.accept(TinkerModifiers.spilling);
+      withL.accept(TinkerModifiers.blocking);
+      withL.accept(TinkerModifiers.parrying);
+      // ranged
+      withL.accept(TinkerModifiers.crystalshot);
+      withL.accept(TinkerModifiers.multishot);
+      withL.accept(TinkerModifiers.bulkQuiver);
+      withL.accept(TinkerModifiers.trickQuiver);
     });
 
     // foundry path

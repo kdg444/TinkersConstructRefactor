@@ -15,6 +15,7 @@ import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
+import slimeknights.tconstruct.library.tools.helper.TooltipUtil;
 import slimeknights.tconstruct.library.utils.DomainDisplayName;
 import slimeknights.tconstruct.library.utils.NBTTags;
 import slimeknights.tconstruct.library.utils.Util;
@@ -97,7 +98,7 @@ public class MaterialItem extends Item implements IMaterialItem {
     }
     // format as "<material> <item name>"
     if (Util.canTranslate(materialKey)) {
-      return Component.translatable(materialKey).append(" ").append(Component.translatable(baseKey));
+      return new TranslatableComponent(TooltipUtil.KEY_FORMAT, new TranslatableComponent(materialKey), new TranslatableComponent(baseKey));
     }
     return null;
   }

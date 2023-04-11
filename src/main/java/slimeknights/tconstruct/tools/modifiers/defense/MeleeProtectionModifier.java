@@ -76,26 +76,18 @@ public class MeleeProtectionModifier extends AbstractProtectionModifier<Modifier
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
     if (doesApply(source)) {
-      modifierValue += getScaledLevel(tool, level) * 2;
+      modifierValue += getScaledLevel(tool, level) * 2.5;
     }
     return modifierValue;
   }
 
   @Override
   public void addInformation(IToolStackView tool, int level, @Nullable Player player, List<Component> tooltip, TooltipKey tooltipKey, TooltipFlag tooltipFlag) {
-    AbstractProtectionModifier.addResistanceTooltip(this, tool, level, 2.0f, tooltip);
+    AbstractProtectionModifier.addResistanceTooltip(this, tool, level, 2.5f, tooltip);
   }
 
   @Override
   protected ModifierMaxLevel createData() {
     return new ModifierMaxLevel();
-  }
-
-  private static class MeleeAttackSpeed extends ModifierMaxLevel {
-
-    @Override
-    public void set(EquipmentSlot slot, float level) {
-
-    }
   }
 }

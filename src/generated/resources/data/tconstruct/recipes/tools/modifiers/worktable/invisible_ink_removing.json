@@ -1,6 +1,9 @@
 {
   "type": "tconstruct:modifier_set_worktable",
   "data_key": "tconstruct:invisible_modifiers",
+  "tools": {
+    "tag": "tconstruct:modifiable"
+  },
   "inputs": [
     {
       "tag": "forge:milk",
@@ -11,6 +14,13 @@
       }
     }
   ],
-  "blacklist": "tconstruct:invisible_ink_blacklist",
-  "add_to_set": false
+  "modifier_predicate": {
+    "type": "tconstruct:inverted",
+    "predicate": {
+      "type": "tconstruct:tag",
+      "tag": "tconstruct:invisible_ink_blacklist"
+    }
+  },
+  "add_to_set": false,
+  "allow_traits": false
 }

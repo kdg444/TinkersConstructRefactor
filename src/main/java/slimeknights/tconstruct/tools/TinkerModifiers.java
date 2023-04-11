@@ -21,15 +21,23 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerEffect;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.data.tags.ModifierTagProvider;
+import slimeknights.tconstruct.library.json.predicate.modifier.ModifierPredicate;
+import slimeknights.tconstruct.library.json.predicate.modifier.SingleModifierPredicate;
+import slimeknights.tconstruct.library.json.predicate.modifier.SlotTypeModifierPredicate;
+import slimeknights.tconstruct.library.json.predicate.modifier.TagModifierPredicate;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierManager;
 import slimeknights.tconstruct.library.modifiers.dynamic.ConditionalDamageModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.ConditionalMiningSpeedModifier;
+import slimeknights.tconstruct.library.modifiers.dynamic.EnchantmentModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.ExtraModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.InventoryMenuModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.LootModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.MobDisguiseModifier;
+import slimeknights.tconstruct.library.modifiers.dynamic.MobEffectModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.StatBoostModifier;
+import slimeknights.tconstruct.library.modifiers.dynamic.SwappableExtraSlotModifier;
+import slimeknights.tconstruct.library.modifiers.impl.ScaledArmorLevelModifier;
 import slimeknights.tconstruct.library.modifiers.impl.SingleLevelModifier;
 import slimeknights.tconstruct.library.modifiers.impl.TankModifier;
 import slimeknights.tconstruct.library.modifiers.impl.TotalArmorLevelModifier;
@@ -48,6 +56,7 @@ import slimeknights.tconstruct.library.modifiers.spilling.effects.RestoreHungerS
 import slimeknights.tconstruct.library.modifiers.spilling.effects.SetFireSpillingEffect;
 import slimeknights.tconstruct.library.modifiers.spilling.effects.TeleportSpillingEffect;
 import slimeknights.tconstruct.library.modifiers.util.DynamicModifier;
+import slimeknights.tconstruct.library.modifiers.util.ModifierDeferredRegister;
 import slimeknights.tconstruct.library.modifiers.util.ModifierLevelDisplay;
 import slimeknights.tconstruct.library.modifiers.util.ModifierLevelDisplay.UniqueForLevels;
 import slimeknights.tconstruct.library.modifiers.util.StaticModifier;
@@ -55,10 +64,14 @@ import slimeknights.tconstruct.library.recipe.SimpleRecipeSerializer;
 import slimeknights.tconstruct.library.recipe.modifiers.ModifierSalvage;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IncrementalModifierRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.ModifierRecipe;
+import slimeknights.tconstruct.library.recipe.modifiers.adding.MultilevelModifierRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.OverslimeModifierRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.SwappableModifierRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.severing.AgeableSeveringRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.severing.SeveringRecipe;
+import slimeknights.tconstruct.library.recipe.tinkerstation.repairing.ModifierMaterialRepairKitRecipe;
+import slimeknights.tconstruct.library.recipe.tinkerstation.repairing.ModifierMaterialRepairRecipe;
+import slimeknights.tconstruct.library.recipe.tinkerstation.repairing.ModifierMaterialRepairSerializer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.repairing.ModifierRepairCraftingRecipe;
 import slimeknights.tconstruct.library.recipe.tinkerstation.repairing.ModifierRepairRecipeSerializer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.repairing.ModifierRepairTinkerStationRecipe;
@@ -67,16 +80,20 @@ import slimeknights.tconstruct.library.tools.capability.EntityModifierCapability
 import slimeknights.tconstruct.library.tools.capability.PersistentDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataKeys;
+import slimeknights.tconstruct.tools.data.EnchantmentToModifierProvider;
 import slimeknights.tconstruct.tools.data.ModifierProvider;
 import slimeknights.tconstruct.tools.data.ModifierRecipeProvider;
 import slimeknights.tconstruct.tools.data.SpillingFluidProvider;
 import slimeknights.tconstruct.tools.item.CreativeSlotItem;
 import slimeknights.tconstruct.tools.item.DragonScaleItem;
+import slimeknights.tconstruct.tools.item.ModifierCrystalItem;
 import slimeknights.tconstruct.tools.modifiers.ModifierLootModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.UnbreakableModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.BouncyModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.DoubleJumpModifier;
+import slimeknights.tconstruct.tools.modifiers.ability.armor.LongFallModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.ProtectionModifier;
+import slimeknights.tconstruct.tools.modifiers.ability.armor.ReflectingModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.ShieldStrapModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.SlurpingModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.ToolBeltModifier;
@@ -88,6 +105,7 @@ import slimeknights.tconstruct.tools.modifiers.ability.armor.walker.FlamewakeMod
 import slimeknights.tconstruct.tools.modifiers.ability.armor.walker.FrostWalkerModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.walker.SnowdriftModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.interaction.BlockTransformModifier;
+import slimeknights.tconstruct.tools.modifiers.ability.interaction.BlockingModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.interaction.FirestarterModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.interaction.HarvestAbilityModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.interaction.PathingModifier;
@@ -103,6 +121,7 @@ import slimeknights.tconstruct.tools.modifiers.ability.tool.ExchangingModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.tool.GlowingModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.tool.MeltingModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.tool.OffhandAttackModifier;
+import slimeknights.tconstruct.tools.modifiers.ability.tool.ParryingModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.tool.SpillingModifier;
 import slimeknights.tconstruct.tools.modifiers.defense.BlastProtectionModifier;
 import slimeknights.tconstruct.tools.modifiers.defense.DragonbornModifier;
@@ -172,15 +191,13 @@ import slimeknights.tconstruct.tools.modifiers.traits.skull.StrongBonesModifier;
 import slimeknights.tconstruct.tools.modifiers.traits.skull.WildfireModifier;
 import slimeknights.tconstruct.tools.modifiers.traits.skull.WitheredModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.armor.FeatherFallingModifier;
-import slimeknights.tconstruct.tools.modifiers.upgrades.armor.HasteArmorModifier;
+import slimeknights.tconstruct.tools.modifiers.upgrades.armor.HasteModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.armor.ItemFrameModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.armor.LeapingModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.armor.LightspeedArmorModifier;
-import slimeknights.tconstruct.tools.modifiers.upgrades.armor.RespirationModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.armor.RicochetModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.armor.SoulSpeedModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.armor.SpringyModifier;
-import slimeknights.tconstruct.tools.modifiers.upgrades.armor.StickyModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.armor.ThornsModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.general.ExperiencedModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.general.MagneticModifier;
@@ -205,6 +222,8 @@ import slimeknights.tconstruct.tools.modifiers.upgrades.ranged.ScopeModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.ranged.SinistralModifier;
 import slimeknights.tconstruct.tools.recipe.ArmorDyeingRecipe;
 import slimeknights.tconstruct.tools.recipe.CreativeSlotRecipe;
+import slimeknights.tconstruct.tools.recipe.EnchantmentConvertingRecipe;
+import slimeknights.tconstruct.tools.recipe.ExtractModifierRecipe;
 import slimeknights.tconstruct.tools.recipe.ModifierRemovalRecipe;
 import slimeknights.tconstruct.tools.recipe.ModifierSortingRecipe;
 import slimeknights.tconstruct.tools.recipe.severing.MooshroomDemushroomingRecipe;
@@ -215,16 +234,21 @@ import slimeknights.tconstruct.tools.recipe.severing.SnowGolemBeheadingRecipe;
 import java.util.function.IntFunction;
 import java.util.function.Supplier;
 
+import static slimeknights.tconstruct.tools.TinkerTools.TAB_TOOLS;
+
 /**
  * Contains modifiers and the items or blocks used to craft modifiers
  */
 @SuppressWarnings({"unused", "removal"})
 public final class TinkerModifiers extends TinkerModule {
+  private static final ModifierDeferredRegister MODIFIERS = ModifierDeferredRegister.create(TConstruct.MOD_ID);
+
   @SuppressWarnings("deprecation")
   public TinkerModifiers() {
     ModifierManager.INSTANCE.init();
     DynamicModifier.init();
     SpillingFluidManager.INSTANCE.init();
+    MODIFIERS.register(FMLJavaModLoadingContext.get().getModEventBus());
     commonSetup();
     registerSerializers();
   }
@@ -249,8 +273,9 @@ public final class TinkerModifiers extends TinkerModule {
   public static final ItemObject<Item> emeraldReinforcement = ITEMS.register("emerald_reinforcement", GENERAL_PROPS);
   public static final ItemObject<Item> bronzeReinforcement = ITEMS.register("bronze_reinforcement", GENERAL_PROPS);
   public static final ItemObject<Item> cobaltReinforcement = ITEMS.register("cobalt_reinforcement", GENERAL_PROPS);
-  // creative
-  public static final ItemObject<Item> creativeSlotItem = ITEMS.register("creative_slot", () -> new CreativeSlotItem(GENERAL_PROPS));
+  // special
+  public static final ItemObject<Item> modifierCrystal = ITEMS.register("modifier_crystal", () -> new ModifierCrystalItem(new Item.Properties().tab(TAB_TOOLS).stacksTo(16)));
+  public static final ItemObject<Item> creativeSlotItem = ITEMS.register("creative_slot", () -> new CreativeSlotItem(new Item.Properties().tab(TAB_TOOLS)));
 
   /*
    * Modifiers
@@ -269,7 +294,7 @@ public final class TinkerModifiers extends TinkerModule {
   public static final StaticModifier<NearsightedModifier> nearsighted = MODIFIERS.register("nearsighted", NearsightedModifier::new);
 
   // harvest
-  public static final DynamicModifier<Modifier> haste = MODIFIERS.registerDynamic("haste", Modifier.class);
+  public static final StaticModifier<HasteModifier> haste = MODIFIERS.register("haste", HasteModifier::new);
   public static final StaticModifier<BlastingModifier> blasting = MODIFIERS.register("blasting", BlastingModifier::new);
   public static final StaticModifier<HydraulicModifier> hydraulic = MODIFIERS.register("hydraulic", HydraulicModifier::new);
   public static final StaticModifier<LightspeedModifier> lightspeed = MODIFIERS.register("lightspeed", LightspeedModifier::new);
@@ -279,6 +304,7 @@ public final class TinkerModifiers extends TinkerModule {
   public static final StaticModifier<PaddedModifier> padded = MODIFIERS.register("padded", PaddedModifier::new);
   public static final StaticModifier<FieryModifier> fiery = MODIFIERS.register("fiery", FieryModifier::new);
   public static final StaticModifier<SeveringModifier> severing = MODIFIERS.register("severing", SeveringModifier::new);
+  public static final StaticModifier<ReflectingModifier> reflecting = MODIFIERS.register("reflecting", ReflectingModifier::new);
 
   // damage boost
   public static final StaticModifier<PiercingModifier> piercing = MODIFIERS.register("piercing", PiercingModifier::new);
@@ -311,18 +337,16 @@ public final class TinkerModifiers extends TinkerModule {
   public static final StaticModifier<RicochetModifier> ricochet = MODIFIERS.register("ricochet", RicochetModifier::new);
   public static final StaticModifier<EmbellishmentModifier> embellishment = MODIFIERS.register("embellishment", EmbellishmentModifier::new);
   public static final StaticModifier<DyedModifier> dyed = MODIFIERS.register("dyed", DyedModifier::new);
+  public static final StaticModifier<ScaledArmorLevelModifier> boundless = MODIFIERS.register("boundless", () -> new ScaledArmorLevelModifier(TinkerDataKeys.PROTECTION_CAP, 2.5f, true));
   // counterattack
   public static final StaticModifier<ThornsModifier> thorns = MODIFIERS.register("thorns", ThornsModifier::new);
   public static final StaticModifier<SpringyModifier> springy = MODIFIERS.register("springy", SpringyModifier::new);
-  public static final StaticModifier<StickyModifier> sticky = MODIFIERS.register("sticky", StickyModifier::new);
   // helmet
-  public static final StaticModifier<RespirationModifier> respiration = MODIFIERS.register("respiration", RespirationModifier::new);
   public static final StaticModifier<ItemFrameModifier> itemFrame = MODIFIERS.register("item_frame", ItemFrameModifier::new);
   public static final StaticModifier<ZoomModifier> zoom = MODIFIERS.register("zoom", ZoomModifier::new);
   public static final StaticModifier<SlurpingModifier> slurping = MODIFIERS.register("slurping", SlurpingModifier::new);
   public static final StaticModifier<TotalArmorLevelModifier> aquaAffinity = MODIFIERS.register("aqua_affinity", () -> new TotalArmorLevelModifier(TinkerDataKeys.AQUA_AFFINITY, true));
   // chestplate
-  public static final StaticModifier<HasteArmorModifier> hasteArmor = MODIFIERS.register("haste_armor", HasteArmorModifier::new);
   public static final StaticModifier<UnarmedModifier> ambidextrous = MODIFIERS.register("ambidextrous", UnarmedModifier::new);
   /** Renaming this but some addon is probably using it. You might want {@link #ambidextrous}, but you might simply want to update your logic */
   @Deprecated
@@ -334,6 +358,7 @@ public final class TinkerModifiers extends TinkerModule {
 
   // boots
   public static final StaticModifier<FeatherFallingModifier> featherFalling = MODIFIERS.register("feather_falling", FeatherFallingModifier::new);
+  public static final StaticModifier<LongFallModifier> longFall = MODIFIERS.register("long_fall", LongFallModifier::new);
   public static final StaticModifier<SoulSpeedModifier> soulspeed = MODIFIERS.register("soulspeed", SoulSpeedModifier::new);
   public static final StaticModifier<LightspeedArmorModifier> lightspeedArmor = MODIFIERS.register("lightspeed_armor", LightspeedArmorModifier::new);
   public static final StaticModifier<DoubleJumpModifier> doubleJump = MODIFIERS.register("double_jump", DoubleJumpModifier::new);
@@ -367,6 +392,8 @@ public final class TinkerModifiers extends TinkerModule {
   public static final StaticModifier<BlockTransformModifier> tilling = MODIFIERS.register("tilling", () -> new BlockTransformModifier(75, ToolAction.get("till"), SoundEvents.HOE_TILL, false));
   public static final StaticModifier<FirestarterModifier> firestarter = MODIFIERS.register("firestarter", () -> new FirestarterModifier(75));
   public static final StaticModifier<SingleLevelModifier> fireprimer = MODIFIERS.register("fireprimer", SingleLevelModifier::new);
+  public static final StaticModifier<BlockingModifier> blocking = MODIFIERS.register("blocking", BlockingModifier::new);
+  public static final StaticModifier<ParryingModifier> parrying = MODIFIERS.register("parrying", ParryingModifier::new);
 
   // internal abilities
   public static final StaticModifier<BlockTransformModifier> axeScrape = MODIFIERS.register("axe_scrape", () -> new BlockTransformModifier(Integer.MIN_VALUE + 49, ToolActions.AXE_SCRAPE, SoundEvents.AXE_SCRAPE, false, 3005));
@@ -450,7 +477,7 @@ public final class TinkerModifiers extends TinkerModule {
   private static final IntFunction<Supplier<TinkerEffect>> MARKER_EFFECT = color -> () -> new NoMilkEffect(MobEffectCategory.BENEFICIAL, color, true);
   public static RegistryObject<BleedingEffect> bleeding = MOB_EFFECTS.register("bleeding", BleedingEffect::new);
   public static RegistryObject<MagneticEffect> magneticEffect = MOB_EFFECTS.register("magnetic", MagneticEffect::new);
-  public static RegistryObject<RepulsiveEffect> replusiveEffect = MOB_EFFECTS.register("replusive", RepulsiveEffect::new);
+  public static RegistryObject<RepulsiveEffect> repulsiveEffect = MOB_EFFECTS.register("repulsive", RepulsiveEffect::new);
   public static RegistryObject<TinkerEffect> momentumEffect = MOB_EFFECTS.register("momentum", MARKER_EFFECT.apply(0x60496b));
   public static RegistryObject<TinkerEffect> momentumRangedEffect = MOB_EFFECTS.register("momentum_ranged", MARKER_EFFECT.apply(0x60496b));
   public static RegistryObject<TinkerEffect> insatiableEffect = MOB_EFFECTS.register("insatiable", MARKER_EFFECT.apply(0x9261cc));
@@ -468,6 +495,7 @@ public final class TinkerModifiers extends TinkerModule {
   public static final RegistryObject<ModifierRecipe.Serializer> modifierSerializer = RECIPE_SERIALIZERS.register("modifier", ModifierRecipe.Serializer::new);
   public static final RegistryObject<IncrementalModifierRecipe.Serializer> incrementalModifierSerializer = RECIPE_SERIALIZERS.register("incremental_modifier", IncrementalModifierRecipe.Serializer::new);
   public static final RegistryObject<SwappableModifierRecipe.Serializer> swappableModifierSerializer = RECIPE_SERIALIZERS.register("swappable_modifier", SwappableModifierRecipe.Serializer::new);
+  public static final RegistryObject<MultilevelModifierRecipe.Serializer> multilevelModifierSerializer = RECIPE_SERIALIZERS.register("multilevel_modifier", MultilevelModifierRecipe.Serializer::new);
   public static final RegistryObject<OverslimeModifierRecipe.Serializer> overslimeSerializer = RECIPE_SERIALIZERS.register("overslime_modifier", OverslimeModifierRecipe.Serializer::new);
   public static final RegistryObject<ModifierSalvage.Serializer> modifierSalvageSerializer = RECIPE_SERIALIZERS.register("modifier_salvage", ModifierSalvage.Serializer::new);
   public static final RegistryObject<ArmorDyeingRecipe.Serializer> armorDyeingSerializer = RECIPE_SERIALIZERS.register("armor_dyeing_modifier", ArmorDyeingRecipe.Serializer::new);
@@ -475,10 +503,15 @@ public final class TinkerModifiers extends TinkerModule {
   // modifiers
   public static final RegistryObject<ModifierRepairRecipeSerializer<?>> modifierRepair = RECIPE_SERIALIZERS.register("modifier_repair", () -> new ModifierRepairRecipeSerializer<>(ModifierRepairTinkerStationRecipe::new));
   public static final RegistryObject<ModifierRepairRecipeSerializer<?>> craftingModifierRepair = RECIPE_SERIALIZERS.register("crafting_modifier_repair", () -> new ModifierRepairRecipeSerializer<>(ModifierRepairCraftingRecipe::new));
+  public static final RegistryObject<ModifierMaterialRepairSerializer<?>> modifierMaterialRepair = RECIPE_SERIALIZERS.register("modifier_material_repair", () -> new ModifierMaterialRepairSerializer<>(ModifierMaterialRepairRecipe::new));
+  public static final RegistryObject<ModifierMaterialRepairSerializer<?>> craftingModifierMaterialRepair = RECIPE_SERIALIZERS.register("crafting_modifier_material_repair", () -> new ModifierMaterialRepairSerializer<>(ModifierMaterialRepairKitRecipe::new));
   // worktable
-  public static final RegistryObject<ModifierRemovalRecipe.Serializer> removeModifierSerializer = RECIPE_SERIALIZERS.register("remove_modifier", ModifierRemovalRecipe.Serializer::new);
+  public static final RegistryObject<ModifierRemovalRecipe.Serializer> removeModifierSerializer = RECIPE_SERIALIZERS.register("remove_modifier", () -> new ModifierRemovalRecipe.Serializer((ModifierRemovalRecipe.Factory)ModifierRemovalRecipe::new));
+  public static final RegistryObject<ModifierRemovalRecipe.Serializer> extractModifierSerializer = RECIPE_SERIALIZERS.register("extract_modifier", () -> new ModifierRemovalRecipe.Serializer((ModifierRemovalRecipe.Factory)ExtractModifierRecipe::new));
   public static final RegistryObject<ModifierSortingRecipe.Serializer> modifierSortingSerializer = RECIPE_SERIALIZERS.register("modifier_sorting", ModifierSortingRecipe.Serializer::new);
   public static final RegistryObject<ModifierSetWorktableRecipe.Serializer> modifierSetWorktableSerializer = RECIPE_SERIALIZERS.register("modifier_set_worktable", ModifierSetWorktableRecipe.Serializer::new);
+  public static final RegistryObject<EnchantmentConvertingRecipe.Serializer> enchantmentConvertingSerializer = RECIPE_SERIALIZERS.register("enchantment_converting", EnchantmentConvertingRecipe.Serializer::new);
+
   // severing
   public static final RegistryObject<SeveringRecipe.Serializer> severingSerializer = RECIPE_SERIALIZERS.register("severing", SeveringRecipe.Serializer::new);
   public static final RegistryObject<AgeableSeveringRecipe.Serializer> ageableSeveringSerializer = RECIPE_SERIALIZERS.register("ageable_severing", AgeableSeveringRecipe.Serializer::new);
@@ -519,10 +552,13 @@ public final class TinkerModifiers extends TinkerModule {
     ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("default"), Modifier.DEFAULT_LOADER);
     ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("stat_boost"), StatBoostModifier.LOADER);
     ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("extra_slot"), ExtraModifier.LOADER);
+    ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("swappable_extra_slot"), SwappableExtraSlotModifier.LOADER);
     ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("mob_disguise"), MobDisguiseModifier.LOADER);
     ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("conditional_damage"), ConditionalDamageModifier.LOADER);
     ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("conditional_mining_speed"), ConditionalMiningSpeedModifier.LOADER);
     ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("loot"), LootModifier.LOADER);
+    ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("enchantment"), EnchantmentModifier.LOADER);
+    ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("mob_effect"), MobEffectModifier.LOADER);
     ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("inventory_with_menu"), InventoryMenuModifier.LOADER);
     // specialized
     ModifierManager.MODIFIER_LOADERS.register(TConstruct.getResource("tool_belt"), ToolBeltModifier.LOADER);
@@ -532,6 +568,14 @@ public final class TinkerModifiers extends TinkerModule {
     ModifierLevelDisplay.LOADER.register(TConstruct.getResource("no_levels"), ModifierLevelDisplay.NO_LEVELS.getLoader());
     ModifierLevelDisplay.LOADER.register(TConstruct.getResource("pluses"), ModifierLevelDisplay.PLUSES.getLoader());
     ModifierLevelDisplay.LOADER.register(TConstruct.getResource("unique"), UniqueForLevels.LOADER);
+
+    ModifierPredicate.LOADER.register(TConstruct.getResource("and"), ModifierPredicate.AND);
+    ModifierPredicate.LOADER.register(TConstruct.getResource("or"), ModifierPredicate.OR);
+    ModifierPredicate.LOADER.register(TConstruct.getResource("inverted"), ModifierPredicate.INVERTED);
+    ModifierPredicate.LOADER.register(TConstruct.getResource("always"), ModifierPredicate.ALWAYS.getLoader());
+    ModifierPredicate.LOADER.register(TConstruct.getResource("single"), SingleModifierPredicate.LOADER);
+    ModifierPredicate.LOADER.register(TConstruct.getResource("tag"), TagModifierPredicate.LOADER);
+    ModifierPredicate.LOADER.register(TConstruct.getResource("slot_type"), SlotTypeModifierPredicate.LOADER);
   }
 
   void commonSetup() {
@@ -542,10 +586,12 @@ public final class TinkerModifiers extends TinkerModule {
     EntityModifierCapability.registerEntityPredicate(entity -> entity instanceof Projectile);
   }
 
-  public static void gatherData(FabricDataGenerator.Pack pack, ExistingFileHelper helper) {
+  @SubscribeEvent
+  public static void gatherData(final FabricDataGenerator.Pack pack, ExistingFileHelper helper) {
     pack.addProvider(ModifierProvider::new);
     pack.addProvider(ModifierRecipeProvider::new);
     pack.addProvider(SpillingFluidProvider::new);
-    pack.addProvider((output, registriesFuture) -> new ModifierTagProvider(output, helper));
+    pack.addProvider(new ModifierTagProvider(generator, event.getExistingFileHelper()));
+    pack.addProvider(new EnchantmentToModifierProvider(generator));
   }
 }

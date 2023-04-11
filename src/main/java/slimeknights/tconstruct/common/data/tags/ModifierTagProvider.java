@@ -20,6 +20,18 @@ public class ModifierTagProvider extends AbstractModifierTagProvider {
     tag(TinkerTags.Modifiers.INVISIBLE_INK_BLACKLIST)
       .add(TinkerModifiers.embellishment.getId(), TinkerModifiers.dyed.getId(), TinkerModifiers.creativeSlot.getId(), TinkerModifiers.statOverride.getId())
       .addOptional(ModifierIds.shiny, TinkerModifiers.golden.getId());
+    tag(TinkerTags.Modifiers.EXTRACT_MODIFIER_BLACKLIST)
+      .add(TinkerModifiers.embellishment.getId(), TinkerModifiers.dyed.getId(), TinkerModifiers.creativeSlot.getId(), TinkerModifiers.statOverride.getId());
+    // blacklist modifiers that are not really slotless, they just have a slotless recipe
+    tag(TinkerTags.Modifiers.EXTRACT_SLOTLESS_BLACKLIST).add(ModifierIds.luck, ModifierIds.toolBelt);
+
+    // modifiers in this tag support both left click and right click interaction
+    tag(TinkerTags.Modifiers.DUAL_INTERACTION)
+      .add(TinkerModifiers.bucketing.getId(), TinkerModifiers.spilling.getId(),
+           TinkerModifiers.glowing.getId(), TinkerModifiers.firestarter.getId(),
+           TinkerModifiers.stripping.getId(), TinkerModifiers.tilling.getId(), TinkerModifiers.pathing.getId(),
+           TinkerModifiers.shears.getId(), TinkerModifiers.harvest.getId())
+      .addOptional(ModifierIds.pockets);
   }
 
   @Override

@@ -29,7 +29,7 @@ import slimeknights.tconstruct.tools.client.TravelersGearModel;
 
 import javax.annotation.Nullable;
 
-public class TravelersGearItem extends ModifiableArmorItem implements ArmorTextureItem, WalkOnSnowItem {
+public class TravelersGearItem extends ModifiableArmorItem implements ArmorTextureItem {
   /** Golden texture for armor */
   private static final String GOLDEN_ARMOR = TConstruct.resourceString("textures/models/armor/travelers_golden_1.png");
   /** Golden texture for leggings */
@@ -38,11 +38,6 @@ public class TravelersGearItem extends ModifiableArmorItem implements ArmorTextu
   public TravelersGearItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties) {
     super(material, slotType, properties);
     EnvExecutor.runWhenOn(EnvType.CLIENT, () -> this::initializeClient);
-  }
-
-  @Override
-  public boolean canWalkOnPowderedSnow(ItemStack stack, LivingEntity wearer) {
-    return type == Type.BOOTS;
   }
 
   @Nullable

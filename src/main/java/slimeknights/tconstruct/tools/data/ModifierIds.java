@@ -13,6 +13,7 @@ public class ModifierIds {
   public static final ModifierId recapitated = id("recapitated");
   public static final ModifierId harmonious  = id("harmonious");
   public static final ModifierId resurrected = id("resurrected");
+  public static final ModifierId rebalanced  = id("rebalanced");
   public static final ModifierId gilded      = id("gilded");
   public static final ModifierId draconic    = id("draconic");
 
@@ -24,6 +25,7 @@ public class ModifierIds {
   // general
   public static final ModifierId worldbound = id("worldbound");
   public static final ModifierId shiny      = id("shiny");
+  public static final ModifierId sticky     = id("sticky");
   // general abilities
   public static final ModifierId reach = id("reach");
 
@@ -52,17 +54,21 @@ public class ModifierIds {
   public static final ModifierId knockbackResistance = id("knockback_resistance");
   // defense
   public static final ModifierId revitalizing = id("revitalizing");
+  // helmet
+  public static final ModifierId respiration = id("respiration");
   // chestplate
-  public static final ModifierId knockbackArmor = id("knockback_armor");
   public static final ModifierId strength = id("strength");
   // leggings
   public static final ModifierId pockets = id("pockets");
   public static final ModifierId stepUp = id("step_up");
   public static final ModifierId speedy = id("speedy");
   public static final ModifierId toolBelt = id("tool_belt");
+  // boots
+  public static final ModifierId depthStrider = id("depth_strider");
 
   // internal
   public static final ModifierId overslimeFriend = id("overslime_friend");
+  public static final ModifierId snowBoots = id("snow_boots");
 
 
   // traits - tier 1

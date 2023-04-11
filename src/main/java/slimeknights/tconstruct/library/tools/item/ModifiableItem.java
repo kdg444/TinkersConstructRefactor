@@ -12,11 +12,9 @@ import io.github.fabricators_of_create.porting_lib.item.UseFirstBehaviorItem;
 import lombok.Getter;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -47,7 +45,6 @@ import slimeknights.tconstruct.library.modifiers.TinkerHooks;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
 import slimeknights.tconstruct.library.tools.IndestructibleItemEntity;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
-import slimeknights.tconstruct.library.tools.context.ToolHarvestContext;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.helper.ModifiableItemUtil;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
@@ -197,12 +194,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   }
 
   public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T damager, Consumer<T> onBroken) {
-    // We basically emulate Itemstack.damageItem here. We always return 0 to skip the handling in ItemStack.
-    // If we don't tools ignore our damage logic
-    if (canBeDepleted() && ToolDamageUtil.damage(ToolStack.from(stack), amount, damager, stack)) {
-      onBroken.accept(damager);
-    }
-
+    ToolDamageUtil.handleDamageItem(stack, amount, damager, onBroken);
     return 0;
   }
 
@@ -261,48 +253,17 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   @Override
   public boolean mineBlock(ItemStack stack, Level worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-    ToolStack tool = ToolStack.from(stack);
-    if (tool.isBroken()) {
-      return false;
-    }
-
-    if (!worldIn.isClientSide && worldIn instanceof ServerLevel) {
-      boolean isEffective = ToolHarvestLogic.isEffective(tool, state);
-      ToolHarvestContext context = new ToolHarvestContext((ServerLevel) worldIn, entityLiving, state, pos, Direction.UP, true, isEffective);
-      for (ModifierEntry entry : tool.getModifierList()) {
-        entry.getModifier().afterBlockBreak(tool, entry.getLevel(), context);
-      }
-      ToolDamageUtil.damageAnimated(tool, ToolHarvestLogic.getDamage(tool, worldIn, pos, state), entityLiving);
-    }
-
-    return true;
+    return ToolHarvestLogic.mineBlock(stack, worldIn, state, pos, entityLiving);
   }
 
   @Override
-  public final float getDestroySpeed(ItemStack stack, BlockState state) {
+  public float getDestroySpeed(ItemStack stack, BlockState state) {
     return ToolHarvestLogic.getDestroySpeed(stack, state);
   }
 
   @Override
   public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, Player player) {
     return ToolHarvestLogic.handleBlockBreak(stack, pos, player);
-
-    // TODO: offhand harvest reconsidering
-    /*// this is a really dumb hack.
-    // Basically when something with silktouch harvests a block from the offhand
-    // the game can't detect that. so we have to switch around the items in the hands for the break call
-    // it's switched back in onBlockDestroyed
-    if (DualToolHarvestUtil.shouldUseOffhand(player, pos, player.getHeldItemMainhand())) {
-      ItemStack off = player.getHeldItemOffhand();
-
-      this.switchItemsInHands(player);
-      // remember, off is in the mainhand now
-      CompoundNBT tag = off.getOrCreateTag();
-      tag.putLong(TAG_SWITCHED_HAND_HAX, player.getEntityWorld().getGameTime());
-      off.setTag(tag);
-    }*/
-
-    //return this.breakBlock(stack, pos, player);
   }
 
 
@@ -382,7 +343,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     ToolStack tool = ToolStack.from(stack);
     if (shouldInteract(playerIn, tool, hand)) {
       for (ModifierEntry entry : tool.getModifierList()) {
-        InteractionResult result = entry.getHook(TinkerHooks.GENERAL_INTERACT).onToolUse(tool, entry, playerIn, hand, InteractionSource.RIGHT_CLICK);
+        InteractionResult result = entry.getHook(TinkerHooks.CHARGEABLE_INTERACT).onToolUse(tool, entry, playerIn, hand, InteractionSource.RIGHT_CLICK);
         if (result.consumesAction()) {
           return new InteractionResultHolder<>(result, stack);
         }
@@ -397,8 +358,34 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   }
 
   @Override
+  public void onUseTick(Level pLevel, LivingEntity entityLiving, ItemStack stack, int timeLeft) {
+    ToolStack tool = ToolStack.from(stack);
+    ModifierEntry activeModifier = ModifierUtil.getActiveModifier(tool);
+    if (activeModifier != null) {
+      activeModifier.getHook(TinkerHooks.CHARGEABLE_INTERACT).onUsingTick(tool, activeModifier, entityLiving, timeLeft);
+    }
+  }
+
+  @Override
+  public boolean canContinueUsing(ItemStack oldStack, ItemStack newStack) {
+    if (super.canContinueUsing(oldStack, newStack)) {
+      if (oldStack != newStack) {
+        ModifierUtil.finishUsingItem(ToolStack.from(oldStack));
+      }
+    }
+    return super.canContinueUsing(oldStack, newStack);
+  }
+
+  @Override
   public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving) {
     ToolStack tool = ToolStack.from(stack);
+    ModifierEntry activeModifier = ModifierUtil.getActiveModifier(tool);
+    ModifierUtil.finishUsingItem(tool);
+    if (activeModifier != null) {
+      activeModifier.getHook(TinkerHooks.CHARGEABLE_INTERACT).onFinishUsing(tool, activeModifier, entityLiving);
+      return stack;
+    }
+    // TODO: legacy call to hook, remove in 1.19. All modifiers should use the new hook as its smarter
     for (ModifierEntry entry : tool.getModifierList()) {
       if (entry.getHook(TinkerHooks.GENERAL_INTERACT).onFinishUsing(tool, entry, entityLiving)) {
         return stack;
@@ -410,6 +397,13 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   @Override
   public void releaseUsing(ItemStack stack, Level worldIn, LivingEntity entityLiving, int timeLeft) {
     ToolStack tool = ToolStack.from(stack);
+    ModifierEntry activeModifier = ModifierUtil.getActiveModifier(tool);
+    ModifierUtil.finishUsingItem(tool);
+    if (activeModifier != null) {
+      activeModifier.getHook(TinkerHooks.CHARGEABLE_INTERACT).onStoppedUsing(tool, activeModifier, entityLiving, timeLeft);
+      return;
+    }
+    // TODO: legacy call to hook, remove in 1.19. All modifiers should use the new hook as its smarter
     for (ModifierEntry entry : tool.getModifierList()) {
       boolean result = entry.getHook(TinkerHooks.GENERAL_INTERACT).onStoppedUsing(tool, entry, entityLiving, timeLeft);
       if (result) {
@@ -421,6 +415,11 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   @Override
   public int getUseDuration(ItemStack stack) {
     ToolStack tool = ToolStack.from(stack);
+    ModifierEntry activeModifier = ModifierUtil.getActiveModifier(tool);
+    if (activeModifier != null) {
+      return activeModifier.getHook(TinkerHooks.CHARGEABLE_INTERACT).getUseDuration(tool, activeModifier);
+    }
+    // TODO: legacy call to hook, remove in 1.19. All modifiers should use the new hook as its smarter
     for (ModifierEntry entry : tool.getModifierList()) {
       int result = entry.getHook(TinkerHooks.GENERAL_INTERACT).getUseDuration(tool, entry);
       if (result > 0) {
@@ -433,6 +432,11 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   @Override
   public UseAnim getUseAnimation(ItemStack stack) {
     ToolStack tool = ToolStack.from(stack);
+    ModifierEntry activeModifier = ModifierUtil.getActiveModifier(tool);
+    if (activeModifier != null) {
+      return activeModifier.getHook(TinkerHooks.CHARGEABLE_INTERACT).getUseAction(tool, activeModifier);
+    }
+    // TODO: legacy call to hook, remove in 1.19. All modifiers should use the new hook as its smarter
     for (ModifierEntry entry : tool.getModifierList()) {
       UseAnim result = entry.getHook(TinkerHooks.GENERAL_INTERACT).getUseAction(tool, entry);
       if (result != UseAnim.NONE) {

@@ -76,7 +76,9 @@ public class MagneticModifier extends TotalArmorLevelModifier implements PlantHa
   // armor
 
   /** Called to perform the magnet for armor */
-  private static void onLivingTick(LivingEntity entity) {
+  private static void onLivingTick(LivingUpdateEvent event) {
+    // TOOD: this will run on any held armor that is also melee/harvest, is that a problem?
+    LivingEntity entity = event.getEntityLiving();
     if (!entity.isSpectator() && (entity.tickCount & 1) == 0) {
       int level = ModifierUtil.getTotalModifierLevel(entity, MAGNET);
       if (level > 0) {

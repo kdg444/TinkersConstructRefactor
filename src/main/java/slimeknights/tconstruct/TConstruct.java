@@ -19,6 +19,7 @@ import slimeknights.tconstruct.common.data.loot.TConstructLootTableProvider;
 import slimeknights.tconstruct.common.data.tags.BiomeTagProvider;
 import slimeknights.tconstruct.common.data.tags.BlockEntityTypeTagProvider;
 import slimeknights.tconstruct.common.data.tags.BlockTagProvider;
+import slimeknights.tconstruct.common.data.tags.EnchantmentTagProvider;
 import slimeknights.tconstruct.common.data.tags.EntityTypeTagProvider;
 import slimeknights.tconstruct.common.data.tags.FluidTagProvider;
 import slimeknights.tconstruct.common.data.tags.ItemTagProvider;
@@ -32,6 +33,9 @@ import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.Tin
 import slimeknights.tconstruct.library.tools.definition.ToolDefinitionLoader;
 import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
 import slimeknights.tconstruct.library.utils.Util;
+import slimeknights.tconstruct.plugin.ImmersiveEngineeringPlugin;
+import slimeknights.tconstruct.plugin.jsonthings.JsonThingsPlugin;
+import slimeknights.tconstruct.shared.TinkerClient;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -105,13 +109,16 @@ public class TConstruct implements ModInitializer {
 //    }
 
     // compat
-    if (FabricLoader.getInstance().isModLoaded("immersiveengineering")) {
-//      new ImmersiveEngineeringPlugin();
+    ModList modList = ModList.get();
+    if (modList.isLoaded("immersiveengineering")) {
+      bus.register(new ImmersiveEngineeringPlugin());
     }
+    if (modList.isLoaded("jsonthings")) {
+      JsonThingsPlugin.onConstruct();
+    }
+
     commonSetup();
     FabricEvents.init();
-//    RegisterDataFixerCallback.EVENT.register(this::missingBlocks); TODO: PORT
-//    RegisterDataFixerCallback.EVENT.register(this::missingItems);
   }
 
   static void commonSetup() {
@@ -120,21 +127,28 @@ public class TConstruct implements ModInitializer {
     StationSlotLayoutLoader.init();
   }
 
-  public static void onInitializeDataGenerator(FabricDataGenerator.Pack pack, ExistingFileHelper existingFileHelper) {
-      BlockTagProvider blockTags = pack.addProvider(BlockTagProvider::new);
-      pack.addProvider((output, registriesFuture) -> new ItemTagProvider(output, registriesFuture, blockTags));
-      pack.addProvider(FluidTagProvider::new);
-      pack.addProvider(EntityTypeTagProvider::new);
-      pack.addProvider(BlockEntityTypeTagProvider::new);
-      pack.addProvider(TConstructLootTableProvider::new);
-      pack.addProvider(AdvancementsProvider::new);
-      pack.addProvider(BiomeTagProvider::new);
-      pack.addProvider(GlobalLootModifiersProvider::new);
-//      datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.SERVER_DATA, "structures"));
-//    }
-//    if (event.includeClient()) {
-//      datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.CLIENT_RESOURCES, "book/structures"));
-//    }
+  public static void gatherData(FabricDataGenerator.Pack pack, ExistingFileHelper existingFileHelper) {
+    DataGenerator datagenerator = event.getGenerator();
+    ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+    if (event.includeServer()) {
+      BlockTagProvider blockTags = new BlockTagProvider(datagenerator, existingFileHelper);
+      datagenerator.addProvider(blockTags);
+      datagenerator.addProvider(new ItemTagProvider(datagenerator, blockTags, existingFileHelper));
+      datagenerator.addProvider(new FluidTagProvider(datagenerator, existingFileHelper));
+      datagenerator.addProvider(new EntityTypeTagProvider(datagenerator, existingFileHelper));
+      datagenerator.addProvider(new BlockEntityTypeTagProvider(datagenerator, existingFileHelper));
+      datagenerator.addProvider(new BiomeTagProvider(datagenerator, existingFileHelper));
+      datagenerator.addProvider(new EnchantmentTagProvider(datagenerator, existingFileHelper));
+      datagenerator.addProvider(new TConstructLootTableProvider(datagenerator));
+      datagenerator.addProvider(new AdvancementsProvider(datagenerator));
+      datagenerator.addProvider(new GlobalLootModifiersProvider(datagenerator));
+      //datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.SERVER_DATA, "structures"));
+    }
+    /*
+    if (event.includeClient()) {
+      datagenerator.addProvider(new StructureUpdater(datagenerator, existingFileHelper, MOD_ID, PackType.CLIENT_RESOURCES, "book/structures"));
+    }
+    */
   }
 
 //  @Nullable

@@ -50,6 +50,21 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public final class TinkerStructures extends TinkerModule {
   static final Logger log = Util.getLogger("tinker_structures");
+  private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, TConstruct.MOD_ID);
+  private static final DeferredRegister<StructureFeature<?>> STRUCTURE_FEATURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, TConstruct.MOD_ID);
+  private static final DeferredRegister<ConfiguredStructureFeature<?,?>> CONFIGURED_STRUCTURE_FEATURES = DeferredRegister.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, TConstruct.MOD_ID);
+  private static final DeferredRegister<StructurePieceType> STRUCTURE_PIECE = DeferredRegister.create(Registry.STRUCTURE_PIECE_REGISTRY, TConstruct.MOD_ID);
+  private static final DeferredRegister<BlockStateProviderType<?>> BLOCK_STATE_PROVIDER_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_STATE_PROVIDER_TYPES, TConstruct.MOD_ID);
+
+  public TinkerStructures() {
+    IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+    FEATURES.register(bus);
+    STRUCTURE_FEATURES.register(bus);
+    STRUCTURE_PIECE.register(bus);
+    CONFIGURED_STRUCTURE_FEATURES.register(bus);
+    BLOCK_STATE_PROVIDER_TYPES.register(bus);
+  }
+
 
   /*
    * Misc

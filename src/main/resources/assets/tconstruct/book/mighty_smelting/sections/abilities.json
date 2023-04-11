@@ -6,10 +6,6 @@
   },
   {
     "type": "tconstruct:modifier",
-    "data": "abilities/general/draconic.json"
-  },
-  {
-    "type": "tconstruct:modifier",
     "data": "abilities/general/gilded.json"
   },
   {
@@ -28,11 +24,19 @@
   },
   {
     "type": "tconstruct:modifier",
+    "data": "abilities/weapon/blocking.json"
+  },
+  {
+    "type": "tconstruct:modifier",
     "data": "abilities/weapon/dual_wielding.json"
   },
   {
     "type": "tconstruct:modifier",
     "data": "abilities/weapon/melting.json"
+  },
+  {
+    "type": "tconstruct:modifier",
+    "data": "abilities/weapon/parrying.json"
   },
   {
     "type": "tconstruct:modifier",
@@ -131,6 +135,10 @@
   },
   {
     "type": "tconstruct:modifier",
+    "data": "abilities/armor/boundless.json"
+  },
+  {
+    "type": "tconstruct:modifier",
     "data": "abilities/armor/double_jump.json"
   },
   {
@@ -140,6 +148,10 @@
   {
     "type": "tconstruct:modifier",
     "data": "abilities/armor/frost_walker.json"
+  },
+  {
+    "type": "tconstruct:modifier",
+    "data": "abilities/armor/long_fall.json"
   },
   {
     "type": "tconstruct:modifier",
@@ -163,6 +175,10 @@
   },
   {
     "type": "tconstruct:modifier",
+    "data": "abilities/armor/reflecting.json"
+  },
+  {
+    "type": "tconstruct:modifier",
     "data": "abilities/armor/slurping.json"
   },
   {
@@ -171,7 +187,7 @@
   },
   {
     "type": "tconstruct:modifier",
-    "data": "abilities/weapon/spilling.json"
+    "data": "abilities/armor/spilling.json"
   },
   {
     "type": "tconstruct:modifier",

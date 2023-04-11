@@ -23,8 +23,10 @@
   "slots": {
     "abilities": 1
   },
+  "allow_crystal": true,
   "result": {
     "name": "tconstruct:trick_quiver",
     "level": 1
-  }
+  },
+  "max_level": 2
 }

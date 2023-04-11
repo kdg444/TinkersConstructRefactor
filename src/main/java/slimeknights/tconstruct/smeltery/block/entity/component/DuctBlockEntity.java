@@ -17,7 +17,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import slimeknights.mantle.client.model.data.SinglePropertyData;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.mantle.transfer.item.ItemTransferable;
@@ -42,8 +41,6 @@ public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider, It
   @Getter
   private final DuctItemHandler itemHandler = new DuctItemHandler(this);
   private final LazyOptional<IItemHandler> itemCapability = LazyOptional.of(() -> itemHandler);
-  @Getter
-  private final SinglePropertyData<FluidStack> modelData = new SinglePropertyData<>(IDisplayFluidListener.PROPERTY);
 
   public DuctBlockEntity(BlockPos pos, BlockState state) {
     this(TinkerSmeltery.duct.get(), pos, state);
@@ -89,7 +86,7 @@ public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider, It
 
   /** Updates the fluid in model data */
   public void updateFluid() {
-    modelData.setData(IDisplayFluidListener.PROPERTY, IDisplayFluidListener.normalizeFluid(itemHandler.getFluid()));
+    getModelData().setData(IDisplayFluidListener.PROPERTY, IDisplayFluidListener.normalizeFluid(itemHandler.getFluid()));
 //    requestModelDataUpdate(); TODO: PORT?
     assert level != null;
     BlockState state = getBlockState();

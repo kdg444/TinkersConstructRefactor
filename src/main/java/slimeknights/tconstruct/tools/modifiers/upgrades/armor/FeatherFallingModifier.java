@@ -19,13 +19,13 @@ public class FeatherFallingModifier extends IncrementalModifier {
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
     if (source.is(DamageTypeTags.IS_FALL)) {
-      modifierValue += getScaledLevel(tool, level) * 3;
+      modifierValue += getScaledLevel(tool, level) * 3.75f;
     }
     return modifierValue;
   }
 
   @Override
   public void addInformation(IToolStackView tool, int level, @Nullable Player player, List<Component> tooltip, TooltipKey tooltipKey, TooltipFlag tooltipFlag) {
-    AbstractProtectionModifier.addResistanceTooltip(this, tool, level, 3f, tooltip);
+    AbstractProtectionModifier.addResistanceTooltip(this, tool, level, 3.75f, tooltip);
   }
 }

@@ -38,6 +38,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.event.GrindstoneEvent;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -63,9 +64,10 @@ import slimeknights.tconstruct.library.tools.nbt.ModifierNBT;
 import slimeknights.tconstruct.library.tools.nbt.NamespacedNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.utils.BlockSideHitListener;
+import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.modifiers.defense.ProjectileProtectionModifier;
-import slimeknights.tconstruct.tools.modifiers.upgrades.armor.HasteArmorModifier;
+import slimeknights.tconstruct.tools.modifiers.upgrades.armor.HasteModifier;
 
 import java.util.List;
 import java.util.Objects;
@@ -118,7 +120,7 @@ public class ToolEvents {
     }
 
     // next, add in armor haste
-    float armorHaste = ModifierUtil.getTotalModifierFloat(player, HasteArmorModifier.HASTE);
+    float armorHaste = ModifierUtil.getTotalModifierFloat(player, HasteModifier.HASTE);
     if (armorHaste > 0) {
       // adds in 10% per level
       event.setNewSpeed(event.getNewSpeed() * (1 + 0.1f * armorHaste));
@@ -220,12 +222,14 @@ public class ToolEvents {
 //    float amount = event.getAmount();
     if (context.hasModifiableArmor()) {
       // first we need to determine if any of the four slots want to cancel the event, then we need to determine if any want to respond assuming its not canceled
-      for (EquipmentSlot slotType : ModifiableArmorMaterial.ARMOR_SLOTS) {
-        IToolStackView toolStack = context.getToolInSlot(slotType);
-        if (toolStack != null && !toolStack.isBroken()) {
-          for (ModifierEntry entry : toolStack.getModifierList()) {
-            if (entry.getModifier().isSourceBlocked(toolStack, entry.getLevel(), context, slotType, source, amount)) {
-              return 0;
+      for (EquipmentSlot slotType : EquipmentSlot.values()) {
+        if (ModifierUtil.validArmorSlot(entity, slotType)) {
+          IToolStackView toolStack = context.getToolInSlot(slotType);
+          if (toolStack != null && !toolStack.isBroken()) {
+            for (ModifierEntry entry : toolStack.getModifierList()) {
+              if (entry.getModifier().isSourceBlocked(toolStack, entry.getLevel(), context, slotType, source, amount)) {
+                return 0;
+              }
             }
           }
         }
@@ -238,6 +242,17 @@ public class ToolEvents {
         if (toolStack != null && !toolStack.isBroken()) {
           for (ModifierEntry entry : toolStack.getModifierList()) {
             entry.getModifier().onAttacked(toolStack, entry.getLevel(), context, slotType, source, amount, isDirectDamage);
+          }
+        }
+      }
+      // shields only run this hook when blocking
+      // TODO: what if the slot in charge is not the blocking slot, can that happen?
+      if (entity.isBlocking()) {
+        EquipmentSlot slot = Util.getSlotType(entity.getUsedItemHand());
+        IToolStackView shield = context.getToolInSlot(slot);
+        if (shield != null && !shield.isBroken()) {
+          for (ModifierEntry entry : shield.getModifierList()) {
+            entry.getModifier().onAttacked(shield, entry.getLevel(), context, slot, source, amount, isDirectDamage);
           }
         }
       }
@@ -279,7 +294,7 @@ public class ToolEvents {
 //    LivingEntity entity = event.getEntityLiving();
 
     // determine if there is any modifiable armor, if not nothing to do
-    // TODO: shields should support this hook too, probably with a separate tag so holding armor does not count as a shield
+    DamageSource source = event.getSource();
     EquipmentContext context = new EquipmentContext(entity);
     int vanillaModifier = 0;
     float modifierValue = 0;
@@ -293,11 +308,13 @@ public class ToolEvents {
 
       // next, determine how much tinkers armor wants to change it
       // note that armor modifiers can choose to block "absolute damage" if they wish, currently just starving damage I think
-      for (EquipmentSlot slotType : ModifiableArmorMaterial.ARMOR_SLOTS) {
-        IToolStackView tool = context.getToolInSlot(slotType);
-        if (tool != null && !tool.isBroken()) {
-          for (ModifierEntry entry : tool.getModifierList()) {
-            modifierValue = entry.getModifier().getProtectionModifier(tool, entry.getLevel(), context, slotType, source, modifierValue);
+      for (EquipmentSlot slotType : EquipmentSlot.values()) {
+        if (ModifierUtil.validArmorSlot(entity, slotType)) {
+          IToolStackView tool = context.getToolInSlot(slotType);
+          if (tool != null && !tool.isBroken()) {
+            for (ModifierEntry entry : tool.getModifierList()) {
+              modifierValue = entry.getModifier().getProtectionModifier(tool, entry.getLevel(), context, slotType, source, modifierValue);
+            }
           }
         }
       }
@@ -312,8 +329,15 @@ public class ToolEvents {
     }
 
     // TODO: consider hook for modifiers to change damage directly
-    // if we changed anything, run our logic
-    if (vanillaModifier != modifierValue) {
+    // if we changed anything, run our logic. Changing the cap has 2 problematic cases where same value will work:
+    // * increased cap and vanilla is over the vanilla cap
+    // * decreased cap and vanilla is now under the cap
+    // that said, don't actually care about cap unless we have some protection, can use vanilla to simplify logic
+    float cap = 20f;
+    if (modifierValue > 0) {
+      cap = Math.min(20 + context.getTinkerData().resolve().map(data -> data.get(TinkerDataKeys.PROTECTION_CAP)).orElse(0f), 25 * 0.95f);
+    }
+    if (vanillaModifier != modifierValue || (cap > 20 && vanillaModifier > 20) || (cap < 20 && vanillaModifier > cap)) {
       // fetch armor and toughness if blockable, passing in 0 to the logic will skip the armor calculations
       float armor = 0, toughness = 0;
       if (!source.is(DamageTypeTags.BYPASSES_ARMOR)) {
@@ -322,7 +346,7 @@ public class ToolEvents {
       }
 
       // set the final dealt damage
-      float finalDamage = ArmorUtil.getDamageForEvent(originalDamage, armor, toughness, vanillaModifier, modifierValue);
+      float finalDamage = ArmorUtil.getDamageForEvent(originalDamage, armor, toughness, vanillaModifier, modifierValue, cap);
 //      event.setAmount(finalDamage);
 
       // armor is damaged less as a result of our math, so damage the armor based on the difference if there is one
@@ -431,5 +455,13 @@ public class ToolEvents {
       }
     }
     return false;
+  }
+
+  @SubscribeEvent
+  static void onGrindstoneChange(GrindstoneEvent.OnPlaceItem event) {
+    // no removing enchantments from tools, you must use the modifier to remove them
+    if (event.getTopItem().is(TinkerTags.Items.MODIFIABLE) || event.getBottomItem().is(TinkerTags.Items.MODIFIABLE)) {
+      event.setCanceled(true);
+    }
   }
 }

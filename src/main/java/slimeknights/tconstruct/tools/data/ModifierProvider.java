@@ -22,12 +22,15 @@ import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.library.modifiers.dynamic.ConditionalDamageModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.ConditionalMiningSpeedModifier;
+import slimeknights.tconstruct.library.modifiers.dynamic.EnchantmentModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.ExtraModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.InventoryMenuModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.LootModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.MobDisguiseModifier;
+import slimeknights.tconstruct.library.modifiers.dynamic.MobEffectModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.StatBoostModifier;
 import slimeknights.tconstruct.library.modifiers.dynamic.StatBoostModifier.ModifierDisplay;
+import slimeknights.tconstruct.library.modifiers.dynamic.SwappableExtraSlotModifier;
 import slimeknights.tconstruct.library.modifiers.util.ModifierLevelDisplay;
 import slimeknights.tconstruct.library.modifiers.util.ModifierLevelDisplay.UniqueForLevels;
 import slimeknights.tconstruct.library.tools.SlotType;
@@ -50,6 +53,7 @@ public class ModifierProvider extends AbstractModifierProvider {
   protected void addModifiers() {
     EquipmentSlot[] handSlots = {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND};
     EquipmentSlot[] armorSlots = ModifiableArmorMaterial.ARMOR_SLOTS;
+    EquipmentSlot[] armorMainHand = {EquipmentSlot.MAINHAND, EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD};
 
     // extra modifier slots
     addModifier(ModifierIds.writable,    ExtraModifier.builder(SlotType.UPGRADE).build());
@@ -58,6 +62,7 @@ public class ModifierProvider extends AbstractModifierProvider {
     addModifier(ModifierIds.resurrected, ExtraModifier.builder(SlotType.UPGRADE).build());
     addModifier(ModifierIds.gilded,      ExtraModifier.builder(SlotType.UPGRADE).slotsPerLevel(2).display(ModifierLevelDisplay.DEFAULT).build());
     addModifier(ModifierIds.draconic,    ExtraModifier.builder(SlotType.ABILITY).build());
+    addModifier(ModifierIds.rebalanced, SwappableExtraSlotModifier.swappable().penalize(SlotType.ABILITY, SlotType.UPGRADE).build());
     addRedirect(id("red_extra_upgrade"),   redirect(ModifierIds.writable));
     addRedirect(id("green_extra_upgrade"), redirect(ModifierIds.recapitated));
     addRedirect(id("blue_extra_upgrade"),  redirect(ModifierIds.harmonious));
@@ -68,6 +73,10 @@ public class ModifierProvider extends AbstractModifierProvider {
     addRedirect(id("axe_strip"), redirect(TinkerModifiers.stripping.getId()));
     addRedirect(id("hoe_till"), redirect(TinkerModifiers.tilling.getId()));
     addRedirect(id("firestarter_hidden"), redirect(TinkerModifiers.firestarter.getId()));
+
+    // merged some armor modifiers
+    addRedirect(id("haste_armor"), redirect(TinkerModifiers.haste.getId()));
+    addRedirect(id("knockback_armor"), redirect(TinkerModifiers.knockback.getId()));
 
     // unarmed rework
     addRedirect(id("unarmed"), redirect(TinkerModifiers.ambidextrous.getId()));
@@ -135,6 +144,7 @@ public class ModifierProvider extends AbstractModifierProvider {
     addModifier(ModifierIds.looting, new LootModifier(1, ModifierLevelDisplay.DEFAULT));
 
     /// attack
+    addModifier(ModifierIds.sticky, MobEffectModifier.Builder.effect(MobEffects.MOVEMENT_SLOWDOWN).level(0, 0.5f).timeBase(20).timeMultiplierRandom(10).build());
 
     // damage boost
     // vanilla give +1, 1.5, 2, 2.5, 3, but that is low
@@ -151,9 +161,6 @@ public class ModifierProvider extends AbstractModifierProvider {
       LivingEntityPredicate.OR.create(new MobTypePredicate(MobType.ILLAGER), new TagEntityPredicate(TinkerTags.EntityTypes.VILLAGERS)), 2.0f));
     addRedirect(id("fractured"), redirect(ModifierIds.sharpness));
 
-    // harvest
-    addModifier(TinkerModifiers.haste, StatBoostModifier.builder().add(ToolStats.MINING_SPEED, 4f).display(new UniqueForLevels(5)).build());
-
     // ranged
     addModifier(ModifierIds.power, StatBoostModifier.builder().add(ToolStats.PROJECTILE_DAMAGE, 0.5f).build());
     addModifier(ModifierIds.quickCharge, StatBoostModifier.builder().multiplyBase(ToolStats.DRAW_SPEED, 0.25f).build());
@@ -167,8 +174,9 @@ public class ModifierProvider extends AbstractModifierProvider {
     // defense
     // TODO: floor?
     addModifier(ModifierIds.revitalizing, StatBoostModifier.builder().attribute("tconstruct.modifier.revitalizing", Attributes.MAX_HEALTH, Operation.ADDITION, 2, armorSlots).build());
+    // helmet
+    addModifier(ModifierIds.respiration, new EnchantmentModifier(Enchantments.RESPIRATION, 1, ModifierLevelDisplay.DEFAULT));
     // chestplate
-    addModifier(ModifierIds.knockbackArmor, StatBoostModifier.builder().attribute("tconstruct.modifier.armor_knockback", Attributes.ATTACK_KNOCKBACK, Operation.ADDITION, 1, armorSlots).build());
     addModifier(ModifierIds.strength, StatBoostModifier.builder().attribute("tconstruct.modifier.strength", Attributes.ATTACK_DAMAGE, Operation.MULTIPLY_TOTAL, 0.1f, armorSlots).build());
     addRedirect(id("armor_power"), redirect(ModifierIds.strength));
     // leggings
@@ -176,10 +184,13 @@ public class ModifierProvider extends AbstractModifierProvider {
     addModifier(ModifierIds.toolBelt, new ToolBeltModifier(new int[] {4, 5, 6, 7, 8, 9}));
     addRedirect(id("pocket_chain"), redirect(TinkerModifiers.shieldStrap.getId()));
     addModifier(ModifierIds.stepUp, StatBoostModifier.builder().attribute("tconstruct.modifier.step_up", PortingLibAttributes.STEP_HEIGHT_ADDITION, Operation.ADDITION, 0.5f, armorSlots).build());
-    addModifier(ModifierIds.speedy, StatBoostModifier.builder().attribute("tconstruct.modifier.speedy", Attributes.MOVEMENT_SPEED, Operation.MULTIPLY_TOTAL, 0.1f, armorSlots).build());
+    addModifier(ModifierIds.speedy, StatBoostModifier.builder().attribute("tconstruct.modifier.speedy", Attributes.MOVEMENT_SPEED, Operation.MULTIPLY_TOTAL, 0.1f, armorMainHand).build());
+    // boots
+    addModifier(ModifierIds.depthStrider, new EnchantmentModifier(Enchantments.DEPTH_STRIDER, 1, ModifierLevelDisplay.DEFAULT));
 
     // internal
     addModifier(ModifierIds.overslimeFriend, StatBoostModifier.builder().addFlag(OverslimeModifier.KEY_OVERSLIME_FRIEND).modifierDisplay(ModifierDisplay.NEVER).build());
+    addModifier(ModifierIds.snowBoots, StatBoostModifier.builder().addFlag(ModifiableArmorItem.SNOW_BOOTS).modifierDisplay(ModifierDisplay.NEVER).build());
 
     // traits - tier 1
     addModifier(ModifierIds.stringy, new Modifier());

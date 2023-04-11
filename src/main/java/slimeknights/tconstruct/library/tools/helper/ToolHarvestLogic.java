@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
@@ -44,7 +45,7 @@ public class ToolHarvestLogic {
    * @return  Damage to deal
    */
   public static int getDamage(ToolStack tool, Level world, BlockPos pos, BlockState state) {
-    if (state.getDestroySpeed(world, pos) == 0) {
+    if (state.getDestroySpeed(world, pos) == 0 || !tool.hasTag(TinkerTags.Items.HARVEST)) {
       // tools that can shear take damage from instant break for non-fire
       return (!state.is(BlockTags.FIRE) && ModifierUtil.canPerformAction(tool, ToolActions.SHEARS_DIG)) ? 1 : 0;
     }
@@ -162,7 +163,7 @@ public class ToolHarvestLogic {
 
     // handle modifiers if not broken
     // broken means we are using "empty hand"
-    if (!tool.isBroken()) {
+    if (!tool.isBroken() && removed) {
       for (ModifierEntry entry : tool.getModifierList()) {
         entry.getModifier().afterBlockBreak(tool, entry.getLevel(), context);
       }
@@ -203,6 +204,23 @@ public class ToolHarvestLogic {
    * @return  True if the block break is overridden.
    */
   public static boolean handleBlockBreak(ItemStack stack, BlockPos pos, Player player) {
+    // TODO: offhand harvest reconsidering
+    /* this is a really dumb hack.
+    // Basically when something with silktouch harvests a block from the offhand
+    // the game can't detect that. so we have to switch around the items in the hands for the break call
+    // it's switched back in onBlockDestroyed
+    if (DualToolHarvestUtil.shouldUseOffhand(player, pos, player.getHeldItemMainhand())) {
+      ItemStack off = player.getHeldItemOffhand();
+
+      this.switchItemsInHands(player);
+      // remember, off is in the mainhand now
+      CompoundNBT tag = off.getOrCreateTag();
+      tag.putLong(TAG_SWITCHED_HAND_HAX, player.getEntityWorld().getGameTime());
+      off.setTag(tag);
+    }*/
+
+    //return this.breakBlock(stack, pos, player);
+
     // client can run normal block breaking
     if (player.level.isClientSide || !(player instanceof ServerPlayer serverPlayer)) {
       return false;
@@ -253,6 +271,25 @@ public class ToolHarvestLogic {
       if (originalEnchants != null) {
         ModifierUtil.restoreEnchantments(stack, originalEnchants);
       }
+    }
+
+    return true;
+  }
+
+  /** Handles {@link net.minecraft.world.item.Item#mineBlock(net.minecraft.world.item.ItemStack, net.minecraft.world.level.Level, net.minecraft.world.level.block.state.BlockState, net.minecraft.core.BlockPos, net.minecraft.world.entity.LivingEntity)} for modifiable items */
+  public static boolean mineBlock(ItemStack stack, Level worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
+    ToolStack tool = ToolStack.from(stack);
+    if (tool.isBroken()) {
+      return false;
+    }
+
+    if (!worldIn.isClientSide && worldIn instanceof ServerLevel) {
+      boolean isEffective = ToolHarvestLogic.isEffective(tool, state);
+      ToolHarvestContext context = new ToolHarvestContext((ServerLevel) worldIn, entityLiving, state, pos, Direction.UP, true, isEffective);
+      for (ModifierEntry entry : tool.getModifierList()) {
+        entry.getModifier().afterBlockBreak(tool, entry.getLevel(), context);
+      }
+      ToolDamageUtil.damageAnimated(tool, ToolHarvestLogic.getDamage(tool, worldIn, pos, state), entityLiving);
     }
 
     return true;

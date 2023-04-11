@@ -361,7 +361,7 @@ public class BlockLootTableProvider extends ModdedBlockLootSubProvider {
     this.dropSelf(object.getSign());
   }
 
-  private Function<Block, LootTable.Builder> ADD_TABLE = block -> droppingWithFunctions(block, (builder) ->
+  private static Function<Block, LootTable.Builder> ADD_TABLE = block -> droppingWithFunctions(block, (builder) ->
     builder.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY)).apply(RetexturedLootFunction::new));
 
   /** Registers a block that drops with its own texture stored in NBT */

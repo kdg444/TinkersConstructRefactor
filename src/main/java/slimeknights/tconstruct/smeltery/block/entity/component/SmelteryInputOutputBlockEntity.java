@@ -1,31 +1,33 @@
 package slimeknights.tconstruct.smeltery.block.entity.component;
 
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-import io.github.fabricators_of_create.porting_lib.common.util.NonNullConsumer;
+import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
+import slimeknights.mantle.client.model.data.SinglePropertyData;
 import slimeknights.mantle.inventory.EmptyItemHandler;
-import slimeknights.mantle.transfer.TransferUtil;
-import slimeknights.mantle.transfer.fluid.EmptyFluidHandler;
-import slimeknights.mantle.transfer.fluid.FluidTransferable;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
-import slimeknights.mantle.transfer.item.IItemHandler;
-import slimeknights.mantle.transfer.item.ItemTransferable;
+import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
+import slimeknights.tconstruct.smeltery.block.entity.tank.IDisplayFluidListener;
 import slimeknights.tconstruct.smeltery.block.entity.tank.ISmelteryTankHandler;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
 
+import static slimeknights.mantle.util.RetexturedHelper.TAG_TEXTURE;
+
 /**
  * Shared logic between drains and ducts
  */
-public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponentBlockEntity {
+public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponentBlockEntity implements IRetexturedBlockEntity {
   /** Capability this TE watches */
   private final Class<T> capability;
   /** Empty capability for in case the valid capability becomes invalid without invalidating */
@@ -34,6 +36,13 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
   protected final NonNullConsumer<LazyOptional<T>> listener = new WeakConsumerWrapper<>(this, (te, cap) -> te.clearHandler());
   @Nullable
   private LazyOptional<T> capabilityHolder = null;
+
+  /* Retexturing */
+  @Getter
+  private final IModelData modelData = getRetexturedModelData();
+  @Nonnull
+  @Getter
+  private Block texture = Blocks.AIR;
 
   protected SmelteryInputOutputBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Class<T> capability, T emptyInstance) {
     super(type, pos, state);
@@ -106,7 +115,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
     }
     return capabilityHolder;
   }
-  
+
 //  @Nonnull
 //  @Override
 //  public <C> LazyOptional<C> getCapability(Capability<C> capability, @Nullable Direction facing) {
@@ -115,6 +124,55 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
 //    }
 //    return super.getCapability(capability, facing);
 //  }
+
+
+  /* Retexturing */
+
+  @Override
+  public IModelData getRetexturedModelData() {
+    return new SinglePropertyData<>(RetexturedHelper.BLOCK_PROPERTY);
+  }
+
+  @Override
+  public String getTextureName() {
+    return RetexturedHelper.getTextureName(texture);
+  }
+
+  @Override
+  public void updateTexture(String name) {
+    Block oldTexture = texture;
+    texture = RetexturedHelper.getBlock(name);
+    if (oldTexture != texture) {
+      setChangedFast();
+      RetexturedHelper.onTextureUpdated(this);
+    }
+  }
+
+
+  /* NBT */
+
+  @Override
+  protected boolean shouldSyncOnUpdate() {
+    return true;
+  }
+
+  @Override
+  protected void saveSynced(CompoundTag tags) {
+    super.saveSynced(tags);
+    if (texture != Blocks.AIR) {
+      tags.putString(TAG_TEXTURE, getTextureName());
+    }
+  }
+
+  @Override
+  public void load(CompoundTag tags) {
+    super.load(tags);
+    if (tags.contains(TAG_TEXTURE, Tag.TAG_STRING)) {
+      texture = RetexturedHelper.getBlock(tags.getString(TAG_TEXTURE));
+      RetexturedHelper.onTextureUpdated(this);
+    }
+  }
+
 
   /** Fluid implementation of smeltery IO */
   public static abstract class SmelteryFluidIO extends SmelteryInputOutputBlockEntity<IFluidHandler> implements FluidTransferable {
@@ -139,7 +197,12 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
       }
       return LazyOptional.empty();
     }
-  
+
+    @Override
+    public IModelData getRetexturedModelData() {
+      return new ModelDataMap.Builder().withProperty(RetexturedHelper.BLOCK_PROPERTY).withProperty(IDisplayFluidListener.PROPERTY).build();
+    }
+
     @Nullable
     @Override
     public LazyOptional<IFluidHandler> getFluidHandler(@Nullable Direction direction) {
@@ -156,7 +219,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
     protected ChuteBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
       super(type, pos, state, IItemHandler.class, EmptyItemHandler.INSTANCE);
     }
-  
+
     @Nullable
     @Override
     public LazyOptional<IItemHandler> getItemHandler(@Nullable Direction direction) {
