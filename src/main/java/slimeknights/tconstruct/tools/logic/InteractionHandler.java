@@ -331,7 +331,6 @@ public class InteractionHandler {
   private static final ComputableDataKey<LastTick> LAST_TICK = TConstruct.createKey("last_tick", LastTick::new);
 
   /** Implements {@link slimeknights.tconstruct.library.modifiers.hook.interaction.BlockInteractionModifierHook} for weapons with left click */
-  @SubscribeEvent TODO: PORT
   static void leftClickBlock(LeftClickBlock event) {
     // ensure we have not fired this tick
     Player player = event.getPlayer();
