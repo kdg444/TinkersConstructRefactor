@@ -8,6 +8,7 @@ import net.minecraft.core.registries.Registries;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.shared.TinkerCommons;
+import slimeknights.tconstruct.shared.TinkerDamageTypes;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tools.TinkerModifiers;
@@ -30,11 +31,12 @@ public class TConstructData implements DataGeneratorEntrypoint {
     TinkerWorld.gatherData(pack);
     TinkerGadgets.gatherData(pack);
     TinkerCommons.gatherData(pack);
-    TinkerTables.gatherData(generator);
+    TinkerTables.gatherData(pack);
   }
 
   @Override
   public void buildRegistry(RegistrySetBuilder registryBuilder) {
     registryBuilder.add(Registries.STRUCTURE, TinkerStructures::bootstrap);
+    registryBuilder.add(Registries.DAMAGE_TYPE, TinkerDamageTypes::bootstrap);
   }
 }

@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.controller;
 
-import io.github.fabricators_of_create.porting_lib.block.CustomPathNodeTypeBlock;
+import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -25,13 +25,14 @@ import slimeknights.tconstruct.smeltery.block.component.SearedBlock;
 import javax.annotation.Nullable;
 
 /** Shared logic for all multiblock structure controllers */
-public abstract class ControllerBlock extends InventoryBlock implements CustomPathNodeTypeBlock {
+public abstract class ControllerBlock extends InventoryBlock implements LandPathNodeTypesRegistry.StaticPathNodeTypeProvider {
   public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
   public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
   public static final BooleanProperty IN_STRUCTURE = SearedBlock.IN_STRUCTURE;
   protected ControllerBlock(Properties builder) {
     super(builder);
     this.registerDefaultState(this.defaultBlockState().setValue(ACTIVE, false).setValue(IN_STRUCTURE, false));
+    LandPathNodeTypesRegistry.register(this, this);
   }
 
 
@@ -46,7 +47,7 @@ public abstract class ControllerBlock extends InventoryBlock implements CustomPa
 
   @Nullable
   @Override
-  public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity) {
+  public BlockPathTypes getPathNodeType(BlockState state, boolean neighbor) {
     return state.getValue(IN_STRUCTURE) ? BlockPathTypes.DAMAGE_FIRE : BlockPathTypes.OPEN;
   }
 

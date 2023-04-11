@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -35,7 +36,7 @@ public abstract class AbstractCastingRecipe implements ICastingRecipe {
   protected final boolean switchSlots;
 
   @Override
-  public abstract ItemStack getResultItem();
+  public abstract ItemStack getResultItem(RegistryAccess registryAccess);
 
   @Override
   public NonNullList<Ingredient> getIngredients() {

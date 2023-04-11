@@ -3,6 +3,7 @@ package slimeknights.tconstruct.tools.modifiers.defense;
 import io.github.fabricators_of_create.porting_lib.event.common.ExplosionEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -36,7 +37,7 @@ public class BlastProtectionModifier extends AbstractProtectionModifier<BlastDat
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (!source.isBypassMagic() && !source.isBypassInvul() && source.isExplosion()) {
+    if (!source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && source.isExplosion()) {
       modifierValue += getScaledLevel(tool, level) * 2;
     }
     return modifierValue;

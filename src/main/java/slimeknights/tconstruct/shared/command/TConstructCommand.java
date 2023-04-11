@@ -6,6 +6,9 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.synchronization.ArgumentTypeInfos;
+import net.minecraft.commands.synchronization.SingletonArgumentInfo;
+import net.minecraft.core.registries.BuiltInRegistries;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.shared.command.argument.MaterialArgument;
 import slimeknights.tconstruct.shared.command.argument.ModifierArgument;
@@ -23,10 +26,10 @@ public class TConstructCommand {
 
   /** Registers all TConstruct command related content */
   public static void init() {
-    ArgumentTypes.register(TConstruct.resourceString("slot_type"), SlotTypeArgument.class, new EmptyArgumentSerializer<>(SlotTypeArgument::slotType));
-    ArgumentTypes.register(TConstruct.resourceString("tool_stat"), ToolStatArgument.class, new EmptyArgumentSerializer<>(ToolStatArgument::stat));
-    ArgumentTypes.register(TConstruct.resourceString("modifier"), ModifierArgument.class, new EmptyArgumentSerializer<>(ModifierArgument::modifier));
-    ArgumentTypes.register(TConstruct.resourceString("material"), MaterialArgument.class, new EmptyArgumentSerializer<>(MaterialArgument::material));
+    ArgumentTypeInfos.register(BuiltInRegistries.COMMAND_ARGUMENT_TYPE, TConstruct.resourceString("slot_type"), SlotTypeArgument.class, SingletonArgumentInfo.contextFree(SlotTypeArgument::slotType));
+    ArgumentTypeInfos.register(BuiltInRegistries.COMMAND_ARGUMENT_TYPE, TConstruct.resourceString("tool_stat"), ToolStatArgument.class, SingletonArgumentInfo.contextFree(ToolStatArgument::stat));
+    ArgumentTypeInfos.register(BuiltInRegistries.COMMAND_ARGUMENT_TYPE, TConstruct.resourceString("modifier"), ModifierArgument.class, SingletonArgumentInfo.contextFree(ModifierArgument::modifier));
+    ArgumentTypeInfos.register(BuiltInRegistries.COMMAND_ARGUMENT_TYPE, TConstruct.resourceString("material"), MaterialArgument.class, SingletonArgumentInfo.contextFree(MaterialArgument::material));
 
     // add command listener
     CommandRegistrationCallback.EVENT.register(TConstructCommand::registerCommand);

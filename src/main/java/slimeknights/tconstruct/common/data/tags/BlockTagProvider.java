@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -82,7 +83,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     addMetalTags(TinkerMaterials.knightslime, false);
 
     // glass
-    TagAppender<Block> silicaPanes = tag(TinkerTags.Blocks.GLASS_PANES_SILICA);
+    FabricTagBuilder silicaPanes = tag(TinkerTags.Blocks.GLASS_PANES_SILICA);
     silicaPanes.add(
       Blocks.GLASS_PANE, TinkerCommons.clearGlassPane.get(),
       Blocks.BLACK_STAINED_GLASS_PANE, Blocks.BLUE_STAINED_GLASS_PANE, Blocks.BROWN_STAINED_GLASS_PANE, Blocks.CYAN_STAINED_GLASS_PANE,
@@ -96,8 +97,8 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     TinkerCommons.clearStainedGlassPane.forEach(pane -> silicaPanes.add(pane));
 
     // impermeable for all glass
-    TagAppender<Block> impermeable = tag(BlockTags.IMPERMEABLE);
-    TagAppender<Block> silicaGlass = tag(Tags.Blocks.GLASS_SILICA);
+    FabricTagBuilder impermeable = tag(BlockTags.IMPERMEABLE);
+    FabricTagBuilder silicaGlass = tag(Tags.Blocks.GLASS_SILICA);
     impermeable.add(TinkerCommons.clearGlass.get(), TinkerCommons.soulGlass.get(), TinkerSmeltery.searedGlass.get(), TinkerCommons.clearTintedGlass.get());
     silicaGlass.add(TinkerCommons.clearGlass.get());
     TinkerCommons.clearStainedGlass.values().forEach(impermeable::add);
@@ -137,7 +138,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
         .forceAddTag(Tags.Blocks.GLASS_PANES).forceAddTag(BlockTags.BUTTONS).forceAddTag(Tags.Blocks.FENCES).forceAddTag(BlockTags.WALLS).forceAddTag(BlockTags.WALL_SIGNS);
 
     // copper platforms
-    TagAppender<Block> copperPlatforms = this.tag(TinkerTags.Blocks.COPPER_PLATFORMS);
+    FabricTagBuilder copperPlatforms = this.tag(TinkerTags.Blocks.COPPER_PLATFORMS);
     TinkerCommons.copperPlatform.forEach(block -> copperPlatforms.add(block));
     TinkerCommons.waxedCopperPlatform.forEach(block -> copperPlatforms.add(block));
   }
@@ -181,7 +182,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     this.tag(Tags.Blocks.STORAGE_BLOCKS).addTag(TinkerTags.Blocks.RAW_BLOCK_COBALT);
 
     // allow the enderman to hold more blocks
-    TagsProvider.TagAppender<Block> endermanHoldable = this.tag(BlockTags.ENDERMAN_HOLDABLE);
+    FabricTagBuilder endermanHoldable = this.tag(BlockTags.ENDERMAN_HOLDABLE);
     endermanHoldable.addTag(TinkerTags.Blocks.CONGEALED_SLIME).add(TinkerSmeltery.grout.get(), TinkerSmeltery.netherGrout.get());
 
     // wood
@@ -197,17 +198,17 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     this.addWoodTags(TinkerWorld.bloodshroom, false);
 
     // slime blocks
-    TagsProvider.TagAppender<Block> slimeBlockTagAppender = this.tag(TinkerTags.Blocks.SLIME_BLOCK);
-    TagsProvider.TagAppender<Block> congealedTagAppender = this.tag(TinkerTags.Blocks.CONGEALED_SLIME);
+    FabricTagBuilder slimeBlockTagAppender = this.tag(TinkerTags.Blocks.SLIME_BLOCK);
+    FabricTagBuilder congealedTagAppender = this.tag(TinkerTags.Blocks.CONGEALED_SLIME);
     for (SlimeType type : SlimeType.values()) {
       slimeBlockTagAppender.add(TinkerWorld.slime.get(type));
       congealedTagAppender.add(TinkerWorld.congealedSlime.get(type));
     }
 
     // foliage
-    TagsProvider.TagAppender<Block> leavesTagAppender = this.tag(TinkerTags.Blocks.SLIMY_LEAVES);
-    TagsProvider.TagAppender<Block> wartTagAppender = this.tag(BlockTags.WART_BLOCKS);
-    TagsProvider.TagAppender<Block> saplingTagAppender = this.tag(TinkerTags.Blocks.SLIMY_SAPLINGS);
+    FabricTagBuilder leavesTagAppender = this.tag(TinkerTags.Blocks.SLIMY_LEAVES);
+    FabricTagBuilder wartTagAppender = this.tag(BlockTags.WART_BLOCKS);
+    FabricTagBuilder saplingTagAppender = this.tag(TinkerTags.Blocks.SLIMY_SAPLINGS);
     for (SlimeType type : SlimeType.values()) {
       if (type.isNether()) {
         wartTagAppender.add(TinkerWorld.slimeLeaves.get(type));
@@ -287,9 +288,9 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
         .add(TinkerSmeltery.searedFaucet.get(), TinkerSmeltery.scorchedFaucet.get());
 
     // tanks
-    TagAppender<Block> searedTankTagAppender = this.tag(TinkerTags.Blocks.SEARED_TANKS);
+    FabricTagBuilder searedTankTagAppender = this.tag(TinkerTags.Blocks.SEARED_TANKS);
     TinkerSmeltery.searedTank.values().forEach(searedTankTagAppender::add);
-    TagAppender<Block> scorchedTankTagAppender = this.tag(TinkerTags.Blocks.SCORCHED_TANKS);
+    FabricTagBuilder scorchedTankTagAppender = this.tag(TinkerTags.Blocks.SCORCHED_TANKS);
     TinkerSmeltery.scorchedTank.values().forEach(scorchedTankTagAppender::add);
 
     // structure tags
@@ -456,7 +457,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
   /** Applies a tag to a set of suppliers */
   @SafeVarargs
   private void tagBlocks(TagKey<Block> tag, Supplier<? extends Block>... blocks) {
-    TagAppender<Block> appender = this.tag(tag);
+    FabricTagBuilder appender = this.tag(tag);
     for (Supplier<? extends Block> block : blocks) {
       appender.add(block.get());
     }
@@ -464,7 +465,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
   /** Applies a tag to a set of suppliers */
   private void tagBlocks(TagKey<Block> tag, GeodeItemObject... blocks) {
-    TagAppender<Block> appender = this.tag(tag);
+    FabricTagBuilder appender = this.tag(tag);
     for (GeodeItemObject geode : blocks) {
       appender.add(geode.getBlock());
       appender.add(geode.getBudding());
@@ -484,7 +485,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
   /** Applies a tag to a set of blocks */
   @SafeVarargs
   private void tagBlocks(TagKey<Block> tag, EnumObject<?,? extends Block>... blocks) {
-    TagAppender<Block> appender = this.tag(tag);
+    FabricTagBuilder appender = this.tag(tag);
     for (EnumObject<?,? extends Block> block : blocks) {
       block.forEach(b -> appender.add(b));
     }
@@ -499,7 +500,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
   /** Applies a set of tags to a block */
   private void tagBlocks(TagKey<Block> tag, BuildingBlockObject... blocks) {
-    TagAppender<Block> appender = this.tag(tag);
+    FabricTagBuilder appender = this.tag(tag);
     for (BuildingBlockObject block : blocks) {
       block.values().forEach(appender::add);
     }
@@ -544,7 +545,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
   }
 
   /** Adds tags for a glass item object */
-  private void addGlass(EnumObject<GlassColor,? extends Block> blockObj, String tagPrefix, TagAppender<Block> blockTag) {
+  private void addGlass(EnumObject<GlassColor,? extends Block> blockObj, String tagPrefix, FabricTagBuilder blockTag) {
     blockObj.forEach((color, block) -> {
       blockTag.add(block);
       this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("c", tagPrefix + color.getSerializedName()))).add(block);

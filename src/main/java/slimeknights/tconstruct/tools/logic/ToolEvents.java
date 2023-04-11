@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.logic;
 
 import com.google.common.collect.Multiset;
+import io.github.fabricators_of_create.porting_lib.event.BaseEvent.Result;
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.ProjectileImpactCallback;
@@ -9,9 +10,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -124,7 +127,7 @@ public class ToolEvents {
 
   static void onHarvest(ToolHarvestEvent event) {
     // prevent processing if already processed
-    if (event.getResult() != InteractionResult.PASS) {
+    if (event.getResult() != Result.DEFAULT) {
       return;
     }
     BlockState state = event.getState();
@@ -153,7 +156,7 @@ public class ToolEvents {
         0.05D,
         0.05D * facing.getStepZ() + world.random.nextDouble() * 0.02D);
       world.addFreshEntity(itemEntity);
-      event.setResult(InteractionResult.SUCCESS);
+      event.setResult(Result.ALLOW);
     }
 
     // hives: get the honey
@@ -173,9 +176,9 @@ public class ToolEvents {
         } else {
           beehive.resetHoneyLevel(world, state, pos);
         }
-        event.setResult(InteractionResult.SUCCESS);
+        event.setResult(Result.ALLOW);
       } else {
-        event.setResult(InteractionResult.FAIL);
+        event.setResult(Result.DENY);
       }
     }
   }
@@ -189,7 +192,7 @@ public class ToolEvents {
     if (entity.getType() == EntityType.ENDER_DRAGON && amount > 0 && !entity.level.isClientSide) {
       // player caused explosion, end crystals and TNT are examples
 //      DamageSource source = event.getSource();
-      if (source.isExplosion() && source.getEntity() != null && source.getEntity().getType() == EntityType.PLAYER) {
+      if (source.is(DamageTypes.EXPLOSION) && source.getEntity() != null && source.getEntity().getType() == EntityType.PLAYER) {
         // drops 1 - 8 scales
         ModifierUtil.dropItem(entity, new ItemStack(TinkerModifiers.dragonScale, 1 + entity.level.random.nextInt(8)));
       }
@@ -313,7 +316,7 @@ public class ToolEvents {
     if (vanillaModifier != modifierValue) {
       // fetch armor and toughness if blockable, passing in 0 to the logic will skip the armor calculations
       float armor = 0, toughness = 0;
-      if (!source.isBypassArmor()) {
+      if (!source.is(DamageTypeTags.BYPASSES_ARMOR)) {
         armor = entity.getArmorValue();
         toughness = (float)entity.getAttributeValue(Attributes.ARMOR_TOUGHNESS);
       }
@@ -323,19 +326,19 @@ public class ToolEvents {
 //      event.setAmount(finalDamage);
 
       // armor is damaged less as a result of our math, so damage the armor based on the difference if there is one
-      if (!source.isBypassArmor()) {
+      if (!source.is(DamageTypeTags.BYPASSES_ARMOR)) {
         int damageMissed = getArmorDamage(originalDamage) - getArmorDamage(finalDamage);
         // TODO: is this check sufficient for whether the armor should be damaged? I partly wonder if I need to use reflection to call damageArmor
         if (damageMissed > 0 && entity instanceof Player) {
           for (EquipmentSlot slotType : ModifiableArmorMaterial.ARMOR_SLOTS) {
             // for our own armor, saves effort to damage directly with our utility
             IToolStackView tool = context.getToolInSlot(slotType);
-            if (tool != null && (!source.isFire() || !tool.getItem().isFireResistant())) {
+            if (tool != null && (!source.is(DamageTypeTags.IS_FIRE) || !tool.getItem().isFireResistant())) {
               ToolDamageUtil.damageAnimated(tool, damageMissed, entity, slotType);
             } else {
               // if not our armor, damage using vanilla like logic
               ItemStack armorStack = entity.getItemBySlot(slotType);
-              if (!armorStack.isEmpty() && (!source.isFire() || !armorStack.getItem().isFireResistant()) && armorStack.getItem() instanceof ArmorItem) {
+              if (!armorStack.isEmpty() && (!source.is(DamageTypeTags.IS_FIRE) || !armorStack.getItem().isFireResistant()) && armorStack.getItem() instanceof ArmorItem) {
                 armorStack.hurtAndBreak(damageMissed, entity, e -> e.broadcastBreakEvent(slotType));
               }
             }

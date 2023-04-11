@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.recipe.modifiers.adding;
 
 import com.google.gson.JsonObject;
 import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
+import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.data.recipes.FinishedRecipe;

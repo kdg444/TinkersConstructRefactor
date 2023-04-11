@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.traits;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
-import io.github.fabricators_of_create.porting_lib.util.Lazy;
+import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -70,9 +70,9 @@ public class DamageSpeedTradeModifier extends Modifier {
   }
 
   @Override
-  public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+  public void onBreakSpeed(IToolStackView tool, int level, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if (isEffective) {
-      event.newSpeed = (float)(event.newSpeed * (1 - getMultiplier(tool, level)));
+      event.setNewSpeed((float)(event.getNewSpeed() * (1 - getMultiplier(tool, level))));
     }
   }
 }

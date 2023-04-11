@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -33,7 +33,7 @@ import slimeknights.tconstruct.tables.network.StationTabPacket;
 
 import java.util.List;
 
-public class TinkerTabsWidget implements Widget, GuiEventListener, NarratableEntry {
+public class TinkerTabsWidget implements Renderable, GuiEventListener, NarratableEntry {
   private static final ResourceLocation TAB_IMAGE = TConstruct.getResource("textures/gui/icons.png");
   protected static final ElementScreen TAB_ELEMENT = new ElementScreen(0, 18, 26, 30, 256, 256);
   protected static final ElementScreen ACTIVE_TAB_L_ELEMENT = new ElementScreen(26, 18, 26, 30, 256, 256);
@@ -122,6 +122,14 @@ public class TinkerTabsWidget implements Widget, GuiEventListener, NarratableEnt
   @Override
   public boolean isMouseOver(double mouseX, double mouseY) {
     return mouseX >= this.leftPos - 1 && mouseX < this.guiRight() + 1 && mouseY >= this.topPos - 1 && mouseY < this.guiBottom() + 1;
+  }
+
+  @Override
+  public void setFocused(boolean bl) {}
+
+  @Override
+  public boolean isFocused() {
+    return false;
   }
 
   @Override

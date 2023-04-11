@@ -231,7 +231,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
     if (level != null) {
       IPartBuilderRecipe recipe = getPartRecipe();
       if (recipe != null && recipe.matches(inventoryWrapper, level)) {
-        return recipe.assemble(inventoryWrapper, selectedPattern);
+        return recipe.assemble(inventoryWrapper, selectedPattern, level.registryAccess());
       }
     }
     return ItemStack.EMPTY;

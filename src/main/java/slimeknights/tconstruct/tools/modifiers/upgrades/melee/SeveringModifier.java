@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.melee;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.alphamode.forgetags.Tags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class SeveringModifier extends Modifier {
   @Override
-  public List<ItemStack> processLoot(IToolStackView tool, int level, List<ItemStack> generatedLoot, LootContext context) {
+  public ObjectArrayList<ItemStack> processLoot(IToolStackView tool, int level, ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
     // if no damage source, probably not a mob
     // otherwise blocks breaking (where THIS_ENTITY is the player) start dropping player heads
     if (!context.hasParam(LootContextParams.DAMAGE_SOURCE)) {

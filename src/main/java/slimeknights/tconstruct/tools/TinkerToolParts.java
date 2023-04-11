@@ -23,14 +23,14 @@ import java.util.List;
 
 public final class TinkerToolParts extends TinkerModule {
   /** Tab for all tool parts */
-  public static final CreativeModeTab TAB_TOOL_PARTS = new SupplierCreativeTab(TConstruct.MOD_ID, "tool_parts", () -> {
+  public static final CreativeModeTab TAB_TOOL_PARTS = SupplierCreativeTab.create(TConstruct.MOD_ID, "tool_parts", () -> {
     List<IMaterial> materials = new ArrayList<>(MaterialRegistry.getInstance().getVisibleMaterials());
     if (materials.isEmpty()) {
       return new ItemStack(TinkerToolParts.pickHead);
     }
     return TinkerToolParts.pickHead.get().withMaterial(materials.get(TConstruct.RANDOM.nextInt(materials.size())).getIdentifier());
-  });
-  private static final Item.Properties PARTS_PROPS = new Item.Properties().tab(TAB_TOOL_PARTS);
+  }).build();
+  private static final Item.Properties PARTS_PROPS = new Item.Properties()/*.tab(TAB_TOOL_PARTS)*/;
 
   // repair kit, technically a head so it filters to things useful for repair
   public static final ItemObject<RepairKitItem> repairKit = ITEMS.register("repair_kit", () -> new RepairKitItem(PARTS_PROPS));

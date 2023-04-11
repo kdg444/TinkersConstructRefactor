@@ -115,9 +115,9 @@ public class ToolAttackUtil {
   /** Performs a standard attack */
   public static boolean dealDefaultDamage(LivingEntity attacker, Entity target, float damage) {
     if (attacker instanceof Player player) {
-      return target.hurt(DamageSource.playerAttack(player), damage);
+      return target.hurt(target.damageSources().playerAttack(player), damage);
     }
-    return target.hurt(DamageSource.mobAttack(attacker), damage);
+    return target.hurt(target.damageSources().mobAttack(attacker), damage);
   }
 
   /**

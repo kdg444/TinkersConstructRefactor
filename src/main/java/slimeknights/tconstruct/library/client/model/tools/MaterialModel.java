@@ -36,13 +36,13 @@ import net.minecraft.world.phys.Vec2;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.joml.Vector3f;
 import slimeknights.mantle.client.model.util.BakedItemModel;
-import slimeknights.mantle.client.model.util.MantleItemLayerModel;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfo;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfo.TintedSprite;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
 import slimeknights.tconstruct.library.client.model.DynamicTextureLoader;
+import slimeknights.tconstruct.library.client.modifiers.ModelTemp;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 
@@ -171,7 +171,7 @@ public class MaterialModel implements IUnbakedGeometry<MaterialModel> {
     }
 
     // get quads
-    quadConsumer.accept(MantleItemLayerModel.getQuadsForSprite(color, index, finalSprite, transform, light, pixels));
+    quadConsumer.accept(ModelTemp.getQuadsForSprite(color, index, finalSprite, transform, light, pixels));
 
     // return sprite
     return finalSprite;
@@ -193,8 +193,8 @@ public class MaterialModel implements IUnbakedGeometry<MaterialModel> {
     TextureAtlasSprite particle = getPartQuads(mutableList::setValue, owner, spriteGetter, transform, "texture", index, material);
 
     // bake model - while the transform may not be identity, it never has rotation so its safe to say untransformed
-    ImmutableMap<ItemTransforms.TransformType, Transformation> transformMap = PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform());
-    return new BakedItemModel(mutableList.getValue(), particle, Maps.immutableEnumMap(transformMap), overrides, true, owner.isSideLit());
+//    ImmutableMap<ItemTransforms.TransformType, Transformation> transformMap = PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform());
+    return new BakedItemModel(mutableList.getValue(), particle, /*Maps.immutableEnumMap(transformMap)*/null, overrides, true, owner.getGuiLight().lightLikeBlock());
   }
 
   @Override

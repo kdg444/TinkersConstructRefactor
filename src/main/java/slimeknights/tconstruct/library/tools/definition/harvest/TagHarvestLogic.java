@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.tools.definition.harvest;
 import com.google.gson.JsonObject;
 import io.github.fabricators_of_create.porting_lib.util.TierSortingRegistry;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;

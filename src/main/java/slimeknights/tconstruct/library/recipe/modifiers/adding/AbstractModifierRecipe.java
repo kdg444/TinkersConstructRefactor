@@ -78,7 +78,7 @@ public abstract class AbstractModifierRecipe implements ITinkerStationRecipe, ID
   }
 
   @Override
-  public abstract ValidatedResult getValidatedResult(ITinkerStationContainer inv);
+  public abstract ValidatedResult getValidatedResult(ITinkerStationContainer inv, RegistryAccess registryAccess);
 
   /** @deprecated use {@link #getValidatedResult(ITinkerStationContainer)} */
   @Override @Deprecated

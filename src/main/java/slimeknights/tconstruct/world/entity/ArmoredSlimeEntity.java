@@ -148,7 +148,7 @@ public class ArmoredSlimeEntity extends Slime {
     // calling supper does the split reason again, but we need to transfer armor
     this.setRemoved(reason);
     if (reason == Entity.RemovalReason.KILLED) {
-      this.gameEvent(GameEvent.ENTITY_KILLED);
+      this.gameEvent(GameEvent.ENTITY_DIE);
     }
 //    this.invalidateCaps(); TODO: NEEDED?
   }

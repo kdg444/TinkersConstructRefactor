@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.recipe.partbuilder;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -98,7 +99,7 @@ public class PartRecipe implements IPartBuilderRecipe, IMultiRecipe<ItemPartReci
   /** @deprecated use {@link #getRecipeOutput(MaterialVariantId)} */
   @Deprecated
   @Override
-  public ItemStack getResultItem() {
+  public ItemStack getResultItem(RegistryAccess registryAccess) {
     return new ItemStack(output);
   }
 
@@ -115,7 +116,7 @@ public class PartRecipe implements IPartBuilderRecipe, IMultiRecipe<ItemPartReci
   }
 
   @Override
-  public ItemStack assemble(IPartBuilderContainer inv) {
+  public ItemStack assemble(IPartBuilderContainer inv, RegistryAccess registryAccess) {
     MaterialVariant material = MaterialVariant.UNKNOWN;
     IMaterialValue materialRecipe = inv.getMaterial();
     if (materialRecipe != null) {

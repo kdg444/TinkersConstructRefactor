@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.world.worldgen.islands.variants;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -50,7 +51,7 @@ public interface IIslandVariant {
 
   /** Gets the tree to place on top of the island, return null to prevent tree placement */
   @Nullable
-  default ConfiguredFeature<?, ?> getTreeFeature(RandomSource random) {
+  default ConfiguredFeature<?, ?> getTreeFeature(RandomSource random, RegistryAccess registryAccess) {
     return null;
   }
 

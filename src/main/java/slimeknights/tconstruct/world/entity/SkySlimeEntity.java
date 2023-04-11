@@ -2,6 +2,7 @@ package slimeknights.tconstruct.world.entity;
 
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -74,7 +75,7 @@ public class SkySlimeEntity extends ArmoredSlimeEntity {
   }
 
   @Override
-  protected void populateDefaultEquipmentSlots(DifficultyInstance difficulty) {
+  protected void populateDefaultEquipmentSlots(RandomSource randomSource, DifficultyInstance difficulty) {
     // sky slime spawns with tinkers armor, high chance of travelers, low chance of plate
     // vanilla logic but simplified down to just helmets
     float multiplier = difficulty.getSpecialMultiplier();
@@ -129,5 +130,5 @@ public class SkySlimeEntity extends ArmoredSlimeEntity {
   }
 
   @Override
-  protected void populateDefaultEquipmentEnchantments(DifficultyInstance difficulty) {}
+  protected void populateDefaultEquipmentEnchantments(RandomSource randomSource, DifficultyInstance difficulty) {}
 }

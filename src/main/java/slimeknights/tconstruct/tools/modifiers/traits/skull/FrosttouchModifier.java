@@ -20,7 +20,7 @@ public class FrosttouchModifier extends TotalArmorLevelModifier {
     // must drink milk to melee slowness. Always can range slowness
     if (isDirectDamage) {
       boolean isCalcified = context.getEntity().hasEffect(TinkerModifiers.calcifiedEffect.get());
-      if (isCalcified || source.isProjectile()) {
+      if (isCalcified || source.is(DamageTypeTags.IS_PROJECTILE)) {
         target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 300, isCalcified ? 1 : 0));
       }
     }

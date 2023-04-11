@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.modifiers.defense;
 
 import io.github.fabricators_of_create.porting_lib.event.common.PotionEvents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +31,7 @@ public class MagicProtectionModifier extends AbstractProtectionModifier<Modifier
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (!source.isBypassMagic() && !source.isBypassInvul() && source.isMagic()) {
+    if (!source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && source.isMagic()) {
       modifierValue += getScaledLevel(tool, level) * 2;
     }
     return modifierValue;

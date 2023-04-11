@@ -6,7 +6,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -16,6 +15,7 @@ import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
+import slimeknights.tconstruct.library.recipe.SimpleRecipeSerializer;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipeSerializer;
 import slimeknights.tconstruct.library.recipe.partbuilder.ItemPartRecipe;
 import slimeknights.tconstruct.library.recipe.partbuilder.PartRecipe;
@@ -140,7 +140,7 @@ public final class TinkerTables extends TinkerModule {
 //    });
   }
 
-  public static void gatherData(final FabricDataGenerator datagenerator) {
-    datagenerator.addProvider(new TableRecipeProvider(datagenerator));
+  public static void gatherData(final FabricDataGenerator.Pack pack) {
+    pack.addProvider(TableRecipeProvider::new);
   }
 }

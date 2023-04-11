@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tables.recipe;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -160,7 +161,7 @@ public class TinkerStationRepairRecipe implements ITinkerStationRecipe {
   }
 
   @Override
-  public ValidatedResult getValidatedResult(ITinkerStationContainer inv) {
+  public ValidatedResult getValidatedResult(ITinkerStationContainer inv, RegistryAccess registryAccess) {
     ToolStack tool = ToolStack.from(inv.getTinkerableStack());
     if (tool.getDefinition() == ToolDefinition.EMPTY) {
       return ValidatedResult.PASS;
@@ -273,10 +274,10 @@ public class TinkerStationRepairRecipe implements ITinkerStationRecipe {
     return TinkerTables.tinkerStationRepairSerializer.get();
   }
 
-  /** @deprecated Use {@link #assemble(ITinkerStationContainer)} */
+  /** @deprecated Use {@link #assemble(ITinkerStationContainer, RegistryAccess)} */
   @Deprecated
   @Override
-  public ItemStack getResultItem() {
+  public ItemStack getResultItem(RegistryAccess registryAccess) {
     return ItemStack.EMPTY;
   }
 }

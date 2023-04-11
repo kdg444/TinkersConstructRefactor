@@ -54,7 +54,7 @@ public class ModifierIconManager implements IEarlySafeManagerReloadListener, Ide
    * Initializes this manager, registering it relevant event busses
    */
   public static void init() {
-    TextureStitchCallback.PRE.register(ModifierIconManager::textureStitch);
+//    TextureStitchCallback.PRE.register(ModifierIconManager::textureStitch); TODO: PORT
     ModifierIconManager.onResourceManagerRegister();
   }
 

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.ability.tool;
 
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -71,7 +72,7 @@ public class MeltingModifier extends TankModifier {
   }
 
   @Override
-  public List<ItemStack> processLoot(IToolStackView tool, int level, List<ItemStack> generatedLoot, LootContext context) {
+  public ObjectArrayList<ItemStack> processLoot(IToolStackView tool, int level, ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
     // if tank is full, nothing to do
     FluidStack current = getFluid(tool);
     int capacity = getCapacity(tool);

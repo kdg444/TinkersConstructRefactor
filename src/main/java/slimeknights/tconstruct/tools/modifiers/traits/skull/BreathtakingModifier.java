@@ -10,7 +10,7 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 public class BreathtakingModifier extends NoLevelsModifier {
   @Override
   public void attackWithArmor(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, LivingEntity target, DamageSource source, float amount, boolean isDirectDamage) {
-    if (isDirectDamage && !source.isProjectile()) {
+    if (isDirectDamage && !source.is(DamageTypeTags.IS_PROJECTILE)) {
       LivingEntity attacker = context.getEntity();
       int attackerAir = attacker.getAirSupply();
       int maxAir = attacker.getMaxAirSupply();

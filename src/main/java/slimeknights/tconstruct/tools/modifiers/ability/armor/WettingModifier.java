@@ -42,7 +42,7 @@ public class WettingModifier extends TankModifier {
 
   /** Checks if the modifier triggers */
   protected boolean doesTrigger(DamageSource source, boolean isDirectDamage) {
-    return !source.isBypassMagic() && !source.isBypassInvul();
+    return !source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
   }
 
   @Override

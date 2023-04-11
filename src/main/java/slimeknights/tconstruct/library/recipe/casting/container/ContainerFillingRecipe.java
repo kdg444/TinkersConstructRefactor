@@ -3,7 +3,8 @@ package slimeknights.tconstruct.library.recipe.casting.container;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -73,15 +74,15 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
                    .isPresent();
   }
 
-  /** @deprecated use {@link ICastingRecipe#assemble(Container)} */
+  /** @deprecated use {@link ICastingRecipe#assemble(Container, RegistryAccess)} */
   @Override
   @Deprecated
-  public ItemStack getResultItem() {
+  public ItemStack getResultItem(RegistryAccess registryAccess) {
     return new ItemStack(this.container);
   }
 
   @Override
-  public ItemStack assemble(ICastingContainer inv) {
+  public ItemStack assemble(ICastingContainer inv, RegistryAccess registryAccess) {
     ItemStack stack = inv.getStack().copy();
     return TransferUtil.getFluidHandlerItem(stack).map(handler -> {
       handler.fill(new FluidStack(inv.getFluid(), this.fluidAmount, inv.getFluidTag()), false);
@@ -97,7 +98,7 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
   public List<DisplayCastingRecipe> getRecipes() {
     if (displayRecipes == null) {
       List<ItemStack> casts = Collections.singletonList(new ItemStack(container));
-      displayRecipes = Registry.FLUID.stream()
+      displayRecipes = BuiltInRegistries.FLUID.stream()
                                              .filter(fluid -> fluid.getBucket() != Items.AIR && fluid.isSource(fluid.defaultFluidState()))
                                              .map(fluid -> {
                                                FluidStack fluidStack = new FluidStack(fluid, fluidAmount);

@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.modifiers;
 import com.google.gson.JsonObject;
 import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
 import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
@@ -539,7 +540,7 @@ public class Modifier implements IHaveLoader<Modifier> {
    * @param context        Full loot context
    * @return  Loot replacement
    */
-  public List<ItemStack> processLoot(IToolStackView tool, int level, List<ItemStack> generatedLoot, LootContext context) {
+  public ObjectArrayList<ItemStack> processLoot(IToolStackView tool, int level, ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
     return generatedLoot;
   }
 

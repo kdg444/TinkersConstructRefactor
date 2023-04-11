@@ -34,7 +34,7 @@ public class DragonbornModifier extends AbstractProtectionModifier<ModifierMaxLe
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (!source.isBypassMagic() && !source.isBypassInvul() && isAirborne(context.getEntity())) {
+    if (!source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && isAirborne(context.getEntity())) {
       modifierValue += getScaledLevel(tool, level) * 2.5;
     }
     return modifierValue;

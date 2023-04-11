@@ -35,7 +35,7 @@ public class TurtleShellModifier extends IncrementalModifier {
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (!source.isBypassMagic() && !source.isBypassInvul()) {
+    if (!source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
       LivingEntity entity = context.getEntity();
       // helmet/chest boost if eyes in water, legs/boots boost if feet in water
       if ((slotType == EquipmentSlot.HEAD || slotType == EquipmentSlot.CHEST) ? entity.wasEyeInWater : entity.isInWater()) {

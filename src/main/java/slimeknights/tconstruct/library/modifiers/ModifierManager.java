@@ -344,7 +344,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener implements
    * @return  Contained values
    */
   public static List<Modifier> getTagValues(TagKey<Modifier> tag) {
-    return INSTANCE.tags.getOrDefault(tag.location(), Tag.empty()).getValues();
+    return INSTANCE.tags.getOrDefault(tag.location(), Collections.emptyList()).stream().toList();
   }
 
 

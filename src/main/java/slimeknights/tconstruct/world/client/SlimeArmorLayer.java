@@ -31,6 +31,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
@@ -94,7 +95,7 @@ public class SlimeArmorLayer<T extends Slime, M extends HierarchicalModel<T>, A 
         } else {
           // standard rendering
           CustomHeadLayer.translateToHead(matrices, false);
-          Minecraft.getInstance().getItemInHandRenderer().renderItem(entity, helmet, ItemTransforms.TransformType.HEAD, false, matrices, buffer, packedLight);
+          Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().renderItem(entity, helmet, ItemDisplayContext.HEAD, false, matrices, buffer, packedLight);
         }
       }
       matrices.popPose();

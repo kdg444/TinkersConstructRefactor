@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
-import io.github.fabricators_of_create.porting_lib.extensions.MobEffectInstanceExtensions;
 import io.github.fabricators_of_create.porting_lib.util.PotionHelper;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -22,8 +21,8 @@ public class RevengeModifier extends NoLevelsModifier {
     LivingEntity living = context.getEntity();
     if (trueSource != null && trueSource != living) { // no making yourself mad with slurping or self-destruct or alike
       MobEffectInstance effect = new MobEffectInstance(MobEffects.DAMAGE_BOOST, 300);
-      ((MobEffectInstanceExtensions)effect).getCurativeItems().clear();
-      ((MobEffectInstanceExtensions)effect).getCurativeItems().add(new ItemStack(living.getItemBySlot(slotType).getItem()));
+      effect.getCurativeItems().clear();
+      effect.getCurativeItems().add(new ItemStack(living.getItemBySlot(slotType).getItem()));
       living.addEffect(effect);
     }
   }

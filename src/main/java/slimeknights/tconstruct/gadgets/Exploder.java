@@ -115,7 +115,7 @@ public class Exploder {
       dir = dir.normalize();
       dir = dir.scale(this.explosionStrength * str * 0.3);
       entity.push(dir.x, dir.y + 0.5, dir.z);
-      entity.hurt(DamageSource.explosion(this.explosion), (float) (str * this.explosionStrength));
+      entity.hurt(entity.damageSources().explosion(this.explosion), (float) (str * this.explosionStrength));
 
       if (entity instanceof ServerPlayer) {
         TinkerNetwork.getInstance().sendTo(new EntityMovementChangePacket(entity), (ServerPlayer) entity);

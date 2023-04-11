@@ -97,7 +97,7 @@ public abstract class TinkerToolEvent extends BaseEvent {
     }
 
     /** Fires this event and posts the result */
-    public InteractionResult fire() {
+    public Result fire() {
       sendEvent();
       return this.getResult();
     }
@@ -136,7 +136,7 @@ public abstract class TinkerToolEvent extends BaseEvent {
     }
 
     /** Fires this event and posts the result */
-    public InteractionResult fire() {
+    public Result fire() {
       sendEvent();
       return this.getResult();
     }

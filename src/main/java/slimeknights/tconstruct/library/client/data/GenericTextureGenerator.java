@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.client.data;
 
+import com.google.common.hash.Hashing;
 import com.mojang.blaze3d.platform.NativeImage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -29,12 +30,12 @@ public abstract class GenericTextureGenerator implements DataProvider {
       Path path = this.output.getOutputFolder().resolve(
         Paths.get(PackType.CLIENT_RESOURCES.getDirectory(),
                   location.getNamespace(), folder, location.getPath() + ".png"));
-      String hash = SHA1.hashBytes(image.asByteArray()).toString();
+      String hash = Hashing.sha1().hashBytes(image.asByteArray()).toString();
       if (!Objects.equals(cache.getHash(path), hash) || !Files.exists(path)) {
         Files.createDirectories(path.getParent());
         image.writeToFile(path);
       }
-      cache.putNew(path, hash);
+//      cache.putNew(path, hash);
     } catch (IOException e) {
       log.error("Couldn't create data for {}", location, e);
     }

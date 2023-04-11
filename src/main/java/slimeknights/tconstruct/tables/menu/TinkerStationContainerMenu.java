@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tables.menu;
 
 import lombok.Getter;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -20,7 +21,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class TinkerStationContainerMenu extends TabbedContainerMenu<TinkerStationBlockEntity> {
   @Getter
@@ -51,7 +51,7 @@ public class TinkerStationContainerMenu extends TabbedContainerMenu<TinkerStatio
       // add result slot, will fetch result cache
       this.addSlot(this.resultSlot = new LazyResultSlot(tile.getCraftingResult(), 114, 38));
       // set initial slot filters and activations
-      setToolSelection(StationSlotLayoutLoader.getInstance().get(Objects.requireNonNull(tile.getBlockState().getBlock().getRegistryName())));
+      setToolSelection(StationSlotLayoutLoader.getInstance().get(BuiltInRegistries.BLOCK.getKey(tile.getBlockState().getBlock())));
     }
     else {
       // requirement for final variable
@@ -62,7 +62,7 @@ public class TinkerStationContainerMenu extends TabbedContainerMenu<TinkerStatio
     // add armor and offhand slots, for convenience
     for (ArmorSlotType slotType : ArmorSlotType.values()) {
       int index = slotType.getIndex();
-      this.addSlot(new ArmorSlot(inv, slotType.getEquipmentSlot(), 152, 16 + (3 - index) * 18));
+      this.addSlot(new ArmorSlot(inv, slotType.getArmorType().getSlot(), 152, 16 + (3 - index) * 18));
     }
     this.addSlot(new Slot(inv, 40, 132, 70).setBackground(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD));
 

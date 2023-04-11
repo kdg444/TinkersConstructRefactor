@@ -35,7 +35,7 @@ public class FireProtectionModifier extends IncrementalModifier {
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (!source.isBypassMagic() && !source.isBypassInvul() && source.isFire()) {
+    if (!source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && source.is(DamageTypeTags.IS_FIRE)) {
       modifierValue += getScaledLevel(tool, level) * 2;
     }
     return modifierValue;

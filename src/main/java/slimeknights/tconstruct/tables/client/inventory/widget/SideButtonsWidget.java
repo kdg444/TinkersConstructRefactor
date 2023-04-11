@@ -56,14 +56,23 @@ public class SideButtonsWidget<T extends Button> implements Renderable, GuiEvent
       T button = this.buttons.get(i);
       int x = (i % columns) * (button.getWidth() + SPACING);
       int y = (i / columns) * (button.getHeight() + SPACING);
-      button.x = leftPos + x;
-      button.y = topPos + y;
+      button.setPosition(leftPos + x, topPos + y);
     }
   }
 
   @Override
   public boolean isMouseOver(double mouseX, double mouseY) {
     return this.leftPos <= mouseX && mouseX < this.guiRight() && this.topPos <= mouseY && mouseY < this.guiBottom();
+  }
+
+  @Override
+  public void setFocused(boolean bl) {
+
+  }
+
+  @Override
+  public boolean isFocused() {
+    return false;
   }
 
   public boolean handleMouseClicked(double mouseX, double mouseY, int mouseButton) {

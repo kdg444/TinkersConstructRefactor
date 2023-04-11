@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.fabricators_of_create.porting_lib.loot.IGlobalLootModifier;
 import io.github.fabricators_of_create.porting_lib.loot.LootModifier;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,7 +38,7 @@ public class ModifierLootModifier extends LootModifier {
 
   @Nonnull
   @Override
-  protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+  protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
     // tool is for harvest
     ItemStack stack = context.getParamOrNull(LootContextParams.TOOL);
     // if null, try entity held item

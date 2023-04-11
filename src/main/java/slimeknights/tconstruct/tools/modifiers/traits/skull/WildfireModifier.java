@@ -10,7 +10,7 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 public class WildfireModifier extends NoLevelsModifier {
   @Override
   public void attackWithArmor(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, LivingEntity target, DamageSource source, float amount, boolean isDirectDamage) {
-    if (isDirectDamage && !source.isProjectile()) {
+    if (isDirectDamage && !source.is(DamageTypeTags.IS_PROJECTILE)) {
       int fire = context.getEntity().getRemainingFireTicks();
       if (fire > 0) {
         // copy fire duration, merge with their current duration, and a little extra to account for divide flooring

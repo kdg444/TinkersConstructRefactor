@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.harvest;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerBreakSpeedCallback.BreakSpeed;
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -24,10 +24,10 @@ public class AirborneModifier extends NoLevelsModifier implements ConditionalSta
   }
 
   @Override
-  public void onBreakSpeed(IToolStackView tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+  public void onBreakSpeed(IToolStackView tool, int level, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     // the speed is reduced when not on the ground, cancel out
-    if (!event.player.isOnGround()) { // TODO: PORT? getPlayer used to be getEntity idk if they are the same
-      event.newSpeed = event.newSpeed * 5;
+    if (!event.getEntity().isOnGround()) {
+      event.setNewSpeed(event.getNewSpeed() * 5);
     }
   }
 

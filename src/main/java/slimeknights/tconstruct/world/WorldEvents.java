@@ -1,18 +1,20 @@
 package slimeknights.tconstruct.world;
 
 import com.google.common.collect.Lists;
-import io.github.fabricators_of_create.porting_lib.biome.BiomeDictionary;
-import io.github.fabricators_of_create.porting_lib.biome.BiomeDictionary.Type;
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.loot.v2.LootTableSource;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -25,7 +27,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.dimension.LevelStem;
@@ -57,19 +58,6 @@ import java.util.function.Predicate;
 
 @SuppressWarnings("unused")
 public class WorldEvents {
-  /** Checks if the biome matches the given categories */
-  private static boolean matches(boolean hasNoTypes, @Nullable ResourceKey<Biome> key, BiomeCategory given, @Nullable BiomeCategory check, Type type) {
-    if (hasNoTypes || key == null) {
-      // check of null means not none, the nether/end checks were done earlier
-      if (check == null) {
-        return given != BiomeCategory.NONE;
-      }
-      return given == check;
-    }
-    // we have a key, require matching all the given types
-    return BiomeDictionary.hasType(key, type);
-  }
-
   public static void init() {
     LootTableEvents.MODIFY.register(WorldEvents::onLootTableLoad);
     LivingEntityEvents.VISIBILITY.register(WorldEvents::livingVisibility);
@@ -110,13 +98,13 @@ public class WorldEvents {
         if (!biomeSelectionContext.canGenerateIn(LevelStem.OVERWORLD))
           return false;
         boolean add;
-        BiomeCategory category = Biome.getBiomeCategory(biomeSelectionContext.getBiomeRegistryEntry());
+        Holder<Biome> biomeHolder = biomeSelectionContext.getBiomeRegistryEntry();
         ResourceKey<Biome> key = biomeSelectionContext.getBiomeKey();
-        boolean hasNoTypes = key == null || !BiomeDictionary.hasAnyType(key);
+        boolean hasNoTypes = key == null;
         if (hasNoTypes) {
-          add = category != BiomeCategory.OCEAN && category != BiomeCategory.BEACH && category != BiomeCategory.RIVER;
+          add = !biomeHolder.is(ConventionalBiomeTags.OCEAN) && !biomeHolder.is(ConventionalBiomeTags.BEACH) && !biomeHolder.is(ConventionalBiomeTags.RIVER);
         } else {
-          add = !BiomeDictionary.hasType(key, Type.WATER) && !BiomeDictionary.hasType(key, Type.BEACH);
+          add = !biomeHolder.is(Tags.Biomes.IS_WATER) && !biomeHolder.is(ConventionalBiomeTags.BEACH);
         }
         return add;
       };

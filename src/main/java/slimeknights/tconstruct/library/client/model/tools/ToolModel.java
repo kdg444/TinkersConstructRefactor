@@ -5,12 +5,10 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Transformation;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
@@ -27,32 +25,28 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
-import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelState;
-import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
+import org.joml.Vector3f;
 import slimeknights.mantle.client.model.util.BakedItemModel;
-import slimeknights.mantle.client.model.util.MantleItemLayerModel;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.mantle.util.ReversedListBuilder;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
 import slimeknights.tconstruct.library.client.modifiers.IBakedModifierModel;
-import slimeknights.tconstruct.library.client.modifiers.ModifierModelManager;
+import slimeknights.tconstruct.library.client.modifiers.ModelTemp;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -65,11 +59,9 @@ import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
@@ -117,7 +109,6 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
 
   /**
    * Registers an item color handler for a part item
-   * @param colors  Item colors instance
    * @param item    Material item
    */
   public static void registerItemColors(Supplier<? extends IModifiable> item) {
@@ -140,54 +131,54 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
   /** Models for the relevant modifiers */
   private Map<ModifierId,IBakedModifierModel> modifierModels = Collections.emptyMap();
 
-  @Override
-  public Collection<Material> getTextures(IModelConfiguration owner, Function<ResourceLocation,UnbakedModel> modelGetter, Set<Pair<String,String>> missingTextureErrors) {
-    Set<Material> allTextures = Sets.newHashSet();
-    if (toolParts.isEmpty()) {
-      allTextures.add(owner.resolveTexture("tool"));
-      if (owner.isTexturePresent("broken")) {
-        allTextures.add(owner.resolveTexture("broken"));
-      }
-      if (isLarge) {
-        allTextures.add(owner.resolveTexture("tool_large"));
-        if (owner.isTexturePresent("broken_large")) {
-          allTextures.add(owner.resolveTexture("broken_large"));
-        }
-      }
-    } else {
-      for (ToolPart part : toolParts) {
-        // if material variants, fetch textures from the material model
-        if (part.hasMaterials()) {
-          MaterialModel.getMaterialTextures(allTextures, owner, part.getName(false, false), null);
-          if (part.hasBroken()) {
-            MaterialModel.getMaterialTextures(allTextures, owner, part.getName(true, false), null);
-          }
-          if (isLarge) {
-            MaterialModel.getMaterialTextures(allTextures, owner, part.getName(false, true), null);
-            if (part.hasBroken()) {
-              MaterialModel.getMaterialTextures(allTextures, owner, part.getName(true, true), null);
-            }
-          }
-        } else {
-          // static texture
-          allTextures.add(owner.resolveTexture(part.getName(false, false)));
-          if (part.hasBroken()) {
-            allTextures.add(owner.resolveTexture(part.getName(true, false)));
-          }
-          if (isLarge) {
-            allTextures.add(owner.resolveTexture(part.getName(false, true)));
-            if (part.hasBroken()) {
-              allTextures.add(owner.resolveTexture(part.getName(true, true)));
-            }
-          }
-        }
-      }
-    }
-    // load modifier models
-    modifierModels = ModifierModelManager.getModelsForTool(smallModifierRoots, isLarge ? largeModifierRoots : Collections.emptyList(), allTextures);
-
-    return allTextures;
-  }
+//  @Override
+//  public Collection<Material> getTextures(BlockModel owner, Function<ResourceLocation,UnbakedModel> modelGetter, Set<Pair<String,String>> missingTextureErrors) {
+//    Set<Material> allTextures = Sets.newHashSet();
+//    if (toolParts.isEmpty()) {
+//      allTextures.add(owner.resolveTexture("tool"));
+//      if (owner.isTexturePresent("broken")) {
+//        allTextures.add(owner.resolveTexture("broken"));
+//      }
+//      if (isLarge) {
+//        allTextures.add(owner.resolveTexture("tool_large"));
+//        if (owner.isTexturePresent("broken_large")) {
+//          allTextures.add(owner.resolveTexture("broken_large"));
+//        }
+//      }
+//    } else {
+//      for (ToolPart part : toolParts) {
+//        // if material variants, fetch textures from the material model
+//        if (part.hasMaterials()) {
+//          MaterialModel.getMaterialTextures(allTextures, owner, part.getName(false, false), null);
+//          if (part.hasBroken()) {
+//            MaterialModel.getMaterialTextures(allTextures, owner, part.getName(true, false), null);
+//          }
+//          if (isLarge) {
+//            MaterialModel.getMaterialTextures(allTextures, owner, part.getName(false, true), null);
+//            if (part.hasBroken()) {
+//              MaterialModel.getMaterialTextures(allTextures, owner, part.getName(true, true), null);
+//            }
+//          }
+//        } else {
+//          // static texture
+//          allTextures.add(owner.resolveTexture(part.getName(false, false)));
+//          if (part.hasBroken()) {
+//            allTextures.add(owner.resolveTexture(part.getName(true, false)));
+//          }
+//          if (isLarge) {
+//            allTextures.add(owner.resolveTexture(part.getName(false, true)));
+//            if (part.hasBroken()) {
+//              allTextures.add(owner.resolveTexture(part.getName(true, true)));
+//            }
+//          }
+//        }
+//      }
+//    }
+//    // load modifier models
+//    modifierModels = ModifierModelManager.getModelsForTool(smallModifierRoots, isLarge ? largeModifierRoots : Collections.emptyList(), allTextures);
+//
+//    return allTextures;
+//  }
 
   /**
    * adds quads for relevant modifiers
@@ -240,7 +231,7 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
   private record FirstModifier(ModifierEntry entry, IBakedModifierModel model, int modelIndex) {}
 
   /**
-   * Same as {@link #bake(IModelConfiguration, ModelBakery, Function, ModelState, ItemOverrides, ResourceLocation)}, but uses fewer arguments and does not require an instance
+   * Same as {@link #bake(BlockModel, ModelBaker, Function, ModelState, ItemOverrides, ResourceLocation)}, but uses fewer arguments and does not require an instance
    * @param owner           Model configuration
    * @param spriteGetter    Sprite getter function
    * @param largeTransforms Transform to apply to the large parts. If null, only generates small parts
@@ -280,10 +271,10 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
 
     // add quads for all parts
     if (parts.isEmpty()) {
-      particle = spriteGetter.apply(owner.resolveTexture(isBroken && owner.isTexturePresent("broken") ? "broken" : "tool"));
-      smallConsumer.accept(MantleItemLayerModel.getQuadsForSprite(-1, -1, particle, Transformation.identity(), 0, smallPixels));
+      particle = spriteGetter.apply(owner.getMaterial(isBroken && owner.hasTexture("broken") ? "broken" : "tool"));
+      smallConsumer.accept(ModelTemp.getQuadsForSprite(-1, -1, particle, Transformation.identity(), 0, smallPixels));
       if (largeTransforms != null) {
-        largeConsumer.accept(MantleItemLayerModel.getQuadsForSprite(-1, -1, spriteGetter.apply(owner.resolveTexture(isBroken && owner.isTexturePresent("broken_large") ? "broken_large" : "tool_large")), largeTransforms, 0, largePixels));
+        largeConsumer.accept(ModelTemp.getQuadsForSprite(-1, -1, spriteGetter.apply(owner.getMaterial(isBroken && owner.hasTexture("broken_large") ? "broken_large" : "tool_large")), largeTransforms, 0, largePixels));
       }
     } else {
       for (int i = parts.size() - 1; i >= 0; i--) {
@@ -302,24 +293,24 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
           }
         } else {
           // part without materials
-          particle = spriteGetter.apply(owner.resolveTexture(part.getName(isBroken, false)));
-          smallConsumer.accept(MantleItemLayerModel.getQuadsForSprite(-1, -1, particle, Transformation.identity(), 0, smallPixels));
+          particle = spriteGetter.apply(owner.getMaterial(part.getName(isBroken, false)));
+          smallConsumer.accept(ModelTemp.getQuadsForSprite(-1, -1, particle, Transformation.identity(), 0, smallPixels));
           if (largeTransforms != null) {
-            largeConsumer.accept(MantleItemLayerModel.getQuadsForSprite(-1, -1, spriteGetter.apply(owner.resolveTexture(part.getName(isBroken, true))), largeTransforms, 0, largePixels));
+            largeConsumer.accept(ModelTemp.getQuadsForSprite(-1, -1, spriteGetter.apply(owner.getMaterial(part.getName(isBroken, true))), largeTransforms, 0, largePixels));
           }
         }
       }
     }
 
     // bake model - while the transform may not be identity, it never has rotation so its safe to say untransformed
-    ImmutableMap<TransformType, Transformation> transformMap = Maps.immutableEnumMap(PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform()));
+//    ImmutableMap<TransformType, Transformation> transformMap = Maps.immutableEnumMap(PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform()));
 
     // large models use a custom model here
     if (largeTransforms != null) {
-      return new BakedLargeToolModel(largeBuilder.build(), smallBuilder.build(), particle, transformMap, overrides, owner.isSideLit());
+      return new BakedLargeToolModel(largeBuilder.build(), smallBuilder.build(), particle/*, transformMap*/, overrides, owner.getGuiLight().lightLikeBlock());
     }
     // for small, we leave out the large quads, so the baked item model logic is sufficient
-    return new BakedItemModel(smallBuilder.build(), particle, transformMap, overrides, true, owner.isSideLit());
+    return new BakedItemModel(smallBuilder.build(), particle, /*transformMap*/null, overrides, true, owner.getGuiLight().lightLikeBlock());
   }
 
   @Override
@@ -486,21 +477,21 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
   }
 
   /** Baked model for large tools, has separate quads in GUIs */
-  private static class BakedLargeToolModel implements BakedModel, TransformTypeDependentItemBakedModel {
+  private static class BakedLargeToolModel implements BakedModel/*, TransformTypeDependentItemBakedModel*/ {
     private final ImmutableList<BakedQuad> largeQuads;
     @Getter
     private final TextureAtlasSprite particleIcon;
-    private final ImmutableMap<TransformType, Transformation> transforms;
+//    private final ImmutableMap<TransformType, Transformation> transforms;
     @Getter
     private final ItemOverrides overrides;
     @Getter @Accessors(fluent = true)
     private final boolean usesBlockLight;
     private final BakedModel guiModel;
 
-    private BakedLargeToolModel(ImmutableList<BakedQuad> largeQuads, ImmutableList<BakedQuad> smallQuads, TextureAtlasSprite particle, ImmutableMap<TransformType,Transformation> transforms, ItemOverrides overrides, boolean isSideLit) {
+    private BakedLargeToolModel(ImmutableList<BakedQuad> largeQuads, ImmutableList<BakedQuad> smallQuads, TextureAtlasSprite particle/*, ImmutableMap<TransformType,Transformation> transforms*/, ItemOverrides overrides, boolean isSideLit) {
       this.largeQuads = largeQuads;
       this.particleIcon = particle;
-      this.transforms = transforms;
+//      this.transforms = transforms;
       this.overrides = overrides;
       this.usesBlockLight = isSideLit;
       this.guiModel = new BakedLargeToolGui(this, smallQuads);
@@ -514,13 +505,13 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
       return ImmutableList.of();
     }
 
-    @Override
-    public BakedModel handlePerspective(TransformType type, PoseStack mat) {
-      if (type == TransformType.GUI) {
-        return ((TransformTypeDependentItemBakedModel)this.guiModel).handlePerspective(type, mat);
-      }
-      return PerspectiveMapWrapper.handlePerspective(this, transforms, type, mat);
-    }
+//    @Override
+//    public BakedModel handlePerspective(TransformType type, PoseStack mat) {
+//      if (type == TransformType.GUI) {
+//        return ((TransformTypeDependentItemBakedModel)this.guiModel).handlePerspective(type, mat);
+//      }
+//      return PerspectiveMapWrapper.handlePerspective(this, transforms, type, mat);
+//    }
 
     /* Misc properties */
 
@@ -546,7 +537,7 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
   }
 
   /** Baked model for large tools in the GUI, small quads */
-  private static class BakedLargeToolGui extends ForwardingBakedModel implements TransformTypeDependentItemBakedModel {
+  private static class BakedLargeToolGui extends ForwardingBakedModel/* implements TransformTypeDependentItemBakedModel*/ {
     private final List<BakedQuad> guiQuads;
     public BakedLargeToolGui(BakedLargeToolModel model, List<BakedQuad> guiQuads) {
       wrapped = model;
@@ -562,10 +553,10 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
       return ImmutableList.of();
     }
 
-    @Override
-    public BakedModel handlePerspective(TransformType transform, PoseStack mat) {
-      return PerspectiveMapWrapper.handlePerspective(this, ((BakedLargeToolModel)wrapped).transforms, transform, mat);
-    }
+//    @Override
+//    public BakedModel handlePerspective(TransformType transform, PoseStack mat) {
+//      return PerspectiveMapWrapper.handlePerspective(this, ((BakedLargeToolModel)wrapped).transforms, transform, mat);
+//    }
   }
 
   /**

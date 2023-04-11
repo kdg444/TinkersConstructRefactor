@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.tools.modifiers.defense;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -32,7 +32,7 @@ public class MeleeProtectionModifier extends AbstractProtectionModifier<Modifier
 
   /** Checks if the damage source is blocked by this modifier */
   private static boolean doesApply(DamageSource source) {
-    if (source.isBypassMagic() || source.isProjectile() || source.isBypassInvul()) {
+    if (source.isBypassMagic() || source.is(DamageTypeTags.IS_PROJECTILE) || source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
       return false;
     }
     // if its caused by an entity, require it to simply not be thorns
@@ -42,7 +42,7 @@ public class MeleeProtectionModifier extends AbstractProtectionModifier<Modifier
     } else {
       // for non-entity damage, require it to not be any other type
       // blocks dall damage, falling blocks, cactus, but not starving, drowning, freezing
-      return !source.isBypassArmor() && !source.isFire() && !source.isMagic() && !source.isExplosion();
+      return !source.is(DamageTypeTags.BYPASSES_ARMOR) && !source.is(DamageTypeTags.IS_FIRE) && !source.isMagic() && !source.isExplosion();
     }
   }
 

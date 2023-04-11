@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.world.worldgen.islands.variants;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
@@ -45,7 +46,7 @@ public class SkySlimeIslandVariant extends AbstractSlimeIslandVariant {
 
   @Nullable
   @Override
-  public ConfiguredFeature<?,?> getTreeFeature(RandomSource random) {
+  public ConfiguredFeature<?,?> getTreeFeature(RandomSource random, RegistryAccess registryAccess) {
     return TinkerStructures.skySlimeIslandTree.get();
   }
 }

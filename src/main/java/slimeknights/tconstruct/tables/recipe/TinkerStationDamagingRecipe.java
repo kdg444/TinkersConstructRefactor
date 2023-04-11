@@ -3,6 +3,8 @@ package slimeknights.tconstruct.tables.recipe;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -48,7 +50,7 @@ public class TinkerStationDamagingRecipe implements ITinkerStationRecipe {
   }
 
   @Override
-  public ValidatedResult getValidatedResult(ITinkerStationContainer inv) {
+  public ValidatedResult getValidatedResult(ITinkerStationContainer inv, RegistryAccess registryAccess) {
     if (ToolDamageUtil.isBroken(inv.getTinkerableStack())) {
       return BROKEN;
     }
@@ -74,7 +76,7 @@ public class TinkerStationDamagingRecipe implements ITinkerStationRecipe {
   /** @deprecated Use {@link #getValidatedResult(ITinkerStationContainer)} */
   @Deprecated
   @Override
-  public ItemStack getResultItem() {
+  public ItemStack getResultItem(RegistryAccess registryAccess) {
     return ItemStack.EMPTY;
   }
 
@@ -119,7 +121,7 @@ public class TinkerStationDamagingRecipe implements ITinkerStationRecipe {
       if (stacks.length == 0) {
         throw new IllegalStateException("Empty ingredient not allowed");
       }
-      save(consumer, Objects.requireNonNull(stacks[0].getItem().getRegistryName()));
+      save(consumer, BuiltInRegistries.ITEM.getKey(stacks[0].getItem()));
     }
 
     @Override

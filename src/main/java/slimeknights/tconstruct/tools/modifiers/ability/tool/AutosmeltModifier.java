@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.modifiers.ability.tool;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -92,13 +93,13 @@ public class AutosmeltModifier extends NoLevelsModifier {
   }
 
   @Override
-  public List<ItemStack> processLoot(IToolStackView tool, int level, List<ItemStack> generatedLoot, LootContext context) {
+  public ObjectArrayList<ItemStack> processLoot(IToolStackView tool, int level, ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
     Level world = context.getLevel();
     if (!generatedLoot.isEmpty()) {
-      return generatedLoot.stream()
+      return new ObjectArrayList<>(generatedLoot.stream()
                           .map(stack -> smeltItem(stack, world))
                           .filter(stack -> !stack.isEmpty())
-                          .collect(Collectors.toList());
+                          .collect(Collectors.toList()));
     }
     return generatedLoot;
   }

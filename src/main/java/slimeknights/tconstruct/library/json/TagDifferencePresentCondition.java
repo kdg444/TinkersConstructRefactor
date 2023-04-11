@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -50,7 +52,7 @@ public class TagDifferencePresentCondition<T> implements ConditionJsonProvider {
 
   public boolean test() {
     // get the base tag
-    Iterable<Holder<Item>> base = Registry.ITEM.getTagOrEmpty(this.base);
+    Iterable<Holder<Item>> base = BuiltInRegistries.ITEM.getTagOrEmpty(this.base);
     if (base == null || Iterables.isEmpty(base)) {
       return false;
     }
@@ -67,7 +69,7 @@ public class TagDifferencePresentCondition<T> implements ConditionJsonProvider {
       // find the first item contained in no subtracted tags
       for (TagKey<Item> tag : subtracted) {
         // TODO: will this work?
-        if (Iterables.contains(Registry.ITEM.getTagOrEmpty(tag), entry)) {
+        if (Iterables.contains(BuiltInRegistries.ITEM.getTagOrEmpty(tag), entry)) {
           continue itemLoop;
         }
       }

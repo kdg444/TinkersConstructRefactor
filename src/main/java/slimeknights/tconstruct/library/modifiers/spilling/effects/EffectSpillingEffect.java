@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSyntaxException;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.effect.MobEffect;
@@ -50,7 +50,7 @@ public record EffectSpillingEffect(MobEffect effect, int time, int level) implem
   @Override
   public JsonObject serialize(JsonSerializationContext context) {
     JsonObject json = JsonUtils.withType(ID);
-    json.addProperty("name", Objects.requireNonNull(Registry.MOB_EFFECT.getKey(effect)).toString());
+    json.addProperty("name", Objects.requireNonNull(BuiltInRegistries.MOB_EFFECT.getKey(effect)).toString());
     json.addProperty("time", time);
     json.addProperty("level", level);
     return json;
@@ -59,10 +59,10 @@ public record EffectSpillingEffect(MobEffect effect, int time, int level) implem
   public static final JsonDeserializer<EffectSpillingEffect> LOADER = (element, type, context) -> {
     JsonObject json = element.getAsJsonObject();
     ResourceLocation id = JsonHelper.getResourceLocation(json, "name");
-    if (!Registry.MOB_EFFECT.containsKey(id)) {
+    if (!BuiltInRegistries.MOB_EFFECT.containsKey(id)) {
       throw new JsonSyntaxException("Unknown effect " + id);
     }
-    MobEffect effect = Objects.requireNonNull(Registry.MOB_EFFECT.get(id));
+    MobEffect effect = Objects.requireNonNull(BuiltInRegistries.MOB_EFFECT.get(id));
     int time = GsonHelper.getAsInt(json, "time");
     int level = GsonHelper.getAsInt(json, "level", 1);
     return new EffectSpillingEffect(effect, time, level);

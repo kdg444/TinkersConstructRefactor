@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 import slimeknights.tconstruct.library.tools.stat.FloatToolStat;
@@ -70,13 +71,13 @@ public class ModifiableArmorMaterial implements ArmorMaterial {
   }
 
   @Override
-  public int getDurabilityForSlot(EquipmentSlot slotIn) {
-    return (int)getStat(ToolStats.DURABILITY, ArmorSlotType.fromEquipment(slotIn));
+  public int getDurabilityForType(ArmorItem.Type slotIn) {
+    return (int)getStat(ToolStats.DURABILITY, ArmorSlotType.fromType(slotIn));
   }
 
   @Override
-  public int getDefenseForSlot(EquipmentSlot slotIn) {
-    return (int)getStat(ToolStats.ARMOR, ArmorSlotType.fromEquipment(slotIn));
+  public int getDefenseForType(ArmorItem.Type slotIn) {
+    return (int)getStat(ToolStats.ARMOR, ArmorSlotType.fromType(slotIn));
   }
 
   @Override

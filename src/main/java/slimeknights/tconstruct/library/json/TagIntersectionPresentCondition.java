@@ -9,12 +9,12 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagKey;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -59,8 +59,8 @@ public class TagIntersectionPresentCondition<T> implements ConditionJsonProvider
 
   public boolean test() {
     // if there is just one tag, just needs to be filled
-    List<Tag<?>> tags = names.stream().map(tTagKey -> {
-      for (Map.Entry<ResourceKey<?>, Map<ResourceLocation, Tag<Holder<?>>>> entry : ResourceConditionsImpl.LOADED_TAGS.get().entrySet()) {
+    List<Collection<?>> tags = names.stream().map(tTagKey -> {
+      for (Map.Entry<ResourceKey<?>, Map<ResourceLocation, Collection<Holder<?>>>> entry : ResourceConditionsImpl.LOADED_TAGS.get().entrySet()) {
         if (entry.getKey() == Registries.ITEM && entry.getValue().get(tTagKey.location()) != null)
           return entry.getValue().get(tTagKey.location());
       }

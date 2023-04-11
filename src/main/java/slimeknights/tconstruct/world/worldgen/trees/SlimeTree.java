@@ -1,8 +1,9 @@
 package slimeknights.tconstruct.world.worldgen.trees;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,7 +13,6 @@ import slimeknights.tconstruct.shared.block.SlimeType;
 import slimeknights.tconstruct.world.TinkerStructures;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class SlimeTree extends AbstractTreeGrower {
 
@@ -25,7 +25,7 @@ public class SlimeTree extends AbstractTreeGrower {
   @Deprecated
   @Nullable
   @Override
-  protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(Random randomIn, boolean largeHive) {
+  protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource randomIn, boolean largeHive) {
     return null;
   }
 
@@ -51,7 +51,7 @@ public class SlimeTree extends AbstractTreeGrower {
   }
 
   @Override
-  public boolean growTree(ServerLevel world, ChunkGenerator chunkGenerator, BlockPos pos, BlockState state, Random rand) {
+  public boolean growTree(ServerLevel world, ChunkGenerator chunkGenerator, BlockPos pos, BlockState state, RandomSource rand) {
     ConfiguredFeature<?, ?> configuredFeature = this.getSlimeTreeFeature();
     if (configuredFeature == null) {
       return false;

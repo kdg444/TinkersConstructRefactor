@@ -4,32 +4,30 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 
-import javax.annotation.Nullable;
 import java.util.Locale;
 
 /** Enum to aid in armor registraton */
 @RequiredArgsConstructor
 @Getter
 public enum ArmorSlotType implements StringRepresentable {
-  BOOTS(EquipmentSlot.FEET),
-  LEGGINGS(EquipmentSlot.LEGS),
-  CHESTPLATE(EquipmentSlot.CHEST),
-  HELMET(EquipmentSlot.HEAD);
+  BOOTS(ArmorItem.Type.BOOTS),
+  LEGGINGS(ArmorItem.Type.LEGGINGS),
+  CHESTPLATE(ArmorItem.Type.CHESTPLATE),
+  HELMET(ArmorItem.Type.HELMET);
 
-  private final EquipmentSlot equipmentSlot;
+  private final ArmorItem.Type armorType;
   private final String serializedName = toString().toLowerCase(Locale.ROOT);
   private final int index = ordinal();
 
   /** Gets an equipment slot for the given armor slot */
-  @Nullable
-  public static ArmorSlotType fromEquipment(EquipmentSlot slotType) {
+  public static ArmorSlotType fromType(ArmorItem.Type slotType) {
     return switch (slotType) {
-      case FEET -> BOOTS;
-      case LEGS -> LEGGINGS;
-      case CHEST -> CHESTPLATE;
-      case HEAD -> HELMET;
-      default -> null;
+      case BOOTS -> BOOTS;
+      case LEGGINGS -> LEGGINGS;
+      case CHESTPLATE -> CHESTPLATE;
+      case HELMET -> HELMET;
     };
   }
 }

@@ -49,7 +49,7 @@ public abstract class AbstractIslandStructure extends Structure {
       RandomSource rand = context.random();
       IIslandVariant variant = iIslandSettings.getVariant(rand);
       Mirror mirror = Util.getRandom(Mirror.values(), rand);
-      builder.addPiece(new SlimeIslandPiece(context.structureTemplateManager(), variant, Util.getRandom(SIZES, rand), targetPos, variant.getTreeFeature(rand), rotation, mirror));
+      builder.addPiece(new SlimeIslandPiece(context.structureTemplateManager(), variant, Util.getRandom(SIZES, rand), targetPos, variant.getTreeFeature(rand, context.registryAccess()), rotation, mirror));
     }));
   }
 

@@ -95,7 +95,7 @@ public class ClientGeneratePartTexturesCommand {
     }
 
     // prepare the output directory
-    Path path = Minecraft.getInstance().getResourcePackDirectory().toPath().resolve(PACK_NAME);
+    Path path = Minecraft.getInstance().getResourcePackDirectory().resolve(PACK_NAME);
     BiConsumer<ResourceLocation,NativeImage> saver = (outputPath, image) -> saveImage(path, outputPath, image);
 
     // create a pack.mcmeta so its a valid resource pack

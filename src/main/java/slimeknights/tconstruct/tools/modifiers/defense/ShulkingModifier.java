@@ -33,7 +33,7 @@ public class ShulkingModifier extends AbstractProtectionModifier<ModifierMaxLeve
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (context.getEntity().isCrouching() && !source.isBypassMagic() && !source.isBypassInvul()) {
+    if (context.getEntity().isCrouching() && !source.isBypassMagic() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
       modifierValue += getScaledLevel(tool, level) * 2;
     }
     return modifierValue;

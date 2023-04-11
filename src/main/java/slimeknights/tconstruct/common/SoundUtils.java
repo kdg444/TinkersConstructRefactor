@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.common;
 
+import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -28,11 +29,11 @@ public class SoundUtils {
    * @param volume the volume of the sound
    * @param pitch the pitch of the sound
    */
-  public static void playSoundForPlayer(Entity entity, SoundEvent sound, float volume, float pitch) {
+  public static void playSoundForPlayer(Entity entity, Holder<SoundEvent> sound, float volume, float pitch) {
     if (entity instanceof ServerPlayer) {
       TinkerNetwork.getInstance().sendVanillaPacket(entity,
         new ClientboundSoundPacket(sound, entity.getSoundSource(), entity.getX(), entity.getY(),
-          entity.getZ(), volume, pitch));
+          entity.getZ(), volume, pitch, ((ServerPlayer) entity).getRandom().nextLong()));
     }
   }
 }

@@ -126,7 +126,7 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
         }
 
         // try for UI errors
-        ValidatedResult validatedResult = recipe.getValidatedResult(this.inventoryWrapper);
+        ValidatedResult validatedResult = recipe.getValidatedResult(this.inventoryWrapper, this.level.registryAccess());
         if (validatedResult.isSuccess()) {
           result = validatedResult.getResult();
         } else if (validatedResult.hasError()) {
@@ -140,7 +140,7 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
     }
     // client side only needs to update result, server syncs message elsewhere
     else if (this.lastRecipe != null && this.lastRecipe.matches(this.inventoryWrapper, level)) {
-      ValidatedResult validatedResult = this.lastRecipe.getValidatedResult(this.inventoryWrapper);
+      ValidatedResult validatedResult = this.lastRecipe.getValidatedResult(this.inventoryWrapper, level.registryAccess());
       if (validatedResult.isSuccess()) {
         result = validatedResult.getResult();
       } else if (validatedResult.hasError()) {

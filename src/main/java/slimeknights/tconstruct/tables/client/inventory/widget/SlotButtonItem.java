@@ -29,7 +29,7 @@ public class SlotButtonItem extends Button {
   private ResourceLocation backgroundLocation = Icons.ICONS;
 
   public SlotButtonItem(int buttonId, int x, int y, StationSlotLayout layout, OnPress onPress) {
-    super(x, y, WIDTH, HEIGHT, layout.getDisplayName(), onPress);
+    super(x, y, WIDTH, HEIGHT, layout.getDisplayName(), onPress, Button.DEFAULT_NARRATION);
     this.layout = layout;
     this.buttonId = buttonId;
   }
@@ -44,22 +44,22 @@ public class SlotButtonItem extends Button {
   }
 
   @Override
-  public void renderButton(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
+  public void renderWidget(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
     RenderUtils.setup(this.backgroundLocation);
 
     if (this.visible) {
-      this.isHovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+      this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
 
       if (this.pressed) {
-        this.pressedGui.draw(matrices, this.x, this.y);
+        this.pressedGui.draw(matrices, this.getX(), this.getY());
       } else if (this.isHovered) {
-        this.hoverGui.draw(matrices, this.x, this.y);
+        this.hoverGui.draw(matrices, this.getX(), this.getY());
       } else {
-        this.normalGui.draw(matrices, this.x, this.y);
+        this.normalGui.draw(matrices, this.getX(), this.getY());
       }
 
       //this.drawIcon(matrices, Minecraft.getInstance());
-      TinkerStationScreen.renderIcon(matrices, layout.getIcon(), this.x + 1, this.y + 1);
+      TinkerStationScreen.renderIcon(matrices, layout.getIcon(), this.getX() + 1, this.getY() + 1);
     }
   }
 

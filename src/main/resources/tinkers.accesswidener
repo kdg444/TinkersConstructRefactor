@@ -143,3 +143,5 @@ accessible field net/minecraft/world/entity/projectile/AbstractArrow soundEvent 
 accessible method net/minecraft/world/entity/projectile/AbstractArrow doPostHurtEffects (Lnet/minecraft/world/entity/LivingEntity;)V
 accessible method net/minecraft/world/entity/projectile/AbstractArrow getPickupItem ()Lnet/minecraft/world/item/ItemStack;
 accessible field net/minecraft/client/renderer/item/ItemProperties PROPERTIES Ljava/util/Map;
+
+accessible method net/minecraft/commands/synchronization/ArgumentTypeInfos register (Lnet/minecraft/core/Registry;Ljava/lang/String;Ljava/lang/Class;Lnet/minecraft/commands/synchronization/ArgumentTypeInfo;)Lnet/minecraft/commands/synchronization/ArgumentTypeInfo;
