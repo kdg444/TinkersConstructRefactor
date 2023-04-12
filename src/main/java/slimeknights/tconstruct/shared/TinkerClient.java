@@ -69,10 +69,5 @@ public class TinkerClient implements ClientModInitializer {
     if (FabricLoader.getInstance().isModLoaded("inventorytabs") && Config.CLIENT.inventoryTabsCompat.get()) {
       BaseTabbedScreen.COMPAT_SHOW_TABS = false;
     }
-
-//    ModelEvents.MODELS_BAKED.register((manager, models, loader) -> {
-//      FluidAttributes attributes = TinkerFluids.ichor.getStill().getAttributes();
-//      FluidRenderHandlerRegistry.INSTANCE.register(TinkerFluids.ichor.getStill(), TinkerFluids.ichor.getFlowing(), new UpsideDownFluidRenderer(attributes::getStillTexture, attributes::getFlowingTexture, attributes::getOverlayTexture, attributes.getColor()));
-//    });
   }
 }
