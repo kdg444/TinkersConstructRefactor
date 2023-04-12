@@ -4,7 +4,6 @@ import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBox
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
-import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -28,6 +27,13 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
+import slimeknights.mantle.client.model.data.IModelData;
+import slimeknights.mantle.client.model.data.ModelDataMap;
+import slimeknights.mantle.client.model.data.SinglePropertyData;
+import slimeknights.mantle.transfer.fluid.IFluidHandler;
+import slimeknights.mantle.transfer.item.IItemHandler;
+import slimeknights.mantle.transfer.item.ItemHandlerHelper;
+import slimeknights.mantle.transfer.item.ItemTransferable;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.common.multiblock.IMasterLogic;
@@ -60,7 +66,7 @@ import java.util.function.Consumer;
 
 import static slimeknights.mantle.util.RetexturedHelper.TAG_TEXTURE;
 
-public abstract class HeatingStructureBlockEntity extends NameableBlockEntity implements IMasterLogic, ISmelteryTankHandler, IRetexturedBlockEntity {
+public abstract class HeatingStructureBlockEntity extends NameableBlockEntity implements IMasterLogic, ISmelteryTankHandler, IRetexturedBlockEntity, ItemTransferable, CustomRenderBoundingBoxBlockEntity {
   private static final String TAG_STRUCTURE = "structure";
   private static final String TAG_TANK = "tank";
   private static final String TAG_INVENTORY = "inventory";
@@ -127,7 +133,7 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
 
   /* Client display */
   @Getter
-  private final SinglePropertyData<FluidStack> modelData = new ModelDataMap.Builder().withProperty(RetexturedHelper.BLOCK_PROPERTY).withProperty(IDisplayFluidListener.PROPERTY).build();
+  private final IModelData modelData = new ModelDataMap.Builder().withProperty(RetexturedHelper.BLOCK_PROPERTY).withProperty(IDisplayFluidListener.PROPERTY).build();
   private final List<WeakReference<IDisplayFluidListener>> fluidDisplayListeners = new ArrayList<>();
 
   /* Misc helpers */
@@ -620,7 +626,7 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
   }
 
   @Override
-  public Object getRenderAttachmentData() {
+  public IModelData getRenderAttachmentData() {
     return modelData;
   }
 }

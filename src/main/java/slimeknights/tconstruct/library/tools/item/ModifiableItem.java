@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
+import io.github.fabricators_of_create.porting_lib.item.ContinueUsingItem;
 import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
 import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.item.ReequipAnimationItem;
@@ -68,7 +69,7 @@ import java.util.function.Consumer;
  * A standard modifiable item which implements melee hooks
  * This class handles how all the modifier hooks and display data for items made out of different materials
  */
-public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, DamageableItem, ShieldBlockItem, CustomMaxCountItem, ReequipAnimationItem, CustomEnchantingBehaviorItem {
+public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, DamageableItem, ShieldBlockItem, CustomMaxCountItem, ReequipAnimationItem, CustomEnchantingBehaviorItem, ContinueUsingItem {
   /** Tool definition for the given tool */
   @Getter
   private final ToolDefinition toolDefinition;
@@ -368,12 +369,12 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   @Override
   public boolean canContinueUsing(ItemStack oldStack, ItemStack newStack) {
-    if (super.canContinueUsing(oldStack, newStack)) {
+    if (ContinueUsingItem.super.canContinueUsing(oldStack, newStack)) {
       if (oldStack != newStack) {
         ModifierUtil.finishUsingItem(ToolStack.from(oldStack));
       }
     }
-    return super.canContinueUsing(oldStack, newStack);
+    return ContinueUsingItem.super.canContinueUsing(oldStack, newStack);
   }
 
   @Override

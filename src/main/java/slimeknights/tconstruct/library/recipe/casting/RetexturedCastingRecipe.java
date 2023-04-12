@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.recipe.casting;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -19,8 +20,8 @@ public abstract class RetexturedCastingRecipe extends ItemCastingRecipe {
   }
 
   @Override
-  public ItemStack assemble(ICastingContainer inv) {
-    ItemStack result = getResultItem().copy();
+  public ItemStack assemble(ICastingContainer inv, RegistryAccess registryAccess) {
+    ItemStack result = getResultItem(registryAccess).copy();
     if (inv.getStack().getItem() instanceof BlockItem blockItem ) {
       return RetexturedBlockItem.setTexture(result, blockItem.getBlock());
     }

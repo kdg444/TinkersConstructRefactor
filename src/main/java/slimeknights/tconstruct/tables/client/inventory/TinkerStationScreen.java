@@ -188,7 +188,7 @@ public class TinkerStationScreen extends BaseTabbedScreen<TinkerStationBlockEnti
 
     int x = (this.width - this.imageWidth) / 2;
     int y = (this.height - this.imageHeight) / 2;
-    textField = new EditBox(this.font, x + 80, y + 5, 82, 9, TextComponent.EMPTY);
+    textField = new EditBox(this.font, x + 80, y + 5, 82, 9, Component.empty());
     textField.setCanLoseFocus(true);
     textField.setTextColor(-1);
     textField.setTextColorUneditable(-1);
@@ -711,7 +711,6 @@ public class TinkerStationScreen extends BaseTabbedScreen<TinkerStationBlockEnti
   public void removed() {
     super.removed();
     assert this.minecraft != null;
-    this.minecraft.keyboardHandler.setSendRepeatsToGui(false);
   }
 
   @Override
@@ -719,6 +718,5 @@ public class TinkerStationScreen extends BaseTabbedScreen<TinkerStationBlockEnti
     super.onClose();
 
     assert this.minecraft != null;
-    this.minecraft.keyboardHandler.setSendRepeatsToGui(false);
   }
 }

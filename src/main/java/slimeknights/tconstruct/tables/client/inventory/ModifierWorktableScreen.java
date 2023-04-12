@@ -200,8 +200,8 @@ public class ModifierWorktableScreen extends BaseTabbedScreen<ModifierWorktableB
       ItemStack resultStack = getMenu().getOutputSlot().getItem();
       TinkerStationScreen.updateToolPanel(tinkerInfo, result, resultStack);
 
-      this.modifierInfo.setCaption(TextComponent.EMPTY);
-      this.modifierInfo.setText(TextComponent.EMPTY);
+      this.modifierInfo.setCaption(Component.empty());
+      this.modifierInfo.setText(Component.empty());
       if (result.hasTag(TinkerTags.Items.MODIFIABLE)) {
         TinkerStationScreen.updateModifierPanel(modifierInfo, result);
       } else {

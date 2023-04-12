@@ -1,13 +1,13 @@
 package slimeknights.tconstruct.tools.modifiers.ability.tool;
 
+import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.common.util.ToolActions;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.UseAnim;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;

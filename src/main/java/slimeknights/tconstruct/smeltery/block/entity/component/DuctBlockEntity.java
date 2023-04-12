@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import slimeknights.mantle.client.model.data.IModelData;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.mantle.transfer.item.ItemTransferable;
@@ -121,10 +122,5 @@ public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider, It
   public void saveSynced(CompoundTag tags) {
     super.saveSynced(tags);
     tags.put(TAG_ITEM, itemHandler.writeToNBT());
-  }
-
-  @Override
-  public Object getRenderAttachmentData() {
-    return modelData;
   }
 }

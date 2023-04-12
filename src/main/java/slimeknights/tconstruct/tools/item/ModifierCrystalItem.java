@@ -4,7 +4,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -37,7 +36,7 @@ public class ModifierCrystalItem extends Item {
   public Component getName(ItemStack stack) {
     ModifierId modifier = getModifier(stack);
     if (modifier != null) {
-      return new TranslatableComponent(getDescriptionId(stack) + ".format", new TranslatableComponent(Util.makeTranslationKey("modifier", modifier)));
+      return Component.translatable(getDescriptionId(stack) + ".format", Component.translatable(Util.makeTranslationKey("modifier", modifier)));
     }
     return super.getName(stack);
   }
@@ -82,10 +81,10 @@ public class ModifierCrystalItem extends Item {
     return null;
   }
 
-  @Override
-  public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> items) {
-    if (this.allowdedIn(category)) {
-      ModifierRecipeLookup.getRecipeModifierList().forEach(modifier -> items.add(withModifier(modifier.getId())));
-    }
-  }
+//  @Override TODO: PORT
+//  public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> items) {
+//    if (this.allowdedIn(category)) {
+//      ModifierRecipeLookup.getRecipeModifierList().forEach(modifier -> items.add(withModifier(modifier.getId())));
+//    }
+//  }
 }

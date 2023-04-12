@@ -22,7 +22,7 @@ public class TConstructData implements DataGeneratorEntrypoint {
   public void onInitializeDataGenerator(FabricDataGenerator generator) {
     ExistingFileHelper helper = ExistingFileHelper.withResourcesFromArg();
     FabricDataGenerator.Pack pack = generator.createPack();
-    TConstruct.onInitializeDataGenerator(pack, helper);
+    TConstruct.gatherData(pack, helper);
     TinkerSmeltery.gatherData(pack);
     TinkerModifiers.gatherData(pack, helper);
 

@@ -3,6 +3,9 @@ accessWidener v2 named
 # Item Frames
 transitive-extendable method net/minecraft/world/entity/decoration/ItemFrame setRotation (IZ)V
 
+# Reflecting modifier
+transitive-accessible field net/minecraft/world/entity/projectile/Projectile leftOwner Z
+
 # Loot table datagen
 
 transitive-accessible field net/minecraft/advancements/critereon/EntityEquipmentPredicate$Builder mainhand Lnet/minecraft/advancements/critereon/ItemPredicate;
@@ -17,6 +20,9 @@ transitive-accessible field net/minecraft/world/level/block/entity/BlockEntityTy
 
 # Making things flammable
 transitive-accessible method net/minecraft/world/level/block/FireBlock setFlammable (Lnet/minecraft/world/level/block/Block;II)V
+
+# Mojang added a private getter for text fields private variable
+accessible method net/minecraft/client/gui/components/EditBox isEditable ()Z
 
 transitive-accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen imageWidth I
 transitive-accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen imageHeight I

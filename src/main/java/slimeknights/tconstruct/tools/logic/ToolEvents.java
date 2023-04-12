@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.logic;
 
 import com.google.common.collect.Multiset;
 import io.github.fabricators_of_create.porting_lib.event.BaseEvent.Result;
+import io.github.fabricators_of_create.porting_lib.event.common.GrindstoneEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.ProjectileImpactCallback;
@@ -12,7 +13,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
@@ -38,7 +38,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.event.GrindstoneEvent;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -87,6 +86,7 @@ public class ToolEvents {
     LivingEntityEvents.TICK.register(ToolEvents::livingWalk);
     LivingEntityEvents.VISIBILITY.register(ToolEvents::livingVisibility);
     ProjectileImpactCallback.EVENT.register(ToolEvents::projectileHit);
+    GrindstoneEvents.ON_PLACE_ITEM.register(ToolEvents::onGrindstoneChange);
   }
 
   static void onBreakSpeed(PlayerEvents.BreakSpeed event) {
@@ -294,7 +294,6 @@ public class ToolEvents {
 //    LivingEntity entity = event.getEntityLiving();
 
     // determine if there is any modifiable armor, if not nothing to do
-    DamageSource source = event.getSource();
     EquipmentContext context = new EquipmentContext(entity);
     int vanillaModifier = 0;
     float modifierValue = 0;
@@ -457,8 +456,7 @@ public class ToolEvents {
     return false;
   }
 
-  @SubscribeEvent
-  static void onGrindstoneChange(GrindstoneEvent.OnPlaceItem event) {
+  static void onGrindstoneChange(GrindstoneEvents.OnplaceItem event) {
     // no removing enchantments from tools, you must use the modifier to remove them
     if (event.getTopItem().is(TinkerTags.Items.MODIFIABLE) || event.getBottomItem().is(TinkerTags.Items.MODIFIABLE)) {
       event.setCanceled(true);

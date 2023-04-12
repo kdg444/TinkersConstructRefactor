@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.general;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;

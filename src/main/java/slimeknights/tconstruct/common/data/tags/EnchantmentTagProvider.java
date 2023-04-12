@@ -1,25 +1,27 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import net.minecraft.core.Registry;
-import net.minecraft.data.DataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.data.ModifierIds;
 
-public class EnchantmentTagProvider extends TagsProvider<Enchantment> {
-  public EnchantmentTagProvider(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
-    super(generator, Registry.ENCHANTMENT, TConstruct.MOD_ID, existingFileHelper);
+import java.util.concurrent.CompletableFuture;
+
+public class EnchantmentTagProvider extends FabricTagProvider.EnchantmentTagProvider {
+  public EnchantmentTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
+    super(output, completableFuture);
   }
 
   @Override
-  protected void addTags() {
+  protected void addTags(HolderLookup.Provider provider) {
     // upgrade
     modifierTag(TinkerModifiers.experienced.getId(), "cyclic:experience_boost", "ensorcellation:exp_boost");
     modifierTag(ModifierIds.killager, "ensorcellation:damage_illager");
@@ -48,7 +50,7 @@ public class EnchantmentTagProvider extends TagsProvider<Enchantment> {
 
   /** Creates a builder for a tag for the given modifier */
   private void modifierTag(ModifierId modifier, String... ids) {
-    TagsProvider.TagAppender<Enchantment> appender = tag(TagKey.create(Registry.ENCHANTMENT_REGISTRY, TConstruct.getResource("modifier_like/" + modifier.getPath())));
+    TagsProvider.TagAppender<Enchantment> appender = tag(TagKey.create(Registries.ENCHANTMENT, TConstruct.getResource("modifier_like/" + modifier.getPath())));
     for (String id : ids) {
       appender.addOptional(new ResourceLocation(id));
     }

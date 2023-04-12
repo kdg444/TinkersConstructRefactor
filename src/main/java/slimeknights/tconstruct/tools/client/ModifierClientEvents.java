@@ -5,6 +5,7 @@ import io.github.fabricators_of_create.porting_lib.event.client.FieldOfViewEvent
 import io.github.fabricators_of_create.porting_lib.event.client.RenderHandCallback;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.Mth;
@@ -103,13 +104,13 @@ public class ModifierClientEvents {
   }
 
   /** Handles the zoom modifier zooming */
-  @SubscribeEvent
-  static void handleZoom(FOVModifierEvent event) {
-    event.getEntity().getCapability(TinkerDataCapability.CAPABILITY).ifPresent(data -> {
-      float newFov = event.getNewfov();
+  static float handleZoom(AbstractClientPlayer player, float fov) {
+    AtomicReference<Float> newFovRef = new AtomicReference<>(fov);
+    TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> {
+      float newFov = fov;
 
       // scaled effects only apply if we have FOV scaling, nothing to do if 0
-      float effectScale = Minecraft.getInstance().options.fovEffectScale;
+      float effectScale = Minecraft.getInstance().options.fovEffectScale().get().floatValue();
       if (effectScale > 0) {
         FloatMultiplier scaledZoom = data.get(TinkerDataKeys.SCALED_FOV_MODIFIER);
         if (scaledZoom != null) {
@@ -119,7 +120,7 @@ public class ModifierClientEvents {
           } else {
             // unlerp the fov before multiplitying to make sure we apply the proper amount
             // we could use the original FOV, but someone else may have modified it
-            float original = event.getFov();
+            float original = fov;
             newFov *= Mth.lerp(effectScale, 1.0F, scaledZoom.getValue() * original) / original;
           }
         }
@@ -130,9 +131,9 @@ public class ModifierClientEvents {
       if (constZoom != null) {
         newFov *= constZoom.getValue();
       }
-      event.setNewfov(newFov);
+      newFovRef.set(newFov);
     });
-    return newFov.get();
+    return newFovRef.get();
   }
 
 

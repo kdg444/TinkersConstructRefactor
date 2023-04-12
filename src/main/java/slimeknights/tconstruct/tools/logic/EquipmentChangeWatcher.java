@@ -79,9 +79,7 @@ public class EquipmentChangeWatcher implements EntityComponentInitializer {
   /** Client side modifier hooks */
   private static void onPlayerTick(Player player) {
     // only run for client side players every 5 ticks
-    if (event.phase == Phase.END && event.side == LogicalSide.CLIENT) {
-      event.player.getCapability(CAPABILITY).ifPresent(PlayerLastEquipment::update);
-    }
+    CAPABILITY.maybeGet(player).ifPresent(PlayerLastEquipment::update);
   }
 
 

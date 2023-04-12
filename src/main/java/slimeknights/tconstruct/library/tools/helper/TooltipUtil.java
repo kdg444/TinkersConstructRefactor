@@ -200,7 +200,7 @@ public class TooltipUtil {
   public static Component getDisplayName(ItemStack stack, @Nullable IToolStackView tool, ToolDefinition toolDefinition) {
     String name = getDisplayName(stack);
     if (!name.isEmpty()) {
-      return new TextComponent(name);
+      return Component.literal(name);
     }
     List<PartRequirement> components = toolDefinition.getData().getParts();
     Component baseName = Component.translatable(stack.getDescriptionId());

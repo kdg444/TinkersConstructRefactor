@@ -22,7 +22,7 @@ import java.util.Objects;
 /**
  * Fluid IO extension to display controller fluid
  */
-public class DrainBlockEntity extends SmelteryFluidIO implements IDisplayFluidListener, CustomUpdateTagHandlingBlockEntity, CustomDataPacketHandlingBlockEntity, RenderAttachmentBlockEntity {
+public class DrainBlockEntity extends SmelteryFluidIO implements IDisplayFluidListener, CustomUpdateTagHandlingBlockEntity, CustomDataPacketHandlingBlockEntity {
   @Getter
   private FluidStack displayFluid = FluidStack.EMPTY;
 
@@ -96,10 +96,5 @@ public class DrainBlockEntity extends SmelteryFluidIO implements IDisplayFluidLi
       }
 
     }
-  }
-
-  @Override
-  public Object getRenderAttachmentData() {
-    return modelData;
   }
 }

@@ -248,7 +248,7 @@ public final class TinkerModifiers extends TinkerModule {
     ModifierManager.INSTANCE.init();
     DynamicModifier.init();
     SpillingFluidManager.INSTANCE.init();
-    MODIFIERS.register(FMLJavaModLoadingContext.get().getModEventBus());
+    MODIFIERS.register();
     commonSetup();
     registerSerializers();
   }
@@ -274,8 +274,8 @@ public final class TinkerModifiers extends TinkerModule {
   public static final ItemObject<Item> bronzeReinforcement = ITEMS.register("bronze_reinforcement", GENERAL_PROPS);
   public static final ItemObject<Item> cobaltReinforcement = ITEMS.register("cobalt_reinforcement", GENERAL_PROPS);
   // special
-  public static final ItemObject<Item> modifierCrystal = ITEMS.register("modifier_crystal", () -> new ModifierCrystalItem(new Item.Properties().tab(TAB_TOOLS).stacksTo(16)));
-  public static final ItemObject<Item> creativeSlotItem = ITEMS.register("creative_slot", () -> new CreativeSlotItem(new Item.Properties().tab(TAB_TOOLS)));
+  public static final ItemObject<Item> modifierCrystal = ITEMS.register("modifier_crystal", () -> new ModifierCrystalItem(new Item.Properties()/*.tab(TAB_TOOLS)*/.stacksTo(16)));
+  public static final ItemObject<Item> creativeSlotItem = ITEMS.register("creative_slot", () -> new CreativeSlotItem(new Item.Properties()/*.tab(TAB_TOOLS)*/));
 
   /*
    * Modifiers
@@ -586,12 +586,11 @@ public final class TinkerModifiers extends TinkerModule {
     EntityModifierCapability.registerEntityPredicate(entity -> entity instanceof Projectile);
   }
 
-  @SubscribeEvent
   public static void gatherData(final FabricDataGenerator.Pack pack, ExistingFileHelper helper) {
     pack.addProvider(ModifierProvider::new);
     pack.addProvider(ModifierRecipeProvider::new);
     pack.addProvider(SpillingFluidProvider::new);
-    pack.addProvider(new ModifierTagProvider(generator, event.getExistingFileHelper()));
-    pack.addProvider(new EnchantmentToModifierProvider(generator));
+    pack.addProvider((output, registriesFuture) -> new ModifierTagProvider(output, helper));
+    pack.addProvider(EnchantmentToModifierProvider::new);
   }
 }

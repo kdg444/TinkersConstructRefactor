@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.modifiers.dynamic;
 
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -10,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -47,7 +47,7 @@ public class EnchantmentModifier extends Modifier {
       tag.put(ModifierUtil.TAG_ENCHANTMENTS, enchantments);
     }
     // first, see if it already exists, if so we need to replace it
-    String id = Objects.requireNonNull(enchantment.getRegistryName()).toString();
+    String id = BuiltInRegistries.ENCHANTMENT.getKey(enchantment).toString();
     for (int i = 0; i < enchantments.size(); i++) {
       CompoundTag enchantmentTag = enchantments.getCompound(i);
       if (id.equals(enchantmentTag.getString("id"))) {
@@ -56,7 +56,7 @@ public class EnchantmentModifier extends Modifier {
       }
     }
     // none of the existing tags match the enchant, so add it
-    enchantments.add(EnchantmentHelper.storeEnchantment(enchantment.getRegistryName(), level));
+    enchantments.add(EnchantmentHelper.storeEnchantment(BuiltInRegistries.ENCHANTMENT.getKey(enchantment), level));
   }
 
   /** Adds an enchantment to the given tool, for use in {@link #beforeRemoved(IToolStackView, RestrictedCompoundTag)} */
@@ -65,7 +65,7 @@ public class EnchantmentModifier extends Modifier {
     // this will clobber anyone else trying to remove it, not much we can do
     if (tag.contains(ModifierUtil.TAG_ENCHANTMENTS, Tag.TAG_LIST)) {
       ListTag enchantments = tag.getList(ModifierUtil.TAG_ENCHANTMENTS, Tag.TAG_COMPOUND);
-      String id = Objects.requireNonNull(enchantment.getRegistryName()).toString();
+      String id = BuiltInRegistries.ENCHANTMENT.getKey(enchantment).toString();
       for (int i = 0; i < enchantments.size(); i++) {
         CompoundTag enchantmentTag = enchantments.getCompound(i);
         if (id.equals(enchantmentTag.getString("id"))) {
@@ -98,7 +98,7 @@ public class EnchantmentModifier extends Modifier {
     @Override
     public EnchantmentModifier deserialize(JsonObject json) {
       JsonObject enchantmentJson = GsonHelper.getAsJsonObject(json, "enchantment");
-      Enchantment enchantment = JsonHelper.getAsEntry(ForgeRegistries.ENCHANTMENTS, enchantmentJson, "name");
+      Enchantment enchantment = JsonHelper.getAsEntry(BuiltInRegistries.ENCHANTMENT, enchantmentJson, "name");
       int level = GsonHelper.getAsInt(enchantmentJson, "level", 1);
       ModifierLevelDisplay display = ModifierLevelDisplay.LOADER.getAndDeserialize(json, "level_display");
       return new EnchantmentModifier(enchantment, level, display);
@@ -108,14 +108,14 @@ public class EnchantmentModifier extends Modifier {
     public void serialize(EnchantmentModifier object, JsonObject json) {
       json.add("level_display", ModifierLevelDisplay.LOADER.serialize(object.levelDisplay));
       JsonObject enchantmentJson = new JsonObject();
-      enchantmentJson.addProperty("name", Objects.requireNonNull(object.enchantment.getRegistryName()).toString());
+      enchantmentJson.addProperty("name", BuiltInRegistries.ENCHANTMENT.getKey(object.enchantment).toString());
       enchantmentJson.addProperty("level", object.enchantmentLevel);
       json.add("enchantment", enchantmentJson);
     }
 
     @Override
     public EnchantmentModifier fromNetwork(FriendlyByteBuf buffer) {
-      Enchantment enchantment = buffer.readRegistryIdUnsafe(ForgeRegistries.ENCHANTMENTS);
+      Enchantment enchantment = BuiltInRegistries.ENCHANTMENT.get(buffer.readResourceLocation());
       int level = buffer.readVarInt();
       ModifierLevelDisplay display = ModifierLevelDisplay.LOADER.fromNetwork(buffer);
       return new EnchantmentModifier(enchantment, level, display);
@@ -123,7 +123,7 @@ public class EnchantmentModifier extends Modifier {
 
     @Override
     public void toNetwork(EnchantmentModifier object, FriendlyByteBuf buffer) {
-      buffer.writeRegistryIdUnsafe(ForgeRegistries.ENCHANTMENTS, object.enchantment);
+      buffer.writeResourceLocation(BuiltInRegistries.ENCHANTMENT.getKey(object.enchantment));
       buffer.writeVarInt(object.enchantmentLevel);
       ModifierLevelDisplay.LOADER.toNetwork(object.levelDisplay, buffer);
     }

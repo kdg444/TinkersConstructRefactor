@@ -1,11 +1,13 @@
 package slimeknights.tconstruct.tools;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import io.github.fabricators_of_create.porting_lib.client_events.event.client.MovementInputUpdateCallback;
 import io.github.fabricators_of_create.porting_lib.event.common.PlayerTickEvents;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.RegisterGeometryLoadersCallback;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.KeyMapping;
@@ -21,7 +23,9 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import slimeknights.mantle.client.ResourceColorManager;
 import slimeknights.mantle.client.SafeClientAccess;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.data.fabric.IdentifiableISafeManagerReloadListener;
@@ -62,6 +66,8 @@ import slimeknights.tconstruct.tools.item.ModifierCrystalItem;
 import slimeknights.tconstruct.tools.logic.InteractionHandler;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.DoubleJumpModifier;
 import slimeknights.tconstruct.tools.network.TinkerControlPacket;
+
+import java.util.Map;
 
 import static slimeknights.tconstruct.library.client.model.tools.ToolModel.registerItemColors;
 
@@ -113,7 +119,7 @@ public class ToolClientEvents extends ClientEventBase {
 
   public static void clientSetupEvent() {
     PlayerTickEvents.START.register(ToolClientEvents::handleKeyBindings);
-    MinecraftForge.EVENT_BUS.addListener(ToolClientEvents::handleInput);
+    MovementInputUpdateCallback.EVENT.register(ToolClientEvents::handleInput);
     ArmorModelHelper.init();
 
     // keybinds
@@ -191,7 +197,7 @@ public class ToolClientEvents extends ClientEventBase {
     registerItemColors(TinkerTools.longbow);
 
     // modifier crystal
-    colors.register((stack, index) -> {
+    ColorProviderRegistry.ITEM.register((stack, index) -> {
       ModifierId modifier = ModifierCrystalItem.getModifier(stack);
       if (modifier != null) {
         return ResourceColorManager.getColor(Util.makeTranslationKey("modifier", modifier));
@@ -256,8 +262,7 @@ public class ToolClientEvents extends ClientEventBase {
     }
   }
 
-  private static void handleInput(MovementInputUpdateEvent event) {
-    Player player = event.getPlayer();
+  private static void handleInput(Player player, Input input) {
     if (player.isUsingItem() && !player.isPassenger()) {
       ItemStack using = player.getUseItem();
       if (using.is(TinkerTags.Items.HELD)) {
@@ -268,7 +273,6 @@ public class ToolClientEvents extends ClientEventBase {
         if (tool.getVolatileData().getBoolean(IModifiable.FAST_USE_ITEM)) {
           speed = Math.min(5, speed + 5 * 0.6f);
         }
-        Input input = event.getInput();
         input.leftImpulse *= speed;
         input.forwardImpulse *= speed;
       }

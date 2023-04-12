@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
+import slimeknights.mantle.client.model.data.IModelData;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.shared.block.entity.TableBlockEntity;
@@ -25,7 +26,7 @@ import java.util.Objects;
 public abstract class RetexturedTableBlockEntity extends TableBlockEntity implements IRetexturedBlockEntity, RenderAttachmentBlockEntity, CustomRenderBoundingBoxBlockEntity {
   private static final String TAG_TEXTURE = "texture";
 
-  private final Lazy<SinglePropertyData<Block>> data = Lazy.of(this::getRetexturedModelData);
+  private final Lazy<IModelData> data = Lazy.of(this::getRetexturedModelData);
   @Nonnull @Getter
   private Block texture = Blocks.AIR;
   public RetexturedTableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Component name, int size) {
@@ -41,7 +42,7 @@ public abstract class RetexturedTableBlockEntity extends TableBlockEntity implem
 
   @Nonnull
   @Override
-  public SinglePropertyData<Block> getRenderAttachmentData() {
+  public IModelData getRenderAttachmentData() {
     return this.data.get();
   }
 
@@ -57,7 +58,7 @@ public abstract class RetexturedTableBlockEntity extends TableBlockEntity implem
     // update the texture in BE data
     if (level != null && level.isClientSide) {
       Block normalizedTexture = texture == Blocks.AIR ? null : texture;
-      SinglePropertyData<Block> data = getRetexturedModelData();
+      IModelData data = getRetexturedModelData();
       if (data.getData(RetexturedHelper.BLOCK_PROPERTY) != normalizedTexture) {
         data.setData(RetexturedHelper.BLOCK_PROPERTY, normalizedTexture);
 //        requestModelDataUpdate();

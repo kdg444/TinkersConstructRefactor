@@ -26,6 +26,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -406,7 +407,7 @@ public class JEIPlugin implements IModPlugin {
 
     // shown via the modifiers
     NonNullList<ItemStack> modifierCrystals = NonNullList.create();
-    TinkerModifiers.modifierCrystal.get().fillItemCategory(CreativeModeTab.TAB_SEARCH, modifierCrystals);
+//    TinkerModifiers.modifierCrystal.get().fillItemCategory(CreativeModeTab.TAB_SEARCH, modifierCrystals); TODO: PORT?
     if (!modifierCrystals.isEmpty()) {
       manager.removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, modifierCrystals);
     }

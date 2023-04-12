@@ -8,9 +8,8 @@ import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
 import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.item.ShieldBlockItem;
 import lombok.Getter;
-import net.minecraft.core.BlockPos;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +21,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.Rarity;
@@ -31,8 +29,6 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import slimeknights.mantle.client.SafeClientAccess;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.EntityInteractionModifierHook;
@@ -318,7 +314,7 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   /* Harvest logic, mostly used by modifiers but technically would let you make a pickaxe bow */
 
   @Override
-  public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+  public boolean isSuitableFor(ItemStack stack, BlockState state) {
     return ToolHarvestLogic.isEffective(ToolStack.from(stack), state);
   }
 

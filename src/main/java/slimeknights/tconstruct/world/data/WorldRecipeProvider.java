@@ -129,7 +129,7 @@ public class WorldRecipeProvider extends BaseRecipeProvider implements ICommonRe
                               .group("tconstruct:slime_crystal")
                               .save(consumer, modResource(folder + "crystal_smelting"));
     ItemLike dirt = TinkerWorld.slimeDirt.get(slime);
-    SimpleCookingRecipeBuilder.blasting(Ingredient.of(dirt), geode, 0.2f, 400)
+    SimpleCookingRecipeBuilder.blasting(Ingredient.of(dirt), RecipeCategory.MISC, geode, 0.2f, 400)
                               .unlockedBy("has_dirt", has(dirt))
                               .group("tconstruct:slime_dirt")
                               .save(consumer, modResource(folder + "crystal_growing"));

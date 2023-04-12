@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.tools.data;
 
 import com.google.common.collect.Streams;
+import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
+import io.github.fabricators_of_create.porting_lib.crafting.IntersectionIngredient;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -78,7 +80,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
     // sword
     ToolBuildingRecipeBuilder.toolBuildingRecipe(TinkerTools.dagger.get())
                              .outputSize(2)
-                             .save(consumer, prefix(TinkerTools.dagger, folder));
+                             .save(consumer, prefix(TinkerTools.dagger.getRegistryName(), folder));
     toolBuilding(consumer, TinkerTools.sword, folder);
     toolBuilding(consumer, TinkerTools.cleaver, folder);
     // bow
@@ -100,7 +102,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                                   .save(consumer, wrap(TinkerTools.flintAndBrick.getRegistryName(), repairFolder, "_scorched_station"));
 
     // staff
-    ShapedRecipeBuilder.shaped(TinkerTools.skyStaff)
+    ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, TinkerTools.skyStaff)
                        .pattern("CWC")
                        .pattern(" I ")
                        .pattern(" W ")
@@ -108,8 +110,8 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                        .define('W', TinkerWorld.skyroot.getLogItemTag())
                        .define('I', TinkerMaterials.roseGold.getIngotTag())
                        .unlockedBy("has_wood", has(TinkerWorld.skyroot.getLogItemTag()))
-                       .save(consumer, prefix(TinkerTools.skyStaff, folder));
-    ShapedRecipeBuilder.shaped(TinkerTools.earthStaff)
+                       .save(consumer, prefix(TinkerTools.skyStaff.getRegistryName(), folder));
+    ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, TinkerTools.earthStaff)
                        .pattern("CWC")
                        .pattern(" I ")
                        .pattern(" W ")
@@ -117,8 +119,8 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                        .define('W', TinkerWorld.greenheart.getLogItemTag())
                        .define('I', TinkerMaterials.cobalt.getIngotTag())
                        .unlockedBy("has_wood", has(TinkerWorld.greenheart.getLogItemTag()))
-                       .save(consumer, prefix(TinkerTools.earthStaff, folder));
-    ShapedRecipeBuilder.shaped(TinkerTools.ichorStaff)
+                       .save(consumer, prefix(TinkerTools.earthStaff.getRegistryName(), folder));
+    ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, TinkerTools.ichorStaff)
                        .pattern("CWC")
                        .pattern(" I ")
                        .pattern(" W ")
@@ -126,7 +128,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                        .define('W', TinkerWorld.bloodshroom.getLogItemTag())
                        .define('I', TinkerMaterials.queensSlime.getIngotTag())
                        .unlockedBy("has_wood", has(TinkerWorld.bloodshroom.getLogItemTag()))
-                       .save(consumer, prefix(TinkerTools.ichorStaff, folder));
+                       .save(consumer, prefix(TinkerTools.ichorStaff.getRegistryName(), folder));
     SpecializedRepairRecipeBuilder.repair(Ingredient.of(TinkerTools.skyStaff, TinkerTools.earthStaff, TinkerTools.ichorStaff), MaterialIds.slimewood)
                                   .buildRepairKit(consumer, modResource(repairFolder + "staff_repair_kit"))
                                   .save(consumer, modResource(repairFolder + "staff_station"));
@@ -164,7 +166,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                        .define('l', Tags.Items.LEATHER)
                        .unlockedBy("has_item", has(Tags.Items.INGOTS_COPPER))
                        .save(consumer, modResource(armorFolder + "travelers_boots"));
-    ShapedRecipeBuilder.shaped(TinkerTools.travelersShield)
+    ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TinkerTools.travelersShield)
                        .pattern(" c ")
                        .pattern("cwc")
                        .pattern(" c ")
@@ -212,7 +214,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
                        .define('m', TinkerMaterials.cobalt.getIngotTag())
                        .unlockedBy("has_item", has(TinkerMaterials.cobalt.getIngotTag()))
                        .save(consumer, modResource(armorFolder + "plate_boots"));
-    ShapedRecipeBuilder.shaped(TinkerTools.plateShield)
+    ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TinkerTools.plateShield)
                        .pattern("ww")
                        .pattern("cc")
                        .pattern("ww")

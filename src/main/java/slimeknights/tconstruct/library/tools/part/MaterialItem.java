@@ -98,7 +98,7 @@ public class MaterialItem extends Item implements IMaterialItem {
     }
     // format as "<material> <item name>"
     if (Util.canTranslate(materialKey)) {
-      return new TranslatableComponent(TooltipUtil.KEY_FORMAT, new TranslatableComponent(materialKey), new TranslatableComponent(baseKey));
+      return Component.translatable(TooltipUtil.KEY_FORMAT, Component.translatable(materialKey), Component.translatable(baseKey));
     }
     return null;
   }

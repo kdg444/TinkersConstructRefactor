@@ -318,7 +318,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                        .unlockedBy("has_item", has(TinkerSmeltery.searedBrick))
                        .save(consumer, modResource(folder + "drain"));
     ShapedRetexturedRecipeBuilder.fromShaped(
-      ShapedRecipeBuilder.shaped(TinkerSmeltery.searedDrain)
+      ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerSmeltery.searedDrain)
                          .define('#', TinkerTags.Items.SMELTERY_BRICKS)
                          .define('C', Tags.Items.INGOTS_COPPER)
                          .pattern("C#C")
@@ -334,7 +334,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                        .unlockedBy("has_item", has(TinkerSmeltery.searedBrick))
                        .save(consumer, modResource(folder + "chute"));
     ShapedRetexturedRecipeBuilder.fromShaped(
-      ShapedRecipeBuilder.shaped(TinkerSmeltery.searedChute)
+      ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerSmeltery.searedChute)
                          .define('#', TinkerTags.Items.SMELTERY_BRICKS)
                          .define('C', Tags.Items.INGOTS_COPPER)
                          .pattern("C")
@@ -352,7 +352,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                        .unlockedBy("has_item", has(TinkerMaterials.cobalt.getIngotTag()))
                        .save(consumer, modResource(folder + "duct"));
     ShapedRetexturedRecipeBuilder.fromShaped(
-      ShapedRecipeBuilder.shaped(TinkerSmeltery.searedDuct)
+      ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerSmeltery.searedDuct)
                          .define('#', TinkerTags.Items.SMELTERY_BRICKS)
                          .define('C', TinkerMaterials.cobalt.getIngotTag())
                          .pattern("C#C")
@@ -675,7 +675,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                        .unlockedBy("has_item", has(TinkerSmeltery.scorchedBrick))
                        .save(consumer, modResource(folder + "drain"));
     ShapedRetexturedRecipeBuilder.fromShaped(
-      ShapedRecipeBuilder.shaped(TinkerSmeltery.scorchedDrain)
+      ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerSmeltery.scorchedDrain)
                          .define('#', TinkerTags.Items.FOUNDRY_BRICKS)
                          .define('C', TinkerCommons.obsidianPane)
                          .pattern("C#C")
@@ -691,7 +691,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                        .unlockedBy("has_item", has(TinkerSmeltery.scorchedBrick))
                        .save(consumer, modResource(folder + "chute"));
     ShapedRetexturedRecipeBuilder.fromShaped(
-      ShapedRecipeBuilder.shaped(TinkerSmeltery.scorchedChute)
+      ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerSmeltery.scorchedChute)
                          .define('#', TinkerTags.Items.FOUNDRY_BRICKS)
                          .define('C', TinkerCommons.obsidianPane)
                          .pattern("C")
@@ -709,7 +709,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                        .unlockedBy("has_item", has(TinkerMaterials.cobalt.getIngotTag()))
                        .save(consumer, modResource(folder + "duct"));
     ShapedRetexturedRecipeBuilder.fromShaped(
-      ShapedRecipeBuilder.shaped(TinkerSmeltery.scorchedDuct)
+      ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerSmeltery.scorchedDuct)
                          .define('#', TinkerTags.Items.FOUNDRY_BRICKS)
                          .define('C', TinkerMaterials.cobalt.getIngotTag())
                          .pattern("C#C")

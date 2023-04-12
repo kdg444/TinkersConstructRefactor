@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
+import io.github.fabricators_of_create.porting_lib.event.common.ProjectileImpactCallback;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,8 +17,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -33,18 +32,15 @@ import slimeknights.tconstruct.tools.logic.InteractionHandler;
 
 public class ReflectingModifier extends Modifier {
   public ReflectingModifier() {
-    MinecraftForge.EVENT_BUS.addListener(this::projectileImpact);
+    ProjectileImpactCallback.EVENT.register(this::projectileImpact);
   }
 
-  private void projectileImpact(ProjectileImpactEvent event) {
-    Entity entity = event.getEntity();
+  private boolean projectileImpact(Projectile projectile, HitResult hit) {
     // first, need a projectile that is hitting a living entity
-    if (!entity.level.isClientSide) {
-      Projectile projectile = event.getProjectile();
+    if (!projectile.level.isClientSide) {
 
       // handle blacklist for projectiles
       // living entity must be using one of our shields
-      HitResult hit = event.getRayTraceResult();
       if (!RegistryHelper.contains(TinkerTags.EntityTypes.REFLECTING_BLACKLIST, projectile.getType())
           && hit.getType() == Type.ENTITY && ((EntityHitResult) hit).getEntity() instanceof LivingEntity living && living.isUsingItem() && living != projectile.getOwner()) {
         ItemStack stack = living.getUseItem();
@@ -90,12 +86,13 @@ public class ReflectingModifier extends Modifier {
                   TinkerNetwork.getInstance().sendVanillaPacket(new ClientboundSetEntityMotionPacket(projectile), living);
                 }
                 living.level.playSound(null, living.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 1.5F + living.level.random.nextFloat() * 0.4F);
-                event.setCanceled(true);
+                return true;
               }
             }
           }
         }
       }
     }
+    return false;
   }
 }

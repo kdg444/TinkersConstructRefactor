@@ -1,9 +1,10 @@
 package slimeknights.tconstruct.library.data.tinkering;
 
 import com.google.gson.JsonObject;
-import net.minecraft.core.Registry;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.TagKey;
@@ -12,33 +13,37 @@ import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 /** Data generator for mappings from enchantments to modifiers */
 public abstract class AbstractEnchantmentToModifierProvider extends GenericDataProvider {
   /** Compiled JSON to save, no need to do anything fancier, it already does merging for us */
   private final JsonObject enchantmentMap = new JsonObject();
 
-  public AbstractEnchantmentToModifierProvider(DataGenerator generator) {
-    super(generator, PackType.SERVER_DATA, "tinkering");
+  public AbstractEnchantmentToModifierProvider(FabricDataOutput output) {
+    super(output, PackType.SERVER_DATA, "tinkering");
   }
 
   /** Add any mappings */
   protected abstract void addEnchantmentMappings();
 
   @Override
-  public void run(HashCache pCache) throws IOException {
+  public CompletableFuture<?> run(CachedOutput pCache) {
     enchantmentMap.entrySet().clear();
     addEnchantmentMappings();
-    saveThing(pCache, TConstruct.getResource("enchantments_to_modifiers"), enchantmentMap);
+    List<CompletableFuture<?>> futures = new ArrayList<>();
+    futures.add(saveThing(pCache, TConstruct.getResource("enchantments_to_modifiers"), enchantmentMap));
+    return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 
   /* Helpers */
 
   /** Adds the given enchantment */
   protected void add(Enchantment enchantment, ModifierId modifierId) {
-    String key = Objects.requireNonNull(enchantment.getRegistryName()).toString();
+    String key = Objects.requireNonNull(BuiltInRegistries.ENCHANTMENT.getKey(enchantment)).toString();
     if (enchantmentMap.has(key)) {
       throw new IllegalArgumentException("Duplicate enchantment " + key);
     }
@@ -56,6 +61,6 @@ public abstract class AbstractEnchantmentToModifierProvider extends GenericDataP
 
   /** Adds the given enchantment tag */
   protected void add(ResourceLocation tag, ModifierId modifierId) {
-    add(TagKey.create(Registry.ENCHANTMENT_REGISTRY, tag), modifierId);
+    add(TagKey.create(Registries.ENCHANTMENT, tag), modifierId);
   }
 }

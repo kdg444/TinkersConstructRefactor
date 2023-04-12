@@ -1,11 +1,14 @@
 package slimeknights.tconstruct.tools.logic;
 
+import io.github.fabricators_of_create.porting_lib.event.common.PlayerInteractionEvents;
+import io.github.fabricators_of_create.porting_lib.event.common.ShieldBlockEvent;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -21,9 +24,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.living.ShieldBlockEvent;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.tconstruct.TConstruct;
@@ -34,6 +36,7 @@ import slimeknights.tconstruct.library.modifiers.hook.ConditionalStatModifierHoo
 import slimeknights.tconstruct.library.modifiers.hook.interaction.EntityInteractionModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.GeneralInteractionModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
+import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.ComputableDataKey;
 import slimeknights.tconstruct.library.tools.helper.ToolAttackUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
@@ -41,7 +44,6 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.library.utils.Util;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Function;
 
@@ -216,20 +218,16 @@ public class InteractionHandler {
   }
 
   /** Handles attacking using the chestplate */
-  @SubscribeEvent(priority = EventPriority.LOW)
-  static void onChestplateAttack(AttackEntityEvent event) {
+  static InteractionResult onChestplateAttack(Player attacker, Level world, InteractionHand hand, Entity target, @Nullable EntityHitResult hitResult) {
     // Carry On is dumb and fires the attack entity event when they are not attacking entities, causing us to punch instead
     // they should not be doing that, but the author has not done anything to fix it, so just use a hacky check
-    if (event.getClass() == AttackEntityEvent.class) {
-      Player attacker = event.getPlayer();
-      if (attacker.getMainHandItem().isEmpty()) {
-        ItemStack chestplate = attacker.getItemBySlot(EquipmentSlot.CHEST);
-        if (chestplate.is(TinkerTags.Items.UNARMED)) {
-          ToolStack tool = ToolStack.from(chestplate);
-          if (!tool.isBroken()) {
-            ToolAttackUtil.attackEntity(tool, attacker, InteractionHand.MAIN_HAND, event.getTarget(), ToolAttackUtil.getCooldownFunction(attacker, InteractionHand.MAIN_HAND), false, EquipmentSlot.CHEST);
-            event.setCanceled(true);
-          }
+    if (attacker.getMainHandItem().isEmpty()) {
+      ItemStack chestplate = attacker.getItemBySlot(EquipmentSlot.CHEST);
+      if (chestplate.is(TinkerTags.Items.UNARMED)) {
+        ToolStack tool = ToolStack.from(chestplate);
+        if (!tool.isBroken()) {
+          ToolAttackUtil.attackEntity(tool, attacker, InteractionHand.MAIN_HAND, target, ToolAttackUtil.getCooldownFunction(attacker, InteractionHand.MAIN_HAND), false, EquipmentSlot.CHEST);
+          return InteractionResult.FAIL;
         }
       }
     }
@@ -296,20 +294,20 @@ public class InteractionHandler {
   }
 
   /** Sets the event result and swings the hand */
-//  private static void setLeftClickEventResult(PlayerInteractEvent event, InteractionResult result) { TODO: PORT
-//    if (result.consumesAction()) {
-//      // success means swing hand
-//      if (result == InteractionResult.SUCCESS) {
-//        event.getPlayer().swing(event.getHand());
-//      }
-//      event.setCancellationResult(result);
-//      // don't cancel the result in survival as it does not actually prevent breaking the block, just causes really weird desyncs
-//      // leaving uncanceled lets us still do blocky stuff but if you hold click it digs
-//      if (event.getPlayer().getAbilities().instabuild) {
-//        event.setCanceled(true);
-//      }
-//    }
-//  }
+  private static void setLeftClickEventResult(PlayerInteractionEvents event, InteractionResult result) {
+    if (result.consumesAction()) {
+      // success means swing hand
+      if (result == InteractionResult.SUCCESS) {
+        event.getPlayer().swing(event.getHand());
+      }
+      event.setCancellationResult(result);
+      // don't cancel the result in survival as it does not actually prevent breaking the block, just causes really weird desyncs
+      // leaving uncanceled lets us still do blocky stuff but if you hold click it digs
+      if (event.getPlayer().getAbilities().instabuild) {
+        event.setCanceled(true);
+      }
+    }
+  }
 
   /** Simple class to track the last tick */
   private static class LastTick {
@@ -331,10 +329,10 @@ public class InteractionHandler {
   private static final ComputableDataKey<LastTick> LAST_TICK = TConstruct.createKey("last_tick", LastTick::new);
 
   /** Implements {@link slimeknights.tconstruct.library.modifiers.hook.interaction.BlockInteractionModifierHook} for weapons with left click */
-  static void leftClickBlock(LeftClickBlock event) {
+  static void leftClickBlock(PlayerInteractionEvents.LeftClickBlock event) {
     // ensure we have not fired this tick
     Player player = event.getPlayer();
-    if (player.getCapability(TinkerDataCapability.CAPABILITY).filter(data -> data.computeIfAbsent(LAST_TICK).update(player)).isEmpty()) {
+    if (TinkerDataCapability.CAPABILITY.maybeGet(player).filter(data -> data.computeIfAbsent(LAST_TICK).update(player)).isEmpty()) {
       return;
     }
     // must support interaction
@@ -388,6 +386,8 @@ public class InteractionHandler {
     UseEntityCallback.EVENT.addPhaseOrdering(Event.DEFAULT_PHASE, TConstruct.getResource("event_phase"));
     UseBlockCallback.EVENT.register(InteractionHandler::chestplateInteractWithBlock);
     AttackEntityCallback.EVENT.register(InteractionHandler::onChestplateAttack);
+    PlayerInteractionEvents.LEFT_CLICK_BLOCK.register(InteractionHandler::leftClickBlock);
+    ShieldBlockEvent.EVENT.register(InteractionHandler::onBlock);
   }
 
   /** Checks if the shield block angle allows blocking this attack */
@@ -416,14 +416,13 @@ public class InteractionHandler {
   }
 
   /** Implements shield stats */
-  @SubscribeEvent
   static void onBlock(ShieldBlockEvent event) {
-    LivingEntity entity = event.getEntityLiving();
+    LivingEntity entity = event.getEntity();
     ItemStack activeStack = entity.getUseItem();
     if (!activeStack.isEmpty() && activeStack.is(TinkerTags.Items.MODIFIABLE)) {
       ToolStack tool = ToolStack.from(activeStack);
       // first check block angle
-      if (!tool.isBroken() && canBlock(event.getEntityLiving(), event.getDamageSource().getSourcePosition(), tool)) {
+      if (!tool.isBroken() && canBlock(event.getEntity(), event.getDamageSource().getSourcePosition(), tool)) {
         // TODO: hook for conditioning block amount based on on damage type
         event.setBlockedDamage(Math.min(event.getBlockedDamage(), tool.getStats().get(ToolStats.BLOCK_AMOUNT)));
         // TODO: consider handling the item damage ourself

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.defense;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -30,7 +31,7 @@ public class FireProtectionModifier extends IncrementalModifier {
 
   @Override
   public float getProtectionModifier(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float modifierValue) {
-    if (!source.isBypassMagic() && !source.isBypassInvul() && source.isFire()) {
+    if (!source.is(DamageTypeTags.BYPASSES_EFFECTS) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && source.is(DamageTypeTags.IS_FIRE)) {
       // we already got floored level * 2 boost from the vanilla enchantment, so cancel that out
       float scaledLevel = getEffectiveLevel(tool, level);
       modifierValue += scaledLevel * 2.5f - Math.floor(scaledLevel) * 2f;

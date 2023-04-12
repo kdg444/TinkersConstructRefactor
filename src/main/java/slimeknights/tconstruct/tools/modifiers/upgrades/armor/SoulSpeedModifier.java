@@ -4,10 +4,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import slimeknights.tconstruct.library.modifiers.dynamic.EnchantmentModifier;
@@ -32,12 +35,16 @@ public class SoulSpeedModifier extends EnchantmentModifier {
     if (living.level.isEmptyBlock(pos)) {
       BlockPos below = pos.below();
       BlockState blockstate = living.level.getBlockState(below);
-      if (blockstate.collisionExtendsVertically(living.level, below, living)) {
+      if (collisionExtendsVertically(blockstate, living.level, below, living)) {
         return below;
       }
     }
 
     return pos;
+  }
+
+  private static boolean collisionExtendsVertically(BlockState state, BlockGetter level, BlockPos pos, Entity collidingEntity) {
+    return state.is(BlockTags.FENCES) || state.is(BlockTags.WALLS) || state.getBlock() instanceof FenceGateBlock;
   }
 
   @Override

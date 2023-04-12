@@ -29,13 +29,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.client.model.RetexturedModel;
 import slimeknights.mantle.client.model.RetexturedModel.RetexturedConfiguration;
+import slimeknights.mantle.client.model.data.SinglePropertyData;
 import slimeknights.mantle.client.model.util.ColoredBlockModel;
 import slimeknights.mantle.client.model.util.ColoredBlockModel.ColorData;
 import slimeknights.mantle.client.model.util.DynamicBakedWrapper;
@@ -85,7 +89,7 @@ public class FluidTextureModel implements IUnbakedGeometry<FluidTextureModel> {
   @Override
   public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState transform, ItemOverrides overrides, ResourceLocation modelLocation) {
     // start by baking the model, handing UV lock
-    BakedModel baked = model.bake(owner, bakery, spriteGetter, transform, overrides, modelLocation);
+    BakedModel baked = model.bake(owner, baker, spriteGetter, transform, overrides, modelLocation);
 
     // determine which block parts are fluids
     Set<String> fluidTextures = this.fluids.isEmpty() ? Collections.emptySet() : RetexturedModel.getAllRetextured(owner, model.getModel(), this.fluids);
@@ -126,7 +130,7 @@ public class FluidTextureModel implements IUnbakedGeometry<FluidTextureModel> {
     private final BitSet fluidParts;
     private final Set<String> retextured;
 
-    protected Baked(BakedModel originalModel, List<BlockElement> elements, List<ColorData> colorData, IModelConfiguration owner, ModelState transform, Set<String> fluids, BitSet fluidParts, Set<String> retextured) {
+    protected Baked(BakedModel originalModel, List<BlockElement> elements, List<ColorData> colorData, BlockModel owner, ModelState transform, Set<String> fluids, BitSet fluidParts, Set<String> retextured) {
       super(originalModel);
       this.elements = elements;
       this.colorData = colorData;
@@ -143,7 +147,7 @@ public class FluidTextureModel implements IUnbakedGeometry<FluidTextureModel> {
       Function<Material,TextureAtlasSprite> spriteGetter = Material::sprite;
 
       // if textured, retexture. Its fine to nest these configurations
-      IModelConfiguration textured = this.owner;
+      BlockModel textured = this.owner;
       if (key.texture != null) {
         textured = new RetexturedConfiguration(textured, this.retextured, key.texture);
       }
@@ -152,10 +156,9 @@ public class FluidTextureModel implements IUnbakedGeometry<FluidTextureModel> {
       int color = -1;
       int luminosity = 0;
       if (!key.fluid.isEmpty()) {
-        FluidAttributes attributes = key.fluid.getFluid().getAttributes();
-        color = attributes.getColor(key.fluid);
-        luminosity = attributes.getLuminosity(key.fluid);
-        textured = new RetexturedModel.RetexturedConfiguration(textured, this.fluids, attributes.getStillTexture(key.fluid));
+        color = FluidVariantRendering.getColor(key.fluid.getType());
+        luminosity = FluidVariantAttributes.getLuminance(key.fluid.getType());
+        textured = new RetexturedModel.RetexturedConfiguration(textured, this.fluids, FluidVariantRendering.getSprite(key.fluid.getType()).contents().name());
       }
 
       // start baking

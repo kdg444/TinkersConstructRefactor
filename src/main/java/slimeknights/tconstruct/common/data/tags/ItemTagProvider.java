@@ -289,7 +289,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
         .addTag(MELEE_OR_HARVEST).addTag(AOE)
         .addTag(HELD);
     // disable parry mod on our items, we have our own modifier for that
-    this.tag(TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("parry", "excluded_shields"))).addTag(HELD);
+    this.tag(TagKey.create(Registries.ITEM, new ResourceLocation("parry", "excluded_shields"))).addTag(HELD);
 
     // kamas are a shear type, when broken we don't pass it to loot tables
     this.tag(Tags.Items.SHEARS).add(TinkerTools.kama.get());

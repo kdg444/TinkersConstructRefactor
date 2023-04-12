@@ -160,7 +160,7 @@ public class SpillingFluidProvider extends AbstractSpillingFluidProvider {
 
     // potion fluid compat
     // standard potion is 250 mb, but we want a smaller number. divide into 5 pieces at 25% a piece (so healing is 1 health), means you gain 25% per potion
-    int bottleSip = FluidValues.BOTTLE / 5;
+    long bottleSip = FluidValues.BOTTLE / 5;
     addFluid("potion_fluid", TinkerTags.Fluids.POTION, bottleSip).addEffect(new PotionFluidEffect(0.25f, TagPredicate.ANY));
 
     // create has three types of bottles stored on their fluid, react to it to boost

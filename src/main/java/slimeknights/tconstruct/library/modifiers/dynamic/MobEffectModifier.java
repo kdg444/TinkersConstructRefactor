@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.damagesource.DamageSource;
@@ -16,7 +17,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -109,7 +109,7 @@ public class MobEffectModifier extends IncrementalModifier implements Projectile
   public static final IGenericLoader<MobEffectModifier> LOADER = new IGenericLoader<>() {
     @Override
     public MobEffectModifier deserialize(JsonObject json) {
-      MobEffect effect = JsonHelper.getAsEntry(ForgeRegistries.MOB_EFFECTS, json, "effect");
+      MobEffect effect = JsonHelper.getAsEntry(BuiltInRegistries.MOB_EFFECT, json, "effect");
       float levelBase = 1;
       float levelMultiplier = 0;
       if (json.has("level")) {
@@ -126,7 +126,7 @@ public class MobEffectModifier extends IncrementalModifier implements Projectile
 
     @Override
     public void serialize(MobEffectModifier object, JsonObject json) {
-      json.addProperty("effect", Objects.requireNonNull(object.effect.getRegistryName()).toString());
+      json.addProperty("effect", Objects.requireNonNull(BuiltInRegistries.MOB_EFFECT.getKey(object.effect)).toString());
       JsonObject level = new JsonObject();
       level.addProperty("base", object.levelBase);
       level.addProperty("multiplier", object.levelMultiplier);
@@ -140,7 +140,7 @@ public class MobEffectModifier extends IncrementalModifier implements Projectile
 
     @Override
     public MobEffectModifier fromNetwork(FriendlyByteBuf buffer) {
-      MobEffect effect = buffer.readRegistryIdUnsafe(ForgeRegistries.MOB_EFFECTS);
+      MobEffect effect = BuiltInRegistries.MOB_EFFECT.get(buffer.readResourceLocation());
       float levelBase = buffer.readFloat();
       float levelMultiplier = buffer.readFloat();
       int timeBase = buffer.readInt();
@@ -151,7 +151,7 @@ public class MobEffectModifier extends IncrementalModifier implements Projectile
 
     @Override
     public void toNetwork(MobEffectModifier object, FriendlyByteBuf buffer) {
-      buffer.writeRegistryIdUnsafe(ForgeRegistries.MOB_EFFECTS, object.effect);
+      buffer.writeResourceLocation(BuiltInRegistries.MOB_EFFECT.getKey(object.effect));
       buffer.writeFloat(object.levelBase);
       buffer.writeFloat(object.levelMultiplier);
       buffer.writeInt(object.timeBase);
