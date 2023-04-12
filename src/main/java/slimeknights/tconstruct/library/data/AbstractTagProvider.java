@@ -61,15 +61,16 @@ public abstract class AbstractTagProvider<T> extends GenericDataProvider {
     this.addTags();
     List<CompletableFuture<?>> futures = new ArrayList<>();
     this.builders.forEach((id, builder) -> {
-      List<TagEntry> list = builder.build().stream()
+      List<TagEntry> tags = builder.build();
+      List<TagEntry> list = tags.stream()
                                        .filter((value) -> !value.verifyIfPresent(staticValuePredicate, this.builders::containsKey))
                                        .filter(this::missing)
                                        .toList();
-      if (!list.isEmpty()) {
-        throw new IllegalArgumentException(String.format("Couldn't define tag %s as it is missing following references: %s", id, list.stream().map(Objects::toString).collect(Collectors.joining(","))));
-      } else {
-        futures.add(saveThing(cache, id, TagFile.CODEC.encodeStart(JsonOps.INSTANCE, new TagFile(list, false)).getOrThrow(false, LOGGER::error)));
-      }
+//      if (!list.isEmpty()) { TODO: PORT?
+//        throw new IllegalArgumentException(String.format("Couldn't define tag %s as it is missing following references: %s", id, list.stream().map(Objects::toString).collect(Collectors.joining(","))));
+//      } else {
+        futures.add(saveThing(cache, id, TagFile.CODEC.encodeStart(JsonOps.INSTANCE, new TagFile(tags, false)).getOrThrow(false, LOGGER::error)));
+//      }
     });
     return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
