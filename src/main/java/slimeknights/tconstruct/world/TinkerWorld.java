@@ -283,25 +283,25 @@ public final class TinkerWorld extends TinkerModule {
     FabricEntityTypeBuilder.create(MobCategory.MONSTER, EarthSlimeEntity::new)
                       .forceTrackedVelocityUpdates(true)
                       .trackRangeChunks(10)
-                      .dimensions(EntityDimensions.fixed(2.04F, 2.04F))
+                      .dimensions(EntityDimensions.scalable(2.04F, 2.04F))
                       /*.entityFactory((spawnEntity, world) -> TinkerWorld.earthSlimeEntity.get().create(world))*/, 0x51a03e, 0x7ebf6e);
   public static final RegistryObject<EntityType<SkySlimeEntity>> skySlimeEntity = ENTITIES.registerWithEgg("sky_slime", () ->
     FabricEntityTypeBuilder.create(MobCategory.MONSTER, SkySlimeEntity::new)
                       .forceTrackedVelocityUpdates(true)
                       .trackRangeChunks(20)
-                      .dimensions(EntityDimensions.fixed(2.04F, 2.04F))
+                      .dimensions(EntityDimensions.scalable(2.04F, 2.04F))
                       /*.setCustomClientFactory((spawnEntity, world) -> TinkerWorld.skySlimeEntity.get().create(world))*/, 0x47eff5, 0xacfff4);
   public static final RegistryObject<EntityType<EnderSlimeEntity>> enderSlimeEntity = ENTITIES.registerWithEgg("ender_slime", () ->
     FabricEntityTypeBuilder.create(MobCategory.MONSTER, EnderSlimeEntity::new)
                       .forceTrackedVelocityUpdates(true)
                       .trackRangeChunks(32)
-                      .dimensions(EntityDimensions.fixed(2.04F, 2.04F))
+                      .dimensions(EntityDimensions.scalable(2.04F, 2.04F))
                       /*.setCustomClientFactory((spawnEntity, world) -> TinkerWorld.enderSlimeEntity.get().create(world))*/, 0x6300B0, 0xD37CFF);
   public static final RegistryObject<EntityType<TerracubeEntity>> terracubeEntity = ENTITIES.registerWithEgg("terracube", () ->
     FabricEntityTypeBuilder.create(MobCategory.MONSTER, TerracubeEntity::new)
                       .forceTrackedVelocityUpdates(true)
                       .trackRangeChunks(8)
-                      .dimensions(EntityDimensions.fixed(2.04F, 2.04F))
+                      .dimensions(EntityDimensions.scalable(2.04F, 2.04F))
                       /*.setCustomClientFactory((spawnEntity, world) -> TinkerWorld.terracubeEntity.get().create(world))*/, 0xAFB9D6, 0xA1A7B1);
 
   /*
