@@ -1,14 +1,8 @@
 package slimeknights.tconstruct;
 
-import fuzs.forgeconfigapiport.impl.client.commands.arguments.ModIdArgument;
-import io.github.fabricators_of_create.porting_lib.PortingConstants;
 import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.commands.synchronization.ArgumentTypeInfos;
-import net.minecraft.commands.synchronization.SingletonArgumentInfo;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -39,7 +33,6 @@ import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.Tin
 import slimeknights.tconstruct.library.tools.definition.ToolDefinitionLoader;
 import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
 import slimeknights.tconstruct.library.utils.Util;
-import slimeknights.tconstruct.shared.TinkerClient;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -52,7 +45,6 @@ import slimeknights.tconstruct.world.TinkerWorld;
 import slimeknights.tconstruct.world.WorldEvents;
 
 import java.util.Locale;
-import java.util.Random;
 import java.util.function.Supplier;
 
 /**
@@ -103,9 +95,6 @@ public class TConstruct implements ModInitializer {
     WorldEvents.init();
 
     TinkerNetwork.setup();
-
-    ArgumentTypeInfos.register(BuiltInRegistries.COMMAND_ARGUMENT_TYPE, PortingConstants.id("modid").toString(), ModIdArgument.class,
-      SingletonArgumentInfo.contextFree(ModIdArgument::modIdArgument));
 
     // init client logic
     TinkerBookIDs.registerCommandSuggestion();

@@ -130,7 +130,7 @@ dependencies {
 
     // dependencies
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
-    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:porting-lib:${project.port_lib_version}+${project.minecraft_version}"))
+    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:Porting-Lib:${project.port_lib_version}+${project.minecraft_version}"))
     modImplementation(include("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${project.forge_config_version}"))
     modImplementation(include("slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"))
     modImplementation(include("io.github.tropheusj:serialization-hooks:0.4.27"))

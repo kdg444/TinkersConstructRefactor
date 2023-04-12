@@ -3,7 +3,7 @@ package slimeknights.tconstruct.shared.command.subcommand;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import fuzs.forgeconfigapiport.impl.client.commands.arguments.ModIdArgument;
+import io.github.fabricators_of_create.porting_lib.command.ModIdArgument;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
