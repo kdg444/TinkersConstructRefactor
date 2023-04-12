@@ -3,14 +3,14 @@ package slimeknights.tconstruct.tools.data;
 import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.IntersectionIngredient;
 import io.github.fabricators_of_create.porting_lib.crafting.PartialNBTIngredient;
-import io.github.fabricators_of_create.porting_lib.data.ConditionalRecipe;
-import io.github.fabricators_of_create.porting_lib.util.TrueCondition;
 import io.github.tropheusj.milk.Milk;
 import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -119,7 +119,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                             .save(consumer, prefix(TinkerModifiers.slimesteelReinforcement.getRegistryName(), folder));
     ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.searedReinforcement)
                             .setFluid(FluidIngredient.of(FluidIngredient.of(TinkerFluids.searedStone.getLocalTag(), FluidValues.BRICK), FluidIngredient.of(TinkerFluids.scorchedStone.getLocalTag(), FluidValues.BRICK)))
-                            .setCoolingTime(TinkerFluids.searedStone.get().getAttributes().getTemperature() - 300, FluidValues.BRICK)
+                            .setCoolingTime(FluidVariantAttributes.getTemperature(FluidVariant.of(TinkerFluids.searedStone.get())) - 300, FluidValues.BRICK)
                             .setCast(TinkerCommons.obsidianPane, true)
                             .save(consumer, prefix(TinkerModifiers.searedReinforcement.getRegistryName(), folder));
     ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.goldReinforcement)
