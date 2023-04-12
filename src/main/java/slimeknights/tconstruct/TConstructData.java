@@ -33,10 +33,4 @@ public class TConstructData implements DataGeneratorEntrypoint {
     TinkerCommons.gatherData(pack);
     TinkerTables.gatherData(pack);
   }
-
-  @Override
-  public void buildRegistry(RegistrySetBuilder registryBuilder) {
-    registryBuilder.add(Registries.STRUCTURE, TinkerStructures::bootstrap);
-    registryBuilder.add(Registries.DAMAGE_TYPE, TinkerDamageTypes::bootstrap);
-  }
 }

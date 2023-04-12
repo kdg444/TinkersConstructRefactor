@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Plane;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -43,7 +44,7 @@ public class EarthSlimeIslandVariant extends AbstractSlimeIslandVariant {
   @Nullable
   @Override
   public ConfiguredFeature<?,?> getTreeFeature(RandomSource random, RegistryAccess registryAccess) {
-    return TinkerStructures.earthSlimeIslandTree.get();
+    return registryAccess.registryOrThrow(Registries.CONFIGURED_FEATURE).get(TinkerStructures.earthSlimeIslandTree);
   }
 
   private static boolean isWater(WorldGenLevel world, BlockPos pos) {

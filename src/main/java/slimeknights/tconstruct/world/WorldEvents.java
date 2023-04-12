@@ -14,7 +14,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -51,7 +50,6 @@ import slimeknights.tconstruct.tools.stats.ExtraMaterialStats;
 import slimeknights.tconstruct.tools.stats.HandleMaterialStats;
 import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Predicate;
@@ -69,19 +67,19 @@ public class WorldEvents {
     // setup for biome checks
     // nether - any biome is fine
     if (Config.COMMON.generateCobalt.get()) {
-      TinkerWorld.placedSmallCobaltOre.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.UNDERGROUND_DECORATION, holder.unwrapKey().get()));
-      TinkerWorld.placedLargeCobaltOre.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.UNDERGROUND_DECORATION, holder.unwrapKey().get()));
+      BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.UNDERGROUND_DECORATION, TinkerWorld.placedSmallCobaltOreKey);
+      BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.UNDERGROUND_DECORATION, TinkerWorld.placedLargeCobaltOreKey);
     }
     // ichor can be anywhere
     if (Config.COMMON.ichorGeodes.get()) {
-      TinkerWorld.placedIchorGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
+      BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), Decoration.LOCAL_MODIFICATIONS, TinkerWorld.placedIchorGeodeKey);
     }
     // end, mostly do stuff in the outer islands
     // slime spawns anywhere, uses the grass
     BiomeModifications.addSpawn(BiomeSelectors.foundInTheEnd(), MobCategory.MONSTER, TinkerWorld.enderSlimeEntity.get(), 10, 2, 4);
     // geodes only on outer islands
     if (Config.COMMON.enderGeodes.get()/* && key != null && !Biomes.THE_END.equals(key)*/) {
-      TinkerWorld.placedEnderGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(context -> context.canGenerateIn(LevelStem.END) && context.getBiomeKey() != Biomes.THE_END,Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
+      BiomeModifications.addFeature(context -> context.canGenerateIn(LevelStem.END) && context.getBiomeKey() != Biomes.THE_END,Decoration.LOCAL_MODIFICATIONS, TinkerWorld.placedEnderGeodeKey);
     }
     // overworld gets tricky
     // slime spawns anywhere, uses the grass
@@ -90,7 +88,7 @@ public class WorldEvents {
 
     // earth spawns anywhere, sky does not spawn in ocean (looks weird)
     if (Config.COMMON.earthGeodes.get()) {
-      TinkerWorld.placedEarthGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
+      BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), Decoration.LOCAL_MODIFICATIONS, TinkerWorld.placedEarthGeodeKey);
     }
     // sky spawn in non-oceans, they look funny in the ocean as they spawn so high
     if (Config.COMMON.skyGeodes.get()) {
@@ -108,7 +106,7 @@ public class WorldEvents {
         }
         return add;
       };
-      TinkerWorld.placedSkyGeode.getHolder().ifPresent(holder -> BiomeModifications.addFeature(context, Decoration.LOCAL_MODIFICATIONS, holder.unwrapKey().get()));
+      BiomeModifications.addFeature(context, Decoration.LOCAL_MODIFICATIONS, TinkerWorld.placedSkyGeodeKey);
     }
   }
 

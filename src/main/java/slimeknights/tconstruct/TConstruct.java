@@ -1,9 +1,14 @@
 package slimeknights.tconstruct;
 
+import fuzs.forgeconfigapiport.impl.client.commands.arguments.ModIdArgument;
+import io.github.fabricators_of_create.porting_lib.PortingConstants;
 import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.commands.synchronization.ArgumentTypeInfos;
+import net.minecraft.commands.synchronization.SingletonArgumentInfo;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +19,7 @@ import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.data.AdvancementsProvider;
+import slimeknights.tconstruct.common.data.TinkerRegistrySets;
 import slimeknights.tconstruct.common.data.loot.GlobalLootModifiersProvider;
 import slimeknights.tconstruct.common.data.loot.TConstructLootTableProvider;
 import slimeknights.tconstruct.common.data.tags.BiomeTagProvider;
@@ -98,7 +104,8 @@ public class TConstruct implements ModInitializer {
 
     TinkerNetwork.setup();
 
-
+    ArgumentTypeInfos.register(BuiltInRegistries.COMMAND_ARGUMENT_TYPE, PortingConstants.id("modid").toString(), ModIdArgument.class,
+      SingletonArgumentInfo.contextFree(ModIdArgument::modIdArgument));
 
     // init client logic
     TinkerBookIDs.registerCommandSuggestion();
@@ -126,6 +133,7 @@ public class TConstruct implements ModInitializer {
   }
 
   public static void gatherData(FabricDataGenerator.Pack pack, ExistingFileHelper existingFileHelper) {
+    pack.addProvider(TinkerRegistrySets::new);
     BlockTagProvider blockTags = pack.addProvider(BlockTagProvider::new);
     pack.addProvider((output, registriesFuture) -> new ItemTagProvider(output, registriesFuture, blockTags));
     pack.addProvider(FluidTagProvider::new);

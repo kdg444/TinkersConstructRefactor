@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.world.worldgen.trees;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -33,18 +35,18 @@ public class SlimeTree extends AbstractTreeGrower {
    * Get a {@link ConfiguredFeature} of tree
    */
   @Nullable
-  private ConfiguredFeature<?, ?> getSlimeTreeFeature() {
+  private ConfiguredFeature<?, ?> getSlimeTreeFeature(RegistryAccess registryAccess) {
     switch (this.foliageType) {
       case EARTH:
-        return TinkerStructures.earthSlimeTree.get();
+        return registryAccess.registryOrThrow(Registries.CONFIGURED_FEATURE).get(TinkerStructures.earthSlimeTree);
       case SKY:
-        return TinkerStructures.skySlimeTree.get();
+        return registryAccess.registryOrThrow(Registries.CONFIGURED_FEATURE).get(TinkerStructures.skySlimeTree);
       case ENDER:
-        return TinkerStructures.enderSlimeTree.get();
+        return registryAccess.registryOrThrow(Registries.CONFIGURED_FEATURE).get(TinkerStructures.enderSlimeTree);
       case BLOOD:
-        return TinkerStructures.bloodSlimeFungus.get();
+        return registryAccess.registryOrThrow(Registries.CONFIGURED_FEATURE).get(TinkerStructures.bloodSlimeFungus);
       case ICHOR:
-        return TinkerStructures.ichorSlimeFungus.get();
+        return registryAccess.registryOrThrow(Registries.CONFIGURED_FEATURE).get(TinkerStructures.ichorSlimeFungus);
     }
 
     return null;
@@ -52,7 +54,7 @@ public class SlimeTree extends AbstractTreeGrower {
 
   @Override
   public boolean growTree(ServerLevel world, ChunkGenerator chunkGenerator, BlockPos pos, BlockState state, RandomSource rand) {
-    ConfiguredFeature<?, ?> configuredFeature = this.getSlimeTreeFeature();
+    ConfiguredFeature<?, ?> configuredFeature = this.getSlimeTreeFeature(world.registryAccess());
     if (configuredFeature == null) {
       return false;
     }

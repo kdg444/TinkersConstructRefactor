@@ -12,14 +12,18 @@ import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.features.OreFeatures;
+import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -47,6 +51,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallSkullBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.levelgen.GeodeBlockSettings;
 import net.minecraft.world.level.levelgen.GeodeCrackSettings;
 import net.minecraft.world.level.levelgen.GeodeLayerSettings;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -102,7 +107,9 @@ import slimeknights.tconstruct.world.entity.SlimePlacementPredicate;
 import slimeknights.tconstruct.world.entity.TerracubeEntity;
 import slimeknights.tconstruct.world.item.SlimeGrassSeedItem;
 import slimeknights.tconstruct.world.worldgen.trees.SlimeTree;
+import slimeknights.tconstruct.world.worldgen.trees.SupplierBlockStateProvider;
 
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -248,28 +255,20 @@ public final class TinkerWorld extends TinkerModule {
   // geodes
   // earth
   public static final GeodeItemObject earthGeode = BLOCKS.registerGeode("earth_slime_crystal", MaterialColor.COLOR_LIGHT_GREEN, Sounds.EARTH_CRYSTAL, Sounds.EARTH_CRYSTAL_CHIME.getSound(), Sounds.EARTH_CRYSTAL_CLUSTER,  3, WORLD_PROPS);
-  public static final RegistryObject<ConfiguredFeature<GeodeConfiguration,Feature<GeodeConfiguration>>> configuredEarthGeode = CONFIGURED_FEATURES.registerGeode(
-    "earth_geode", earthGeode, BlockStateProvider.simple(Blocks.CALCITE), BlockStateProvider.simple(Blocks.CLAY),
-    new GeodeLayerSettings(1.7D, 2.2D, 3.2D, 5.2D), new GeodeCrackSettings(0.95D, 2.0D, 2), UniformInt.of(6, 9), UniformInt.of(3, 4), UniformInt.of(1, 2), 16, 1);
-  public static final RegistryObject<PlacedFeature> placedEarthGeode = PLACED_FEATURES.registerGeode("earth_geode", configuredEarthGeode, RarityFilter.onAverageOnceEvery(128), HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(6), VerticalAnchor.aboveBottom(54)));
+  public static final ResourceKey<ConfiguredFeature<?,?>> configuredEarthGeodeKey = configured("earth_geode");
+  public static final ResourceKey<PlacedFeature> placedEarthGeodeKey = placed("earth_geode");
   // sky
   public static final GeodeItemObject skyGeode   = BLOCKS.registerGeode("sky_slime_crystal",   MaterialColor.COLOR_BLUE,        Sounds.SKY_CRYSTAL,   Sounds.SKY_CRYSTAL_CHIME.getSound(),   Sounds.SKY_CRYSTAL_CLUSTER,    0, WORLD_PROPS);
-  public static final RegistryObject<ConfiguredFeature<GeodeConfiguration,Feature<GeodeConfiguration>>> configuredSkyGeode = CONFIGURED_FEATURES.registerGeode(
-    "sky_geode", skyGeode, BlockStateProvider.simple(Blocks.CALCITE), BlockStateProvider.simple(Blocks.MOSSY_COBBLESTONE),
-    new GeodeLayerSettings(1.5D, 2.0D, 3.0D, 4.5D), new GeodeCrackSettings(0.55D, 0.5D, 2), UniformInt.of(3, 4), ConstantInt.of(2), ConstantInt.of(1), 8, 3);
-  public static final RegistryObject<PlacedFeature> placedSkyGeode = PLACED_FEATURES.registerGeode("sky_geode", configuredSkyGeode, RarityFilter.onAverageOnceEvery(64), HeightRangePlacement.uniform(VerticalAnchor.absolute(16), VerticalAnchor.absolute(54)));
+  public static final ResourceKey<ConfiguredFeature<?,?>> configuredSkyGeodeKey = configured("sky_geode");;
+  public static final ResourceKey<PlacedFeature> placedSkyGeodeKey = placed("sky_geode");
   // ichor
   public static final GeodeItemObject ichorGeode = BLOCKS.registerGeode("ichor_slime_crystal", MaterialColor.COLOR_ORANGE,      Sounds.ICHOR_CRYSTAL, Sounds.ICHOR_CRYSTAL_CHIME.getSound(), Sounds.ICHOR_CRYSTAL_CLUSTER, 10, WORLD_PROPS);
-  public static final RegistryObject<ConfiguredFeature<GeodeConfiguration,Feature<GeodeConfiguration>>> configuredIchorGeode = CONFIGURED_FEATURES.registerGeode(
-    "ichor_geode", ichorGeode, BlockStateProvider.simple(Blocks.CALCITE), BlockStateProvider.simple(Blocks.NETHERRACK),
-    new GeodeLayerSettings(1.7D, 2.2D, 3.2D, 4.2D), new GeodeCrackSettings(0.75D, 2.0D, 2), UniformInt.of(4, 6), UniformInt.of(3, 4), UniformInt.of(1, 2), 24, 20);
-  public static final RegistryObject<PlacedFeature> placedIchorGeode = PLACED_FEATURES.registerGeode("ichor_geode", configuredIchorGeode, RarityFilter.onAverageOnceEvery(52), HeightRangePlacement.uniform(VerticalAnchor.belowTop(48), VerticalAnchor.belowTop(16)));
+  public static final ResourceKey<ConfiguredFeature<?,?>> configuredIchorGeodeKey = configured("ichor_geode");
+  public static final ResourceKey<PlacedFeature> placedIchorGeodeKey = placed("ichor_geode");
   // ender
   public static final GeodeItemObject enderGeode = BLOCKS.registerGeode("ender_slime_crystal", MaterialColor.COLOR_PURPLE,      Sounds.ENDER_CRYSTAL, Sounds.ENDER_CRYSTAL_CHIME.getSound(), Sounds.ENDER_CRYSTAL_CLUSTER,  7, WORLD_PROPS);
-  public static final RegistryObject<ConfiguredFeature<GeodeConfiguration,Feature<GeodeConfiguration>>> configuredEnderGeode = CONFIGURED_FEATURES.registerGeode(
-    "ender_geode", enderGeode, BlockStateProvider.simple(Blocks.CALCITE), BlockStateProvider.simple(Blocks.END_STONE),
-    new GeodeLayerSettings(1.7D, 2.2D, 3.2D, 5.2D), new GeodeCrackSettings(0.45, 1.0D, 2), UniformInt.of(4, 10), UniformInt.of(3, 4), UniformInt.of(1, 2), 16, 10000);
-  public static final RegistryObject<PlacedFeature> placedEnderGeode = PLACED_FEATURES.registerGeode("ender_geode", configuredEnderGeode, RarityFilter.onAverageOnceEvery(256), HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(16), VerticalAnchor.aboveBottom(64)));
+  public static final ResourceKey<ConfiguredFeature<?,?>> configuredEnderGeodeKey = configured("ender_geode");
+  public static final ResourceKey<PlacedFeature> placedEnderGeodeKey = placed("ender_geode");
 
   // heads
   public static final EnumObject<TinkerHeadType,SkullBlock>               heads     = BLOCKS.registerEnumNoItem(TinkerHeadType.values(), "head", TinkerWorld::makeHead);
@@ -316,13 +315,65 @@ public final class TinkerWorld extends TinkerModule {
    * Features
    */
   // small veins, standard distribution
-  public static final RuleTest NETHERRACK = new BlockMatchTest(Blocks.NETHERRACK);
-  public static RegistryObject<ConfiguredFeature<OreConfiguration,Feature<OreConfiguration>>> configuredSmallCobaltOre = CONFIGURED_FEATURES.registerSupplier("cobalt_ore_small", () -> Feature.ORE, () -> new OreConfiguration(NETHERRACK, cobaltOre.get().defaultBlockState(), 4));
-  public static RegistryObject<PlacedFeature> placedSmallCobaltOre = PLACED_FEATURES.register("cobalt_ore_small", configuredSmallCobaltOre, CountPlacement.of(5), InSquarePlacement.spread(), PlacementUtils.RANGE_8_8, BiomeFilter.biome());
+  public static ResourceKey<ConfiguredFeature<?,?>> smallCobaltOreKey = configured("cobalt_ore_small");
+  public static ResourceKey<PlacedFeature> placedSmallCobaltOreKey = placed("cobalt_ore_small");
   // large veins, around y=16, up to 48
-  public static RegistryObject<ConfiguredFeature<OreConfiguration,Feature<OreConfiguration>>> configuredLargeCobaltOre = CONFIGURED_FEATURES.registerSupplier("cobalt_ore_large", () -> Feature.ORE, () -> new OreConfiguration(NETHERRACK, cobaltOre.get().defaultBlockState(), 6));
-  public static RegistryObject<PlacedFeature> placedLargeCobaltOre = PLACED_FEATURES.register("cobalt_ore_large", configuredSmallCobaltOre, CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.absolute(8), VerticalAnchor.absolute(32)), BiomeFilter.biome());
+  public static ResourceKey<ConfiguredFeature<?,?>> largeCobaltOreKey = configured("cobalt_ore_large");
+  public static ResourceKey<PlacedFeature> placedLargeCobaltOreKey = placed("cobalt_ore_large");
 
+  public static ResourceKey<ConfiguredFeature<?, ?>> configured(String id) {
+    return ResourceKey.create(Registries.CONFIGURED_FEATURE, TConstruct.getResource(id));
+  }
+
+  public static ResourceKey<PlacedFeature> placed(String id) {
+    return ResourceKey.create(Registries.PLACED_FEATURE, TConstruct.getResource(id));
+  }
+
+  public static void bootstrapConfigured(BootstapContext<ConfiguredFeature<?, ?>> bootstapContext) {
+    RuleTest netherrack = new BlockMatchTest(Blocks.NETHERRACK);
+    HolderGetter<ConfiguredFeature<?, ?>> lookup = bootstapContext.lookup(Registries.CONFIGURED_FEATURE);
+    FeatureUtils.register(bootstapContext, smallCobaltOreKey, Feature.ORE, new OreConfiguration(netherrack, cobaltOre.get().defaultBlockState(), 4));
+    FeatureUtils.register(bootstapContext, largeCobaltOreKey, Feature.ORE, new OreConfiguration(netherrack, cobaltOre.get().defaultBlockState(), 6));
+
+    configuredGeode(bootstapContext, configuredEarthGeodeKey, earthGeode, BlockStateProvider.simple(Blocks.CALCITE), BlockStateProvider.simple(Blocks.CLAY),
+      new GeodeLayerSettings(1.7D, 2.2D, 3.2D, 5.2D), new GeodeCrackSettings(0.95D, 2.0D, 2), UniformInt.of(6, 9), UniformInt.of(3, 4), UniformInt.of(1, 2), 16, 1);
+    configuredGeode(bootstapContext, configuredSkyGeodeKey, skyGeode, BlockStateProvider.simple(Blocks.CALCITE), BlockStateProvider.simple(Blocks.MOSSY_COBBLESTONE),
+      new GeodeLayerSettings(1.5D, 2.0D, 3.0D, 4.5D), new GeodeCrackSettings(0.55D, 0.5D, 2), UniformInt.of(3, 4), ConstantInt.of(2), ConstantInt.of(1), 8, 3);
+    configuredGeode(bootstapContext, configuredIchorGeodeKey, ichorGeode, BlockStateProvider.simple(Blocks.CALCITE), BlockStateProvider.simple(Blocks.NETHERRACK),
+      new GeodeLayerSettings(1.7D, 2.2D, 3.2D, 4.2D), new GeodeCrackSettings(0.75D, 2.0D, 2), UniformInt.of(4, 6), UniformInt.of(3, 4), UniformInt.of(1, 2), 24, 20);
+    configuredGeode(bootstapContext, configuredEnderGeodeKey, enderGeode, BlockStateProvider.simple(Blocks.CALCITE), BlockStateProvider.simple(Blocks.END_STONE),
+      new GeodeLayerSettings(1.7D, 2.2D, 3.2D, 5.2D), new GeodeCrackSettings(0.45, 1.0D, 2), UniformInt.of(4, 10), UniformInt.of(3, 4), UniformInt.of(1, 2), 16, 10000);
+
+    TinkerStructures.bootstrapConfigured(bootstapContext);
+  }
+
+  public static void bootstrap(BootstapContext<PlacedFeature> bootstapContext) {
+    HolderGetter<ConfiguredFeature<?, ?>> lookup = bootstapContext.lookup(Registries.CONFIGURED_FEATURE);
+    PlacementUtils.register(bootstapContext, placedSmallCobaltOreKey, lookup.getOrThrow(smallCobaltOreKey), CountPlacement.of(5), InSquarePlacement.spread(), PlacementUtils.RANGE_8_8, BiomeFilter.biome());
+    PlacementUtils.register(bootstapContext, placedLargeCobaltOreKey, lookup.getOrThrow(largeCobaltOreKey), CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.absolute(8), VerticalAnchor.absolute(32)), BiomeFilter.biome());
+
+    placedGeode(bootstapContext, placedEarthGeodeKey, lookup.getOrThrow(configuredEarthGeodeKey), RarityFilter.onAverageOnceEvery(128), HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(6), VerticalAnchor.aboveBottom(54)));
+    placedGeode(bootstapContext, placedSkyGeodeKey, lookup.getOrThrow(configuredSkyGeodeKey), RarityFilter.onAverageOnceEvery(64), HeightRangePlacement.uniform(VerticalAnchor.absolute(16), VerticalAnchor.absolute(54)));
+    placedGeode(bootstapContext, placedIchorGeodeKey, lookup.getOrThrow(configuredIchorGeodeKey), RarityFilter.onAverageOnceEvery(52), HeightRangePlacement.uniform(VerticalAnchor.belowTop(48), VerticalAnchor.belowTop(16)));
+    placedGeode(bootstapContext, placedEnderGeodeKey, lookup.getOrThrow(configuredEnderGeodeKey), RarityFilter.onAverageOnceEvery(256), HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(16), VerticalAnchor.aboveBottom(64)));
+  }
+
+  public static void configuredGeode(BootstapContext<ConfiguredFeature<?, ?>> bootstapContext, ResourceKey<ConfiguredFeature<?, ?>> name, GeodeItemObject geode,
+                                     BlockStateProvider middleLayer, BlockStateProvider outerLayer, GeodeLayerSettings layerSettings, GeodeCrackSettings crackSettings,
+                                     IntProvider outerWall, IntProvider distributionPoints, IntProvider pointOffset, int genOffset, int invalidBlocks) {
+    FeatureUtils.register(bootstapContext, name, Feature.GEODE, new GeodeConfiguration(
+      new GeodeBlockSettings(BlockStateProvider.simple(Blocks.AIR),
+        BlockStateProvider.simple(geode.getBlock()),
+        SupplierBlockStateProvider.ofBlock(geode::getBudding),
+        middleLayer, outerLayer,
+        Arrays.stream(GeodeItemObject.BudSize.values()).map(type -> geode.getBud(type).defaultBlockState()).toList(),
+        BlockTags.FEATURES_CANNOT_REPLACE, BlockTags.GEODE_INVALID_BLOCKS),
+      layerSettings, crackSettings, 0.335, 0.083, true, outerWall, distributionPoints, pointOffset, -genOffset, genOffset, 0.05D, invalidBlocks));
+  }
+
+  public static void placedGeode(BootstapContext<PlacedFeature> bootstapContext, ResourceKey<PlacedFeature> name, Holder<ConfiguredFeature<?, ?>> geode, RarityFilter rarity, HeightRangePlacement height) {
+    PlacementUtils.register(bootstapContext, name, geode, rarity, InSquarePlacement.spread(), height, BiomeFilter.biome());
+  }
 
   /*
    * Events
