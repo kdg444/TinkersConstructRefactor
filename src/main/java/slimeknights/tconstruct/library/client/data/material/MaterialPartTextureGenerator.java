@@ -81,7 +81,7 @@ public class MaterialPartTextureGenerator extends GenericTextureGenerator {
         throw new IllegalStateException(materialProvider.getName() + " has no materials, must have at least one material to generate");
       }
       // want cross product of textures
-      BiConsumer<ResourceLocation, NativeImage> saver = (path, image) -> futures.add(saveImage(cache, path, image));
+      BiConsumer<ResourceLocation, NativeImage> saver = (path, image) -> saveImage(cache, path, image);
       Predicate<ResourceLocation> shouldGenerate = path -> !spriteReader.exists(path);
       for (MaterialSpriteInfo material : materials) {
         for (PartSpriteInfo part : parts) {

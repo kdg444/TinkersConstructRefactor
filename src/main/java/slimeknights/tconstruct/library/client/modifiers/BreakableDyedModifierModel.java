@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import slimeknights.mantle.client.model.util.MantleItemLayerModel;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
@@ -56,7 +57,7 @@ public class BreakableDyedModifierModel implements IBakedModifierModel {
       IModDataView data = tool.getPersistentData();
       ResourceLocation key = modifier.getId();
       if (data.contains(key, Tag.TAG_INT)) {
-        return ModelTemp.getQuadsForSprite(0xFF000000 | data.getInt(key), -1, spriteGetter.apply(texture), transforms, 0, pixels);
+        return MantleItemLayerModel.getQuadsForSprite(0xFF000000 | data.getInt(key), -1, spriteGetter.apply(texture), transforms, 0, pixels);
       }
     }
     return ImmutableList.of();

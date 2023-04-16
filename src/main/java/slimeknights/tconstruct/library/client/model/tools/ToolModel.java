@@ -3,13 +3,12 @@ package slimeknights.tconstruct.library.client.model.tools;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Transformation;
+import io.github.fabricators_of_create.porting_lib.models.TransformTypeDependentItemBakedModel;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
 import lombok.Getter;
@@ -35,18 +34,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import org.joml.Vector3f;
 import slimeknights.mantle.client.model.util.BakedItemModel;
+import slimeknights.mantle.client.model.util.MantleItemLayerModel;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.mantle.util.ReversedListBuilder;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
 import slimeknights.tconstruct.library.client.modifiers.IBakedModifierModel;
-import slimeknights.tconstruct.library.client.modifiers.ModelTemp;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -272,9 +272,9 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
     // add quads for all parts
     if (parts.isEmpty()) {
       particle = spriteGetter.apply(owner.getMaterial(isBroken && owner.hasTexture("broken") ? "broken" : "tool"));
-      smallConsumer.accept(ModelTemp.getQuadsForSprite(-1, -1, particle, Transformation.identity(), 0, smallPixels));
+      smallConsumer.accept(MantleItemLayerModel.getQuadsForSprite(-1, -1, particle, Transformation.identity(), 0, smallPixels));
       if (largeTransforms != null) {
-        largeConsumer.accept(ModelTemp.getQuadsForSprite(-1, -1, spriteGetter.apply(owner.getMaterial(isBroken && owner.hasTexture("broken_large") ? "broken_large" : "tool_large")), largeTransforms, 0, largePixels));
+        largeConsumer.accept(MantleItemLayerModel.getQuadsForSprite(-1, -1, spriteGetter.apply(owner.getMaterial(isBroken && owner.hasTexture("broken_large") ? "broken_large" : "tool_large")), largeTransforms, 0, largePixels));
       }
     } else {
       for (int i = parts.size() - 1; i >= 0; i--) {
@@ -294,23 +294,20 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
         } else {
           // part without materials
           particle = spriteGetter.apply(owner.getMaterial(part.getName(isBroken, false)));
-          smallConsumer.accept(ModelTemp.getQuadsForSprite(-1, -1, particle, Transformation.identity(), 0, smallPixels));
+          smallConsumer.accept(MantleItemLayerModel.getQuadsForSprite(-1, -1, particle, Transformation.identity(), 0, smallPixels));
           if (largeTransforms != null) {
-            largeConsumer.accept(ModelTemp.getQuadsForSprite(-1, -1, spriteGetter.apply(owner.getMaterial(part.getName(isBroken, true))), largeTransforms, 0, largePixels));
+            largeConsumer.accept(MantleItemLayerModel.getQuadsForSprite(-1, -1, spriteGetter.apply(owner.getMaterial(part.getName(isBroken, true))), largeTransforms, 0, largePixels));
           }
         }
       }
     }
 
-    // bake model - while the transform may not be identity, it never has rotation so its safe to say untransformed
-//    ImmutableMap<TransformType, Transformation> transformMap = Maps.immutableEnumMap(PerspectiveMapWrapper.getTransforms(owner.getCombinedTransform()));
-
     // large models use a custom model here
     if (largeTransforms != null) {
-      return new BakedLargeToolModel(largeBuilder.build(), smallBuilder.build(), particle/*, transformMap*/, overrides, owner.getGuiLight().lightLikeBlock());
+      return new BakedLargeToolModel(largeBuilder.build(), smallBuilder.build(), particle, owner.getTransforms(), overrides, owner.getGuiLight().lightLikeBlock());
     }
     // for small, we leave out the large quads, so the baked item model logic is sufficient
-    return new BakedItemModel(smallBuilder.build(), particle, /*transformMap*/null, overrides, true, owner.getGuiLight().lightLikeBlock());
+    return new BakedItemModel(smallBuilder.build(), particle, owner.getTransforms(), overrides, true, owner.getGuiLight().lightLikeBlock());
   }
 
   @Override
@@ -477,21 +474,21 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
   }
 
   /** Baked model for large tools, has separate quads in GUIs */
-  private static class BakedLargeToolModel implements BakedModel/*, TransformTypeDependentItemBakedModel*/ {
+  private static class BakedLargeToolModel implements BakedModel, TransformTypeDependentItemBakedModel {
     private final ImmutableList<BakedQuad> largeQuads;
     @Getter
     private final TextureAtlasSprite particleIcon;
-//    private final ImmutableMap<TransformType, Transformation> transforms;
+    private final ItemTransforms transforms;
     @Getter
     private final ItemOverrides overrides;
     @Getter @Accessors(fluent = true)
     private final boolean usesBlockLight;
     private final BakedModel guiModel;
 
-    private BakedLargeToolModel(ImmutableList<BakedQuad> largeQuads, ImmutableList<BakedQuad> smallQuads, TextureAtlasSprite particle/*, ImmutableMap<TransformType,Transformation> transforms*/, ItemOverrides overrides, boolean isSideLit) {
+    private BakedLargeToolModel(ImmutableList<BakedQuad> largeQuads, ImmutableList<BakedQuad> smallQuads, TextureAtlasSprite particle, ItemTransforms transforms, ItemOverrides overrides, boolean isSideLit) {
       this.largeQuads = largeQuads;
       this.particleIcon = particle;
-//      this.transforms = transforms;
+      this.transforms = transforms;
       this.overrides = overrides;
       this.usesBlockLight = isSideLit;
       this.guiModel = new BakedLargeToolGui(this, smallQuads);
@@ -505,13 +502,14 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
       return ImmutableList.of();
     }
 
-//    @Override
-//    public BakedModel handlePerspective(TransformType type, PoseStack mat) {
-//      if (type == TransformType.GUI) {
-//        return ((TransformTypeDependentItemBakedModel)this.guiModel).handlePerspective(type, mat);
-//      }
-//      return PerspectiveMapWrapper.handlePerspective(this, transforms, type, mat);
-//    }
+    @Override
+    public BakedModel applyTransform(ItemDisplayContext type, PoseStack mat, boolean leftHanded) {
+      if (type == ItemDisplayContext.GUI) {
+        return ((TransformTypeDependentItemBakedModel)this.guiModel).applyTransform(type, mat, leftHanded);
+      }
+      this.transforms.getTransform(type).apply(leftHanded, mat);
+      return this;
+    }
 
     /* Misc properties */
 
@@ -537,7 +535,7 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
   }
 
   /** Baked model for large tools in the GUI, small quads */
-  private static class BakedLargeToolGui extends ForwardingBakedModel/* implements TransformTypeDependentItemBakedModel*/ {
+  private static class BakedLargeToolGui extends ForwardingBakedModel implements TransformTypeDependentItemBakedModel {
     private final List<BakedQuad> guiQuads;
     public BakedLargeToolGui(BakedLargeToolModel model, List<BakedQuad> guiQuads) {
       wrapped = model;
@@ -553,10 +551,11 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
       return ImmutableList.of();
     }
 
-//    @Override
-//    public BakedModel handlePerspective(TransformType transform, PoseStack mat) {
-//      return PerspectiveMapWrapper.handlePerspective(this, ((BakedLargeToolModel)wrapped).transforms, transform, mat);
-//    }
+    @Override
+    public BakedModel applyTransform(ItemDisplayContext transform, PoseStack mat, boolean leftHanded) {
+      ((BakedLargeToolModel)wrapped).transforms.getTransform(transform).apply(leftHanded, mat);
+      return this;
+    }
   }
 
   /**

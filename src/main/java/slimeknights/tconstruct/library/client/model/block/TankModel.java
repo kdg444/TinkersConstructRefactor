@@ -7,6 +7,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
+import io.github.fabricators_of_create.porting_lib.models.TransformTypeDependentItemBakedModel;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
@@ -38,6 +39,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -79,15 +81,6 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
   protected final IncrementalFluidCuboid fluid;
   protected final boolean forceModelFluid;
 
-//  @Override
-//  public Collection<Material> getTextures(BlockModel owner, Function<ResourceLocation,UnbakedModel> modelGetter, Set<Pair<String,String>> missingTextureErrors) {
-//    Collection<Material> textures = new HashSet<>(model.getTextures(owner, modelGetter, missingTextureErrors));
-//    if (gui != null) {
-//      textures.addAll(gui.getTextures(owner, modelGetter, missingTextureErrors));
-//    }
-//    return textures;
-//  }
-
   @Override
   public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState transform, ItemOverrides overrides, ResourceLocation location) {
     BakedModel baked = model.bakeModel(owner, transform, overrides, spriteGetter, location);
@@ -123,7 +116,7 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
   /**
    * Wrapper that swaps the model for the GUI
    */
-  private static class BakedGuiUniqueModel extends ForwardingBakedModel/* implements TransformTypeDependentItemBakedModel*/ {
+  private static class BakedGuiUniqueModel extends ForwardingBakedModel implements TransformTypeDependentItemBakedModel {
     private final BakedModel gui;
     public BakedGuiUniqueModel(BakedModel base, BakedModel gui) {
       wrapped = base;
@@ -132,15 +125,15 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
 
     /* Swap out GUI model if needed */
 
-//    @Override TODO: PORT
-//    public BakedModel handlePerspective(TransformType cameraTransformType, PoseStack mat) {
-//      if(!(gui instanceof TransformTypeDependentItemBakedModel) || !(wrapped instanceof TransformTypeDependentItemBakedModel))
-//        return wrapped;
-//      if (cameraTransformType == TransformType.GUI) {
-//        return ((TransformTypeDependentItemBakedModel)gui).handlePerspective(cameraTransformType, mat);
-//      }
-//      return ((TransformTypeDependentItemBakedModel)wrapped).handlePerspective(cameraTransformType, mat);
-//    }
+    @Override
+    public BakedModel applyTransform(ItemDisplayContext cameraTransformType, PoseStack mat, boolean leftHanded) {
+      if(!(gui instanceof TransformTypeDependentItemBakedModel) || !(wrapped instanceof TransformTypeDependentItemBakedModel))
+        return wrapped;
+      if (cameraTransformType == ItemDisplayContext.GUI) {
+        return ((TransformTypeDependentItemBakedModel)gui).applyTransform(cameraTransformType, mat, leftHanded);
+      }
+      return ((TransformTypeDependentItemBakedModel)wrapped).applyTransform(cameraTransformType, mat, leftHanded);
+    }
   }
 
   /**

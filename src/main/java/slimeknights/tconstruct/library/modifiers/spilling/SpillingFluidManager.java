@@ -97,8 +97,8 @@ public class SpillingFluidManager extends SimpleJsonResourceReloadListener imple
 
       // want to parse condition without parsing effects, as the effect serializer may be missing
       if (json.has(ResourceConditions.CONDITION_ID_KEY)) {
-        JsonObject condition = json.getAsJsonObject(ResourceConditions.CONDITION_ID_KEY).getAsJsonArray(ResourceConditions.CONDITIONS_KEY).get(0).getAsJsonObject();
-        if (!ResourceConditions.get(ResourceLocation.tryParse(GsonHelper.getAsString(condition, ResourceConditions.CONDITION_ID_KEY))).test(condition))
+//        JsonObject condition = json.getAsJsonObject(ResourceConditions.CONDITION_ID_KEY).getAsJsonArray(ResourceConditions.CONDITIONS_KEY).get(0).getAsJsonObject();
+//        if (!ResourceConditions.get(ResourceLocation.tryParse(GsonHelper.getAsString(condition, ResourceConditions.CONDITION_ID_KEY))).test(condition))
           return null;
       }
       FluidIngredient ingredient = FluidIngredient.deserialize(json, "fluid");
