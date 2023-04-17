@@ -136,8 +136,8 @@ dependencies {
     modImplementation(include("io.github.tropheusj:serialization-hooks:0.4.27"))
     modImplementation(include("io.github.tropheusj:milk-lib:${project.milk_lib_version}"))
 
-    api(include("com.github.LlamaLad7:MixinExtras:0.0.6"))
-    annotationProcessor(include("com.github.LlamaLad7:MixinExtras:0.0.6"))
+    api(include("com.github.LlamaLad7:MixinExtras:0.2.0-beta.6"))
+    annotationProcessor(include("com.github.LlamaLad7:MixinExtras:0.2.0-beta.6"))
 
     modImplementation "me.alphamode:Star:1.3+1.19.4"
 
