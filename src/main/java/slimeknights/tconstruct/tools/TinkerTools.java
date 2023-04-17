@@ -24,6 +24,7 @@ import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.config.ConfigurableAction;
 import slimeknights.tconstruct.common.data.tags.MaterialTagProvider;
+import slimeknights.tconstruct.library.client.data.TinkerSpriteSourceGenerator;
 import slimeknights.tconstruct.library.client.data.material.GeneratorPartTextureJsonGenerator;
 import slimeknights.tconstruct.library.client.data.material.MaterialPartTextureGenerator;
 import slimeknights.tconstruct.library.json.AddToolDataFunction;
@@ -222,5 +223,6 @@ public final class TinkerTools extends TinkerModule {
     pack.addProvider((output, registriesFuture) -> new MaterialRenderInfoProvider(output, materialSprites));
     pack.addProvider((output, registriesFuture) -> new GeneratorPartTextureJsonGenerator(output, TConstruct.MOD_ID, partSprites));
     pack.addProvider((output, registriesFuture) -> new MaterialPartTextureGenerator(output, existingFileHelper, partSprites, materialSprites));
+    pack.addProvider((output, registriesFuture) -> new TinkerSpriteSourceGenerator(output, existingFileHelper));
   }
 }

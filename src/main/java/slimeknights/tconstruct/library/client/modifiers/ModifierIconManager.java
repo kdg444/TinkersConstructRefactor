@@ -41,35 +41,25 @@ public class ModifierIconManager implements IEarlySafeManagerReloadListener, Ide
   /** Icon file to load, has merging behavior but forge prevents multiple mods from loading the same file */
   private static final String ICONS = "tinkering/modifier_icons.json";
   /** First layer of the default icon, will be tinted */
-  private static final ResourceLocation DEFAULT_PAGES = TConstruct.getResource("gui/modifiers/default_pages");
+  public static final ResourceLocation DEFAULT_PAGES = TConstruct.getResource("gui/modifiers/default_pages");
   /** Second layer of the default icon, will be tinted */
-  private static final ResourceLocation DEFAULT_COVER = TConstruct.getResource("gui/modifiers/default_cover");
+  public static final ResourceLocation DEFAULT_COVER = TConstruct.getResource("gui/modifiers/default_cover");
   /** Instance of this manager */
   public static final ModifierIconManager INSTANCE = new ModifierIconManager();
 
   /** Map of icons for each modifier */
-  private static Map<ModifierId,List<ResourceLocation>> modifierIcons = Collections.emptyMap();
+  public static Map<ModifierId,List<ResourceLocation>> modifierIcons = Collections.emptyMap();
 
   /**
    * Initializes this manager, registering it relevant event busses
    */
   public static void init() {
-//    TextureStitchCallback.PRE.register(ModifierIconManager::textureStitch); TODO: PORT
     ModifierIconManager.onResourceManagerRegister();
   }
 
   /** Called on resource manager build to add the manager */
   private static void onResourceManagerRegister() {
     ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(INSTANCE);
-  }
-
-  /** Called on texture stitch to add the new textures */
-  private static void textureStitch(TextureAtlas atlas, Consumer<ResourceLocation> spriteAdder) {
-    if (atlas.location().equals(InventoryMenu.BLOCK_ATLAS)) {
-      modifierIcons.values().forEach(list -> list.forEach(spriteAdder));
-      spriteAdder.accept(DEFAULT_COVER);
-      spriteAdder.accept(DEFAULT_PAGES);
-    }
   }
 
   @Override

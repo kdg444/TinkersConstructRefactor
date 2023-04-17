@@ -30,4 +30,14 @@ public enum ArmorSlotType implements StringRepresentable {
       case HELMET -> HELMET;
     };
   }
+
+  public static ArmorItem.Type equiptmentSlotToType(EquipmentSlot slot) {
+    return switch (slot) {
+      case FEET -> ArmorItem.Type.BOOTS;
+      case LEGS -> ArmorItem.Type.LEGGINGS;
+      case CHEST -> ArmorItem.Type.CHESTPLATE;
+      case HEAD -> ArmorItem.Type.HELMET;
+      default -> null;
+    };
+  }
 }

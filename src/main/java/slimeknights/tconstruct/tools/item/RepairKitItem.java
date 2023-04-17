@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.item;
 
+import net.minecraft.world.item.CreativeModeTab;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
@@ -8,8 +9,8 @@ import slimeknights.tconstruct.library.tools.part.IRepairKitItem;
 import slimeknights.tconstruct.library.tools.part.MaterialItem;
 
 public class RepairKitItem extends MaterialItem implements IRepairKitItem {
-  public RepairKitItem(Properties properties) {
-    super(properties);
+  public RepairKitItem(Properties properties, CreativeModeTab tab) {
+    super(properties, tab);
   }
 
   @Override

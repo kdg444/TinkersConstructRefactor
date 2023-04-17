@@ -1,4 +1,4 @@
-// 1.19.4	2023-04-16T02:24:36.081123109	Hephaestus/Tinkers Construct Item Tags
+// 1.19.4	2023-04-16T23:01:43.804381	Hephaestus/Tinkers Construct Item Tags
 0238a43b0e61403d2c963744ea09a3f26e36e45e data/tconstruct/tags/items/modifiable/ranged.json
 2121a480ce6f8ac2b8129ce8dc023633985394a9 data/tconstruct/tags/items/copper_platforms.json
 8eff271399fac07e1e31db3ae72c802664a91f65 data/tconstruct/tags/items/scorched_blocks.json
@@ -218,8 +218,8 @@ fd8b3a1797c92e9654d3cdad36a98ee0ebf7b71a data/c/tags/items/glass_panes/silica.js
 63a651daad8aa83d5f3739b42b2296c9c2ba29a8 data/tconstruct/tags/items/foundry.json
 2076a640a0a1594ec0038b731fe243472a2fb60b data/c/tags/items/storage_blocks/slimesteel.json
 9bbfc1e117d565c9586d0de5fe89f3f9d0a0727f data/minecraft/tags/items/cluster_max_harvestables.json
-d1a55df65913bfb31a9452b0a1c0f22df9bc1e32 data/minecraft/tags/items/piglin_loved.json
 2f06b659600007959375920242fe92b95064b37c data/c/tags/items/glass/black.json
+d1a55df65913bfb31a9452b0a1c0f22df9bc1e32 data/minecraft/tags/items/piglin_loved.json
 6dc09b11357ab535a8fc21db1f5c71228dd901b1 data/c/tags/items/nuggets/amethyst_bronze.json
 a2fa68eebf89ab41fd6dd732fb77e2bcb5c6d489 data/c/tags/items/ingots/soulsteel.json
 df4156f3724e92bfffaddb671a7f10c372063ec6 data/tconstruct/tags/items/modifiable/armor/held.json
