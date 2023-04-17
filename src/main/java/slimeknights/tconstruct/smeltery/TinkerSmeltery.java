@@ -159,7 +159,7 @@ public final class TinkerSmeltery extends TinkerModule {
   public static final ItemObject<SearedGlassBlock> searedGlass = BLOCKS.register("seared_glass", () -> new SearedGlassBlock(SEARED_GLASS), TOOLTIP_BLOCK_ITEM);
   public static final ItemObject<ClearGlassPaneBlock> searedGlassPane = BLOCKS.register("seared_glass_pane", () -> new ClearGlassPaneBlock(SEARED_GLASS), TOOLTIP_BLOCK_ITEM);
   // peripherals
-  private static final Function<Block, ? extends BlockItem> SEARED_IO_BLOCK_ITEM = block -> new TableBlockItem(block, TinkerTags.Items.SMELTERY_BRICKS, SMELTERY_PROPS, Config.COMMON.showAllSmelteryVariants::get);
+  private static final Function<Block, ? extends BlockItem> SEARED_IO_BLOCK_ITEM = block -> new TableBlockItem(block, TinkerTags.Items.SMELTERY_BRICKS, SMELTERY_PROPS, Config.COMMON.showAllSmelteryVariants::get, TAB_SMELTERY);
   public static final ItemObject<Block> searedDrain = BLOCKS.register("seared_drain", () -> new SearedDrainBlock(TOUGH_SEARED), SEARED_IO_BLOCK_ITEM);
   public static final ItemObject<Block> searedDuct = BLOCKS.register("seared_duct", () -> new SearedDuctBlock(TOUGH_SEARED), SEARED_IO_BLOCK_ITEM);
   public static final ItemObject<Block> searedChute = BLOCKS.register("seared_chute", () -> new RetexturedOrientableSmelteryBlock(TOUGH_SEARED, ChuteBlockEntity::new), SEARED_IO_BLOCK_ITEM);
@@ -196,7 +196,7 @@ public final class TinkerSmeltery extends TinkerModule {
   public static final ItemObject<SearedGlassBlock> scorchedGlass = BLOCKS.register("scorched_glass", () -> new SearedGlassBlock(SCORCHED_GLASS), TOOLTIP_BLOCK_ITEM);
   public static final ItemObject<ClearGlassPaneBlock> scorchedGlassPane = BLOCKS.register("scorched_glass_pane", () -> new ClearGlassPaneBlock(SCORCHED_GLASS), TOOLTIP_BLOCK_ITEM);
   // peripherals
-  private static final Function<Block, ? extends BlockItem> SCORCHED_IO_BLOCK_ITEM = block -> new TableBlockItem(block, TinkerTags.Items.FOUNDRY_BRICKS, SMELTERY_PROPS, Config.COMMON.showAllSmelteryVariants::get);
+  private static final Function<Block, ? extends BlockItem> SCORCHED_IO_BLOCK_ITEM = block -> new TableBlockItem(block, TinkerTags.Items.FOUNDRY_BRICKS, SMELTERY_PROPS, Config.COMMON.showAllSmelteryVariants::get, TAB_SMELTERY);
   public static final ItemObject<Block> scorchedDrain = BLOCKS.register("scorched_drain", () -> new SearedDrainBlock(TOUGH_SCORCHED), SCORCHED_IO_BLOCK_ITEM);
   public static final ItemObject<Block> scorchedDuct = BLOCKS.register("scorched_duct", () -> new SearedDuctBlock(TOUGH_SCORCHED), SCORCHED_IO_BLOCK_ITEM);
   public static final ItemObject<Block> scorchedChute = BLOCKS.register("scorched_chute", () -> new OrientableSmelteryBlock(TOUGH_SCORCHED, ChuteBlockEntity::new), SCORCHED_IO_BLOCK_ITEM);

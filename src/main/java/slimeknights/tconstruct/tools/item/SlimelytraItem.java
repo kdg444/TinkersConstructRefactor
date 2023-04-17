@@ -16,13 +16,14 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial;
 import slimeknights.tconstruct.tools.client.SlimelytraArmorModel;
 
 public class SlimelytraItem extends SlimesuitItem {
-  public SlimelytraItem(ModifiableArmorMaterial material, Properties properties) {
-    super(material, ArmorSlotType.CHESTPLATE, properties);
+  public SlimelytraItem(ModifiableArmorMaterial material, Properties properties, CreativeModeTab tab) {
+    super(material, ArmorSlotType.CHESTPLATE, properties, tab);
     EnvExecutor.runWhenOn(EnvType.CLIENT, () -> this::initializeClient);
   }
 

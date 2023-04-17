@@ -274,8 +274,8 @@ public final class TinkerModifiers extends TinkerModule {
   public static final ItemObject<Item> bronzeReinforcement = ITEMS.register("bronze_reinforcement", GENERAL_PROPS);
   public static final ItemObject<Item> cobaltReinforcement = ITEMS.register("cobalt_reinforcement", GENERAL_PROPS);
   // special
-  public static final ItemObject<Item> modifierCrystal = ITEMS.register("modifier_crystal", () -> new ModifierCrystalItem(new Item.Properties()/*.tab(TAB_TOOLS)*/.stacksTo(16)));
-  public static final ItemObject<Item> creativeSlotItem = ITEMS.register("creative_slot", () -> new CreativeSlotItem(new Item.Properties()/*.tab(TAB_TOOLS)*/));
+  public static final ItemObject<Item> modifierCrystal = ITEMS.register("modifier_crystal", () -> new ModifierCrystalItem(new Item.Properties().stacksTo(16), TAB_TOOLS));
+  public static final ItemObject<Item> creativeSlotItem = ITEMS.register("creative_slot", () -> new CreativeSlotItem(new Item.Properties(), TAB_TOOLS));
 
   /*
    * Modifiers

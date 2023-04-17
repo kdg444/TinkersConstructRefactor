@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ArrowItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
@@ -38,8 +39,8 @@ import java.util.function.Predicate;
 import static slimeknights.tconstruct.tools.modifiers.upgrades.ranged.ScopeModifier.SCOPE;
 
 public class ModifiableBowItem extends ModifiableLauncherItem {
-  public ModifiableBowItem(Properties properties, ToolDefinition toolDefinition) {
-    super(properties, toolDefinition);
+  public ModifiableBowItem(Properties properties, ToolDefinition toolDefinition, CreativeModeTab tab) {
+    super(properties, toolDefinition, tab);
   }
 
 

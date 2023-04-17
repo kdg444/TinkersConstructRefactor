@@ -9,6 +9,8 @@ import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.item.ShieldBlockItem;
 import lombok.Getter;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -21,6 +23,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.Rarity;
@@ -65,10 +68,11 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   /** Cached tool for rendering on UIs */
   private ItemStack toolForRendering;
 
-  public ModifiableLauncherItem(Properties properties, ToolDefinition toolDefinition) {
+  public ModifiableLauncherItem(Properties properties, ToolDefinition toolDefinition, CreativeModeTab tab) {
     super(properties);
     this.toolDefinition = toolDefinition;
     ((FabricItemSettings)properties).customDamage(this::damageItem);
+    ItemGroupEvents.modifyEntriesEvent(tab).register(this::fillItemCategory);
   }
 
 
@@ -282,12 +286,9 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
 
   /* Display items */
 
-//  @Override TODO: PORT
-//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-//    if (this.allowdedIn(group)) {
-//      ToolBuildHandler.addDefaultSubItems(this, items);
-//    }
-//  }
+  public void fillItemCategory(FabricItemGroupEntries items) {
+    ToolBuildHandler.addDefaultSubItems(this, items);
+  }
 
   @Override
   public ItemStack getRenderTool() {

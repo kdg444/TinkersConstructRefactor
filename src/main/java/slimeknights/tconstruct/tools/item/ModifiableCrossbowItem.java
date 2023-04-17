@@ -21,6 +21,7 @@ import net.minecraft.world.entity.projectile.AbstractArrow.Pickup;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ArrowItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
@@ -58,8 +59,8 @@ public class ModifiableCrossbowItem extends ModifiableLauncherItem {
   /** Key containing the stored crossbow ammo */
   public static final ResourceLocation KEY_CROSSBOW_AMMO = TConstruct.getResource("crossbow_ammo");
   private static final String PROJECTILE_KEY = "item.minecraft.crossbow.projectile";
-  public ModifiableCrossbowItem(Properties properties, ToolDefinition toolDefinition) {
-    super(properties, toolDefinition);
+  public ModifiableCrossbowItem(Properties properties, ToolDefinition toolDefinition, CreativeModeTab tab) {
+    super(properties, toolDefinition, tab);
   }
 
 

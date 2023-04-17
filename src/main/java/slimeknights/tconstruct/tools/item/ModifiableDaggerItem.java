@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -14,8 +15,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 
 public class ModifiableDaggerItem extends ModifiableSwordItem {
-  public ModifiableDaggerItem(Properties properties, ToolDefinition toolDefinition) {
-    super(properties, toolDefinition);
+  public ModifiableDaggerItem(Properties properties, ToolDefinition toolDefinition, CreativeModeTab tab) {
+    super(properties, toolDefinition, tab);
   }
 
   @Override

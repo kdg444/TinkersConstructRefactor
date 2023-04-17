@@ -12,6 +12,8 @@ import io.github.fabricators_of_create.porting_lib.item.ShieldBlockItem;
 import io.github.fabricators_of_create.porting_lib.item.UseFirstBehaviorItem;
 import lombok.Getter;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -77,10 +79,11 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
   /** Cached tool for rendering on UIs */
   private ItemStack toolForRendering;
 
-  public ModifiableItem(Properties properties, ToolDefinition toolDefinition) {
+  public ModifiableItem(Properties properties, ToolDefinition toolDefinition, CreativeModeTab tab) {
     super(properties);
     this.toolDefinition = toolDefinition;
     ((FabricItemSettings)properties).customDamage(this::damageItem);
+    ItemGroupEvents.modifyEntriesEvent(tab).register(this::fillItemCategory);
   }
 
 
@@ -473,12 +476,9 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   /* Display items */
 
-//  @Override TODO: PORT
-//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-//    if (this.allowdedIn(group)) {
-//      ToolBuildHandler.addDefaultSubItems(this, items);
-//    }
-//  }
+  public void fillItemCategory(FabricItemGroupEntries items) {
+    ToolBuildHandler.addDefaultSubItems(this, items);
+  }
 
   @Override
   public ItemStack getRenderTool() {

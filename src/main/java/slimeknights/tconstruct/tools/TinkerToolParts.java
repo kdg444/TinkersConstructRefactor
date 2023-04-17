@@ -29,7 +29,7 @@ public final class TinkerToolParts extends TinkerModule {
       return new ItemStack(TinkerToolParts.pickHead);
     }
     return TinkerToolParts.pickHead.get().withMaterial(materials.get(TConstruct.RANDOM.nextInt(materials.size())).getIdentifier());
-  }).displayItems(TinkerToolParts::generateCreativeTab).build();
+  }).build();
   private static final Item.Properties PARTS_PROPS = new Item.Properties()/*.tab(TAB_TOOL_PARTS)*/;
 
   // repair kit, technically a head so it filters to things useful for repair
@@ -55,22 +55,4 @@ public final class TinkerToolParts extends TinkerModule {
   public static final ItemObject<ToolPartItem> toolBinding = ITEMS.register("tool_binding", () -> new ToolPartItem(PARTS_PROPS, ExtraMaterialStats.ID, TAB_TOOL_PARTS));
   public static final ItemObject<ToolPartItem> toolHandle = ITEMS.register("tool_handle", () -> new ToolPartItem(PARTS_PROPS, HandleMaterialStats.ID, TAB_TOOL_PARTS));
   public static final ItemObject<ToolPartItem> toughHandle = ITEMS.register("tough_handle", () -> new ToolPartItem(PARTS_PROPS, HandleMaterialStats.ID, TAB_TOOL_PARTS));
-
-  public static void generateCreativeTab(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
-    output.accept(repairKit.get());
-    output.accept(pickHead.get());
-    output.accept(hammerHead.get());
-    output.accept(smallAxeHead.get());
-    output.accept(broadAxeHead.get());
-    output.accept(smallBlade.get());
-    output.accept(broadBlade.get());
-    output.accept(roundPlate.get());
-    output.accept(largePlate.get());
-    output.accept(bowLimb.get());
-    output.accept(bowGrip.get());
-    output.accept(bowstring.get());
-    output.accept(toolBinding.get());
-    output.accept(toolHandle.get());
-    output.accept(toughHandle.get());
-  }
 }

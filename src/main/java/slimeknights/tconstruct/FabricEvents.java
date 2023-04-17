@@ -24,7 +24,7 @@ public class FabricEvents {
     if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT && FabricLoader.getInstance().isDevelopmentEnvironment()) {
       ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
         stack.getTags().forEach(tagKey ->
-          lines.add(Component.literal("#" + tagKey.location().toString()).withStyle(ChatFormatting.GRAY))
+          lines.add(Component.literal("#" + tagKey.location()).withStyle(ChatFormatting.GRAY))
         );
       });
     }

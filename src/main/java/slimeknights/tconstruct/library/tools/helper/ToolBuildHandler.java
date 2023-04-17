@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.tools.helper;
 
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.tconstruct.TConstruct;
@@ -131,15 +132,15 @@ public final class ToolBuildHandler {
    * @param itemList         List to fill with items
    * @param fixedMaterials   Materials that should be forced
    */
-  public static void addDefaultSubItems(IModifiable item, List<ItemStack> itemList, MaterialVariantId... fixedMaterials) {
+  public static void addDefaultSubItems(IModifiable item, FabricItemGroupEntries itemList, MaterialVariantId... fixedMaterials) {
     ToolDefinition definition = item.getToolDefinition();
     boolean isMultipart = definition.isMultipart();
     if (!definition.isDataLoaded() || (isMultipart && !MaterialRegistry.isFullyLoaded())) {
       // not loaded? cannot properly build it
-      itemList.add(new ItemStack(item));
+      itemList.accept(new ItemStack(item));
     } else if (!isMultipart) {
       // no parts? just add this item
-      itemList.add(buildItemFromMaterials(item, MaterialNBT.EMPTY));
+      itemList.accept(buildItemFromMaterials(item, MaterialNBT.EMPTY));
     } else {
       // if a specific material is set, show just that
       String showOnlyId = Config.COMMON.showOnlyToolMaterial.get();
@@ -166,7 +167,7 @@ public final class ToolBuildHandler {
   }
 
   /** Makes a single sub item for the given materials */
-  private static boolean addSubItem(IModifiable item, List<ItemStack> items, IMaterial material, MaterialVariantId[] fixedMaterials) {
+  private static boolean addSubItem(IModifiable item, FabricItemGroupEntries items, IMaterial material, MaterialVariantId[] fixedMaterials) {
     List<PartRequirement> required = item.getToolDefinition().getData().getParts();
     MaterialNBT.Builder materials = MaterialNBT.builder();
     boolean useMaterial = false;
@@ -191,7 +192,7 @@ public final class ToolBuildHandler {
     }
     // only report success if we actually used the material somewhere
     if (useMaterial) {
-      items.add(buildItemFromMaterials(item, materials.build()));
+      items.accept(buildItemFromMaterials(item, materials.build()));
       return true;
     }
     return false;

@@ -16,14 +16,15 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial;
 import slimeknights.tconstruct.library.tools.item.ModifiableArmorItem;
 import slimeknights.tconstruct.tools.client.PlateArmorModel;
 
 public class PlateArmorItem extends ModifiableArmorItem {
-  public PlateArmorItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties) {
-    super(material, slotType, properties);
+  public PlateArmorItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties, CreativeModeTab tab) {
+    super(material, slotType, properties, tab);
     EnvExecutor.runWhenOn(EnvType.CLIENT, () -> this::initializeClient);
   }
 

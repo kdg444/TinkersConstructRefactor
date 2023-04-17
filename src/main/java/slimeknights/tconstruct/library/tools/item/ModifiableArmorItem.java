@@ -10,6 +10,8 @@ import io.github.fabricators_of_create.porting_lib.item.WalkOnSnowItem;
 import lombok.Getter;
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +28,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -70,14 +73,15 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
   private final ToolDefinition toolDefinition;
   /** Cache of the tool built for rendering */
   private ItemStack toolForRendering = null;
-  public ModifiableArmorItem(ArmorMaterial materialIn, ArmorItem.Type slot, Properties builderIn, ToolDefinition toolDefinition) {
+  public ModifiableArmorItem(ArmorMaterial materialIn, ArmorItem.Type slot, Properties builderIn, ToolDefinition toolDefinition, CreativeModeTab tab) {
     super(materialIn, slot, builderIn);
     this.toolDefinition = toolDefinition;
     ((FabricItemSettings)builderIn).customDamage(this::damageItem);
+    ItemGroupEvents.modifyEntriesEvent(tab).register(this::fillItemCategory);
   }
 
-  public ModifiableArmorItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties) {
-    this(material, slotType.getArmorType(), properties, Objects.requireNonNull(material.getArmorDefinition(slotType), "Missing tool definition for " + slotType));
+  public ModifiableArmorItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties, CreativeModeTab tab) {
+    this(material, slotType.getArmorType(), properties, Objects.requireNonNull(material.getArmorDefinition(slotType), "Missing tool definition for " + slotType), tab);
   }
 
   /* Basic properties */
@@ -385,12 +389,9 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   /* Display items */
 
-//  @Override TODO: PORT
-//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-//    if (this.allowdedIn(group)) {
-//      ToolBuildHandler.addDefaultSubItems(this, items);
-//    }
-//  }
+  public void fillItemCategory(FabricItemGroupEntries items) {
+    ToolBuildHandler.addDefaultSubItems(this, items);
+  }
 
   @Override
   public ItemStack getRenderTool() {
