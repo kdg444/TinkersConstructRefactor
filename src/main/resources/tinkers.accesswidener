@@ -152,5 +152,3 @@ accessible field net/minecraft/client/renderer/item/ItemProperties PROPERTIES Lj
 
 accessible method net/minecraft/commands/synchronization/ArgumentTypeInfos register (Lnet/minecraft/core/Registry;Ljava/lang/String;Ljava/lang/Class;Lnet/minecraft/commands/synchronization/ArgumentTypeInfo;)Lnet/minecraft/commands/synchronization/ArgumentTypeInfo;
 accessible method com/mojang/blaze3d/platform/NativeImage writeToChannel (Ljava/nio/channels/WritableByteChannel;)Z
-
-accessible method io/github/fabricators_of_create/porting_lib/data/ExistingFileHelper getManager (Lnet/minecraft/server/packs/PackType;)Lnet/minecraft/server/packs/resources/ResourceManager;
