@@ -1,5 +1,6 @@
 {
     "parent": "forge:item/bucket_drip",
     "loader": "porting_lib:fluid_container",
-    "fluid": "tconstruct:ichor"
+    "fluid": "tconstruct:ichor",
+    "flip_gas": true
 }
