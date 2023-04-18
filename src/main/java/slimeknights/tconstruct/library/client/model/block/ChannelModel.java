@@ -12,6 +12,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import slimeknights.mantle.client.model.fluid.FluidCuboid;
@@ -39,10 +40,10 @@ public class ChannelModel implements IUnbakedGeometry<ChannelModel> {
 		this.fluids = fluids;
 	}
 
-//	@Override
-//	public Collection<Material> getTextures(IModelConfiguration owner, Function<ResourceLocation,UnbakedModel> modelGetter, Set<Pair<String,String>> missingTextureErrors) {
-//		return model.getTextures(owner, modelGetter, missingTextureErrors);
-//	}
+	@Override
+	public void resolveParents(Function<ResourceLocation, UnbakedModel> modelGetter, BlockModel owner) {
+    model.resolveParents(modelGetter, owner);
+	}
 
 	@Override
 	public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState transform, ItemOverrides overrides, ResourceLocation location) {

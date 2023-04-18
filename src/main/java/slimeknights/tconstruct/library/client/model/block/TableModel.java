@@ -13,6 +13,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.resources.ResourceLocation;
 import slimeknights.mantle.client.model.RetexturedModel;
 import slimeknights.mantle.client.model.inventory.ModelItem;
@@ -31,10 +32,10 @@ public class TableModel implements IUnbakedGeometry<TableModel> {
   private final Set<String> retextured;
   private final List<ModelItem> items;
 
-//  @Override
-//  public Collection<Material> getTextures(BlockModel owner, Function<ResourceLocation,UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-//    return this.model.getTextures(owner, modelGetter, missingTextureErrors);
-//  }
+  @Override
+  public void resolveParents(Function<ResourceLocation, UnbakedModel> modelGetter, BlockModel owner) {
+    this.model.resolveParents(modelGetter, owner);
+  }
 
   @Override
   public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState transform, ItemOverrides overrides, ResourceLocation location) {

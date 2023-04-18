@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.client.model.tools;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -47,6 +48,7 @@ import slimeknights.mantle.util.ReversedListBuilder;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
 import slimeknights.tconstruct.library.client.modifiers.IBakedModifierModel;
+import slimeknights.tconstruct.library.client.modifiers.ModifierModelManager;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -130,55 +132,6 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
 
   /** Models for the relevant modifiers */
   private Map<ModifierId,IBakedModifierModel> modifierModels = Collections.emptyMap();
-
-//  @Override
-//  public Collection<Material> getTextures(BlockModel owner, Function<ResourceLocation,UnbakedModel> modelGetter, Set<Pair<String,String>> missingTextureErrors) {
-//    Set<Material> allTextures = Sets.newHashSet();
-//    if (toolParts.isEmpty()) {
-//      allTextures.add(owner.resolveTexture("tool"));
-//      if (owner.isTexturePresent("broken")) {
-//        allTextures.add(owner.resolveTexture("broken"));
-//      }
-//      if (isLarge) {
-//        allTextures.add(owner.resolveTexture("tool_large"));
-//        if (owner.isTexturePresent("broken_large")) {
-//          allTextures.add(owner.resolveTexture("broken_large"));
-//        }
-//      }
-//    } else {
-//      for (ToolPart part : toolParts) {
-//        // if material variants, fetch textures from the material model
-//        if (part.hasMaterials()) {
-//          MaterialModel.getMaterialTextures(allTextures, owner, part.getName(false, false), null);
-//          if (part.hasBroken()) {
-//            MaterialModel.getMaterialTextures(allTextures, owner, part.getName(true, false), null);
-//          }
-//          if (isLarge) {
-//            MaterialModel.getMaterialTextures(allTextures, owner, part.getName(false, true), null);
-//            if (part.hasBroken()) {
-//              MaterialModel.getMaterialTextures(allTextures, owner, part.getName(true, true), null);
-//            }
-//          }
-//        } else {
-//          // static texture
-//          allTextures.add(owner.resolveTexture(part.getName(false, false)));
-//          if (part.hasBroken()) {
-//            allTextures.add(owner.resolveTexture(part.getName(true, false)));
-//          }
-//          if (isLarge) {
-//            allTextures.add(owner.resolveTexture(part.getName(false, true)));
-//            if (part.hasBroken()) {
-//              allTextures.add(owner.resolveTexture(part.getName(true, true)));
-//            }
-//          }
-//        }
-//      }
-//    }
-//    // load modifier models
-//    modifierModels = ModifierModelManager.getModelsForTool(smallModifierRoots, isLarge ? largeModifierRoots : Collections.emptyList(), allTextures);
-//
-//    return allTextures;
-//  }
 
   /**
    * adds quads for relevant modifiers
@@ -313,7 +266,49 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
   @Override
   public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
     // load in modifiers
-    // Map<Modifier,IBakedModifierModel> modifierModels = ModifierModelManager.getModelsForTool(smallModifierRoots, isLarge ? largeModifierRoots : Collections.emptyList());
+    Set<Material> allTextures = Sets.newHashSet();
+    if (toolParts.isEmpty()) {
+      allTextures.add(owner.getMaterial("tool"));
+      if (owner.hasTexture("broken")) {
+        allTextures.add(owner.getMaterial("broken"));
+      }
+      if (isLarge) {
+        allTextures.add(owner.getMaterial("tool_large"));
+        if (owner.hasTexture("broken_large")) {
+          allTextures.add(owner.getMaterial("broken_large"));
+        }
+      }
+    } else {
+      for (ToolPart part : toolParts) {
+        // if material variants, fetch textures from the material model
+        if (part.hasMaterials()) {
+          MaterialModel.getMaterialTextures(allTextures, owner, part.getName(false, false), null);
+          if (part.hasBroken()) {
+            MaterialModel.getMaterialTextures(allTextures, owner, part.getName(true, false), null);
+          }
+          if (isLarge) {
+            MaterialModel.getMaterialTextures(allTextures, owner, part.getName(false, true), null);
+            if (part.hasBroken()) {
+              MaterialModel.getMaterialTextures(allTextures, owner, part.getName(true, true), null);
+            }
+          }
+        } else {
+          // static texture
+          allTextures.add(owner.getMaterial(part.getName(false, false)));
+          if (part.hasBroken()) {
+            allTextures.add(owner.getMaterial(part.getName(true, false)));
+          }
+          if (isLarge) {
+            allTextures.add(owner.getMaterial(part.getName(false, true)));
+            if (part.hasBroken()) {
+              allTextures.add(owner.getMaterial(part.getName(true, true)));
+            }
+          }
+        }
+      }
+    }
+    // load modifier models
+    modifierModels = ModifierModelManager.getModelsForTool(smallModifierRoots, isLarge ? largeModifierRoots : Collections.emptyList(), allTextures);
 
     Transformation largeTransforms = isLarge ? new Transformation(new Vector3f((offset.x - 8) / 32, (-offset.y - 8) / 32, 0), null, new Vector3f(2, 2, 1), null) : null;
     overrides = new MaterialOverrideHandler(owner, toolParts, firstModifiers, largeTransforms, modifierModels, overrides); // TODO: nest original overrides?
@@ -507,8 +502,7 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
       if (type == ItemDisplayContext.GUI) {
         return ((TransformTypeDependentItemBakedModel)this.guiModel).applyTransform(type, mat, leftHanded);
       }
-      this.transforms.getTransform(type).apply(leftHanded, mat);
-      return this;
+      return TransformTypeDependentItemBakedModel.super.applyTransform(type, mat, leftHanded);
     }
 
     /* Misc properties */
@@ -530,7 +524,7 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
 
     @Override
     public ItemTransforms getTransforms() {
-      return ItemTransforms.NO_TRANSFORMS;
+      return this.transforms;
     }
   }
 

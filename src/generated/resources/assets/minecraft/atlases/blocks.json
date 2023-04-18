@@ -594,127 +594,127 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/arrow.png"
+      "resource": "tconstruct:gui/tinker_pattern/arrow"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/block.png"
+      "resource": "tconstruct:gui/tinker_pattern/block"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/bow_grip.png"
+      "resource": "tconstruct:gui/tinker_pattern/bow_grip"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/bow_limb.png"
+      "resource": "tconstruct:gui/tinker_pattern/bow_limb"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/bowstring.png"
+      "resource": "tconstruct:gui/tinker_pattern/bowstring"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/broad_axe_head.png"
+      "resource": "tconstruct:gui/tinker_pattern/broad_axe_head"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/broad_blade.png"
+      "resource": "tconstruct:gui/tinker_pattern/broad_blade"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/button_repair.png"
+      "resource": "tconstruct:gui/tinker_pattern/button_repair"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/dust.png"
+      "resource": "tconstruct:gui/tinker_pattern/dust"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/gem.png"
+      "resource": "tconstruct:gui/tinker_pattern/gem"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/hammer_head.png"
+      "resource": "tconstruct:gui/tinker_pattern/hammer_head"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/ingot.png"
+      "resource": "tconstruct:gui/tinker_pattern/ingot"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/item_frame.png"
+      "resource": "tconstruct:gui/tinker_pattern/item_frame"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/lapis.png"
+      "resource": "tconstruct:gui/tinker_pattern/lapis"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/large_blade.png"
+      "resource": "tconstruct:gui/tinker_pattern/large_blade"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/large_plate.png"
+      "resource": "tconstruct:gui/tinker_pattern/large_plate"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/pattern.png"
+      "resource": "tconstruct:gui/tinker_pattern/pattern"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/pick_head.png"
+      "resource": "tconstruct:gui/tinker_pattern/pick_head"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/pickaxe.png"
+      "resource": "tconstruct:gui/tinker_pattern/pickaxe"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/quartz.png"
+      "resource": "tconstruct:gui/tinker_pattern/quartz"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/repair_kit.png"
+      "resource": "tconstruct:gui/tinker_pattern/repair_kit"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/round_plate.png"
+      "resource": "tconstruct:gui/tinker_pattern/round_plate"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/shield.png"
+      "resource": "tconstruct:gui/tinker_pattern/shield"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/shield_plus.png"
+      "resource": "tconstruct:gui/tinker_pattern/shield_plus"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/small_axe_head.png"
+      "resource": "tconstruct:gui/tinker_pattern/small_axe_head"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/small_blade.png"
+      "resource": "tconstruct:gui/tinker_pattern/small_blade"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/tipped_arrow.png"
+      "resource": "tconstruct:gui/tinker_pattern/tipped_arrow"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/tool_belt.png"
+      "resource": "tconstruct:gui/tinker_pattern/tool_belt"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/tool_binding.png"
+      "resource": "tconstruct:gui/tinker_pattern/tool_binding"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/tool_handle.png"
+      "resource": "tconstruct:gui/tinker_pattern/tool_handle"
     },
     {
       "type": "minecraft:single",
-      "resource": "tconstruct:textures/gui/tinker_pattern/tough_handle.png"
+      "resource": "tconstruct:gui/tinker_pattern/tough_handle"
     }
   ]
 }

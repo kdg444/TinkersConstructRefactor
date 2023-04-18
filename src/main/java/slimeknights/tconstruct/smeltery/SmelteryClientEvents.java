@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.smeltery;
 
+import io.github.fabricators_of_create.porting_lib.client_events.event.client.ModelEvents;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.RegisterGeometryLoadersCallback;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -45,13 +45,13 @@ public class SmelteryClientEvents extends ClientEventBase {
   }
 
   static void registerRenderers() {
-    BlockEntityRendererRegistry.register(TinkerSmeltery.tank.get(), TankBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(TinkerSmeltery.faucet.get(), FaucetBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(TinkerSmeltery.channel.get(), ChannelBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(TinkerSmeltery.table.get(), CastingBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(TinkerSmeltery.basin.get(), CastingBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(TinkerSmeltery.melter.get(), MelterBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(TinkerSmeltery.alloyer.get(), TankBlockEntityRenderer::new);
+    BlockEntityRenderers.register(TinkerSmeltery.tank.get(), TankBlockEntityRenderer::new);
+    BlockEntityRenderers.register(TinkerSmeltery.faucet.get(), FaucetBlockEntityRenderer::new);
+    BlockEntityRenderers.register(TinkerSmeltery.channel.get(), ChannelBlockEntityRenderer::new);
+    BlockEntityRenderers.register(TinkerSmeltery.table.get(), CastingBlockEntityRenderer::new);
+    BlockEntityRenderers.register(TinkerSmeltery.basin.get(), CastingBlockEntityRenderer::new);
+    BlockEntityRenderers.register(TinkerSmeltery.melter.get(), MelterBlockEntityRenderer::new);
+    BlockEntityRenderers.register(TinkerSmeltery.alloyer.get(), TankBlockEntityRenderer::new);
     BlockEntityRenderers.register(TinkerSmeltery.smeltery.get(), HeatingStructureBlockEntityRenderer::new);
     BlockEntityRenderers.register(TinkerSmeltery.foundry.get(), HeatingStructureBlockEntityRenderer::new);
   }

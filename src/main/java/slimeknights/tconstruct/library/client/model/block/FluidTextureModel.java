@@ -3,7 +3,6 @@ package slimeknights.tconstruct.library.client.model.block;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import com.mojang.datafixers.util.Pair;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
@@ -21,13 +20,11 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
-import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -52,11 +49,9 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.smeltery.block.entity.tank.IDisplayFluidListener;
 
 import java.util.BitSet;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -73,10 +68,10 @@ public class FluidTextureModel implements IUnbakedGeometry<FluidTextureModel> {
   private final Set<String> fluids;
   private final Set<String> retextured;
 
-//  @Override
-//  public Collection<Material> getTextures(IModelConfiguration owner, Function<ResourceLocation,UnbakedModel> modelGetter, Set<Pair<String,String>> missingTextureErrors) {
-//    return model.getTextures(owner, modelGetter, missingTextureErrors);
-//  }
+  @Override
+  public void resolveParents(Function<ResourceLocation,UnbakedModel> modelGetter, BlockModel owner) {
+    model.resolveParents(modelGetter, owner);
+  }
 
   /** Trims the # character off the beginning of a texture name (if present) */
   private static String trimTextureName(String name) {

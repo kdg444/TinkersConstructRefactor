@@ -1,4 +1,4 @@
-// 1.19.4	2023-04-16T23:01:43.797972379	Hephaestus/Tinkers' Construct Modifiers
+// 1.19.4	2023-04-17T22:19:11.481683141	Hephaestus/Tinkers' Construct Modifiers
 3a1b08cf52a4469f4978e47bc37b7673e32da19b data/tconstruct/tinkering/modifiers/swiftstrike.json
 71b8354471391fe41e85d2d31e5e1a4eed3262b3 data/tconstruct/tinkering/modifiers/piglin_disguise.json
 32bd9a54ab2856cc777edb048fb8f43e99afe864 data/tconstruct/tinkering/modifiers/shovel_flatten.json
@@ -37,8 +37,8 @@ c7aeb2df692e75ee2ada625737d50b641b63fd3d data/tconstruct/tinkering/modifiers/kno
 cc61e4f7c3566cd7d8b9bd9db3701d6126e45aca data/tconstruct/tinkering/modifiers/zombified_piglin_disguise.json
 85f9b18a52eb43fe141c4ca94e14240b424c7706 data/tconstruct/tinkering/modifiers/firestarter_hidden.json
 504de53a0c524b689e2275cd11e65603be645927 data/tconstruct/tinkering/modifiers/shiny.json
-5b82cfc8166bdcccc6604b65dd604d19b6175b16 data/tconstruct/tinkering/modifiers/writable.json
 5b82cfc8166bdcccc6604b65dd604d19b6175b16 data/tconstruct/tinkering/modifiers/recapitated.json
+5b82cfc8166bdcccc6604b65dd604d19b6175b16 data/tconstruct/tinkering/modifiers/writable.json
 1e9edd11b305a08634536ca407607efd21a9cbbf data/tconstruct/tinkering/modifiers/silky.json
 7b9ba8847632735ad91194916c342e38bfe96d67 data/tconstruct/tinkering/modifiers/spider_disguise.json
 c1817b2ed52a9ba15f59b66b6bc8cfdc77b804e7 data/tconstruct/tinkering/modifiers/sturdy.json

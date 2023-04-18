@@ -1,16 +1,12 @@
 package slimeknights.tconstruct.shared;
 
-import io.github.fabricators_of_create.porting_lib.client_events.event.client.ModelEvents;
 import io.github.fabricators_of_create.porting_lib.event.common.RecipesUpdatedCallback;
-import me.alphamode.star.client.renderers.UpsideDownFluidRenderer;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.item.crafting.RecipeManager;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.fluids.FluidClientEvents;
-import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.gadgets.GadgetClientEvents;
 import slimeknights.tconstruct.library.client.book.TinkerBook;
 import slimeknights.tconstruct.library.client.data.spritetransformer.GreyToColorMapping;

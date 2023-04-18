@@ -82,6 +82,14 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
   protected final boolean forceModelFluid;
 
   @Override
+  public void resolveParents(Function<ResourceLocation, UnbakedModel> modelGetter, BlockModel owner) {
+    model.resolveParents(modelGetter, owner);
+    if (gui != null) {
+      gui.resolveParents(modelGetter, owner);
+    }
+  }
+
+  @Override
   public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState transform, ItemOverrides overrides, ResourceLocation location) {
     BakedModel baked = model.bakeModel(owner, transform, overrides, spriteGetter, location);
     // bake the GUI model if present
