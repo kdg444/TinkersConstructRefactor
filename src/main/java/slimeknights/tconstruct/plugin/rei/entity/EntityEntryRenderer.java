@@ -19,6 +19,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import org.joml.Quaternionf;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.RenderUtils;
 import slimeknights.tconstruct.plugin.jei.entity.EntityMeltingRecipeCategory;
@@ -75,12 +76,7 @@ public class EntityEntryRenderer implements EntryRenderer<EntityType> {
         }
         // catch exceptions drawing the entity to be safe, any caught exceptions blacklist the entity
         try {
-          PoseStack modelView = RenderSystem.getModelViewStack();
-          modelView.pushPose();
-          modelView.mulPoseMatrix(matrixStack.last().pose());
-//          InventoryScreen.renderEntityInInventory(matrixStack, size / 2, size, scale, 0, 10, livingEntity); TODO: PORT
-          modelView.popPose();
-          RenderSystem.applyModelViewMatrix();
+          InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, size / 2, size, scale, 0, 10, livingEntity);
           matrixStack.popPose();
           return;
         } catch (Exception e) {

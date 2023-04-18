@@ -78,12 +78,7 @@ public class EntityIngredientRenderer implements IIngredientRenderer<EntityType>
           }
           // catch exceptions drawing the entity to be safe, any caught exceptions blacklist the entity
           try {
-            PoseStack modelView = RenderSystem.getModelViewStack();
-            modelView.pushPose();
-            modelView.mulPoseMatrix(matrixStack.last().pose());
-//            InventoryScreen.renderEntityInInventory(matrixStack, size / 2, size, scale, 0, 10, livingEntity); TODO: PORT
-            modelView.popPose();
-            RenderSystem.applyModelViewMatrix();
+            InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, size / 2, size, scale, 0, 10, livingEntity);
             return;
           } catch (Exception e) {
             TConstruct.LOG.error("Error drawing entity " + BuiltInRegistries.ENTITY_TYPE.getKey(type), e);
