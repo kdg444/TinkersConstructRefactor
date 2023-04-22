@@ -123,7 +123,7 @@ public final class TinkerWorld extends TinkerModule {
 
   /** Tab for anything generated in the world */
   @SuppressWarnings("WeakerAccess")
-  public static final CreativeModeTab TAB_WORLD = SupplierCreativeTab.create(TConstruct.MOD_ID, "world", () -> new ItemStack(TinkerWorld.cobaltOre)).build();
+  public static final CreativeModeTab TAB_WORLD = SupplierCreativeTab.create(TConstruct.MOD_ID, "world", () -> new ItemStack(TinkerWorld.cobaltOre)).displayItems(TinkerWorld::buildWorldTab).build();
 	static final Logger log = Util.getLogger("tinker_world");
 
   public static final PlantType SLIME_PLANT_TYPE = PlantType.get("slime");
@@ -484,5 +484,20 @@ public final class TinkerWorld extends TinkerModule {
       return new PiglinWallHeadBlock(type, props);
     }
     return new WallSkullBlock(type, props);
+  }
+
+  public static void buildWorldTab(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
+    output.accept(cobaltOre);
+    output.accept(rawCobaltBlock);
+    slime.forEach((slimeType, slimeBlock) -> {
+      if (slimeBlock != Blocks.SLIME_BLOCK)
+        output.accept(slimeBlock);
+    });
+    congealedSlime.forEach((slimeType, congealedSlimeBlock) -> output.accept(congealedSlimeBlock));
+    slimeDirt.forEach((slimeType, block) -> output.accept(block));
+    vanillaSlimeGrass.forEach((slimeType, block) -> output.accept(block));
+    earthSlimeGrass.forEach((slimeType, block) -> output.accept(block));
+    skySlimeGrass.forEach((slimeType, block) -> output.accept(block));
+    ichorSlimeGrass.forEach((slimeType, block) -> output.accept(block));
   }
 }
