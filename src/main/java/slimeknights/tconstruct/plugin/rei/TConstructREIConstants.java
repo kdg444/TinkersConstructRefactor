@@ -3,15 +3,18 @@ package slimeknights.tconstruct.plugin.rei;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.type.EntryType;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.entity.EntityType;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
+import slimeknights.tconstruct.library.recipe.worktable.IModifierWorktableRecipe;
 import slimeknights.tconstruct.plugin.rei.casting.CastingDisplay;
 import slimeknights.tconstruct.plugin.rei.entity.EntityMeltingRecipeDisplay;
 import slimeknights.tconstruct.plugin.rei.entity.SeveringDisplay;
 import slimeknights.tconstruct.plugin.rei.melting.MeltingDisplay;
 import slimeknights.tconstruct.plugin.rei.modifiers.ModifierRecipeDisplay;
+import slimeknights.tconstruct.plugin.rei.modifiers.ModifierWorktableDisplay;
 import slimeknights.tconstruct.plugin.rei.partbuilder.PartBuilderDisplay;
 
 public class TConstructREIConstants {
@@ -38,6 +41,9 @@ public class TConstructREIConstants {
 
   // part builder
   public static final CategoryIdentifier<PartBuilderDisplay> PART_BUILDER = type("part_builder");
+
+  // modifier workstation
+  public static final CategoryIdentifier<ModifierWorktableDisplay> MODIFIER_WORKTABLE = type("worktable");
 
   private static <D extends Display> CategoryIdentifier<D> type(String name) {
     return CategoryIdentifier.of(TConstruct.MOD_ID, name);

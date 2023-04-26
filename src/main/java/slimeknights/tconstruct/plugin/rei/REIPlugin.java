@@ -48,6 +48,7 @@ import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierR
 import slimeknights.tconstruct.library.recipe.modifiers.severing.SeveringRecipe;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipe;
 import slimeknights.tconstruct.library.recipe.partbuilder.IDisplayPartBuilderRecipe;
+import slimeknights.tconstruct.library.recipe.worktable.IModifierWorktableRecipe;
 import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
 import slimeknights.tconstruct.plugin.jei.entity.DefaultEntityMeltingRecipe;
@@ -67,6 +68,8 @@ import slimeknights.tconstruct.plugin.rei.melting.MeltingDisplay;
 import slimeknights.tconstruct.plugin.rei.modifiers.ModifierEntryDefinition;
 import slimeknights.tconstruct.plugin.rei.modifiers.ModifierRecipeCategory;
 import slimeknights.tconstruct.plugin.rei.modifiers.ModifierRecipeDisplay;
+import slimeknights.tconstruct.plugin.rei.modifiers.ModifierWorktableCategory;
+import slimeknights.tconstruct.plugin.rei.modifiers.ModifierWorktableDisplay;
 import slimeknights.tconstruct.plugin.rei.partbuilder.PartBuilderCategory;
 import slimeknights.tconstruct.plugin.rei.partbuilder.PartBuilderDisplay;
 import slimeknights.tconstruct.plugin.rei.partbuilder.PatternEntryDefinition;
@@ -99,12 +102,15 @@ public class REIPlugin implements REIClientPlugin {
     registry.add(new SeveringCategory());
     // part builder
     registry.add(new PartBuilderCategory());
+    // modifier worktable
+    registry.add(new ModifierWorktableCategory());
 
     // tables
     registry.addWorkstations(TConstructREIConstants.PART_BUILDER, EntryStacks.of(TinkerTables.partBuilder));
     registry.addWorkstations(TConstructREIConstants.MODIFIERS, EntryStacks.of(TinkerTables.tinkerStation));
     registry.addWorkstations(TConstructREIConstants.MODIFIERS, EntryStacks.of(TinkerTables.tinkersAnvil));
     registry.addWorkstations(TConstructREIConstants.MODIFIERS, EntryStacks.of(TinkerTables.scorchedAnvil));
+    registry.addWorkstations(TConstructREIConstants.MODIFIER_WORKTABLE, EntryStacks.of(TinkerTables.modifierWorktable));
 
     // smeltery
     registry.addWorkstations(TConstructREIConstants.MELTING, EntryStacks.of(TinkerSmeltery.searedMelter));
@@ -221,6 +227,10 @@ public class REIPlugin implements REIClientPlugin {
     MaterialItemList.setRecipes(materialRecipes);
     List<IDisplayPartBuilderRecipe> partRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.PART_BUILDER.get(), IDisplayPartBuilderRecipe.class);
     partRecipes.forEach(partRecipe -> registry.add(new PartBuilderDisplay(partRecipe)));
+
+    // modifier worktable
+    List<IModifierWorktableRecipe> modifierWorktableRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.MODIFIER_WORKTABLE.get(), IModifierWorktableRecipe.class);
+    modifierWorktableRecipes.forEach(iModifierWorktableRecipe -> registry.add(new ModifierWorktableDisplay(iModifierWorktableRecipe)));
   }
 
   @Override
