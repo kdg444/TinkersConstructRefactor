@@ -45,11 +45,6 @@ public class ModifierWorktableCategory implements TinkersCategory<ModifierWorkta
   }
 
   @Override
-  public WidgetHolder getBackground() {
-    return this.background;
-  }
-
-  @Override
   public CategoryIdentifier<? extends ModifierWorktableDisplay> getCategoryIdentifier() {
     return TConstructREIConstants.MODIFIER_WORKTABLE;
   }
@@ -57,11 +52,6 @@ public class ModifierWorktableCategory implements TinkersCategory<ModifierWorkta
   @Override
   public Component getTitle() {
     return TITLE;
-  }
-
-  @Override
-  public Renderer getIcon() {
-    return this.icon;
   }
 
   @Override

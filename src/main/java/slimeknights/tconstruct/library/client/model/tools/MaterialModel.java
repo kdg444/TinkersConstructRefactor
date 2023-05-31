@@ -62,13 +62,6 @@ public class MaterialModel implements IUnbakedGeometry<MaterialModel> {
   /** Transform matrix to apply to child parts */
   private final Vec2 offset;
 
-//  @Override
-//  public Collection<Material> getTextures(BlockModel owner, Function<ResourceLocation,UnbakedModel> modelGetter, Set<Pair<String,String>> missingTextureErrors) {
-//    Set<Material> allTextures = Sets.newHashSet();
-//    getMaterialTextures(allTextures, owner, "texture", material);
-//    return allTextures;
-//  }
-
   /** @deprecated use {@link DynamicTextureLoader#getTextureAdder(Collection, boolean)} */
   @Deprecated
   public static Predicate<Material> getTextureAdder(Collection<Material> allTextures, boolean logMissingTextures) {
