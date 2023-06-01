@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:gears/uranium"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/gear"
   },
+  "cooling_time": 122,
   "fluid": {
-    "tag": "c:molten_uranium",
-    "amount": 36000
+    "amount": 36000,
+    "tag": "c:molten_uranium"
   },
   "result": {
     "tag": "c:gears/uranium"
-  },
-  "cooling_time": 122
+  }
 }

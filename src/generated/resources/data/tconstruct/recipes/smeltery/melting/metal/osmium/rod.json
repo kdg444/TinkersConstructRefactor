@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:rods/osmium"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:rods/osmium"
   },
   "result": {
-    "fluid": "tconstruct:molten_osmium",
-    "amount": 4500
+    "amount": 4500,
+    "fluid": "tconstruct:molten_osmium"
   },
   "temperature": 975,
   "time": 13

@@ -1,10 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "wooden_fence_gate",
-  "pattern": [
-    "#W#",
-    "#W#"
-  ],
   "key": {
     "#": {
       "item": "minecraft:stick"
@@ -13,7 +10,12 @@
       "item": "tconstruct:skyroot_planks"
     }
   },
+  "pattern": [
+    "#W#",
+    "#W#"
+  ],
   "result": {
     "item": "tconstruct:skyroot_fence_gate"
-  }
+  },
+  "show_notification": true
 }

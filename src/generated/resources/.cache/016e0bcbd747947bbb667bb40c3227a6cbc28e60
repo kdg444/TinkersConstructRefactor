@@ -1,4 +1,4 @@
-// 1.19.4	2023-04-17T22:19:11.481683141	Hephaestus/Tinkers' Construct Modifiers
+// 1.19.4	2023-05-31T17:27:18.085496475	Hephaestus/Tinkers' Construct Modifiers
 3a1b08cf52a4469f4978e47bc37b7673e32da19b data/tconstruct/tinkering/modifiers/swiftstrike.json
 71b8354471391fe41e85d2d31e5e1a4eed3262b3 data/tconstruct/tinkering/modifiers/piglin_disguise.json
 32bd9a54ab2856cc777edb048fb8f43e99afe864 data/tconstruct/tinkering/modifiers/shovel_flatten.json
@@ -44,7 +44,7 @@ cc61e4f7c3566cd7d8b9bd9db3701d6126e45aca data/tconstruct/tinkering/modifiers/zom
 c1817b2ed52a9ba15f59b66b6bc8cfdc77b804e7 data/tconstruct/tinkering/modifiers/sturdy.json
 eb9e3873795b570bf01cb7470f4df5bb52492611 data/tconstruct/tinkering/modifiers/overslime_friend.json
 d295d3d74d3d8bdc55ddc3744d212fffbb7efff6 data/tconstruct/tinkering/modifiers/diamond.json
-1a7be9c2048e61bfaebccfb91def3e52b2cda97b data/tconstruct/tinkering/modifiers/reach.json
+4637e9ec59f0b8cc5b68463654cac8fdddcc2f2e data/tconstruct/tinkering/modifiers/reach.json
 023ad5b3534277f7fea1fc216d3173f24491f847 data/tconstruct/tinkering/modifiers/netherite.json
 5b82cfc8166bdcccc6604b65dd604d19b6175b16 data/tconstruct/tinkering/modifiers/harmonious.json
 7b5c43697a2af2703b545419a249cc187d173b41 data/tconstruct/tinkering/modifiers/wither_skeleton_disguise.json

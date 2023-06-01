@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:coins/knightslime"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:coins/knightslime"
   },
   "result": {
-    "fluid": "tconstruct:molten_knightslime",
-    "amount": 3000
+    "amount": 3000,
+    "fluid": "tconstruct:molten_knightslime"
   },
   "temperature": 1125,
   "time": 47

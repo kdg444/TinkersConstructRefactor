@@ -1,23 +1,23 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/zinc"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/single_use/ingot"
   },
   "cast_consumed": true,
+  "cooling_time": 47,
   "fluid": {
-    "tag": "c:molten_zinc",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_zinc"
   },
   "result": {
     "tag": "c:ingots/zinc"
-  },
-  "cooling_time": 47
+  }
 }

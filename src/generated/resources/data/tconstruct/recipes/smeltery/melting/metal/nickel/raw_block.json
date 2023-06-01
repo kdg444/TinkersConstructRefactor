@@ -1,18 +1,18 @@
 {
-  "type": "forge:conditional",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:storage_blocks/raw_nickel"
       ]
     }
   ],
+  "type": "forge:conditional",
   "recipes": [
     {
       "fabric:load_conditions": [
         {
-          "condition": "fabric:item_tags_populated",
+          "condition": "fabric:tags_populated",
           "values": [
             "c:ingots/platinum"
           ]
@@ -20,22 +20,22 @@
       ],
       "recipe": {
         "type": "tconstruct:ore_melting",
-        "rate": "metal",
+        "byproducts": [
+          {
+            "amount": 27000,
+            "fluid": "tconstruct:molten_platinum"
+          }
+        ],
         "ingredient": {
           "tag": "c:storage_blocks/raw_nickel"
         },
+        "rate": "metal",
         "result": {
-          "fluid": "tconstruct:molten_nickel",
-          "amount": 81000
+          "amount": 81000,
+          "fluid": "tconstruct:molten_nickel"
         },
         "temperature": 950,
-        "time": 389,
-        "byproducts": [
-          {
-            "fluid": "tconstruct:molten_platinum",
-            "amount": 27000
-          }
-        ]
+        "time": 389
       }
     },
     {
@@ -46,22 +46,22 @@
       ],
       "recipe": {
         "type": "tconstruct:ore_melting",
-        "rate": "metal",
+        "byproducts": [
+          {
+            "amount": 81000,
+            "fluid": "tconstruct:molten_iron"
+          }
+        ],
         "ingredient": {
           "tag": "c:storage_blocks/raw_nickel"
         },
+        "rate": "metal",
         "result": {
-          "fluid": "tconstruct:molten_nickel",
-          "amount": 81000
+          "amount": 81000,
+          "fluid": "tconstruct:molten_nickel"
         },
         "temperature": 950,
-        "time": 389,
-        "byproducts": [
-          {
-            "fluid": "tconstruct:molten_iron",
-            "amount": 81000
-          }
-        ]
+        "time": 389
       }
     }
   ]

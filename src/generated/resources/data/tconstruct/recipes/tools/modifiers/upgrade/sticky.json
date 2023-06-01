@@ -1,10 +1,19 @@
 {
   "type": "tconstruct:incremental_modifier",
+  "allow_crystal": true,
+  "amount_per_item": 1,
   "input": {
     "item": "minecraft:cobweb"
   },
-  "amount_per_item": 1,
+  "max_level": 3,
   "needed_per_level": 5,
+  "result": {
+    "level": 1,
+    "name": "tconstruct:sticky"
+  },
+  "slots": {
+    "upgrades": 1
+  },
   "tools": [
     {
       "tag": "tconstruct:modifiable/melee"
@@ -15,14 +24,5 @@
     {
       "tag": "tconstruct:modifiable/shields"
     }
-  ],
-  "slots": {
-    "upgrades": 1
-  },
-  "allow_crystal": true,
-  "result": {
-    "name": "tconstruct:sticky",
-    "level": 1
-  },
-  "max_level": 3
+  ]
 }

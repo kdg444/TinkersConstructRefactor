@@ -1,11 +1,17 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
         "ceramics"
       ]
+    }
+  ],
+  "type": "tconstruct:melting",
+  "byproducts": [
+    {
+      "amount": 125,
+      "fluid": "tconstruct:molten_gold"
     }
   ],
   "ingredient": [
@@ -20,15 +26,9 @@
     }
   ],
   "result": {
-    "fluid": "tconstruct:molten_porcelain",
-    "amount": 81000
+    "amount": 81000,
+    "fluid": "tconstruct:molten_porcelain"
   },
   "temperature": 700,
-  "time": 114,
-  "byproducts": [
-    {
-      "fluid": "tconstruct:molten_gold",
-      "amount": 125
-    }
-  ]
+  "time": 114
 }

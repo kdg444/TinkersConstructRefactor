@@ -1,10 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "#C#",
-    "   ",
-    "#C#"
-  ],
+  "category": "misc",
   "key": {
     "#": {
       "item": "tconstruct:scorched_brick"
@@ -13,7 +9,13 @@
       "item": "tconstruct:obsidian_pane"
     }
   },
+  "pattern": [
+    "#C#",
+    "   ",
+    "#C#"
+  ],
   "result": {
     "item": "tconstruct:scorched_chute"
-  }
+  },
+  "show_notification": true
 }

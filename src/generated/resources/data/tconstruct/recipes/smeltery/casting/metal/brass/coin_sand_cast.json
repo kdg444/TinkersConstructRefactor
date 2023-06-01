@@ -1,23 +1,23 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:coins/brass"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/single_use/coin"
   },
   "cast_consumed": true,
+  "cooling_time": 31,
   "fluid": {
-    "tag": "c:molten_brass",
-    "amount": 3000
+    "amount": 3000,
+    "tag": "c:molten_brass"
   },
   "result": {
     "tag": "c:coins/brass"
-  },
-  "cooling_time": 31
+  }
 }

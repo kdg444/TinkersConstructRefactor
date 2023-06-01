@@ -1,20 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "c:iron_ingots"
+    },
+    ".": {
+      "tag": "c:iron_nuggets"
+    }
+  },
   "pattern": [
     "#.#",
     ". .",
     "#.#"
   ],
-  "key": {
-    "#": {
-      "tag": "c:ingots/iron"
-    },
-    ".": {
-      "tag": "c:nuggets/iron"
-    }
-  },
   "result": {
-    "item": "tconstruct:iron_platform",
-    "count": 4
-  }
+    "count": 4,
+    "item": "tconstruct:iron_platform"
+  },
+  "show_notification": true
 }

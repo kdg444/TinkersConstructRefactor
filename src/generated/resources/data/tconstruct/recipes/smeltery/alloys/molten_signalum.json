@@ -1,20 +1,19 @@
 {
-  "type": "tconstruct:alloy",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/signalum"
       ]
     },
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/copper"
       ]
     },
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/silver"
       ]
@@ -26,23 +25,24 @@
       ]
     }
   ],
+  "type": "tconstruct:alloy",
   "inputs": [
     {
-      "tag": "c:molten_copper",
-      "amount": 27000
+      "amount": 27000,
+      "tag": "c:molten_copper"
     },
     {
-      "tag": "c:molten_silver",
-      "amount": 9000
+      "amount": 9000,
+      "tag": "c:molten_silver"
     },
     {
-      "tag": "c:redstone",
-      "amount": 400
+      "amount": 400,
+      "tag": "c:redstone"
     }
   ],
   "result": {
-    "fluid": "tconstruct:molten_signalum",
-    "amount": 36000
+    "amount": 36000,
+    "fluid": "tconstruct:molten_signalum"
   },
   "temperature": 1125
 }

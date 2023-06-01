@@ -19,9 +19,17 @@
     "found_island": {
       "trigger": "minecraft:location",
       "conditions": {
-        "location": {
-          "feature": "tconstruct:end_slime_island"
-        }
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "location": {
+                "structure": "tconstruct:end_slime_island"
+              }
+            },
+            "entity": "this"
+          }
+        ]
       }
     }
   },

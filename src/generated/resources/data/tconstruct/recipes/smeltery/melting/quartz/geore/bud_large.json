@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:geore_large_buds/quartz"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:geore_large_buds/quartz"
   },
   "result": {
-    "fluid": "tconstruct:molten_quartz",
-    "amount": 24300
+    "amount": 24300,
+    "fluid": "tconstruct:molten_quartz"
   },
   "temperature": 637,
   "time": 110

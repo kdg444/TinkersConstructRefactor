@@ -4,12 +4,12 @@
     "tag": "tconstruct:casts/single_use/ingot"
   },
   "cast_consumed": true,
+  "cooling_time": 65,
   "fluid": {
-    "tag": "c:molten_cobalt",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_cobalt"
   },
   "result": {
     "tag": "c:ingots/cobalt"
-  },
-  "cooling_time": 65
+  }
 }

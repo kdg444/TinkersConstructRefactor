@@ -1,15 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "bb",
-    "bb"
-  ],
+  "category": "misc",
   "key": {
     "b": {
       "item": "tconstruct:scorched_brick"
     }
   },
+  "pattern": [
+    "bb",
+    "bb"
+  ],
   "result": {
     "item": "tconstruct:scorched_bricks"
-  }
+  },
+  "show_notification": true
 }

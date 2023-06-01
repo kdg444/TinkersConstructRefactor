@@ -1,20 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "c:gold_ingots"
+    },
+    ".": {
+      "tag": "c:gold_nuggets"
+    }
+  },
   "pattern": [
     "#.#",
     ". .",
     "#.#"
   ],
-  "key": {
-    "#": {
-      "tag": "c:ingots/gold"
-    },
-    ".": {
-      "tag": "c:nuggets/gold"
-    }
-  },
   "result": {
-    "item": "tconstruct:gold_platform",
-    "count": 4
-  }
+    "count": 4,
+    "item": "tconstruct:gold_platform"
+  },
+  "show_notification": true
 }

@@ -1,19 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "g": {
+      "tag": "c:ingots/rose_gold"
+    },
+    "s": {
+      "tag": "c:string"
+    }
+  },
   "pattern": [
     "sss",
     "sgs",
     "sss"
   ],
-  "key": {
-    "s": {
-      "tag": "c:string"
-    },
-    "g": {
-      "tag": "c:ingots/rose_gold"
-    }
-  },
   "result": {
     "item": "tconstruct:silky_cloth"
-  }
+  },
+  "show_notification": true
 }

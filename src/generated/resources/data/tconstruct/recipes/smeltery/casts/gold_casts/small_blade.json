@@ -1,15 +1,15 @@
 {
   "type": "tconstruct:casting_table",
   "cast": {
-    "item": "tconstruct:small_blade",
-    "type": "tconstruct:material"
+    "type": "tconstruct:material",
+    "item": "tconstruct:small_blade"
   },
   "cast_consumed": true,
-  "switch_slots": true,
+  "cooling_time": 57,
   "fluid": {
-    "tag": "c:molten_gold",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_gold"
   },
   "result": "tconstruct:small_blade_cast",
-  "cooling_time": 57
+  "switch_slots": true
 }

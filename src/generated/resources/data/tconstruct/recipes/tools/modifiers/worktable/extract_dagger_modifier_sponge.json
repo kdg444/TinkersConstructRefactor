@@ -8,10 +8,6 @@
       "item": "minecraft:wet_sponge"
     }
   ],
-  "tools": {
-    "item": "tconstruct:dagger",
-    "amount_needed": 2
-  },
   "leftovers": [
     "minecraft:sponge"
   ],
@@ -21,5 +17,9 @@
       "type": "tconstruct:tag",
       "tag": "tconstruct:extract_blacklist/tools"
     }
+  },
+  "tools": {
+    "amount_needed": 2,
+    "item": "tconstruct:dagger"
   }
 }

@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:dusts/soulsteel"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:dusts/soulsteel"
   },
   "result": {
-    "fluid": "tconstruct:molten_soulsteel",
-    "amount": 9000
+    "amount": 9000,
+    "fluid": "tconstruct:molten_soulsteel"
   },
   "temperature": 1200,
   "time": 54

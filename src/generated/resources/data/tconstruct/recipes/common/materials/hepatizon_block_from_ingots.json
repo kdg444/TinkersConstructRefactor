@@ -1,11 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "tconstruct:hepatizon_block",
-  "pattern": [
-    "###",
-    "#*#",
-    "###"
-  ],
   "key": {
     "#": {
       "tag": "c:ingots/hepatizon"
@@ -14,7 +10,13 @@
       "item": "tconstruct:hepatizon_ingot"
     }
   },
+  "pattern": [
+    "###",
+    "#*#",
+    "###"
+  ],
   "result": {
     "item": "tconstruct:hepatizon_block"
-  }
+  },
+  "show_notification": true
 }

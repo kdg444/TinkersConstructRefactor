@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:casting_basin",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:storage_blocks/signalum"
       ]
     }
   ],
+  "type": "tconstruct:casting_basin",
+  "cooling_time": 210,
   "fluid": {
-    "tag": "c:molten_signalum",
-    "amount": 81000
+    "amount": 81000,
+    "tag": "c:molten_signalum"
   },
   "result": {
     "tag": "c:storage_blocks/signalum"
-  },
-  "cooling_time": 210
+  }
 }

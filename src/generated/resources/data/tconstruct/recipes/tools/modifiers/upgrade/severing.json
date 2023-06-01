@@ -1,5 +1,6 @@
 {
   "type": "tconstruct:modifier",
+  "allow_crystal": true,
   "inputs": [
     {
       "tag": "c:wither_bones"
@@ -14,16 +15,15 @@
       "item": "minecraft:tnt"
     }
   ],
-  "tools": {
-    "tag": "tconstruct:modifiable/melee_or_unarmed"
+  "max_level": 5,
+  "result": {
+    "level": 1,
+    "name": "tconstruct:severing"
   },
   "slots": {
     "upgrades": 1
   },
-  "allow_crystal": true,
-  "result": {
-    "name": "tconstruct:severing",
-    "level": 1
-  },
-  "max_level": 5
+  "tools": {
+    "tag": "tconstruct:modifiable/melee_or_unarmed"
+  }
 }

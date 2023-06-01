@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:gears/osmium"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/gear"
   },
+  "cooling_time": 131,
   "fluid": {
-    "tag": "c:molten_osmium",
-    "amount": 36000
+    "amount": 36000,
+    "tag": "c:molten_osmium"
   },
   "result": {
     "tag": "c:gears/osmium"
-  },
-  "cooling_time": 131
+  }
 }

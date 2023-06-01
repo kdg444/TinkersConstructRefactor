@@ -1,26 +1,26 @@
 {
   "type": "tconstruct:modifier",
+  "allow_crystal": true,
   "inputs": [
     {
       "tag": "minecraft:planks"
     },
     {
-      "tag": "forge:ingots/cobalt"
+      "tag": "c:ingots/cobalt"
     },
     {
       "tag": "minecraft:planks"
     }
   ],
-  "tools": {
-    "tag": "tconstruct:modifiable/melee/parry"
+  "max_level": 1,
+  "result": {
+    "level": 1,
+    "name": "tconstruct:parrying"
   },
   "slots": {
     "abilities": 1
   },
-  "allow_crystal": true,
-  "result": {
-    "name": "tconstruct:parrying",
-    "level": 1
-  },
-  "max_level": 1
+  "tools": {
+    "tag": "tconstruct:modifiable/melee/parry"
+  }
 }

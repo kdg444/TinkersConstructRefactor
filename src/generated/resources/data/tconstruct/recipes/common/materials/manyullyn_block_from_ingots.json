@@ -1,11 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "tconstruct:manyullyn_block",
-  "pattern": [
-    "###",
-    "#*#",
-    "###"
-  ],
   "key": {
     "#": {
       "tag": "c:ingots/manyullyn"
@@ -14,7 +10,13 @@
       "item": "tconstruct:manyullyn_ingot"
     }
   },
+  "pattern": [
+    "###",
+    "#*#",
+    "###"
+  ],
   "result": {
     "item": "tconstruct:manyullyn_block"
-  }
+  },
+  "show_notification": true
 }

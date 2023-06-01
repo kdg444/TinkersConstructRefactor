@@ -1,31 +1,31 @@
 {
   "type": "tconstruct:modifier",
+  "allow_crystal": true,
   "inputs": [
     {
       "item": "minecraft:piston"
     },
     {
-      "tag": "forge:ingots/amethyst_bronze"
+      "tag": "c:ingots/amethyst_bronze"
     },
     {
       "item": "minecraft:piston"
     },
     {
-      "tag": "forge:slimeball/ichor"
+      "tag": "c:slimeball/ichor"
     },
     {
-      "tag": "forge:slimeball/ichor"
+      "tag": "c:slimeball/ichor"
     }
   ],
-  "tools": {
-    "tag": "tconstruct:modifiable/ranged/bows"
+  "result": {
+    "level": 1,
+    "name": "tconstruct:multishot"
   },
   "slots": {
     "abilities": 1
   },
-  "allow_crystal": true,
-  "result": {
-    "name": "tconstruct:multishot",
-    "level": 1
+  "tools": {
+    "tag": "tconstruct:modifiable/ranged/bows"
   }
 }

@@ -1,17 +1,17 @@
 {
-  "type": "tconstruct:material",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:nuggets/constantan"
       ]
     }
   ],
+  "type": "tconstruct:material",
   "ingredient": {
     "tag": "c:nuggets/constantan"
   },
-  "value": 1,
+  "material": "tconstruct:constantan",
   "needed": 9,
-  "material": "tconstruct:constantan"
+  "value": 1
 }

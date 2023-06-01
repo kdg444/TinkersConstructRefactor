@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:gears/cobalt"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:gears/cobalt"
   },
   "result": {
-    "fluid": "tconstruct:molten_cobalt",
-    "amount": 36000
+    "amount": 36000,
+    "fluid": "tconstruct:molten_cobalt"
   },
   "temperature": 950,
   "time": 130

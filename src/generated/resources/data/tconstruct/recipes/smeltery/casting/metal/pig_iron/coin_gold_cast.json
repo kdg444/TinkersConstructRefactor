@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:coins/pig_iron"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/coin"
   },
+  "cooling_time": 35,
   "fluid": {
-    "tag": "tconstruct:molten_pig_iron",
-    "amount": 3000
+    "amount": 3000,
+    "tag": "tconstruct:molten_pig_iron"
   },
   "result": {
     "tag": "c:coins/pig_iron"
-  },
-  "cooling_time": 35
+  }
 }

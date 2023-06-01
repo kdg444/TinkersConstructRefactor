@@ -1,11 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "tconstruct:cobalt_ingot",
-  "pattern": [
-    "###",
-    "#*#",
-    "###"
-  ],
   "key": {
     "#": {
       "tag": "c:nuggets/cobalt"
@@ -14,7 +10,13 @@
       "item": "tconstruct:cobalt_nugget"
     }
   },
+  "pattern": [
+    "###",
+    "#*#",
+    "###"
+  ],
   "result": {
     "item": "tconstruct:cobalt_ingot"
-  }
+  },
+  "show_notification": true
 }

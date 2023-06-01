@@ -5,7 +5,7 @@
   },
   "filled": "tconstruct:magma_bottle",
   "fluid": {
-    "tag": "forge:magma",
-    "amount": 250
+    "tag": "c:magma",
+    "amount": 27000
   }
 }

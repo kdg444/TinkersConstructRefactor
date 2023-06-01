@@ -6,6 +6,6 @@
   "filled": "tconstruct:venom_bottle",
   "fluid": {
     "tag": "tconstruct:venom",
-    "amount": 250
+    "amount": 27000
   }
 }

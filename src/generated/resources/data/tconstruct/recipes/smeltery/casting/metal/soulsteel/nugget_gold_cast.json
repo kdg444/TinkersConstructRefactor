@@ -3,10 +3,10 @@
   "cast": {
     "tag": "tconstruct:casts/multi_use/nugget"
   },
+  "cooling_time": 24,
   "fluid": {
-    "tag": "tconstruct:molten_soulsteel",
-    "amount": 1000
+    "amount": 1000,
+    "tag": "tconstruct:molten_soulsteel"
   },
-  "result": "tconstruct:soulsteel_nugget",
-  "cooling_time": 24
+  "result": "tconstruct:soulsteel_nugget"
 }

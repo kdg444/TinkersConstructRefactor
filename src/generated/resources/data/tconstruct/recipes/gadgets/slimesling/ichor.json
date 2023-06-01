@@ -1,23 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "group": "tconstruct:slimesling",
+  "key": {
+    "#": {
+      "item": "minecraft:string"
+    },
+    "L": {
+      "tag": "c:slimeball/ichor"
+    },
+    "X": {
+      "item": "tconstruct:ichor_congealed_slime"
+    }
+  },
   "pattern": [
     "#X#",
     "L L",
     " L "
   ],
-  "key": {
-    "#": {
-      "item": "minecraft:string"
-    },
-    "X": {
-      "item": "tconstruct:ichor_congealed_slime"
-    },
-    "L": {
-      "tag": "c:slimeball/ichor"
-    }
-  },
   "result": {
     "item": "tconstruct:ichor_slime_sling"
-  }
+  },
+  "show_notification": true
 }

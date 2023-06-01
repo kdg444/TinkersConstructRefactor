@@ -29,8 +29,8 @@
     ]
   ],
   "result": {
-    "fluid": "tconstruct:seared_stone",
-    "amount": 81000
+    "amount": 81000,
+    "fluid": "tconstruct:seared_stone"
   },
   "temperature": 600,
   "time": 107

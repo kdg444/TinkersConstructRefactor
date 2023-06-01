@@ -1,18 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "tconstruct:seared_stone_stairs",
-  "pattern": [
-    "B  ",
-    "BB ",
-    "BBB"
-  ],
   "key": {
     "B": {
       "item": "tconstruct:seared_stone"
     }
   },
+  "pattern": [
+    "B  ",
+    "BB ",
+    "BBB"
+  ],
   "result": {
-    "item": "tconstruct:seared_stone_stairs",
-    "count": 4
-  }
+    "count": 4,
+    "item": "tconstruct:seared_stone_stairs"
+  },
+  "show_notification": true
 }

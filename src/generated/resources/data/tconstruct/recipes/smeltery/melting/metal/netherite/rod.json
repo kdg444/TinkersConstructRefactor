@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:rods/netherite"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:rods/netherite"
   },
   "result": {
-    "fluid": "tconstruct:molten_netherite",
-    "amount": 4500
+    "amount": 4500,
+    "fluid": "tconstruct:molten_netherite"
   },
   "temperature": 1250,
   "time": 15

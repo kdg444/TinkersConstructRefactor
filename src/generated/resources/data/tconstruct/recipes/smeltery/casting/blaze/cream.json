@@ -4,10 +4,10 @@
     "tag": "c:slimeballs"
   },
   "cast_consumed": true,
+  "cooling_time": 54,
   "fluid": {
-    "tag": "tconstruct:blazing_blood",
-    "amount": 4050
+    "amount": 4050,
+    "tag": "tconstruct:blazing_blood"
   },
-  "result": "minecraft:magma_cream",
-  "cooling_time": 54
+  "result": "minecraft:magma_cream"
 }

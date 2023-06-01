@@ -9,10 +9,10 @@
     }
   ],
   "cast_consumed": true,
+  "cooling_time": 90,
   "fluid": {
-    "tag": "c:magma",
-    "amount": 40500
+    "amount": 40500,
+    "tag": "c:magma"
   },
-  "result": "tconstruct:scorched_stone",
-  "cooling_time": 90
+  "result": "tconstruct:scorched_stone"
 }

@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "#forge:molten_platinum",
-    "#forge:molten_tungsten",
-    "#forge:molten_osmium",
+    "#c:molten_platinum",
+    "#c:molten_tungsten",
+    "#c:molten_osmium",
     "#tconstruct:molten_amethyst"
   ]
 }

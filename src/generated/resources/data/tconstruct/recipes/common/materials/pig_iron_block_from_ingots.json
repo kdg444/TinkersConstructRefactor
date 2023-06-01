@@ -1,11 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "tconstruct:pig_iron_block",
-  "pattern": [
-    "###",
-    "#*#",
-    "###"
-  ],
   "key": {
     "#": {
       "tag": "c:ingots/pig_iron"
@@ -14,7 +10,13 @@
       "item": "tconstruct:pig_iron_ingot"
     }
   },
+  "pattern": [
+    "###",
+    "#*#",
+    "###"
+  ],
   "result": {
     "item": "tconstruct:pig_iron_block"
-  }
+  },
+  "show_notification": true
 }

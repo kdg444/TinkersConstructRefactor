@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:rods/silver"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/rod"
   },
+  "cooling_time": 42,
   "fluid": {
-    "tag": "c:molten_silver",
-    "amount": 4500
+    "amount": 4500,
+    "tag": "c:molten_silver"
   },
   "result": {
     "tag": "c:rods/silver"
-  },
-  "cooling_time": 42
+  }
 }

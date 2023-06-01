@@ -1,27 +1,27 @@
 {
   "type": "tconstruct:melting",
+  "byproducts": [
+    {
+      "amount": 40500,
+      "fluid": "tconstruct:molten_quartz"
+    }
+  ],
   "ingredient": [
     {
       "type": "forge:nbt",
-      "item": "tconstruct:scorched_fuel_gauge",
-      "count": 1
+      "count": 1,
+      "item": "tconstruct:scorched_fuel_gauge"
     },
     {
       "type": "forge:nbt",
-      "item": "tconstruct:scorched_ingot_gauge",
-      "count": 1
+      "count": 1,
+      "item": "tconstruct:scorched_ingot_gauge"
     }
   ],
   "result": {
-    "fluid": "tconstruct:scorched_stone",
-    "amount": 81000
+    "amount": 81000,
+    "fluid": "tconstruct:scorched_stone"
   },
   "temperature": 500,
-  "time": 100,
-  "byproducts": [
-    {
-      "fluid": "tconstruct:molten_quartz",
-      "amount": 40500
-    }
-  ]
+  "time": 100
 }

@@ -1,17 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "redstone",
   "group": "wooden_trapdoor",
-  "pattern": [
-    "###",
-    "###"
-  ],
   "key": {
     "#": {
       "item": "tconstruct:skyroot_planks"
     }
   },
+  "pattern": [
+    "###",
+    "###"
+  ],
   "result": {
-    "item": "tconstruct:skyroot_trapdoor",
-    "count": 2
-  }
+    "count": 2,
+    "item": "tconstruct:skyroot_trapdoor"
+  },
+  "show_notification": true
 }

@@ -4,8 +4,8 @@
     "item": "minecraft:snow_block"
   },
   "result": {
-    "fluid": "minecraft:water",
-    "amount": 40500
+    "amount": 40500,
+    "fluid": "minecraft:water"
   },
   "temperature": 0,
   "time": 21

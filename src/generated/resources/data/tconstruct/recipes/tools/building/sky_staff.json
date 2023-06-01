@@ -1,22 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "tconstruct:sky_slime_crystal"
+    },
+    "I": {
+      "tag": "c:ingots/rose_gold"
+    },
+    "W": {
+      "tag": "tconstruct:skyroot_logs"
+    }
+  },
   "pattern": [
     "CWC",
     " I ",
     " W "
   ],
-  "key": {
-    "C": {
-      "item": "tconstruct:sky_slime_crystal"
-    },
-    "W": {
-      "tag": "tconstruct:skyroot_logs"
-    },
-    "I": {
-      "tag": "forge:ingots/rose_gold"
-    }
-  },
   "result": {
     "item": "tconstruct:sky_staff"
-  }
+  },
+  "show_notification": true
 }

@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:geore_blocks/quartz"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:geore_blocks/quartz"
   },
   "result": {
-    "fluid": "tconstruct:molten_quartz",
-    "amount": 32400
+    "amount": 32400,
+    "fluid": "tconstruct:molten_quartz"
   },
   "temperature": 637,
   "time": 110

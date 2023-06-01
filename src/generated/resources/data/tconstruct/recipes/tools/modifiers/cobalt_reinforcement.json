@@ -4,10 +4,10 @@
     "item": "tconstruct:obsidian_pane"
   },
   "cast_consumed": true,
+  "cooling_time": 37,
   "fluid": {
-    "tag": "c:molten_cobalt",
-    "amount": 3000
+    "amount": 3000,
+    "tag": "c:molten_cobalt"
   },
-  "result": "tconstruct:cobalt_reinforcement",
-  "cooling_time": 37
+  "result": "tconstruct:cobalt_reinforcement"
 }

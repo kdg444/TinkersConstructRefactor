@@ -1,13 +1,14 @@
 {
-  "type": "tconstruct:swappable_modifier",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/zinc"
       ]
     }
   ],
+  "type": "tconstruct:swappable_modifier",
+  "allow_crystal": false,
   "inputs": [
     {
       "tag": "c:ingots/zinc"
@@ -19,12 +20,11 @@
       "tag": "c:ingots/zinc"
     }
   ],
-  "tools": {
-    "tag": "tconstruct:modifiable/embellishment/metal"
-  },
-  "allow_crystal": false,
   "result": {
     "name": "tconstruct:embellishment",
     "value": "tconstruct:zinc"
+  },
+  "tools": {
+    "tag": "tconstruct:modifiable/embellishment/metal"
   }
 }

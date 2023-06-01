@@ -1,9 +1,9 @@
 {
   "type": "tconstruct:casting_basin",
+  "cooling_time": 127,
   "fluid": {
-    "tag": "c:magma",
-    "amount": 81000
+    "amount": 81000,
+    "tag": "c:magma"
   },
-  "result": "minecraft:magma_block",
-  "cooling_time": 127
+  "result": "minecraft:magma_block"
 }

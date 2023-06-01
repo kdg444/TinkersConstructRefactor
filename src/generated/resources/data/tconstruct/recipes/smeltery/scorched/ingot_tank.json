@@ -1,19 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "#B#",
-    "#B#",
-    "#B#"
-  ],
+  "category": "misc",
   "key": {
     "#": {
       "item": "tconstruct:scorched_brick"
     },
     "B": {
-      "tag": "c:gems/quartz"
+      "tag": "c:quartz"
     }
   },
+  "pattern": [
+    "#B#",
+    "#B#",
+    "#B#"
+  ],
   "result": {
     "item": "tconstruct:scorched_ingot_tank"
-  }
+  },
+  "show_notification": true
 }

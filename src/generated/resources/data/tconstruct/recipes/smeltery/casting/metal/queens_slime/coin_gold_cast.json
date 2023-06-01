@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:coins/queens_slime"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/coin"
   },
+  "cooling_time": 41,
   "fluid": {
-    "tag": "tconstruct:molten_queens_slime",
-    "amount": 3000
+    "amount": 3000,
+    "tag": "tconstruct:molten_queens_slime"
   },
   "result": {
     "tag": "c:coins/queens_slime"
-  },
-  "cooling_time": 41
+  }
 }

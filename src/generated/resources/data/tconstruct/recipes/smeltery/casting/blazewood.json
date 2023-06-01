@@ -12,10 +12,10 @@
     ]
   },
   "cast_consumed": true,
+  "cooling_time": 76,
   "fluid": {
-    "tag": "tconstruct:blazing_blood",
-    "amount": 8100
+    "amount": 8100,
+    "tag": "tconstruct:blazing_blood"
   },
-  "result": "tconstruct:blazewood",
-  "cooling_time": 76
+  "result": "tconstruct:blazewood"
 }

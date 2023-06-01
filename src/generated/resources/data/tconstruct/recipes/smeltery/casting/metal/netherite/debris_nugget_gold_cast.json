@@ -3,12 +3,12 @@
   "cast": {
     "tag": "tconstruct:casts/multi_use/nugget"
   },
+  "cooling_time": 24,
   "fluid": {
-    "tag": "tconstruct:molten_debris",
-    "amount": 1000
+    "amount": 1000,
+    "tag": "tconstruct:molten_debris"
   },
   "result": {
     "tag": "c:nuggets/netherite_scrap"
-  },
-  "cooling_time": 24
+  }
 }

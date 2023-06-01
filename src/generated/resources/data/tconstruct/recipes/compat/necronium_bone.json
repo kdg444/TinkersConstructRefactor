@@ -1,21 +1,21 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/uranium"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "c:wither_bones"
   },
   "cast_consumed": true,
+  "cooling_time": 61,
   "fluid": {
-    "tag": "c:molten_uranium",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_uranium"
   },
-  "result": "tconstruct:necronium_bone",
-  "cooling_time": 61
+  "result": "tconstruct:necronium_bone"
 }

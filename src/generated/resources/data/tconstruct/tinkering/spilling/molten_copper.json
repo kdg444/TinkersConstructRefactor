@@ -1,7 +1,7 @@
 {
   "fluid": {
-    "tag": "forge:molten_copper",
-    "amount": 10
+    "tag": "c:molten_copper",
+    "amount": 1000
   },
   "effects": [
     {

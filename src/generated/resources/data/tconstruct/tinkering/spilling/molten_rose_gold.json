@@ -1,7 +1,7 @@
 {
   "fluid": {
-    "tag": "forge:molten_rose_gold",
-    "amount": 10
+    "tag": "c:molten_rose_gold",
+    "amount": 1000
   },
   "effects": [
     {

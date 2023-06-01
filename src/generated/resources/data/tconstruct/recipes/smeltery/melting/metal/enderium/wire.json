@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:wires/enderium"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:wires/enderium"
   },
   "result": {
-    "fluid": "tconstruct:molten_enderium",
-    "amount": 4500
+    "amount": 4500,
+    "fluid": "tconstruct:molten_enderium"
   },
   "temperature": 1350,
   "time": 15

@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:sheetmetals/platinum"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:sheetmetals/platinum"
   },
   "result": {
-    "fluid": "tconstruct:molten_platinum",
-    "amount": 9000
+    "amount": 9000,
+    "fluid": "tconstruct:molten_platinum"
   },
   "temperature": 970,
   "time": 65

@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:plates/electrum"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/plate"
   },
+  "cooling_time": 59,
   "fluid": {
-    "tag": "c:molten_electrum",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_electrum"
   },
   "result": {
     "tag": "c:plates/electrum"
-  },
-  "cooling_time": 59
+  }
 }

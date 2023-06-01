@@ -4,7 +4,7 @@
     {
       "fabric:load_conditions": [
         {
-          "condition": "fabric:item_tags_populated",
+          "condition": "fabric:tags_populated",
           "values": [
             "c:ingots/nickel"
           ]
@@ -12,22 +12,22 @@
       ],
       "recipe": {
         "type": "tconstruct:ore_melting",
-        "rate": "metal",
+        "byproducts": [
+          {
+            "amount": 9000,
+            "fluid": "tconstruct:molten_nickel"
+          }
+        ],
         "ingredient": {
           "tag": "c:raw_materials/iron"
         },
+        "rate": "metal",
         "result": {
-          "fluid": "tconstruct:molten_iron",
-          "amount": 9000
+          "amount": 9000,
+          "fluid": "tconstruct:molten_iron"
         },
         "temperature": 800,
-        "time": 90,
-        "byproducts": [
-          {
-            "fluid": "tconstruct:molten_nickel",
-            "amount": 9000
-          }
-        ]
+        "time": 90
       }
     },
     {
@@ -38,22 +38,22 @@
       ],
       "recipe": {
         "type": "tconstruct:ore_melting",
-        "rate": "metal",
+        "byproducts": [
+          {
+            "amount": 9000,
+            "fluid": "tconstruct:molten_copper"
+          }
+        ],
         "ingredient": {
           "tag": "c:raw_materials/iron"
         },
+        "rate": "metal",
         "result": {
-          "fluid": "tconstruct:molten_iron",
-          "amount": 9000
+          "amount": 9000,
+          "fluid": "tconstruct:molten_iron"
         },
         "temperature": 800,
-        "time": 90,
-        "byproducts": [
-          {
-            "fluid": "tconstruct:molten_copper",
-            "amount": 9000
-          }
-        ]
+        "time": 90
       }
     }
   ]

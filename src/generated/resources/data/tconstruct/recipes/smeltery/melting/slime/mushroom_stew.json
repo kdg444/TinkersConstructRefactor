@@ -4,8 +4,8 @@
     "tag": "c:mushrooms"
   },
   "result": {
-    "fluid": "tconstruct:mushroom_stew",
-    "amount": 13500
+    "amount": 13500,
+    "fluid": "tconstruct:mushroom_stew"
   },
   "temperature": 100,
   "time": 33

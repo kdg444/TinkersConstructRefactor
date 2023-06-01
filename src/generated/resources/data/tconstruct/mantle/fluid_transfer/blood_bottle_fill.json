@@ -6,6 +6,6 @@
   "filled": "tconstruct:blood_bottle",
   "fluid": {
     "tag": "tconstruct:blood",
-    "amount": 250
+    "amount": 27000
   }
 }

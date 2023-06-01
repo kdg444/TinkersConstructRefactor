@@ -3,7 +3,7 @@
   "ingredient": {
     "tag": "c:nuggets/rose_gold"
   },
-  "value": 1,
+  "material": "tconstruct:rose_gold",
   "needed": 9,
-  "material": "tconstruct:rose_gold"
+  "value": 1
 }

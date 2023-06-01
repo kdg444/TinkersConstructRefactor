@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:plates/brass"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/plate"
   },
+  "cooling_time": 54,
   "fluid": {
-    "tag": "c:molten_brass",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_brass"
   },
   "result": {
     "tag": "c:plates/brass"
-  },
-  "cooling_time": 54
+  }
 }

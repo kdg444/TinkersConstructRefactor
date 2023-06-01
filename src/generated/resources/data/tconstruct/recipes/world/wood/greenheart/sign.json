@@ -1,21 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "sign",
-  "pattern": [
-    "###",
-    "###",
-    " X "
-  ],
   "key": {
     "#": {
       "item": "tconstruct:greenheart_planks"
     },
     "X": {
-      "tag": "c:rods/wooden"
+      "tag": "c:wooden_rods"
     }
   },
+  "pattern": [
+    "###",
+    "###",
+    " X "
+  ],
   "result": {
-    "item": "tconstruct:greenheart_sign",
-    "count": 3
-  }
+    "count": 3,
+    "item": "tconstruct:greenheart_sign"
+  },
+  "show_notification": true
 }

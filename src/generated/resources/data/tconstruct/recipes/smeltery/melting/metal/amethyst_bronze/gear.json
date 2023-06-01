@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:gears/amethyst_bronze"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:gears/amethyst_bronze"
   },
   "result": {
-    "fluid": "tconstruct:molten_amethyst_bronze",
-    "amount": 36000
+    "amount": 36000,
+    "fluid": "tconstruct:molten_amethyst_bronze"
   },
   "temperature": 820,
   "time": 122

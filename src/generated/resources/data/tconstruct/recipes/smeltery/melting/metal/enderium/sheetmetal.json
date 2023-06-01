@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:sheetmetals/enderium"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:sheetmetals/enderium"
   },
   "result": {
-    "fluid": "tconstruct:molten_enderium",
-    "amount": 9000
+    "amount": 9000,
+    "fluid": "tconstruct:molten_enderium"
   },
   "temperature": 1350,
   "time": 76

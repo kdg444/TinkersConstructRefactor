@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:nuggets/aluminum"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/nugget"
   },
+  "cooling_time": 16,
   "fluid": {
-    "tag": "c:molten_aluminum",
-    "amount": 1000
+    "amount": 1000,
+    "tag": "c:molten_aluminum"
   },
   "result": {
     "tag": "c:nuggets/aluminum"
-  },
-  "cooling_time": 16
+  }
 }

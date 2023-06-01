@@ -1,16 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "###",
-    "###"
-  ],
+  "category": "misc",
   "key": {
     "#": {
       "item": "tconstruct:seared_glass"
     }
   },
+  "pattern": [
+    "###",
+    "###"
+  ],
   "result": {
-    "item": "tconstruct:seared_glass_pane",
-    "count": 16
-  }
+    "count": 16,
+    "item": "tconstruct:seared_glass_pane"
+  },
+  "show_notification": true
 }

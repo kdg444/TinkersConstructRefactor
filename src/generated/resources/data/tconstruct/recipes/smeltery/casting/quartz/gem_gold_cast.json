@@ -3,10 +3,10 @@
   "cast": {
     "tag": "tconstruct:casts/multi_use/gem"
   },
+  "cooling_time": 52,
   "fluid": {
-    "tag": "tconstruct:molten_quartz",
-    "amount": 8100
+    "amount": 8100,
+    "tag": "tconstruct:molten_quartz"
   },
-  "result": "minecraft:quartz",
-  "cooling_time": 52
+  "result": "minecraft:quartz"
 }

@@ -2,17 +2,17 @@
   "type": "tconstruct:alloy",
   "inputs": [
     {
-      "tag": "c:molten_cobalt",
-      "amount": 27000
+      "amount": 27000,
+      "tag": "c:molten_cobalt"
     },
     {
-      "tag": "tconstruct:molten_debris",
-      "amount": 9000
+      "amount": 9000,
+      "tag": "tconstruct:molten_debris"
     }
   ],
   "result": {
-    "fluid": "tconstruct:molten_manyullyn",
-    "amount": 36000
+    "amount": 36000,
+    "fluid": "tconstruct:molten_manyullyn"
   },
   "temperature": 1200
 }

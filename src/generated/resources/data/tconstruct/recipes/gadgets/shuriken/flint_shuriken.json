@@ -1,17 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " X ",
-    "X X",
-    " X "
-  ],
+  "category": "misc",
   "key": {
     "X": {
       "item": "minecraft:flint"
     }
   },
+  "pattern": [
+    " X ",
+    "X X",
+    " X "
+  ],
   "result": {
-    "item": "tconstruct:flint_shuriken",
-    "count": 4
-  }
+    "count": 4,
+    "item": "tconstruct:flint_shuriken"
+  },
+  "show_notification": true
 }

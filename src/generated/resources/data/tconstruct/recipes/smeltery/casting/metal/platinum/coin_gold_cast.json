@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:coins/platinum"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/coin"
   },
+  "cooling_time": 38,
   "fluid": {
-    "tag": "c:molten_platinum",
-    "amount": 3000
+    "amount": 3000,
+    "tag": "c:molten_platinum"
   },
   "result": {
     "tag": "c:coins/platinum"
-  },
-  "cooling_time": 38
+  }
 }

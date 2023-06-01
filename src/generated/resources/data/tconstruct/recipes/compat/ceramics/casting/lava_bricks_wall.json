@@ -1,5 +1,4 @@
 {
-  "type": "tconstruct:casting_basin",
   "fabric:load_conditions": [
     {
       "condition": "fabric:all_mods_loaded",
@@ -8,14 +7,15 @@
       ]
     }
   ],
+  "type": "tconstruct:casting_basin",
   "cast": {
     "item": "minecraft:brick_wall"
   },
   "cast_consumed": true,
+  "cooling_time": 63,
   "fluid": {
-    "name": "minecraft:lava",
-    "amount": 8100
+    "amount": 8100,
+    "name": "minecraft:lava"
   },
-  "result": "ceramics:lava_bricks_wall",
-  "cooling_time": 63
+  "result": "ceramics:lava_bricks_wall"
 }

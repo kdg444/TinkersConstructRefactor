@@ -4,12 +4,12 @@
     "tag": "tconstruct:casts/single_use/ingot"
   },
   "cast_consumed": true,
+  "cooling_time": 72,
   "fluid": {
-    "tag": "c:molten_manyullyn",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_manyullyn"
   },
   "result": {
     "tag": "c:ingots/manyullyn"
-  },
-  "cooling_time": 72
+  }
 }

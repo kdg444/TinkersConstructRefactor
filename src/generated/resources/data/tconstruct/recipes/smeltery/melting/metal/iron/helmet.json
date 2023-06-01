@@ -4,8 +4,8 @@
     "item": "minecraft:iron_helmet"
   },
   "result": {
-    "fluid": "tconstruct:molten_iron",
     "amount": 45000,
+    "fluid": "tconstruct:molten_iron",
     "unit_size": 1000
   },
   "temperature": 800,

@@ -1,10 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "###",
-    "#X#",
-    "###"
-  ],
+  "category": "misc",
   "key": {
     "#": {
       "item": "minecraft:snowball"
@@ -13,8 +9,14 @@
       "tag": "c:dusts/glowstone"
     }
   },
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
   "result": {
-    "item": "tconstruct:glow_ball",
-    "count": 8
-  }
+    "count": 8,
+    "item": "tconstruct:glow_ball"
+  },
+  "show_notification": true
 }

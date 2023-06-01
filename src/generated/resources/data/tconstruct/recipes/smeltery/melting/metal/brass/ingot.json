@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/brass"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:ingots/brass"
   },
   "result": {
-    "fluid": "tconstruct:molten_brass",
-    "amount": 9000
+    "amount": 9000,
+    "fluid": "tconstruct:molten_brass"
   },
   "temperature": 605,
   "time": 54

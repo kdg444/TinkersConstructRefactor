@@ -1,4 +1,4 @@
-// 1.19.4	2023-04-17T22:19:11.489829355	Hephaestus/Tinkers Construct Item Tags
+// 1.19.4	2023-05-31T17:27:18.089406703	Hephaestus/Tinkers Construct Item Tags
 0238a43b0e61403d2c963744ea09a3f26e36e45e data/tconstruct/tags/items/modifiable/ranged.json
 2121a480ce6f8ac2b8129ce8dc023633985394a9 data/tconstruct/tags/items/copper_platforms.json
 8eff271399fac07e1e31db3ae72c802664a91f65 data/tconstruct/tags/items/scorched_blocks.json
@@ -80,8 +80,8 @@ af0a39e9aecf0a757465e004a20ccc8f87f5bbea data/tconstruct/tags/items/casts/single
 e63807dafaba790285ad45a058780a16be142c4e data/tconstruct/tags/items/foundry_bricks.json
 8fef2c26bb42a9bae1d230b09884823959cab5df data/tconstruct/tags/items/structure_debug/foundry.json
 373f2c406c31f51142e60c5637fed2b457b6c1d1 data/c/tags/items/glass/white.json
-0b24e5ea1bc5632315bbd22aec6e4c4d09c784d8 data/tconstruct/tags/items/casts/multi_use/coin.json
 32b4c639d5479cbb41c0c1ecc2dddf63b4119b19 data/tconstruct/tags/items/casts/single_use/gear.json
+0b24e5ea1bc5632315bbd22aec6e4c4d09c784d8 data/tconstruct/tags/items/casts/multi_use/coin.json
 fc685c94c7f4e58f7d56a6ac9637949d9ceae18b data/tconstruct/tags/items/modifiable/harvest/stone.json
 59fd6f7bfd7a2767ddcb1e09e05712ec2b24181f data/c/tags/items/glass/green.json
 8f3046387f00265b9b16991e91f93b0c663478ff data/c/tags/items/ingots/hepatizon.json
@@ -184,8 +184,8 @@ cbf8e975b1016d7d8140594bebb416b9f5493cb1 data/tconstruct/tags/items/casts/multi_
 c4733783f6243b3b0647ce3e4cddee4f2b232131 data/c/tags/items/heads.json
 18f453fd782222313b3dc43e54d3154d6e7583d7 data/c/tags/items/granite.json
 97d33ffec2e4723af902a6668d88229bec85b0e4 data/tconstruct/tags/items/casts/multi_use/broad_axe_head.json
-75b700bdbd75d60f993a11ee7c47f5b7d449a2fd data/c/tags/items/books.json
 c4c5f9a858d43a183f7e6636fc896161d3cd430f data/c/tags/items/silica_glass.json
+75b700bdbd75d60f993a11ee7c47f5b7d449a2fd data/c/tags/items/books.json
 d6021be01a8204e75192f6057962798494841060 data/tconstruct/tags/items/casts/single_use/bow_limb.json
 4ea126e3b0c7994fd4169f916aee5532d5466eda data/tconstruct/tags/items/modifiable/armor/worn.json
 f225469a59bfed7b2f77da76492593758dda4cf8 data/tconstruct/tags/items/casts.json

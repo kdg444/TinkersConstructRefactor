@@ -1,17 +1,17 @@
 {
-  "type": "tconstruct:material_fluid",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/lead"
       ]
     }
   ],
+  "type": "tconstruct:material_fluid",
   "fluid": {
-    "tag": "c:molten_lead",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_lead"
   },
-  "temperature": 330,
-  "output": "tconstruct:lead"
+  "output": "tconstruct:lead",
+  "temperature": 330
 }

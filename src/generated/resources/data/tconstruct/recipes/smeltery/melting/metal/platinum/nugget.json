@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:nuggets/platinum"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:nuggets/platinum"
   },
   "result": {
-    "fluid": "tconstruct:molten_platinum",
-    "amount": 1000
+    "amount": 1000,
+    "fluid": "tconstruct:molten_platinum"
   },
   "temperature": 970,
   "time": 22

@@ -6,6 +6,6 @@
   "filled": "tconstruct:sky_slime_bottle",
   "fluid": {
     "tag": "tconstruct:sky_slime",
-    "amount": 250
+    "amount": 27000
   }
 }

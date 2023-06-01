@@ -6,6 +6,6 @@
   "filled": "tconstruct:ender_slime_bottle",
   "fluid": {
     "tag": "tconstruct:ender_slime",
-    "amount": 250
+    "amount": 27000
   }
 }

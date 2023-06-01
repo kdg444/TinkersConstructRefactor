@@ -3,12 +3,12 @@
   "cast": {
     "tag": "tconstruct:casts/multi_use/nugget"
   },
+  "cooling_time": 17,
   "fluid": {
-    "tag": "c:molten_rose_gold",
-    "amount": 1000
+    "amount": 1000,
+    "tag": "c:molten_rose_gold"
   },
   "result": {
     "tag": "c:nuggets/rose_gold"
-  },
-  "cooling_time": 17
+  }
 }

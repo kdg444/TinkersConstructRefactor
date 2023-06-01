@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:plates/brick"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/plate"
   },
+  "cooling_time": 72,
   "fluid": {
-    "tag": "tconstruct:molten_clay",
-    "amount": 20250
+    "amount": 20250,
+    "tag": "tconstruct:molten_clay"
   },
   "result": {
     "tag": "c:plates/brick"
-  },
-  "cooling_time": 72
+  }
 }

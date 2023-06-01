@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:wires/enderium"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/wire"
   },
+  "cooling_time": 54,
   "fluid": {
-    "tag": "c:molten_enderium",
-    "amount": 4500
+    "amount": 4500,
+    "tag": "c:molten_enderium"
   },
   "result": {
     "tag": "c:wires/enderium"
-  },
-  "cooling_time": 54
+  }
 }

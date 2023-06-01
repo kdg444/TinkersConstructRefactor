@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:sheetmetals/lumium"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:sheetmetals/lumium"
   },
   "result": {
-    "fluid": "tconstruct:molten_lumium",
-    "amount": 9000
+    "amount": 9000,
+    "fluid": "tconstruct:molten_lumium"
   },
   "temperature": 1050,
   "time": 68

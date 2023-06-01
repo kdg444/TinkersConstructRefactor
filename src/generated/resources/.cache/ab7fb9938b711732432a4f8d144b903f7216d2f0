@@ -1,4 +1,4 @@
-// 1.19.4	2023-04-17T22:19:11.479339328	Hephaestus/Tinker's Construct Material Traits
+// 1.19.4	2023-05-31T17:27:18.084316462	Hephaestus/Tinker's Construct Material Traits
 9a76409be7bd824d7e41fa36374e1ebca1c4452e data/tconstruct/tinkering/materials/traits/necrotic_bone.json
 1b4677a8f0dd450270ed33a979519e458d3d0ad6 data/tconstruct/tinkering/materials/traits/necronium.json
 2353128d7f048fe243ea7fb76997714f6724e5e2 data/tconstruct/tinkering/materials/traits/rotten_flesh.json
@@ -10,8 +10,8 @@ bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/tconstruct/tinkering/materials/tra
 bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/tconstruct/tinkering/materials/traits/ichor.json
 68543a241e3735c6315bb5ef769ceb792f5a2e57 data/tconstruct/tinkering/materials/traits/cobalt.json
 bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/tconstruct/tinkering/materials/traits/brass.json
-433443a7a0162d5b8c59964802bdd4896c803f39 data/tconstruct/tinkering/materials/traits/flint.json
 bfbd006f4dd5883469a440a29648d89ad9968c20 data/tconstruct/tinkering/materials/traits/vine.json
+433443a7a0162d5b8c59964802bdd4896c803f39 data/tconstruct/tinkering/materials/traits/flint.json
 ac7ce2e4d84a94698f49f54149a28767fd70add6 data/tconstruct/tinkering/materials/traits/bamboo.json
 4e5a11db594236db0b56810629bba0183a897e35 data/tconstruct/tinkering/materials/traits/chain.json
 3ba7f7ae004d342d179907700bb8f412a4a1eaca data/tconstruct/tinkering/materials/traits/rose_gold.json
@@ -60,7 +60,7 @@ bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/tconstruct/tinkering/materials/tra
 c6575a4a030b406ba747f97844921660c759c8c5 data/tconstruct/tinkering/materials/traits/bloodbone.json
 a4e8cff42d646402d44a365dbf6c667016e4192a data/tconstruct/tinkering/materials/traits/leather.json
 e6e60e906f829e0dcf69f02584e883ea9a84d30a data/tconstruct/tinkering/materials/traits/bronze.json
-5a80dbb8c03118fcf43c7d3c58c74ccfc452e061 data/tconstruct/tinkering/materials/traits/darkthread.json
 bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/tconstruct/tinkering/materials/traits/phantom.json
+5a80dbb8c03118fcf43c7d3c58c74ccfc452e061 data/tconstruct/tinkering/materials/traits/darkthread.json
 4a644b19517afcbf22b7db10dffc818d7b8ee237 data/tconstruct/tinkering/materials/traits/iron.json
 ca17331093ab8845e866b08a0505e16a28a29ea3 data/tconstruct/tinkering/materials/traits/amethyst_bronze.json

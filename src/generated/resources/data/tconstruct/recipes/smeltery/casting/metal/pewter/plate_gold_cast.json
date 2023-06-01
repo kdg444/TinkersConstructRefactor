@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:plates/pewter"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/plate"
   },
+  "cooling_time": 46,
   "fluid": {
-    "tag": "c:molten_pewter",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_pewter"
   },
   "result": {
     "tag": "c:plates/pewter"
-  },
-  "cooling_time": 46
+  }
 }

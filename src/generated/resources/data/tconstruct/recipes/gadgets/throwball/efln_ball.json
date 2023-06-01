@@ -1,10 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " # ",
-    "#X#",
-    " # "
-  ],
+  "category": "misc",
   "key": {
     "#": {
       "tag": "c:gunpowder"
@@ -13,7 +9,13 @@
       "item": "minecraft:flint"
     }
   },
+  "pattern": [
+    " # ",
+    "#X#",
+    " # "
+  ],
   "result": {
     "item": "tconstruct:efln_ball"
-  }
+  },
+  "show_notification": true
 }

@@ -1,9 +1,6 @@
 {
   "type": "mantle:crafting_shaped_retextured",
-  "pattern": [
-    "p",
-    "w"
-  ],
+  "category": "misc",
   "key": {
     "p": {
       "item": "tconstruct:pattern"
@@ -12,11 +9,16 @@
       "tag": "minecraft:logs"
     }
   },
+  "match_all": false,
+  "pattern": [
+    "p",
+    "w"
+  ],
   "result": {
     "item": "tconstruct:crafting_station"
   },
+  "show_notification": true,
   "texture": {
     "tag": "minecraft:logs"
-  },
-  "match_all": false
+  }
 }

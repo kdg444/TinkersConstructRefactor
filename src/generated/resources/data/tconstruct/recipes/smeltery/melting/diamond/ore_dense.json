@@ -1,5 +1,4 @@
 {
-  "type": "tconstruct:ore_melting",
   "fabric:load_conditions": [
     {
       "condition": "tconstruct:tag_intersection_present",
@@ -10,7 +9,13 @@
       ]
     }
   ],
-  "rate": "gem",
+  "type": "tconstruct:ore_melting",
+  "byproducts": [
+    {
+      "amount": 24300,
+      "fluid": "tconstruct:molten_quartz"
+    }
+  ],
   "ingredient": {
     "type": "forge:intersection",
     "children": [
@@ -22,16 +27,11 @@
       }
     ]
   },
+  "rate": "gem",
   "result": {
-    "fluid": "tconstruct:molten_diamond",
-    "amount": 24300
+    "amount": 24300,
+    "fluid": "tconstruct:molten_diamond"
   },
   "temperature": 1450,
-  "time": 355,
-  "byproducts": [
-    {
-      "fluid": "tconstruct:molten_quartz",
-      "amount": 24300
-    }
-  ]
+  "time": 355
 }

@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:coins/brass"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:coins/brass"
   },
   "result": {
-    "fluid": "tconstruct:molten_brass",
-    "amount": 3000
+    "amount": 3000,
+    "fluid": "tconstruct:molten_brass"
   },
   "temperature": 605,
   "time": 36

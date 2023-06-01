@@ -1,13 +1,14 @@
 {
-  "type": "tconstruct:swappable_modifier",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/tungsten"
       ]
     }
   ],
+  "type": "tconstruct:swappable_modifier",
+  "allow_crystal": false,
   "inputs": [
     {
       "tag": "c:ingots/tungsten"
@@ -19,12 +20,11 @@
       "tag": "c:ingots/tungsten"
     }
   ],
-  "tools": {
-    "tag": "tconstruct:modifiable/embellishment/metal"
-  },
-  "allow_crystal": false,
   "result": {
     "name": "tconstruct:embellishment",
     "value": "tconstruct:tungsten"
+  },
+  "tools": {
+    "tag": "tconstruct:modifiable/embellishment/metal"
   }
 }

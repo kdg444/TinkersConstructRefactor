@@ -1,28 +1,30 @@
 {
-  "type": "minecraft:crafting_shaped",
   "fabric:load_conditions": [
     {
       "condition": "tconstruct:config",
       "prop": "glass_recipe_fix"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "tag": "c:colorless_glass"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    }
+  },
   "pattern": [
     "GGG",
     "GSG",
     "OOO"
   ],
-  "key": {
-    "S": {
-      "item": "minecraft:nether_star"
-    },
-    "G": {
-      "tag": "c:glass/colorless"
-    },
-    "O": {
-      "item": "minecraft:obsidian"
-    }
-  },
   "result": {
     "item": "minecraft:beacon"
-  }
+  },
+  "show_notification": true
 }

@@ -4,10 +4,10 @@
     "item": "minecraft:shulker_shell"
   },
   "cast_consumed": true,
+  "cooling_time": 252,
   "fluid": {
-    "tag": "tconstruct:ender_slime",
-    "amount": 567000
+    "amount": 567000,
+    "tag": "tconstruct:ender_slime"
   },
-  "result": "tconstruct:slime_leggings",
-  "cooling_time": 252
+  "result": "tconstruct:slime_leggings"
 }

@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:rods/zinc"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:rods/zinc"
   },
   "result": {
-    "fluid": "tconstruct:molten_zinc",
-    "amount": 4500
+    "amount": 4500,
+    "fluid": "tconstruct:molten_zinc"
   },
   "temperature": 420,
   "time": 9

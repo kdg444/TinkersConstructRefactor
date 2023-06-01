@@ -1,5 +1,4 @@
 {
-  "type": "tconstruct:casting_basin",
   "fabric:load_conditions": [
     {
       "condition": "fabric:all_mods_loaded",
@@ -8,14 +7,15 @@
       ]
     }
   ],
+  "type": "tconstruct:casting_basin",
   "cast": {
     "tag": "minecraft:planks"
   },
   "cast_consumed": true,
+  "cooling_time": 100,
   "fluid": {
-    "tag": "c:creosote",
-    "amount": 125
+    "amount": 125,
+    "tag": "c:creosote"
   },
-  "result": "immersiveengineering:treated_wood_horizontal",
-  "cooling_time": 100
+  "result": "immersiveengineering:treated_wood_horizontal"
 }

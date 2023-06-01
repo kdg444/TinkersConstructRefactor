@@ -4,8 +4,8 @@
     "tag": "c:slimeball/sky"
   },
   "result": {
-    "fluid": "tconstruct:sky_slime",
-    "amount": 20250
+    "amount": 20250,
+    "fluid": "tconstruct:sky_slime"
   },
   "temperature": 10,
   "time": 29

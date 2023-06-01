@@ -1,17 +1,17 @@
 {
-  "type": "tconstruct:material",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:nuggets/lead"
       ]
     }
   ],
+  "type": "tconstruct:material",
   "ingredient": {
     "tag": "c:nuggets/lead"
   },
-  "value": 1,
+  "material": "tconstruct:lead",
   "needed": 9,
-  "material": "tconstruct:lead"
+  "value": 1
 }

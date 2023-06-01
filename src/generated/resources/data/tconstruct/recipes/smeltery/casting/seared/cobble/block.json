@@ -9,10 +9,10 @@
     }
   ],
   "cast_consumed": true,
+  "cooling_time": 102,
   "fluid": {
-    "tag": "tconstruct:molten_clay",
-    "amount": 40500
+    "amount": 40500,
+    "tag": "tconstruct:molten_clay"
   },
-  "result": "tconstruct:seared_cobble",
-  "cooling_time": 102
+  "result": "tconstruct:seared_cobble"
 }

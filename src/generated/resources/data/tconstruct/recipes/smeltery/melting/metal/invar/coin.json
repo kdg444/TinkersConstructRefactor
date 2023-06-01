@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:coins/invar"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:coins/invar"
   },
   "result": {
-    "fluid": "tconstruct:molten_invar",
-    "amount": 3000
+    "amount": 3000,
+    "fluid": "tconstruct:molten_invar"
   },
   "temperature": 900,
   "time": 42

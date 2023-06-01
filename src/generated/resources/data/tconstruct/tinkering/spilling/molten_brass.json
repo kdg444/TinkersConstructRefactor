@@ -1,7 +1,7 @@
 {
   "fluid": {
-    "tag": "forge:molten_brass",
-    "amount": 10
+    "tag": "c:molten_brass",
+    "amount": 1000
   },
   "effects": [
     {

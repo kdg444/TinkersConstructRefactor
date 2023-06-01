@@ -1,11 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "group": "tconstruct:stained_clear_glass",
-  "pattern": [
-    "###",
-    "#X#",
-    "###"
-  ],
   "key": {
     "#": {
       "item": "tconstruct:clear_glass"
@@ -14,8 +10,14 @@
       "tag": "c:magenta_dyes"
     }
   },
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
   "result": {
-    "item": "tconstruct:magenta_clear_stained_glass",
-    "count": 8
-  }
+    "count": 8,
+    "item": "tconstruct:magenta_clear_stained_glass"
+  },
+  "show_notification": true
 }

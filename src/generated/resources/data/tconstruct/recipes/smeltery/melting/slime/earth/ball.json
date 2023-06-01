@@ -4,8 +4,8 @@
     "tag": "c:slimeball/earth"
   },
   "result": {
-    "fluid": "tconstruct:earth_slime",
-    "amount": 20250
+    "amount": 20250,
+    "fluid": "tconstruct:earth_slime"
   },
   "temperature": 50,
   "time": 31

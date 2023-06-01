@@ -1,18 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "c c",
-    "l l"
-  ],
+  "category": "misc",
   "key": {
     "c": {
-      "tag": "c:ingots/copper"
+      "tag": "c:copper_ingots"
     },
     "l": {
       "tag": "c:leather"
     }
   },
+  "pattern": [
+    "c c",
+    "l l"
+  ],
   "result": {
     "item": "tconstruct:travelers_boots"
-  }
+  },
+  "show_notification": true
 }

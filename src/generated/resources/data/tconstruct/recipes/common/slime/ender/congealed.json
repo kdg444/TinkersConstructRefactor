@@ -1,16 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "group": "tconstruct:congealed_slime",
-  "pattern": [
-    "##",
-    "##"
-  ],
   "key": {
     "#": {
       "tag": "c:slimeball/ender"
     }
   },
+  "pattern": [
+    "##",
+    "##"
+  ],
   "result": {
     "item": "tconstruct:ender_congealed_slime"
-  }
+  },
+  "show_notification": true
 }

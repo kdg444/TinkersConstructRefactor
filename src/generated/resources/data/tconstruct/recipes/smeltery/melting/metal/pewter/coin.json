@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:coins/pewter"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:coins/pewter"
   },
   "result": {
-    "fluid": "tconstruct:molten_pewter",
-    "amount": 3000
+    "amount": 3000,
+    "fluid": "tconstruct:molten_pewter"
   },
   "temperature": 400,
   "time": 31

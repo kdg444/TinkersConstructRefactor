@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "category": "building",
   "group": "tconstruct:cobalt_ingot",
   "ingredients": [
     {
@@ -7,7 +8,7 @@
     }
   ],
   "result": {
-    "item": "tconstruct:cobalt_ingot",
-    "count": 9
+    "count": 9,
+    "item": "tconstruct:cobalt_ingot"
   }
 }

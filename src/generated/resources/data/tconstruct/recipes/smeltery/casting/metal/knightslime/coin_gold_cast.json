@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:coins/knightslime"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/coin"
   },
+  "cooling_time": 40,
   "fluid": {
-    "tag": "tconstruct:molten_knightslime",
-    "amount": 3000
+    "amount": 3000,
+    "tag": "tconstruct:molten_knightslime"
   },
   "result": {
     "tag": "c:coins/knightslime"
-  },
-  "cooling_time": 40
+  }
 }

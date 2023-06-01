@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:wires/manyullyn"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/wire"
   },
+  "cooling_time": 51,
   "fluid": {
-    "tag": "c:molten_manyullyn",
-    "amount": 4500
+    "amount": 4500,
+    "tag": "c:molten_manyullyn"
   },
   "result": {
     "tag": "c:wires/manyullyn"
-  },
-  "cooling_time": 51
+  }
 }

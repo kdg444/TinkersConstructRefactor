@@ -1,4 +1,5 @@
 {
+  "type": "mantle:add_entry",
   "conditions": [
     {
       "condition": "mantle:block_tag",
@@ -6,6 +7,29 @@
     },
     {
       "condition": "tconstruct:has_chrysophilite"
+    }
+  ],
+  "entry": {
+    "type": "minecraft:item",
+    "name": "minecraft:gold_nugget"
+  },
+  "functions": [
+    {
+      "add": false,
+      "count": {
+        "type": "minecraft:uniform",
+        "max": 6.0,
+        "min": 2.0
+      },
+      "function": "minecraft:set_count"
+    },
+    {
+      "formula": "minecraft:ore_drops",
+      "function": "tconstruct:chrysophilite_bonus",
+      "include_base": false
+    },
+    {
+      "function": "minecraft:explosion_decay"
     }
   ],
   "modifier_conditions": [
@@ -18,29 +42,5 @@
         }
       }
     }
-  ],
-  "entry": {
-    "type": "minecraft:item",
-    "name": "minecraft:gold_nugget"
-  },
-  "functions": [
-    {
-      "function": "minecraft:set_count",
-      "count": {
-        "type": "minecraft:uniform",
-        "min": 2.0,
-        "max": 6.0
-      },
-      "add": false
-    },
-    {
-      "function": "tconstruct:chrysophilite_bonus",
-      "formula": "minecraft:ore_drops",
-      "include_base": false
-    },
-    {
-      "function": "minecraft:explosion_decay"
-    }
-  ],
-  "type": "mantle:add_entry"
+  ]
 }

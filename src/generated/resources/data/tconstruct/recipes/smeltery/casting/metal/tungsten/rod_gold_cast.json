@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:rods/tungsten"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/rod"
   },
+  "cooling_time": 46,
   "fluid": {
-    "tag": "c:molten_tungsten",
-    "amount": 4500
+    "amount": 4500,
+    "tag": "c:molten_tungsten"
   },
   "result": {
     "tag": "c:rods/tungsten"
-  },
-  "cooling_time": 46
+  }
 }

@@ -1,13 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ww",
-    "cc",
-    "ww"
-  ],
+  "category": "equipment",
   "key": {
     "c": {
-      "tag": "forge:ingots/cobalt"
+      "tag": "c:ingots/cobalt"
     },
     "w": {
       "type": "forge:difference",
@@ -27,7 +23,13 @@
       }
     }
   },
+  "pattern": [
+    "ww",
+    "cc",
+    "ww"
+  ],
   "result": {
     "item": "tconstruct:plate_shield"
-  }
+  },
+  "show_notification": true
 }

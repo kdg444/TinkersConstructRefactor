@@ -4,10 +4,10 @@
     "item": "tconstruct:earth_congealed_slime"
   },
   "cast_consumed": true,
+  "cooling_time": 103,
   "fluid": {
-    "tag": "c:slime",
-    "amount": 101250
+    "amount": 101250,
+    "tag": "c:slime"
   },
-  "result": "minecraft:slime_block",
-  "cooling_time": 103
+  "result": "minecraft:slime_block"
 }

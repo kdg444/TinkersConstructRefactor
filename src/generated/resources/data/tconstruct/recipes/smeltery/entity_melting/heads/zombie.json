@@ -18,8 +18,8 @@
     }
   ],
   "result": {
-    "fluid": "tconstruct:blood",
-    "amount": 40500
+    "amount": 40500,
+    "fluid": "tconstruct:blood"
   },
   "temperature": 36,
   "time": 64

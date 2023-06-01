@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:plates/uranium"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/plate"
   },
+  "cooling_time": 61,
   "fluid": {
-    "tag": "c:molten_uranium",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_uranium"
   },
   "result": {
     "tag": "c:plates/uranium"
-  },
-  "cooling_time": 61
+  }
 }

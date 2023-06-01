@@ -1,18 +1,18 @@
 {
-  "type": "forge:conditional",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:raw_materials/tungsten"
       ]
     }
   ],
+  "type": "forge:conditional",
   "recipes": [
     {
       "fabric:load_conditions": [
         {
-          "condition": "fabric:item_tags_populated",
+          "condition": "fabric:tags_populated",
           "values": [
             "c:ingots/platinum"
           ]
@@ -20,22 +20,22 @@
       ],
       "recipe": {
         "type": "tconstruct:ore_melting",
-        "rate": "metal",
+        "byproducts": [
+          {
+            "amount": 3000,
+            "fluid": "tconstruct:molten_platinum"
+          }
+        ],
         "ingredient": {
           "tag": "c:raw_materials/tungsten"
         },
+        "rate": "metal",
         "result": {
-          "fluid": "tconstruct:molten_tungsten",
-          "amount": 9000
+          "amount": 9000,
+          "fluid": "tconstruct:molten_tungsten"
         },
         "temperature": 950,
-        "time": 97,
-        "byproducts": [
-          {
-            "fluid": "tconstruct:molten_platinum",
-            "amount": 3000
-          }
-        ]
+        "time": 97
       }
     },
     {
@@ -46,22 +46,22 @@
       ],
       "recipe": {
         "type": "tconstruct:ore_melting",
-        "rate": "metal",
+        "byproducts": [
+          {
+            "amount": 9000,
+            "fluid": "tconstruct:molten_gold"
+          }
+        ],
         "ingredient": {
           "tag": "c:raw_materials/tungsten"
         },
+        "rate": "metal",
         "result": {
-          "fluid": "tconstruct:molten_tungsten",
-          "amount": 9000
+          "amount": 9000,
+          "fluid": "tconstruct:molten_tungsten"
         },
         "temperature": 950,
-        "time": 97,
-        "byproducts": [
-          {
-            "fluid": "tconstruct:molten_gold",
-            "amount": 9000
-          }
-        ]
+        "time": 97
       }
     }
   ]

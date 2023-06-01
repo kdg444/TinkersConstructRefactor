@@ -3,7 +3,7 @@
   "ingredient": {
     "tag": "c:nuggets/copper"
   },
-  "value": 1,
+  "material": "tconstruct:copper",
   "needed": 9,
-  "material": "tconstruct:copper"
+  "value": 1
 }

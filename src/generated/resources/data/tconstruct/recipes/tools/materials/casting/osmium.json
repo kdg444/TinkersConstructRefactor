@@ -1,17 +1,17 @@
 {
-  "type": "tconstruct:material_fluid",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/osmium"
       ]
     }
   ],
+  "type": "tconstruct:material_fluid",
   "fluid": {
-    "tag": "c:molten_osmium",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_osmium"
   },
-  "temperature": 975,
-  "output": "tconstruct:osmium"
+  "output": "tconstruct:osmium",
+  "temperature": 975
 }

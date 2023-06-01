@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:rods/copper"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/rod"
   },
+  "cooling_time": 35,
   "fluid": {
-    "tag": "c:molten_copper",
-    "amount": 4500
+    "amount": 4500,
+    "tag": "c:molten_copper"
   },
   "result": {
     "tag": "c:rods/copper"
-  },
-  "cooling_time": 35
+  }
 }

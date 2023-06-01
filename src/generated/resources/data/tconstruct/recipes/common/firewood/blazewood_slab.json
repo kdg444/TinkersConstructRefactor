@@ -1,16 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "tconstruct:blazewood_slab",
-  "pattern": [
-    "BBB"
-  ],
   "key": {
     "B": {
       "item": "tconstruct:blazewood"
     }
   },
+  "pattern": [
+    "BBB"
+  ],
   "result": {
-    "item": "tconstruct:blazewood_slab",
-    "count": 6
-  }
+    "count": 6,
+    "item": "tconstruct:blazewood_slab"
+  },
+  "show_notification": true
 }

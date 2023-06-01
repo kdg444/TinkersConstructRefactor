@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:coins/manyullyn"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:coins/manyullyn"
   },
   "result": {
-    "fluid": "tconstruct:molten_manyullyn",
-    "amount": 3000
+    "amount": 3000,
+    "fluid": "tconstruct:molten_manyullyn"
   },
   "temperature": 1200,
   "time": 48

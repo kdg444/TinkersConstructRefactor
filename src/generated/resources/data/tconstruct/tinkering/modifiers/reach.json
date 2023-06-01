@@ -4,7 +4,7 @@
   "attributes": [
     {
       "unique": "tconstruct.modifier.reach",
-      "attribute": "reach-entity-attributes:reach",
+      "attribute": "porting_lib:block_reach",
       "operation": "addition",
       "amount": 1.0,
       "slots": [
@@ -17,7 +17,7 @@
     },
     {
       "unique": "tconstruct.modifier.range",
-      "attribute": "reach-entity-attributes:attack_range",
+      "attribute": "porting_lib:entity_reach",
       "operation": "addition",
       "amount": 1.0,
       "slots": [

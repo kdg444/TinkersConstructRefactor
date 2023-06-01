@@ -1,11 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "group": "tconstruct:stained_clear_glass_pane",
-  "pattern": [
-    "###",
-    "#X#",
-    "###"
-  ],
   "key": {
     "#": {
       "item": "tconstruct:clear_glass_pane"
@@ -14,8 +10,14 @@
       "tag": "c:brown_dyes"
     }
   },
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
   "result": {
-    "item": "tconstruct:brown_clear_stained_glass_pane",
-    "count": 8
-  }
+    "count": 8,
+    "item": "tconstruct:brown_clear_stained_glass_pane"
+  },
+  "show_notification": true
 }

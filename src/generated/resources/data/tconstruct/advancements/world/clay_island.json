@@ -19,9 +19,17 @@
     "found_island": {
       "trigger": "minecraft:location",
       "conditions": {
-        "location": {
-          "feature": "tconstruct:clay_island"
-        }
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "location": {
+                "structure": "tconstruct:clay_island"
+              }
+            },
+            "entity": "this"
+          }
+        ]
       }
     }
   },

@@ -3,12 +3,12 @@
   "cast": {
     "tag": "tconstruct:casts/multi_use/nugget"
   },
+  "cooling_time": 26,
   "fluid": {
-    "tag": "c:molten_hepatizon",
-    "amount": 1000
+    "amount": 1000,
+    "tag": "c:molten_hepatizon"
   },
   "result": {
     "tag": "c:nuggets/hepatizon"
-  },
-  "cooling_time": 26
+  }
 }

@@ -1,5 +1,6 @@
 {
   "type": "tconstruct:modifier",
+  "allow_crystal": true,
   "inputs": [
     {
       "tag": "c:dusts/redstone"
@@ -11,12 +12,19 @@
       "tag": "c:dusts/redstone"
     },
     {
-      "tag": "c:ingots/copper"
+      "tag": "c:copper_ingots"
     },
     {
-      "tag": "c:ingots/copper"
+      "tag": "c:copper_ingots"
     }
   ],
+  "result": {
+    "level": 1,
+    "name": "tconstruct:wetting"
+  },
+  "slots": {
+    "abilities": 1
+  },
   "tools": [
     {
       "tag": "tconstruct:modifiable/armor/leggings"
@@ -24,13 +32,5 @@
     {
       "tag": "tconstruct:modifiable/shields"
     }
-  ],
-  "slots": {
-    "abilities": 1
-  },
-  "allow_crystal": true,
-  "result": {
-    "name": "tconstruct:wetting",
-    "level": 1
-  }
+  ]
 }

@@ -1,19 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "#B#",
-    "BBB",
-    "#B#"
-  ],
+  "category": "misc",
   "key": {
     "#": {
       "item": "tconstruct:seared_brick"
     },
     "B": {
-      "tag": "c:glass"
+      "tag": "c:glass_blocks"
     }
   },
+  "pattern": [
+    "#B#",
+    "BBB",
+    "#B#"
+  ],
   "result": {
     "item": "tconstruct:seared_fuel_gauge"
-  }
+  },
+  "show_notification": true
 }

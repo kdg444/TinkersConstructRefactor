@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:rods/soulsteel"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/rod"
   },
+  "cooling_time": 51,
   "fluid": {
-    "tag": "tconstruct:molten_soulsteel",
-    "amount": 4500
+    "amount": 4500,
+    "tag": "tconstruct:molten_soulsteel"
   },
   "result": {
     "tag": "c:rods/soulsteel"
-  },
-  "cooling_time": 51
+  }
 }

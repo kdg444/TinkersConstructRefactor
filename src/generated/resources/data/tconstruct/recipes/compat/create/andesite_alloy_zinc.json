@@ -1,5 +1,4 @@
 {
-  "type": "tconstruct:casting_basin",
   "fabric:load_conditions": [
     {
       "condition": "fabric:all_mods_loaded",
@@ -8,14 +7,15 @@
       ]
     }
   ],
+  "type": "tconstruct:casting_basin",
   "cast": {
     "item": "minecraft:andesite"
   },
   "cast_consumed": true,
+  "cooling_time": 16,
   "fluid": {
-    "tag": "c:molten_zinc",
-    "amount": 1000
+    "amount": 1000,
+    "tag": "c:molten_zinc"
   },
-  "result": "create:andesite_alloy",
-  "cooling_time": 16
+  "result": "create:andesite_alloy"
 }

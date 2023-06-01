@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:nuggets/signalum"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:nuggets/signalum"
   },
   "result": {
-    "fluid": "tconstruct:molten_signalum",
-    "amount": 1000
+    "amount": 1000,
+    "fluid": "tconstruct:molten_signalum"
   },
   "temperature": 1125,
   "time": 23

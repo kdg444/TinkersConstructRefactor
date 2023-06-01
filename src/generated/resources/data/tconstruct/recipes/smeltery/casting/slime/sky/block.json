@@ -4,10 +4,10 @@
     "item": "tconstruct:sky_congealed_slime"
   },
   "cast_consumed": true,
+  "cooling_time": 96,
   "fluid": {
-    "tag": "tconstruct:sky_slime",
-    "amount": 101250
+    "amount": 101250,
+    "tag": "tconstruct:sky_slime"
   },
-  "result": "tconstruct:sky_slime",
-  "cooling_time": 96
+  "result": "tconstruct:sky_slime"
 }

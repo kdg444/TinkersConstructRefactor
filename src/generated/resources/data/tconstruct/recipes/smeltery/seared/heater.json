@@ -1,16 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "BBB",
-    "B B",
-    "BBB"
-  ],
+  "category": "misc",
   "key": {
     "B": {
       "item": "tconstruct:seared_brick"
     }
   },
+  "pattern": [
+    "BBB",
+    "B B",
+    "BBB"
+  ],
   "result": {
     "item": "tconstruct:seared_heater"
-  }
+  },
+  "show_notification": true
 }

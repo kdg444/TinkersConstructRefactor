@@ -1,17 +1,17 @@
 {
-  "type": "tconstruct:material_fluid",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/constantan"
       ]
     }
   ],
+  "type": "tconstruct:material_fluid",
   "fluid": {
-    "tag": "c:molten_constantan",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_constantan"
   },
-  "temperature": 920,
-  "output": "tconstruct:constantan"
+  "output": "tconstruct:constantan",
+  "temperature": 920
 }

@@ -4,10 +4,10 @@
     "item": "minecraft:soul_torch"
   },
   "cast_consumed": true,
+  "cooling_time": 57,
   "fluid": {
-    "tag": "c:molten_iron",
-    "amount": 8000
+    "amount": 8000,
+    "tag": "c:molten_iron"
   },
-  "result": "minecraft:soul_lantern",
-  "cooling_time": 57
+  "result": "minecraft:soul_lantern"
 }

@@ -1,13 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " c ",
-    "cwc",
-    " c "
-  ],
+  "category": "equipment",
   "key": {
     "c": {
-      "tag": "forge:ingots/copper"
+      "tag": "c:copper_ingots"
     },
     "w": {
       "type": "forge:difference",
@@ -19,7 +15,13 @@
       }
     }
   },
+  "pattern": [
+    " c ",
+    "cwc",
+    " c "
+  ],
   "result": {
     "item": "tconstruct:travelers_shield"
-  }
+  },
+  "show_notification": true
 }

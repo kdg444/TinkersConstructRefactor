@@ -1,18 +1,18 @@
 {
-  "type": "tconstruct:material_fluid",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/aluminum"
       ]
     }
   ],
-  "input": "tconstruct:rock",
+  "type": "tconstruct:material_fluid",
   "fluid": {
-    "tag": "c:molten_aluminum",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_aluminum"
   },
-  "temperature": 425,
-  "output": "tconstruct:whitestone"
+  "input": "tconstruct:rock",
+  "output": "tconstruct:whitestone",
+  "temperature": 425
 }

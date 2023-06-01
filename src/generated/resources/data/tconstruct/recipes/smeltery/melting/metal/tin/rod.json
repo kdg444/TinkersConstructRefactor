@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:rods/tin"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:rods/tin"
   },
   "result": {
-    "fluid": "tconstruct:molten_tin",
-    "amount": 4500
+    "amount": 4500,
+    "fluid": "tconstruct:molten_tin"
   },
   "temperature": 225,
   "time": 8

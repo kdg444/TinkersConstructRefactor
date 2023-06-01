@@ -1,7 +1,7 @@
 {
   "fluid": {
-    "tag": "forge:molten_silver",
-    "amount": 10
+    "tag": "c:molten_silver",
+    "amount": 1000
   },
   "effects": [
     {

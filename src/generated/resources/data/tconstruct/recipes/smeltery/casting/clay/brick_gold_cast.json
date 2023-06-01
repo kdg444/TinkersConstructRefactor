@@ -3,10 +3,10 @@
   "cast": {
     "tag": "tconstruct:casts/multi_use/ingot"
   },
+  "cooling_time": 72,
   "fluid": {
-    "tag": "tconstruct:molten_clay",
-    "amount": 20250
+    "amount": 20250,
+    "tag": "tconstruct:molten_clay"
   },
-  "result": "minecraft:brick",
-  "cooling_time": 72
+  "result": "minecraft:brick"
 }

@@ -3,12 +3,12 @@
   "cast": {
     "tag": "tconstruct:casts/multi_use/nugget"
   },
+  "cooling_time": 24,
   "fluid": {
-    "tag": "c:molten_manyullyn",
-    "amount": 1000
+    "amount": 1000,
+    "tag": "c:molten_manyullyn"
   },
   "result": {
     "tag": "c:nuggets/manyullyn"
-  },
-  "cooling_time": 24
+  }
 }

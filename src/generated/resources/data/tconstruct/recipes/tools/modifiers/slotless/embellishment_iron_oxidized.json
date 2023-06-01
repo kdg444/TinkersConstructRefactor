@@ -1,22 +1,22 @@
 {
   "type": "tconstruct:swappable_modifier",
+  "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:raw_materials/iron"
+      "tag": "c:iron_raw_materials"
     },
     {
-      "tag": "c:raw_materials/iron"
+      "tag": "c:iron_raw_materials"
     },
     {
-      "tag": "c:raw_materials/iron"
+      "tag": "c:iron_raw_materials"
     }
   ],
-  "tools": {
-    "tag": "tconstruct:modifiable/embellishment/metal"
-  },
-  "allow_crystal": false,
   "result": {
     "name": "tconstruct:embellishment",
     "value": "tconstruct:iron#oxidized"
+  },
+  "tools": {
+    "tag": "tconstruct:modifiable/embellishment/metal"
   }
 }

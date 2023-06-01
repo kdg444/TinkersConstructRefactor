@@ -1,18 +1,18 @@
 {
-  "type": "tconstruct:material_fluid",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/brass"
       ]
     }
   ],
-  "input": "tconstruct:slimewood",
+  "type": "tconstruct:material_fluid",
   "fluid": {
-    "tag": "c:molten_brass",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_brass"
   },
-  "temperature": 605,
-  "output": "tconstruct:plated_slimewood"
+  "input": "tconstruct:slimewood",
+  "output": "tconstruct:plated_slimewood",
+  "temperature": 605
 }

@@ -1,13 +1,14 @@
 {
-  "type": "tconstruct:swappable_modifier",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/electrum"
       ]
     }
   ],
+  "type": "tconstruct:swappable_modifier",
+  "allow_crystal": false,
   "inputs": [
     {
       "tag": "c:ingots/electrum"
@@ -19,12 +20,11 @@
       "tag": "c:ingots/electrum"
     }
   ],
-  "tools": {
-    "tag": "tconstruct:modifiable/embellishment/metal"
-  },
-  "allow_crystal": false,
   "result": {
     "name": "tconstruct:embellishment",
     "value": "tconstruct:electrum"
+  },
+  "tools": {
+    "tag": "tconstruct:modifiable/embellishment/metal"
   }
 }

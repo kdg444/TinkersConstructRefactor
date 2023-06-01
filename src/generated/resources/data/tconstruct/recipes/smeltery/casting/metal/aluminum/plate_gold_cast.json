@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:plates/aluminum"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/plate"
   },
+  "cooling_time": 47,
   "fluid": {
-    "tag": "c:molten_aluminum",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_aluminum"
   },
   "result": {
     "tag": "c:plates/aluminum"
-  },
-  "cooling_time": 47
+  }
 }

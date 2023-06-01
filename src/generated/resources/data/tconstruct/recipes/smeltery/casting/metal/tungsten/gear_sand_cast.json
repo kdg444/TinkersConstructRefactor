@@ -1,23 +1,23 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:gears/tungsten"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/single_use/gear"
   },
   "cast_consumed": true,
+  "cooling_time": 130,
   "fluid": {
-    "tag": "c:molten_tungsten",
-    "amount": 36000
+    "amount": 36000,
+    "tag": "c:molten_tungsten"
   },
   "result": {
     "tag": "c:gears/tungsten"
-  },
-  "cooling_time": 130
+  }
 }

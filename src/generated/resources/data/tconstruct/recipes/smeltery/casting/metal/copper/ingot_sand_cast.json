@@ -4,10 +4,10 @@
     "tag": "tconstruct:casts/single_use/ingot"
   },
   "cast_consumed": true,
+  "cooling_time": 50,
   "fluid": {
-    "tag": "c:molten_copper",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_copper"
   },
-  "result": "minecraft:copper_ingot",
-  "cooling_time": 50
+  "result": "minecraft:copper_ingot"
 }

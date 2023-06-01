@@ -1,17 +1,17 @@
 {
-  "type": "tconstruct:material_fluid",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/invar"
       ]
     }
   ],
+  "type": "tconstruct:material_fluid",
   "fluid": {
-    "tag": "c:molten_invar",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_invar"
   },
-  "temperature": 900,
-  "output": "tconstruct:invar"
+  "output": "tconstruct:invar",
+  "temperature": 900
 }

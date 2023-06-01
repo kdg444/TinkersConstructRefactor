@@ -3,9 +3,9 @@
   "values": [
     "#tconstruct:molten_diamond",
     "#tconstruct:molten_debris",
-    "#forge:molten_enderium",
-    "#forge:molten_lumium",
-    "#forge:molten_signalum",
-    "#forge:molten_refined_obsidian"
+    "#c:molten_enderium",
+    "#c:molten_lumium",
+    "#c:molten_signalum",
+    "#c:molten_refined_obsidian"
   ]
 }

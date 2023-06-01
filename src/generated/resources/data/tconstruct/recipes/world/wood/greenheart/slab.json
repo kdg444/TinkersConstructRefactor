@@ -1,16 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "wooden_slab",
-  "pattern": [
-    "###"
-  ],
   "key": {
     "#": {
       "item": "tconstruct:greenheart_planks"
     }
   },
+  "pattern": [
+    "###"
+  ],
   "result": {
-    "item": "tconstruct:greenheart_planks_slab",
-    "count": 6
-  }
+    "count": 6,
+    "item": "tconstruct:greenheart_planks_slab"
+  },
+  "show_notification": true
 }

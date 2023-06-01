@@ -1,32 +1,32 @@
 {
-  "type": "tconstruct:alloy",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/electrum"
       ]
     },
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/silver"
       ]
     }
   ],
+  "type": "tconstruct:alloy",
   "inputs": [
     {
-      "tag": "c:molten_gold",
-      "amount": 9000
+      "amount": 9000,
+      "tag": "c:molten_gold"
     },
     {
-      "tag": "c:molten_silver",
-      "amount": 9000
+      "amount": 9000,
+      "tag": "c:molten_silver"
     }
   ],
   "result": {
-    "fluid": "tconstruct:molten_electrum",
-    "amount": 18000
+    "amount": 18000,
+    "fluid": "tconstruct:molten_electrum"
   },
   "temperature": 760
 }

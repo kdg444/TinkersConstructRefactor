@@ -1,5 +1,6 @@
 {
   "type": "tconstruct:swappable_modifier",
+  "allow_crystal": false,
   "inputs": [
     {
       "ingredient": [
@@ -12,7 +13,7 @@
       ]
     },
     {
-      "tag": "forge:ingots/queens_slime"
+      "tag": "c:ingots/queens_slime"
     },
     {
       "ingredient": [
@@ -31,12 +32,11 @@
       "item": "tconstruct:ichor_slime_crystal_block"
     }
   ],
-  "tools": {
-    "tag": "tconstruct:modifiable"
-  },
-  "allow_crystal": false,
   "result": {
     "name": "tconstruct:rebalanced",
     "value": "abilities"
+  },
+  "tools": {
+    "tag": "tconstruct:modifiable"
   }
 }

@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:coins"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "c:coins"
   },
   "cast_consumed": true,
-  "switch_slots": true,
+  "cooling_time": 57,
   "fluid": {
-    "tag": "c:molten_gold",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_gold"
   },
   "result": "tconstruct:coin_cast",
-  "cooling_time": 57
+  "switch_slots": true
 }

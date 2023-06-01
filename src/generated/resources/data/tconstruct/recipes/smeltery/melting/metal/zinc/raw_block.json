@@ -1,18 +1,18 @@
 {
-  "type": "forge:conditional",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:storage_blocks/raw_zinc"
       ]
     }
   ],
+  "type": "forge:conditional",
   "recipes": [
     {
       "fabric:load_conditions": [
         {
-          "condition": "fabric:item_tags_populated",
+          "condition": "fabric:tags_populated",
           "values": [
             "c:ingots/tin"
           ]
@@ -20,22 +20,22 @@
       ],
       "recipe": {
         "type": "tconstruct:ore_melting",
-        "rate": "metal",
+        "byproducts": [
+          {
+            "amount": 81000,
+            "fluid": "tconstruct:molten_tin"
+          }
+        ],
         "ingredient": {
           "tag": "c:storage_blocks/raw_zinc"
         },
+        "rate": "metal",
         "result": {
-          "fluid": "tconstruct:molten_zinc",
-          "amount": 81000
+          "amount": 81000,
+          "fluid": "tconstruct:molten_zinc"
         },
         "temperature": 420,
-        "time": 282,
-        "byproducts": [
-          {
-            "fluid": "tconstruct:molten_tin",
-            "amount": 81000
-          }
-        ]
+        "time": 282
       }
     },
     {
@@ -46,22 +46,22 @@
       ],
       "recipe": {
         "type": "tconstruct:ore_melting",
-        "rate": "metal",
+        "byproducts": [
+          {
+            "amount": 81000,
+            "fluid": "tconstruct:molten_copper"
+          }
+        ],
         "ingredient": {
           "tag": "c:storage_blocks/raw_zinc"
         },
+        "rate": "metal",
         "result": {
-          "fluid": "tconstruct:molten_zinc",
-          "amount": 81000
+          "amount": 81000,
+          "fluid": "tconstruct:molten_zinc"
         },
         "temperature": 420,
-        "time": 282,
-        "byproducts": [
-          {
-            "fluid": "tconstruct:molten_copper",
-            "amount": 81000
-          }
-        ]
+        "time": 282
       }
     }
   ]

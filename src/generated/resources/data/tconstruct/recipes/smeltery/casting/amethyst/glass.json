@@ -1,13 +1,13 @@
 {
   "type": "tconstruct:casting_basin",
   "cast": {
-    "tag": "c:glass/colorless"
+    "tag": "c:colorless_glass"
   },
   "cast_consumed": true,
+  "cooling_time": 87,
   "fluid": {
-    "tag": "tconstruct:molten_amethyst",
-    "amount": 16200
+    "amount": 16200,
+    "tag": "tconstruct:molten_amethyst"
   },
-  "result": "tconstruct:clear_tinted_glass",
-  "cooling_time": 87
+  "result": "tconstruct:clear_tinted_glass"
 }

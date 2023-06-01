@@ -1,23 +1,23 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:nuggets/platinum"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/single_use/nugget"
   },
   "cast_consumed": true,
+  "cooling_time": 22,
   "fluid": {
-    "tag": "c:molten_platinum",
-    "amount": 1000
+    "amount": 1000,
+    "tag": "c:molten_platinum"
   },
   "result": {
     "tag": "c:nuggets/platinum"
-  },
-  "cooling_time": 22
+  }
 }

@@ -1,15 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
   "fabric:load_conditions": [
     {
       "condition": "tconstruct:config",
       "prop": "slime_recipe_fix"
     }
   ],
-  "pattern": [
-    "#",
-    "P"
-  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
   "key": {
     "#": {
       "tag": "c:slimeballs"
@@ -18,7 +15,12 @@
       "item": "minecraft:piston"
     }
   },
+  "pattern": [
+    "#",
+    "P"
+  ],
   "result": {
     "item": "minecraft:sticky_piston"
-  }
+  },
+  "show_notification": true
 }

@@ -1,17 +1,22 @@
 {
-  "type": "tconstruct:ore_melting",
   "fabric:load_conditions": [
     {
+      "base": "c:ores/quartz",
       "condition": "tconstruct:tag_difference_present",
       "registry": "minecraft:item",
-      "base": "c:ores/quartz",
       "subtracted": [
         "c:ore_rates/sparse",
         "c:ore_rates/dense"
       ]
     }
   ],
-  "rate": "gem",
+  "type": "tconstruct:ore_melting",
+  "byproducts": [
+    {
+      "amount": 8100,
+      "fluid": "tconstruct:molten_amethyst"
+    }
+  ],
   "ingredient": {
     "type": "forge:difference",
     "base": {
@@ -26,16 +31,11 @@
       }
     ]
   },
+  "rate": "gem",
   "result": {
-    "fluid": "tconstruct:molten_quartz",
-    "amount": 8100
+    "amount": 8100,
+    "fluid": "tconstruct:molten_quartz"
   },
   "temperature": 637,
-  "time": 82,
-  "byproducts": [
-    {
-      "fluid": "tconstruct:molten_amethyst",
-      "amount": 8100
-    }
-  ]
+  "time": 82
 }

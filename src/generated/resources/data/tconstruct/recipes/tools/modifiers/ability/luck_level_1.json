@@ -1,8 +1,9 @@
 {
   "type": "tconstruct:modifier",
+  "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/copper"
+      "tag": "c:copper_ingots"
     },
     {
       "ingredient": [
@@ -15,15 +16,23 @@
       ]
     },
     {
-      "tag": "c:ingots/copper"
+      "tag": "c:copper_ingots"
     },
     {
-      "tag": "c:storage_blocks/lapis"
+      "tag": "c:lapis_blocks"
     },
     {
-      "tag": "c:storage_blocks/lapis"
+      "tag": "c:lapis_blocks"
     }
   ],
+  "max_level": 1,
+  "result": {
+    "level": 1,
+    "name": "tconstruct:luck"
+  },
+  "slots": {
+    "abilities": 1
+  },
   "tools": [
     {
       "tag": "tconstruct:modifiable/melee"
@@ -34,14 +43,5 @@
     {
       "tag": "tconstruct:modifiable/ranged"
     }
-  ],
-  "slots": {
-    "abilities": 1
-  },
-  "allow_crystal": false,
-  "result": {
-    "name": "tconstruct:luck",
-    "level": 1
-  },
-  "max_level": 1
+  ]
 }

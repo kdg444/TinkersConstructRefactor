@@ -1,17 +1,17 @@
 {
-  "type": "tconstruct:material",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:nuggets/invar"
       ]
     }
   ],
+  "type": "tconstruct:material",
   "ingredient": {
     "tag": "c:nuggets/invar"
   },
-  "value": 1,
+  "material": "tconstruct:invar",
   "needed": 9,
-  "material": "tconstruct:invar"
+  "value": 1
 }

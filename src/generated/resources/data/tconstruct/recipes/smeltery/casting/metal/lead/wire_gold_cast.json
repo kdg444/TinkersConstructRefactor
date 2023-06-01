@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:wires/lead"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/wire"
   },
+  "cooling_time": 31,
   "fluid": {
-    "tag": "c:molten_lead",
-    "amount": 4500
+    "amount": 4500,
+    "tag": "c:molten_lead"
   },
   "result": {
     "tag": "c:wires/lead"
-  },
-  "cooling_time": 31
+  }
 }

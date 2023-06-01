@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:geore_medium_buds/osmium"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:geore_medium_buds/osmium"
   },
   "result": {
-    "fluid": "tconstruct:molten_osmium",
-    "amount": 18000
+    "amount": 18000,
+    "fluid": "tconstruct:molten_osmium"
   },
   "temperature": 975,
   "time": 98

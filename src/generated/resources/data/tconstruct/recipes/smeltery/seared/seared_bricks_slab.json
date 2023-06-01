@@ -1,16 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "tconstruct:seared_bricks_slab",
-  "pattern": [
-    "BBB"
-  ],
   "key": {
     "B": {
       "item": "tconstruct:seared_bricks"
     }
   },
+  "pattern": [
+    "BBB"
+  ],
   "result": {
-    "item": "tconstruct:seared_bricks_slab",
-    "count": 6
-  }
+    "count": 6,
+    "item": "tconstruct:seared_bricks_slab"
+  },
+  "show_notification": true
 }

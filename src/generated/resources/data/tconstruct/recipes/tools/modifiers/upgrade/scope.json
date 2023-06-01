@@ -1,32 +1,32 @@
 {
   "type": "tconstruct:modifier",
+  "allow_crystal": true,
   "inputs": [
     {
-      "tag": "forge:string"
+      "tag": "c:string"
     },
     {
       "item": "minecraft:spyglass"
     },
     {
-      "tag": "forge:string"
+      "tag": "c:string"
     },
     {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     }
   ],
-  "tools": {
-    "tag": "tconstruct:modifiable/ranged/longbows"
+  "max_level": 1,
+  "result": {
+    "level": 1,
+    "name": "tconstruct:scope"
   },
   "slots": {
     "upgrades": 1
   },
-  "allow_crystal": true,
-  "result": {
-    "name": "tconstruct:scope",
-    "level": 1
-  },
-  "max_level": 1
+  "tools": {
+    "tag": "tconstruct:modifiable/ranged/longbows"
+  }
 }

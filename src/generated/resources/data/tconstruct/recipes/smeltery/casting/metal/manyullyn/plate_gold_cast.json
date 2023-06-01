@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:plates/manyullyn"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/plate"
   },
+  "cooling_time": 72,
   "fluid": {
-    "tag": "c:molten_manyullyn",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_manyullyn"
   },
   "result": {
     "tag": "c:plates/manyullyn"
-  },
-  "cooling_time": 72
+  }
 }

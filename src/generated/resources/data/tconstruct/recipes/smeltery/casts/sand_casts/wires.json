@@ -1,13 +1,13 @@
 {
-  "type": "tconstruct:molding_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:wires"
       ]
     }
   ],
+  "type": "tconstruct:molding_table",
   "material": {
     "item": "tconstruct:blank_sand_cast"
   },

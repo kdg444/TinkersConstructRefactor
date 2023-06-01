@@ -1,19 +1,19 @@
 {
-  "type": "tconstruct:melting",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:dusts/hepatizon"
       ]
     }
   ],
+  "type": "tconstruct:melting",
   "ingredient": {
     "tag": "c:dusts/hepatizon"
   },
   "result": {
-    "fluid": "tconstruct:molten_hepatizon",
-    "amount": 9000
+    "amount": 9000,
+    "fluid": "tconstruct:molten_hepatizon"
   },
   "temperature": 1400,
   "time": 58

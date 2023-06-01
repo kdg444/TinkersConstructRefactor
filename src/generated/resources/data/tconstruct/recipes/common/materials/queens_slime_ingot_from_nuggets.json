@@ -1,11 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "tconstruct:queens_slime_ingot",
-  "pattern": [
-    "###",
-    "#*#",
-    "###"
-  ],
   "key": {
     "#": {
       "tag": "c:nuggets/queens_slime"
@@ -14,7 +10,13 @@
       "item": "tconstruct:queens_slime_nugget"
     }
   },
+  "pattern": [
+    "###",
+    "#*#",
+    "###"
+  ],
   "result": {
     "item": "tconstruct:queens_slime_ingot"
-  }
+  },
+  "show_notification": true
 }

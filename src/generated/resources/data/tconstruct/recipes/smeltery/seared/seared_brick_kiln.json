@@ -12,12 +12,13 @@
       ],
       "recipe": {
         "type": "ceramics:kiln",
+        "category": "misc",
+        "cookingtime": 100,
+        "experience": 0.3,
         "ingredient": {
           "item": "tconstruct:grout"
         },
-        "result": "tconstruct:seared_brick",
-        "experience": 0.3,
-        "cookingtime": 100
+        "result": "tconstruct:seared_brick"
       }
     },
     {
@@ -28,12 +29,13 @@
       ],
       "recipe": {
         "type": "minecraft:blasting",
+        "category": "misc",
+        "cookingtime": 100,
+        "experience": 0.3,
         "ingredient": {
           "item": "tconstruct:grout"
         },
-        "result": "tconstruct:seared_brick",
-        "experience": 0.3,
-        "cookingtime": 100
+        "result": "tconstruct:seared_brick"
       }
     }
   ]

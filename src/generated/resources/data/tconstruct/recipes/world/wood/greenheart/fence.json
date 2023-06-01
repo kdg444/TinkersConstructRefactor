@@ -1,20 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "wooden_fence",
-  "pattern": [
-    "W#W",
-    "W#W"
-  ],
   "key": {
     "#": {
-      "tag": "c:rods/wooden"
+      "tag": "c:wooden_rods"
     },
     "W": {
       "item": "tconstruct:greenheart_planks"
     }
   },
+  "pattern": [
+    "W#W",
+    "W#W"
+  ],
   "result": {
-    "item": "tconstruct:greenheart_fence",
-    "count": 3
-  }
+    "count": 3,
+    "item": "tconstruct:greenheart_fence"
+  },
+  "show_notification": true
 }

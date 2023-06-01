@@ -4,10 +4,10 @@
     "item": "minecraft:white_concrete_powder"
   },
   "cast_consumed": true,
+  "cooling_time": 27,
   "fluid": {
-    "name": "minecraft:water",
-    "amount": 8100
+    "amount": 8100,
+    "name": "minecraft:water"
   },
-  "result": "minecraft:white_concrete",
-  "cooling_time": 27
+  "result": "minecraft:white_concrete"
 }

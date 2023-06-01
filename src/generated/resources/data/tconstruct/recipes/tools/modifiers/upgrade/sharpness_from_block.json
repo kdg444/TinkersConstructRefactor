@@ -1,21 +1,21 @@
 {
   "type": "tconstruct:incremental_modifier",
-  "input": {
-    "tag": "c:storage_blocks/quartz"
-  },
+  "allow_crystal": false,
   "amount_per_item": 4,
-  "needed_per_level": 36,
+  "input": {
+    "tag": "c:quartz_blocks"
+  },
   "leftover": "minecraft:quartz",
-  "tools": {
-    "tag": "tconstruct:modifiable/melee_or_unarmed"
+  "max_level": 5,
+  "needed_per_level": 36,
+  "result": {
+    "level": 1,
+    "name": "tconstruct:sharpness"
   },
   "slots": {
     "upgrades": 1
   },
-  "allow_crystal": false,
-  "result": {
-    "name": "tconstruct:sharpness",
-    "level": 1
-  },
-  "max_level": 5
+  "tools": {
+    "tag": "tconstruct:modifiable/melee_or_unarmed"
+  }
 }

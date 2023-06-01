@@ -4,8 +4,8 @@
     "item": "minecraft:diamond_chestplate"
   },
   "result": {
-    "fluid": "tconstruct:molten_diamond",
     "amount": 64800,
+    "fluid": "tconstruct:molten_diamond",
     "unit_size": 2025
   },
   "temperature": 1450,

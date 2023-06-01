@@ -4,10 +4,10 @@
     "item": "minecraft:saddle"
   },
   "cast_consumed": true,
+  "cooling_time": 90,
   "fluid": {
-    "tag": "tconstruct:blood",
-    "amount": 81000
+    "amount": 81000,
+    "tag": "tconstruct:blood"
   },
-  "result": "tconstruct:piggy_backpack",
-  "cooling_time": 90
+  "result": "tconstruct:piggy_backpack"
 }

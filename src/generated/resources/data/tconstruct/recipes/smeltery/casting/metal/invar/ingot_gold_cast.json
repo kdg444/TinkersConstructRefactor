@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:ingots/invar"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/ingot"
   },
+  "cooling_time": 63,
   "fluid": {
-    "tag": "c:molten_invar",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_invar"
   },
   "result": {
     "tag": "c:ingots/invar"
-  },
-  "cooling_time": 63
+  }
 }

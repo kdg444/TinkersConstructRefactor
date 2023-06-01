@@ -4,8 +4,8 @@
     "item": "minecraft:blue_ice"
   },
   "result": {
-    "fluid": "minecraft:water",
-    "amount": 6561000
+    "amount": 6561000,
+    "fluid": "minecraft:water"
   },
   "temperature": 0,
   "time": 253

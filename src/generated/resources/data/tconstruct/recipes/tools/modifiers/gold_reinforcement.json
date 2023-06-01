@@ -4,10 +4,10 @@
     "item": "tconstruct:obsidian_pane"
   },
   "cast_consumed": true,
+  "cooling_time": 33,
   "fluid": {
-    "tag": "c:molten_gold",
-    "amount": 3000
+    "amount": 3000,
+    "tag": "c:molten_gold"
   },
-  "result": "tconstruct:gold_reinforcement",
-  "cooling_time": 33
+  "result": "tconstruct:gold_reinforcement"
 }

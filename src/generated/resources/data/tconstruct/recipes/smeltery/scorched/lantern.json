@@ -1,23 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " C ",
-    "PPP",
-    "BBB"
-  ],
+  "category": "misc",
   "key": {
-    "C": {
-      "tag": "c:ingots/iron"
-    },
     "B": {
       "item": "tconstruct:scorched_brick"
+    },
+    "C": {
+      "tag": "c:iron_ingots"
     },
     "P": {
       "item": "tconstruct:scorched_glass_pane"
     }
   },
+  "pattern": [
+    " C ",
+    "PPP",
+    "BBB"
+  ],
   "result": {
-    "item": "tconstruct:scorched_lantern",
-    "count": 3
-  }
+    "count": 3,
+    "item": "tconstruct:scorched_lantern"
+  },
+  "show_notification": true
 }

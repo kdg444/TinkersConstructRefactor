@@ -1,20 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "group": "tconstruct:fancy_item_frame",
+  "key": {
+    "M": {
+      "tag": "c:diamonds"
+    },
+    "e": {
+      "item": "tconstruct:obsidian_pane"
+    }
+  },
   "pattern": [
     " e ",
     "eMe",
     " e "
   ],
-  "key": {
-    "e": {
-      "item": "tconstruct:obsidian_pane"
-    },
-    "M": {
-      "tag": "c:gems/diamond"
-    }
-  },
   "result": {
     "item": "tconstruct:diamond_item_frame"
-  }
+  },
+  "show_notification": true
 }

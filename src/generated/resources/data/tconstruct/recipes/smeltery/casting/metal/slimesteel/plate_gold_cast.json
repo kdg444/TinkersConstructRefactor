@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:plates/slimesteel"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/plate"
   },
+  "cooling_time": 63,
   "fluid": {
-    "tag": "tconstruct:molten_slimesteel",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "tconstruct:molten_slimesteel"
   },
   "result": {
     "tag": "c:plates/slimesteel"
-  },
-  "cooling_time": 63
+  }
 }

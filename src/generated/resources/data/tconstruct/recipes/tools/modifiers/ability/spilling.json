@@ -1,5 +1,6 @@
 {
   "type": "tconstruct:modifier",
+  "allow_crystal": true,
   "inputs": [
     {
       "ingredient": [
@@ -25,12 +26,19 @@
       ]
     },
     {
-      "tag": "forge:ingots/copper"
+      "tag": "c:copper_ingots"
     },
     {
-      "tag": "forge:ingots/copper"
+      "tag": "c:copper_ingots"
     }
   ],
+  "result": {
+    "level": 1,
+    "name": "tconstruct:spilling"
+  },
+  "slots": {
+    "abilities": 1
+  },
   "tools": [
     {
       "tag": "tconstruct:modifiable/melee"
@@ -44,13 +52,5 @@
     {
       "tag": "tconstruct:modifiable/shields"
     }
-  ],
-  "slots": {
-    "abilities": 1
-  },
-  "allow_crystal": true,
-  "result": {
-    "name": "tconstruct:spilling",
-    "level": 1
-  }
+  ]
 }

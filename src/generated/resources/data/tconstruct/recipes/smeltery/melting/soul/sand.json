@@ -9,8 +9,8 @@
     }
   ],
   "result": {
-    "fluid": "tconstruct:liquid_soul",
-    "amount": 81000
+    "amount": 81000,
+    "fluid": "tconstruct:liquid_soul"
   },
   "temperature": 400,
   "time": 69

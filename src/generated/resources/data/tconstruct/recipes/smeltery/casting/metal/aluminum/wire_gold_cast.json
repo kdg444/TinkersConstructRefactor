@@ -1,22 +1,22 @@
 {
-  "type": "tconstruct:casting_table",
   "fabric:load_conditions": [
     {
-      "condition": "fabric:item_tags_populated",
+      "condition": "fabric:tags_populated",
       "values": [
         "c:wires/aluminum"
       ]
     }
   ],
+  "type": "tconstruct:casting_table",
   "cast": {
     "tag": "tconstruct:casts/multi_use/wire"
   },
+  "cooling_time": 33,
   "fluid": {
-    "tag": "c:molten_aluminum",
-    "amount": 4500
+    "amount": 4500,
+    "tag": "c:molten_aluminum"
   },
   "result": {
     "tag": "c:wires/aluminum"
-  },
-  "cooling_time": 33
+  }
 }

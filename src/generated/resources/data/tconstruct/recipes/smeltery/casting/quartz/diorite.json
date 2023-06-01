@@ -4,10 +4,10 @@
     "item": "minecraft:andesite"
   },
   "cast_consumed": true,
+  "cooling_time": 37,
   "fluid": {
-    "tag": "tconstruct:molten_quartz",
-    "amount": 4050
+    "amount": 4050,
+    "tag": "tconstruct:molten_quartz"
   },
-  "result": "minecraft:diorite",
-  "cooling_time": 37
+  "result": "minecraft:diorite"
 }

@@ -9,8 +9,8 @@
     }
   ],
   "result": {
-    "fluid": "tconstruct:scorched_stone",
-    "amount": 20250
+    "amount": 20250,
+    "fluid": "tconstruct:scorched_stone"
   },
   "temperature": 500,
   "time": 75

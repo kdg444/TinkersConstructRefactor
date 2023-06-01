@@ -4,8 +4,8 @@
     "tag": "c:gems/quartz"
   },
   "result": {
-    "fluid": "tconstruct:molten_quartz",
-    "amount": 8100
+    "amount": 8100,
+    "fluid": "tconstruct:molten_quartz"
   },
   "temperature": 637,
   "time": 55

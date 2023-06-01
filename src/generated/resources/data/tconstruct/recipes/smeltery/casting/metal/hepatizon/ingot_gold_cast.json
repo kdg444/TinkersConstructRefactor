@@ -3,12 +3,12 @@
   "cast": {
     "tag": "tconstruct:casts/multi_use/ingot"
   },
+  "cooling_time": 78,
   "fluid": {
-    "tag": "c:molten_hepatizon",
-    "amount": 9000
+    "amount": 9000,
+    "tag": "c:molten_hepatizon"
   },
   "result": {
     "tag": "c:ingots/hepatizon"
-  },
-  "cooling_time": 78
+  }
 }

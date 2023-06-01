@@ -1,16 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "# #",
-    "# #",
-    "###"
-  ],
+  "category": "misc",
   "key": {
     "#": {
       "item": "tconstruct:seared_brick"
     }
   },
+  "pattern": [
+    "# #",
+    "# #",
+    "###"
+  ],
   "result": {
     "item": "tconstruct:seared_basin"
-  }
+  },
+  "show_notification": true
 }
