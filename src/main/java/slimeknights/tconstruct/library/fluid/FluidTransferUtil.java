@@ -3,6 +3,8 @@ package slimeknights.tconstruct.library.fluid;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -17,9 +19,9 @@ import slimeknights.mantle.transfer.fluid.IFluidHandler;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FluidTransferUtil {
-  /** @deprecated use {@link FluidTransferHelper#tryTransfer(IFluidHandler, IFluidHandler, int)} */
+  /** @deprecated use {@link FluidTransferHelper#tryTransfer(Storage, Storage, long)} */
   @Deprecated
-  public static FluidStack tryTransfer(IFluidHandler input, IFluidHandler output, int maxFill) {
+  public static FluidStack tryTransfer(Storage<FluidVariant> input, Storage<FluidVariant> output, long maxFill) {
     return FluidTransferHelper.tryTransfer(input, output, maxFill);
   }
 

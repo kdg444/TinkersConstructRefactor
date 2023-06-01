@@ -1,4 +1,4 @@
-// 1.19.4	2023-05-31T17:27:18.089406703	Hephaestus/Tinkers Construct Item Tags
+// 1.19.4	2023-06-01T10:27:39.093781103	Hephaestus/Tinkers Construct Item Tags
 0238a43b0e61403d2c963744ea09a3f26e36e45e data/tconstruct/tags/items/modifiable/ranged.json
 2121a480ce6f8ac2b8129ce8dc023633985394a9 data/tconstruct/tags/items/copper_platforms.json
 8eff271399fac07e1e31db3ae72c802664a91f65 data/tconstruct/tags/items/scorched_blocks.json
@@ -184,8 +184,8 @@ cbf8e975b1016d7d8140594bebb416b9f5493cb1 data/tconstruct/tags/items/casts/multi_
 c4733783f6243b3b0647ce3e4cddee4f2b232131 data/c/tags/items/heads.json
 18f453fd782222313b3dc43e54d3154d6e7583d7 data/c/tags/items/granite.json
 97d33ffec2e4723af902a6668d88229bec85b0e4 data/tconstruct/tags/items/casts/multi_use/broad_axe_head.json
-c4c5f9a858d43a183f7e6636fc896161d3cd430f data/c/tags/items/silica_glass.json
 75b700bdbd75d60f993a11ee7c47f5b7d449a2fd data/c/tags/items/books.json
+c4c5f9a858d43a183f7e6636fc896161d3cd430f data/c/tags/items/silica_glass.json
 d6021be01a8204e75192f6057962798494841060 data/tconstruct/tags/items/casts/single_use/bow_limb.json
 4ea126e3b0c7994fd4169f916aee5532d5466eda data/tconstruct/tags/items/modifiable/armor/worn.json
 f225469a59bfed7b2f77da76492593758dda4cf8 data/tconstruct/tags/items/casts.json

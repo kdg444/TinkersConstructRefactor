@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block;
 
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -28,7 +29,6 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import slimeknights.mantle.transfer.TransferUtil;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.utils.Util;
@@ -160,9 +160,8 @@ public class ChannelBlock extends Block implements EntityBlock {
 	 * @param pos    Position to check
 	 * @return  True if its a fluid handler
 	 */
-	private static boolean isFluidHandler(LevelAccessor world, Direction side, BlockPos pos) {
-		BlockEntity te = world.getBlockEntity(pos);
-		return te != null && TransferUtil.getFluidHandler(te, side).isPresent();
+	private static boolean isFluidHandler(Level world, Direction side, BlockPos pos) {
+		return FluidStorage.SIDED.find(world, pos, side) != null;
 	}
 
 	/**
@@ -173,7 +172,7 @@ public class ChannelBlock extends Block implements EntityBlock {
 	 * @param side         Side facing
 	 * @return  True if the channel can connect
 	 */
-	private boolean canConnect(LevelAccessor world, Direction side, BlockState facingState, BlockPos facingPos) {
+	private boolean canConnect(Level world, Direction side, BlockState facingState, BlockPos facingPos) {
 		if (facingState.getBlock() == this) {
 			return true;
 		}
@@ -187,7 +186,7 @@ public class ChannelBlock extends Block implements EntityBlock {
 	 * @param side   Side to check
 	 * @return  True if the channel can connect
 	 */
-	private boolean canConnect(LevelAccessor world, BlockPos pos, Direction side) {
+	private boolean canConnect(Level world, BlockPos pos, Direction side) {
 		BlockPos facingPos = pos.relative(side);
 		return canConnect(world, side, world.getBlockState(facingPos), facingPos);
 	}

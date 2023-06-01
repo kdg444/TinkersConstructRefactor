@@ -1,4 +1,4 @@
-// 1.19.4	2023-05-31T17:27:18.085496475	Hephaestus/Tinkers' Construct Modifiers
+// 1.19.4	2023-06-01T10:27:39.087565716	Hephaestus/Tinkers' Construct Modifiers
 3a1b08cf52a4469f4978e47bc37b7673e32da19b data/tconstruct/tinkering/modifiers/swiftstrike.json
 71b8354471391fe41e85d2d31e5e1a4eed3262b3 data/tconstruct/tinkering/modifiers/piglin_disguise.json
 32bd9a54ab2856cc777edb048fb8f43e99afe864 data/tconstruct/tinkering/modifiers/shovel_flatten.json
@@ -55,8 +55,8 @@ e48d52ab26f555de9daa91fc68560197eb369b9f data/tconstruct/tinkering/modifiers/hoe
 9e1b0e05d8d3d2d2772d1514f4b857e862c1cccf data/tconstruct/tinkering/modifiers/zombie_disguise.json
 d4e7b1d1bb2c7181f79c4a18596535d5642fee23 data/tconstruct/tinkering/modifiers/sharpness.json
 02e1ec5fe14128e195e166574c3f0a2b77e2cd89 data/tconstruct/tinkering/modifiers/worldbound.json
-67b86458fa08707c8a7d9bc8c76910bef3d95504 data/tconstruct/tinkering/modifiers/draconic.json
 b0a87e6ea76cf6b1bf1af545767ae2388a3f1c73 data/tconstruct/tinkering/modifiers/quick_charge.json
+67b86458fa08707c8a7d9bc8c76910bef3d95504 data/tconstruct/tinkering/modifiers/draconic.json
 ebcb0787b8957050983b0b8854feaab15fc9acc3 data/tconstruct/tinkering/modifiers/featherweight.json
 56cbba2bb89b7001ee6890441d4981b1c0763cf2 data/tconstruct/tinkering/modifiers/rebalanced.json
 ef0f40c6422bf5ebc06688212ec25a3e59f046a5 data/tconstruct/tinkering/modifiers/unarmed.json

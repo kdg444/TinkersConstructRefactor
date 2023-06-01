@@ -83,12 +83,9 @@ public class FaucetBlockEntity extends MantleBlockEntity implements CustomRender
    */
   private LazyOptional<IFluidHandler> findFluidHandler(Direction side) {
     assert level != null;
-    BlockEntity te = level.getBlockEntity(worldPosition.relative(side));
-    if (te != null) {
-      LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(te, side.getOpposite());
-      if (handler.isPresent()) {
-        return handler;
-      }
+    LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(level, worldPosition.relative(side), side.getOpposite());
+    if (handler.isPresent()) {
+      return handler;
     }
     return LazyOptional.empty();
   }

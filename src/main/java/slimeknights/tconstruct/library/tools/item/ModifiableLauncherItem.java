@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.tools.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
 import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
 import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
@@ -11,6 +12,7 @@ import lombok.Getter;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -37,6 +39,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.EntityInteractionModifierHook;
 import slimeknights.tconstruct.library.tools.IndestructibleItemEntity;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
+import slimeknights.tconstruct.library.tools.capability.ToolFluidCapability;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.helper.ModifiableItemUtil;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
@@ -73,6 +76,7 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
     this.toolDefinition = toolDefinition;
     ((FabricItemSettings)properties).customDamage(this::damageItem);
     ItemGroupEvents.modifyEntriesEvent(tab).register(this::fillItemCategory);
+    FluidStorage.ITEM.registerForItems((itemStack, context) -> new ToolFluidCapability(context, Lazy.of(() -> ToolStack.from(itemStack))), this);
   }
 
 

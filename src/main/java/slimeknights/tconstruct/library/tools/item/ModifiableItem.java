@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.tools.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
 import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
 import io.github.fabricators_of_create.porting_lib.item.ContinueUsingItem;
@@ -14,6 +15,7 @@ import lombok.Getter;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -47,6 +49,7 @@ import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
 import slimeknights.tconstruct.library.tools.IndestructibleItemEntity;
+import slimeknights.tconstruct.library.tools.capability.ToolFluidCapability;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.helper.ModifiableItemUtil;
@@ -84,6 +87,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     this.toolDefinition = toolDefinition;
     ((FabricItemSettings)properties).customDamage(this::damageItem);
     ItemGroupEvents.modifyEntriesEvent(tab).register(this::fillItemCategory);
+    FluidStorage.ITEM.registerForItems((itemStack, context) -> new ToolFluidCapability(context, Lazy.of(() -> ToolStack.from(itemStack))), this);
   }
 
 

@@ -1,12 +1,20 @@
 package slimeknights.tconstruct.library.modifiers.impl;
 
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.RequiredArgsConstructor;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -21,6 +29,7 @@ import slimeknights.tconstruct.library.tools.nbt.IModDataView;
 import slimeknights.tconstruct.library.tools.nbt.IToolContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
+import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.utils.TooltipKey;
 
 import javax.annotation.Nullable;
@@ -163,6 +172,25 @@ public class TankModifier extends Modifier {
   }
 
   /** Sets the fluid in the tank */
+  public FluidStack setFluid(ContainerItemContext context, IToolStackView tool, FluidStack fluid, TransactionContext tx) {
+    int capacity = getCapacity(tool);
+    if (fluid.getAmount() > capacity) {
+      fluid.setAmount(capacity);
+    }
+    ItemStack newStack = context.getItemVariant().toStack();
+
+    ToolStack toolStackCopy = ToolStack.copyFrom(newStack);
+
+    toolStackCopy.getPersistentData().put(getFluidKey(), fluid.writeToNBT(new CompoundTag()));
+
+    newStack.setTag(toolStackCopy.getNbt());
+
+    if (context.exchange(ItemVariant.of(newStack), 1, tx) != 1)
+      TConstruct.LOG.error("Failed to set fluid for tank modifier!");
+    return fluid;
+  }
+
+  /** Sets the fluid in the tank */
   public FluidStack setFluid(IToolStackView tool, FluidStack fluid) {
     int capacity = getCapacity(tool);
     if (fluid.getAmount() > capacity) {
@@ -170,6 +198,28 @@ public class TankModifier extends Modifier {
     }
     tool.getPersistentData().put(getFluidKey(), fluid.writeToNBT(new CompoundTag()));
     return fluid;
+  }
+
+  /**
+   * Fills the tool with the given resource
+   * @param tool       Tool stack
+   * @param current    Current tank contents
+   * @param resource   Resource to insert
+   * @param amount     Amount to insert, overrides resource amount
+   * @return  Fluid after filling, or empty if nothing changed
+   */
+  public FluidStack fill(ContainerItemContext context, IToolStackView tool, FluidStack current, FluidStack resource, long amount, TransactionContext tx) {
+    int capacity = getCapacity(tool);
+    if (current.isEmpty()) {
+      // cap fluid at capacity, store in tool
+      resource.setAmount(Math.min(amount, capacity));
+      return setFluid(context, tool, resource, tx);
+    } else if (current.isFluidEqual(resource)) {
+      // boost fluid by amount and store
+      current.setAmount(Math.min(current.getAmount() + amount, capacity));
+      return setFluid(context, tool, current, tx);
+    }
+    return FluidStack.EMPTY;
   }
 
   /**
@@ -192,6 +242,22 @@ public class TankModifier extends Modifier {
       return setFluid(tool, current);
     }
     return FluidStack.EMPTY;
+  }
+
+  /**
+   * Drains the given amount from the tool
+   * @param tool     Tool
+   * @param current  Existing fluid
+   * @param amount   Amount to drain
+   * @return  New fluid
+   */
+  public FluidStack drain(ContainerItemContext context, IToolStackView tool, FluidStack current, long amount, TransactionContext tx) {
+    if (current.getAmount() < amount) {
+      return setFluid(context, tool, FluidStack.EMPTY, tx);
+    } else {
+      current.shrink(amount);
+      return setFluid(context, tool, current, tx);
+    }
   }
 
   /**
@@ -228,8 +294,8 @@ public class TankModifier extends Modifier {
     }
 
     @Override
-    public long fill(IToolStackView tool, int level, FluidStack resource, boolean sim) {
-      if (!resource.isEmpty() && isOwner(tool)) {
+    public long fill(ContainerItemContext context, IToolStackView tool, int level, FluidVariant resource, long maxAmount, TransactionContext tx) {
+      if (!resource.isBlank() && isOwner(tool)) {
         // must not be too full
         FluidStack current = getFluid(tool);
         long remaining = getCapacity(tool) - current.getAmount();
@@ -241,9 +307,9 @@ public class TankModifier extends Modifier {
           return 0;
         }
         // actual filling logic
-        long filled = Math.min(remaining, resource.getAmount());
-        if (filled > 0 && !sim) {
-          TankModifier.this.fill(tool, current, resource, filled);
+        long filled = Math.min(remaining, maxAmount);
+        if (filled > 0) {
+          TankModifier.this.fill(context, tool, current, new FluidStack(resource, maxAmount), filled, tx);
         }
         return filled;
       }
@@ -251,41 +317,20 @@ public class TankModifier extends Modifier {
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, int level, FluidStack resource, boolean sim) {
-      if (!resource.isEmpty() && isOwner(tool)) {
+    public long drain(ContainerItemContext context, IToolStackView tool, int level, FluidVariant resource, long maxAmount, TransactionContext tx) {
+      if (!resource.isBlank() && isOwner(tool)) {
         // fluid type mismatches
         FluidStack current = getFluid(tool);
         if (current.isEmpty() || !current.isFluidEqual(resource)) {
-          return FluidStack.EMPTY;
+          return 0;
         }
         // actual draining
-        long drainedAmount = Math.min(current.getAmount(), resource.getAmount());
+        long drainedAmount = Math.min(current.getAmount(), maxAmount);
         FluidStack drained = new FluidStack(current, drainedAmount);
-        if (!sim) {
-          TankModifier.this.drain(tool, current, drainedAmount);
-        }
-        return drained;
+        TankModifier.this.drain(context, tool, current, drainedAmount, tx);
+        return drained.getAmount();
       }
-      return FluidStack.EMPTY;
-    }
-
-    @Override
-    public FluidStack drain(IToolStackView tool, int level, long maxDrain, boolean sim) {
-      if (maxDrain > 0 && isOwner(tool)) {
-        // fluid type mismatches
-        FluidStack current = getFluid(tool);
-        if (current.isEmpty()) {
-          return FluidStack.EMPTY;
-        }
-        // actual draining
-        long drainedAmount = Math.min(current.getAmount(), maxDrain);
-        FluidStack drained = new FluidStack(current, drainedAmount);
-        if (!sim) {
-          TankModifier.this.drain(tool, current, drainedAmount);
-        }
-        return drained;
-      }
-      return FluidStack.EMPTY;
+      return 0;
     }
 
 
@@ -294,6 +339,11 @@ public class TankModifier extends Modifier {
     @Override
     public int getTanks(IToolContext tool, Modifier modifier) {
       return getTanks(tool.getVolatileData());
+    }
+
+    @Override
+    public SingleSlotStorage<FluidVariant> getSlot(IToolStackView tool, ModifierEntry modifier, int slot) {
+      throw new RuntimeException("TODO: Not supported yet");
     }
 
     @Override
@@ -312,18 +362,13 @@ public class TankModifier extends Modifier {
     }
 
     @Override
-    public long fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, boolean simulate) {
-      return fill(tool, modifier.getLevel(), resource, simulate);
+    public long fill(ContainerItemContext context, IToolStackView tool, ModifierEntry modifier, FluidVariant resource, long maxAmount, TransactionContext tx) {
+      return fill(context, tool, modifier.getLevel(), resource, maxAmount, tx);
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, boolean simulate) {
-      return drain(tool, modifier.getLevel(), resource, simulate);
-    }
-
-    @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, long maxDrain, boolean simulate) {
-      return drain(tool, modifier.getLevel(), maxDrain, simulate);
+    public long drain(ContainerItemContext context, IToolStackView tool, ModifierEntry modifier, FluidVariant resource, long maxAmount, TransactionContext tx) {
+      return drain(context, tool, modifier.getLevel(), resource, maxAmount, tx);
     }
   }
 }

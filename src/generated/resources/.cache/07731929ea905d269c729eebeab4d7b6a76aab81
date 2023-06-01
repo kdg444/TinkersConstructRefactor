@@ -1,4 +1,4 @@
-// 1.19.4	2023-05-31T17:27:18.085119854	Hephaestus/Registries
+// 1.19.4	2023-06-01T10:27:39.086836295	Hephaestus/Registries
 0158950bfe331b7f8222dd4464b6bb3172b8f282 data/tconstruct/worldgen/placed_feature/ender_geode.json
 5b170548904340b1cdcd0de7b15bf0f1b8c18b82 data/tconstruct/worldgen/configured_feature/ichor_slime_fungus.json
 4acbac77563f7c1e96617fd0c99d9842fe655e13 data/tconstruct/worldgen/placed_feature/ichor_geode.json
@@ -11,8 +11,8 @@ ee33400990ef84f9f1067a8f60015a3ac77fe73f data/tconstruct/worldgen/structure/sky_
 d1fbd70bac097fac254b2890e2dc0ac706547b5c data/tconstruct/worldgen/configured_feature/earth_slime_tree.json
 e4a27fa0fdc73fb0d19795562a2907e9084a9321 data/tconstruct/worldgen/structure/earth_slime_island.json
 17800908a25a0ef4095940a8f151b64117c8cf08 data/tconstruct/worldgen/placed_feature/earth_geode.json
-1e60c16bc4526953ab44a4513a0ddcfefb6fa2ce data/tconstruct/worldgen/configured_feature/ender_slime_tree.json
 ea634b7fcc30fda6f55431f356765825b484a398 data/tconstruct/worldgen/configured_feature/blood_slime_island_fungus.json
+1e60c16bc4526953ab44a4513a0ddcfefb6fa2ce data/tconstruct/worldgen/configured_feature/ender_slime_tree.json
 5fba6406a90899d92d672b4662a10274ce56edb9 data/tconstruct/worldgen/configured_feature/earth_slime_island_tree.json
 4eea82035dbb2c7f111ffc16c7d113ef09f989d6 data/tconstruct/worldgen/configured_feature/sky_slime_tree.json
 57d6eb5a7e689db487b951f695f1736a7374b49d data/tconstruct/worldgen/structure/end_slime_island.json

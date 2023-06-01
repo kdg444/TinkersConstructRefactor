@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.tools.capability;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import io.github.fabricators_of_create.porting_lib.util.NetworkUtil;
 import lombok.RequiredArgsConstructor;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -472,16 +473,8 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
   public static class Provider implements IToolCapabilityProvider {
     private final LazyOptional<ToolInventoryCapability> handler;
     @SuppressWarnings("unused")
-    public Provider(ItemStack stack, Supplier<? extends IToolStackView> tool) {
+    public Provider(ContainerItemContext stack, Supplier<? extends IToolStackView> tool) {
       handler = LazyOptional.of(() -> new ToolInventoryCapability(tool));
-    }
-
-    @Override
-    public <T> LazyOptional<T> getCapability(IToolStackView tool, Class<T> cap) {
-      if (cap == IItemHandler.class && tool.getVolatileData().getInt(TOTAL_SLOTS) > 0) {
-        return handler.cast();
-      }
-      return LazyOptional.empty();
     }
 
     @Override

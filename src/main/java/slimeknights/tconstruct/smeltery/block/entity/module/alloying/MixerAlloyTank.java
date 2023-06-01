@@ -139,22 +139,17 @@ public class MixerAlloyTank implements IMutableAlloyTank {
           BlockPos target = parent.getBlockPos().relative(direction);
           // limit by blocks as that gives the modpack more control, say they want to allow only scorched tanks
           if (world.getBlockState(target).is(TinkerTags.Blocks.ALLOYER_TANKS)) {
-            BlockEntity te = world.getBlockEntity(target);
-            if (te != null) {
-              // if we found a tank, increment the number of tanks
-              LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(te, direction.getOpposite());
-              if (capability.isPresent()) {
-                // attach a listener so we know when the side invalidates
-                capability.addListener(listeners.computeIfAbsent(direction, dir -> new WeakConsumerWrapper<>(this, (self, handler) -> {
-                  if (handler == self.inputs.get(dir)) {
-                    refresh(dir, false);
-                  }
-                })));
-                inputs.put(direction, capability);
-                currentTanks++;
-              } else {
-                inputs.put(direction, LazyOptional.empty());
-              }
+            // if we found a tank, increment the number of tanks
+            LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(world, target, direction.getOpposite());
+            if (capability.isPresent()) {
+              // attach a listener so we know when the side invalidates
+              capability.addListener(listeners.computeIfAbsent(direction, dir -> new WeakConsumerWrapper<>(this, (self, handler) -> {
+                if (handler == self.inputs.get(dir)) {
+                  refresh(dir, false);
+                }
+              })));
+              inputs.put(direction, capability);
+              currentTanks++;
             } else {
               inputs.put(direction, LazyOptional.empty());
             }

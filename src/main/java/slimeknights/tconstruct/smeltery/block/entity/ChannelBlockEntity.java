@@ -126,15 +126,12 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	 */
 	private LazyOptional<IFluidHandler> getNeighborHandlerUncached(Direction side) {
 		assert level != null;
-		// must have a TE with a fluid handler
-		BlockEntity te = level.getBlockEntity(worldPosition.relative(side));
-		if (te != null) {
-			LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(te, side.getOpposite());
-			if (handler.isPresent()) {
-				handler.addListener(neighborConsumers.computeIfAbsent(side, s -> new WeakConsumerWrapper<>(this, (self, lazy) -> self.invalidateSide(s, lazy))));
-				return handler;
-			}
-		}
+		// must have a fluid handler
+    LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(level, worldPosition.relative(side), side.getOpposite());
+    if (handler.isPresent()) {
+      handler.addListener(neighborConsumers.computeIfAbsent(side, s -> new WeakConsumerWrapper<>(this, (self, lazy) -> self.invalidateSide(s, lazy))));
+      return handler;
+    }
 		return LazyOptional.empty();
 	}
 

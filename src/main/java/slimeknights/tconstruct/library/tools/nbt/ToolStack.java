@@ -80,7 +80,7 @@ public class ToolStack implements IToolStackView {
   @Getter
   private final ToolDefinition definition;
   /** Original tool NBT */
-  @Getter(AccessLevel.PROTECTED)
+  @Getter
   private final CompoundTag nbt;
   /** Public view of the internal NBT, to give to modifier hooks */
   private RestrictedCompoundTag restrictedNBT;

@@ -109,13 +109,8 @@ public class BucketingModifier extends TankModifier implements BlockInteractionM
 
     Level world = context.getLevel();
     BlockPos target = context.getClickedPos();
-    // must have a TE that has a fluid handler capability
-    BlockEntity te = world.getBlockEntity(target);
-    if (te == null) {
-      return InteractionResult.PASS;
-    }
     Direction face = context.getClickedFace();
-    LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(te, face);
+    LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(world, target, face);
     if (!capability.isPresent()) {
       return InteractionResult.PASS;
     }

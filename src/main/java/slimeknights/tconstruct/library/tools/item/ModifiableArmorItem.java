@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.tools.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
 import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
 import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
@@ -12,6 +13,7 @@ import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -40,6 +42,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;
 import slimeknights.tconstruct.library.tools.IndestructibleItemEntity;
+import slimeknights.tconstruct.library.tools.capability.ToolFluidCapability;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
 import slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
@@ -78,6 +81,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     this.toolDefinition = toolDefinition;
     ((FabricItemSettings)builderIn).customDamage(this::damageItem);
     ItemGroupEvents.modifyEntriesEvent(tab).register(this::fillItemCategory);
+    FluidStorage.ITEM.registerForItems((itemStack, context) -> new ToolFluidCapability(context, Lazy.of(() -> ToolStack.from(itemStack))), this);
   }
 
   public ModifiableArmorItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties, CreativeModeTab tab) {
