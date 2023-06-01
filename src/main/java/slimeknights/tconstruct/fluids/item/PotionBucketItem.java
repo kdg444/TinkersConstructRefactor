@@ -1,5 +1,10 @@
 package slimeknights.tconstruct.fluids.item;
 
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.item.FluidBucketWrapper;
+import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,7 +23,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
 import slimeknights.tconstruct.library.utils.Util;
+import slimeknights.tconstruct.smeltery.item.CopperCanFluidHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
@@ -29,6 +36,7 @@ public class PotionBucketItem extends PotionItem {
   public PotionBucketItem(Supplier<? extends Fluid> supplier, Properties builder) {
     super(builder);
     this.supplier = supplier;
+    FluidStorage.ITEM.registerForItems((itemStack, context) -> new PotionBucketWrapper(context), this);
   }
 
   public Fluid getFluid() {
@@ -109,21 +117,16 @@ public class PotionBucketItem extends PotionItem {
     return 96; // 3x duration of potion bottles
   }
 
-//  @Override TODO: PORT
-//  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-//    return new PotionBucketWrapper(stack);
-//  }
-//
-//  public static class PotionBucketWrapper extends FluidBucketWrapper {
-//    public PotionBucketWrapper(ItemStack container) {
-//      super(container);
-//    }
-//
-//    @Nonnull
-//    @Override
-//    public FluidStack getFluid() {
-//      return new FluidStack(((PotionBucketItem)container.getItem()).getFluid(),
-//                            FluidConstants.BUCKET, container.getTag());
-//    }
-//  }
+  public static class PotionBucketWrapper extends FluidBucketWrapper {
+    public PotionBucketWrapper(ContainerItemContext container) {
+      super(container);
+    }
+
+    @Nonnull
+    @Override
+    public FluidStack getFluid() {
+      return new FluidStack(((PotionBucketItem)context.getItemVariant().getItem()).getFluid(),
+                            FluidConstants.BUCKET, context.getItemVariant().getNbt());
+    }
+  }
 }

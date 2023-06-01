@@ -81,6 +81,7 @@ import slimeknights.mantle.util.SupplierCreativeTab;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.common.TinkerModule;
+import slimeknights.tconstruct.common.TinkerTabs;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.registration.GeodeItemObject;
 import slimeknights.tconstruct.library.utils.Util;
@@ -121,9 +122,6 @@ import java.util.function.Function;
 @SuppressWarnings("unused")
 public final class TinkerWorld extends TinkerModule {
 
-  /** Tab for anything generated in the world */
-  @SuppressWarnings("WeakerAccess")
-  public static final CreativeModeTab TAB_WORLD = SupplierCreativeTab.create(TConstruct.MOD_ID, "world", () -> new ItemStack(TinkerWorld.cobaltOre)).displayItems(TinkerWorld::buildWorldTab).build();
 	static final Logger log = Util.getLogger("tinker_world");
 
   public static final PlantType SLIME_PLANT_TYPE = PlantType.get("slime");
@@ -131,10 +129,10 @@ public final class TinkerWorld extends TinkerModule {
   /*
    * Block base properties
    */
-  private static final Item.Properties WORLD_PROPS = new Item.Properties()/*.tab(TAB_WORLD)*/;
+  private static final Item.Properties WORLD_PROPS = new Item.Properties();
   private static final Function<Block, ? extends BlockItem> DEFAULT_BLOCK_ITEM = (b) -> new BlockItem(b, WORLD_PROPS);
   private static final Function<Block, ? extends BlockItem> TOOLTIP_BLOCK_ITEM = (b) -> new BlockTooltipItem(b, WORLD_PROPS);
-  private static final Item.Properties HEAD_PROPS = new Item.Properties()/*.tab(TAB_WORLD)*/.rarity(Rarity.UNCOMMON);
+  private static final Item.Properties HEAD_PROPS = new Item.Properties().rarity(Rarity.UNCOMMON);
 
   /*
    * Blocks
@@ -206,9 +204,9 @@ public final class TinkerWorld extends TinkerModule {
   }
 
   // wood
-  public static final WoodBlockObject greenheart  = BLOCKS.registerWood("greenheart",  createSlimewood(MaterialColor.COLOR_LIGHT_GREEN, MaterialColor.COLOR_GREEN),     false, TAB_WORLD);
-  public static final WoodBlockObject skyroot     = BLOCKS.registerWood("skyroot",     createSlimewood(MaterialColor.COLOR_CYAN,        MaterialColor.TERRACOTTA_CYAN), false, TAB_WORLD);
-  public static final WoodBlockObject bloodshroom = BLOCKS.registerWood("bloodshroom", createSlimewood(MaterialColor.COLOR_RED,         MaterialColor.COLOR_ORANGE),    false, TAB_WORLD);
+  public static final WoodBlockObject greenheart  = BLOCKS.registerWood("greenheart",  createSlimewood(MaterialColor.COLOR_LIGHT_GREEN, MaterialColor.COLOR_GREEN),     false);
+  public static final WoodBlockObject skyroot     = BLOCKS.registerWood("skyroot",     createSlimewood(MaterialColor.COLOR_CYAN,        MaterialColor.TERRACOTTA_CYAN), false);
+  public static final WoodBlockObject bloodshroom = BLOCKS.registerWood("bloodshroom", createSlimewood(MaterialColor.COLOR_RED,         MaterialColor.COLOR_ORANGE),    false);
 
   // plants
   public static final EnumObject<SlimeType, SlimeTallGrassBlock> slimeFern, slimeTallGrass;
@@ -484,20 +482,5 @@ public final class TinkerWorld extends TinkerModule {
       return new PiglinWallHeadBlock(type, props);
     }
     return new WallSkullBlock(type, props);
-  }
-
-  public static void buildWorldTab(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
-    output.accept(cobaltOre);
-    output.accept(rawCobaltBlock);
-    slime.forEach((slimeType, slimeBlock) -> {
-      if (slimeBlock != Blocks.SLIME_BLOCK)
-        output.accept(slimeBlock);
-    });
-    congealedSlime.forEach((slimeType, congealedSlimeBlock) -> output.accept(congealedSlimeBlock));
-    slimeDirt.forEach((slimeType, block) -> output.accept(block));
-    vanillaSlimeGrass.forEach((slimeType, block) -> output.accept(block));
-    earthSlimeGrass.forEach((slimeType, block) -> output.accept(block));
-    skySlimeGrass.forEach((slimeType, block) -> output.accept(block));
-    ichorSlimeGrass.forEach((slimeType, block) -> output.accept(block));
   }
 }

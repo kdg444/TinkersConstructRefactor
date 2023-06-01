@@ -135,12 +135,16 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
 
     @Override
     public BakedModel applyTransform(ItemDisplayContext cameraTransformType, PoseStack mat, boolean leftHanded) {
-      if(!(gui instanceof TransformTypeDependentItemBakedModel) || !(wrapped instanceof TransformTypeDependentItemBakedModel))
-        return wrapped;
       if (cameraTransformType == ItemDisplayContext.GUI) {
-        return ((TransformTypeDependentItemBakedModel)gui).applyTransform(cameraTransformType, mat, leftHanded);
+        if(gui instanceof TransformTypeDependentItemBakedModel)
+          return ((TransformTypeDependentItemBakedModel)gui).applyTransform(cameraTransformType, mat, leftHanded);
+        gui.getTransforms().getTransform(cameraTransformType).apply(leftHanded, mat);
+        return gui;
       }
-      return ((TransformTypeDependentItemBakedModel)wrapped).applyTransform(cameraTransformType, mat, leftHanded);
+      if(wrapped instanceof TransformTypeDependentItemBakedModel)
+        return ((TransformTypeDependentItemBakedModel)wrapped).applyTransform(cameraTransformType, mat, leftHanded);
+      wrapped.getTransforms().getTransform(cameraTransformType).apply(leftHanded, mat);
+      return wrapped;
     }
   }
 

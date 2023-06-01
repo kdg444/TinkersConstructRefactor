@@ -1,7 +1,10 @@
 package slimeknights.tconstruct.smeltery.item;
 
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -49,12 +52,12 @@ public class CopperCanItem extends Item {
     Fluid fluid = getFluid(stack.getTag());
     if (fluid != Fluids.EMPTY) {
       CompoundTag fluidTag = getFluidTag(stack.getTag());
-      MutableComponent text;
+      Component text;
       if (fluidTag != null) {
         FluidStack displayFluid = new FluidStack(fluid, FluidValues.INGOT, fluidTag);
         text = displayFluid.getDisplayName().plainCopy();
       } else {
-        text = Component.empty();//Component.translatable(fluid.getAttributes().getTranslationKey()); TODO: PORT
+        text = FluidVariantAttributes.getName(FluidVariant.of(fluid));
       }
       tooltip.add(Component.translatable(this.getDescriptionId() + ".contents", text).withStyle(ChatFormatting.GRAY));
     } else {

@@ -68,10 +68,6 @@ public abstract class TinkerModule {
   protected static final SynchronizedDeferredRegister<LootPoolEntryType> LOOT_ENTRIES = SynchronizedDeferredRegister.create(Registries.LOOT_POOL_ENTRY_TYPE, TConstruct.MOD_ID);
   //
 
-  /** Creative tab for items that do not fit in another tab */
-  @SuppressWarnings("WeakerAccess")
-  public static final CreativeModeTab TAB_GENERAL = SupplierCreativeTab.create(TConstruct.MOD_ID, "general", () -> new ItemStack(TinkerCommons.slimeball.get(SlimeType.SKY))).build();
-
   // base item properties
   protected static final Item.Properties HIDDEN_PROPS = new Item.Properties();
   protected static final Item.Properties GENERAL_PROPS = new Item.Properties()/*.tab(TAB_GENERAL)*/;

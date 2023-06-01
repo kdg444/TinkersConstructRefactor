@@ -24,6 +24,8 @@ public class FluidClientEvents extends ClientEventBase {
     setTranslucent(TinkerFluids.liquidSoul);
     setTranslucent(TinkerFluids.moltenSoulsteel);
     setTranslucent(TinkerFluids.moltenAmethyst);
+
+    itemColors();
   }
 
   static void itemColors() {

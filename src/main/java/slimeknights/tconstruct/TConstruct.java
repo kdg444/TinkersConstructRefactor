@@ -3,13 +3,23 @@ package slimeknights.tconstruct;
 import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import slimeknights.tconstruct.common.TinkerModule;
+import slimeknights.tconstruct.common.TinkerTabs;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.data.AdvancementsProvider;
@@ -44,6 +54,7 @@ import slimeknights.tconstruct.world.TinkerStructures;
 import slimeknights.tconstruct.world.TinkerWorld;
 import slimeknights.tconstruct.world.WorldEvents;
 
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.function.Supplier;
 
@@ -92,6 +103,7 @@ public class TConstruct implements ModInitializer {
     TinkerGadgets.commonSetup();
     TinkerWorld.init();
     TinkerTags.init();
+    TinkerTabs.init();
     WorldEvents.init();
 
     TinkerNetwork.setup();
@@ -113,6 +125,14 @@ public class TConstruct implements ModInitializer {
 
     commonSetup();
     FabricEvents.init();
+
+    ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(entries -> {
+      for (Potion potion : BuiltInRegistries.POTION) {
+        if (potion != Potions.EMPTY) {
+          entries.accept(PotionUtils.setPotion(new ItemStack(TinkerFluids.potionBucket), potion));
+        }
+      }
+    });
   }
 
   static void commonSetup() {

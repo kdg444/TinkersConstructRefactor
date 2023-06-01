@@ -57,15 +57,13 @@ public final class TinkerGadgets extends TinkerModule {
   public TinkerGadgets() {
 //    slimeSling.values(); // Force enums to register
   }
-  /** Tab for all special tools added by the mod */
-  public static final CreativeModeTab TAB_GADGETS = SupplierCreativeTab.create(TConstruct.MOD_ID, "gadgets", () -> new ItemStack(TinkerGadgets.slimeSling.get(SlimeType.EARTH))).displayItems(TinkerGadgets::buildGadgetTab).build();
   static final Logger log = Util.getLogger("tinker_gadgets");
 
   /*
    * Block base properties
    */
-  private static final Item.Properties GADGET_PROPS = new Item.Properties()/*.tab(TAB_GADGETS)*/;
-  private static final Item.Properties UNSTACKABLE_PROPS = new Item.Properties()/*.tab(TAB_GADGETS)*/.stacksTo(1);
+  private static final Item.Properties GADGET_PROPS = new Item.Properties();
+  private static final Item.Properties UNSTACKABLE_PROPS = new Item.Properties().stacksTo(1);
   private static final Function<Block,? extends BlockItem> DEFAULT_BLOCK_ITEM = (b) -> new BlockItem(b, GADGET_PROPS);
   private static final Function<Block,? extends BlockItem> TOOLTIP_BLOCK_ITEM = (b) -> new BlockTooltipItem(b, GADGET_PROPS);
   private static final Function<Block,? extends BlockItem> UNSTACKABLE_BLOCK_ITEM = (b) -> new BlockTooltipItem(b, UNSTACKABLE_PROPS);
@@ -167,16 +165,5 @@ public final class TinkerGadgets extends TinkerModule {
     pack.addProvider(GadgetRecipeProvider::new);
   }
 
-  public static void buildGadgetTab(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
-    output.accept(punji);
-    cake.forEach((slimeType, foodCakeBlock) -> output.accept(foodCakeBlock));
-    output.accept(magmaCake);
-    output.accept(piggyBackpack);
-    itemFrame.forEach((frameType, fancyItemFrameItem) -> output.accept(fancyItemFrameItem));
-    slimeSling.forEach((slimeType, baseSlimeSlingItem) -> output.accept(baseSlimeSlingItem));
-    output.accept(glowBall);
-    output.accept(efln);
-    output.accept(quartzShuriken);
-    output.accept(flintShuriken);
-  }
+
 }
