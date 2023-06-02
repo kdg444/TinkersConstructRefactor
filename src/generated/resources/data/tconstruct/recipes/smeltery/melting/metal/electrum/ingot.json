@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/electrum"
+        "c:electrum_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/electrum"
+    "tag": "c:electrum_ingots"
   },
   "result": {
     "amount": 9000,

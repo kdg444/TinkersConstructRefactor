@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/netherite"
+        "c:netherite_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/netherite"
+    "tag": "c:netherite_dusts"
   },
   "result": {
     "amount": 9000,

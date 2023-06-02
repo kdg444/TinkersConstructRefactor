@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/soulsteel"
+        "c:soulsteel_rods"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "tconstruct:molten_soulsteel"
   },
   "result": {
-    "tag": "c:rods/soulsteel"
+    "tag": "c:soulsteel_rods"
   }
 }

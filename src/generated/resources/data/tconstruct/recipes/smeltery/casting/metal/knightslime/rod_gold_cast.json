@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/knightslime"
+        "c:knightslime_rods"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "tconstruct:molten_knightslime"
   },
   "result": {
-    "tag": "c:rods/knightslime"
+    "tag": "c:knightslime_rods"
   }
 }

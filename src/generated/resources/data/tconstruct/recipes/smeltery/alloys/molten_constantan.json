@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/constantan"
+        "c:constantan_ingots"
       ]
     },
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/nickel"
+        "c:nickel_ingots"
       ]
     }
   ],

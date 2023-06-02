@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/amethyst_bronze"
+        "c:amethyst_bronze_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/amethyst_bronze"
+    "tag": "c:amethyst_bronze_gears"
   },
   "result": {
     "amount": 36000,

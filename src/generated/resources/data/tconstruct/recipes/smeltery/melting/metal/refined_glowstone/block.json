@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/refined_glowstone"
+        "c:refined_glowstone_blocks"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:storage_blocks/refined_glowstone"
+    "tag": "c:refined_glowstone_blocks"
   },
   "result": {
     "amount": 81000,

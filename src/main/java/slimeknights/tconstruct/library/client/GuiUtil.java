@@ -199,7 +199,7 @@ public final class GuiUtil {
     // RenderSystem.enableAlphaTest();
     RenderSystem.enableDepthTest(); // TODO: correct
     // finish drawing sprites
-    BufferUploader.draw(builder.end());
+    BufferUploader.drawWithShader(builder.end());
   }
 
   /**

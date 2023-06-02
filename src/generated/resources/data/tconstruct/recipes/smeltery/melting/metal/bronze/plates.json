@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/bronze"
+        "c:bronze_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/bronze"
+    "tag": "c:bronze_plates"
   },
   "result": {
     "amount": 9000,

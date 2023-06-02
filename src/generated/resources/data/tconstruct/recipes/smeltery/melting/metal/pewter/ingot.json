@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/pewter"
+        "c:pewter_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/pewter"
+    "tag": "c:pewter_ingots"
   },
   "result": {
     "amount": 9000,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/uranium"
+        "c:uranium_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/uranium"
+    "tag": "c:uranium_ingots"
   },
   "result": {
     "amount": 9000,

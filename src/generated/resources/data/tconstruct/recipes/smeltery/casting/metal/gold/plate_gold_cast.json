@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/gold"
+        "c:gold_plates"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "c:molten_gold"
   },
   "result": {
-    "tag": "c:plates/gold"
+    "tag": "c:gold_plates"
   }
 }

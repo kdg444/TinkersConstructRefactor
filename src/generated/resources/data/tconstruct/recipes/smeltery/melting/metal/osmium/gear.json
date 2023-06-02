@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/osmium"
+        "c:osmium_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/osmium"
+    "tag": "c:osmium_gears"
   },
   "result": {
     "amount": 36000,

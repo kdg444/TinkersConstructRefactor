@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/nickel"
+        "c:nickel_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/nickel"
+    "tag": "c:nickel_dusts"
   },
   "result": {
     "amount": 9000,

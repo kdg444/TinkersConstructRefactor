@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/lumium"
+        "c:lumium_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/lumium"
+    "tag": "c:lumium_gears"
   },
   "result": {
     "amount": 36000,

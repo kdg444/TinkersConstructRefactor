@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/platinum"
+        "c:platinum_ingots"
       ]
     }
   ],
@@ -11,13 +11,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/platinum"
+      "tag": "c:platinum_ingots"
     },
     {
-      "tag": "c:ingots/platinum"
+      "tag": "c:platinum_ingots"
     },
     {
-      "tag": "c:ingots/platinum"
+      "tag": "c:platinum_ingots"
     }
   ],
   "result": {

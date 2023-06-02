@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/amethyst_bronze"
+        "c:amethyst_bronze_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/amethyst_bronze"
+    "tag": "c:amethyst_bronze_rods"
   },
   "result": {
     "amount": 4500,

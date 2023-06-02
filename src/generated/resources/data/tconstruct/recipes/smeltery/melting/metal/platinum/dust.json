@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/platinum"
+        "c:platinum_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/platinum"
+    "tag": "c:platinum_dusts"
   },
   "result": {
     "amount": 9000,

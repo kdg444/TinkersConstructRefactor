@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/uranium"
+        "c:uranium_ingots"
       ]
     }
   ],

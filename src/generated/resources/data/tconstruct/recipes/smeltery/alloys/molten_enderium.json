@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/enderium"
+        "c:enderium_ingots"
       ]
     },
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/lead"
+        "c:lead_ingots"
       ]
     }
   ],

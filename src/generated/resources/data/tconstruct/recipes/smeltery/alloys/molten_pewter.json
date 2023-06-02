@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/pewter"
+        "c:pewter_ingots"
       ]
     },
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/lead"
+        "c:lead_ingots"
       ]
     }
   ],
@@ -20,7 +20,7 @@
         {
           "condition": "fabric:tags_populated",
           "values": [
-            "c:ingots/tin"
+            "c:tin_ingots"
           ]
         }
       ],

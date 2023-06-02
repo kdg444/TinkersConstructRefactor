@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/tungsten"
+        "c:tungsten_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/tungsten"
+    "tag": "c:tungsten_rods"
   },
   "result": {
     "amount": 4500,

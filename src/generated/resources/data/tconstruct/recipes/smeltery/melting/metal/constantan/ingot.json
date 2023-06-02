@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/constantan"
+        "c:constantan_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/constantan"
+    "tag": "c:constantan_ingots"
   },
   "result": {
     "amount": 9000,

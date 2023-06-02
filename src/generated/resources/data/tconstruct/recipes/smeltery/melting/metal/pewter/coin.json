@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/pewter"
+        "c:pewter_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/pewter"
+    "tag": "c:pewter_coins"
   },
   "result": {
     "amount": 3000,

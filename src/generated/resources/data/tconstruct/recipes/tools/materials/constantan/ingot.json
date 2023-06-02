@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/constantan"
+        "c:constantan_ingots"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:ingots/constantan"
+    "tag": "c:constantan_ingots"
   },
   "material": "tconstruct:constantan",
   "needed": 1,

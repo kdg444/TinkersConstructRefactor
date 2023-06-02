@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/pig_iron"
+        "c:pig_iron_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/pig_iron"
+    "tag": "c:pig_iron_dusts"
   },
   "result": {
     "amount": 9000,

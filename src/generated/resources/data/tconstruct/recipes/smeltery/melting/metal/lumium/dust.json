@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/lumium"
+        "c:lumium_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/lumium"
+    "tag": "c:lumium_dusts"
   },
   "result": {
     "amount": 9000,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/knightslime"
+        "c:knightslime_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/knightslime"
+    "tag": "c:knightslime_rods"
   },
   "result": {
     "amount": 4500,

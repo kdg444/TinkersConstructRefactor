@@ -3,13 +3,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/slimesteel"
+      "tag": "c:slimesteel_ingots"
     },
     {
-      "tag": "c:ingots/slimesteel"
+      "tag": "c:slimesteel_ingots"
     },
     {
-      "tag": "c:ingots/slimesteel"
+      "tag": "c:slimesteel_ingots"
     }
   ],
   "result": {

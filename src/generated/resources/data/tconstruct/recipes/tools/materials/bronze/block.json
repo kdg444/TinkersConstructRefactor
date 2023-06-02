@@ -3,16 +3,16 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/bronze"
+        "c:bronze_blocks"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:storage_blocks/bronze"
+    "tag": "c:bronze_blocks"
   },
   "leftover": {
-    "tag": "c:ingots/bronze"
+    "tag": "c:bronze_ingots"
   },
   "material": "tconstruct:bronze",
   "needed": 1,

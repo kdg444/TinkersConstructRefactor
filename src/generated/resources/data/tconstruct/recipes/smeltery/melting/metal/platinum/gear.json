@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/platinum"
+        "c:platinum_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/platinum"
+    "tag": "c:platinum_gears"
   },
   "result": {
     "amount": 36000,

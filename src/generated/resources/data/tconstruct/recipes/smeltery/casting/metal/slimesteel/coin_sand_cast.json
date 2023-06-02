@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/slimesteel"
+        "c:slimesteel_coins"
       ]
     }
   ],
@@ -18,6 +18,6 @@
     "tag": "tconstruct:molten_slimesteel"
   },
   "result": {
-    "tag": "c:coins/slimesteel"
+    "tag": "c:slimesteel_coins"
   }
 }

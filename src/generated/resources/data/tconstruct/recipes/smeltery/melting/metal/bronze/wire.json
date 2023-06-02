@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/bronze"
+        "c:bronze_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/bronze"
+    "tag": "c:bronze_wires"
   },
   "result": {
     "amount": 4500,

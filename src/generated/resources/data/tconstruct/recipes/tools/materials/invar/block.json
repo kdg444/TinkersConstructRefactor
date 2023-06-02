@@ -3,16 +3,16 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/invar"
+        "c:invar_blocks"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:storage_blocks/invar"
+    "tag": "c:invar_blocks"
   },
   "leftover": {
-    "tag": "c:ingots/invar"
+    "tag": "c:invar_ingots"
   },
   "material": "tconstruct:invar",
   "needed": 1,

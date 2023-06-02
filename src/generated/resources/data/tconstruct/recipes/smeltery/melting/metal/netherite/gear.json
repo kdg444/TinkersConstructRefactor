@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/netherite"
+        "c:netherite_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/netherite"
+    "tag": "c:netherite_gears"
   },
   "result": {
     "amount": 36000,

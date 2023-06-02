@@ -3,13 +3,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/iron"
+      "tag": "c:iron_ingots"
     },
     {
-      "tag": "c:ingots/iron"
+      "tag": "c:iron_ingots"
     },
     {
-      "tag": "c:ingots/iron"
+      "tag": "c:iron_ingots"
     }
   ],
   "result": {

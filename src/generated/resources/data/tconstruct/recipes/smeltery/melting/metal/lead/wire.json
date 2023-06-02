@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/lead"
+        "c:lead_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/lead"
+    "tag": "c:lead_wires"
   },
   "result": {
     "amount": 4500,

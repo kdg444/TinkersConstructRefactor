@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/hepatizon"
+        "c:hepatizon_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/hepatizon"
+    "tag": "c:hepatizon_rods"
   },
   "result": {
     "amount": 4500,

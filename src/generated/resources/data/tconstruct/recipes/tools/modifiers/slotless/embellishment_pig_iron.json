@@ -3,13 +3,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/pig_iron"
+      "tag": "c:pig_iron_ingots"
     },
     {
-      "tag": "c:ingots/pig_iron"
+      "tag": "c:pig_iron_ingots"
     },
     {
-      "tag": "c:ingots/pig_iron"
+      "tag": "c:pig_iron_ingots"
     }
   ],
   "result": {

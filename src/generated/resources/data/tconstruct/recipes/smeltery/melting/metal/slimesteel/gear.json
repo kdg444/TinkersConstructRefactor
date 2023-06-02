@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/slimesteel"
+        "c:slimesteel_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/slimesteel"
+    "tag": "c:slimesteel_gears"
   },
   "result": {
     "amount": 36000,

@@ -92,8 +92,8 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
       Blocks.PURPLE_STAINED_GLASS_PANE, Blocks.RED_STAINED_GLASS_PANE, Blocks.WHITE_STAINED_GLASS_PANE, Blocks.YELLOW_STAINED_GLASS_PANE);
     this.tag(Tags.Blocks.GLASS_COLORLESS).add(TinkerCommons.clearGlass.get());
     this.tag(Tags.Blocks.GLASS_PANES_COLORLESS).add(TinkerCommons.clearGlassPane.get());
-    addGlass(TinkerCommons.clearStainedGlass, "glass/", tag(Tags.Blocks.STAINED_GLASS));
-    addGlass(TinkerCommons.clearStainedGlassPane, "glass_panes/", tag(Tags.Blocks.STAINED_GLASS_PANES));
+    addGlass(TinkerCommons.clearStainedGlass, "_glass", tag(Tags.Blocks.STAINED_GLASS));
+    addGlass(TinkerCommons.clearStainedGlassPane, "_glass_panes", tag(Tags.Blocks.STAINED_GLASS_PANES));
     TinkerCommons.clearStainedGlassPane.forEach(pane -> silicaPanes.add(pane));
 
     // impermeable for all glass
@@ -124,7 +124,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
         .forceAddTag(Tags.Blocks.STORAGE_BLOCKS_NETHERITE);
     for (SmelteryCompat compat : SmelteryCompat.values()) {
       if (!compat.isOre()) {
-        builder.addOptionalTag(new ResourceLocation("c", "storage_blocks/" + compat.getName()));
+        builder.addOptionalTag(new ResourceLocation("c", compat.getName() + "_blocks"));
       }
     }
 
@@ -547,10 +547,10 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
   }
 
   /** Adds tags for a glass item object */
-  private void addGlass(EnumObject<GlassColor,? extends Block> blockObj, String tagPrefix, FabricTagBuilder blockTag) {
+  private void addGlass(EnumObject<GlassColor,? extends Block> blockObj, String tagSuffix, FabricTagBuilder blockTag) {
     blockObj.forEach((color, block) -> {
       blockTag.add(block);
-      this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("c", tagPrefix + color.getSerializedName()))).add(block);
+      this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("c",  color.getSerializedName() + tagSuffix))).add(block);
     });
   }
 

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/hepatizon"
+        "c:hepatizon_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/hepatizon"
+    "tag": "c:hepatizon_dusts"
   },
   "result": {
     "amount": 9000,

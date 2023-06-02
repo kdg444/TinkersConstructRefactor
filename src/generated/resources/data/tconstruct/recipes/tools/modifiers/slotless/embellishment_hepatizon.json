@@ -3,13 +3,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/hepatizon"
+      "tag": "c:hepatizon_ingots"
     },
     {
-      "tag": "c:ingots/hepatizon"
+      "tag": "c:hepatizon_ingots"
     },
     {
-      "tag": "c:ingots/hepatizon"
+      "tag": "c:hepatizon_ingots"
     }
   ],
   "result": {

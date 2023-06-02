@@ -1683,7 +1683,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
 
   /** Adds recipes for a plate armor texture */
   private void plateTexture(Consumer<FinishedRecipe> consumer, MaterialId material, boolean optional, String folder) {
-    plateTexture(consumer, material, "ingots/" + material.getPath(), optional, folder);
+    plateTexture(consumer, material, material.getPath() + "_ingots", optional, folder);
   }
 
   /** Adds recipes for a plate armor texture with a custom tag */

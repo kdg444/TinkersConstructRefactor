@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/soulsteel"
+        "c:soulsteel_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/soulsteel"
+    "tag": "c:soulsteel_wires"
   },
   "result": {
     "amount": 4500,

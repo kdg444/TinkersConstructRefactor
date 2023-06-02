@@ -64,17 +64,17 @@ public interface IMaterialRecipeHelper extends IRecipeHelper {
    * @param name      Material name
    */
   default void metalMaterialRecipe(Consumer<FinishedRecipe> consumer, MaterialVariantId material, String folder, String name, boolean optional) {
-    Consumer<FinishedRecipe> wrapped = optional ? withCondition(consumer, tagCondition("ingots/" + name)) : consumer;
+    Consumer<FinishedRecipe> wrapped = optional ? withCondition(consumer, tagCondition(name + "_ingots")) : consumer;
     String matName = material.getLocation('/').getPath();
     // ingot
-    TagKey<Item> ingotTag = getItemTag("c", "ingots/" + name);
+    TagKey<Item> ingotTag = getItemTag("c", name + "_ingots");
     materialRecipe(wrapped, material, Ingredient.of(ingotTag), 1, 1, folder + matName + "/ingot");
     // nugget
-    wrapped = optional ? withCondition(consumer, tagCondition("nuggets/" + name)) : consumer;
-    materialRecipe(wrapped, material, Ingredient.of(getItemTag("c", "nuggets/" + name)), 1, 9, folder + matName + "/nugget");
+    wrapped = optional ? withCondition(consumer, tagCondition(name + "_nuggets")) : consumer;
+    materialRecipe(wrapped, material, Ingredient.of(getItemTag("c", name + "_nuggets")), 1, 9, folder + matName + "/nugget");
     // block
-    wrapped = optional ? withCondition(consumer, tagCondition("storage_blocks/" + name)) : consumer;
-    materialRecipe(wrapped, material, Ingredient.of(getItemTag("c", "storage_blocks/" + name)), 9, 1, ItemOutput.fromTag(ingotTag, 1), folder + matName + "/block");
+    wrapped = optional ? withCondition(consumer, tagCondition(name + "_blocks")) : consumer;
+    materialRecipe(wrapped, material, Ingredient.of(getItemTag("c", name + "_blocks")), 9, 1, ItemOutput.fromTag(ingotTag, 1), folder + matName + "/block");
   }
 
   /** Adds recipes to melt a material */
@@ -99,7 +99,7 @@ public interface IMaterialRecipeHelper extends IRecipeHelper {
 
   /** Adds recipes to melt and cast a material of ingot size */
   default void compatMeltingCasting(Consumer<FinishedRecipe> consumer, MaterialId material, FluidObject<?> fluid, String folder) {
-    materialMeltingCasting(withCondition(consumer, tagCondition("ingots/" + material.getPath())), material, fluid, true, folder);
+    materialMeltingCasting(withCondition(consumer, tagCondition(material.getPath() + "_ingots")), material, fluid, true, folder);
   }
 
   /** Adds recipes to melt and cast a material */

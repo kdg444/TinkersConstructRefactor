@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:raw_materials/tin"
+        "c:raw_tin_ores"
       ]
     }
   ],
@@ -15,7 +15,7 @@
     }
   ],
   "ingredient": {
-    "tag": "c:raw_materials/tin"
+    "tag": "c:raw_tin_ores"
   },
   "rate": "metal",
   "result": {

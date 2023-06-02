@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/electrum"
+        "c:electrum_ingots"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:ingots/electrum"
+    "tag": "c:electrum_ingots"
   },
   "material": "tconstruct:electrum",
   "needed": 1,

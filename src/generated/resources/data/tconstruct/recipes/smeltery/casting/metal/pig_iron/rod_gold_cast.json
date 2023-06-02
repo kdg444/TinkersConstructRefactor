@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/pig_iron"
+        "c:pig_iron_rods"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "tconstruct:molten_pig_iron"
   },
   "result": {
-    "tag": "c:rods/pig_iron"
+    "tag": "c:pig_iron_rods"
   }
 }

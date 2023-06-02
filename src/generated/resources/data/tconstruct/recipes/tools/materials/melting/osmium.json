@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/osmium"
+        "c:osmium_ingots"
       ]
     }
   ],

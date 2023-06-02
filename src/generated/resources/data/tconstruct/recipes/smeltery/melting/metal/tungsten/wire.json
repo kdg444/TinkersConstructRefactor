@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/tungsten"
+        "c:tungsten_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/tungsten"
+    "tag": "c:tungsten_wires"
   },
   "result": {
     "amount": 4500,

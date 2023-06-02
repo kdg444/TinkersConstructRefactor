@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/knightslime"
+        "c:knightslime_coins"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "tconstruct:molten_knightslime"
   },
   "result": {
-    "tag": "c:coins/knightslime"
+    "tag": "c:knightslime_coins"
   }
 }

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/refined_glowstone"
+        "c:refined_glowstone_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/refined_glowstone"
+    "tag": "c:refined_glowstone_rods"
   },
   "result": {
     "amount": 4500,

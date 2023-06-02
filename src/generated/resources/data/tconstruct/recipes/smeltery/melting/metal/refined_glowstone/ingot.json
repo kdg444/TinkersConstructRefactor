@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/refined_glowstone"
+        "c:refined_glowstone_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/refined_glowstone"
+    "tag": "c:refined_glowstone_ingots"
   },
   "result": {
     "amount": 9000,

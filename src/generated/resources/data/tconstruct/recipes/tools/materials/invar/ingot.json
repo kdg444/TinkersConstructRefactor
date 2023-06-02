@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/invar"
+        "c:invar_ingots"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:ingots/invar"
+    "tag": "c:invar_ingots"
   },
   "material": "tconstruct:invar",
   "needed": 1,

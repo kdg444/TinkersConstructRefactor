@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/nickel"
+        "c:nickel_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/nickel"
+    "tag": "c:nickel_plates"
   },
   "result": {
     "amount": 9000,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/manyullyn"
+        "c:manyullyn_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/manyullyn"
+    "tag": "c:manyullyn_wires"
   },
   "result": {
     "amount": 4500,

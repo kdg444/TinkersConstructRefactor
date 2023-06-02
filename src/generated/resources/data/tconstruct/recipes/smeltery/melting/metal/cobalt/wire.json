@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/cobalt"
+        "c:cobalt_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/cobalt"
+    "tag": "c:cobalt_wires"
   },
   "result": {
     "amount": 4500,

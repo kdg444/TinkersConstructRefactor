@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/zinc"
+        "c:zinc_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/zinc"
+    "tag": "c:zinc_wires"
   },
   "result": {
     "amount": 4500,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/pig_iron"
+        "c:pig_iron_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/pig_iron"
+    "tag": "c:pig_iron_plates"
   },
   "result": {
     "amount": 9000,

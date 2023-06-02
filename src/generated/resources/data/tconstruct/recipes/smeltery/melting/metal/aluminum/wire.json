@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/aluminum"
+        "c:aluminum_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/aluminum"
+    "tag": "c:aluminum_wires"
   },
   "result": {
     "amount": 4500,

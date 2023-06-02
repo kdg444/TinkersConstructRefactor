@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/manyullyn"
+        "c:manyullyn_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/manyullyn"
+    "tag": "c:manyullyn_gears"
   },
   "result": {
     "amount": 36000,

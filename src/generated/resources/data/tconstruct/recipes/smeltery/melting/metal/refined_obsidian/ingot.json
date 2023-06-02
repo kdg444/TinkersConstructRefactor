@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/refined_obsidian"
+        "c:refined_obsidian_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/refined_obsidian"
+    "tag": "c:refined_obsidian_ingots"
   },
   "result": {
     "amount": 9000,

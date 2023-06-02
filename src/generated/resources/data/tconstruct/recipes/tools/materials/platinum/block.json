@@ -3,16 +3,16 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/platinum"
+        "c:platinum_blocks"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:storage_blocks/platinum"
+    "tag": "c:platinum_blocks"
   },
   "leftover": {
-    "tag": "c:ingots/platinum"
+    "tag": "c:platinum_ingots"
   },
   "material": "tconstruct:platinum",
   "needed": 1,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/invar"
+        "c:invar_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/invar"
+    "tag": "c:invar_wires"
   },
   "result": {
     "amount": 4500,

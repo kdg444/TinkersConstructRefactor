@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/lead"
+        "c:lead_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/lead"
+    "tag": "c:lead_rods"
   },
   "result": {
     "amount": 4500,

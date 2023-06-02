@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/uranium"
+        "c:uranium_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/uranium"
+    "tag": "c:uranium_plates"
   },
   "result": {
     "amount": 9000,

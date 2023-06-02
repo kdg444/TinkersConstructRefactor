@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/nickel"
+        "c:nickel_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/nickel"
+    "tag": "c:nickel_ingots"
   },
   "result": {
     "amount": 9000,

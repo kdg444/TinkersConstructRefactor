@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/knightslime"
+        "c:knightslime_plates"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "tconstruct:molten_knightslime"
   },
   "result": {
-    "tag": "c:plates/knightslime"
+    "tag": "c:knightslime_plates"
   }
 }

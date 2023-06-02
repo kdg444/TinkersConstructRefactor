@@ -40,7 +40,6 @@ public class DrainBlockEntity extends SmelteryFluidIO implements IDisplayFluidLi
       // no need to copy as the fluid was copied by the caller
       displayFluid = fluid;
       getModelData().setData(IDisplayFluidListener.PROPERTY, displayFluid);
-//      requestModelDataUpdate(); TODO: PORT?
       assert level != null;
       BlockState state = getBlockState();
       level.sendBlockUpdated(worldPosition, state, state, 48);

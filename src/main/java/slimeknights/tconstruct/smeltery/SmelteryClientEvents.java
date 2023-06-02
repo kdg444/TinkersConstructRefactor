@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.smeltery;
 
-import io.github.fabricators_of_create.porting_lib.client_events.event.client.ModelEvents;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.RegisterGeometryLoadersCallback;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;

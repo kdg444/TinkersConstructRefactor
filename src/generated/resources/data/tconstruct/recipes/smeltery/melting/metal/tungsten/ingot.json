@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/tungsten"
+        "c:tungsten_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/tungsten"
+    "tag": "c:tungsten_ingots"
   },
   "result": {
     "amount": 9000,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/zinc"
+        "c:zinc_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/zinc"
+    "tag": "c:zinc_plates"
   },
   "result": {
     "amount": 9000,

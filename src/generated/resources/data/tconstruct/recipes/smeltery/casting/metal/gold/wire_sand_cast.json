@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/gold"
+        "c:gold_wires"
       ]
     }
   ],
@@ -18,6 +18,6 @@
     "tag": "c:molten_gold"
   },
   "result": {
-    "tag": "c:wires/gold"
+    "tag": "c:gold_wires"
   }
 }

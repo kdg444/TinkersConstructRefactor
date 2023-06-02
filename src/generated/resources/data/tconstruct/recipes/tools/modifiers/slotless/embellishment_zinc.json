@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/zinc"
+        "c:zinc_ingots"
       ]
     }
   ],
@@ -11,13 +11,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/zinc"
+      "tag": "c:zinc_ingots"
     },
     {
-      "tag": "c:ingots/zinc"
+      "tag": "c:zinc_ingots"
     },
     {
-      "tag": "c:ingots/zinc"
+      "tag": "c:zinc_ingots"
     }
   ],
   "result": {

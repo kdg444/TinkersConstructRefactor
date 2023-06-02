@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/constantan"
+        "c:constantan_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/constantan"
+    "tag": "c:constantan_rods"
   },
   "result": {
     "amount": 4500,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/steel"
+        "c:steel_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/steel"
+    "tag": "c:steel_dusts"
   },
   "result": {
     "amount": 9000,

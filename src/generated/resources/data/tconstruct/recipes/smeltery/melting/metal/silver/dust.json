@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/silver"
+        "c:silver_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/silver"
+    "tag": "c:silver_dusts"
   },
   "result": {
     "amount": 9000,

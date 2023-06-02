@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/steel"
+        "c:steel_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/steel"
+    "tag": "c:steel_rods"
   },
   "result": {
     "amount": 4500,

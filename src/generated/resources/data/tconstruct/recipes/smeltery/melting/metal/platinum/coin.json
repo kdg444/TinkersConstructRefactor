@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/platinum"
+        "c:platinum_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/platinum"
+    "tag": "c:platinum_coins"
   },
   "result": {
     "amount": 3000,

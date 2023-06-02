@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/gold"
+        "c:gold_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/gold"
+    "tag": "c:gold_coins"
   },
   "result": {
     "amount": 3000,

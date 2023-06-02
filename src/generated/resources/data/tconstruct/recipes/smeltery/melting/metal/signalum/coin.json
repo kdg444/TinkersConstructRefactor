@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/signalum"
+        "c:signalum_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/signalum"
+    "tag": "c:signalum_coins"
   },
   "result": {
     "amount": 3000,

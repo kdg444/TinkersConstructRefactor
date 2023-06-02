@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/tin"
+        "c:tin_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/tin"
+    "tag": "c:tin_gears"
   },
   "result": {
     "amount": 36000,

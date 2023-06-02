@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/enderium"
+        "c:enderium_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/enderium"
+    "tag": "c:enderium_wires"
   },
   "result": {
     "amount": 4500,

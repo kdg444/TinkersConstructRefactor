@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/tungsten"
+        "c:tungsten_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/tungsten"
+    "tag": "c:tungsten_dusts"
   },
   "result": {
     "amount": 9000,

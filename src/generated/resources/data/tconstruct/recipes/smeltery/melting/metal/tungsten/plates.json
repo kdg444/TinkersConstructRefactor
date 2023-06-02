@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/tungsten"
+        "c:tungsten_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/tungsten"
+    "tag": "c:tungsten_plates"
   },
   "result": {
     "amount": 9000,

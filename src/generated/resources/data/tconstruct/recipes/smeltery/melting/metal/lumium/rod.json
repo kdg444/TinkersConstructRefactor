@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/lumium"
+        "c:lumium_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/lumium"
+    "tag": "c:lumium_rods"
   },
   "result": {
     "amount": 4500,

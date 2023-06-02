@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/gold"
+        "c:gold_gears"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "c:molten_gold"
   },
   "result": {
-    "tag": "c:gears/gold"
+    "tag": "c:gold_gears"
   }
 }

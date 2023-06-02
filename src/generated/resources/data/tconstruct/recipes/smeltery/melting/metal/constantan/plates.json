@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/constantan"
+        "c:constantan_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/constantan"
+    "tag": "c:constantan_plates"
   },
   "result": {
     "amount": 9000,

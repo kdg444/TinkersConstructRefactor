@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/zinc"
+        "c:zinc_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/zinc"
+    "tag": "c:zinc_dusts"
   },
   "result": {
     "amount": 9000,

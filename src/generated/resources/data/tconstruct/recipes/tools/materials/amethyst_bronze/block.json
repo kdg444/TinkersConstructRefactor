@@ -1,10 +1,10 @@
 {
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:storage_blocks/amethyst_bronze"
+    "tag": "c:amethyst_bronze_blocks"
   },
   "leftover": {
-    "tag": "c:ingots/amethyst_bronze"
+    "tag": "c:amethyst_bronze_ingots"
   },
   "material": "tconstruct:amethyst_bronze",
   "needed": 1,

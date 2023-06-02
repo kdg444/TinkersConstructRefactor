@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/osmium"
+        "c:osmium_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/osmium"
+    "tag": "c:osmium_plates"
   },
   "result": {
     "amount": 9000,

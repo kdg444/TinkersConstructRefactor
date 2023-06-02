@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/queens_slime"
+        "c:queens_slime_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/queens_slime"
+    "tag": "c:queens_slime_coins"
   },
   "result": {
     "amount": 3000,

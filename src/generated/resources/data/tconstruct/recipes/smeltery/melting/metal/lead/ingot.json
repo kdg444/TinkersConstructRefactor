@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/lead"
+        "c:lead_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/lead"
+    "tag": "c:lead_ingots"
   },
   "result": {
     "amount": 9000,

@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/lead"
+        "c:lead_ingots"
       ]
     }
   ],
@@ -11,13 +11,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/lead"
+      "tag": "c:lead_ingots"
     },
     {
-      "tag": "c:ingots/lead"
+      "tag": "c:lead_ingots"
     },
     {
-      "tag": "c:ingots/lead"
+      "tag": "c:lead_ingots"
     }
   ],
   "result": {

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/tungsten"
+        "c:tungsten_ingots"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:ingots/tungsten"
+    "tag": "c:tungsten_ingots"
   },
   "material": "tconstruct:tungsten",
   "needed": 1,

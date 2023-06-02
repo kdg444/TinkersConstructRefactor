@@ -3,19 +3,19 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/signalum"
+        "c:signalum_ingots"
       ]
     },
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/copper"
+        "c:copper_ingots"
       ]
     },
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/silver"
+        "c:silver_ingots"
       ]
     },
     {

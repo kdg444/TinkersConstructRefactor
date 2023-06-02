@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/slimesteel"
+        "c:slimesteel_gears"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "tconstruct:molten_slimesteel"
   },
   "result": {
-    "tag": "c:gears/slimesteel"
+    "tag": "c:slimesteel_gears"
   }
 }

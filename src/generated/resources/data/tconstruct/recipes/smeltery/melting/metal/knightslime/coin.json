@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/knightslime"
+        "c:knightslime_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/knightslime"
+    "tag": "c:knightslime_coins"
   },
   "result": {
     "amount": 3000,

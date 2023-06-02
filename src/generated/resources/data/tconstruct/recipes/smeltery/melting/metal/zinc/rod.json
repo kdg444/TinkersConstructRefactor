@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/zinc"
+        "c:zinc_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/zinc"
+    "tag": "c:zinc_rods"
   },
   "result": {
     "amount": 4500,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/electrum"
+        "c:electrum_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/electrum"
+    "tag": "c:electrum_gears"
   },
   "result": {
     "amount": 36000,

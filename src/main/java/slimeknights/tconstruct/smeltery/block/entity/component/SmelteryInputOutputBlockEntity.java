@@ -214,6 +214,11 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
     }
 
     @Override
+    public IModelData getRenderAttachmentData() {
+      return getModelData();
+    }
+
+    @Override
     public IModelData getRetexturedModelData() {
       return new ModelDataMap.Builder().withProperty(RetexturedHelper.BLOCK_PROPERTY).withProperty(IDisplayFluidListener.PROPERTY).build();
     }

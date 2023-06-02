@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/queens_slime"
+        "c:queens_slime_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/queens_slime"
+    "tag": "c:queens_slime_rods"
   },
   "result": {
     "amount": 4500,

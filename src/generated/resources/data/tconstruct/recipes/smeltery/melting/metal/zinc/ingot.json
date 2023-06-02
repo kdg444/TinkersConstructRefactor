@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/zinc"
+        "c:zinc_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/zinc"
+    "tag": "c:zinc_ingots"
   },
   "result": {
     "amount": 9000,

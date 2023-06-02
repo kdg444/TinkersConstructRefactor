@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/bronze"
+        "c:bronze_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/bronze"
+    "tag": "c:bronze_rods"
   },
   "result": {
     "amount": 4500,

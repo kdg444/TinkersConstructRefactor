@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/aluminum"
+        "c:aluminum_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/aluminum"
+    "tag": "c:aluminum_gears"
   },
   "result": {
     "amount": 36000,

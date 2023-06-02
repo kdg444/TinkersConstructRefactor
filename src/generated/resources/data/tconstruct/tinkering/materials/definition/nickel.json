@@ -11,7 +11,7 @@
           {
             "condition": "fabric:item_tags_populated",
             "values": [
-              "c:ingots/nickel"
+              "c:nickel_ingots"
             ]
           }
         ]

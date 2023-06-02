@@ -395,7 +395,7 @@ public class JEIPlugin implements IModPlugin {
    * @param cast     Cast instance
    */
   private static void optionalCast(IIngredientManager manager, CastItemObject cast) {
-    Iterable<Holder<Item>> tag = getTag(new ResourceLocation("c", cast.getName().getPath() + "s"));
+    Iterable<Holder<Item>> tag = getTag(new ResourceLocation("c", cast.getName().getPath() + "_blocks"));
     if (Iterables.isEmpty(tag)) {
       manager.removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, cast.values().stream().map(ItemStack::new).collect(Collectors.toList()));
     }
@@ -417,7 +417,7 @@ public class JEIPlugin implements IModPlugin {
     removeFluid(manager, TinkerFluids.moltenKnightslime.get(), TinkerFluids.moltenKnightslime.asItem());
     // hide compat that is not present
     for (SmelteryCompat compat : SmelteryCompat.values()) {
-      Iterable<Holder<Item>> ingot = getTag(new ResourceLocation("c", "ingots/" + compat.getName()));
+      Iterable<Holder<Item>> ingot = getTag(new ResourceLocation("c", compat.getName() + "_ingots"));
       if (Iterables.isEmpty(ingot)) {
         removeFluid(manager, compat.getFluid().get(), compat.getBucket());
       }
@@ -429,7 +429,7 @@ public class JEIPlugin implements IModPlugin {
     optionalCast(manager, TinkerSmeltery.gearCast);
     optionalCast(manager, TinkerSmeltery.coinCast);
     optionalCast(manager, TinkerSmeltery.wireCast);
-    optionalItem(manager, TinkerMaterials.necroniumBone, "ingots/uranium");
+    optionalItem(manager, TinkerMaterials.necroniumBone, "uranium_ingots");
     modIdHelper = jeiRuntime.getJeiHelpers().getModIdHelper();
   }
 

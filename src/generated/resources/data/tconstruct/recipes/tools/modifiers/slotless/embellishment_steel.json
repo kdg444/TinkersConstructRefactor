@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/steel"
+        "c:steel_ingots"
       ]
     }
   ],
@@ -11,13 +11,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/steel"
+      "tag": "c:steel_ingots"
     },
     {
-      "tag": "c:ingots/steel"
+      "tag": "c:steel_ingots"
     },
     {
-      "tag": "c:ingots/steel"
+      "tag": "c:steel_ingots"
     }
   ],
   "result": {

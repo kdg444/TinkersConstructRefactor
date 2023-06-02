@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/brass"
+        "c:brass_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/brass"
+    "tag": "c:brass_dusts"
   },
   "result": {
     "amount": 9000,

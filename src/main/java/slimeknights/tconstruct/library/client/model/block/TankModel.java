@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.datafixers.util.Pair;
 import io.github.fabricators_of_create.porting_lib.models.TransformTypeDependentItemBakedModel;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
@@ -23,27 +22,23 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
-import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.SimpleBakedModel;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import slimeknights.mantle.client.model.data.SinglePropertyData;
+import slimeknights.mantle.client.model.data.IModelData;
 import slimeknights.mantle.client.model.util.ColoredBlockModel;
 import slimeknights.mantle.client.model.util.ExtraTextureConfiguration;
 import slimeknights.mantle.client.model.util.SimpleBlockModel;
@@ -55,11 +50,7 @@ import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
 import slimeknights.tconstruct.smeltery.item.TankItem;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -210,8 +201,8 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
       int color = FluidVariantRendering.getColor(stack.getType());
       int luminosity = FluidVariantAttributes.getLuminance(stack.getType());
       Map<String,Material> textures = ImmutableMap.of(
-        "fluid", new Material(TextureAtlas.LOCATION_BLOCKS, sprites[0].contents().name()),
-        "flowing_fluid", new Material(TextureAtlas.LOCATION_BLOCKS, sprites[1].contents().name()));
+        "fluid", new Material(sprites[0].atlasLocation(), sprites[0].contents().name()),
+        "flowing_fluid", new Material(sprites[1].atlasLocation(), sprites[1].contents().name()));
       BlockModel textured = new ExtraTextureConfiguration(owner, textures);
 
       // add fluid part
@@ -258,7 +249,7 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
 
     @Override
     public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, RenderContext context) {
-      if(blockView instanceof RenderAttachedBlockView renderAttachedBlockView && renderAttachedBlockView.getBlockEntityRenderAttachment(pos) instanceof SinglePropertyData<?> data) {
+      if(blockView instanceof RenderAttachedBlockView renderAttachedBlockView && renderAttachedBlockView.getBlockEntityRenderAttachment(pos) instanceof IModelData data) {
         if ((original.forceModelFluid || Config.CLIENT.tankFluidModel.get()) && data.hasProperty(ModelProperties.FLUID_TANK)) {
           FluidTank tank = data.getData(ModelProperties.FLUID_TANK);
           if (tank != null && !tank.getFluid().isEmpty()) {
@@ -268,6 +259,11 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
         }
       }
       ((FabricBakedModel)wrapped).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+    }
+
+    @Override
+    public boolean isVanillaAdapter() {
+      return false;
     }
 
     /**

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/invar"
+        "c:invar_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/invar"
+    "tag": "c:invar_plates"
   },
   "result": {
     "amount": 9000,

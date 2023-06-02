@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/bronze"
+        "c:bronze_blocks"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:storage_blocks/bronze"
+    "tag": "c:bronze_blocks"
   },
   "result": {
     "amount": 81000,

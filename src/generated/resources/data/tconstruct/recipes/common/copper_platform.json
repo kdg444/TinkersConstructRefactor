@@ -6,7 +6,7 @@
       "tag": "c:copper_ingots"
     },
     ".": {
-      "tag": "c:nuggets/copper"
+      "tag": "c:copper_nuggets"
     }
   },
   "pattern": [

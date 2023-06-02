@@ -84,7 +84,7 @@ public class MaterialDataProvider extends AbstractMaterialDataProvider {
     addCompatMetalMaterial(MaterialIds.bronze,          3, ORDER_COMPAT + ORDER_HARVEST);
     addCompatMetalMaterial(MaterialIds.constantan,      3, ORDER_COMPAT + ORDER_HARVEST);
     addCompatMetalMaterial(MaterialIds.invar,           3, ORDER_COMPAT + ORDER_WEAPON);
-    addCompatMaterial     (MaterialIds.necronium,       3, ORDER_COMPAT + ORDER_WEAPON, "ingots/uranium", true);
+    addCompatMaterial     (MaterialIds.necronium,       3, ORDER_COMPAT + ORDER_WEAPON, "uranium_ingots", true);
     addCompatMetalMaterial(MaterialIds.electrum,        3, ORDER_COMPAT + ORDER_SPECIAL);
     addCompatMetalMaterial(MaterialIds.platedSlimewood, 3, ORDER_COMPAT + ORDER_SPECIAL, "brass");
 
@@ -120,6 +120,6 @@ public class MaterialDataProvider extends AbstractMaterialDataProvider {
     addRedirect(new MaterialId(TConstruct.MOD_ID, "spider"),    redirect(MaterialIds.string));
     addRedirect(new MaterialId(TConstruct.MOD_ID, "venom"),     redirect(MaterialIds.darkthread));
     addRedirect(new MaterialId(TConstruct.MOD_ID, "rabbit"),    redirect(MaterialIds.leather));
-    addRedirect(new MaterialId(TConstruct.MOD_ID, "tinkers_bronze"), conditionalRedirect(MaterialIds.bronze, tagExistsCondition("ingots/bronze")), redirect(MaterialIds.copper));
+    addRedirect(new MaterialId(TConstruct.MOD_ID, "tinkers_bronze"), conditionalRedirect(MaterialIds.bronze, tagExistsCondition("bronze_ingots")), redirect(MaterialIds.copper));
   }
 }

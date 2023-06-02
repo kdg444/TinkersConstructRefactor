@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/nickel"
+        "c:nickel_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/nickel"
+    "tag": "c:nickel_gears"
   },
   "result": {
     "amount": 36000,

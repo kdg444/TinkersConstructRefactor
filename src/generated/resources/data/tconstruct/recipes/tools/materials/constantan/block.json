@@ -3,16 +3,16 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/constantan"
+        "c:constantan_blocks"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:storage_blocks/constantan"
+    "tag": "c:constantan_blocks"
   },
   "leftover": {
-    "tag": "c:ingots/constantan"
+    "tag": "c:constantan_ingots"
   },
   "material": "tconstruct:constantan",
   "needed": 1,

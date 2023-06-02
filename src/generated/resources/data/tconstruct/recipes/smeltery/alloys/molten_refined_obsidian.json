@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/refined_obsidian"
+        "c:refined_obsidian_ingots"
       ]
     },
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/osmium"
+        "c:osmium_ingots"
       ]
     }
   ],

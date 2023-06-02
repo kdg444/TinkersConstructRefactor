@@ -1,10 +1,10 @@
 {
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:storage_blocks/queens_slime"
+    "tag": "c:queens_slime_blocks"
   },
   "leftover": {
-    "tag": "c:ingots/queens_slime"
+    "tag": "c:queens_slime_ingots"
   },
   "material": "tconstruct:queens_slime",
   "needed": 1,

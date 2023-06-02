@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/osmium"
+        "c:osmium_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/osmium"
+    "tag": "c:osmium_dusts"
   },
   "result": {
     "amount": 9000,

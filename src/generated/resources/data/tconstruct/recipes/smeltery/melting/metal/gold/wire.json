@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/gold"
+        "c:gold_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/gold"
+    "tag": "c:gold_wires"
   },
   "result": {
     "amount": 4500,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/netherite"
+        "c:netherite_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/netherite"
+    "tag": "c:netherite_wires"
   },
   "result": {
     "amount": 4500,

@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/uranium"
+        "c:uranium_ingots"
       ]
     }
   ],
@@ -11,13 +11,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/uranium"
+      "tag": "c:uranium_ingots"
     },
     {
-      "tag": "c:ingots/uranium"
+      "tag": "c:uranium_ingots"
     },
     {
-      "tag": "c:ingots/uranium"
+      "tag": "c:uranium_ingots"
     }
   ],
   "result": {

@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/gold"
+        "c:gold_rods"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "c:molten_gold"
   },
   "result": {
-    "tag": "c:rods/gold"
+    "tag": "c:gold_rods"
   }
 }

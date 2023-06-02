@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/enderium"
+        "c:enderium_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/enderium"
+    "tag": "c:enderium_plates"
   },
   "result": {
     "amount": 9000,

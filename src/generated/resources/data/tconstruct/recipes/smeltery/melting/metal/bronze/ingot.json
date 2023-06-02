@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/bronze"
+        "c:bronze_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/bronze"
+    "tag": "c:bronze_ingots"
   },
   "result": {
     "amount": 9000,

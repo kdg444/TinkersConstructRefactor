@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/brass"
+        "c:brass_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/brass"
+    "tag": "c:brass_plates"
   },
   "result": {
     "amount": 9000,

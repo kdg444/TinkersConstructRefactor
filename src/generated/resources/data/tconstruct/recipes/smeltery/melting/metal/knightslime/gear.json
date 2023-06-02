@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/knightslime"
+        "c:knightslime_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/knightslime"
+    "tag": "c:knightslime_gears"
   },
   "result": {
     "amount": 36000,

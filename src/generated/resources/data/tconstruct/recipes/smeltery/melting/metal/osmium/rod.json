@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/osmium"
+        "c:osmium_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/osmium"
+    "tag": "c:osmium_rods"
   },
   "result": {
     "amount": 4500,

@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/copper"
+        "c:copper_wires"
       ]
     }
   ],
@@ -18,6 +18,6 @@
     "tag": "c:molten_copper"
   },
   "result": {
-    "tag": "c:wires/copper"
+    "tag": "c:copper_wires"
   }
 }

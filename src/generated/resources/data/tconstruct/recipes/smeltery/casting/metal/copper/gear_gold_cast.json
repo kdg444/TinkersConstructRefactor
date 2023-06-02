@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/copper"
+        "c:copper_gears"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "c:molten_copper"
   },
   "result": {
-    "tag": "c:gears/copper"
+    "tag": "c:copper_gears"
   }
 }

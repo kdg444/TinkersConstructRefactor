@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/raw_tin"
+        "c:raw_tin_blocks"
       ]
     }
   ],
@@ -15,7 +15,7 @@
     }
   ],
   "ingredient": {
-    "tag": "c:storage_blocks/raw_tin"
+    "tag": "c:raw_tin_blocks"
   },
   "rate": "metal",
   "result": {

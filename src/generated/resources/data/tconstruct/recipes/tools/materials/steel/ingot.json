@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/steel"
+        "c:steel_ingots"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:ingots/steel"
+    "tag": "c:steel_ingots"
   },
   "material": "tconstruct:steel",
   "needed": 1,

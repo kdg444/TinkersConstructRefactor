@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/nickel"
+        "c:nickel_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/nickel"
+    "tag": "c:nickel_wires"
   },
   "result": {
     "amount": 4500,

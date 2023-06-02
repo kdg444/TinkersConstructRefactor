@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/osmium"
+        "c:osmium_blocks"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:storage_blocks/osmium"
+    "tag": "c:osmium_blocks"
   },
   "result": {
     "amount": 81000,

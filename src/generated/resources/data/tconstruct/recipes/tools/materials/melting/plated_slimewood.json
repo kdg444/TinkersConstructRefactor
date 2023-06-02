@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/brass"
+        "c:brass_ingots"
       ]
     }
   ],

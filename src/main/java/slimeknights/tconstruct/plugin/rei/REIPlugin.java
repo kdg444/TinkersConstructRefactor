@@ -159,7 +159,7 @@ public class REIPlugin implements REIClientPlugin {
     removeFluid(registry, TinkerFluids.moltenKnightslime.get(), TinkerFluids.moltenKnightslime.asItem());
     // hide compat that is not present
     for (SmelteryCompat compat : SmelteryCompat.values()) {
-      Iterable<Holder<Item>> ingot = getTag(new ResourceLocation("c", "ingots/" + compat.getName()));
+      Iterable<Holder<Item>> ingot = getTag(new ResourceLocation("c", compat.getName() + "_ingots"));
       if (Iterables.isEmpty(ingot)) {
         removeFluid(registry, compat.getFluid().get(), compat.getBucket());
       }
@@ -171,7 +171,7 @@ public class REIPlugin implements REIClientPlugin {
     optionalCast(registry, TinkerSmeltery.gearCast);
     optionalCast(registry, TinkerSmeltery.coinCast);
     optionalCast(registry, TinkerSmeltery.wireCast);
-    optionalItem(registry, TinkerMaterials.necroniumBone, "ingots/uranium");
+    optionalItem(registry, TinkerMaterials.necroniumBone, "uranium_ingots");
   }
 
   @Override
@@ -285,7 +285,7 @@ public class REIPlugin implements REIClientPlugin {
    * @param cast     Cast instance
    */
   private static void optionalCast(EntryRegistry manager, CastItemObject cast) {
-    Iterable<Holder<Item>> tag = getTag(new ResourceLocation("c", cast.getName().getPath() + "s"));
+    Iterable<Holder<Item>> tag = getTag(new ResourceLocation("c", cast.getName().getPath() + "_blocks"));
     if (Iterables.isEmpty(tag)) {
       manager.addEntries(cast.values().stream().map(EntryStacks::of).collect(Collectors.toList()));
     }

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/brass"
+        "c:brass_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/brass"
+    "tag": "c:brass_ingots"
   },
   "result": {
     "amount": 9000,

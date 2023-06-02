@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/copper"
+        "c:copper_plates"
       ]
     }
   ],
@@ -18,6 +18,6 @@
     "tag": "c:molten_copper"
   },
   "result": {
-    "tag": "c:plates/copper"
+    "tag": "c:copper_plates"
   }
 }

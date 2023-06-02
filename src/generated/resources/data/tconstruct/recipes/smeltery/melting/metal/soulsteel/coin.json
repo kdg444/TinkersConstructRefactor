@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/soulsteel"
+        "c:soulsteel_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/soulsteel"
+    "tag": "c:soulsteel_coins"
   },
   "result": {
     "amount": 3000,

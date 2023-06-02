@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/aluminum"
+        "c:aluminum_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/aluminum"
+    "tag": "c:aluminum_coins"
   },
   "result": {
     "amount": 3000,

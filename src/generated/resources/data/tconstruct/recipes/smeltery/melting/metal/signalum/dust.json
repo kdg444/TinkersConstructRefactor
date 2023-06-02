@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/signalum"
+        "c:signalum_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/signalum"
+    "tag": "c:signalum_dusts"
   },
   "result": {
     "amount": 9000,

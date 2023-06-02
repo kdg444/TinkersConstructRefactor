@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/steel"
+        "c:steel_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/steel"
+    "tag": "c:steel_ingots"
   },
   "result": {
     "amount": 9000,

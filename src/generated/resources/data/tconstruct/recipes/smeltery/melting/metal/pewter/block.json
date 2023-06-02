@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/pewter"
+        "c:pewter_blocks"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:storage_blocks/pewter"
+    "tag": "c:pewter_blocks"
   },
   "result": {
     "amount": 81000,

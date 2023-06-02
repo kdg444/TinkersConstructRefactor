@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/refined_glowstone"
+        "c:refined_glowstone_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/refined_glowstone"
+    "tag": "c:refined_glowstone_wires"
   },
   "result": {
     "amount": 4500,

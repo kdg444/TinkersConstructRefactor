@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/bronze"
+        "c:bronze_ingots"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:ingots/bronze"
+    "tag": "c:bronze_ingots"
   },
   "material": "tconstruct:bronze",
   "needed": 1,

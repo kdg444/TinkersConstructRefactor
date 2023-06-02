@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/signalum"
+        "c:signalum_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/signalum"
+    "tag": "c:signalum_gears"
   },
   "result": {
     "amount": 36000,

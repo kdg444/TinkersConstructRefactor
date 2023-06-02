@@ -3,16 +3,16 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/electrum"
+        "c:electrum_blocks"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:storage_blocks/electrum"
+    "tag": "c:electrum_blocks"
   },
   "leftover": {
-    "tag": "c:ingots/electrum"
+    "tag": "c:electrum_ingots"
   },
   "material": "tconstruct:electrum",
   "needed": 1,

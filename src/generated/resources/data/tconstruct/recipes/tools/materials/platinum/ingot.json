@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/platinum"
+        "c:platinum_ingots"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:ingots/platinum"
+    "tag": "c:platinum_ingots"
   },
   "material": "tconstruct:platinum",
   "needed": 1,

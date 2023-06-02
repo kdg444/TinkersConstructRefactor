@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/signalum"
+        "c:signalum_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/signalum"
+    "tag": "c:signalum_rods"
   },
   "result": {
     "amount": 4500,

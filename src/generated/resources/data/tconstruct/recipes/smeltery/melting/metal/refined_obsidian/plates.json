@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/refined_obsidian"
+        "c:refined_obsidian_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/refined_obsidian"
+    "tag": "c:refined_obsidian_plates"
   },
   "result": {
     "amount": 9000,

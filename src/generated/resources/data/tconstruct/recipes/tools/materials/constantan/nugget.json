@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:nuggets/constantan"
+        "c:constantan_nuggets"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:nuggets/constantan"
+    "tag": "c:constantan_nuggets"
   },
   "material": "tconstruct:constantan",
   "needed": 9,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/constantan"
+        "c:constantan_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/constantan"
+    "tag": "c:constantan_dusts"
   },
   "result": {
     "amount": 9000,

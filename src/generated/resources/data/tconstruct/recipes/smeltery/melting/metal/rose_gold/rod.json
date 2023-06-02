@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/rose_gold"
+        "c:rose_gold_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/rose_gold"
+    "tag": "c:rose_gold_rods"
   },
   "result": {
     "amount": 4500,

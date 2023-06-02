@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/knightslime"
+        "c:knightslime_wires"
       ]
     }
   ],
@@ -18,6 +18,6 @@
     "tag": "tconstruct:molten_knightslime"
   },
   "result": {
-    "tag": "c:wires/knightslime"
+    "tag": "c:knightslime_wires"
   }
 }

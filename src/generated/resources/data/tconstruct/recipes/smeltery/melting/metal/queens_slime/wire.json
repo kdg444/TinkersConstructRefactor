@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/queens_slime"
+        "c:queens_slime_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/queens_slime"
+    "tag": "c:queens_slime_wires"
   },
   "result": {
     "amount": 4500,

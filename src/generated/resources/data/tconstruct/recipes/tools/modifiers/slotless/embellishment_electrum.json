@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/electrum"
+        "c:electrum_ingots"
       ]
     }
   ],
@@ -11,13 +11,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/electrum"
+      "tag": "c:electrum_ingots"
     },
     {
-      "tag": "c:ingots/electrum"
+      "tag": "c:electrum_ingots"
     },
     {
-      "tag": "c:ingots/electrum"
+      "tag": "c:electrum_ingots"
     }
   ],
   "result": {

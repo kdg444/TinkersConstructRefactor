@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/steel"
+        "c:steel_blocks"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:storage_blocks/steel"
+    "tag": "c:steel_blocks"
   },
   "result": {
     "amount": 81000,

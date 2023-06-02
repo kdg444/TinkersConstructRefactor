@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/nickel"
+        "c:nickel_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/nickel"
+    "tag": "c:nickel_rods"
   },
   "result": {
     "amount": 4500,

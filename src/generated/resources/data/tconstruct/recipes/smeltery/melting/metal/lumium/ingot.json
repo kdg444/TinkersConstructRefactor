@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/lumium"
+        "c:lumium_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/lumium"
+    "tag": "c:lumium_ingots"
   },
   "result": {
     "amount": 9000,

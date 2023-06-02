@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/invar"
+        "c:invar_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/invar"
+    "tag": "c:invar_dusts"
   },
   "result": {
     "amount": 9000,

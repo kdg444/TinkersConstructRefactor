@@ -11,7 +11,7 @@
           {
             "condition": "fabric:item_tags_populated",
             "values": [
-              "c:ingots/tin"
+              "c:tin_ingots"
             ]
           }
         ]

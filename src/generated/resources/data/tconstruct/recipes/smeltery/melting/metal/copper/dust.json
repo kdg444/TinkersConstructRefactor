@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/copper"
+        "c:copper_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/copper"
+    "tag": "c:copper_dusts"
   },
   "result": {
     "amount": 9000,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/amethyst_bronze"
+        "c:amethyst_bronze_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/amethyst_bronze"
+    "tag": "c:amethyst_bronze_coins"
   },
   "result": {
     "amount": 3000,

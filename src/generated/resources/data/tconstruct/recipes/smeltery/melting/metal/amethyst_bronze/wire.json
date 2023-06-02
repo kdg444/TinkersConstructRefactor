@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/amethyst_bronze"
+        "c:amethyst_bronze_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/amethyst_bronze"
+    "tag": "c:amethyst_bronze_wires"
   },
   "result": {
     "amount": 4500,

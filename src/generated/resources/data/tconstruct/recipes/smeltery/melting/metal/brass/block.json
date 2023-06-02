@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/brass"
+        "c:brass_blocks"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:storage_blocks/brass"
+    "tag": "c:brass_blocks"
   },
   "result": {
     "amount": 81000,

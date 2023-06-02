@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/zinc"
+        "c:zinc_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/zinc"
+    "tag": "c:zinc_coins"
   },
   "result": {
     "amount": 3000,

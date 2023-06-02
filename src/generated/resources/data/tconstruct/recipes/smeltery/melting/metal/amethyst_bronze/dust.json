@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/amethyst_bronze"
+        "c:amethyst_bronze_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/amethyst_bronze"
+    "tag": "c:amethyst_bronze_dusts"
   },
   "result": {
     "amount": 9000,

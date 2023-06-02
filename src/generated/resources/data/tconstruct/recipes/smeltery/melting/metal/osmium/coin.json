@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/osmium"
+        "c:osmium_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/osmium"
+    "tag": "c:osmium_coins"
   },
   "result": {
     "amount": 3000,

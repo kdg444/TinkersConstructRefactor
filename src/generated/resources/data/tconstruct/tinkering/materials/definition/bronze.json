@@ -11,7 +11,7 @@
           {
             "condition": "fabric:item_tags_populated",
             "values": [
-              "c:ingots/bronze"
+              "c:bronze_ingots"
             ]
           }
         ]

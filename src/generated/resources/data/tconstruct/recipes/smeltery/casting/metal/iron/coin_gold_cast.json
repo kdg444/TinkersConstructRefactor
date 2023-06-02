@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/iron"
+        "c:iron_coins"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "c:molten_iron"
   },
   "result": {
-    "tag": "c:coins/iron"
+    "tag": "c:iron_coins"
   }
 }

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/bronze"
+        "c:bronze_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/bronze"
+    "tag": "c:bronze_gears"
   },
   "result": {
     "amount": 36000,

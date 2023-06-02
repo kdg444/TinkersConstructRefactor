@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/copper"
+        "c:copper_rods"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "c:molten_copper"
   },
   "result": {
-    "tag": "c:rods/copper"
+    "tag": "c:copper_rods"
   }
 }

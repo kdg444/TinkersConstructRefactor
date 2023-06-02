@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/hepatizon"
+        "c:hepatizon_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/hepatizon"
+    "tag": "c:hepatizon_gears"
   },
   "result": {
     "amount": 36000,

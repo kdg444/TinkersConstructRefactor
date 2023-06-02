@@ -11,7 +11,7 @@
           {
             "condition": "fabric:item_tags_populated",
             "values": [
-              "c:ingots/aluminum"
+              "c:aluminum_ingots"
             ]
           }
         ]

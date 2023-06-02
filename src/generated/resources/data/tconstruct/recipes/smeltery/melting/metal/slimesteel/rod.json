@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/slimesteel"
+        "c:slimesteel_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/slimesteel"
+    "tag": "c:slimesteel_rods"
   },
   "result": {
     "amount": 4500,

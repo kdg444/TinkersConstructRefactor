@@ -3,13 +3,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/cobalt"
+      "tag": "c:cobalt_ingots"
     },
     {
-      "tag": "c:ingots/cobalt"
+      "tag": "c:cobalt_ingots"
     },
     {
-      "tag": "c:ingots/cobalt"
+      "tag": "c:cobalt_ingots"
     }
   ],
   "result": {

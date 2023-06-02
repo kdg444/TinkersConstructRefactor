@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/iron"
+        "c:iron_gears"
       ]
     }
   ],
@@ -17,6 +17,6 @@
     "tag": "c:molten_iron"
   },
   "result": {
-    "tag": "c:gears/iron"
+    "tag": "c:iron_gears"
   }
 }

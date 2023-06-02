@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/invar"
+        "c:invar_ingots"
       ]
     }
   ],
@@ -11,13 +11,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/invar"
+      "tag": "c:invar_ingots"
     },
     {
-      "tag": "c:ingots/invar"
+      "tag": "c:invar_ingots"
     },
     {
-      "tag": "c:ingots/invar"
+      "tag": "c:invar_ingots"
     }
   ],
   "result": {

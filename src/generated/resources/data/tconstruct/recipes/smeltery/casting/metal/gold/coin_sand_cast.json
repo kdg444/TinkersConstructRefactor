@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/gold"
+        "c:gold_coins"
       ]
     }
   ],
@@ -18,6 +18,6 @@
     "tag": "c:molten_gold"
   },
   "result": {
-    "tag": "c:coins/gold"
+    "tag": "c:gold_coins"
   }
 }

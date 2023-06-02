@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/tin"
+        "c:tin_plates"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:plates/tin"
+    "tag": "c:tin_plates"
   },
   "result": {
     "amount": 9000,

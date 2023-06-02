@@ -3,16 +3,16 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/steel"
+        "c:steel_blocks"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:storage_blocks/steel"
+    "tag": "c:steel_blocks"
   },
   "leftover": {
-    "tag": "c:ingots/steel"
+    "tag": "c:steel_ingots"
   },
   "material": "tconstruct:steel",
   "needed": 1,

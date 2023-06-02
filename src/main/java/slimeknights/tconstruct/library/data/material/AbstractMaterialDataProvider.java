@@ -141,7 +141,7 @@ public abstract class AbstractMaterialDataProvider extends GenericDataProvider {
 
   /** Creates a new compat material */
   protected void addCompatMetalMaterial(MaterialId location, int tier, int order, String ingotName) {
-    addCompatMaterial(location, tier, order, "ingots/" + ingotName, false);
+    addCompatMaterial(location, tier, order, ingotName + "_ingots", false);
   }
 
   /** Creates a new compat material */

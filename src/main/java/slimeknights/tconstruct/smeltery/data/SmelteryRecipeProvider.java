@@ -1718,46 +1718,46 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     Consumer<FinishedRecipe> wrapped;
 
     // bronze
-    wrapped = withCondition(consumer, tagCondition("ingots/bronze"), tagCondition("ingots/tin"));
+    wrapped = withCondition(consumer, tagCondition("bronze_ingots"), tagCondition("tin_ingots"));
     AlloyRecipeBuilder.alloy(TinkerFluids.moltenBronze.get(), FluidValues.INGOT * 4)
                       .addInput(TinkerFluids.moltenCopper.getForgeTag(), FluidValues.INGOT * 3)
                       .addInput(TinkerFluids.moltenTin.getForgeTag(), FluidValues.INGOT)
                       .save(wrapped, prefix(BuiltInRegistries.FLUID.getKey(TinkerFluids.moltenBronze.get()), folder));
 
     // brass
-    wrapped = withCondition(consumer, tagCondition("ingots/brass"), tagCondition("ingots/zinc"));
+    wrapped = withCondition(consumer, tagCondition("brass_ingots"), tagCondition("zinc_ingots"));
     AlloyRecipeBuilder.alloy(TinkerFluids.moltenBrass.get(), FluidValues.INGOT * 2)
                       .addInput(TinkerFluids.moltenCopper.getForgeTag(), FluidValues.INGOT)
                       .addInput(TinkerFluids.moltenZinc.getForgeTag(), FluidValues.INGOT)
                       .save(wrapped, prefix(BuiltInRegistries.FLUID.getKey(TinkerFluids.moltenBrass.get()), folder));
 
     // electrum
-    wrapped = withCondition(consumer, tagCondition("ingots/electrum"), tagCondition("ingots/silver"));
+    wrapped = withCondition(consumer, tagCondition("electrum_ingots"), tagCondition("silver_ingots"));
     AlloyRecipeBuilder.alloy(TinkerFluids.moltenElectrum.get(), FluidValues.INGOT * 2)
                       .addInput(TinkerFluids.moltenGold.getForgeTag(), FluidValues.INGOT)
                       .addInput(TinkerFluids.moltenSilver.getForgeTag(), FluidValues.INGOT)
                       .save(wrapped, prefix(BuiltInRegistries.FLUID.getKey(TinkerFluids.moltenElectrum.get()), folder));
 
     // invar
-    wrapped = withCondition(consumer, tagCondition("ingots/invar"), tagCondition("ingots/nickel"));
+    wrapped = withCondition(consumer, tagCondition("invar_ingots"), tagCondition("nickel_ingots"));
     AlloyRecipeBuilder.alloy(TinkerFluids.moltenInvar.get(), FluidValues.INGOT * 3)
                       .addInput(TinkerFluids.moltenIron.getForgeTag(), FluidValues.INGOT * 2)
                       .addInput(TinkerFluids.moltenNickel.getForgeTag(), FluidValues.INGOT)
                       .save(wrapped, prefix(BuiltInRegistries.FLUID.getKey(TinkerFluids.moltenInvar.get()), folder));
 
     // constantan
-    wrapped = withCondition(consumer, tagCondition("ingots/constantan"), tagCondition("ingots/nickel"));
+    wrapped = withCondition(consumer, tagCondition("constantan_ingots"), tagCondition("nickel_ingots"));
     AlloyRecipeBuilder.alloy(TinkerFluids.moltenConstantan.get(), FluidValues.INGOT * 2)
                       .addInput(TinkerFluids.moltenCopper.getForgeTag(), FluidValues.INGOT)
                       .addInput(TinkerFluids.moltenNickel.getForgeTag(), FluidValues.INGOT)
                       .save(wrapped, prefix(BuiltInRegistries.FLUID.getKey(TinkerFluids.moltenConstantan.get()), folder));
 
     // pewter
-    wrapped = withCondition(consumer, tagCondition("ingots/pewter"), tagCondition("ingots/lead"));
+    wrapped = withCondition(consumer, tagCondition("pewter_ingots"), tagCondition("lead_ingots"));
     ConditionalRecipe.builder()
                      // when available, alloy pewter with tin
                      // we mainly add it to support Edilon which uses iron to reduce ores, but the author thinks tin is fine balance wise
-                     .addCondition(tagCondition("ingots/tin"))
+                     .addCondition(tagCondition("tin_ingots"))
                      .addRecipe(
                        // ratio from Allomancy mod
                        AlloyRecipeBuilder.alloy(TinkerFluids.moltenPewter.get(), FluidValues.INGOT * 3)
@@ -1775,21 +1775,21 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     Function<String,ConditionJsonProvider> fluidTagLoaded = name -> DefaultResourceConditions.fluidTagsPopulated(TagKey.create(Registries.FLUID, new ResourceLocation("c", name)));
     Function<String,TagKey<Fluid>> fluidTag = name -> TagKey.create(Registries.FLUID, new ResourceLocation("c", name));
     // enderium
-    wrapped = withCondition(consumer, tagCondition("ingots/enderium"), tagCondition("ingots/lead"));
+    wrapped = withCondition(consumer, tagCondition("enderium_ingots"), tagCondition("lead_ingots"));
     AlloyRecipeBuilder.alloy(TinkerFluids.moltenEnderium.get(), FluidValues.INGOT * 2)
                       .addInput(TinkerFluids.moltenLead.getForgeTag(), FluidValues.INGOT * 3)
                       .addInput(TinkerFluids.moltenDiamond.getLocalTag(), FluidValues.GEM)
                       .addInput(TinkerFluids.moltenEnder.getForgeTag(), FluidValues.SLIMEBALL * 2)
                       .save(wrapped, prefix(BuiltInRegistries.FLUID.getKey(TinkerFluids.moltenEnderium.get()), folder));
     // lumium
-    wrapped = withCondition(consumer, tagCondition("ingots/lumium"), tagCondition("ingots/tin"), tagCondition("ingots/silver"), fluidTagLoaded.apply("glowstone"));
+    wrapped = withCondition(consumer, tagCondition("lumium_ingots"), tagCondition("tin_ingots"), tagCondition("silver_ingots"), fluidTagLoaded.apply("glowstone"));
     AlloyRecipeBuilder.alloy(TinkerFluids.moltenLumium.get(), FluidValues.INGOT * 4)
                       .addInput(TinkerFluids.moltenTin.getForgeTag(), FluidValues.INGOT * 3)
                       .addInput(TinkerFluids.moltenSilver.getForgeTag(), FluidValues.INGOT)
                       .addInput(FluidIngredient.of(fluidTag.apply("glowstone"), FluidValues.SLIMEBALL * 2))
                       .save(wrapped, prefix(BuiltInRegistries.FLUID.getKey(TinkerFluids.moltenLumium.get()), folder));
     // signalum
-    wrapped = withCondition(consumer, tagCondition("ingots/signalum"), tagCondition("ingots/copper"), tagCondition("ingots/silver"), fluidTagLoaded.apply("redstone"));
+    wrapped = withCondition(consumer, tagCondition("signalum_ingots"), tagCondition("copper_ingots"), tagCondition("silver_ingots"), fluidTagLoaded.apply("redstone"));
     AlloyRecipeBuilder.alloy(TinkerFluids.moltenSignalum.get(), FluidValues.INGOT * 4)
                       .addInput(TinkerFluids.moltenCopper.getForgeTag(), FluidValues.INGOT * 3)
                       .addInput(TinkerFluids.moltenSilver.getForgeTag(), FluidValues.INGOT)
@@ -1797,7 +1797,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                       .save(wrapped, prefix(BuiltInRegistries.FLUID.getKey(TinkerFluids.moltenSignalum.get()), folder));
 
     // refined obsidian, note glowstone is done as a composite
-    wrapped = withCondition(consumer, tagCondition("ingots/refined_obsidian"), tagCondition("ingots/osmium"));
+    wrapped = withCondition(consumer, tagCondition("refined_obsidian_ingots"), tagCondition("osmium_ingots"));
     AlloyRecipeBuilder.alloy(TinkerFluids.moltenRefinedObsidian.get(), FluidValues.INGOT)
                       .addInput(TinkerFluids.moltenObsidian.getLocalTag(), FluidValues.GLASS_PANE)
                       .addInput(TinkerFluids.moltenDiamond.getLocalTag(), FluidValues.GEM)
@@ -2091,20 +2091,20 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                             .save(ceramicsConsumer, modResource(castingFolder + "golden_bricks_wall"));
 
     // refined glowstone composite
-    Consumer<FinishedRecipe> wrapped = withCondition(consumer, tagCondition("ingots/refined_glowstone"), tagCondition("ingots/osmium"));
-    ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromTag(getItemTag("c", "ingots/refined_glowstone"), 1))
+    Consumer<FinishedRecipe> wrapped = withCondition(consumer, tagCondition("refined_glowstone_ingots"), tagCondition("osmium_ingots"));
+    ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromTag(getItemTag("c", "refined_glowstone_ingots"), 1))
                             .setCast(Tags.Items.DUSTS_GLOWSTONE, true)
                             .setFluidAndTime(TinkerFluids.moltenOsmium, FluidValues.INGOT)
                             .save(wrapped, modResource(folder + "refined_glowstone_ingot"));
-    wrapped = withCondition(consumer, tagCondition("ingots/refined_obsidian"), tagCondition("ingots/osmium"));
-    ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromTag(getItemTag("c", "ingots/refined_obsidian"), 1))
-                            .setCast(getItemTag("c", "dusts/refined_obsidian"), true)
+    wrapped = withCondition(consumer, tagCondition("refined_obsidian_ingots"), tagCondition("osmium_ingots"));
+    ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromTag(getItemTag("c", "refined_obsidian_ingots"), 1))
+                            .setCast(getItemTag("c", "refined_obsidian_dusts"), true)
                             .setFluidAndTime(TinkerFluids.moltenOsmium, FluidValues.INGOT)
                             .save(wrapped, modResource(folder + "refined_obsidian_ingot"));
     ItemCastingRecipeBuilder.tableRecipe(TinkerMaterials.necroniumBone)
                             .setFluidAndTime(TinkerFluids.moltenUranium, true, FluidValues.INGOT)
                             .setCast(TinkerTags.Items.WITHER_BONES, true)
-                            .save(withCondition(consumer, tagCondition("ingots/uranium")), modResource(folder + "necronium_bone"));
+                            .save(withCondition(consumer, tagCondition("uranium_ingots")), modResource(folder + "necronium_bone"));
   }
 
 

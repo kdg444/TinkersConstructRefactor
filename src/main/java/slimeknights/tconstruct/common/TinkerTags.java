@@ -34,7 +34,7 @@ public class TinkerTags {
     private static void init() {}
     public static final TagKey<Block> WORKBENCHES = forgeTag("workbenches");
     public static final TagKey<Block> TABLES = tag("tables");
-    public static final TagKey<Block> GLASS_PANES_SILICA = forgeTag("glass_panes/silica");
+    public static final TagKey<Block> GLASS_PANES_SILICA = forgeTag("silica_glass_panes");
 
     /** Compat: allows other mods to add normal stone variants which can be used to create stone tools.
      * Note this tag includes both stone and cobblestone, unlike the default forge/vanilla tags that include one or the other
@@ -91,8 +91,8 @@ public class TinkerTags {
     /** Slime grass, slime fungus, or slime dirt */
     public static final TagKey<Block> SLIMY_SOIL = tag("slimy_soil");
 
-    public static final TagKey<Block> ORES_COBALT = forgeTag("ores/cobalt");
-    public static final TagKey<Block> RAW_BLOCK_COBALT = forgeTag("storage_blocks/raw_cobalt");
+    public static final TagKey<Block> ORES_COBALT = forgeTag("cobalt_ores");
+    public static final TagKey<Block> RAW_BLOCK_COBALT = forgeTag("raw_cobalt_blocks");
 
     public static final TagKey<Block> SEARED_BLOCKS = tag("seared_blocks");
     public static final TagKey<Block> SEARED_BRICKS = tag("seared_bricks");
@@ -172,7 +172,7 @@ public class TinkerTags {
     private static void init() {}
     public static final TagKey<Item> WORKBENCHES = forgeTag("workbenches");
     public static final TagKey<Item> TABLES = tag("tables");
-    public static final TagKey<Item> GLASS_PANES_SILICA = forgeTag("glass_panes/silica");
+    public static final TagKey<Item> GLASS_PANES_SILICA = forgeTag("silica_glass_panes");
 
     /** Compat: allows other mods to add normal stone variants which can be used to create stone tools.
      * Note this tag includes both stone and cobblestone, unlike the default forge/vanilla tags that include one or the other
@@ -222,14 +222,14 @@ public class TinkerTags {
     public static final TagKey<Item> SMELTERY = tag("smeltery");
     public static final TagKey<Item> FOUNDRY = tag("foundry");
 
-    public static final TagKey<Item> ORES_COBALT = forgeTag("ores/cobalt");
-    public static final TagKey<Item> RAW_BLOCK_COBALT = forgeTag("storage_blocks/raw_cobalt");
+    public static final TagKey<Item> ORES_COBALT = forgeTag("cobalt_ores");
+    public static final TagKey<Item> RAW_BLOCK_COBALT = forgeTag("raw_cobalt_blocks");
     public static final TagKey<Item> RAW_COBALT = forgeTag("raw_materials/cobalt");
 
-    public static final TagKey<Item> NUGGETS_NETHERITE = forgeTag("nuggets/netherite");
-    public static final TagKey<Item> INGOTS_NETHERITE_SCRAP = forgeTag("ingots/netherite_scrap");
-    public static final TagKey<Item> NUGGETS_NETHERITE_SCRAP = forgeTag("nuggets/netherite_scrap");
-    public static final TagKey<Item> NUGGETS_COPPER = forgeTag("nuggets/copper");
+    public static final TagKey<Item> NUGGETS_NETHERITE = forgeTag("netherite_nuggets");
+    public static final TagKey<Item> INGOTS_NETHERITE_SCRAP = forgeTag("netherite_scrap_ingots");
+    public static final TagKey<Item> NUGGETS_NETHERITE_SCRAP = forgeTag("netherite_scrap_nuggets");
+    public static final TagKey<Item> NUGGETS_COPPER = forgeTag("copper_nuggets");
 
     public static final TagKey<Item> CASTS = tag("casts");
     public static final TagKey<Item> GOLD_CASTS = tag("casts/gold");

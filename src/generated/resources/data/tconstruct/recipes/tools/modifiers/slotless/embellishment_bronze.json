@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/bronze"
+        "c:bronze_ingots"
       ]
     }
   ],
@@ -11,13 +11,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/bronze"
+      "tag": "c:bronze_ingots"
     },
     {
-      "tag": "c:ingots/bronze"
+      "tag": "c:bronze_ingots"
     },
     {
-      "tag": "c:ingots/bronze"
+      "tag": "c:bronze_ingots"
     }
   ],
   "result": {

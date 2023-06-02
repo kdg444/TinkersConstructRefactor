@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "c": {
-      "tag": "c:ingots/cobalt"
+      "tag": "c:cobalt_ingots"
     },
     "w": {
       "type": "forge:difference",

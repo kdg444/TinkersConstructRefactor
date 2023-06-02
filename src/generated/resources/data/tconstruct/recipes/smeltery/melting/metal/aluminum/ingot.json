@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/aluminum"
+        "c:aluminum_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/aluminum"
+    "tag": "c:aluminum_ingots"
   },
   "result": {
     "amount": 9000,

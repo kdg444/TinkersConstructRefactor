@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/aluminum"
+        "c:aluminum_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/aluminum"
+    "tag": "c:aluminum_rods"
   },
   "result": {
     "amount": 4500,

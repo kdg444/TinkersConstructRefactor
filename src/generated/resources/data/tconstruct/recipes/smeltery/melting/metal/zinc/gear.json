@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/zinc"
+        "c:zinc_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/zinc"
+    "tag": "c:zinc_gears"
   },
   "result": {
     "amount": 36000,

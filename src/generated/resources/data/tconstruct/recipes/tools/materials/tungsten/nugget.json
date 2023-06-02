@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:nuggets/tungsten"
+        "c:tungsten_nuggets"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:nuggets/tungsten"
+    "tag": "c:tungsten_nuggets"
   },
   "material": "tconstruct:tungsten",
   "needed": 9,

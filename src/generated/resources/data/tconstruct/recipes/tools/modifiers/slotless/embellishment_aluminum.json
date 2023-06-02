@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/aluminum"
+        "c:aluminum_ingots"
       ]
     }
   ],
@@ -11,13 +11,13 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "tag": "c:ingots/aluminum"
+      "tag": "c:aluminum_ingots"
     },
     {
-      "tag": "c:ingots/aluminum"
+      "tag": "c:aluminum_ingots"
     },
     {
-      "tag": "c:ingots/aluminum"
+      "tag": "c:aluminum_ingots"
     }
   ],
   "result": {

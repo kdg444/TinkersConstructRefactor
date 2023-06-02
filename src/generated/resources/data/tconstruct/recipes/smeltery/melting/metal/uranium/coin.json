@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/uranium"
+        "c:uranium_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/uranium"
+    "tag": "c:uranium_coins"
   },
   "result": {
     "amount": 3000,

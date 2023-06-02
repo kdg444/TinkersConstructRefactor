@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/iron"
+        "c:iron_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/iron"
+    "tag": "c:iron_gears"
   },
   "result": {
     "amount": 36000,

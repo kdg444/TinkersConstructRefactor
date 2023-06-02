@@ -36,6 +36,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.client.model.RetexturedModel;
 import slimeknights.mantle.client.model.RetexturedModel.RetexturedConfiguration;
+import slimeknights.mantle.client.model.data.IModelData;
+import slimeknights.mantle.client.model.data.ModelDataMap;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
 import slimeknights.mantle.client.model.util.ColoredBlockModel;
 import slimeknights.mantle.client.model.util.ColoredBlockModel.ColorData;
@@ -182,7 +184,7 @@ public class FluidTextureModel implements IUnbakedGeometry<FluidTextureModel> {
 
     @Override
     public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, RenderContext context) {
-      if(blockView instanceof RenderAttachedBlockView renderAttachedBlockView && renderAttachedBlockView.getBlockEntityRenderAttachment(pos) instanceof SinglePropertyData<?> data) {
+      if(blockView instanceof RenderAttachedBlockView renderAttachedBlockView && renderAttachedBlockView.getBlockEntityRenderAttachment(pos) instanceof IModelData data) {
         FluidStack fluid = fluids.isEmpty() ? FluidStack.EMPTY : data.getData(IDisplayFluidListener.PROPERTY);
         if (fluid == null) {
         fluid = FluidStack.EMPTY;

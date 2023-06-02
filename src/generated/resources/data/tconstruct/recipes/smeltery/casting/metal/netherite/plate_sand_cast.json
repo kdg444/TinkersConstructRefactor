@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/netherite"
+        "c:netherite_plates"
       ]
     }
   ],
@@ -18,6 +18,6 @@
     "tag": "c:molten_netherite"
   },
   "result": {
-    "tag": "c:plates/netherite"
+    "tag": "c:netherite_plates"
   }
 }

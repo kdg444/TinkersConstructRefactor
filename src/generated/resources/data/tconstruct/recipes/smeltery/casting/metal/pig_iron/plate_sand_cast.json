@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:plates/pig_iron"
+        "c:pig_iron_plates"
       ]
     }
   ],
@@ -18,6 +18,6 @@
     "tag": "tconstruct:molten_pig_iron"
   },
   "result": {
-    "tag": "c:plates/pig_iron"
+    "tag": "c:pig_iron_plates"
   }
 }

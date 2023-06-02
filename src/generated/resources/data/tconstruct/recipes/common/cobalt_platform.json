@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "c:ingots/cobalt"
+      "tag": "c:cobalt_ingots"
     },
     ".": {
-      "tag": "c:nuggets/cobalt"
+      "tag": "c:cobalt_nuggets"
     }
   },
   "pattern": [

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/nickel"
+        "c:nickel_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/nickel"
+    "tag": "c:nickel_coins"
   },
   "result": {
     "amount": 3000,

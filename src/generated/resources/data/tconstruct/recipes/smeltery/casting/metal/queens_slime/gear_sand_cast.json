@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/queens_slime"
+        "c:queens_slime_gears"
       ]
     }
   ],
@@ -18,6 +18,6 @@
     "tag": "tconstruct:molten_queens_slime"
   },
   "result": {
-    "tag": "c:gears/queens_slime"
+    "tag": "c:queens_slime_gears"
   }
 }

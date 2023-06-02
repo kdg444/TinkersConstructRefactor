@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/uranium"
+        "c:uranium_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/uranium"
+    "tag": "c:uranium_gears"
   },
   "result": {
     "amount": 36000,

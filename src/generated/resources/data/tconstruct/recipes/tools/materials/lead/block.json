@@ -3,16 +3,16 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/lead"
+        "c:lead_blocks"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:storage_blocks/lead"
+    "tag": "c:lead_blocks"
   },
   "leftover": {
-    "tag": "c:ingots/lead"
+    "tag": "c:lead_ingots"
   },
   "material": "tconstruct:lead",
   "needed": 1,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/tin"
+        "c:tin_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/tin"
+    "tag": "c:tin_ingots"
   },
   "result": {
     "amount": 9000,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:ingots/signalum"
+        "c:signalum_ingots"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:ingots/signalum"
+    "tag": "c:signalum_ingots"
   },
   "result": {
     "amount": 9000,

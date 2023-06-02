@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/manyullyn"
+        "c:manyullyn_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/manyullyn"
+    "tag": "c:manyullyn_rods"
   },
   "result": {
     "amount": 4500,

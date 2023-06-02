@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/enderium"
+        "c:enderium_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/enderium"
+    "tag": "c:enderium_gears"
   },
   "result": {
     "amount": 36000,

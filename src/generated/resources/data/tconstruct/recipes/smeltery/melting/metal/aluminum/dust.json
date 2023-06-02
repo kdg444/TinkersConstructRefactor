@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/aluminum"
+        "c:aluminum_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/aluminum"
+    "tag": "c:aluminum_dusts"
   },
   "result": {
     "amount": 9000,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:gears/refined_glowstone"
+        "c:refined_glowstone_gears"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:gears/refined_glowstone"
+    "tag": "c:refined_glowstone_gears"
   },
   "result": {
     "amount": 36000,

@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/tungsten"
+        "c:tungsten_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/tungsten"
+    "tag": "c:tungsten_coins"
   },
   "result": {
     "amount": 3000,

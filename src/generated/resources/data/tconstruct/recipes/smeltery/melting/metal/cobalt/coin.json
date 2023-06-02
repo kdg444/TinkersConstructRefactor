@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/cobalt"
+        "c:cobalt_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/cobalt"
+    "tag": "c:cobalt_coins"
   },
   "result": {
     "amount": 3000,

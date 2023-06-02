@@ -3,7 +3,7 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/iron"
+        "c:iron_wires"
       ]
     }
   ],
@@ -18,6 +18,6 @@
     "tag": "c:molten_iron"
   },
   "result": {
-    "tag": "c:wires/iron"
+    "tag": "c:iron_wires"
   }
 }

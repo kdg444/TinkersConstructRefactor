@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:dusts/slimesteel"
+        "c:slimesteel_dusts"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:dusts/slimesteel"
+    "tag": "c:slimesteel_dusts"
   },
   "result": {
     "amount": 9000,

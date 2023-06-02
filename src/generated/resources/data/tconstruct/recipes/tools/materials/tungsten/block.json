@@ -3,16 +3,16 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:storage_blocks/tungsten"
+        "c:tungsten_blocks"
       ]
     }
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "c:storage_blocks/tungsten"
+    "tag": "c:tungsten_blocks"
   },
   "leftover": {
-    "tag": "c:ingots/tungsten"
+    "tag": "c:tungsten_ingots"
   },
   "material": "tconstruct:tungsten",
   "needed": 1,

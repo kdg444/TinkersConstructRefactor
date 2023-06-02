@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:rods/electrum"
+        "c:electrum_rods"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:rods/electrum"
+    "tag": "c:electrum_rods"
   },
   "result": {
     "amount": 4500,

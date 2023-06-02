@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:coins/electrum"
+        "c:electrum_coins"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:coins/electrum"
+    "tag": "c:electrum_coins"
   },
   "result": {
     "amount": 3000,

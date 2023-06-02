@@ -3,13 +3,13 @@
     {
       "condition": "fabric:tags_populated",
       "values": [
-        "c:wires/iron"
+        "c:iron_wires"
       ]
     }
   ],
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "c:wires/iron"
+    "tag": "c:iron_wires"
   },
   "result": {
     "amount": 4500,
