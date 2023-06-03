@@ -1,16 +1,12 @@
-name: 1.18 Issue Report
-description: Report an issue with the 1.18 alphas of Minecraft
-labels: [1.18, Bug, Unreviewed]
+name: 1.18.2 Issue Report
+description: Report an issue with the 1.18.2 beta of Minecraft
+labels: [1.18.2, Bug, Unreviewed]
 body:
   - type: markdown
     attributes:
       value: |
-        Please note that 1.18 versions of the mod are in alpha, so are subject to change. Before submitting an issue, please search the following links to make sure your issue is not covered:
-        
-        * **[Pinned Issues](/SlimeKnights/TinkersConstruct/issues)**: Some commonly reported issues are pinned
-        * **[Roadmap](/SlimeKnights/TinkersConstruct/wiki/Tinkers%27-Construct-3-Roadmap)**: Discusses unimplemented features and planned new changes
-        * **[What's New](/SlimeKnights/TinkersConstruct/wiki/New-in-Tinkers%27-Construct-3)**: Discusses many of the major changes in the 1.18 alphas
-        * **[FAQ](/SlimeKnights/TinkersConstruct/wiki/Tinkers%27-Construct-3-FAQ)**: Answers to many frequently asked questions about the 1.18 versions
+        Please note that 1.18.2 versions of the mod are in nearing end of support as we move to 1.19.4. Before submitting an issue, please search the following links to make sure your issue is not covered:
+    
         
         Please fill in the following template to report your issue.
         
@@ -28,26 +24,19 @@ body:
   - type: input
     id: fabric-version
     attributes:
-      label: Fabric/Quilt Version
-      placeholder: "Ex: 0.14.8"
+      label: Fabric Version
+      placeholder: "Ex: 0.83.0-1.19.4"
     validations:
       required: true
   - type: input
-    id: fabric-api-version
+    id: hephaestus-version
     attributes:
-      label: Fabric/Quilt API Version
-      placeholder: "Ex: 0.58.0-1.18.2"
-    validations:
-      required: true
-  - type: input
-    id: tinkers-version
-    attributes:
-      label: "Tinkers' Construct Version"
+      label: "Hephaestus Version"
       description: "'Latest' is not a valid answer, write an exact version number"
     validations:
       required: true
   
- 
+  
   - type: markdown
     attributes:
       value: "## Issue Description"
@@ -100,7 +89,6 @@ body:
       multiple: true
       options:
         - 'Sodium'
-        - 'Optifine'
         - 'Performant'
         - 'Other (specify under other mods)'
         - 'None of the above'

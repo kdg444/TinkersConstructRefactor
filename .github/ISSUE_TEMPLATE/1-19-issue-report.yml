@@ -1,15 +1,15 @@
-name: 1.16 Issue Report
-description: Report an issue with the 1.16 beta of Minecraft
-labels: [1.16, Bug, Unreviewed]
+name: 1.19 Issue Report
+description: Report an issue with the 1.19 alphas of Minecraft
+labels: [1.19, Bug, Unreviewed]
 body:
   - type: markdown
     attributes:
       value: |
-        Please note that 1.16 versions of the mod are in nearing end of support as we move to 1.18. Before submitting an issue, please search the following links to make sure your issue is not covered:
+        Please note that 1.19 versions of the mod are in alpha, so are subject to change. Before submitting an issue, please search the following links to make sure your issue is not covered:
         
-        * **[Roadmap](/SlimeKnights/TinkersConstruct/wiki/Tinkers%27-Construct-3-Roadmap)**: Discusses unimplemented features and planned new changes
-        * **[What's New](/SlimeKnights/TinkersConstruct/wiki/New-in-Tinkers%27-Construct-3)**: Discusses many of the major changes in the 1.16 versions
-        * **[FAQ](/SlimeKnights/TinkersConstruct/wiki/Tinkers%27-Construct-3-FAQ)**: Answers to many frequently asked questions about the 1.16 versions
+        If you are using Quilt please test with Fabric to see if the issue persists, if it does/doesn't please note that.
+        
+        * **[Pinned Issues](/Alpha-s-Stuff/TinkersConstruct/issues)**: Some commonly reported issues are pinned
         
         Please fill in the following template to report your issue.
         
@@ -21,31 +21,32 @@ body:
     id: minecraft-version
     attributes:
       label: Minecraft Version
-      value: 1.16.5
+      value: 1.19.4
     validations:
       required: true
   - type: input
-    id: forge-version
+    id: fabric-version
     attributes:
-      label: Forge Version
-      placeholder: "Ex: 36.1.0"
+      label: Fabric/Quilt Version
+      placeholder: "Ex: 0.14.8"
     validations:
       required: true
   - type: input
-    id: mantle-version
+    id: fabric-api-version
     attributes:
-      label: Mantle Version
+      label: Fabric/Quilt API Version
+      placeholder: "Ex: 0.83.0-1.19.4"
     validations:
       required: true
   - type: input
-    id: tinkers-version
+    id: hephaestus-version
     attributes:
-      label: "Tinkers' Construct Version"
+      label: "Hephaestus Version"
       description: "'Latest' is not a valid answer, write an exact version number"
     validations:
       required: true
   
-  
+ 
   - type: markdown
     attributes:
       value: "## Issue Description"
@@ -97,8 +98,7 @@ body:
       description: "Select all that you were using when you reproduced the issue. Ideally reproduce with fewer performance enhancers."
       multiple: true
       options:
-        - 'Magnesium'
-        - 'Optifine'
+        - 'Sodium'
         - 'Performant'
         - 'Other (specify under other mods)'
         - 'None of the above'
@@ -109,7 +109,7 @@ body:
     id: searched
     attributes:
       label: "Searched for known issues?"
-      description: "Select all that apply. Please check [pinned issues](/SlimeKnights/TinkersConstruct/issues), the [search bar](/SlimeKnights/TinkersConstruct/issues), and [the FAQ](/SlimeKnights/TinkersConstruct/wiki/Tinkers%27-Construct-3-FAQ) to see if your issue is covered."
+      description: "Select all that apply. Please check [pinned issues](/Alpha-s-Stuff/TinkersConstruct/issues), the [search bar](/Alpha-s-Stuff/TinkersConstruct/issues), and [the FAQ](/Alpha-s-Stuff/TinkersConstruct/wiki/Tinkers%27-Construct-3-FAQ) to see if your issue is covered."
       multiple: true
       options:
         - 'Checked pinned issues'

@@ -1,16 +1,12 @@
-name: 1.18 Enhancement
-description: Suggest a change to existing 1.18 features
-labels: [1.18, Enhancement, Unreviewed]
+name: 1.19 Enhancement
+description: Suggest a change to existing 1.19 features
+labels: [1.19, Enhancement, Unreviewed]
 body:
   - type: markdown
     attributes:
       value: |
         If your idea requires discussion or is complicated, [join our discord](https://discord.gg/mgaZt4GND5) instead of posting a new issue.
         Please search the following links to make sure your enhancement is not covered:
-        
-        * **[Roadmap](/SlimeKnights/TinkersConstruct/wiki/Tinkers%27-Construct-3-Roadmap)**: Discusses unimplemented features and planned new changes
-        * **[What's New](/SlimeKnights/TinkersConstruct/wiki/New-in-Tinkers%27-Construct-3)**: Discusses many of the major changes in the 1.18 alphas
-        * **[FAQ](/SlimeKnights/TinkersConstruct/wiki/Tinkers%27-Construct-3-FAQ)**: Answers to many frequently asked questions about the 1.18 versions
   
   - type: markdown
     attributes:
@@ -25,14 +21,14 @@ body:
     id: minecraft-version
     attributes:
       label: Minecraft Version
-      value: 1.18.1
+      value: 1.19.4
     validations:
       required: true
   - type: input
-    id: forge-version
+    id: fabric-version
     attributes:
-      label: Forge Version
-      placeholder: "Ex: 36.1.0"
+      label: Fabric Version
+      placeholder: "Ex: 0.83.0-1.19.4"
     validations:
       required: true
   - type: input
@@ -42,9 +38,9 @@ body:
     validations:
       required: true
   - type: input
-    id: tinkers-version
+    id: hephaestus-version
     attributes:
-      label: "Tinkers' Construct Version"
+      label: "Hephaestus Version"
       description: "'Latest' is not a valid answer, write an exact version number"
     validations:
       required: true
