@@ -1,4 +1,4 @@
-// 1.19.4	2023-06-01T17:49:00.848931422	Hephaestus/Tinkers' Construct Common Recipes
+// 1.19.4	2023-06-03T14:49:38.209319285	Hephaestus/Tinkers' Construct Common Recipes
 ca4f7fb9784caea5e40a3e77ab9e2eb65917ebc2 data/tconstruct/advancements/recipes/building_blocks/common/mud_bricks_stairs.json
 2b462dc6120f22f2d47cf476ec2b877253de5751 data/tconstruct/recipes/common/glass/clear_glass_pane.json
 576bb718e5e250027d459965174ed1f00f75a3d5 data/tconstruct/advancements/recipes/misc/common/glass/yellow_clear_stained_glass.json
@@ -48,8 +48,8 @@ fec4997a1ba8fa02503db647456dd6a4df84d1f7 data/tconstruct/advancements/recipes/mi
 e4540e6b8998701d9393d57aba3623cc08e90de7 data/tconstruct/recipes/common/glass/cyan_clear_stained_glass.json
 e0a2f97b7abb88d3cb2de458cb14c7ff62872422 data/tconstruct/advancements/recipes/misc/common/copper_platform_waxing_unaffected.json
 5327af51fd2f5bee18f96513f9df152a57bba0e5 data/tconstruct/recipes/common/firewood/blazewood_stairs.json
-13b952cc20861542d290b053c14ab7c9f85bd302 data/tconstruct/advancements/recipes/building_blocks/common/firewood/nahuatl_stairs.json
 50ba14a2cf3501e11cee36d582382dfe083f4b98 data/tconstruct/recipes/common/firewood/nahuatl_slab.json
+13b952cc20861542d290b053c14ab7c9f85bd302 data/tconstruct/advancements/recipes/building_blocks/common/firewood/nahuatl_stairs.json
 822e848858e8a3f2de8f89d98535b9ab0a69fcba data/tconstruct/advancements/recipes/misc/common/glass/magenta_clear_stained_glass_pane.json
 2baf6b6383eb5f8a39244ff85fe7da1421ed880b data/tconstruct/advancements/recipes/misc/common/glass/gray_clear_stained_glass.json
 5575ba0eb8a27ac5be9fab2e7ca76deca0c47016 data/tconstruct/recipes/common/glass/light_blue_clear_stained_glass_pane_from_panes.json

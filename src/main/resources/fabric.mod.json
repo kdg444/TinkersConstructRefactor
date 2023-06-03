@@ -44,8 +44,8 @@
   "accessWidener": "tinkers.accesswidener",
   "depends": {
     "fabricloader": ">=0.12.12",
-    "fabric": ">=0.44.0",
-    "minecraft": ">=1.18.1"
+    "fabric": ">=0.83.0",
+    "minecraft": ">=1.19.4"
   },
   "custom": {
     "cardinal-components": [

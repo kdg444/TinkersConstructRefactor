@@ -1,4 +1,4 @@
-// 1.19.4	2023-06-01T17:49:00.851072734	Hephaestus/Tinkers' Construct Advancements
+// 1.19.4	2023-06-03T14:49:38.212762008	Hephaestus/Tinkers' Construct Advancements
 f952d1ac2ffbf8f9a0daa1244dd35c4f30f4d92c data/tconstruct/advancements/tools/modified.json
 32d3d0d667fab91359d65190d4172bfa59592932 data/tconstruct/advancements/world/slime_collector.json
 d10f196bfd527ac34350b3fd8084522ce39911dd data/tconstruct/advancements/tools/make_part.json
@@ -35,5 +35,6 @@ e75ddbc383965cfe061d3df6b7126d9eab147c47 data/tconstruct/advancements/world/pigg
 014f7528c911cfeec9931ba42a3d664acb8d0e38 data/tconstruct/advancements/smeltery/puny_smelting.json
 7f857fe323f3999a95de321c635e09902e04d5ca data/tconstruct/advancements/smeltery/cast_collector.json
 2566ac88773aa3e47963265f870f7e995595942b data/tconstruct/advancements/tools/part_builder.json
+7317b79e6ce59840eab1fa2720a727b066c7ca23 data/tconstruct/advancements/internal/starting_book.json
 ca97bb37db31d5d6b649233c0b177da166927b68 data/tconstruct/advancements/smeltery/gold_casting.json
 27d45c075671aba57e58aa292369bb5b5099cc8c data/tconstruct/advancements/smeltery/tool_forge.json

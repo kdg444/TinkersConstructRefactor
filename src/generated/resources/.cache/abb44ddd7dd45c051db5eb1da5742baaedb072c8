@@ -1,4 +1,4 @@
-// 1.19.4	2023-06-01T17:49:00.850163593	Hephaestus/Tinker's Construct Materials
+// 1.19.4	2023-06-03T14:49:38.211531893	Hephaestus/Tinker's Construct Materials
 a2262615c3751ebf19e4497e57dfbf72d55346f4 data/tconstruct/tinkering/materials/definition/nahuatl.json
 739ce71952fcf92cf599878097cbdb71b3700d76 data/tconstruct/tinkering/materials/definition/tungsten.json
 a50afbef5530a7c59ea68aeedb5ee2bc01828e36 data/tconstruct/tinkering/materials/definition/bamboo.json
@@ -15,16 +15,16 @@ c4c94c554928a1d4243fc3276c360c79024bd832 data/tconstruct/tinkering/materials/def
 6e6c7631bb2e2bc41a436f150ba9f69bd7fd43ea data/tconstruct/tinkering/materials/definition/aluminum.json
 fc5c19f5bffa7253e49a33977dd900bf3741a358 data/tconstruct/tinkering/materials/definition/zinc.json
 1248265f6dad752fc95053cb88879ac3d65a76fb data/tconstruct/tinkering/materials/definition/stone.json
-daa48460d61b64ff3a9d132c8cfccd9d2d77c91e data/tconstruct/tinkering/materials/definition/scorched_stone.json
 f117cde752925de023f4ecb60a1e852f44f3ed0c data/tconstruct/tinkering/materials/definition/string.json
 dc0dbf9438d522393f63ce999a2a66dbc5ff5ac8 data/tconstruct/tinkering/materials/definition/rock.json
+daa48460d61b64ff3a9d132c8cfccd9d2d77c91e data/tconstruct/tinkering/materials/definition/scorched_stone.json
 73b4e35af8e36c3d3523ea7a58bfe15a49ae8439 data/tconstruct/tinkering/materials/definition/rabbit.json
 f7f2cf4c4e88325c367bd2bd45416acd3272a82b data/tconstruct/tinkering/materials/definition/queens_slime.json
 c3b762bca5a54116d232b1d182fab3c108acc318 data/tconstruct/tinkering/materials/definition/blood.json
 be5c179bf444dbd7bfcb4e5fc61429a8ce8bc16b data/tconstruct/tinkering/materials/definition/plated_slimewood.json
 4256bb0b95f17ee571df98dcba883e3d61ccdd33 data/tconstruct/tinkering/materials/definition/clay.json
-0fafd2d7f5ec0ab3757a0d373012975cde23e516 data/tconstruct/tinkering/materials/definition/constantan.json
 85fd54f9862e1ae9289a7c15cdcd378ad0403e58 data/tconstruct/tinkering/materials/definition/venom.json
+0fafd2d7f5ec0ab3757a0d373012975cde23e516 data/tconstruct/tinkering/materials/definition/constantan.json
 70ac6501f8176e703cbc26ae3a7c8e6660293e90 data/tconstruct/tinkering/materials/definition/hepatizon.json
 f117cde752925de023f4ecb60a1e852f44f3ed0c data/tconstruct/tinkering/materials/definition/vine.json
 77c75017983e87b3a2760f8ef7de6b32671f0799 data/tconstruct/tinkering/materials/definition/osmium.json
@@ -58,8 +58,8 @@ e979ca843f41cf1d9e999b7b60b529269db78fd2 data/tconstruct/tinkering/materials/def
 264dfe7506a7463f051dbe4c3a3694ada1e857c9 data/tconstruct/tinkering/materials/definition/pig_iron.json
 00308f4abee01af48615cedd30ba2b40c207a7f9 data/tconstruct/tinkering/materials/definition/brass.json
 27e0a11d97345435ceb1052916a808ec71267118 data/tconstruct/tinkering/materials/definition/amethyst_bronze.json
-f088f5bfeb20306b1f114ae74ce0fa05ecc37045 data/tconstruct/tinkering/materials/definition/tinkers_bronze.json
 68f776d8b4c3c0633d0942bebc1f6624a65e4659 data/tconstruct/tinkering/materials/definition/seared_stone.json
+f088f5bfeb20306b1f114ae74ce0fa05ecc37045 data/tconstruct/tinkering/materials/definition/tinkers_bronze.json
 b9c8ed66b1fe8adb95e5158ef487777a536b0784 data/tconstruct/tinkering/materials/definition/flint.json
 c5f5a30e3702c6ecae99b869e698765335440feb data/tconstruct/tinkering/materials/definition/steel.json
 d5151797ca1a7ec89b61f194c69c3830ff7b5a17 data/tconstruct/tinkering/materials/definition/platinum.json

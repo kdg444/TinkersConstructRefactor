@@ -1,0 +1,24 @@
+{
+  "rewards": {
+    "loot": [
+      "tconstruct:gameplay/starting_book"
+    ]
+  },
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick",
+      "conditions": {}
+    }
+  },
+  "requirements": [
+    [
+      "tick"
+    ]
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "tconstruct:config",
+      "prop": "spawn_with_book"
+    }
+  ]
+}

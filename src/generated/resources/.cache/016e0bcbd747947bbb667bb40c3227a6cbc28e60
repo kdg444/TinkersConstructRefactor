@@ -1,4 +1,4 @@
-// 1.19.4	2023-06-01T17:49:00.847855991	Hephaestus/Tinkers' Construct Modifiers
+// 1.19.4	2023-06-03T14:49:38.207510802	Hephaestus/Tinkers' Construct Modifiers
 3a1b08cf52a4469f4978e47bc37b7673e32da19b data/tconstruct/tinkering/modifiers/swiftstrike.json
 71b8354471391fe41e85d2d31e5e1a4eed3262b3 data/tconstruct/tinkering/modifiers/piglin_disguise.json
 32bd9a54ab2856cc777edb048fb8f43e99afe864 data/tconstruct/tinkering/modifiers/shovel_flatten.json
@@ -30,18 +30,18 @@ ecbf03b569938f8fb683431ccceadd3f72cdf622 data/tconstruct/tinkering/modifiers/bla
 81e4b54068388ccbf3a338e2e8fec0e3fd56dafa data/tconstruct/tinkering/modifiers/revitalizing.json
 dc15a66ec3c0ed7924655d79ae1581d6d74f8a17 data/tconstruct/tinkering/modifiers/maintained_2.json
 71598b65808827f65720a8a9d62718bd377b43b4 data/tconstruct/tinkering/modifiers/looting.json
-8840b73fce388482adf6c11c419b6b3601918a5f data/tconstruct/tinkering/modifiers/enhanced.json
 c7aeb2df692e75ee2ada625737d50b641b63fd3d data/tconstruct/tinkering/modifiers/knockback_armor.json
+8840b73fce388482adf6c11c419b6b3601918a5f data/tconstruct/tinkering/modifiers/enhanced.json
 8db2309662e9be4dfaa1ccaa8417a0acf7f69eea data/tconstruct/tinkering/modifiers/stringy.json
 5b82cfc8166bdcccc6604b65dd604d19b6175b16 data/tconstruct/tinkering/modifiers/resurrected.json
 cc61e4f7c3566cd7d8b9bd9db3701d6126e45aca data/tconstruct/tinkering/modifiers/zombified_piglin_disguise.json
 85f9b18a52eb43fe141c4ca94e14240b424c7706 data/tconstruct/tinkering/modifiers/firestarter_hidden.json
 504de53a0c524b689e2275cd11e65603be645927 data/tconstruct/tinkering/modifiers/shiny.json
-5b82cfc8166bdcccc6604b65dd604d19b6175b16 data/tconstruct/tinkering/modifiers/writable.json
 5b82cfc8166bdcccc6604b65dd604d19b6175b16 data/tconstruct/tinkering/modifiers/recapitated.json
+5b82cfc8166bdcccc6604b65dd604d19b6175b16 data/tconstruct/tinkering/modifiers/writable.json
 1e9edd11b305a08634536ca407607efd21a9cbbf data/tconstruct/tinkering/modifiers/silky.json
-c1817b2ed52a9ba15f59b66b6bc8cfdc77b804e7 data/tconstruct/tinkering/modifiers/sturdy.json
 7b9ba8847632735ad91194916c342e38bfe96d67 data/tconstruct/tinkering/modifiers/spider_disguise.json
+c1817b2ed52a9ba15f59b66b6bc8cfdc77b804e7 data/tconstruct/tinkering/modifiers/sturdy.json
 eb9e3873795b570bf01cb7470f4df5bb52492611 data/tconstruct/tinkering/modifiers/overslime_friend.json
 d295d3d74d3d8bdc55ddc3744d212fffbb7efff6 data/tconstruct/tinkering/modifiers/diamond.json
 4637e9ec59f0b8cc5b68463654cac8fdddcc2f2e data/tconstruct/tinkering/modifiers/reach.json

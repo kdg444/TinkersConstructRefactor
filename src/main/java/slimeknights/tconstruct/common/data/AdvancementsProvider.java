@@ -75,6 +75,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class AdvancementsProvider extends GenericDataProvider {
@@ -82,7 +83,7 @@ public class AdvancementsProvider extends GenericDataProvider {
   /** Advancment consumer instance */
   protected Consumer<Advancement> advancementConsumer;
   /** Advancment consumer instance */
-//  protected BiConsumer<ResourceLocation, ConditionalAdvancement.Builder> conditionalConsumer;
+  protected BiConsumer<Advancement, ConditionJsonProvider> conditionalConsumer;
 
   public AdvancementsProvider(FabricDataOutput output) {
     super(output, "advancements");
@@ -414,13 +415,15 @@ public class AdvancementsProvider extends GenericDataProvider {
         futures.add(saveThing(cache, advancement.getId(), advancement.deconstruct().serializeToJson()));
       }
     };
-//    this.conditionalConsumer = (id, advancement) -> {
-//      if (!set.add(id)) {
-//        throw new IllegalStateException("Duplicate advancement " + id);
-//      } else {
-//        saveThing(cache, id, advancement.write());
-//      }
-//    };
+    this.conditionalConsumer = (advancement, condition) -> {
+      if (!set.add(advancement.getId())) {
+        throw new IllegalStateException("Duplicate advancement " + advancement.getId());
+      } else {
+        JsonObject jsonObject = advancement.deconstruct().serializeToJson();
+        ConditionJsonProvider.write(jsonObject, condition);
+        futures.add(saveThing(cache, advancement.getId(), jsonObject));
+      }
+    };
     generate();
     return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
@@ -502,10 +505,6 @@ public class AdvancementsProvider extends GenericDataProvider {
   protected void hiddenBuilder(ResourceLocation name, ConditionJsonProvider condition, Consumer<Advancement.Builder> consumer) {
     Advancement.Builder builder = Advancement.Builder.advancement();
     consumer.accept(builder);
-//    ConditionalAdvancement.Builder conditionalBuilder = new ConditionalAdvancement.Builder();
-//    conditionalBuilder.addCondition(condition);
-//    conditionalBuilder.addAdvancement(builder);
-//    conditionalBuilder.write();
-//    conditionalConsumer.accept(name, conditionalBuilder);
+    builder.save(advancement -> conditionalConsumer.accept(advancement, condition), name.toString());
   }
 }
