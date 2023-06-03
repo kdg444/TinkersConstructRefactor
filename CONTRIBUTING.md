@@ -24,10 +24,10 @@ We do not take suggestions on the tracker. Ideas may be considered in the overal
 
 Please also read the [Frequently Asked Questions](https://github.com/SlimeKnights/TinkersConstruct/wiki/FAQ) on the wiki, as it covers many common suggestions.
 
-If you want a better place to discuss ideas, consider joining [the SlimeKnights Discord](https://discord.gg/njGrvuh). We typically do not implement suggestions, but someone may like the idea enough to implement it in an addon or its own mod.
+If you want a better place to discuss ideas, consider joining [the SlimeKnights Discord](https://discord.gg/mgaZt4GND5). We typically do not implement suggestions, but someone may like the idea enough to implement it in an addon or its own mod.
 
 # Pull requests
 
-Always talk to the developers first before working on pull requests, such as on [the SlimeKnights Discord](https://discord.gg/njGrvuh). Pull requests will only be accepted if they contribute something meaningful and do not hinder maintainability. Furthermore pull requests must be tested and ensure to not break anything.
+Always talk to the developers first before working on pull requests, such as on [the SlimeKnights Discord](https://discord.gg/mgaZt4GND5). Pull requests will only be accepted if they contribute something meaningful and do not hinder maintainability. Furthermore pull requests must be tested and ensure to not break anything.
 
 An exception to this rule is translation pull requests, which we generally allow without previous discussion. Please do not translate using an automatic translator such as Google Translate as those translations tend to be filled with errors or use the wrong context.
