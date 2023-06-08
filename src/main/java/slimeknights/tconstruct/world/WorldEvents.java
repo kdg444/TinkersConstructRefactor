@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.world;
 
 import com.google.common.collect.Lists;
+import io.github.fabricators_of_create.porting_lib.config.ConfigEvents;
+import io.github.fabricators_of_create.porting_lib.config.ConfigType;
 import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import me.alphamode.forgetags.Tags;
@@ -38,6 +40,7 @@ import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import slimeknights.mantle.loot.function.SetFluidLootFunction;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.json.AddToolDataFunction;
@@ -52,6 +55,7 @@ import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 @SuppressWarnings("unused")
@@ -60,7 +64,10 @@ public class WorldEvents {
     LootTableEvents.MODIFY.register(WorldEvents::onLootTableLoad);
     LivingEntityEvents.VISIBILITY.register(WorldEvents::livingVisibility);
     LivingEntityEvents.DROPS.register(WorldEvents::creeperKill);
-    onBiomeLoad();
+    ConfigEvents.LOADING.register(config -> {
+      if (config.getModId().equals(TConstruct.MOD_ID) && config.getType() == ConfigType.COMMON)
+        onBiomeLoad();
+    });
   }
 
   static void onBiomeLoad() {

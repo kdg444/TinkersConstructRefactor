@@ -1,14 +1,14 @@
 package slimeknights.tconstruct.common.config;
 
 import com.google.common.collect.ImmutableList;
-import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
-import net.minecraftforge.common.ForgeConfigSpec.EnumValue;
-import net.minecraftforge.common.ForgeConfigSpec.IntValue;
-import net.minecraftforge.fml.config.ModConfig;
+import io.github.fabricators_of_create.porting_lib.config.ConfigRegistry;
+import io.github.fabricators_of_create.porting_lib.config.ConfigType;
+import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec;
+import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec.BooleanValue;
+import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec.ConfigValue;
+import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec.DoubleValue;
+import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec.EnumValue;
+import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec.IntValue;
 import org.apache.commons.lang3.tuple.Pair;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.IOreRate;
@@ -70,7 +70,7 @@ public class Config {
     public final EnumValue<LogInvalidToolStack> logInvalidToolStack;
     public enum LogInvalidToolStack { STACKTRACE, WARNING, IGNORED };
 
-    Common(ForgeConfigSpec.Builder builder) {
+    Common(ModConfigSpec.Builder builder) {
       builder.comment("Everything to do with gameplay").push("gameplay");
 
       this.shouldSpawnWithTinkersBook = builder
@@ -272,26 +272,26 @@ public class Config {
    * Client specific configuration - only loaded clientside from tconstruct-client.toml
    */
   public static class Client {
-    //public final ForgeConfigSpec.BooleanValue temperatureInCelsius;
-    public final ForgeConfigSpec.BooleanValue tankFluidModel;
-    public final ForgeConfigSpec.BooleanValue extraToolTips;
-    public final ForgeConfigSpec.BooleanValue logMissingMaterialTextures;
-    public final ForgeConfigSpec.BooleanValue logMissingModifierTextures;
-    public final ForgeConfigSpec.BooleanValue showModifiersInJEI;
-    public final ForgeConfigSpec.BooleanValue renderShieldSlotItem;
-    public final ForgeConfigSpec.IntValue maxSmelteryItemQuads;
+    //public final ModConfigSpec.BooleanValue temperatureInCelsius;
+    public final ModConfigSpec.BooleanValue tankFluidModel;
+    public final ModConfigSpec.BooleanValue extraToolTips;
+    public final ModConfigSpec.BooleanValue logMissingMaterialTextures;
+    public final ModConfigSpec.BooleanValue logMissingModifierTextures;
+    public final ModConfigSpec.BooleanValue showModifiersInJEI;
+    public final ModConfigSpec.BooleanValue renderShieldSlotItem;
+    public final ModConfigSpec.IntValue maxSmelteryItemQuads;
 
     // framed modifier
-    public final ForgeConfigSpec.BooleanValue renderItemFrame;
-    public final ForgeConfigSpec.IntValue itemFrameXOffset;
-    public final ForgeConfigSpec.IntValue itemFrameYOffset;
-    public final ForgeConfigSpec.EnumValue<Orientation2D> itemFrameLocation;
-    public final ForgeConfigSpec.IntValue itemsPerRow;
+    public final ModConfigSpec.BooleanValue renderItemFrame;
+    public final ModConfigSpec.IntValue itemFrameXOffset;
+    public final ModConfigSpec.IntValue itemFrameYOffset;
+    public final ModConfigSpec.EnumValue<Orientation2D> itemFrameLocation;
+    public final ModConfigSpec.IntValue itemsPerRow;
 
     // compat
-    public final ForgeConfigSpec.BooleanValue inventoryTabsCompat;
+    public final ModConfigSpec.BooleanValue inventoryTabsCompat;
 
-    Client(ForgeConfigSpec.Builder builder) {
+    Client(ModConfigSpec.Builder builder) {
       builder.comment("Client only settings").push("client");
 
 //      this.temperatureInCelsius = builder
@@ -373,28 +373,28 @@ public class Config {
     }
   }
 
-  public static final ForgeConfigSpec clientSpec;
+  public static final ModConfigSpec clientSpec;
   public static final Client CLIENT;
 
   static {
-    final Pair<Client, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Client::new);
+    final Pair<Client, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Client::new);
     clientSpec = specPair.getRight();
     CLIENT = specPair.getLeft();
   }
 
-  public static final ForgeConfigSpec commonSpec;
+  public static final ModConfigSpec commonSpec;
   public static final Common COMMON;
 
   static {
-    final Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Common::new);
+    final Pair<Common, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Common::new);
     commonSpec = specPair.getRight();
     COMMON = specPair.getLeft();
   }
 
   /** Registers any relevant listeners for config */
   public static void init() {
-    ForgeConfigRegistry.INSTANCE.register(TConstruct.MOD_ID, ModConfig.Type.COMMON, Config.commonSpec);
-    ForgeConfigRegistry.INSTANCE.register(TConstruct.MOD_ID, ModConfig.Type.CLIENT, Config.clientSpec);
+    ConfigRegistry.registerConfig(TConstruct.MOD_ID, ConfigType.COMMON, Config.commonSpec);
+    ConfigRegistry.registerConfig(TConstruct.MOD_ID, ConfigType.CLIENT, Config.clientSpec);
   }
 
   /** Configuration for an ore rate, such as melter or foundry */
@@ -402,7 +402,7 @@ public class Config {
     private final ConfigValue<Integer> nuggetsPerMetal;
     private final ConfigValue<Integer> shardsPerGem;
 
-    public OreRate(ForgeConfigSpec.Builder builder, int defaultNuggets, int defaultQuarters) {
+    public OreRate(ModConfigSpec.Builder builder, int defaultNuggets, int defaultQuarters) {
       nuggetsPerMetal = builder
         .comment("Number of nuggets produced per metal ore unit melted. 9 nuggets would give 1 ingot")
         .defineInRange("nuggetsPerMetal", defaultNuggets, 1, 45);
