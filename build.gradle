@@ -16,7 +16,6 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" } // Forge Config API Port
     maven { url = "https://libraries.minecraft.net/" }
