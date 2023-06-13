@@ -5,9 +5,12 @@
   "slots": {
     "defense": 1
   },
-  "tools": [
-    {
-      "tag": "tconstruct:modifiable/armor/worn"
-    }
-  ]
+  "tools": {
+    "fabric:type": "fabric:any",
+    "ingredients": [
+      {
+        "tag": "tconstruct:modifiable/armor/worn"
+      }
+    ]
+  }
 }

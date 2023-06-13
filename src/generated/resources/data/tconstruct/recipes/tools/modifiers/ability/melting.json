@@ -36,12 +36,15 @@
   "slots": {
     "abilities": 1
   },
-  "tools": [
-    {
-      "tag": "tconstruct:modifiable/melee_or_unarmed"
-    },
-    {
-      "tag": "tconstruct:modifiable/harvest"
-    }
-  ]
+  "tools": {
+    "fabric:type": "fabric:any",
+    "ingredients": [
+      {
+        "tag": "tconstruct:modifiable/melee_or_unarmed"
+      },
+      {
+        "tag": "tconstruct:modifiable/harvest"
+      }
+    ]
+  }
 }

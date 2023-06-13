@@ -19,55 +19,100 @@
     "seared_melter": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:seared_melter"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:seared_melter"
+          }
+        ]
       }
     },
     "seared_table": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:seared_table"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:seared_table"
+          }
+        ]
       }
     },
     "seared_basin": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:seared_basin"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:seared_basin"
+          }
+        ]
       }
     },
     "seared_faucet": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:seared_faucet"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:seared_faucet"
+          }
+        ]
       }
     },
     "seared_heater": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:seared_heater"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:seared_heater"
+          }
+        ]
       }
     },
     "seared_fuel_tank": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:seared_fuel_tank"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:seared_fuel_tank"
+          }
+        ]
       }
     },
     "seared_fuel_gauge": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:seared_fuel_gauge"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:seared_fuel_gauge"
+          }
+        ]
       }
     },
     "seared_ingot_tank": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:seared_ingot_tank"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:seared_ingot_tank"
+          }
+        ]
       }
     },
     "seared_ingot_gauge": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:seared_ingot_gauge"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:seared_ingot_gauge"
+          }
+        ]
       }
     }
   },
@@ -91,5 +136,6 @@
       "seared_ingot_tank",
       "seared_ingot_gauge"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

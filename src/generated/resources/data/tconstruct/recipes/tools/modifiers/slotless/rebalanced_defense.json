@@ -36,12 +36,15 @@
     "name": "tconstruct:rebalanced",
     "value": "defense"
   },
-  "tools": [
-    {
-      "tag": "tconstruct:modifiable/armor"
-    },
-    {
-      "tag": "tconstruct:modifiable/held"
-    }
-  ]
+  "tools": {
+    "fabric:type": "fabric:any",
+    "ingredients": [
+      {
+        "tag": "tconstruct:modifiable/armor"
+      },
+      {
+        "tag": "tconstruct:modifiable/held"
+      }
+    ]
+  }
 }

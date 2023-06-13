@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:common/slime/sky/congealed"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

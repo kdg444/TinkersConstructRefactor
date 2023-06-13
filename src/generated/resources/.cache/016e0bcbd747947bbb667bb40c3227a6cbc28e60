@@ -1,4 +1,4 @@
-// 1.19.4	2023-06-03T14:49:38.207510802	Hephaestus/Tinkers' Construct Modifiers
+// 1.20	2023-06-13T14:41:52.723598621	Hephaestus/Tinkers' Construct Modifiers
 3a1b08cf52a4469f4978e47bc37b7673e32da19b data/tconstruct/tinkering/modifiers/swiftstrike.json
 71b8354471391fe41e85d2d31e5e1a4eed3262b3 data/tconstruct/tinkering/modifiers/piglin_disguise.json
 32bd9a54ab2856cc777edb048fb8f43e99afe864 data/tconstruct/tinkering/modifiers/shovel_flatten.json
@@ -11,8 +11,8 @@ fa08afc1c267d6350d6f4e0d037d03a1427d647a data/tconstruct/tinkering/modifiers/bli
 5dc4b93da618fd83df1aeae8350fad2d1951ad3d data/tconstruct/tinkering/modifiers/golden.json
 bd3a6e891424d3c6883782ef262090bf35ea1200 data/tconstruct/tinkering/modifiers/armor_power.json
 8db2309662e9be4dfaa1ccaa8417a0acf7f69eea data/tconstruct/tinkering/modifiers/lustrous.json
-354f91192cca441427a8bfb1c5a0a07483c8cf64 data/tconstruct/tinkering/modifiers/sticky.json
 e125fdfbefa2fd5231a2a8d4f3c3257858168249 data/tconstruct/tinkering/modifiers/husk_disguise.json
+354f91192cca441427a8bfb1c5a0a07483c8cf64 data/tconstruct/tinkering/modifiers/sticky.json
 c090400acd35c0fecd696c0b00ec92af14c34663 data/tconstruct/tinkering/modifiers/enderman_disguise.json
 5d12b1eeeb0aec34af7151e5da1c82c682b593f3 data/tconstruct/tinkering/modifiers/drowned_disguise.json
 7dce72e4298d2d5c5903672d5addf7c548d2cbbc data/tconstruct/tinkering/modifiers/cave_spider_disguise.json
@@ -44,7 +44,7 @@ cc61e4f7c3566cd7d8b9bd9db3701d6126e45aca data/tconstruct/tinkering/modifiers/zom
 c1817b2ed52a9ba15f59b66b6bc8cfdc77b804e7 data/tconstruct/tinkering/modifiers/sturdy.json
 eb9e3873795b570bf01cb7470f4df5bb52492611 data/tconstruct/tinkering/modifiers/overslime_friend.json
 d295d3d74d3d8bdc55ddc3744d212fffbb7efff6 data/tconstruct/tinkering/modifiers/diamond.json
-4637e9ec59f0b8cc5b68463654cac8fdddcc2f2e data/tconstruct/tinkering/modifiers/reach.json
+1a7be9c2048e61bfaebccfb91def3e52b2cda97b data/tconstruct/tinkering/modifiers/reach.json
 023ad5b3534277f7fea1fc216d3173f24491f847 data/tconstruct/tinkering/modifiers/netherite.json
 5b82cfc8166bdcccc6604b65dd604d19b6175b16 data/tconstruct/tinkering/modifiers/harmonious.json
 7b5c43697a2af2703b545419a249cc187d173b41 data/tconstruct/tinkering/modifiers/wither_skeleton_disguise.json

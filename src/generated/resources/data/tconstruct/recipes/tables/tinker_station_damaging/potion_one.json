@@ -2,9 +2,13 @@
   "type": "tconstruct:tinker_station_damaging",
   "damage_amount": 25,
   "ingredient": {
-    "type": "forge:nbt",
-    "count": 1,
-    "item": "minecraft:potion",
-    "nbt": "{Potion:\"minecraft:harming\"}"
+    "fabric:type": "fabric:nbt",
+    "base": {
+      "item": "minecraft:potion"
+    },
+    "nbt": {
+      "Potion": "minecraft:harming"
+    },
+    "strict": true
   }
 }

@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:armor/building/plate_helmet"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

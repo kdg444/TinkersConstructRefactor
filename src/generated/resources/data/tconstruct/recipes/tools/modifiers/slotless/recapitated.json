@@ -3,7 +3,7 @@
   "allow_crystal": true,
   "inputs": [
     {
-      "type": "forge:difference",
+      "fabric:type": "fabric:difference",
       "base": {
         "tag": "c:heads"
       },

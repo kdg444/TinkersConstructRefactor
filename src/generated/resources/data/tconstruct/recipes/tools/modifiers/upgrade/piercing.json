@@ -14,12 +14,15 @@
   "slots": {
     "upgrades": 1
   },
-  "tools": [
-    {
-      "tag": "tconstruct:modifiable/melee"
-    },
-    {
-      "tag": "tconstruct:modifiable/ranged/bows"
-    }
-  ]
+  "tools": {
+    "fabric:type": "fabric:any",
+    "ingredients": [
+      {
+        "tag": "tconstruct:modifiable/melee"
+      },
+      {
+        "tag": "tconstruct:modifiable/ranged/bows"
+      }
+    ]
+  }
 }

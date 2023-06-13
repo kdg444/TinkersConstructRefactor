@@ -288,5 +288,6 @@
     [
       "bow_grip"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

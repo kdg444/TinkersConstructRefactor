@@ -5,12 +5,15 @@
   "slots": {
     "abilities": 1
   },
-  "tools": [
-    {
-      "tag": "tconstruct:modifiable/armor/helmets"
-    },
-    {
-      "tag": "tconstruct:modifiable/staffs"
-    }
-  ]
+  "tools": {
+    "fabric:type": "fabric:any",
+    "ingredients": [
+      {
+        "tag": "tconstruct:modifiable/armor/helmets"
+      },
+      {
+        "tag": "tconstruct:modifiable/staffs"
+      }
+    ]
+  }
 }

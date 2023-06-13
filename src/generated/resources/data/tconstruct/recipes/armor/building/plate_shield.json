@@ -6,10 +6,10 @@
       "tag": "c:cobalt_ingots"
     },
     "w": {
-      "type": "forge:difference",
+      "fabric:type": "fabric:difference",
       "base": {
-        "type": "forge:intersection",
-        "children": [
+        "fabric:type": "fabric:all",
+        "ingredients": [
           {
             "tag": "minecraft:planks"
           },

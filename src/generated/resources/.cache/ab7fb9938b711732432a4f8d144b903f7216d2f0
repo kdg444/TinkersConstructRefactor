@@ -1,4 +1,4 @@
-// 1.19.4	2023-06-03T14:49:38.20571437	Hephaestus/Tinker's Construct Material Traits
+// 1.20	2023-06-13T14:41:52.721975367	Hephaestus/Tinker's Construct Material Traits
 9a76409be7bd824d7e41fa36374e1ebca1c4452e data/tconstruct/tinkering/materials/traits/necrotic_bone.json
 1b4677a8f0dd450270ed33a979519e458d3d0ad6 data/tconstruct/tinkering/materials/traits/necronium.json
 2353128d7f048fe243ea7fb76997714f6724e5e2 data/tconstruct/tinkering/materials/traits/rotten_flesh.json
@@ -28,8 +28,8 @@ db5b5e9b683b9731259004f780e3359dabe89a58 data/tconstruct/tinkering/materials/tra
 7bdeefc5c85555f6507900d2e77ff7d8ade7b0ba data/tconstruct/tinkering/materials/traits/wood.json
 bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/tconstruct/tinkering/materials/traits/tin.json
 bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/tconstruct/tinkering/materials/traits/skyslime.json
-0877fba719bd23073fd4097ea8d4a646a2af35e8 data/tconstruct/tinkering/materials/traits/scorched_stone.json
 6659cacbf17ad66e32bccade25fa767a808b1468 data/tconstruct/tinkering/materials/traits/constantan.json
+0877fba719bd23073fd4097ea8d4a646a2af35e8 data/tconstruct/tinkering/materials/traits/scorched_stone.json
 bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/tconstruct/tinkering/materials/traits/clay.json
 9f88ac911d8267994c90111c05656d9953394d15 data/tconstruct/tinkering/materials/traits/plated_slimewood.json
 b14ec760ab7c4a2adc86793da7bace9c9348aa05 data/tconstruct/tinkering/materials/traits/slimesteel.json
@@ -51,8 +51,8 @@ bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/tconstruct/tinkering/materials/tra
 bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/tconstruct/tinkering/materials/traits/debris.json
 3b7a43bd8e167b0cb30d704853f595edee865dda data/tconstruct/tinkering/materials/traits/manyullyn.json
 0ab32960d2653d8adaa64b22f1d867e8a19bc3b4 data/tconstruct/tinkering/materials/traits/gold.json
-35933f51588a06ce545379a0423dadf4ec40e730 data/tconstruct/tinkering/materials/traits/silver.json
 c8101fd9a1e66d8871d7ca1c4c46a4bc34d3cc41 data/tconstruct/tinkering/materials/traits/skyslime_vine.json
+35933f51588a06ce545379a0423dadf4ec40e730 data/tconstruct/tinkering/materials/traits/silver.json
 001a17bd7093ddabc9945f92c1a773507b80ec7f data/tconstruct/tinkering/materials/traits/chorus.json
 71d6321a67c52a12d0d8edab3958fe2e757c53c1 data/tconstruct/tinkering/materials/traits/ancient_hide.json
 bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/tconstruct/tinkering/materials/traits/earthslime.json

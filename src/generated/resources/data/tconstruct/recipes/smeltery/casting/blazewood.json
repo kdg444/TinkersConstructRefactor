@@ -1,8 +1,8 @@
 {
   "type": "tconstruct:casting_basin",
   "cast": {
-    "type": "forge:intersection",
-    "children": [
+    "fabric:type": "fabric:all",
+    "ingredients": [
       {
         "tag": "minecraft:planks"
       },

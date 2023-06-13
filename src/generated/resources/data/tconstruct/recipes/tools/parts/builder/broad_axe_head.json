@@ -2,14 +2,17 @@
   "type": "tconstruct:part_builder",
   "cost": 8,
   "pattern": "tconstruct:broad_axe_head",
-  "pattern_item": [
-    {
-      "tag": "tconstruct:patterns/default"
-    },
-    {
-      "item": "tconstruct:broad_axe_head_cast"
-    }
-  ],
+  "pattern_item": {
+    "fabric:type": "fabric:any",
+    "ingredients": [
+      {
+        "tag": "tconstruct:patterns/default"
+      },
+      {
+        "item": "tconstruct:broad_axe_head_cast"
+      }
+    ]
+  },
   "result": {
     "item": "tconstruct:broad_axe_head"
   }

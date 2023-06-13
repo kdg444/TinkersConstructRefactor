@@ -7,9 +7,11 @@
     }
   ],
   "ingredient": {
-    "type": "forge:nbt",
-    "count": 1,
-    "item": "tconstruct:scorched_fuel_tank"
+    "fabric:type": "fabric:nbt",
+    "base": {
+      "item": "tconstruct:scorched_fuel_tank"
+    },
+    "strict": true
   },
   "result": {
     "amount": 162000,

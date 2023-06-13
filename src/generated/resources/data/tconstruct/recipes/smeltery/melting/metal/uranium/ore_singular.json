@@ -30,18 +30,21 @@
           }
         ],
         "ingredient": {
-          "type": "forge:difference",
+          "fabric:type": "fabric:difference",
           "base": {
             "tag": "c:uranium_ores"
           },
-          "subtracted": [
-            {
-              "tag": "c:ore_rates/sparse"
-            },
-            {
-              "tag": "c:ore_rates/dense"
-            }
-          ]
+          "subtracted": {
+            "fabric:type": "fabric:any",
+            "ingredients": [
+              {
+                "tag": "c:ore_rates/sparse"
+              },
+              {
+                "tag": "c:ore_rates/dense"
+              }
+            ]
+          }
         },
         "rate": "metal",
         "result": {
@@ -67,18 +70,21 @@
           }
         ],
         "ingredient": {
-          "type": "forge:difference",
+          "fabric:type": "fabric:difference",
           "base": {
             "tag": "c:uranium_ores"
           },
-          "subtracted": [
-            {
-              "tag": "c:ore_rates/sparse"
-            },
-            {
-              "tag": "c:ore_rates/dense"
-            }
-          ]
+          "subtracted": {
+            "fabric:type": "fabric:any",
+            "ingredients": [
+              {
+                "tag": "c:ore_rates/sparse"
+              },
+              {
+                "tag": "c:ore_rates/dense"
+              }
+            ]
+          }
         },
         "rate": "metal",
         "result": {

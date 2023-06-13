@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:armor/building/plate_chestplate"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

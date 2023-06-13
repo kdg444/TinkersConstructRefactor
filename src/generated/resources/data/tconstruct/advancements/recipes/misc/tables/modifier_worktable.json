@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:tables/modifier_worktable"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

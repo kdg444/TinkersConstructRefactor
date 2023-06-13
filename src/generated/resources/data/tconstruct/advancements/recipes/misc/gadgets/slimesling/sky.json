@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:gadgets/slimesling/sky"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

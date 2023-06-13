@@ -30,5 +30,6 @@
     "recipes": [
       "tconstruct:common/materials/slimesteel_ingot_from_nuggets"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

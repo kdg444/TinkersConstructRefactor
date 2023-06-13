@@ -127,11 +127,20 @@ public class MaterialIngredient extends Ingredient {
 
   @Override
   public JsonElement toJson() {
-    return null;
+    JsonElement parent = super.toJson();
+    if (!parent.isJsonObject()) {
+      throw new JsonIOException("Cannot serialize an array of material ingredients, use CompoundIngredient instead");
+    }
+    JsonObject object = parent.getAsJsonObject();
+    object.addProperty("fabric:type", Serializer.ID.toString());
+    if (material != WILDCARD) {
+      object.addProperty("material", material.toString());
+    }
+    return object;
   }
 
   @Override
-  public CustomIngredient getCustomIngredient() {
+  public FabricMaterialIngredient getCustomIngredient() {
     return new FabricMaterialIngredient(this);
   }
 
@@ -167,7 +176,7 @@ public class MaterialIngredient extends Ingredient {
     }
 
     @Override
-    public CustomIngredientSerializer<?> getSerializer() {
+    public CustomIngredientSerializer<FabricMaterialIngredient> getSerializer() {
       return Serializer.INSTANCE;
     }
 

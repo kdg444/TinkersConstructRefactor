@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:tools/building/earth_staff"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

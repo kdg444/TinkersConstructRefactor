@@ -4,7 +4,7 @@
     "tag": "tconstruct:patterns"
   },
   "tools": {
-    "type": "forge:difference",
+    "fabric:type": "fabric:difference",
     "base": {
       "tag": "tconstruct:modifiable/multipart"
     },

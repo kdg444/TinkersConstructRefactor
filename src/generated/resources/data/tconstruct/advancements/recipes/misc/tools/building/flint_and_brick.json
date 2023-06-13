@@ -43,5 +43,6 @@
     "recipes": [
       "tconstruct:tools/building/flint_and_brick"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

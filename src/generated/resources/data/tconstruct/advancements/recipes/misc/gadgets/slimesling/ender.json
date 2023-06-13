@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:gadgets/slimesling/ender"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

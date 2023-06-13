@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:gadgets/slimesling/earth"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:smeltery/scorched/drain_retextured"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

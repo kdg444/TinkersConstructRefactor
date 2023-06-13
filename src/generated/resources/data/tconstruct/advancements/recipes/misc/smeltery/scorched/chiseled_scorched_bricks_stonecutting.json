@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:smeltery/scorched/chiseled_scorched_bricks_stonecutting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

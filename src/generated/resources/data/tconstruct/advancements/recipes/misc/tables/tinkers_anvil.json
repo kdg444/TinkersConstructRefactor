@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:tables/tinkers_anvil"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

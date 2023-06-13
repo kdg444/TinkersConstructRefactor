@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:tools/modifiers/silky_cloth"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

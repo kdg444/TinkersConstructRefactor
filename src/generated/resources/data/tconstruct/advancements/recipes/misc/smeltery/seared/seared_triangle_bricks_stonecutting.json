@@ -41,5 +41,6 @@
     "recipes": [
       "tconstruct:smeltery/seared/seared_triangle_bricks_stonecutting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

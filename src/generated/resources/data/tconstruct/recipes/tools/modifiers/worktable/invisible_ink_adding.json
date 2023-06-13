@@ -5,9 +5,14 @@
   "data_key": "tconstruct:invisible_modifiers",
   "inputs": [
     {
-      "type": "forge:partial_nbt",
-      "item": "minecraft:potion",
-      "nbt": "{Potion:\"minecraft:invisibility\"}"
+      "fabric:type": "fabric:nbt",
+      "base": {
+        "item": "minecraft:potion"
+      },
+      "nbt": {
+        "Potion": "minecraft:invisibility"
+      },
+      "strict": false
     }
   ],
   "modifier_predicate": {

@@ -30,5 +30,6 @@
     "recipes": [
       "tconstruct:smeltery/scorched/lantern"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

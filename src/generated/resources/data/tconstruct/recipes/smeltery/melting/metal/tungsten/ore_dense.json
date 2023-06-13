@@ -29,8 +29,8 @@
           }
         ],
         "ingredient": {
-          "type": "forge:intersection",
-          "children": [
+          "fabric:type": "fabric:all",
+          "ingredients": [
             {
               "tag": "c:tungsten_ores"
             },
@@ -63,8 +63,8 @@
           }
         ],
         "ingredient": {
-          "type": "forge:intersection",
-          "children": [
+          "fabric:type": "fabric:all",
+          "ingredients": [
             {
               "tag": "c:tungsten_ores"
             },

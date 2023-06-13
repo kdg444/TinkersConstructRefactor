@@ -15,6 +15,7 @@
       "tick"
     ]
   ],
+  "sends_telemetry_event": true,
   "fabric:load_conditions": [
     {
       "condition": "tconstruct:config",

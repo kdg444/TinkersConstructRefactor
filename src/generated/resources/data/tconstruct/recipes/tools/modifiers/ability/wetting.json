@@ -25,12 +25,15 @@
   "slots": {
     "abilities": 1
   },
-  "tools": [
-    {
-      "tag": "tconstruct:modifiable/armor/leggings"
-    },
-    {
-      "tag": "tconstruct:modifiable/shields"
-    }
-  ]
+  "tools": {
+    "fabric:type": "fabric:any",
+    "ingredients": [
+      {
+        "tag": "tconstruct:modifiable/armor/leggings"
+      },
+      {
+        "tag": "tconstruct:modifiable/shields"
+      }
+    ]
+  }
 }

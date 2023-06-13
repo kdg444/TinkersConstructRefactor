@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:smeltery/scorched/polished_scorched_stone_stonecutting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

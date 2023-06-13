@@ -1,4 +1,4 @@
-// 1.19.4	2023-06-03T14:49:38.213388126	Hephaestus/Tinkers Construct Block Tags
+// 1.20	2023-06-13T14:41:52.729145343	Hephaestus/Tinkers Construct Block Tags
 61ba530b49ae3c5473c77baf566f3b7fab2307ad data/minecraft/tags/blocks/saplings.json
 0c9d7465ebc29fbe18ed898c790e1bcfe4e7cb82 data/tconstruct/tags/blocks/mineable/mattock.json
 764c0179593c083175d3f04f45cd587c6cdad81d data/minecraft/tags/blocks/enderman_holdable.json
@@ -131,7 +131,7 @@ fd8b3a1797c92e9654d3cdad36a98ee0ebf7b71a data/c/tags/blocks/silica_glass_panes.j
 c8cc424a5ec25df372f2229ed5d0a22d7a4ca728 data/minecraft/tags/blocks/strider_warm_blocks.json
 85efceeffe872e46836391315371b2c26720234d data/tconstruct/tags/blocks/fuel_tanks.json
 bf75f0ec5429b1548fe4b2cb9a5c25fc6b7a5780 data/tconstruct/tags/blocks/slimy_nylium/blood.json
-8e0c78312b9ff91ab984c8dd72a13ccda00384a1 data/c/tags/blocks/mineable/shears.json
+bfc608c02fa04308e35598020d32bdc540ad4785 data/c/tags/blocks/mineable/shears.json
 b14774fe93e76a60061cc0a57a06b3e1bc3062e1 data/c/tags/blocks/brown_glass.json
 9c5a85c6f51271580b57e77c79d634c6d0a000a6 data/minecraft/tags/blocks/logs.json
 6e9a38454b1dd38e4ef80c100527c394f16d3fa7 data/c/tags/blocks/needs_netherite_tool.json
@@ -142,6 +142,7 @@ c98075b095d6f3b9999d7fbc7c8111a7badd0cb0 data/tconstruct/tags/blocks/slimy_soil/
 00eb30de75c84c5d5252c7d715c98d7d1f85bfe8 data/c/tags/blocks/manyullyn_blocks.json
 99e400dfaf7c1f667cc041c8bde6dc778005209a data/ceramics/tags/blocks/cistern_connections.json
 45d4c90afea5b757a542d99a934f55a21abfc5bf data/tconstruct/tags/blocks/slime_block.json
+1c923170760228d1caec6b5bffe84cb90458675c data/c/tags/blocks/plant_replaceable.json
 a4b7ce8f852c5674923303c18dfd9ffb481f1fe2 data/tconstruct/tags/blocks/foundry/wall.json
 59fd6f7bfd7a2767ddcb1e09e05712ec2b24181f data/c/tags/blocks/green_glass.json
 8951cdfaaaad1ff807246303ed1fb8f9e6d07122 data/tconstruct/tags/blocks/seared_blocks.json

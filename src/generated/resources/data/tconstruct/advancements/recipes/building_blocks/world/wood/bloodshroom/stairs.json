@@ -30,5 +30,6 @@
     "recipes": [
       "tconstruct:world/wood/bloodshroom/stairs"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

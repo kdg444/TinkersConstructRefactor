@@ -11,7 +11,7 @@
   ],
   "type": "tconstruct:material",
   "ingredient": {
-    "type": "forge:difference",
+    "fabric:type": "fabric:difference",
     "base": {
       "tag": "minecraft:planks"
     },

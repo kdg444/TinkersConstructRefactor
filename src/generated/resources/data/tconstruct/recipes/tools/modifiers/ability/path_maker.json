@@ -3,22 +3,22 @@
   "allow_crystal": true,
   "inputs": [
     {
-      "type": "tconstruct:material",
+      "fabric:type": "tconstruct:material",
       "item": "tconstruct:round_plate"
     },
     {
       "tag": "c:netherite_scrap_ingots"
     },
     {
-      "type": "tconstruct:material",
+      "fabric:type": "tconstruct:material",
       "item": "tconstruct:tool_binding"
     },
     {
-      "type": "tconstruct:material",
+      "fabric:type": "tconstruct:material",
       "item": "tconstruct:round_plate"
     },
     {
-      "type": "tconstruct:material",
+      "fabric:type": "tconstruct:material",
       "item": "tconstruct:tool_binding"
     }
   ],
@@ -31,8 +31,8 @@
     "abilities": 1
   },
   "tools": {
-    "type": "forge:intersection",
-    "children": [
+    "fabric:type": "fabric:all",
+    "ingredients": [
       {
         "tag": "tconstruct:modifiable/armor/boots"
       },

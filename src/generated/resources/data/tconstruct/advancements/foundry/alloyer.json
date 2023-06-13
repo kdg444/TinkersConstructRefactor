@@ -19,49 +19,89 @@
     "scorched_alloyer": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:scorched_alloyer"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:scorched_alloyer"
+          }
+        ]
       }
     },
     "scorched_faucet": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:scorched_faucet"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:scorched_faucet"
+          }
+        ]
       }
     },
     "scorched_table": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:scorched_table"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:scorched_table"
+          }
+        ]
       }
     },
     "scorched_basin": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:scorched_basin"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:scorched_basin"
+          }
+        ]
       }
     },
     "scorched_fuel_tank": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:scorched_fuel_tank"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:scorched_fuel_tank"
+          }
+        ]
       }
     },
     "scorched_fuel_gauge": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:scorched_fuel_gauge"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:scorched_fuel_gauge"
+          }
+        ]
       }
     },
     "scorched_ingot_tank": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:scorched_ingot_tank"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:scorched_ingot_tank"
+          }
+        ]
       }
     },
     "scorched_ingot_gauge": {
       "trigger": "minecraft:placed_block",
       "conditions": {
-        "block": "tconstruct:scorched_ingot_gauge"
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "tconstruct:scorched_ingot_gauge"
+          }
+        ]
       }
     }
   },
@@ -86,5 +126,6 @@
       "scorched_ingot_tank",
       "scorched_ingot_gauge"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

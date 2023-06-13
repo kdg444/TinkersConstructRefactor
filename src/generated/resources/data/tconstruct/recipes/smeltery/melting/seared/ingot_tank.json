@@ -7,9 +7,11 @@
     }
   ],
   "ingredient": {
-    "type": "forge:nbt",
-    "count": 1,
-    "item": "tconstruct:seared_ingot_tank"
+    "fabric:type": "fabric:nbt",
+    "base": {
+      "item": "tconstruct:seared_ingot_tank"
+    },
+    "strict": true
   },
   "result": {
     "amount": 121500,

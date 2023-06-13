@@ -2,14 +2,17 @@
   "type": "tconstruct:part_builder",
   "cost": 2,
   "pattern": "tconstruct:repair_kit",
-  "pattern_item": [
-    {
-      "tag": "tconstruct:patterns/default"
-    },
-    {
-      "item": "tconstruct:repair_kit_cast"
-    }
-  ],
+  "pattern_item": {
+    "fabric:type": "fabric:any",
+    "ingredients": [
+      {
+        "tag": "tconstruct:patterns/default"
+      },
+      {
+        "item": "tconstruct:repair_kit_cast"
+      }
+    ]
+  },
   "result": {
     "item": "tconstruct:repair_kit"
   }

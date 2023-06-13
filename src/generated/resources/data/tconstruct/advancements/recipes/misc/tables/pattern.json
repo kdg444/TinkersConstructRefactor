@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:tables/pattern"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

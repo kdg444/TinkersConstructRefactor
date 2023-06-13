@@ -6,15 +6,18 @@
       "item": "tconstruct:pattern"
     },
     "w": {
-      "type": "forge:difference",
-      "base": [
-        {
-          "tag": "c:workbenches"
-        },
-        {
-          "tag": "tconstruct:tables"
-        }
-      ],
+      "fabric:type": "fabric:difference",
+      "base": {
+        "fabric:type": "fabric:any",
+        "ingredients": [
+          {
+            "tag": "c:workbenches"
+          },
+          {
+            "tag": "tconstruct:tables"
+          }
+        ]
+      },
       "subtracted": {
         "item": "tconstruct:crafting_station"
       }

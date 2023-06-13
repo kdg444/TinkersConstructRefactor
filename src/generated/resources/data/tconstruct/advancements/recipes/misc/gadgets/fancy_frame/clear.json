@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:gadgets/fancy_frame/clear"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

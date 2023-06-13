@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:gadgets/frame/manyullyn"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

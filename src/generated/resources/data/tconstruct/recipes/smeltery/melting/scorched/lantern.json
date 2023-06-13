@@ -11,9 +11,11 @@
     }
   ],
   "ingredient": {
-    "type": "forge:nbt",
-    "count": 1,
-    "item": "tconstruct:scorched_lantern"
+    "fabric:type": "fabric:nbt",
+    "base": {
+      "item": "tconstruct:scorched_lantern"
+    },
+    "strict": true
   },
   "result": {
     "amount": 40500,

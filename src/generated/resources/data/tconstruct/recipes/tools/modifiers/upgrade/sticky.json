@@ -14,15 +14,18 @@
   "slots": {
     "upgrades": 1
   },
-  "tools": [
-    {
-      "tag": "tconstruct:modifiable/melee"
-    },
-    {
-      "tag": "tconstruct:modifiable/armor/worn"
-    },
-    {
-      "tag": "tconstruct:modifiable/shields"
-    }
-  ]
+  "tools": {
+    "fabric:type": "fabric:any",
+    "ingredients": [
+      {
+        "tag": "tconstruct:modifiable/melee"
+      },
+      {
+        "tag": "tconstruct:modifiable/armor/worn"
+      },
+      {
+        "tag": "tconstruct:modifiable/shields"
+      }
+    ]
+  }
 }

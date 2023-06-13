@@ -17,8 +17,8 @@
     }
   ],
   "ingredient": {
-    "type": "forge:intersection",
-    "children": [
+    "fabric:type": "fabric:all",
+    "ingredients": [
       {
         "tag": "c:copper_ores"
       },

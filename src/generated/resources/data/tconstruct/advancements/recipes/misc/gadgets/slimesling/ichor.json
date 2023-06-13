@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:gadgets/slimesling/ichor"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

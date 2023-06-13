@@ -17,7 +17,7 @@
     }
   },
   "tools": {
-    "type": "forge:difference",
+    "fabric:type": "fabric:difference",
     "base": {
       "tag": "tconstruct:modifiable"
     },

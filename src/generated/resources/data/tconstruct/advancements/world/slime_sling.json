@@ -83,5 +83,6 @@
     [
       "ender"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

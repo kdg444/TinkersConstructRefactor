@@ -30,5 +30,6 @@
     "recipes": [
       "tconstruct:world/wood/greenheart/stairs"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:tables/cast_chest"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

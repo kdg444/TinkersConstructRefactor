@@ -41,5 +41,6 @@
     "recipes": [
       "tconstruct:smeltery/seared/seared_fancy_bricks_stonecutting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

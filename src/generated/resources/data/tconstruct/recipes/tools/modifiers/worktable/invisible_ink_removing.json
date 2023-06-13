@@ -5,12 +5,15 @@
   "data_key": "tconstruct:invisible_modifiers",
   "inputs": [
     {
-      "type": "mantle:fluid_container",
-      "amount": 81000,
-      "display": {
-        "item": "minecraft:milk_bucket"
-      },
-      "name": "milk:still_milk"
+      "fabric:type": "mantle:fluid_container",
+      "fluid": {
+        "type": "mantle:fluid_container",
+        "amount": 81000,
+        "display": {
+          "item": "minecraft:milk_bucket"
+        },
+        "name": "milk:still_milk"
+      }
     }
   ],
   "modifier_predicate": {

@@ -28,5 +28,6 @@
     "recipes": [
       "tconstruct:gadgets/throwball/efln_ball"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
