@@ -1,12 +1,10 @@
 package slimeknights.tconstruct.library.data.recipe;
 
-import io.github.fabricators_of_create.porting_lib.crafting.DifferenceIngredient;
-import io.github.fabricators_of_create.porting_lib.crafting.IntersectionIngredient;
 import io.github.fabricators_of_create.porting_lib.data.ConditionalRecipe;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.TrueCondition;
-import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
 import me.alphamode.forgetags.Tags;
+import net.fabricmc.fabric.api.recipe.v1.ingredient.DefaultCustomIngredients;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -70,11 +68,11 @@ public interface ISmelteryRecipeHelper extends ICastCreationHelper {
     Ingredient ingredient;
     // not everyone sets size, so treat singular as the fallback, means we want anything in the tag that is not sparse or dense
     if (size == Tags.Items.ORE_RATES_SINGULAR) {
-      ingredient = DifferenceIngredient.of(baseIngredient, new CombinedIngredient(Ingredient.of(Tags.Items.ORE_RATES_SPARSE), Ingredient.of(Tags.Items.ORE_RATES_DENSE)));
+      ingredient = DefaultCustomIngredients.difference(baseIngredient, DefaultCustomIngredients.any(Ingredient.of(Tags.Items.ORE_RATES_SPARSE), Ingredient.of(Tags.Items.ORE_RATES_DENSE)));
       wrapped = withCondition(consumer, TagDifferencePresentCondition.ofKeys(getItemTag("c", tagName), Tags.Items.ORE_RATES_SPARSE, Tags.Items.ORE_RATES_DENSE));
       // size tag means we want an intersection between the tag and that size
     } else if (size != null) {
-      ingredient = IntersectionIngredient.of(baseIngredient, Ingredient.of(size));
+      ingredient = DefaultCustomIngredients.all(baseIngredient, Ingredient.of(size));
       wrapped = withCondition(consumer, TagIntersectionPresentCondition.ofKeys(getItemTag("c", tagName), size));
       // default only need it to be in the tag
     } else {

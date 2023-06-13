@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.item;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -39,7 +40,7 @@ import java.util.function.Predicate;
 import static slimeknights.tconstruct.tools.modifiers.upgrades.ranged.ScopeModifier.SCOPE;
 
 public class ModifiableBowItem extends ModifiableLauncherItem {
-  public ModifiableBowItem(Properties properties, ToolDefinition toolDefinition, CreativeModeTab tab) {
+  public ModifiableBowItem(Properties properties, ToolDefinition toolDefinition, ResourceKey<CreativeModeTab> tab) {
     super(properties, toolDefinition, tab);
   }
 

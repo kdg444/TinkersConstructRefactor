@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerTickEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerTickEvents;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.server.level.ServerLevel;
@@ -66,10 +66,10 @@ public class SlurpingModifier extends TankModifier implements KeybindInteractMod
       position = position.yRot(-player.getYRot() * DEGREE_TO_RADIANS);
       position = position.add(player.getX(), player.getEyeY(), player.getZ());
       FluidParticleData data = new FluidParticleData(TinkerCommons.fluidParticle.get(), fluid);
-      if (player.level instanceof ServerLevel) {
-        ((ServerLevel)player.level).sendParticles(data, position.x, position.y, position.z, 1, motion.x, motion.y + 0.05D, motion.z, 0.0D);
+      if (player.level() instanceof ServerLevel) {
+        ((ServerLevel)player.level()).sendParticles(data, position.x, position.y, position.z, 1, motion.x, motion.y + 0.05D, motion.z, 0.0D);
       } else {
-        player.level.addParticle(data, position.x, position.y, position.z, motion.x, motion.y + 0.05D, motion.z);
+        player.level().addParticle(data, position.x, position.y, position.z, motion.x, motion.y + 0.05D, motion.z);
       }
     }
   }
@@ -77,7 +77,7 @@ public class SlurpingModifier extends TankModifier implements KeybindInteractMod
   /** Drinks some of the fluid in the tank, reducing its value */
   private void finishDrinking(IToolStackView tool, Player player, InteractionHand hand) {
     // only server needs to drink
-    if (!player.level.isClientSide) {
+    if (!player.level().isClientSide) {
       FluidStack fluid = getFluid(tool);
       if (!fluid.isEmpty()) {
         // find the recipe

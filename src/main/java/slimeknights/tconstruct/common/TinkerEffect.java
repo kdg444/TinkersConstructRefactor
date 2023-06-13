@@ -1,15 +1,10 @@
 package slimeknights.tconstruct.common;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import io.github.fabricators_of_create.porting_lib.util.EffectRenderer;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
+import io.github.fabricators_of_create.porting_lib.entity.client.MobEffectRenderer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-
-import java.util.function.Consumer;
 
 /** Effect extension with a few helpers */
 public class TinkerEffect extends MobEffect {
@@ -26,30 +21,19 @@ public class TinkerEffect extends MobEffect {
 
   /* Visibility */
 
-//  @Override TODO: PORT
-  public void initializeClient(Consumer<EffectRenderer> consumer) {
-    consumer.accept(new EffectRenderer() {
+  @Override
+  public MobEffectRenderer getRenderer() {
+    return new MobEffectRenderer() {
       @Override
-      public void renderInventoryEffect(MobEffectInstance effect, EffectRenderingInventoryScreen<?> gui, PoseStack mStack, int x, int y, float z) {}
-
-      @Override
-      public void renderHUDEffect(MobEffectInstance effect, GuiComponent gui, PoseStack mStack, int x, int y, float z, float alpha) {}
-
-      @Override
-      public boolean shouldRenderInvText(MobEffectInstance effect) {
+      public boolean isVisibleInInventory(MobEffectInstance effect) {
         return show;
       }
 
       @Override
-      public boolean shouldRender(MobEffectInstance effect) {
+      public boolean isVisibleInGui(MobEffectInstance effect) {
         return show;
       }
-
-      @Override
-      public boolean shouldRenderHUD(MobEffectInstance effect) {
-        return show;
-      }
-    });
+    };
   }
 
   /* Helpers */

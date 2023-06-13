@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.harvest;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;

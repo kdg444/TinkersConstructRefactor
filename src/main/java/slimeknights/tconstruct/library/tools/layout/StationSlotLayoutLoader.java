@@ -10,7 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import io.github.fabricators_of_create.porting_lib.event.common.OnDatapackSyncCallback;
+import io.github.fabricators_of_create.porting_lib.entity.events.OnDatapackSyncCallback;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;

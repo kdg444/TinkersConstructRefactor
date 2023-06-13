@@ -32,6 +32,7 @@ public class TinkerTags {
 
   public static class Blocks {
     private static void init() {}
+    public static final TagKey<Block> PLANT_REPLACEABLE = forgeTag("plant_replaceable");
     public static final TagKey<Block> WORKBENCHES = forgeTag("workbenches");
     public static final TagKey<Block> TABLES = tag("tables");
     public static final TagKey<Block> GLASS_PANES_SILICA = forgeTag("silica_glass_panes");

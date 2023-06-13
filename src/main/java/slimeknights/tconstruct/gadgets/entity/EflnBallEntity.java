@@ -40,15 +40,15 @@ public class EflnBallEntity extends ThrowableItemProjectile implements ExtraSpaw
 
   @Override
   protected void onHit(HitResult result) {
-    if (!this.level.isClientSide) {
-      EFLNExplosion explosion = new EFLNExplosion(this.level, this, null, null, this.getX(), this.getY(), this.getZ(), 6f, false, Explosion.BlockInteraction.KEEP);
-      if (!ExplosionEvents.START.invoker().onExplosionStart(this.level, explosion)) {
-        Exploder.startExplosion(this.level, explosion, this, BlockPos.containing(this.getX(), this.getY(), this.getZ()), 6f, 6f);
+    if (!this.level().isClientSide) {
+      EFLNExplosion explosion = new EFLNExplosion(this.level(), this, null, null, this.getX(), this.getY(), this.getZ(), 6f, false, Explosion.BlockInteraction.KEEP);
+      if (!ExplosionEvents.START.invoker().onExplosionStart(this.level(), explosion)) {
+        Exploder.startExplosion(this.level(), explosion, this, BlockPos.containing(this.getX(), this.getY(), this.getZ()), 6f, 6f);
       }
     }
 
-    if (!this.level.isClientSide) {
-      this.level.broadcastEntityEvent(this, (byte) 3);
+    if (!this.level().isClientSide) {
+      this.level().broadcastEntityEvent(this, (byte) 3);
       this.discard();
     }
   }

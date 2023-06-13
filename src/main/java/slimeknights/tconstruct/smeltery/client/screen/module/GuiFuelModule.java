@@ -3,9 +3,12 @@ package slimeknights.tconstruct.smeltery.client.screen.module;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.RequiredArgsConstructor;
+import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import slimeknights.mantle.client.screen.ScalableElementScreen;
 import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
 import slimeknights.tconstruct.TConstruct;
@@ -55,14 +58,15 @@ public class GuiFuelModule {
 
   /**
    * Draws the fuel at the correct location
-   * @param matrices  Matrix stack instance
+   * @param graphics  Gui graphics instance
+   * @param texture   The texture to render
    */
-  public void draw(PoseStack matrices) {
+  public void draw(GuiGraphics graphics, ResourceLocation texture) {
     // draw fire
     int fuel = fuelModule.getFuel();
     int fuelQuality = fuelModule.getFuelQuality();
     if (fuel > 0 && fuelQuality > 0) {
-      FIRE.drawScaledYUp(matrices, fireX + screen.leftPos, fireY + screen.topPos, 14 * fuel / fuelQuality);
+      FIRE.drawScaledYUp(graphics, texture, fireX + screen.leftPos, fireY + screen.topPos, 14 * fuel / fuelQuality);
     }
 
     // draw tank second, it changes the image
@@ -70,38 +74,38 @@ public class GuiFuelModule {
     if (!hasFuelSlot) {
       fuelInfo = fuelModule.getFuelInfo();
       if (!fuelInfo.isEmpty()) {
-        GuiUtil.renderFluidTank(matrices, screen, fuelInfo.getFluid(), fuelInfo.getTotalAmount(), fuelInfo.getCapacity(), x, y, width, height, 100);
+        GuiUtil.renderFluidTank(graphics.pose(), screen, fuelInfo.getFluid(), fuelInfo.getTotalAmount(), fuelInfo.getCapacity(), x, y, width, height, 100);
       }
     }
   }
 
   /**
    * Highlights the hovered fuel
-   * @param matrices  Matrix stack instance
+   * @param graphics  Gui graphics instance
    * @param checkX    Top corner relative mouse X
    * @param checkY    Top corner relative mouse Y
    */
-  public void renderHighlight(PoseStack matrices, int checkX, int checkY) {
+  public void renderHighlight(GuiGraphics graphics, int checkX, int checkY) {
     if (isHovered(checkX, checkY)) {
       // if there is a fuel slot, render highlight lower
       if (hasFuelSlot) {
         if (checkY > y + 18) {
-          GuiUtil.renderHighlight(matrices, x, y + 18, width, height - 18);
+          GuiUtil.renderHighlight(graphics, x, y + 18, width, height - 18);
         }
       } else {
         // full fluid highlight
-        GuiUtil.renderHighlight(matrices, x, y, width, height);
+        GuiUtil.renderHighlight(graphics, x, y, width, height);
       }
     }
   }
 
   /**
    * Adds the tooltip for the fuel
-   * @param matrices  Matrix stack instance
+   * @param graphics  Gui graphics instance
    * @param mouseX    Mouse X position
    * @param mouseY    Mouse Y position
    */
-  public void addTooltip(PoseStack matrices, int mouseX, int mouseY, boolean hasTank) {
+  public void addTooltip(GuiGraphics graphics, int mouseX, int mouseY, boolean hasTank) {
     int checkX = mouseX - screen.leftPos;
     int checkY = mouseY - screen.topPos;
 
@@ -138,7 +142,7 @@ public class GuiFuelModule {
         tooltip = hasTank ? TOOLTIP_NO_FUEL : TOOLTIP_NO_TANK;
       }
 
-      screen.renderComponentTooltip(matrices, tooltip, mouseX, mouseY);
+      graphics.renderComponentTooltip(Screens.getTextRenderer(screen), tooltip, mouseX, mouseY);
     }
   }
 

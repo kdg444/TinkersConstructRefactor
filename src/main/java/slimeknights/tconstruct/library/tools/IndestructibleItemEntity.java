@@ -62,7 +62,7 @@ public class IndestructibleItemEntity extends ItemEntity {
   @Override
   public boolean hurt(DamageSource source, float amount) {
     // prevent any damage besides out of world
-    return source.getMsgId().equals(damageSources().outOfWorld().getMsgId());
+    return source.getMsgId().equals(damageSources().fellOutOfWorld().getMsgId());
   }
 
   /** Checks if the given stack has a custom entity */

@@ -3,6 +3,9 @@ package slimeknights.tconstruct.shared;
 import io.github.fabricators_of_create.porting_lib.event.common.RecipesUpdatedCallback;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.crafting.RecipeManager;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
@@ -65,5 +68,11 @@ public class TinkerClient implements ClientModInitializer {
     if (FabricLoader.getInstance().isModLoaded("inventorytabs") && Config.CLIENT.inventoryTabsCompat.get()) {
       BaseTabbedScreen.COMPAT_SHOW_TABS = false;
     }
+  }
+
+  public static int drawString(GuiGraphics graphics, Font font, FormattedCharSequence formattedCharSequence, float i, float j, int k, boolean bl) {
+    int l = font.drawInBatch(formattedCharSequence, i, j, k, bl, graphics.pose().last().pose(), graphics.bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
+    graphics.flushIfUnmanaged();
+    return l;
   }
 }

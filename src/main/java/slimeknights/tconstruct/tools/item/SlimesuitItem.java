@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.item;
 
 import io.github.fabricators_of_create.porting_lib.item.ArmorTextureItem;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -29,7 +30,7 @@ public class SlimesuitItem extends ModifiableArmorItem implements ArmorTextureIt
   /** Function to get leg names */
   private static final Function<String,String> LEG_GETTER = mat -> makeArmorTexture(mat, "layer_2");
 
-  public SlimesuitItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties, CreativeModeTab tab) {
+  public SlimesuitItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties, ResourceKey<CreativeModeTab> tab) {
     super(material, slotType, properties, tab);
   }
 

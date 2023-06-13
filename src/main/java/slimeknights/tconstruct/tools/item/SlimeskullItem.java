@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CreativeModeTab;
@@ -23,7 +24,7 @@ import slimeknights.tconstruct.tools.client.SlimeskullArmorModel;
 
 /** This item is mainly to return the proper model for a slimeskull */
 public class SlimeskullItem extends SlimesuitItem {
-  public SlimeskullItem(ModifiableArmorMaterial material, Properties properties, CreativeModeTab tab) {
+  public SlimeskullItem(ModifiableArmorMaterial material, Properties properties, ResourceKey<CreativeModeTab> tab) {
     super(material, ArmorSlotType.HELMET, properties, tab);
     EnvExecutor.runWhenOn(EnvType.CLIENT, () -> this::initializeClient);
   }

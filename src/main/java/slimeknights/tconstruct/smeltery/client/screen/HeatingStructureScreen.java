@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.smeltery.client.screen;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -65,51 +65,51 @@ public class HeatingStructureScreen extends MultiModuleScreen<HeatingStructureCo
     }
   }
   @Override
-  protected void renderBg(PoseStack matrices, float partialTicks, int mouseX, int mouseY) {
+  protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
     // draw stuff with background
-    GuiUtil.drawBackground(matrices, this, BACKGROUND);
+    GuiUtil.drawBackground(graphics, this, BACKGROUND);
     // fuel
     if (fuel != null) {
-      fuel.draw(matrices);
+      fuel.draw(graphics, BACKGROUND);
     }
 
     // draw other components
-    super.renderBg(matrices, partialTicks, mouseX, mouseY);
+    super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
     // render fluids
-    if (tank != null) tank.renderFluids(matrices);
+    if (tank != null) tank.renderFluids(graphics);
   }
 
   @Override
-  protected void renderLabels(PoseStack matrices, int mouseX, int mouseY) {
-    super.renderLabels(matrices, mouseX, mouseY);
+  protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+    super.renderLabels(graphics, mouseX, mouseY);
 
     assert minecraft != null;
     RenderUtils.setup(BACKGROUND);
-    SCALA.draw(matrices, 8, 16);
+    SCALA.draw(graphics, BACKGROUND, 8, 16);
 
     // highlight hovered fluids
-    if (tank != null) tank.renderHighlight(matrices, mouseX, mouseY);
-    if (fuel != null) fuel.renderHighlight(matrices, mouseX - this.leftPos, mouseY - this.topPos);
+    if (tank != null) tank.renderHighlight(graphics, mouseX, mouseY);
+    if (fuel != null) fuel.renderHighlight(graphics, mouseX - this.leftPos, mouseY - this.topPos);
 
     // while this might make sense to draw in the side inventory logic, slots are rendered by the parent screen it seems
     // so we get the most accurate offset rendering it here, as we offset the foreground of submodules but they don't draw their own slots
     // I hate the whole multimodule system right now
-    if (melting != null) melting.drawHeatBars(matrices);
+    if (melting != null) melting.drawHeatBars(graphics, BACKGROUND);
   }
 
   @Override
-  protected void renderTooltip(PoseStack matrices, int mouseX, int mouseY) {
-    super.renderTooltip(matrices, mouseX, mouseY);
+  protected void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+    super.renderTooltip(graphics, mouseX, mouseY);
 
     // fluid tooltips
-    if (tank != null) tank.drawTooltip(matrices, mouseX, mouseY);
+    if (tank != null) tank.drawTooltip(graphics, mouseX, mouseY);
     if (fuel != null) {
       boolean hasTank = false;
       if (te.getStructure() != null) {
         hasTank = te.getStructure().hasTanks();
       }
-      fuel.addTooltip(matrices, mouseX, mouseY, hasTank);
+      fuel.addTooltip(graphics, mouseX, mouseY, hasTank);
     }
   }
 

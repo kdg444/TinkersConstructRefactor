@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.harvest;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -35,7 +35,7 @@ public class TemperateModifier extends Modifier implements ConditionalStatModifi
   private static float getBonus(LivingEntity living, BlockPos pos, int level) {
     // temperature ranges from -1.25 to 1.25, so make it go -1 to 1
     // negative is cold, positive is hot
-    return (living.level.getBiome(pos).value().getTemperature(pos) - BASELINE_TEMPERATURE) * level / 1.25f;
+    return (living.level().getBiome(pos).value().getTemperature(pos) - BASELINE_TEMPERATURE) * level / 1.25f;
   }
 
   @Override

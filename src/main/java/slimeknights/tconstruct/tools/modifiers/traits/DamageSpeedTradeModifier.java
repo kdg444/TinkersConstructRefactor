@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.traits;
 
 import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

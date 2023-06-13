@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -151,8 +152,7 @@ public class HarvestAbilityModifier extends InteractionModifier.NoLevels impleme
     }
 
     // crop is fully grown, get loot context
-    LootContext.Builder lootContext = new LootContext.Builder(world)
-      .withRandom(world.random)
+    LootParams.Builder lootContext = new LootParams.Builder(world)
       .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos))
       .withParameter(LootContextParams.TOOL, ItemStack.EMPTY)
       .withOptionalParameter(LootContextParams.BLOCK_ENTITY, world.getBlockEntity(pos));

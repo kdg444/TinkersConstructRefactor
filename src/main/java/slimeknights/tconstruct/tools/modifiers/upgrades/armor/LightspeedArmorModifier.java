@@ -33,7 +33,7 @@ public class LightspeedArmorModifier extends IncrementalModifier implements Armo
   @Override
   public void onWalk(IToolStackView tool, ModifierEntry modifier, LivingEntity living, BlockPos prevPos, BlockPos newPos) {
     // no point trying if not on the ground
-    if (tool.isBroken() || !living.isOnGround() || living.level.isClientSide) {
+    if (tool.isBroken() || !living.onGround() || living.level().isClientSide) {
       return;
     }
     // must have speed
@@ -49,7 +49,7 @@ public class LightspeedArmorModifier extends IncrementalModifier implements Armo
     // not above air
     Vec3 vecPos = living.position();
     BlockPos pos = BlockPos.containing(vecPos.x, vecPos.y + 0.5f, vecPos.z);
-    int light = living.level.getBrightness(LightLayer.BLOCK, pos);
+    int light = living.level().getBrightness(LightLayer.BLOCK, pos);
     if (light > 5) {
       int scaledLight = light - 5;
       attribute.addTransientModifier(new AttributeModifier(ATTRIBUTE_BONUS, "tconstruct.modifier.lightspeed", scaledLight * 0.0015f * modifier.getEffectiveLevel(tool), Operation.ADDITION));
@@ -89,7 +89,7 @@ public class LightspeedArmorModifier extends IncrementalModifier implements Armo
     // percentages make sense
     float boost;
     if (player != null && key == TooltipKey.SHIFT) {
-      int light = player.level.getBrightness(LightLayer.BLOCK, player.blockPosition());
+      int light = player.level().getBrightness(LightLayer.BLOCK, player.blockPosition());
       boost = 0.015f * (light - 5) * getScaledLevel(tool, level);
     } else {
       boost = 0.15f * getScaledLevel(tool, level);

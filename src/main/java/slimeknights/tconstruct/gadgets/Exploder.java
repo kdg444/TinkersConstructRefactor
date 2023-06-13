@@ -9,7 +9,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +18,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -144,7 +143,7 @@ public class Exploder {
 
       // check if it's already in our list
       for (ItemStack stack : aggregatedDrops) {
-        if (ItemStack.isSame(drop, stack) && ItemStack.tagMatches(drop, stack)) {
+        if (ItemStack.isSameItemSameTags(drop, stack)) {
           stack.grow(drop.getCount());
           notInList = false;
           break;
@@ -247,7 +246,7 @@ public class Exploder {
 
     if (!this.world.isClientSide && blockstate.getBlock().dropFromExplosion(this.explosion)) {
       BlockEntity tileentity = blockstate.hasBlockEntity() ? this.world.getBlockEntity(blockpos) : null;
-      LootContext.Builder builder = (new LootContext.Builder((ServerLevel) this.world)).withRandom(this.world.random).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(blockpos)).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, tileentity);
+      LootParams.Builder builder = (new LootParams.Builder((ServerLevel) this.world)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(blockpos)).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, tileentity);
 
       this.droppedItems.addAll(blockstate.getDrops(builder));
     }

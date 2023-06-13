@@ -12,7 +12,7 @@ public class ScopeModifier extends Modifier {
 
   @Override
   public void onUnequip(IToolStackView tool, int level, EquipmentChangeContext context) {
-    if (context.getEntity().level.isClientSide) {
+    if (context.getEntity().level().isClientSide) {
       IToolStackView replacement = context.getReplacementTool();
       if (replacement == null || replacement.getModifierLevel(this) == 0) {
         context.getTinkerData().ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).remove(SCOPE));

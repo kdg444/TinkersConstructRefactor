@@ -6,7 +6,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
-import me.shedaniel.rei.api.client.gui.AbstractRenderer;
 import me.shedaniel.rei.api.client.gui.Renderer;
 import me.shedaniel.rei.api.client.gui.widgets.Slot;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
@@ -17,6 +16,7 @@ import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -61,10 +61,10 @@ public class EntityMeltingRecipeCategory implements TinkersCategory<EntityMeltin
 
   @Override
   public Renderer getIcon() {
-    return new AbstractRenderer() {
+    return new Renderer() {
       @Override
-      public void render(PoseStack matrices, Rectangle bounds, int mouseX, int mouseY, float delta) {
-        icon.build(0, 0, bounds.getLocation()).render(matrices, bounds, mouseX, mouseY, delta);
+      public void render(GuiGraphics graphics, Rectangle bounds, int mouseX, int mouseY, float delta) {
+        icon.build(0, 0, bounds.getLocation()).render(graphics, bounds, mouseX, mouseY, delta);
       }
     };
   }
@@ -80,12 +80,12 @@ public class EntityMeltingRecipeCategory implements TinkersCategory<EntityMeltin
   }
 
   @Override
-  public void draw(EntityMeltingRecipeDisplay display, PoseStack matrices, double mouseX, double mouseY) {
+  public void draw(EntityMeltingRecipeDisplay display, GuiGraphics graphics, double mouseX, double mouseY) {
     // draw damage string next to the heart icon
     String damage = Float.toString(display.getDamage() / 2f);
     Font fontRenderer = Minecraft.getInstance().font;
     int x = 84 - fontRenderer.width(damage);
-    fontRenderer.draw(matrices, damage, x, 8, Color.RED.getRGB());
+    graphics.drawString(fontRenderer, damage, x, 8, Color.RED.getRGB(), false);
   }
 
   @SuppressWarnings("rawtypes")

@@ -12,6 +12,7 @@ import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.ingredients.IIngredientTypeWithSubtypes;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
@@ -65,17 +66,17 @@ public class FluidStackRenderer implements IIngredientRenderer<FluidStack> {
   }
 
   @Override
-  public void render(PoseStack poseStack, FluidStack fluidStack) {
+  public void render(GuiGraphics graphics, FluidStack fluidStack) {
     RenderSystem.enableBlend();
 
-    drawFluid(poseStack, width, height, fluidStack);
+    drawFluid(graphics, width, height, fluidStack);
 
     RenderSystem.setShaderColor(1, 1, 1, 1);
 
     RenderSystem.disableBlend();
   }
 
-  private void drawFluid(PoseStack poseStack, final int width, final int height, FluidStack fluidStack) {
+  private void drawFluid(GuiGraphics graphics, final int width, final int height, FluidStack fluidStack) {
     IIngredientTypeWithSubtypes<Fluid, FluidStack> type = JEITypes.FLUID_STACK;
     Fluid fluid = type.getBase(fluidStack);
     if (fluid.isSame(Fluids.EMPTY)) {
@@ -95,7 +96,7 @@ public class FluidStackRenderer implements IIngredientRenderer<FluidStack> {
       scaledAmount = height;
     }
 
-    drawTiledSprite(poseStack, width, height, fluidColor, scaledAmount, fluidStillSprite);
+    drawTiledSprite(graphics.pose(), width, height, fluidColor, scaledAmount, fluidStillSprite);
   }
 
   private static void drawTiledSprite(PoseStack poseStack, final int tiledWidth, final int tiledHeight, int color, long scaledAmount, TextureAtlasSprite sprite) {

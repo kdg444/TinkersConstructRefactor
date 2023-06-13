@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.tools.helper;
 
-import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.nbt.CompoundTag;
@@ -149,14 +149,14 @@ public final class ModifierUtil {
 
   /** Drops an item at the entity position */
   public static void dropItem(Entity target, ItemStack stack) {
-    if (!stack.isEmpty() && !target.level.isClientSide) {
-      ItemEntity ent = new ItemEntity(target.level, target.getX(), target.getY() + 1, target.getZ(), stack);
+    if (!stack.isEmpty() && !target.level().isClientSide) {
+      ItemEntity ent = new ItemEntity(target.level(), target.getX(), target.getY() + 1, target.getZ(), stack);
       ent.setDefaultPickUpDelay();
-      RandomSource rand = target.level.random;
+      RandomSource rand = target.level().random;
       ent.setDeltaMovement(ent.getDeltaMovement().add((rand.nextFloat() - rand.nextFloat()) * 0.1F,
                                                       rand.nextFloat() * 0.05F,
                                                       (rand.nextFloat() - rand.nextFloat()) * 0.1F));
-      target.level.addFreshEntity(ent);
+      target.level().addFreshEntity(ent);
     }
   }
 

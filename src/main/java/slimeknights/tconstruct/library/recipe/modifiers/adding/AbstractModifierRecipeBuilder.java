@@ -2,9 +2,9 @@ package slimeknights.tconstruct.library.recipe.modifiers.adding;
 
 import com.google.gson.JsonObject;
 import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
-import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import net.fabricmc.fabric.api.recipe.v1.ingredient.DefaultCustomIngredients;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -205,7 +205,7 @@ public abstract class AbstractModifierRecipeBuilder<T extends AbstractModifierRe
     }
     // if true, only chestplates
     if (unarmed) {
-      ingredient = new CombinedIngredient(ingredient, Ingredient.of(TinkerTags.Items.UNARMED));
+      ingredient = DefaultCustomIngredients.any(ingredient, Ingredient.of(TinkerTags.Items.UNARMED));
     }
     json.add("tools", ingredient.toJson());
     if (maxToolSize != ITinkerStationRecipe.DEFAULT_TOOL_STACK_SIZE) {

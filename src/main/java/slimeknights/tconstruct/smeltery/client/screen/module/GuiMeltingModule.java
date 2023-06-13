@@ -1,9 +1,11 @@
 package slimeknights.tconstruct.smeltery.client.screen.module;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.AllArgsConstructor;
+import net.fabricmc.fabric.api.client.screen.v1.Screens;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
 import slimeknights.mantle.client.screen.ScalableElementScreen;
 import slimeknights.tconstruct.TConstruct;
@@ -35,7 +37,7 @@ public class GuiMeltingModule {
   /**
    * Draws the heat bars on each slot
    */
-  public void drawHeatBars(PoseStack matrices) {
+  public void drawHeatBars(GuiGraphics graphics, ResourceLocation texture) {
     int temperature = this.temperature.getAsInt();
     for (int i = 0; i < inventory.getSlots(); i++) {
       Slot slot = screen.getMenu().slots.get(i);
@@ -66,7 +68,7 @@ public class GuiMeltingModule {
         }
 
         // draw the bar
-        GuiUtil.drawProgressUp(matrices, bar, slot.x - 4, slot.y, progress);
+        GuiUtil.drawProgressUp(graphics, texture, bar, slot.x - 4, slot.y, progress);
       }
     }
   }
@@ -76,7 +78,7 @@ public class GuiMeltingModule {
    * @param mouseX  Mouse X position
    * @param mouseY  Mouse Y position
    */
-  public void drawHeatTooltips(PoseStack matrices, int mouseX, int mouseY) {
+  public void drawHeatTooltips(GuiGraphics graphics, int mouseX, int mouseY) {
     int checkX = mouseX - screen.leftPos;
     int checkY = mouseY - screen.topPos;
     int temperature = this.temperature.getAsInt();
@@ -104,7 +106,7 @@ public class GuiMeltingModule {
 
           // draw tooltip if relevant
           if (tooltip != null) {
-            screen.renderTooltip(matrices, tooltip, mouseX, mouseY);
+            graphics.renderTooltip(Screens.getTextRenderer(screen), tooltip, mouseX, mouseY);
           }
 
           // cannot hover two slots, so done

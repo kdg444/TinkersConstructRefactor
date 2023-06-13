@@ -31,7 +31,7 @@ public class RayTracer {
    * @return a BlockRayTraceResult
    */
   public static BlockHitResult retrace(Player player, ClipContext.Block blockMode, ClipContext.Fluid fluidMode) {
-    return player.level.clip(new ClipContext(getStartVector(player), getEndVector(player), blockMode, fluidMode, player));
+    return player.level().clip(new ClipContext(getStartVector(player), getEndVector(player), blockMode, fluidMode, player));
   }
 
   /**
@@ -74,7 +74,7 @@ public class RayTracer {
    * @return the block reach distance
    */
   public static double getBlockReachDistance(Player player) {
-    return player.level.isClientSide ? ClientOnly.getBlockReachDistanceClient() : player instanceof ServerPlayer ? getBlockReachDistanceServer((ServerPlayer) player) : 5D;
+    return player.level().isClientSide ? ClientOnly.getBlockReachDistanceClient() : player instanceof ServerPlayer ? getBlockReachDistanceServer((ServerPlayer) player) : 5D;
   }
 
   /**

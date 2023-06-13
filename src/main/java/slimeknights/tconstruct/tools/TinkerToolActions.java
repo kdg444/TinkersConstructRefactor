@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools;
 
-import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 
 /** Custom tool actions defined by the mod */
 public class TinkerToolActions {

@@ -1,11 +1,11 @@
 package slimeknights.tconstruct.tools.logic;
 
 import com.google.common.collect.Multiset;
+import io.github.fabricators_of_create.porting_lib.entity.events.ProjectileImpactCallback;
 import io.github.fabricators_of_create.porting_lib.event.BaseEvent.Result;
 import io.github.fabricators_of_create.porting_lib.event.common.GrindstoneEvents;
-import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
-import io.github.fabricators_of_create.porting_lib.event.common.ProjectileImpactCallback;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
 import io.github.fabricators_of_create.porting_lib.util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -191,12 +191,12 @@ public class ToolEvents {
     }
     // dragon being damaged
 //    LivingEntity entity = event.getEntityLiving();
-    if (entity.getType() == EntityType.ENDER_DRAGON && amount > 0 && !entity.level.isClientSide) {
+    if (entity.getType() == EntityType.ENDER_DRAGON && amount > 0 && !entity.level().isClientSide) {
       // player caused explosion, end crystals and TNT are examples
 //      DamageSource source = event.getSource();
       if (source.is(DamageTypes.EXPLOSION) && source.getEntity() != null && source.getEntity().getType() == EntityType.PLAYER) {
         // drops 1 - 8 scales
-        ModifierUtil.dropItem(entity, new ItemStack(TinkerModifiers.dragonScale, 1 + entity.level.random.nextInt(8)));
+        ModifierUtil.dropItem(entity, new ItemStack(TinkerModifiers.dragonScale, 1 + entity.level().random.nextInt(8)));
       }
     }
     return amount;
@@ -205,7 +205,7 @@ public class ToolEvents {
   static float livingAttack(DamageSource source, LivingEntity entity, float amount) {
 //    LivingEntity entity = event.getEntityLiving();
     // client side always returns false, so this should be fine?
-    if (entity.level.isClientSide() || entity.isDeadOrDying()) {
+    if (entity.level().isClientSide() || entity.isDeadOrDying()) {
       return amount;
     }
     // I cannot think of a reason to run when invulnerable
@@ -378,7 +378,7 @@ public class ToolEvents {
     // this event runs before vanilla updates prevBlockPos
     BlockPos pos = living.blockPosition();
     BlockPos lastPos = EntityHelper.getLastPos(living);
-    if (!living.isSpectator() && !living.level.isClientSide() && living.isAlive() && !Objects.equals(lastPos, pos)) {
+    if (!living.isSpectator() && !living.level().isClientSide() && living.isAlive() && !Objects.equals(lastPos, pos)) {
       ItemStack boots = living.getItemBySlot(EquipmentSlot.FEET);
       if (!boots.isEmpty() && boots.is(TinkerTags.Items.BOOTS)) {
         ToolStack tool = ToolStack.from(boots);

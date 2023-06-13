@@ -50,8 +50,8 @@ public abstract class ShurikenEntityBase extends ThrowableItemProjectile impleme
   protected void onHit(HitResult result) {
     super.onHit(result);
 
-    if (!this.level.isClientSide) {
-      this.level.broadcastEntityEvent(this, (byte) 3);
+    if (!this.level().isClientSide) {
+      this.level().broadcastEntityEvent(this, (byte) 3);
       this.discard();
     }
   }
@@ -68,7 +68,7 @@ public abstract class ShurikenEntityBase extends ThrowableItemProjectile impleme
     Entity entity = result.getEntity();
     entity.hurt(entity.damageSources().thrown(this, this.getOwner()), this.getDamage());
 
-    if (!level.isClientSide() && entity instanceof LivingEntity) {
+    if (!level().isClientSide() && entity instanceof LivingEntity) {
       Vec3 motion = this.getDeltaMovement().normalize();
       ((LivingEntity) entity).knockback(this.getKnockback(), -motion.x, -motion.z);
     }

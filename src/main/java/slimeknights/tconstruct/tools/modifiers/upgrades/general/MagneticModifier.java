@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.general;
 
-import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -93,7 +93,7 @@ public class MagneticModifier extends TotalArmorLevelModifier implements PlantHa
     double y = entity.getY();
     double z = entity.getZ();
     float range = minRange + amplifier;
-    List<T> targets = entity.level.getEntitiesOfClass(targetClass, new AABB(x - range, y - range, z - range, x + range, y + range, z + range));
+    List<T> targets = entity.level().getEntitiesOfClass(targetClass, new AABB(x - range, y - range, z - range, x + range, y + range, z + range));
 
     // only pull up to a max targets
     int pulled = 0;

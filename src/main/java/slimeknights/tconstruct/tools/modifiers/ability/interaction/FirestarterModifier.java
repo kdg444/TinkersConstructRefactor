@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 
-import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.BlockPos;
@@ -83,12 +83,12 @@ public class FirestarterModifier extends InteractionModifier.NoLevels implements
   @Override
   public InteractionResult afterEntityUse(IToolStackView tool, ModifierEntry modifier, Player player, LivingEntity target, InteractionHand hand, InteractionSource source) {
     if (tool.getDefinitionData().getModule(ToolModuleHooks.INTERACTION).canInteract(tool, modifier.getId(), source) && target instanceof Creeper creeper) {
-      player.level.playSound(player, creeper.getX(), creeper.getY(), creeper.getZ(), SoundEvents.FLINTANDSTEEL_USE, creeper.getSoundSource(), 1.0F, RANDOM.nextFloat() * 0.4F + 0.8F);
-      if (!player.level.isClientSide) {
+      player.level().playSound(player, creeper.getX(), creeper.getY(), creeper.getZ(), SoundEvents.FLINTANDSTEEL_USE, creeper.getSoundSource(), 1.0F, RANDOM.nextFloat() * 0.4F + 0.8F);
+      if (!player.level().isClientSide) {
         creeper.ignite();
         ToolDamageUtil.damageAnimated(tool, 1, player, source.getSlot(hand));
       }
-      return InteractionResult.sidedSuccess(player.level.isClientSide);
+      return InteractionResult.sidedSuccess(player.level().isClientSide);
     }
     return InteractionResult.PASS;
   }

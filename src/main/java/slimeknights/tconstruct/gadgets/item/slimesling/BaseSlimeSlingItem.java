@@ -76,6 +76,6 @@ public abstract class BaseSlimeSlingItem extends TooltipItem {
   }
 
   protected void playMissSound(Player player) {
-    player.level.playSound(null, player.getX(), player.getY(), player.getZ(), Sounds.SLIME_SLING.getSound(), player.getSoundSource(), 1f, .5f);
+    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), Sounds.SLIME_SLING.getSound(), player.getSoundSource(), 1f, .5f);
   }
 }

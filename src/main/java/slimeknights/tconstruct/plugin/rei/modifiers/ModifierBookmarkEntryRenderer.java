@@ -1,12 +1,12 @@
 package slimeknights.tconstruct.plugin.rei.modifiers;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.entry.renderer.EntryRenderer;
 import me.shedaniel.rei.api.client.gui.widgets.Tooltip;
 import me.shedaniel.rei.api.client.gui.widgets.TooltipContext;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import slimeknights.tconstruct.library.client.modifiers.ModifierIconManager;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -21,8 +21,8 @@ public enum ModifierBookmarkEntryRenderer implements EntryRenderer<ModifierEntry
   private static final String WRAPPER_KEY = "jei.tconstruct.modifier_ingredient";
 
   @Override
-  public void render(EntryStack<ModifierEntry> entry, PoseStack matrixStack, Rectangle bounds, int mouseX, int mouseY, float delta) {
-    ModifierIconManager.renderIcon(matrixStack, entry.getValue().getModifier(), bounds.getX(), bounds.getY(), 100, 16);
+  public void render(EntryStack<ModifierEntry> entry, GuiGraphics graphics, Rectangle bounds, int mouseX, int mouseY, float delta) {
+    ModifierIconManager.renderIcon(graphics, entry.getValue().getModifier(), bounds.getX(), bounds.getY(), 100, 16);
   }
 
   @Override

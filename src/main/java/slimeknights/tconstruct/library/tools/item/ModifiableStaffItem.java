@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.tools.item;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -18,7 +19,7 @@ import java.util.List;
  * Modifiable item that supports left click and right click interaction
  */
 public class ModifiableStaffItem extends ModifiableItem {
-  public ModifiableStaffItem(Properties properties, ToolDefinition toolDefinition, CreativeModeTab tab) {
+  public ModifiableStaffItem(Properties properties, ToolDefinition toolDefinition, ResourceKey<CreativeModeTab> tab) {
     super(properties, toolDefinition, tab);
   }
 

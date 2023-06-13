@@ -205,7 +205,7 @@ public class BucketingModifier extends TankModifier implements BlockInteractionM
       placed = true;
     } else if (existing.canBeReplaced(fluid)) {
       // if its a liquid container, we should have validated it already
-      if (!world.isClientSide && !existing.getMaterial().isLiquid()) {
+      if (!world.isClientSide && !existing.liquid()) {
         world.destroyBlock(target, true);
       }
       if (world.setBlockAndUpdate(target, fluid.defaultFluidState().createLegacyBlock()) || existing.getFluidState().isSource()) {
@@ -239,7 +239,7 @@ public class BucketingModifier extends TankModifier implements BlockInteractionM
       return InteractionResult.PASS;
     }
     // have to trace again to find the fluid, ensure we can edit the position
-    Level world = player.level;
+    Level world = player.level();
     BlockHitResult trace = ModifiableItem.blockRayTrace(world, player, ClipContext.Fluid.SOURCE_ONLY);
     if (trace.getType() != Type.BLOCK) {
       return InteractionResult.PASS;

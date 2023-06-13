@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.events.teleport;
 
-import io.github.fabricators_of_create.porting_lib.event.common.EntityEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.EntityEvents;
 import lombok.Getter;
 import net.minecraft.world.entity.LivingEntity;
 import slimeknights.tconstruct.world.entity.EnderSlimeEntity;

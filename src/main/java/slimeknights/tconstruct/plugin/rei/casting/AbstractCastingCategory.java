@@ -14,6 +14,7 @@ import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -59,14 +60,14 @@ public abstract class AbstractCastingCategory implements TinkersCategory<Casting
   }
 
   @Override
-  public void draw(CastingDisplay display, PoseStack matrixStack, double mouseX, double mouseY) {
+  public void draw(CastingDisplay display, GuiGraphics graphics, double mouseX, double mouseY) {
     IDisplayableCastingRecipe recipe = display.getRecipe();
 
     int coolingTime = recipe.getCoolingTime() / 20;
     String coolingString = I18n.get(KEY_COOLING_TIME, coolingTime);
     Font fontRenderer = Minecraft.getInstance().font;
     int x = 72 - fontRenderer.width(coolingString) / 2;
-    fontRenderer.draw(matrixStack, coolingString, x, 2, Color.GRAY.getRGB());
+    graphics.drawString(fontRenderer, coolingString, x, 2, Color.GRAY.getRGB(), false);
   }
 
   @Override

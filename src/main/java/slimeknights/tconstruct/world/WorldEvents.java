@@ -3,7 +3,7 @@ package slimeknights.tconstruct.world;
 import com.google.common.collect.Lists;
 import io.github.fabricators_of_create.porting_lib.config.ConfigEvents;
 import io.github.fabricators_of_create.porting_lib.config.ConfigType;
-import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -32,9 +32,9 @@ import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
+import net.minecraft.world.level.storage.loot.LootDataManager;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
@@ -55,7 +55,6 @@ import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 @SuppressWarnings("unused")
@@ -151,31 +150,31 @@ public class WorldEvents {
     return LootItem.lootTableItem(TinkerWorld.slimeSapling.get(type)).setWeight(weight).build();
   }
 
-  static void onLootTableLoad(ResourceManager resourceManager, LootTables manager, ResourceLocation name, LootTable.Builder tableBuilder, LootTableSource source) {
+  static void onLootTableLoad(ResourceManager resourceManager, LootDataManager manager, ResourceLocation name, LootTable.Builder tableBuilder, LootTableSource source) {
     if ("minecraft".equals(name.getNamespace())) {
       switch (name.getPath()) {
         // sky
         case "chests/simple_dungeon":
           if (Config.COMMON.slimyLootChests.get()) {
-            injectInto(manager.get(name), "pool1", makeSeed(SlimeType.EARTH, 3), makeSeed(SlimeType.SKY, 7));
-            injectInto(manager.get(name), "main", makeSapling(SlimeType.EARTH, 3), makeSapling(SlimeType.SKY, 7));
+            injectInto(manager.getLootTable(name), "pool1", makeSeed(SlimeType.EARTH, 3), makeSeed(SlimeType.SKY, 7));
+            injectInto(manager.getLootTable(name), "main", makeSapling(SlimeType.EARTH, 3), makeSapling(SlimeType.SKY, 7));
           }
           break;
         // ichor
         case "chests/nether_bridge":
           if (Config.COMMON.slimyLootChests.get()) {
-            injectInto(manager.get(name), "main", makeSeed(SlimeType.BLOOD, 5));
+            injectInto(manager.getLootTable(name), "main", makeSeed(SlimeType.BLOOD, 5));
           }
           break;
         case "chests/bastion_bridge":
           if (Config.COMMON.slimyLootChests.get()) {
-            injectInto(manager.get(name), "pool2", makeSapling(SlimeType.BLOOD, 1));
+            injectInto(manager.getLootTable(name), "pool2", makeSapling(SlimeType.BLOOD, 1));
           }
           break;
         // ender
         case "chests/end_city_treasure":
           if (Config.COMMON.slimyLootChests.get()) {
-            injectInto(manager.get(name), "main", makeSeed(SlimeType.ENDER, 5), makeSapling(SlimeType.ENDER, 3));
+            injectInto(manager.getLootTable(name), "main", makeSeed(SlimeType.ENDER, 5), makeSapling(SlimeType.ENDER, 3));
           }
           break;
 
@@ -183,7 +182,7 @@ public class WorldEvents {
         case "gameplay/piglin_bartering": {
           int weight = Config.COMMON.barterBlazingBlood.get();
           if (weight > 0) {
-            injectInto(manager.get(name), "main", LootItem.lootTableItem(TinkerSmeltery.scorchedLantern).setWeight(weight)
+            injectInto(manager.getLootTable(name), "main", LootItem.lootTableItem(TinkerSmeltery.scorchedLantern).setWeight(weight)
                                               .apply(SetFluidLootFunction.builder(new FluidStack(TinkerFluids.blazingBlood.get(), FluidValues.LANTERN_CAPACITY)))
                                               .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 4)))
                                               .build());
@@ -198,14 +197,14 @@ public class WorldEvents {
             RandomMaterial randomHead = RandomMaterial.random(HeadMaterialStats.ID).tier(1).build();
             RandomMaterial firstHandle = RandomMaterial.firstWithStat(HandleMaterialStats.ID); // should be wood
             RandomMaterial randomBinding = RandomMaterial.random(ExtraMaterialStats.ID).tier(1).build();
-            injectInto(manager.get(name), "main", LootItem.lootTableItem(TinkerTools.handAxe.get())
+            injectInto(manager.getLootTable(name), "main", LootItem.lootTableItem(TinkerTools.handAxe.get())
                                               .setWeight(weight)
                                               .apply(AddToolDataFunction.builder()
                                                                .addMaterial(randomHead)
                                                                .addMaterial(firstHandle)
                                                                .addMaterial(randomBinding))
                                               .build());
-            injectInto(manager.get(name), "pool1", LootItem.lootTableItem(TinkerTools.pickaxe.get())
+            injectInto(manager.getLootTable(name), "pool1", LootItem.lootTableItem(TinkerTools.pickaxe.get())
                                                .setWeight(weight)
                                                .apply(AddToolDataFunction.builder()
                                                                .addMaterial(randomHead)

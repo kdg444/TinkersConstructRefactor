@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.tools.helper;
 
-import io.github.fabricators_of_create.porting_lib.common.util.ToolActions;
+import io.github.fabricators_of_create.porting_lib.tool.ToolActions;
 import io.github.fabricators_of_create.porting_lib.extensions.extensions.ItemExtensions;
 import io.github.fabricators_of_create.porting_lib.util.PortingHooks;
 import net.minecraft.core.BlockPos;
@@ -222,12 +222,12 @@ public class ToolHarvestLogic {
     //return this.breakBlock(stack, pos, player);
 
     // client can run normal block breaking
-    if (player.level.isClientSide || !(player instanceof ServerPlayer serverPlayer)) {
+    if (player.level().isClientSide || !(player instanceof ServerPlayer serverPlayer)) {
       return false;
     }
 
     // create contexts
-    ServerLevel world = serverPlayer.getLevel();
+    ServerLevel world = serverPlayer.serverLevel();
     ToolStack tool = ToolStack.from(stack);
     BlockState state = world.getBlockState(pos);
     Direction sideHit = BlockSideHitListener.getSideHit(player);

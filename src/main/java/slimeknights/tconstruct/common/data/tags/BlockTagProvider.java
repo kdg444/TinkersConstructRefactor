@@ -14,6 +14,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import slimeknights.mantle.registration.object.BuildingBlockObject;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.MetalItemObject;
@@ -261,6 +262,71 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     this.tag(TinkerTags.Blocks.BLACKSTONE).add(Blocks.BLACKSTONE);
     this.tag(TinkerTags.Blocks.DEEPSLATE).add(Blocks.DEEPSLATE, Blocks.COBBLED_DEEPSLATE);
     this.tag(TinkerTags.Blocks.BASALT).add(Blocks.BASALT);
+
+    tag(TinkerTags.Blocks.PLANT_REPLACEABLE).add(
+      Blocks.OAK_SAPLING,
+      Blocks.SPRUCE_SAPLING,
+      Blocks.BIRCH_SAPLING,
+      Blocks.JUNGLE_SAPLING,
+      Blocks.ACACIA_SAPLING,
+      Blocks.CHERRY_SAPLING,
+      Blocks.DARK_OAK_SAPLING,
+      Blocks.MANGROVE_PROPAGULE,
+      Blocks.DANDELION,
+      Blocks.TORCHFLOWER,
+      Blocks.POPPY,
+      Blocks.BLUE_ORCHID,
+      Blocks.ALLIUM,
+      Blocks.AZURE_BLUET,
+      Blocks.RED_TULIP,
+      Blocks.ORANGE_TULIP,
+      Blocks.WHITE_TULIP,
+      Blocks.PINK_TULIP,
+      Blocks.OXEYE_DAISY,
+      Blocks.CORNFLOWER,
+      Blocks.WITHER_ROSE,
+      Blocks.LILY_OF_THE_VALLEY,
+      Blocks.BROWN_MUSHROOM,
+      Blocks.RED_MUSHROOM,
+      Blocks.WHEAT,
+      Blocks.SUGAR_CANE,
+      Blocks.ATTACHED_PUMPKIN_STEM,
+      Blocks.ATTACHED_MELON_STEM,
+      Blocks.PUMPKIN_STEM,
+      Blocks.MELON_STEM,
+      Blocks.LILY_PAD,
+      Blocks.NETHER_WART,
+      Blocks.COCOA,
+      Blocks.CARROTS,
+      Blocks.POTATOES,
+      Blocks.CHORUS_PLANT,
+      Blocks.CHORUS_FLOWER,
+      Blocks.TORCHFLOWER_CROP,
+      Blocks.PITCHER_CROP,
+      Blocks.BEETROOTS,
+      Blocks.SWEET_BERRY_BUSH,
+      Blocks.WARPED_FUNGUS,
+      Blocks.CRIMSON_FUNGUS,
+      Blocks.WEEPING_VINES,
+      Blocks.WEEPING_VINES_PLANT,
+      Blocks.TWISTING_VINES,
+      Blocks.TWISTING_VINES_PLANT,
+      Blocks.CAVE_VINES,
+      Blocks.CAVE_VINES_PLANT,
+      Blocks.SPORE_BLOSSOM,
+      Blocks.AZALEA,
+      Blocks.FLOWERING_AZALEA,
+      Blocks.MOSS_CARPET,
+      Blocks.PINK_PETALS,
+      Blocks.BIG_DRIPLEAF,
+      Blocks.BIG_DRIPLEAF_STEM,
+      Blocks.SMALL_DRIPLEAF,
+      TinkerWorld.slimeSapling.get(SlimeType.EARTH),
+      TinkerWorld.slimeSapling.get(SlimeType.SKY),
+      TinkerWorld.slimeSapling.get(SlimeType.ICHOR),
+      TinkerWorld.slimeSapling.get(SlimeType.ENDER),
+      TinkerWorld.slimeSapling.get(SlimeType.BLOOD)
+    );
   }
 
   private void addSmeltery() {
@@ -437,7 +503,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     tag(TinkerTags.Blocks.MINABLE_WITH_SHEARS)
       .add(Blocks.AZALEA, Blocks.COBWEB, Blocks.DRIED_KELP_BLOCK, Blocks.GLOW_LICHEN, Blocks.LILY_PAD, Blocks.REDSTONE_WIRE,
            Blocks.TRIPWIRE, Blocks.TWISTING_VINES_PLANT, Blocks.TWISTING_VINES, Blocks.VINE, Blocks.WEEPING_VINES_PLANT, Blocks.WEEPING_VINES)
-      .forceAddTag(BlockTags.CAVE_VINES).forceAddTag(BlockTags.LEAVES).forceAddTag(BlockTags.WOOL).forceAddTag(BlockTags.SAPLINGS).forceAddTag(BlockTags.FLOWERS).forceAddTag(BlockTags.REPLACEABLE_PLANTS).forceAddTag(BlockTags.CORAL_PLANTS);
+      .forceAddTag(BlockTags.CAVE_VINES).forceAddTag(BlockTags.LEAVES).forceAddTag(BlockTags.WOOL).forceAddTag(BlockTags.SAPLINGS).forceAddTag(BlockTags.FLOWERS).forceAddTag(BlockTags.REPLACEABLE).forceAddTag(BlockTags.CORAL_PLANTS);
     // scythe/kama does hoe or shear blocks
     tag(TinkerTags.Blocks.MINABLE_WITH_SCYTHE)
       .add(Blocks.ATTACHED_MELON_STEM, Blocks.ATTACHED_PUMPKIN_STEM, Blocks.BIG_DRIPLEAF_STEM, Blocks.BIG_DRIPLEAF, Blocks.KELP, Blocks.KELP_PLANT, Blocks.NETHER_WART, Blocks.SMALL_DRIPLEAF, Blocks.SPORE_BLOSSOM, Blocks.SUGAR_CANE, Blocks.SWEET_BERRY_BUSH)

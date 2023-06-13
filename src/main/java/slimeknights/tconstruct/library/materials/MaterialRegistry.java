@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.materials;
 
 import com.google.common.annotations.VisibleForTesting;
-import io.github.fabricators_of_create.porting_lib.event.common.OnDatapackSyncCallback;
+import io.github.fabricators_of_create.porting_lib.entity.events.OnDatapackSyncCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;

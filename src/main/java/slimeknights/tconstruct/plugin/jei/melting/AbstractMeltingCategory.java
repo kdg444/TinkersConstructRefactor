@@ -3,7 +3,6 @@ package slimeknights.tconstruct.plugin.jei.melting;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +17,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -70,11 +70,11 @@ public abstract class AbstractMeltingCategory implements IRecipeCategory<Melting
   }
 
   @Override
-  public void draw(MeltingRecipe recipe, IRecipeSlotsView slots, PoseStack matrices, double mouseX, double mouseY) {
+  public void draw(MeltingRecipe recipe, IRecipeSlotsView slots, GuiGraphics graphics, double mouseX, double mouseY) {
     // draw the arrow
-    cachedArrows.getUnchecked(recipe.getTime() * 5).draw(matrices, 56, 18);
+    cachedArrows.getUnchecked(recipe.getTime() * 5).draw(graphics, 56, 18);
     if (recipe.getOreType() != null) {
-      plus.draw(matrices, 87, 31);
+      plus.draw(graphics, 87, 31);
     }
 
     // temperature
@@ -82,7 +82,7 @@ public abstract class AbstractMeltingCategory implements IRecipeCategory<Melting
     Font fontRenderer = Minecraft.getInstance().font;
     String tempString = I18n.get(KEY_TEMPERATURE, temperature);
     int x = 56 - fontRenderer.width(tempString) / 2;
-    fontRenderer.draw(matrices, tempString, x, 3, Color.GRAY.getRGB());
+    graphics.drawString(fontRenderer, tempString, x, 3, Color.GRAY.getRGB(), false);
   }
 
   @Override

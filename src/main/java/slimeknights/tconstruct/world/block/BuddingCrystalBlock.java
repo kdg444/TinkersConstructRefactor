@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BuddingAmethystBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.PushReaction;
 import slimeknights.tconstruct.common.registration.GeodeItemObject;
 import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
 
@@ -21,11 +20,6 @@ public class BuddingCrystalBlock extends CrystalBlock {
   public BuddingCrystalBlock(GeodeItemObject geode, SoundEvent chimeSound, Properties props) {
     super(chimeSound, props);
     this.geode = geode;
-  }
-
-  @Override
-  public PushReaction getPistonPushReaction(BlockState pState) {
-    return PushReaction.DESTROY;
   }
 
   @Override

@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
-import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
-import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents.Fall.FallEvent;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents.Fall.FallEvent;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -50,7 +50,7 @@ public class DoubleJumpModifier extends TotalArmorLevelModifier {
    */
   public static boolean extraJump(Player entity) {
     // validate preconditions, no using when swimming, elytra, or on the ground
-    if (!entity.isOnGround() && !entity.onClimbable() && !entity.isInWaterOrBubble()) {
+    if (!entity.onGround() && !entity.onClimbable() && !entity.isInWaterOrBubble()) {
       // determine modifier level
       int maxJumps = TinkerDataCapability.CAPABILITY.maybeGet(entity).map(data -> data.get(EXTRA_JUMPS)).orElse(0);
       if (maxJumps > 0) {

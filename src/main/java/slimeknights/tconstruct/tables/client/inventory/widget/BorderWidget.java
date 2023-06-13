@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tables.client.inventory.widget;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
 import slimeknights.mantle.client.screen.ElementScreen;
 import slimeknights.mantle.client.screen.ModuleScreen;
 import slimeknights.mantle.client.screen.ScalableElementScreen;
@@ -51,29 +52,29 @@ public class BorderWidget extends Widget {
   }
 
   @Override
-  public void draw(PoseStack matrices) {
+  public void draw(GuiGraphics graphics, ResourceLocation texture) {
     int x = this.xPos;
     int y = this.yPos;
     int midW = this.width - this.borderLeft.w - this.borderRight.w;
     int midH = this.height - this.borderTop.h - this.borderBottom.h;
 
     // top row
-    x += this.cornerTopLeft.draw(matrices, x, y);
-    x += this.borderTop.drawScaledX(matrices, x, y, midW);
-    this.cornerTopRight.draw(matrices, x, y);
+    x += this.cornerTopLeft.draw(graphics, texture, x, y);
+    x += this.borderTop.drawScaledX(graphics, texture, x, y, midW);
+    this.cornerTopRight.draw(graphics, texture, x, y);
 
     // center row
     x = this.xPos;
     y += this.borderTop.h;
-    x += this.borderLeft.drawScaledY(matrices, x, y, midH);
+    x += this.borderLeft.drawScaledY(graphics, texture, x, y, midH);
     x += midW;
-    this.borderRight.drawScaledY(matrices, x, y, midH);
+    this.borderRight.drawScaledY(graphics, texture, x, y, midH);
 
     // bottom row
     x = this.xPos;
     y += midH;
-    x += this.cornerBottomLeft.draw(matrices, x, y);
-    x += this.borderBottom.drawScaledX(matrices, x, y, midW);
-    this.cornerBottomRight.draw(matrices, x, y);
+    x += this.cornerBottomLeft.draw(graphics, texture, x, y);
+    x += this.borderBottom.drawScaledX(graphics, texture, x, y, midW);
+    this.cornerBottomRight.draw(graphics, texture, x, y);
   }
 }

@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.modifiers.dynamic;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;

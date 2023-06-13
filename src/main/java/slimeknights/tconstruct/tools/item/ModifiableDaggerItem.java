@@ -1,7 +1,8 @@
 package slimeknights.tconstruct.tools.item;
 
-import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -15,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 
 public class ModifiableDaggerItem extends ModifiableSwordItem {
-  public ModifiableDaggerItem(Properties properties, ToolDefinition toolDefinition, CreativeModeTab tab) {
+  public ModifiableDaggerItem(Properties properties, ToolDefinition toolDefinition, ResourceKey<CreativeModeTab> tab) {
     super(properties, toolDefinition, tab);
   }
 

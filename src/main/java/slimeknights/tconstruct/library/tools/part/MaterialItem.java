@@ -6,6 +6,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -32,7 +33,7 @@ import java.util.List;
 public class MaterialItem extends Item implements IMaterialItem {
   private static final String ADDED_BY = TConstruct.makeTranslationKey("tooltip", "part.added_by");
 
-  public MaterialItem(Properties properties, @Nullable CreativeModeTab tab) {
+  public MaterialItem(Properties properties, @Nullable ResourceKey<CreativeModeTab> tab) {
     super(properties);
     if (tab != null)
       ItemGroupEvents.modifyEntriesEvent(tab).register(this::fillItemCategory);

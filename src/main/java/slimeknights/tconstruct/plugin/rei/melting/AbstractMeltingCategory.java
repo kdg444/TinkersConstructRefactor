@@ -12,6 +12,7 @@ import me.shedaniel.rei.api.common.entry.EntryStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -57,13 +58,13 @@ public abstract class AbstractMeltingCategory implements TinkersCategory<Melting
   }
 
   @Override
-  public void draw(MeltingDisplay display, PoseStack matrices, double mouseX, double mouseY) {
+  public void draw(MeltingDisplay display, GuiGraphics graphics, double mouseX, double mouseY) {
     // temperature
     int temperature = display.getTemperature();
     Font fontRenderer = Minecraft.getInstance().font;
     String tempString = I18n.get(KEY_TEMPERATURE, temperature);
     int x = 56 - fontRenderer.width(tempString) / 2;
-    fontRenderer.draw(matrices, tempString, x, 3, Color.GRAY.getRGB());
+    graphics.drawString(fontRenderer, tempString, x, 3, Color.GRAY.getRGB(), false);
   }
 
   @Override

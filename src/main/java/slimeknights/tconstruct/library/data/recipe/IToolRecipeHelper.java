@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.data.recipe;
 
-import io.github.tropheusj.serialization_hooks.ingredient.CombinedIngredient;
+import net.fabricmc.fabric.api.recipe.v1.ingredient.DefaultCustomIngredients;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -58,7 +58,7 @@ public interface IToolRecipeHelper extends ICastCreationHelper {
     // Part Builder
     PartRecipeBuilder.partRecipe(part)
                      .setPattern(modResource(name))
-                     .setPatternItem(new CombinedIngredient(Ingredient.of(TinkerTags.Items.DEFAULT_PATTERNS), Ingredient.of(cast.get())))
+                     .setPatternItem(DefaultCustomIngredients.any(Ingredient.of(TinkerTags.Items.DEFAULT_PATTERNS), Ingredient.of(cast.get())))
                      .setCost(cost)
                      .save(consumer, modResource(partFolder + "builder/" + name));
 

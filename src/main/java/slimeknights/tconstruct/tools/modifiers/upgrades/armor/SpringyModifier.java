@@ -27,7 +27,7 @@ public class SpringyModifier extends Modifier {
   public void onAttacked(IToolStackView tool, int level, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float amount, boolean isDirectDamage) {
     LivingEntity user = context.getEntity();
     Entity attacker = source.getEntity();
-    if (isDirectDamage && !user.level.isClientSide && attacker instanceof LivingEntity livingAttacker) {
+    if (isDirectDamage && !user.level().isClientSide && attacker instanceof LivingEntity livingAttacker) {
       context.getTinkerData().ifPresent(data -> {
         // ensure this slot is in charge before continuing
         if (Optional.ofNullable(data.get(SLOT_IN_CHARGE)).filter(slot -> slot.inCharge == slotType).isPresent()) {
@@ -58,7 +58,7 @@ public class SpringyModifier extends Modifier {
 
   /** Checks if the given tool cares about this modifier */
   private static boolean toolValid(IToolStackView tool, EquipmentSlot slot, EquipmentChangeContext context) {
-    if (!tool.isBroken() && !context.getEntity().level.isClientSide) {
+    if (!tool.isBroken() && !context.getEntity().level().isClientSide) {
       return ModifierUtil.validArmorSlot(tool, slot);
     }
     return false;

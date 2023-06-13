@@ -32,7 +32,7 @@ public class ZoomModifier extends NoLevelsModifier implements KeybindInteractMod
 
   @Override
   public void onUnequip(IToolStackView tool, int level, EquipmentChangeContext context) {
-    if (context.getEntity().level.isClientSide) {
+    if (context.getEntity().level().isClientSide) {
       IToolStackView replacement = context.getReplacementTool();
       if (replacement == null || replacement.getModifierLevel(this) == 0) {
         context.getTinkerData().ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).remove(ZOOM));
@@ -44,7 +44,7 @@ public class ZoomModifier extends NoLevelsModifier implements KeybindInteractMod
   public boolean startInteract(IToolStackView tool, ModifierEntry modifier, Player player, EquipmentSlot slot, TooltipKey keyModifier) {
     if (player.isShiftKeyDown()) {
       player.playSound(SoundEvents.SPYGLASS_USE, 1.0F, 1.0F);
-      if (player.level.isClientSide()) {
+      if (player.level().isClientSide()) {
         TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).set(ZOOM, 0.1f));
       }
       return true;
@@ -55,7 +55,7 @@ public class ZoomModifier extends NoLevelsModifier implements KeybindInteractMod
   @Override
   public void stopInteract(IToolStackView tool, ModifierEntry modifier, Player player, EquipmentSlot slot) {
     player.playSound(SoundEvents.SPYGLASS_STOP_USING, 1.0F, 1.0F);
-    if (player.level.isClientSide()) {
+    if (player.level().isClientSide()) {
       TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).remove(ZOOM));
     }
   }
@@ -65,7 +65,7 @@ public class ZoomModifier extends NoLevelsModifier implements KeybindInteractMod
     if (source == InteractionSource.RIGHT_CLICK) {
       player.playSound(SoundEvents.SPYGLASS_USE, 1.0F, 1.0F);
       player.startUsingItem(hand);
-      if (player.level.isClientSide) {
+      if (player.level().isClientSide) {
         TinkerDataCapability.CAPABILITY.maybeGet(player).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).set(ZOOM, 0.1f));
       }
       tool.getPersistentData().putBoolean(ZOOM, true);
@@ -88,7 +88,7 @@ public class ZoomModifier extends NoLevelsModifier implements KeybindInteractMod
   public boolean onFinishUsing(IToolStackView tool, ModifierEntry modifier, LivingEntity entity) {
     if (tool.getPersistentData().getBoolean(ZOOM)) {
       entity.playSound(SoundEvents.SPYGLASS_STOP_USING, 1.0F, 1.0F);
-      if (entity.level.isClientSide) {
+      if (entity.level().isClientSide) {
         TinkerDataCapability.CAPABILITY.maybeGet(entity).ifPresent(data -> data.computeIfAbsent(TinkerDataKeys.FOV_MODIFIER).remove(ZOOM));
       }
       tool.getPersistentData().remove(ZOOM);

@@ -14,7 +14,7 @@ import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -30,28 +30,28 @@ import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
 public final class GuiUtil {
   /**
    * Draws the background of a container
-   * @param matrices    Matrix context
+   * @param graphics    Gui graphics
    * @param screen      Parent screen
    * @param background  Background location
    */
-  public static void drawBackground(PoseStack matrices, AbstractContainerScreen<?> screen, ResourceLocation background) {
+  public static void drawBackground(GuiGraphics graphics, AbstractContainerScreen<?> screen, ResourceLocation background) {
     RenderUtils.setup(background);
-    screen.blit(matrices, screen.leftPos, screen.topPos, 0, 0, screen.imageWidth, screen.imageHeight);
+    graphics.blit(background, screen.leftPos, screen.topPos, 0, 0, screen.imageWidth, screen.imageHeight);
   }
 
   /**
    * Draws the container names
-   * @param matrices    Matrix context
+   * @param graphics  Gui graphics
    * @param screen    Screen name
    * @param font      Screen font
    * @param invName   Name of the player inventory
    * @deprecated  Switch to the vanilla method
    */
   @Deprecated
-  public static void drawContainerNames(PoseStack matrices, AbstractContainerScreen<?> screen, Font font, Component invName) {
+  public static void drawContainerNames(GuiGraphics graphics, AbstractContainerScreen<?> screen, Font font, Component invName) {
     String name = screen.getTitle().getString();
-    font.draw(matrices, name, (screen.imageWidth / 2f - font.width(name) / 2f), 6.0F, 0x404040);
-    font.draw(matrices, invName, 8.0F, (screen.imageHeight - 96 + 2), 0x404040);
+    graphics.drawString(font, name, (screen.imageWidth / 2 - font.width(name) / 2), 6, 0x404040, false);
+    graphics.drawString(font, invName, 8, (screen.imageHeight - 96 + 2), 0x404040, false);
   }
 
   /**
@@ -229,7 +229,7 @@ public final class GuiUtil {
    * @param y         Y position to start
    * @param progress  Progress between 0 and 1
    */
-  public static void drawProgressUp(PoseStack matrices, ElementScreen element, int x, int y, float progress) {
+  public static void drawProgressUp(GuiGraphics graphics, ResourceLocation texture, ElementScreen element, int x, int y, float progress) {
     int height;
     if (progress > 1) {
       height = element.h;
@@ -241,28 +241,28 @@ public final class GuiUtil {
     }
     // amount to offset element by for the height
     int deltaY = element.h - height;
-    Screen.blit(matrices, x, y + deltaY, element.x, element.y + deltaY, element.w, height, element.texW, element.texH);
+    graphics.blit(texture, x, y + deltaY, element.x, element.y + deltaY, element.w, height, element.texW, element.texH);
   }
 
   /**
    * Renders a highlight overlay for the given area
-   * @param matrices  Matrix instance
+   * @param graphics  Gui graphics instance
    * @param x         Element X position
    * @param y         Element Y position
    * @param width     Element width
    * @param height    Element height
    */
-  public static void renderHighlight(PoseStack matrices, int x, int y, int width, int height) {
+  public static void renderHighlight(GuiGraphics graphics, int x, int y, int width, int height) {
       RenderSystem.disableDepthTest();
       RenderSystem.colorMask(true, true, true, false);
-      GuiComponent.fill(matrices, x, y, x + width, y + height, 0x80FFFFFF);
+      graphics.fill(x, y, x + width, y + height, 0x80FFFFFF);
       RenderSystem.colorMask(true, true, true, true);
       RenderSystem.enableDepthTest();
   }
 
   /** Renders a pattern at the given location */
-  public static void renderPattern(PoseStack matrices, Pattern pattern, int x, int y) {
+  public static void renderPattern(GuiGraphics graphics, Pattern pattern, int x, int y) {
     TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(pattern.getTexture());
-    GuiComponent.blit(matrices, x, y, 100, 16, 16, sprite);
+    graphics.blit(x, y, 100, 16, 16, sprite);
   }
 }

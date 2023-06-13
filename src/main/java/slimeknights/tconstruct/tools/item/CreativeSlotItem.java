@@ -7,6 +7,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +26,7 @@ public class CreativeSlotItem extends Item {
   private static final String TOOLTIP = TConstruct.makeTranslationKey("item", "creative_slot.tooltip");
   private static final Component TOOLTIP_MISSING = TConstruct.makeTranslation("item", "creative_slot.missing").withStyle(ChatFormatting.RED);
 
-  public CreativeSlotItem(Properties properties, CreativeModeTab tab) {
+  public CreativeSlotItem(Properties properties, ResourceKey<CreativeModeTab> tab) {
     super(properties);
     ItemGroupEvents.modifyEntriesEvent(tab).register(this::fillItemCategory);
   }

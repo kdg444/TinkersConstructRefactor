@@ -116,7 +116,7 @@ public class MeltingModifier extends TankModifier {
       // first, find the proper recipe
       LivingEntity target = context.getLivingTarget();
       if (target != null) {
-        EntityMeltingRecipe recipe = EntityMeltingRecipeCache.findRecipe(context.getAttacker().level.getRecipeManager(), target.getType());
+        EntityMeltingRecipe recipe = EntityMeltingRecipeCache.findRecipe(context.getAttacker().level().getRecipeManager(), target.getType());
         FluidStack output;
         int damagePerOutput;
         if (recipe != null) {

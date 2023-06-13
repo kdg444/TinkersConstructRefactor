@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
@@ -113,26 +114,26 @@ public class ModifierIconManager implements IEarlySafeManagerReloadListener, Ide
 
   /**
    * Renders a modifier icon at the given location
-   * @param matrices  Matrix stack instance
+   * @param graphics  Gui graphics instance
    * @param modifier  Modifier to draw
    * @param x         X offset
    * @param y         Y offset
    * @param z         Render depth offset, typically 100 is good
    * @param size      Size to render, 16 is default
    */
-  public static void renderIcon(PoseStack matrices, Modifier modifier, int x, int y, int z, int size) {
+  public static void renderIcon(GuiGraphics graphics, Modifier modifier, int x, int y, int z, int size) {
     RenderUtils.setup(InventoryMenu.BLOCK_ATLAS);
     TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
 
     List<ResourceLocation> icons = modifierIcons.getOrDefault(modifier.getId(), Collections.emptyList());
     if (!icons.isEmpty()) {
       for (ResourceLocation icon : icons) {
-        Screen.blit(matrices, x, y, z, size, size, atlas.getSprite(icon));
+        graphics.blit(x, y, z, size, size, atlas.getSprite(icon));
       }
     } else {
-      Screen.blit(matrices, x, y, z, size, size, atlas.getSprite(DEFAULT_PAGES));
+      graphics.blit(x, y, z, size, size, atlas.getSprite(DEFAULT_PAGES));
       RenderUtils.setColorRGBA(0xFF000000 | modifier.getColor());
-      Screen.blit(matrices, x, y, z, size, size, atlas.getSprite(DEFAULT_COVER));
+      graphics.blit(x, y, z, size, size, atlas.getSprite(DEFAULT_COVER));
       RenderUtils.setColorRGBA(-1);
     }
   }

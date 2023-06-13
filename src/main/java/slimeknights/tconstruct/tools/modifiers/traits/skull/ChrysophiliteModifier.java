@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
-import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.item.PiglinsNeutralItem;
 import lombok.Getter;
 import net.minecraft.util.RandomSource;

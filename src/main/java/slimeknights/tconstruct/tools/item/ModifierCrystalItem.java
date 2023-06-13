@@ -6,6 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +26,7 @@ public class ModifierCrystalItem extends Item {
   private static final Component TOOLTIP_MISSING = TConstruct.makeTranslation("item", "modifier_crystal.missing").withStyle(ChatFormatting.GRAY);
   private static final Component TOOLTIP_APPLY = TConstruct.makeTranslation("item", "modifier_crystal.tooltip").withStyle(ChatFormatting.GRAY);
   private static final String TAG_MODIFIER = "modifier";
-  public ModifierCrystalItem(Properties props, CreativeModeTab tab) {
+  public ModifierCrystalItem(Properties props, ResourceKey<CreativeModeTab> tab) {
     super(props);
     ItemGroupEvents.modifyEntriesEvent(tab).register(this::fillItemCategory);
   }

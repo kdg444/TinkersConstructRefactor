@@ -12,6 +12,7 @@ import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -53,12 +54,12 @@ public class PartBuilderCategory implements TinkersCategory<PartBuilderDisplay> 
   }
 
   @Override
-  public void draw(PartBuilderDisplay display, PoseStack matrixStack, double mouseX, double mouseY) {
+  public void draw(PartBuilderDisplay display, GuiGraphics graphics, double mouseX, double mouseY) {
     Font fontRenderer = Minecraft.getInstance().font;
     Component name = MaterialTooltipCache.getColoredDisplayName(display.getMaterial().getVariant());
-    fontRenderer.drawShadow(matrixStack, name.getString(), 3, 2, Objects.requireNonNullElse(name.getStyle().getColor(), ResourceColorManager.WHITE).getValue());
+    graphics.drawString(fontRenderer, name.getString(), 3, 2, Objects.requireNonNullElse(name.getStyle().getColor(), ResourceColorManager.WHITE).getValue());
     String coolingString = I18n.get(KEY_COST, display.getCost());
-    fontRenderer.draw(matrixStack, coolingString, 3, 35, Color.GRAY.getRGB());
+    graphics.drawString(fontRenderer, coolingString, 3, 35, Color.GRAY.getRGB(), false);
   }
 
   @Override

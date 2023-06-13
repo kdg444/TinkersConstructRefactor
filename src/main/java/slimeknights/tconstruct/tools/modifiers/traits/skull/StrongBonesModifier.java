@@ -3,7 +3,7 @@ package slimeknights.tconstruct.tools.modifiers.traits.skull;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityUseItemEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityUseItemEvents;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.PotionHelper;
 import net.minecraft.resources.ResourceLocation;

@@ -41,7 +41,7 @@ public class GlowballEntity extends ThrowableItemProjectile implements ExtraSpaw
 
   @Override
   protected void onHit(HitResult result) {
-    if (!this.level.isClientSide) {
+    if (!this.level().isClientSide) {
       BlockPos position = null;
       Direction direction = Direction.DOWN;
 
@@ -56,12 +56,12 @@ public class GlowballEntity extends ThrowableItemProjectile implements ExtraSpaw
       }
 
       if (position != null) {
-        TinkerCommons.glow.get().addGlow(this.level, position, direction);
+        TinkerCommons.glow.get().addGlow(this.level(), position, direction);
       }
     }
 
-    if (!this.level.isClientSide) {
-      this.level.broadcastEntityEvent(this, (byte) 3);
+    if (!this.level().isClientSide) {
+      this.level().broadcastEntityEvent(this, (byte) 3);
       this.discard();
     }
   }

@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.traits.harvest;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.Direction;
@@ -59,7 +59,7 @@ public class SearingModifier extends Modifier {
       BlockState state = event.getState();
       Item item = state.getBlock().asItem();
       if (item != Items.AIR) {
-        Level world = event.getPlayer().level;
+        Level world = event.getPlayer().level();
         // +7 per level if it has a melting recipe, cache to save lookup time
         // TODO: consider whether we should use getCloneItemStack, problem is I don't want a position based logic and its possible the result is BE based
         if (BOOSTED_BLOCKS.computeIfAbsent(item, i -> isEffective(world, i)) == Boolean.TRUE) {

@@ -26,7 +26,7 @@ public class RenderShuriken extends EntityRenderer<ShurikenEntityBase> {
       matrixStackIn.mulPose(Axis.XP.rotationDegrees(90));
       matrixStackIn.mulPose(Axis.ZP.rotationDegrees(-(entity.tickCount + partialTicks) * 30 % 360));
       matrixStackIn.translate(-0.03125, -0.09375, 0);
-      this.itemRenderer.renderStatic(entity.getItem(), ItemDisplayContext.GROUND, packedLightIn, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, entity.level, entity.getId());
+      this.itemRenderer.renderStatic(entity.getItem(), ItemDisplayContext.GROUND, packedLightIn, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, entity.level(), entity.getId());
       matrixStackIn.popPose();
       super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }

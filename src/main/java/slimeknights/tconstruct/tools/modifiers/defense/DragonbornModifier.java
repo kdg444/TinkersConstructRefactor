@@ -30,7 +30,7 @@ public class DragonbornModifier extends AbstractProtectionModifier<ModifierMaxLe
   }
 
   private static boolean isAirborne(LivingEntity living) {
-    return !living.isOnGround() && !living.onClimbable() && !living.isInWater() && !living.isPassenger();
+    return !living.onGround() && !living.onClimbable() && !living.isInWater() && !living.isPassenger();
   }
 
   @Override

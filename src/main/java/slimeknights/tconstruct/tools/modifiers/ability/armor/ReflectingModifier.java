@@ -1,10 +1,9 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
-import io.github.fabricators_of_create.porting_lib.event.common.ProjectileImpactCallback;
+import io.github.fabricators_of_create.porting_lib.entity.events.ProjectileImpactCallback;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -37,7 +36,7 @@ public class ReflectingModifier extends Modifier {
 
   private boolean projectileImpact(Projectile projectile, HitResult hit) {
     // first, need a projectile that is hitting a living entity
-    if (!projectile.level.isClientSide) {
+    if (!projectile.level().isClientSide) {
 
       // handle blacklist for projectiles
       // living entity must be using one of our shields
@@ -85,7 +84,7 @@ public class ReflectingModifier extends Modifier {
                 if (living.getType() == EntityType.PLAYER) {
                   TinkerNetwork.getInstance().sendVanillaPacket(new ClientboundSetEntityMotionPacket(projectile), living);
                 }
-                living.level.playSound(null, living.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 1.5F + living.level.random.nextFloat() * 0.4F);
+                living.level().playSound(null, living.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 1.5F + living.level().random.nextFloat() * 0.4F);
                 return true;
               }
             }

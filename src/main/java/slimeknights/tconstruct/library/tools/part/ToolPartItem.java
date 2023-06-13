@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.tools.part;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -31,7 +32,7 @@ public class ToolPartItem extends MaterialItem implements IToolPart {
 
   public final MaterialStatsId materialStatId;
 
-  public ToolPartItem(Properties properties, MaterialStatsId id, @Nullable CreativeModeTab tab) {
+  public ToolPartItem(Properties properties, MaterialStatsId id, @Nullable ResourceKey<CreativeModeTab> tab) {
     super(properties, tab);
 
     this.materialStatId = id;

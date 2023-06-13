@@ -11,6 +11,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -55,8 +56,8 @@ public class ModifierWorktableCategory implements TinkersCategory<ModifierWorkta
   }
 
   @Override
-  public void draw(ModifierWorktableDisplay display, PoseStack matrixStack, double mouseX, double mouseY) {
-    Minecraft.getInstance().font.draw(matrixStack, display.getRecipe().getTitle(), 3, 2, 0x404040);
+  public void draw(ModifierWorktableDisplay display, GuiGraphics graphics, double mouseX, double mouseY) {
+    graphics.drawString(Minecraft.getInstance().font, display.getRecipe().getTitle(), 3, 2, 0x404040, false);
   }
 
   @Override

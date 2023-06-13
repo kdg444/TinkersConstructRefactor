@@ -88,7 +88,7 @@ public class FancyItemFrameRenderer<T extends FancyItemFrameEntity> extends Item
       // determine rotation for the item inside
       MapItemSavedData mapdata = null;
       if (isMap) {
-        mapdata = MapItem.getSavedData(stack, frame.level);
+        mapdata = MapItem.getSavedData(stack, frame.level());
       }
       int frameRotation = frame.getRotation();
       // for diamond, render the timer as a partial rotation
@@ -111,7 +111,7 @@ public class FancyItemFrameRenderer<T extends FancyItemFrameEntity> extends Item
           float scale = frameType == FrameType.CLEAR ? 0.75f : 0.5f;
           matrices.scale(scale, scale, scale);
           int light = frameType == FrameType.MANYULLYN ? 0x00F000F0 : packedLight;
-          this.itemRenderer.renderStatic(stack, ItemDisplayContext.FIXED, light, OverlayTexture.NO_OVERLAY, matrices, bufferIn, frame.level, frame.getId());
+          this.itemRenderer.renderStatic(stack, ItemDisplayContext.FIXED, light, OverlayTexture.NO_OVERLAY, matrices, bufferIn, frame.level(), frame.getId());
         }
 //      }
     }

@@ -11,7 +11,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import slimeknights.tconstruct.library.tools.context.EquipmentContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
@@ -35,7 +34,7 @@ public class FrostWalkerModifier extends AbstractWalkerModifier {
       mutable.set(target.getX(), target.getY() - 1, target.getZ());
       BlockState below = world.getBlockState(mutable);
       boolean isFull = below.getBlock() == Blocks.WATER && below.getValue(LiquidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
-      if (below.getMaterial() == Material.WATER && isFull
+      if (below == Blocks.WATER.defaultBlockState() && isFull
           && frostedIce.canSurvive(world, mutable) && world.isUnobstructed(frostedIce, mutable, CollisionContext.empty())/*
           && !PortingHooks.onBlockPlace(living, BlockSnapshot.create(world.dimension(), world, mutable), Direction.UP)*/) {
         world.setBlockAndUpdate(mutable, frostedIce);

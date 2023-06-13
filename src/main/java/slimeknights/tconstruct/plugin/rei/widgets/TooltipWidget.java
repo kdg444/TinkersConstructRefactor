@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.plugin.rei.widgets;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.widgets.Slot;
@@ -10,6 +9,7 @@ import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.WidgetWithBounds;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.common.display.Display;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
@@ -37,7 +37,7 @@ public class TooltipWidget<T extends Display> extends WidgetWithBounds {
   }
 
   @Override
-  public void render(PoseStack arg, int mouseX, int mouseY, float f) {
+  public void render(GuiGraphics graphics, int mouseX, int mouseY, float f) {
     Point mouse = new Point(mouseX, mouseY);
 
     if (containsMouse(mouse)) {

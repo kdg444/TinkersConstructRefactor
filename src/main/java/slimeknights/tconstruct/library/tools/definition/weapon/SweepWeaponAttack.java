@@ -34,7 +34,7 @@ public class SweepWeaponAttack implements IWeaponAttack {
     // sweep code from Player#attack(Entity)
     // basically: no crit, no sprinting and has to stand on the ground for sweep. Also has to move regularly slowly
     LivingEntity attacker = context.getAttacker();
-    if (hit && context.isFullyCharged() && !attacker.isSprinting() && !context.isCritical() && attacker.isOnGround() && (attacker.walkDist - attacker.walkDistO) < attacker.getSpeed()) {
+    if (hit && context.isFullyCharged() && !attacker.isSprinting() && !context.isCritical() && attacker.onGround() && (attacker.walkDist - attacker.walkDistO) < attacker.getSpeed()) {
       // loop through all nearby entities
       double range = this.range + tool.getModifierLevel(TinkerModifiers.expanded.getId());
       double rangeSq = (2 + range);
@@ -42,7 +42,7 @@ public class SweepWeaponAttack implements IWeaponAttack {
       // if the modifier is missing, sweeping damage will be 0, so easiest to let it fully control this
       float sweepDamage = TinkerModifiers.sweeping.get().getSweepingDamage(tool, damage);
       Entity target = context.getTarget();
-      for (LivingEntity aoeTarget : attacker.level.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(range, 0.25D, range))) {
+      for (LivingEntity aoeTarget : attacker.level().getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(range, 0.25D, range))) {
         if (aoeTarget != attacker && aoeTarget != target && !attacker.isAlliedTo(aoeTarget)
             && !(aoeTarget instanceof ArmorStand armorStand && armorStand.isMarker()) && attacker.distanceToSqr(aoeTarget) < rangeSq) {
           float angle = attacker.getYRot() * ((float) Math.PI / 180F);
@@ -51,7 +51,7 @@ public class SweepWeaponAttack implements IWeaponAttack {
         }
       }
 
-      attacker.level.playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, attacker.getSoundSource(), 1.0F, 1.0F);
+      attacker.level().playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, attacker.getSoundSource(), 1.0F, 1.0F);
       if (attacker instanceof Player player) {
         player.sweepAttack();
       }

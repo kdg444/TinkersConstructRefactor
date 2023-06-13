@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor.walker;
 
-import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
@@ -14,7 +14,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
@@ -47,13 +46,12 @@ public class BlockTransformWalkerModifier extends AbstractWalkerModifier {
 
   @Override
   protected void walkOn(IToolStackView tool, int level, LivingEntity living, Level world, BlockPos target, MutableBlockPos mutable) {
-    Material material = world.getBlockState(target).getMaterial();
-    if (material.isReplaceable() || material == Material.PLANT) {
+    if (world.getBlockState(target).canBeReplaced()) {
       mutable.set(target.getX(), target.getY() - 1, target.getZ());
 
       // prepare context, reused to save effort as only the position changes
       if (context == null) {
-        context = new MutableUseOnContext(living.getLevel(), living instanceof Player p ? p : null, InteractionHand.MAIN_HAND, living.getItemBySlot(EquipmentSlot.FEET), Util.createTraceResult(mutable, Direction.UP, false));
+        context = new MutableUseOnContext(living.level(), living instanceof Player p ? p : null, InteractionHand.MAIN_HAND, living.getItemBySlot(EquipmentSlot.FEET), Util.createTraceResult(mutable, Direction.UP, false));
       } else {
         context.setOffsetPos(mutable);
       }

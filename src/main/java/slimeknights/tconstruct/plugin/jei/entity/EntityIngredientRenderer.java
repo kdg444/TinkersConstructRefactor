@@ -1,14 +1,11 @@
 package slimeknights.tconstruct.plugin.jei.entity;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.RequiredArgsConstructor;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -54,7 +51,7 @@ public class EntityIngredientRenderer implements IIngredientRenderer<EntityType>
   }
 
   @Override
-  public void render(PoseStack matrixStack, @Nullable EntityType type) {
+  public void render(GuiGraphics graphics, @Nullable EntityType type) {
     if (type != null) {
       Level world = Minecraft.getInstance().level;
       if (world != null && !IGNORED_ENTITIES.contains(type)) {
@@ -78,7 +75,7 @@ public class EntityIngredientRenderer implements IIngredientRenderer<EntityType>
           }
           // catch exceptions drawing the entity to be safe, any caught exceptions blacklist the entity
           try {
-            InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, size / 2, size, scale, 0, 10, livingEntity);
+            InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, size / 2, size, scale, 0, 10, livingEntity);
             return;
           } catch (Exception e) {
             TConstruct.LOG.error("Error drawing entity " + BuiltInRegistries.ENTITY_TYPE.getKey(type), e);
@@ -95,7 +92,7 @@ public class EntityIngredientRenderer implements IIngredientRenderer<EntityType>
       // fallback, draw a pink and black "spawn egg"
       RenderUtils.setup(EntityMeltingRecipeCategory.BACKGROUND_LOC);
       int offset = (size - 16) / 2;
-      Screen.blit(matrixStack, offset, offset, 149f, 58f, 16, 16, 256, 256);
+      graphics.blit(EntityMeltingRecipeCategory.BACKGROUND_LOC, offset, offset, 149f, 58f, 16, 16, 256, 256);
     }
   }
 

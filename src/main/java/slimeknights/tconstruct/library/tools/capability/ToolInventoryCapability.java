@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.tools.capability;
 
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-import io.github.fabricators_of_create.porting_lib.util.NetworkUtil;
+import io.github.fabricators_of_create.porting_lib.util.NetworkHooks;
 import lombok.RequiredArgsConstructor;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.minecraft.resources.ResourceLocation;
@@ -276,7 +276,7 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
     } else {
       // space leftover? does it match?
       int limit = Math.min(current.getMaxStackSize(), slotLimit);
-      if (current.getCount() >= limit || !current.sameItem(stack)) {
+      if (current.getCount() >= limit || !ItemStack.isSameItem(current, stack)) {
         return stack;
       }
       int maxSize = current.getCount() + stack.getCount();
@@ -502,12 +502,12 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
     IItemHandler handler = null;//stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).filter(cap -> cap instanceof IItemHandlerModifiable).orElse(null); TODO: PORT
     if (handler != null) {
       if (player instanceof ServerPlayer serverPlayer) {
-        NetworkUtil.openGui(serverPlayer, new SimpleMenuProvider(
+        NetworkHooks.openScreen(serverPlayer, new SimpleMenuProvider(
           (id, inventory, p) -> new ToolContainerMenu(id, inventory, stack, (IItemHandlerModifiable)handler, slotType),
           TooltipUtil.getDisplayName(stack, tool, definition)
         ), buf -> buf.writeEnum(slotType));
       }
-      return InteractionResult.sidedSuccess(player.level.isClientSide);
+      return InteractionResult.sidedSuccess(player.level().isClientSide);
     }
     return InteractionResult.PASS;
   }

@@ -29,7 +29,7 @@ public class ToolBuildingRecipeSerializer extends LoggingRecipeSerializer<ToolBu
     int resultCount = GsonHelper.getAsInt(json, "result_count", 1);
     List<Ingredient> extraRequirements = Collections.emptyList();
     if (json.has("extra_requirements")) {
-      extraRequirements = JsonHelper.parseList(json, "extra_requirements", Ingredient::fromJson);
+      extraRequirements = JsonHelper.parseList(json, "extra_requirements", jsonObject -> Ingredient.fromJson(jsonObject));
     }
     return new ToolBuildingRecipe(recipeId, group, item, resultCount, extraRequirements);
   }

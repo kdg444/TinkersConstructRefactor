@@ -32,10 +32,10 @@ public class SoulSpeedModifier extends EnchantmentModifier {
     int y = Mth.floor(position.y - (double)0.2F);
     int z = Mth.floor(position.z);
     BlockPos pos = new BlockPos(x, y, z);
-    if (living.level.isEmptyBlock(pos)) {
+    if (living.level().isEmptyBlock(pos)) {
       BlockPos below = pos.below();
-      BlockState blockstate = living.level.getBlockState(below);
-      if (collisionExtendsVertically(blockstate, living.level, below, living)) {
+      BlockState blockstate = living.level().getBlockState(below);
+      if (collisionExtendsVertically(blockstate, living.level(), below, living)) {
         return below;
       }
     }
@@ -50,7 +50,7 @@ public class SoulSpeedModifier extends EnchantmentModifier {
   @Override
   public void addInformation(IToolStackView tool, int level, @Nullable Player player, List<Component> tooltip, TooltipKey key, TooltipFlag tooltipFlag) {
     // must either have no player or a player on soulsand
-    if (player == null || key != TooltipKey.SHIFT || (!player.isFallFlying() && player.level.getBlockState(getOnPosition(player)).is(BlockTags.SOUL_SPEED_BLOCKS))) {
+    if (player == null || key != TooltipKey.SHIFT || (!player.isFallFlying() && player.level().getBlockState(getOnPosition(player)).is(BlockTags.SOUL_SPEED_BLOCKS))) {
       // multiplies boost by 10 and displays as a percent as the players base movement speed is 0.1 and is in unknown units
       // percentages make sense
       addPercentTooltip(getDisplayName(), 0.3f + level * 0.105f, tooltip);

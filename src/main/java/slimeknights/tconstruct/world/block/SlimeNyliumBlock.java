@@ -9,7 +9,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.lighting.LayerLightEngine;
+import net.minecraft.world.level.lighting.LightEngine;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.shared.block.SlimeType;
 
@@ -33,7 +33,7 @@ public class SlimeNyliumBlock extends Block implements BonemealableBlock {
   private static boolean isDarkEnough(BlockState state, LevelReader reader, BlockPos pos) {
     BlockPos blockpos = pos.above();
     BlockState blockstate = reader.getBlockState(blockpos);
-    int i = LayerLightEngine.getLightBlockInto(reader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(reader, blockpos));
+    int i = LightEngine.getLightBlockInto(reader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(reader, blockpos));
     return i < reader.getMaxLightLevel();
   }
 

@@ -166,19 +166,19 @@ public interface GeneralInteractionModifierHook {
     @Override
     public InteractionResult onToolUse(IToolStackView tool, ModifierEntry modifier, Player player, InteractionHand hand, InteractionSource source) {
       if (source != InteractionSource.LEFT_CLICK) {
-        return modifier.getModifier().onToolUse(tool, modifier.getLevel(), player.level, player, hand, source.getSlot(hand));
+        return modifier.getModifier().onToolUse(tool, modifier.getLevel(), player.level(), player, hand, source.getSlot(hand));
       }
       return InteractionResult.PASS;
     }
 
     @Override
     public boolean onStoppedUsing(IToolStackView tool, ModifierEntry modifier, LivingEntity entity, int timeLeft) {
-      return modifier.getModifier().onStoppedUsing(tool, modifier.getLevel(), entity.level, entity, timeLeft);
+      return modifier.getModifier().onStoppedUsing(tool, modifier.getLevel(), entity.level(), entity, timeLeft);
     }
 
     @Override
     public boolean onFinishUsing(IToolStackView tool, ModifierEntry modifier, LivingEntity entity) {
-      return modifier.getModifier().onFinishUsing(tool, modifier.getLevel(), entity.level, entity);
+      return modifier.getModifier().onFinishUsing(tool, modifier.getLevel(), entity.level(), entity);
     }
 
     @Override

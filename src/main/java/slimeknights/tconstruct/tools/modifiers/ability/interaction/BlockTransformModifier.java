@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 
-import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.BlockPos;
@@ -16,7 +16,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;
 import slimeknights.tconstruct.library.modifiers.hook.BlockTransformModifierHook;
@@ -164,8 +163,7 @@ public class BlockTransformModifier extends InteractionModifier.NoLevels impleme
 
     // hoes and shovels: air or plants above
     if (requireGround) {
-      Material material = level.getBlockState(above).getMaterial();
-      if (!material.isReplaceable() && material != Material.PLANT) {
+      if (!level.getBlockState(above).canBeReplaced()) {
         return false;
       }
     }

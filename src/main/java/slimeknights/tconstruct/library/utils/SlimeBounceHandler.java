@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.utils;
 
-import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Mth;
@@ -77,7 +77,7 @@ public class SlimeBounceHandler {
         info.bounceTick = 0;
       }
 
-      boolean isInAir = !entity.isOnGround() && !entity.isInWater() && !entity.onClimbable();
+      boolean isInAir = !entity.onGround() && !entity.isInWater() && !entity.onClimbable();
 
       // preserve motion
       if (isInAir && info.lastMagSq > 0) {

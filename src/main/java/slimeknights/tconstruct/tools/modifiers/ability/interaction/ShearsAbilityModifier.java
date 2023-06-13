@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 
-import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
-import io.github.fabricators_of_create.porting_lib.common.util.ToolActions;
+import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
+import io.github.fabricators_of_create.porting_lib.tool.ToolActions;
 import io.github.fabricators_of_create.porting_lib.event.BaseEvent;
 import io.github.fabricators_of_create.porting_lib.extensions.extensions.IShearable;
 import lombok.Getter;

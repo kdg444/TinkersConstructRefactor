@@ -160,7 +160,7 @@ public class ToolBeltModifier extends InventoryMenuModifier {
       return super.startInteract(tool, modifier, player, equipmentSlot, keyModifier);
     }
     if (keyModifier == TooltipKey.NORMAL || keyModifier == TooltipKey.CONTROL) {
-      if (player.level.isClientSide) {
+      if (player.level().isClientSide) {
         return true;
       }
 
@@ -213,7 +213,7 @@ public class ToolBeltModifier extends InventoryMenuModifier {
       // sound effect
       if (didChange) {
         persistentData.put(key, list);
-        player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARMOR_EQUIP_GENERIC, SoundSource.PLAYERS, 1.0f, 1.0f);
+        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARMOR_EQUIP_GENERIC, SoundSource.PLAYERS, 1.0f, 1.0f);
       }
       return true;
     }

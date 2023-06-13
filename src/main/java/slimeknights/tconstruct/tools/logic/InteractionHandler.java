@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.logic;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerInteractionEvents;
-import io.github.fabricators_of_create.porting_lib.event.common.ShieldBlockEvent;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerInteractionEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.ShieldBlockEvent;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -169,7 +169,7 @@ public class InteractionHandler {
 //        Result useBlock = event.getUseBlock();
         if (/*useBlock == Result.ALLOW || (useBlock != Result.DENY
                                          && */((!player.isSecondaryUseActive()/* || player.getItemInHand(Util.getOpposite(hand)).doesSneakBypassUse(player.getLevel(), pos, player)*/))) {
-          InteractionResult result = player.level.getBlockState(pos).use(player.level, player, hand, trace);
+          InteractionResult result = player.level().getBlockState(pos).use(player.level(), player, hand, trace);
           if (result.consumesAction()) {
             if (player instanceof ServerPlayer serverPlayer) {
               CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, ItemStack.EMPTY);

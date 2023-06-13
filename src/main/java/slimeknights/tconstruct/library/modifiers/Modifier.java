@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.library.modifiers;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
+import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
@@ -1030,7 +1030,7 @@ public class Modifier implements IHaveLoader<Modifier> {
     if (entity.isEyeInFluid(FluidTags.WATER) && !ModifierUtil.hasAquaAffinity(entity)) {
       modifier /= 5.0F;
     }
-    if (!entity.isOnGround()) {
+    if (!entity.onGround()) {
       modifier /= 5.0F;
     }
     return modifier;

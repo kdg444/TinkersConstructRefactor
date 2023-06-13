@@ -36,10 +36,10 @@ public class BleedingEffect extends NoMilkEffect {
     LivingEntity lastAttacker = target.getLastHurtMob();
     DamageSource source;
     if(lastAttacker != null) {
-      source = new BleedingDamageSource(target.level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(TinkerDamageTypes.BLEEDING), lastAttacker);
+      source = new BleedingDamageSource(target.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(TinkerDamageTypes.BLEEDING), lastAttacker);
     }
     else {
-      source = new DamageSource(target.level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(TinkerDamageTypes.BLEEDING));
+      source = new DamageSource(target.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(TinkerDamageTypes.BLEEDING));
     }
 
     // perform damage
@@ -48,8 +48,8 @@ public class BleedingEffect extends NoMilkEffect {
     target.invulnerableTime = hurtResistantTime;
 
     // damage particles
-    if (target.level instanceof ServerLevel) {
-      ((ServerLevel)target.level).sendParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getY(0.5), target.getZ(), 1, 0.1, 0, 0.1, 0.2);
+    if (target.level() instanceof ServerLevel serverLevel) {
+      serverLevel.sendParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getY(0.5), target.getZ(), 1, 0.1, 0, 0.1, 0.2);
     }
   }
 

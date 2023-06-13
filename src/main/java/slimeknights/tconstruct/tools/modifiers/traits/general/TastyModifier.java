@@ -52,7 +52,7 @@ public class TastyModifier extends Modifier implements GeneralInteractionModifie
     if (!tool.isBroken() && entity instanceof Player player && player.canEat(false)) {
       // eat the food
       int level = modifier.getLevel();
-      Level world = entity.getLevel();
+      Level world = entity.level();
       player.getFoodData().eat(level, level * 0.1f);
       player.awardStat(Stats.ITEM_USED.get(tool.getItem()));
       world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.GENERIC_EAT, SoundSource.NEUTRAL, 1.0F, 1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.4F);

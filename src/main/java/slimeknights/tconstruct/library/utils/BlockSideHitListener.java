@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.utils;
 
-import io.github.fabricators_of_create.porting_lib.event.common.PlayerInteractionEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerInteractionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;

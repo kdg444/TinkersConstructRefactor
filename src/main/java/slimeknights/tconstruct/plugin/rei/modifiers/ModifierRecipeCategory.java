@@ -16,6 +16,7 @@ import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
@@ -99,7 +100,7 @@ public class ModifierRecipeCategory implements TinkersCategory<ModifierRecipeDis
   }
 
   /** Draws the icon for the given slot type */
-  private void drawSlotType(PoseStack matrices, @Nullable SlotType slotType, int x, int y) {
+  private void drawSlotType(GuiGraphics graphics, @Nullable SlotType slotType, int x, int y) {
     Minecraft minecraft = Minecraft.getInstance();
     TextureAtlasSprite sprite;
     if (slotTypeSprites.containsKey(slotType)) {
@@ -120,27 +121,27 @@ public class ModifierRecipeCategory implements TinkersCategory<ModifierRecipeDis
     RenderSystem.setShader(GameRenderer::getPositionTexShader);
     RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
 
-    Screen.blit(matrices, x, y, 0, 16, 16, sprite);
+    graphics.blit(x, y, 0, 16, 16, sprite);
   }
 
   @Override
-  public void draw(ModifierRecipeDisplay display, PoseStack matrices, double mouseX, double mouseY) {
+  public void draw(ModifierRecipeDisplay display, GuiGraphics graphics, double mouseX, double mouseY) {
     // draw max count
     Font fontRenderer = Minecraft.getInstance().font;
     int max = display.getMaxLevel();
     if (max > 0) {
-      fontRenderer.draw(matrices, maxPrefix + max, 66, 16, Color.GRAY.getRGB());
+      graphics.drawString(fontRenderer, maxPrefix + max, 66, 16, Color.GRAY.getRGB(), false);
     }
 
     // draw slot cost
     SlotCount slots = display.getSlots();
     if (slots == null) {
-      drawSlotType(matrices, null, 110, 58);
+      drawSlotType(graphics, null, 110, 58);
     } else {
-      drawSlotType(matrices, slots.getType(), 110, 58);
+      drawSlotType(graphics, slots.getType(), 110, 58);
       String text = Integer.toString(slots.getCount());
       int x = 111 - fontRenderer.width(text);
-      fontRenderer.draw(matrices, text, x, 63, Color.GRAY.getRGB());
+      graphics.drawString(fontRenderer, text, x, 63, Color.GRAY.getRGB(), false);
     }
   }
 

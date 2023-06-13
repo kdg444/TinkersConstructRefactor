@@ -5,7 +5,6 @@ import io.github.fabricators_of_create.porting_lib.data.ModdedLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import slimeknights.tconstruct.TConstruct;
@@ -26,7 +25,7 @@ public class TConstructLootTableProvider extends ModdedLootTableProvider {
 
   @Override
   protected void validate(Map<ResourceLocation,LootTable> map, ValidationContext validationtracker) {
-    map.forEach((loc, table) -> LootTables.validate(validationtracker, loc, table));
+    map.forEach((loc, table) -> table.validate(validationtracker));
     // Remove vanilla's tables, which we also loaded so we can redirect stuff to them.
     // This ensures the remaining generator logic doesn't write those to files.
     map.keySet().removeIf((loc) -> !loc.getNamespace().equals(TConstruct.MOD_ID));

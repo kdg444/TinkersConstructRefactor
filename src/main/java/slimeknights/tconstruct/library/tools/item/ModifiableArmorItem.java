@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.tools.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
-import io.github.fabricators_of_create.porting_lib.common.util.ToolAction;
+import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
 import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.item.PiglinsNeutralItem;
@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -76,7 +77,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
   private final ToolDefinition toolDefinition;
   /** Cache of the tool built for rendering */
   private ItemStack toolForRendering = null;
-  public ModifiableArmorItem(ArmorMaterial materialIn, ArmorItem.Type slot, Properties builderIn, ToolDefinition toolDefinition, CreativeModeTab tab) {
+  public ModifiableArmorItem(ArmorMaterial materialIn, ArmorItem.Type slot, Properties builderIn, ToolDefinition toolDefinition, ResourceKey<CreativeModeTab> tab) {
     super(materialIn, slot, builderIn);
     this.toolDefinition = toolDefinition;
     ((FabricItemSettings)builderIn).customDamage(this::damageItem);
@@ -84,7 +85,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     FluidStorage.ITEM.registerForItems((itemStack, context) -> new ToolFluidCapability(context, Lazy.of(() -> ToolStack.from(itemStack))), this);
   }
 
-  public ModifiableArmorItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties, CreativeModeTab tab) {
+  public ModifiableArmorItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties, ResourceKey<CreativeModeTab> tab) {
     this(material, slotType.getArmorType(), properties, Objects.requireNonNull(material.getArmorDefinition(slotType), "Missing tool definition for " + slotType), tab);
   }
 
@@ -325,7 +326,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
           }
         }
         // damage the tool and keep flying
-        if (!entity.level.isClientSide && (flightTicks + 1) % 20 == 0) {
+        if (!entity.level().isClientSide && (flightTicks + 1) % 20 == 0) {
           ToolDamageUtil.damageAnimated(tool, 1, entity, EquipmentSlot.CHEST);
         }
         return true;

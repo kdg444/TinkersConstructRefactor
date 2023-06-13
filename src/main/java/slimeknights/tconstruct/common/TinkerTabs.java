@@ -1,5 +1,10 @@
 package slimeknights.tconstruct.common;
 
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -28,29 +33,27 @@ import java.util.List;
 public class TinkerTabs {
   /** Creative tab for items that do not fit in another tab */
   @SuppressWarnings("WeakerAccess")
-  public static final CreativeModeTab TAB_GENERAL = SupplierCreativeTab.create(TConstruct.MOD_ID, "general", () -> new ItemStack(TinkerCommons.slimeball.get(SlimeType.SKY))).displayItems(TinkerTabs::buildGeneralTab).build();
+  public static final ResourceKey<CreativeModeTab> TAB_GENERAL = createKey("general");
 
   /** Tab for all special tools added by the mod */
-  public static final CreativeModeTab TAB_GADGETS = SupplierCreativeTab.create(TConstruct.MOD_ID, "gadgets", () -> new ItemStack(TinkerGadgets.slimeSling.get(SlimeType.EARTH))).displayItems(TinkerTabs::buildGadgetTab).build();
+  public static final ResourceKey<CreativeModeTab> TAB_GADGETS = createKey("gadgets");
 
   /** Tab for anything generated in the world */
   @SuppressWarnings("WeakerAccess")
-  public static final CreativeModeTab TAB_WORLD = SupplierCreativeTab.create(TConstruct.MOD_ID, "world", () -> new ItemStack(TinkerWorld.cobaltOre)).displayItems(TinkerTabs::buildWorldTab).build();
+  public static final ResourceKey<CreativeModeTab> TAB_WORLD = createKey("world");
 
   /** Tab for all tool parts */
-  public static final CreativeModeTab TAB_TOOL_PARTS = SupplierCreativeTab.create(TConstruct.MOD_ID, "tool_parts", () -> {
-    List<IMaterial> materials = new ArrayList<>(MaterialRegistry.getInstance().getVisibleMaterials());
-    if (materials.isEmpty()) {
-      return new ItemStack(TinkerToolParts.pickHead);
-    }
-    return TinkerToolParts.pickHead.get().withMaterial(materials.get(TConstruct.RANDOM.nextInt(materials.size())).getIdentifier());
-  }).build();
+  public static final ResourceKey<CreativeModeTab> TAB_TOOL_PARTS = createKey("tool_parts");
 
   /** Creative tab for all tool items */
-  public static final CreativeModeTab TAB_TOOLS = SupplierCreativeTab.create(TConstruct.MOD_ID, "tools", () -> TinkerTools.pickaxe.get().getRenderTool()).build();
+  public static final ResourceKey<CreativeModeTab> TAB_TOOLS = createKey("tools");
 
   /** Tab for all blocks related to the smeltery */
-  public static final CreativeModeTab TAB_SMELTERY = SupplierCreativeTab.create(TConstruct.MOD_ID, "smeltery", () -> new ItemStack(TinkerSmeltery.smelteryController)).displayItems(TinkerTabs::buildSmelteryTab).build();
+  public static final ResourceKey<CreativeModeTab> TAB_SMELTERY = createKey("smeltery");
+
+  private static ResourceKey<CreativeModeTab> createKey(String tabId) {
+    return ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(TConstruct.MOD_ID, tabId));
+  }
 
   public static void buildGeneralTab(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output output) {
     output.accept(TinkerCommons.mudBricks);
@@ -491,5 +494,18 @@ public class TinkerTabs {
     output.accept(TinkerSmeltery.bowGripCast.getRedSand());
   }
 
-  public static void init() {}
+  public static void init() {
+    Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, TAB_GENERAL, SupplierCreativeTab.create(TConstruct.MOD_ID, "general", () -> new ItemStack(TinkerCommons.slimeball.get(SlimeType.SKY))).displayItems(TinkerTabs::buildGeneralTab).build());
+    Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, TAB_GADGETS, SupplierCreativeTab.create(TConstruct.MOD_ID, "gadgets", () -> new ItemStack(TinkerGadgets.slimeSling.get(SlimeType.EARTH))).displayItems(TinkerTabs::buildGadgetTab).build());
+    Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, TAB_WORLD, SupplierCreativeTab.create(TConstruct.MOD_ID, "world", () -> new ItemStack(TinkerWorld.cobaltOre)).displayItems(TinkerTabs::buildWorldTab).build());
+    Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, TAB_TOOL_PARTS, SupplierCreativeTab.create(TConstruct.MOD_ID, "tool_parts", () -> {
+      List<IMaterial> materials = new ArrayList<>(MaterialRegistry.getInstance().getVisibleMaterials());
+      if (materials.isEmpty()) {
+        return new ItemStack(TinkerToolParts.pickHead);
+      }
+      return TinkerToolParts.pickHead.get().withMaterial(materials.get(TConstruct.RANDOM.nextInt(materials.size())).getIdentifier());
+    }).build());
+    Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, TAB_TOOLS, SupplierCreativeTab.create(TConstruct.MOD_ID, "tools", () -> TinkerTools.pickaxe.get().getRenderTool()).build());
+    Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, TAB_SMELTERY, SupplierCreativeTab.create(TConstruct.MOD_ID, "smeltery", () -> new ItemStack(TinkerSmeltery.smelteryController)).displayItems(TinkerTabs::buildSmelteryTab).build());
+  }
 }

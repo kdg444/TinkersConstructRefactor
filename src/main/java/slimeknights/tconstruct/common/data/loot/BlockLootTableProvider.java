@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.common.data.loot;
 
-import io.github.fabricators_of_create.porting_lib.common.util.ToolActions;
+import io.github.fabricators_of_create.porting_lib.tool.ToolActions;
 import io.github.fabricators_of_create.porting_lib.data.ModdedBlockLootSubProvider;
 import io.github.fabricators_of_create.porting_lib.loot.CanToolPerformAction;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;

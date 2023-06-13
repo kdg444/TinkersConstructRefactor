@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tables.network;
 
-import io.github.fabricators_of_create.porting_lib.util.NetworkUtil;
+import io.github.fabricators_of_create.porting_lib.util.NetworkHooks;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -47,7 +47,7 @@ public class StationTabPacket implements IThreadsafePacket {
       } else {
         MenuProvider provider = state.getMenuProvider(sender.getCommandSenderWorld(), pos);
         if (provider != null) {
-          NetworkUtil.openGui(sender, provider, pos);
+          NetworkHooks.openScreen(sender, provider, pos);
         }
       }
 

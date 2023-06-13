@@ -6,18 +6,18 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import slimeknights.tconstruct.common.TinkerTags;
 
 import java.util.Locale;
 
 @Getter
 public enum SlimeType implements StringRepresentable {
-  EARTH(0x01cd4e, 0x8CD782, Tiers.STONE,   MaterialColor.GRASS, false),
-  SKY  (0x01cbcd, 0x00F4DA, Tiers.GOLD,    MaterialColor.DIAMOND, false),
-  ICHOR(0xff970d, 0xd09800, Tiers.IRON,    MaterialColor.COLOR_ORANGE, true, 10),
-  ENDER(0xaf4cf6, 0xa92dff, Tiers.DIAMOND, MaterialColor.COLOR_PURPLE, false),
-  BLOOD(0xb50101, 0xb80000, Tiers.WOOD,    MaterialColor.COLOR_RED, true);
+  EARTH(0x01cd4e, 0x8CD782, Tiers.STONE,   MapColor.GRASS, false),
+  SKY  (0x01cbcd, 0x00F4DA, Tiers.GOLD,    MapColor.DIAMOND, false),
+  ICHOR(0xff970d, 0xd09800, Tiers.IRON,    MapColor.COLOR_ORANGE, true, 10),
+  ENDER(0xaf4cf6, 0xa92dff, Tiers.DIAMOND, MapColor.COLOR_PURPLE, false),
+  BLOOD(0xb50101, 0xb80000, Tiers.WOOD,    MapColor.COLOR_RED, true);
 
   /** Slime types added by the mod */
   public static final SlimeType[] TINKER = {SKY, ENDER, BLOOD, ICHOR};
@@ -37,7 +37,7 @@ public enum SlimeType implements StringRepresentable {
 
   private final Tiers harvestTier;
 
-  private final MaterialColor mapColor;
+  private final MapColor mapColor;
   /** If true, this block type has fungus foliage instead of grass */
   private final boolean nether;
   /** Light level of slime blocks of this type */
@@ -51,7 +51,7 @@ public enum SlimeType implements StringRepresentable {
   /** Tag for slime balls of this type */
   private final TagKey<Item> slimeballTag;
 
-  SlimeType(int color, int defaultFoliageColor, Tiers harvestTier, MaterialColor mapColor, boolean nether, int lightLevel) {
+  SlimeType(int color, int defaultFoliageColor, Tiers harvestTier, MapColor mapColor, boolean nether, int lightLevel) {
     this.color = color;
     this.defaultFoliageColor = defaultFoliageColor;
     this.harvestTier = harvestTier;
@@ -65,7 +65,7 @@ public enum SlimeType implements StringRepresentable {
     slimeballTag = TinkerTags.Items.forgeTag("slimeball/" + name);
   }
 
-  SlimeType(int color, int defaultFoliageColor, Tiers harvestTier, MaterialColor mapColor, boolean nether) {
+  SlimeType(int color, int defaultFoliageColor, Tiers harvestTier, MapColor mapColor, boolean nether) {
     this(color, defaultFoliageColor, harvestTier, mapColor, nether, 0);
   }
 

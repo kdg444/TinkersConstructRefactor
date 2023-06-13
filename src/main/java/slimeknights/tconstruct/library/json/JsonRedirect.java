@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.json;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.crafting.CraftingHelper;
+import io.github.fabricators_of_create.porting_lib.util.CraftingHelper;
 import lombok.Data;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;

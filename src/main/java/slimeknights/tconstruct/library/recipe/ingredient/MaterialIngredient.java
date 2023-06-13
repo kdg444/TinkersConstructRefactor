@@ -3,10 +3,10 @@ package slimeknights.tconstruct.library.recipe.ingredient;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
-import io.github.tropheusj.serialization_hooks.ingredient.CustomIngredient;
-import io.github.tropheusj.serialization_hooks.ingredient.IngredientDeserializer;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredient;
+import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -23,6 +23,7 @@ import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -30,7 +31,7 @@ import java.util.stream.Stream;
  * Extension of the vanilla ingredient to display materials on items and support matching by materials
  * TODO: abstract ingredient
  */
-public class MaterialIngredient extends Ingredient implements CustomIngredient {
+public class MaterialIngredient extends Ingredient {
   /** Material ID meaning any material matches */
   private static final MaterialId WILDCARD = IMaterial.UNKNOWN.getIdentifier();
 
@@ -126,33 +127,53 @@ public class MaterialIngredient extends Ingredient implements CustomIngredient {
 
   @Override
   public JsonElement toJson() {
-    JsonElement parent = super.toJson();
-    if (!parent.isJsonObject()) {
-      throw new JsonIOException("Cannot serialize an array of material ingredients, use CompoundIngredient instead");
-    }
-    JsonObject object = parent.getAsJsonObject();
-    object.addProperty("type", Serializer.ID.toString());
-    if (material != WILDCARD) {
-      object.addProperty("material", material.toString());
-    }
-    return object;
+    return null;
   }
 
   @Override
-  public IngredientDeserializer getDeserializer() {
-    return Serializer.INSTANCE;
+  public CustomIngredient getCustomIngredient() {
+    return new FabricMaterialIngredient(this);
   }
 
   @Override
   public void toNetwork(FriendlyByteBuf buffer) {
-    buffer.writeResourceLocation(Serializer.ID);
-    // write first as the order of the stream is uncertain
-    buffer.writeUtf(this.material.toString());
-    // write stacks
-    ItemStack[] items = this.getPlainMatchingStacks();
-    buffer.writeVarInt(items.length);
-    for (ItemStack stack : items) {
-      buffer.writeItem(stack);
+
+  }
+
+  public static class FabricMaterialIngredient implements CustomIngredient {
+    private final MaterialIngredient ingredient;
+
+    public FabricMaterialIngredient(Stream<? extends Ingredient.Value> itemLists, MaterialVariantId material) {
+      this.ingredient = new MaterialIngredient(itemLists, material);
+    }
+
+    public FabricMaterialIngredient(MaterialIngredient ingredient) {
+      this.ingredient = ingredient;
+    }
+
+    @Override
+    public boolean test(ItemStack stack) {
+      return ingredient.test(stack);
+    }
+
+    @Override
+    public List<ItemStack> getMatchingStacks() {
+      return List.of(ingredient.getItems());
+    }
+
+    @Override
+    public boolean requiresTesting() {
+      return true;
+    }
+
+    @Override
+    public CustomIngredientSerializer<?> getSerializer() {
+      return Serializer.INSTANCE;
+    }
+
+    @Override
+    public MaterialIngredient toVanilla() {
+      return ingredient;
     }
   }
 
@@ -160,25 +181,54 @@ public class MaterialIngredient extends Ingredient implements CustomIngredient {
    * Serializer instance
    */
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
-  public static class Serializer implements IngredientDeserializer {
+  public static class Serializer implements CustomIngredientSerializer<FabricMaterialIngredient> {
     public static final ResourceLocation ID = TConstruct.getResource("material");
     public static final Serializer INSTANCE = new Serializer();
 
     @Override
-    public Ingredient fromJson(JsonObject json) {
+    public ResourceLocation getIdentifier() {
+      return ID;
+    }
+
+    @Override
+    public FabricMaterialIngredient read(JsonObject json) {
       MaterialId material;
       if (json.has("material")) {
         material = new MaterialId(GsonHelper.getAsString(json, "material"));
       } else {
         material = WILDCARD;
       }
-      return new MaterialIngredient(Stream.of(Ingredient.valueFromJson(json)), material);
+      return new FabricMaterialIngredient(Stream.of(Ingredient.valueFromJson(json)), material);
     }
 
     @Override
-    public MaterialIngredient fromNetwork(FriendlyByteBuf buffer) {
+    public void write(JsonObject parent, FabricMaterialIngredient ingredient) {
+      if (!parent.isJsonObject()) {
+        throw new JsonIOException("Cannot serialize an array of material ingredients, use CompoundIngredient instead");
+      }
+      parent.addProperty("type", Serializer.ID.toString());
+      if (ingredient.ingredient.material != WILDCARD) {
+        parent.addProperty("material", ingredient.ingredient.material.toString());
+      }
+    }
+
+    @Override
+    public FabricMaterialIngredient read(FriendlyByteBuf buffer) {
       MaterialVariantId material = Objects.requireNonNull(MaterialVariantId.tryParse(buffer.readUtf()));
-      return new MaterialIngredient(Stream.generate(() -> new ItemValue(buffer.readItem())).limit(buffer.readVarInt()), material);
+      return new FabricMaterialIngredient(Stream.generate(() -> new ItemValue(buffer.readItem())).limit(buffer.readVarInt()), material);
+    }
+
+    @Override
+    public void write(FriendlyByteBuf buffer, FabricMaterialIngredient ingredient) {
+      buffer.writeResourceLocation(Serializer.ID);
+      // write first as the order of the stream is uncertain
+      buffer.writeUtf(ingredient.toVanilla().material.toString());
+      // write stacks
+      ItemStack[] items = ingredient.toVanilla().getPlainMatchingStacks();
+      buffer.writeVarInt(items.length);
+      for (ItemStack stack : items) {
+        buffer.writeItem(stack);
+      }
     }
   }
 }

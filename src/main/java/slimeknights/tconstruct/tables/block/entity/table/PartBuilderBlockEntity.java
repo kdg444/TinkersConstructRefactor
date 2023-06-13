@@ -201,13 +201,25 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
     refresh(false);
   }
 
+  boolean tagMatches(ItemStack itemStack, ItemStack itemStack2) {
+    if (itemStack.isEmpty() && itemStack2.isEmpty()) {
+      return true;
+    } else if (itemStack.isEmpty() || itemStack2.isEmpty()) {
+      return false;
+    } else if (itemStack.tag == null && itemStack2.tag != null) {
+      return false;
+    } else {
+      return itemStack.tag == null || itemStack.tag.equals(itemStack2.tag);
+    }
+  }
+
   @Override
   public void setItem(int slot, ItemStack stack) {
     ItemStack original = getItem(slot);
     super.setItem(slot, stack);
     if (slot == MATERIAL_SLOT) {
       // if item or NBT changed, update
-      if (original.getItem() != stack.getItem() || !ItemStack.tagMatches(original, stack)) {
+      if (original.getItem() != stack.getItem() || !tagMatches(original, stack)) {
         this.inventoryWrapper.refreshMaterial();
         refresh(true);
         // if size changed, we are still the same material but might no longer have enough

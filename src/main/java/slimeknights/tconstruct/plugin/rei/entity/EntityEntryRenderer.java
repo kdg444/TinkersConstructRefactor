@@ -10,6 +10,7 @@ import me.shedaniel.rei.api.client.gui.widgets.TooltipContext;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.core.Registry;
@@ -50,9 +51,9 @@ public class EntityEntryRenderer implements EntryRenderer<EntityType> {
   private final Map<EntityType<?>, Entity> ENTITY_MAP = new HashMap<>();
 
   @Override
-  public void render(EntryStack<EntityType> entry, PoseStack matrixStack, Rectangle bounds, int mouseX, int mouseY, float delta) {
-    matrixStack.pushPose();
-    matrixStack.translate(bounds.getCenterX() - size / 2, bounds.getCenterY() - size / 2, 0);
+  public void render(EntryStack<EntityType> entry, GuiGraphics graphics, Rectangle bounds, int mouseX, int mouseY, float delta) {
+    graphics.pose().pushPose();
+    graphics.pose().translate(bounds.getCenterX() - size / 2, bounds.getCenterY() - size / 2, 0);
     Level world = Minecraft.getInstance().level;
     EntityType type = entry.getValue();
     if (world != null && !IGNORED_ENTITIES.contains(type)) {
@@ -76,8 +77,8 @@ public class EntityEntryRenderer implements EntryRenderer<EntityType> {
         }
         // catch exceptions drawing the entity to be safe, any caught exceptions blacklist the entity
         try {
-          InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, size / 2, size, scale, 0, 10, livingEntity);
-          matrixStack.popPose();
+          InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, size / 2, size, scale, 0, 10, livingEntity);
+          graphics.pose().popPose();
           return;
         } catch (Exception e) {
           TConstruct.LOG.error("Error drawing entity " + BuiltInRegistries.ENTITY_TYPE.getKey(type), e);
@@ -94,8 +95,8 @@ public class EntityEntryRenderer implements EntryRenderer<EntityType> {
     // fallback, draw a pink and black "spawn egg"
     RenderUtils.setup(EntityMeltingRecipeCategory.BACKGROUND_LOC);
     int offset = (size - 16) / 2;
-    Screen.blit(matrixStack, offset, offset, 149f, 58f, 16, 16, 256, 256);
-    matrixStack.popPose();
+    graphics.blit(EntityMeltingRecipeCategory.BACKGROUND_LOC, offset, offset, 149f, 58f, 16, 16, 256, 256);
+    graphics.pose().popPose();
   }
 
   @Override

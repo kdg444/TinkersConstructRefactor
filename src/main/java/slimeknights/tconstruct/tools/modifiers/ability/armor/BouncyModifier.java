@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
 import io.github.fabricators_of_create.porting_lib.attributes.PortingLibAttributes;
-import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents;
-import io.github.fabricators_of_create.porting_lib.event.common.LivingEntityEvents.Fall.FallEvent;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents.Fall.FallEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -61,7 +61,7 @@ public class BouncyModifier extends TotalArmorLevelModifier {
     }
     // update airborn status
     event.setDistance(0.0F);
-    if (!living.level.isClientSide) {
+    if (!living.level().isClientSide) {
       living.hasImpulse = true;
       event.setCanceled(true);
       living.setOnGround(false); // need to be on ground for server to process this event

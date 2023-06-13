@@ -3,7 +3,9 @@ package slimeknights.tconstruct.smeltery.client.screen.module;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.fabricators_of_create.porting_lib.util.FluidStack;
 import lombok.Getter;
+import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -66,19 +68,19 @@ public class GuiTankModule {
 
   /**
    * Draws the tank
-   * @param matrices  Matrix stack instance
+   * @param graphics  Gui graphics instance
    */
-  public void draw(PoseStack matrices) {
-    GuiUtil.renderFluidTank(matrices, screen, tank.getFluidInTank(TANK_INDEX), tank.getTankCapacity(TANK_INDEX), x, y, width, height, 100);
+  public void draw(GuiGraphics graphics) {
+    GuiUtil.renderFluidTank(graphics.pose(), screen, tank.getFluidInTank(TANK_INDEX), tank.getTankCapacity(TANK_INDEX), x, y, width, height, 100);
   }
 
   /**
    * Highlights the hovered fluid
-   * @param matrices  Matrix stack instance
+   * @param graphics  Gui graphics instance
    * @param checkX    Mouse X position, screen relative
    * @param checkY    Mouse Y position, screen relative
    */
-  public void highlightHoveredFluid(PoseStack matrices, int checkX, int checkY) {
+  public void highlightHoveredFluid(GuiGraphics graphics, int checkX, int checkY) {
     // highlight hovered fluid
     if (isHovered(checkX, checkY)) {
       long fluidHeight = getFluidHeight();
@@ -86,21 +88,21 @@ public class GuiTankModule {
 
       // highlight just fluid
       if (checkY > middle) {
-        GuiUtil.renderHighlight(matrices, x, (int) middle, width, (int) fluidHeight);
+        GuiUtil.renderHighlight(graphics, x, (int) middle, width, (int) fluidHeight);
       } else {
         // or highlight empty
-        GuiUtil.renderHighlight(matrices, x, y, width, (int) (height - fluidHeight));
+        GuiUtil.renderHighlight(graphics, x, y, width, (int) (height - fluidHeight));
       }
     }
   }
 
   /**
    * Renders the tooltip for hovering over the tank
-   * @param matrices  Matrix stack instance
+   * @param graphics  Gui graphics instance
    * @param mouseX    Global mouse X position
    * @param mouseY    Global mouse Y position
    */
-  public void renderTooltip(PoseStack matrices, int mouseX, int mouseY) {
+  public void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
     int checkX = mouseX - screen.leftPos;
     int checkY = mouseY - screen.topPos;
 
@@ -136,7 +138,7 @@ public class GuiTankModule {
       }
 
       // TODO: renderComponentTooltip->renderTooltip
-      screen.renderComponentTooltip(matrices, tooltip, mouseX, mouseY);
+      graphics.renderComponentTooltip(Screens.getTextRenderer(screen), tooltip, mouseX, mouseY);
     }
   }
 

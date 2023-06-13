@@ -3,8 +3,8 @@ package slimeknights.tconstruct.shared.inventory;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.EntityPredicate.Composite;
 import net.minecraft.advancements.critereon.SerializationContext;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,13 +29,13 @@ public class BlockContainerOpenedTrigger extends SimpleCriterionTrigger<BlockCon
   }
 
   @Override
-  protected Instance createInstance(JsonObject json, Composite entityPredicate, DeserializationContext conditionsParser) {
+  protected Instance createInstance(JsonObject json, ContextAwarePredicate contextPredicate, DeserializationContext conditionsParser) {
     ResourceLocation id = new ResourceLocation(GsonHelper.getAsString(json, "type"));
     BlockEntityType<?> type = BuiltInRegistries.BLOCK_ENTITY_TYPE.get(id);
     if (type == null) {
       throw new JsonSyntaxException("Unknown tile entity '" + id + "'");
     }
-    return new Instance(entityPredicate, type);
+    return new Instance(contextPredicate, type);
   }
 
   /** Triggers this criteria */
@@ -47,13 +47,13 @@ public class BlockContainerOpenedTrigger extends SimpleCriterionTrigger<BlockCon
 
   public static class Instance extends AbstractCriterionTriggerInstance {
     private final BlockEntityType<?> type;
-    public Instance(Composite playerCondition, BlockEntityType<?> type) {
+    public Instance(ContextAwarePredicate playerCondition, BlockEntityType<?> type) {
       super(ID, playerCondition);
       this.type = type;
     }
 
     public static Instance container(BlockEntityType<?> type) {
-      return new Instance(Composite.ANY, type);
+      return new Instance(ContextAwarePredicate.ANY, type);
     }
 
     /** Tests if this instance matches */

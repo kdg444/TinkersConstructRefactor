@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.plugin.rei;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.architectury.fluid.FluidStack;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
@@ -13,7 +12,7 @@ import me.shedaniel.rei.api.client.util.ClientEntryStacks;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.CollectionUtils;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import slimeknights.tconstruct.plugin.rei.widgets.TooltipWidget;
@@ -26,7 +25,7 @@ import java.util.function.Predicate;
 
 public interface TinkersCategory<T extends Display> extends DisplayCategory<T> {
 
-  default void draw(T display, PoseStack matrixStack, double mouseX, double mouseY) {}
+  default void draw(T display, GuiGraphics graphics, double mouseX, double mouseY) {}
 
   void addWidgets(T display, List<Widget> ingredients, Point origin, Rectangle bounds);
 
@@ -52,11 +51,11 @@ public interface TinkersCategory<T extends Display> extends DisplayCategory<T> {
     Point origin = new Point(bounds.getX() + 5, bounds.getY() + 5);
     widgets.add(Widgets.createRecipeBase(bounds));
     widgets.add(getBackground().build(0, 0, origin));
-    widgets.add(Widgets.createDrawableWidget((helper, poseStack, mouseX, mouseY, partialTick) -> {
-      poseStack.pushPose();
-      poseStack.translate(bounds.getX() + 5, bounds.getY() + 5, 0);
-      draw(display, poseStack, mouseX, mouseY);
-      poseStack.popPose();
+    widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, partialTick) -> {
+      graphics.pose().pushPose();
+      graphics.pose().translate(bounds.getX() + 5, bounds.getY() + 5, 0);
+      draw(display, graphics, mouseX, mouseY);
+      graphics.pose().popPose();
     }));
     addWidgets(display, widgets, origin, bounds);
     if (this instanceof IRecipeTooltipReplacement replacement)

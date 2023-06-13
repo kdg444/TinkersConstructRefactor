@@ -12,7 +12,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.HugeFungusConfiguration;
@@ -100,6 +102,7 @@ public final class TinkerStructures extends TinkerModule {
   public static final ResourceKey<ConfiguredFeature<?,?>> ichorSlimeFungus = TinkerWorld.configured("ichor_slime_fungus");
 
   public static void bootstrapConfigured(BootstapContext<ConfiguredFeature<?, ?>> bootstapContext) {
+    BlockPredicate blockPredicate = BlockPredicate.matchesTag(TinkerTags.Blocks.PLANT_REPLACEABLE);
     FeatureUtils.register(bootstapContext, earthSlimeTree, slimeTree.get(),
       new SlimeTreeConfig.Builder()
         .planted()
@@ -144,6 +147,7 @@ public final class TinkerStructures extends TinkerModule {
         TinkerWorld.bloodshroom.getLog().defaultBlockState(),
         TinkerWorld.slimeLeaves.get(SlimeType.BLOOD).defaultBlockState(),
         TinkerWorld.congealedSlime.get(SlimeType.ICHOR).defaultBlockState(),
+        blockPredicate,
         true));
     FeatureUtils.register(bootstapContext, bloodSlimeIslandFungus, slimeFungus.get(),
       new SlimeFungusConfig(
@@ -151,6 +155,7 @@ public final class TinkerStructures extends TinkerModule {
         TinkerWorld.bloodshroom.getLog().defaultBlockState(),
         TinkerWorld.slimeLeaves.get(SlimeType.BLOOD).defaultBlockState(),
         TinkerWorld.congealedSlime.get(SlimeType.ICHOR).defaultBlockState(),
+        blockPredicate,
         false));
     FeatureUtils.register(bootstapContext, ichorSlimeFungus, slimeFungus.get(),
       new SlimeFungusConfig(
@@ -158,6 +163,7 @@ public final class TinkerStructures extends TinkerModule {
         TinkerWorld.bloodshroom.getLog().defaultBlockState(),
         TinkerWorld.slimeLeaves.get(SlimeType.ICHOR).defaultBlockState(),
         TinkerWorld.congealedSlime.get(SlimeType.ICHOR).defaultBlockState(),
+        blockPredicate,
         false));
   }
 

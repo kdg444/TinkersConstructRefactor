@@ -2,9 +2,9 @@ package slimeknights.tconstruct.gadgets.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.mojang.blaze3d.vertex.PoseStack;
-import io.github.fabricators_of_create.porting_lib.util.EffectRenderer;
-import net.minecraft.client.gui.GuiComponent;
+import io.github.fabricators_of_create.porting_lib.entity.client.MobEffectRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,7 +34,6 @@ import slimeknights.tconstruct.library.client.Icons;
 import slimeknights.tconstruct.library.client.RenderUtils;
 
 import javax.annotation.Nonnull;
-import java.util.function.Consumer;
 
 public class PiggyBackPackItem extends TooltipItem {
   private static final int MAX_ENTITY_STACK = 3; // how many entities can be carried at once
@@ -176,15 +175,15 @@ public class PiggyBackPackItem extends TooltipItem {
 
     // TODO: proper sprite sheet for effect icons?
     @Override
-    public void initializeClient(Consumer<EffectRenderer> consumer) {
-      consumer.accept(new EffectRenderer() {
+    public MobEffectRenderer getRenderer() {
+      return new MobEffectRenderer() {
         @Override
-        public void renderInventoryEffect(MobEffectInstance effect, EffectRenderingInventoryScreen<?> gui, PoseStack matrices, int x, int y, float z) {
-          this.renderHUDEffect(effect, gui, matrices, x, y, z, 1f);
+        public boolean renderInventoryIcon(MobEffectInstance effect, EffectRenderingInventoryScreen<?> gui, GuiGraphics graphics, int x, int y, int z) {
+          return this.renderGuiIcon(effect, null, graphics, x, y, z, 1f);
         }
 
         @Override
-        public void renderHUDEffect(MobEffectInstance effect, GuiComponent gui, PoseStack matrices, int x, int y, float z, float alpha) {
+        public boolean renderGuiIcon(MobEffectInstance effect, Gui gui, GuiGraphics graphics, int x, int y, float z, float alpha) {
           RenderUtils.setup(Icons.ICONS);
           ElementScreen element = switch (effect.getAmplifier()) {
             case 0 -> Icons.PIGGYBACK_1;
@@ -192,9 +191,10 @@ public class PiggyBackPackItem extends TooltipItem {
             default -> Icons.PIGGYBACK_3;
           };
 
-          element.draw(matrices, x + 6, y + 7);
+          element.draw(graphics, Icons.ICONS, x + 6, y + 7);
+          return true;
         }
-      });
+      };
     }
   }
 }
