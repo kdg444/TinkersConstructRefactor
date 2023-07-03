@@ -248,8 +248,8 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     this.tag(BlockTags.GUARDED_BY_PIGLINS)
         .add(TinkerTables.castChest.get(), TinkerCommons.goldBars.get(), TinkerCommons.goldPlatform.get(),
              // piglins do not appreciate you touching their corpses
-             TinkerWorld.heads.get(TinkerHeadType.PIGLIN), TinkerWorld.heads.get(TinkerHeadType.PIGLIN_BRUTE),
-             TinkerWorld.wallHeads.get(TinkerHeadType.PIGLIN), TinkerWorld.wallHeads.get(TinkerHeadType.PIGLIN_BRUTE));
+             Blocks.PIGLIN_HEAD, TinkerWorld.heads.get(TinkerHeadType.PIGLIN_BRUTE),
+             Blocks.PIGLIN_WALL_HEAD, TinkerWorld.wallHeads.get(TinkerHeadType.PIGLIN_BRUTE));
     // piglins are not a fan of zombie piglin corpses though
     this.tag(BlockTags.PIGLIN_REPELLENTS)
         .add(TinkerWorld.heads.get(TinkerHeadType.ZOMBIFIED_PIGLIN), TinkerWorld.wallHeads.get(TinkerHeadType.ZOMBIFIED_PIGLIN));

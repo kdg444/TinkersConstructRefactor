@@ -22,7 +22,6 @@ public enum TinkerHeadType implements Type, StringRepresentable {
   SPIDER(() -> EntityType.SPIDER),
   CAVE_SPIDER(() -> EntityType.CAVE_SPIDER),
   // piglin
-  PIGLIN(() -> EntityType.PIGLIN),
   PIGLIN_BRUTE(() -> EntityType.PIGLIN_BRUTE),
   ZOMBIFIED_PIGLIN(() -> EntityType.ZOMBIFIED_PIGLIN);
 

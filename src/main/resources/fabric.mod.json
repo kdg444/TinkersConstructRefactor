@@ -15,7 +15,9 @@
 
   "license": "MIT",
   "icon": "logo.png",
-
+  "mixins": [
+    "hephaestus.mixins.json"
+  ],
   "environment": "*",
   "entrypoints": {
     "main": [

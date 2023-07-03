@@ -74,7 +74,6 @@ public class WorldClientEvents extends ClientEventBase {
 
     // piglin
     Supplier<LayerDefinition> piglinHead = Lazy.of(SkullModelHelper::createPiglinHead);
-    registerLayerDefinition(TinkerHeadType.PIGLIN, piglinHead);
     registerLayerDefinition(TinkerHeadType.PIGLIN_BRUTE, piglinHead);
     registerLayerDefinition(TinkerHeadType.ZOMBIFIED_PIGLIN, piglinHead);
   }
@@ -152,7 +151,6 @@ public class WorldClientEvents extends ClientEventBase {
       registerHeadModel(TinkerHeadType.SPIDER, MaterialIds.string, new ResourceLocation("textures/entity/spider/spider.png"));
       registerHeadModel(TinkerHeadType.CAVE_SPIDER, MaterialIds.darkthread, new ResourceLocation("textures/entity/spider/cave_spider.png"));
       // piglins
-      registerHeadModel(TinkerHeadType.PIGLIN, MaterialIds.gold, new ResourceLocation("textures/entity/piglin/piglin.png"));
       registerHeadModel(TinkerHeadType.PIGLIN_BRUTE, MaterialIds.roseGold, new ResourceLocation("textures/entity/piglin/piglin_brute.png"));
       registerHeadModel(TinkerHeadType.ZOMBIFIED_PIGLIN, MaterialIds.pigIron, new ResourceLocation("textures/entity/piglin/zombified_piglin.png"));
 //    });

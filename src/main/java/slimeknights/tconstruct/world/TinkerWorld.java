@@ -86,7 +86,6 @@ import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.shared.block.SlimeType;
 import slimeknights.tconstruct.world.block.BloodSlimeBlock;
 import slimeknights.tconstruct.world.block.CongealedSlimeBlock;
-import slimeknights.tconstruct.world.block.PiglinHeadBlock;
 import slimeknights.tconstruct.world.block.PiglinWallHeadBlock;
 import slimeknights.tconstruct.world.block.SlimeDirtBlock;
 import slimeknights.tconstruct.world.block.SlimeFungusBlock;
@@ -467,8 +466,8 @@ public final class TinkerWorld extends TinkerModule {
   /** Creates a skull block for the given head type */
   private static SkullBlock makeHead(TinkerHeadType type) {
     BlockBehaviour.Properties props = BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).strength(1.0F);
-    if (type == TinkerHeadType.PIGLIN || type == TinkerHeadType.PIGLIN_BRUTE || type == TinkerHeadType.ZOMBIFIED_PIGLIN) {
-      return new PiglinHeadBlock(type, props);
+    if (type == TinkerHeadType.PIGLIN_BRUTE || type == TinkerHeadType.ZOMBIFIED_PIGLIN) {
+      return new SkullBlock(SkullBlock.Types.PIGLIN, props);
     }
     return new SkullBlock(type, props);
   }
@@ -476,7 +475,7 @@ public final class TinkerWorld extends TinkerModule {
   /** Creates a skull wall block for the given head type */
   private static WallSkullBlock makeWallHead(TinkerHeadType type) {
     BlockBehaviour.Properties props = BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).strength(1.0F).dropsLike(heads.get(type));
-    if (type == TinkerHeadType.PIGLIN || type == TinkerHeadType.PIGLIN_BRUTE || type == TinkerHeadType.ZOMBIFIED_PIGLIN) {
+    if (type == TinkerHeadType.PIGLIN_BRUTE || type == TinkerHeadType.ZOMBIFIED_PIGLIN) {
       return new PiglinWallHeadBlock(type, props);
     }
     return new WallSkullBlock(type, props);
