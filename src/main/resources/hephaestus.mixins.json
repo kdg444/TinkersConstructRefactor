@@ -9,7 +9,6 @@
     "maxShiftBy": 5
   },
   "mixins": [
-    "DataFixersMixin",
-    "SharedConstantsMixin"
+    "DataFixersMixin"
   ]
 }
