@@ -130,11 +130,15 @@ dependencies {
 
     // dependencies
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
-    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:Porting-Lib:${project.port_lib_version}+${project.minecraft_version}-entity-refactor"))
+    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:Porting-Lib:${project.port_lib_version}+${project.minecraft_version}-entity-refactor")) {
+        exclude(group: "io.vram")
+    }
     api(include('com.electronwill.night-config:core:3.6.6'))
     api(include('com.electronwill.night-config:toml:3.6.6'))
     modImplementation("dev.architectury:architectury-fabric:9.0.7")
-    modImplementation(include("slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"))
+    modImplementation(include("slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}")) {
+        exclude(group: "io.vram")
+    }
     modImplementation(include("io.github.tropheusj:milk-lib:${project.milk_lib_version}"))
     modApi(include("io.github.tropheusj:dripstone-fluid-lib:${project.dripstone_fluid_lib_version}"))
 
