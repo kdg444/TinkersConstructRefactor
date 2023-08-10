@@ -33,23 +33,23 @@ import java.util.List;
 public class TinkerTabs {
   /** Creative tab for items that do not fit in another tab */
   @SuppressWarnings("WeakerAccess")
-  public static final ResourceKey<CreativeModeTab> TAB_GENERAL = createKey("general");
+  public static final ResourceKey<CreativeModeTab> TAB_GENERAL = createKey("a_general");
 
   /** Tab for all special tools added by the mod */
-  public static final ResourceKey<CreativeModeTab> TAB_GADGETS = createKey("gadgets");
+  public static final ResourceKey<CreativeModeTab> TAB_GADGETS = createKey("b_gadgets");
 
   /** Tab for anything generated in the world */
   @SuppressWarnings("WeakerAccess")
-  public static final ResourceKey<CreativeModeTab> TAB_WORLD = createKey("world");
+  public static final ResourceKey<CreativeModeTab> TAB_WORLD = createKey("c_world");
 
   /** Tab for all tool parts */
-  public static final ResourceKey<CreativeModeTab> TAB_TOOL_PARTS = createKey("tool_parts");
+  public static final ResourceKey<CreativeModeTab> TAB_TOOL_PARTS = createKey("d_tool_parts");
 
   /** Creative tab for all tool items */
-  public static final ResourceKey<CreativeModeTab> TAB_TOOLS = createKey("tools");
+  public static final ResourceKey<CreativeModeTab> TAB_TOOLS = createKey("e_tools");
 
   /** Tab for all blocks related to the smeltery */
-  public static final ResourceKey<CreativeModeTab> TAB_SMELTERY = createKey("smeltery");
+  public static final ResourceKey<CreativeModeTab> TAB_SMELTERY = createKey("f_smeltery");
 
   private static ResourceKey<CreativeModeTab> createKey(String tabId) {
     return ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(TConstruct.MOD_ID, tabId));
