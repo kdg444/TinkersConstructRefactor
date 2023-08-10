@@ -2,7 +2,7 @@ package slimeknights.tconstruct.tools.logic;
 
 import com.google.common.collect.Multiset;
 import io.github.fabricators_of_create.porting_lib.entity.events.ProjectileImpactCallback;
-import io.github.fabricators_of_create.porting_lib.event.BaseEvent.Result;
+import io.github.fabricators_of_create.porting_lib.core.event.BaseEvent.Result;
 import io.github.fabricators_of_create.porting_lib.event.common.GrindstoneEvents;
 import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;

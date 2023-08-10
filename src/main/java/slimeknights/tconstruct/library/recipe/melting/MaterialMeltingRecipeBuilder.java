@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.recipe.melting;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;

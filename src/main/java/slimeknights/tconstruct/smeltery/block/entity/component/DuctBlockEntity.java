@@ -2,7 +2,7 @@ package slimeknights.tconstruct.smeltery.block.entity.component;
 
 
 import io.github.fabricators_of_create.porting_lib.block.CustomUpdateTagHandlingBlockEntity;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;

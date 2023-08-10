@@ -207,6 +207,8 @@ public class MaterialIngredient extends Ingredient {
       } else {
         material = WILDCARD;
       }
+      if (json.has("fabric:type"))
+        json.remove("fabric:type");
       return new FabricMaterialIngredient(Stream.of(Ingredient.valueFromJson(json)), material);
     }
 

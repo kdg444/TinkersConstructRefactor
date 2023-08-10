@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.gadgets.data;
 
-import me.alphamode.forgetags.Tags;
+import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;

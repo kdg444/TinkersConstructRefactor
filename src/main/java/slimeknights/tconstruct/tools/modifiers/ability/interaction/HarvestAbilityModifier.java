@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.interaction;
 
-import io.github.fabricators_of_create.porting_lib.event.BaseEvent;
+import io.github.fabricators_of_create.porting_lib.core.event.BaseEvent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.BlockPos;

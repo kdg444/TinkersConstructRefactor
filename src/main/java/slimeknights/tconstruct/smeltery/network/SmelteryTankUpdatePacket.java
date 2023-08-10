@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.smeltery.network;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.AllArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -25,7 +25,7 @@ public class SmelteryTankUpdatePacket implements IThreadsafePacket {
     int size = buffer.readVarInt();
     fluids = new ArrayList<>(size);
     for (int i = 0; i < size; i++) {
-      fluids.add(FluidStack.fromBuffer(buffer));
+      fluids.add(FluidStack.readFromPacket(buffer));
     }
   }
 
@@ -34,7 +34,7 @@ public class SmelteryTankUpdatePacket implements IThreadsafePacket {
     buffer.writeBlockPos(pos);
     buffer.writeVarInt(fluids.size());
     for (FluidStack fluid : fluids) {
-      fluid.toBuffer(buffer);
+      fluid.writeToPacket(buffer);
     }
   }
 

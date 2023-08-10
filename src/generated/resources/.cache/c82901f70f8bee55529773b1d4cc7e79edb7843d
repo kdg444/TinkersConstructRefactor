@@ -1,4 +1,4 @@
-// 1.20	2023-06-13T14:41:52.726191987	Hephaestus/TConstruct LootTables
+// 1.20.1	2023-08-10T14:14:21.997033305	Hephaestus/TConstruct LootTables
 16016311a0d01670a76d55bce16b23a75ee03b49 data/tconstruct/loot_tables/blocks/seared_heater.json
 8d71bd39e2d064174d87442062c39acce71e6b9a data/tconstruct/loot_tables/blocks/white_clear_stained_glass_pane.json
 78e256b695a3ea5e30d0d16b0f8a448acba19528 data/tconstruct/loot_tables/blocks/seared_stone.json
@@ -140,7 +140,6 @@ bb16a4027fa3d82822afe12d79a7b692a7220add data/tconstruct/loot_tables/blocks/ende
 9f9f9b85e4ccb0ee3b3d3268be0b64f324388ba2 data/tconstruct/loot_tables/blocks/blazewood_slab.json
 d92b241a78bf3b683c14cfe7dba25062d4bec9dd data/tconstruct/loot_tables/blocks/blood_earth_slime_grass.json
 f5833f3fabab3a02e8957592d9e2c7437ef8cdf4 data/tconstruct/loot_tables/blocks/black_clear_stained_glass.json
-9c6c68c076052920f6466e4a083fa0e88f83bc01 data/tconstruct/loot_tables/blocks/piglin_head.json
 9cdf31f81e9ac9634700aec7c8684ff791961b70 data/tconstruct/loot_tables/blocks/ichor_slime_dirt.json
 f7c4f620f577f8a48fafa9805383b3a09328d747 data/tconstruct/loot_tables/blocks/yellow_clear_stained_glass_pane.json
 a74ae7f644874caae341de43cdeebf54bef0899b data/tconstruct/loot_tables/blocks/blue_clear_stained_glass_pane.json

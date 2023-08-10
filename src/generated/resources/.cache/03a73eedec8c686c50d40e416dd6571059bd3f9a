@@ -1,4 +1,4 @@
-// 1.20	2023-06-13T14:41:52.739161036	Hephaestus/Tinkers' Construct Material Render Info Provider
+// 1.20.1	2023-08-10T14:14:22.008317494	Hephaestus/Tinkers' Construct Material Render Info Provider
 7b3847561b9ae29eba59700e9b66b30b4aa1045d assets/tconstruct/tinkering/materials/uranium.json
 b1151a8c0184739225cddc5adc943eccb13def67 assets/tconstruct/tinkering/materials/bronze.json
 107703b8b74bc63055e2339af1478b0ed0e18b99 assets/tconstruct/tinkering/materials/wood/dark_oak.json
@@ -47,8 +47,8 @@ cd0ee4ca94b1c6ebd95bcbd57570cad48b18730e assets/tconstruct/tinkering/materials/c
 9bbd43e3b4258ea938c7bfa27c566d3966273881 assets/tconstruct/tinkering/materials/ui_render/extra_large.json
 30630bb4afd13bab49db1032c312df5515a3dea6 assets/tconstruct/tinkering/materials/plated_slimewood.json
 a66c1f8e57f64f3c8debb11865e1f08f8ae46e0f assets/tconstruct/tinkering/materials/earthslime.json
-e236015cc9adcb211cd3459b16f7160bfa9153ef assets/tconstruct/tinkering/materials/slimewood/skyroot.json
 cf09160040c97e82440f4b1eaba01a34dafd5c2e assets/tconstruct/tinkering/materials/queens_slime.json
+e236015cc9adcb211cd3459b16f7160bfa9153ef assets/tconstruct/tinkering/materials/slimewood/skyroot.json
 633928236b8eed556bd74e9a6de9a844975fd2d8 assets/tconstruct/tinkering/materials/iron.json
 520356d53a71e4ae57a578d37875e001a14f6d3b assets/tconstruct/tinkering/materials/electrum.json
 648c4f5c0f402f42f684e8b1bb8d3011f10f6210 assets/tconstruct/tinkering/materials/chain.json
@@ -76,8 +76,8 @@ abbe9ae6c972b5f0e8eeb79f3d08587182aa2588 assets/tconstruct/tinkering/materials/u
 6d39e38c0332c0ee4dabc482ebfeb0d7d0186b98 assets/tconstruct/tinkering/materials/cobalt.json
 416711fee0fcf4138f805b64f1f150329d93b852 assets/tconstruct/tinkering/materials/zinc.json
 68a5d0a283888861f904c34f0526187eb85cadb1 assets/tconstruct/tinkering/materials/brass.json
-629266b561147cb51b5b00db89c84b18bb8b15f8 assets/tconstruct/tinkering/materials/osmium.json
 50021fbea4b048c9cefc27463851e4d4a5e18a44 assets/tconstruct/tinkering/materials/copper/oxidized.json
+629266b561147cb51b5b00db89c84b18bb8b15f8 assets/tconstruct/tinkering/materials/osmium.json
 7d3797d5a62b974ebefc0f6a7c3c7a7275b5812a assets/tconstruct/tinkering/materials/rock/diorite.json
 fa5add7a7e937d24f4a474f559648decee681692 assets/tconstruct/tinkering/materials/bloodbone.json
 41267d98045e378021758852bfa15719b1093f53 assets/tconstruct/tinkering/materials/aluminum.json

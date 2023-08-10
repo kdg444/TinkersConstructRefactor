@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import me.alphamode.forgetags.Tags;
+import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -40,8 +40,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static me.alphamode.forgetags.Tags.Blocks.NEEDS_GOLD_TOOL;
-import static me.alphamode.forgetags.Tags.Blocks.NEEDS_NETHERITE_TOOL;
+import static io.github.fabricators_of_create.porting_lib.tags.Tags.Blocks.NEEDS_GOLD_TOOL;
+import static io.github.fabricators_of_create.porting_lib.tags.Tags.Blocks.NEEDS_NETHERITE_TOOL;
 import static net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE;
 import static net.minecraft.tags.BlockTags.MINEABLE_WITH_HOE;
 import static net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE;

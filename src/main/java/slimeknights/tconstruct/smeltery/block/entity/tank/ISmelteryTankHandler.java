@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.entity.tank;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
 

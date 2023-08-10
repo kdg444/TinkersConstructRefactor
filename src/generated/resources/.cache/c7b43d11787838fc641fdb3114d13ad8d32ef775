@@ -1,4 +1,4 @@
-// 1.20	2023-06-13T14:41:52.729145343	Hephaestus/Tinkers Construct Block Tags
+// 1.20.1	2023-08-10T14:14:22.000625887	Hephaestus/Tinkers Construct Block Tags
 61ba530b49ae3c5473c77baf566f3b7fab2307ad data/minecraft/tags/blocks/saplings.json
 0c9d7465ebc29fbe18ed898c790e1bcfe4e7cb82 data/tconstruct/tags/blocks/mineable/mattock.json
 764c0179593c083175d3f04f45cd587c6cdad81d data/minecraft/tags/blocks/enderman_holdable.json
@@ -105,7 +105,7 @@ cda0126300bdf066f09dbfa39fb558b30e651698 data/c/tags/blocks/magenta_glass.json
 4f01a4d27c2566e2a4b3fd6ace276d9baba73f0d data/tconstruct/tags/blocks/smeltery/floor.json
 a5bbd7c84759fb40df68448187c42fc7121dd48b data/minecraft/tags/blocks/impermeable.json
 abc9aeafd0de81dfc1ab881f1a6829f1304cbc54 data/tconstruct/tags/blocks/seared_tanks.json
-cb0a7a1b7e1c4aae7510f742030ad6efdd2adb49 data/minecraft/tags/blocks/guarded_by_piglins.json
+767647ed425d404e7f10e01dfc22736c2c058db2 data/minecraft/tags/blocks/guarded_by_piglins.json
 60ff2365a1894da58d7ac72aa8d959c9767f1552 data/c/tags/blocks/yellow_glass_panes.json
 fc013a612063830eb341afed7b26ebf4bf168534 data/minecraft/tags/blocks/standing_signs.json
 8b80b0f1b0910cf681c87c6730f4a416166c8c2f data/c/tags/blocks/brown_glass_panes.json

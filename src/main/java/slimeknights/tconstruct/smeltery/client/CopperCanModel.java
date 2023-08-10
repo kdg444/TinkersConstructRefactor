@@ -25,11 +25,11 @@ import com.google.gson.JsonObject;
 import com.mojang.math.Transformation;
 import io.github.fabricators_of_create.porting_lib.models.CompositeModel;
 import io.github.fabricators_of_create.porting_lib.models.DynamicFluidContainerModel;
-import io.github.fabricators_of_create.porting_lib.models.SimpleModelState;
 import io.github.fabricators_of_create.porting_lib.models.UnbakedGeometryHelper;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.models.geometry.SimpleModelState;
 import lombok.RequiredArgsConstructor;
 import lombok.With;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
@@ -79,7 +79,7 @@ public final class CopperCanModel implements IUnbakedGeometry<CopperCanModel> {
   private final boolean applyFluidLuminosity;
 
   @Override
-  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
+  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation, boolean isGui3d) {
     Material particleLocation = owner.hasTexture("particle") ? owner.getMaterial("particle") : null;
     Material baseLocation = owner.hasTexture("base") ? owner.getMaterial("base") : null;
     Material fluidMaskLocation = owner.hasTexture("fluid") ? owner.getMaterial("fluid") : null;
@@ -172,7 +172,7 @@ public final class CopperCanModel implements IUnbakedGeometry<CopperCanModel> {
 
     /** Gets the model directly, for creating the cached models */
     private BakedModel getUncahcedModel(FluidStack fluid) {
-      return this.parent.withFluid(fluid).bake(owner, baker, Material::sprite, BlockModelRotation.X0_Y0, ItemOverrides.EMPTY, BAKE_LOCATION);
+      return this.parent.withFluid(fluid).bake(owner, baker, Material::sprite, BlockModelRotation.X0_Y0, ItemOverrides.EMPTY, BAKE_LOCATION, false);
     }
 
     @Override

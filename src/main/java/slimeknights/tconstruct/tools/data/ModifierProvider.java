@@ -133,8 +133,8 @@ public class ModifierProvider extends AbstractModifierProvider {
     addModifier(ModifierIds.shiny,      StatBoostModifier.builder().addFlag(IModifiable.SHINY).rarity(Rarity.EPIC).display(ModifierLevelDisplay.NO_LEVELS).build());
     // general abilities
     addModifier(ModifierIds.reach, StatBoostModifier.builder()
-      .attribute("tconstruct.modifier.reach", PortingLibAttributes.REACH_DISTANCE, Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
-      .attribute("tconstruct.modifier.range", PortingLibAttributes.ATTACK_RANGE,   Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
+      .attribute("tconstruct.modifier.reach", PortingLibAttributes.BLOCK_REACH, Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
+      .attribute("tconstruct.modifier.range", PortingLibAttributes.ENTITY_REACH,   Operation.ADDITION, 1, EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
       .build());
 
     // loot

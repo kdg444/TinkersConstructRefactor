@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.plugin.jei.melting;
 
 import com.mojang.datafixers.util.Pair;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;

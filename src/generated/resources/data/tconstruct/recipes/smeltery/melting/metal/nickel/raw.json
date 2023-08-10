@@ -7,7 +7,7 @@
       ]
     }
   ],
-  "type": "forge:conditional",
+  "type": "porting_lib:conditional",
   "recipes": [
     {
       "fabric:load_conditions": [

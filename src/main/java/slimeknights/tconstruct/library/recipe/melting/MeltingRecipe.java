@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.recipe.melting;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.NonNullList;
@@ -146,13 +146,13 @@ public class MeltingRecipe implements IMeltingRecipe {
     protected T fromNetworkSafe(ResourceLocation id, FriendlyByteBuf buffer) {
       String group = buffer.readUtf(Short.MAX_VALUE);
       Ingredient input = Ingredient.fromNetwork(buffer);
-      FluidStack output = FluidStack.fromBuffer(buffer);
+      FluidStack output = FluidStack.readFromPacket(buffer);
       int temperature = buffer.readInt();
       int time = buffer.readVarInt();
       ImmutableList.Builder<FluidStack> builder = ImmutableList.builder();
       int byproductCount = buffer.readVarInt();
       for (int i = 0; i < byproductCount; i++) {
-        builder.add(FluidStack.fromBuffer(buffer));
+        builder.add(FluidStack.readFromPacket(buffer));
       }
       return createFromNetwork(id, group, input, output, temperature, time, builder.build(), buffer);
     }
@@ -161,12 +161,12 @@ public class MeltingRecipe implements IMeltingRecipe {
     protected void toNetworkSafe(FriendlyByteBuf buffer, T recipe) {
       buffer.writeUtf(recipe.group);
       recipe.input.toNetwork(buffer);
-      recipe.output.toBuffer(buffer);
+      recipe.output.writeToPacket(buffer);
       buffer.writeInt(recipe.temperature);
       buffer.writeVarInt(recipe.time);
       buffer.writeVarInt(recipe.byproducts.size());
       for (FluidStack fluidStack : recipe.byproducts) {
-        fluidStack.toBuffer(buffer);
+        fluidStack.writeToPacket(buffer);
       }
     }
   }

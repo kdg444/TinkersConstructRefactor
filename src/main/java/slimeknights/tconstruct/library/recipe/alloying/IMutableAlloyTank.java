@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.recipe.alloying;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 
 /** Extension of IAlloyTank for the sake of receiving outputs and consuming inputs */
 public interface IMutableAlloyTank extends IAlloyTank {

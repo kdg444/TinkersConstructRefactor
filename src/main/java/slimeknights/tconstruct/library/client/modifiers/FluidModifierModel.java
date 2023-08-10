@@ -2,7 +2,7 @@ package slimeknights.tconstruct.library.client.modifiers;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.math.Transformation;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.client.renderer.block.model.BakedQuad;

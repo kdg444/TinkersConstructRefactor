@@ -2,7 +2,7 @@ package slimeknights.tconstruct.library.recipe.alloying;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.RequiredArgsConstructor;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.core.registries.BuiltInRegistries;

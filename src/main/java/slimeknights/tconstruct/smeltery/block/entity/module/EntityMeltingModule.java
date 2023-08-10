@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.entity.module;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;

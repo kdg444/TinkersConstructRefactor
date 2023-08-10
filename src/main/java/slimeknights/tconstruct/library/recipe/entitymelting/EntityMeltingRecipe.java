@@ -2,7 +2,7 @@ package slimeknights.tconstruct.library.recipe.entitymelting;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazySpawnEggItem;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -130,7 +130,7 @@ public class EntityMeltingRecipe implements ICustomOutputRecipe<IEmptyContainer>
     @Override
     protected EntityMeltingRecipe fromNetworkSafe(ResourceLocation id, FriendlyByteBuf buffer) {
       EntityIngredient ingredient = EntityIngredient.read(buffer);
-      FluidStack output = FluidStack.fromBuffer(buffer);
+      FluidStack output = FluidStack.readFromPacket(buffer);
       int damage = buffer.readVarInt();
       return new EntityMeltingRecipe(id, ingredient, output, damage);
     }
@@ -138,7 +138,7 @@ public class EntityMeltingRecipe implements ICustomOutputRecipe<IEmptyContainer>
     @Override
     protected void toNetworkSafe(FriendlyByteBuf buffer, EntityMeltingRecipe recipe) {
       recipe.ingredient.write(buffer);
-      recipe.output.toBuffer(buffer);
+      recipe.output.writeToPacket(buffer);
       buffer.writeVarInt(recipe.damage);
     }
   }

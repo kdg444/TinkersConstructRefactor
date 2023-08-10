@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.modifiers.spilling;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.tconstruct.library.tools.context.ToolAttackContext;

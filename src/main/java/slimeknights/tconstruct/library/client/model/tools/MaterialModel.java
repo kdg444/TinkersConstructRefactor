@@ -162,7 +162,7 @@ public class MaterialModel implements IUnbakedGeometry<MaterialModel> {
   }
 
   /**
-   * Same as {@link #bake(BlockModel, ModelBaker, Function, ModelState, ItemOverrides, ResourceLocation)} , but uses fewer arguments and does not require an instance
+   * Same as {@link #bake(BlockModel, ModelBaker, Function, ModelState, ItemOverrides, ResourceLocation, boolean)} , but uses fewer arguments and does not require an instance
    * @param owner          Model configuration
    * @param spriteGetter   Sprite getter function
    * @param transform      Transform to apply to the quad fetching. Should not include rotation or it will look wrong in UIs
@@ -181,7 +181,7 @@ public class MaterialModel implements IUnbakedGeometry<MaterialModel> {
   }
 
   @Override
-  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides vanillaOverrides, ResourceLocation modelLocation) {
+  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides vanillaOverrides, ResourceLocation modelLocation, boolean isGui3d) {
     // create transforms from offset
     Transformation transforms;
     if (Vec2.ZERO.equals(offset)) {

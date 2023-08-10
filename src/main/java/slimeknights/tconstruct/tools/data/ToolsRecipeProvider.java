@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.data;
 
 import com.google.common.collect.Streams;
-import me.alphamode.forgetags.Tags;
+import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.DefaultCustomIngredients;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Blocks;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.data.BaseRecipeProvider;

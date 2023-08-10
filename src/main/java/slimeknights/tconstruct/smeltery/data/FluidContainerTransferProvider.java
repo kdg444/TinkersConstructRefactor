@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.smeltery.data;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;

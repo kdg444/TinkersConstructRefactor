@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.gadgets.entity;
 
-import io.github.fabricators_of_create.porting_lib.entity.ExtraSpawnDataEntity;
+import io.github.fabricators_of_create.porting_lib.entity.IEntityAdditionalSpawnData;
 import io.github.fabricators_of_create.porting_lib.event.common.ExplosionEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -19,7 +19,7 @@ import slimeknights.tconstruct.gadgets.TinkerGadgets;
 
 import javax.annotation.Nonnull;
 
-public class EflnBallEntity extends ThrowableItemProjectile implements ExtraSpawnDataEntity {
+public class EflnBallEntity extends ThrowableItemProjectile implements IEntityAdditionalSpawnData {
 
   public EflnBallEntity(EntityType<? extends EflnBallEntity> p_i50159_1_, Level p_i50159_2_) {
     super(p_i50159_1_, p_i50159_2_);

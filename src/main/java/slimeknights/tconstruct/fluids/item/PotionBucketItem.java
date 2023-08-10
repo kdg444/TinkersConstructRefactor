@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.fluids.item;
 
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.item.FluidBucketWrapper;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;

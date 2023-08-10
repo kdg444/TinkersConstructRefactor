@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.client.modifiers;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.level.material.Fluid;
 import slimeknights.tconstruct.library.modifiers.Modifier;

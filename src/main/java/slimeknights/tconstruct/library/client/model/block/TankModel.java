@@ -9,7 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.fabricators_of_create.porting_lib.models.TransformTypeDependentItemBakedModel;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
@@ -81,7 +81,7 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
   }
 
   @Override
-  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState transform, ItemOverrides overrides, ResourceLocation location) {
+  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState transform, ItemOverrides overrides, ResourceLocation location, boolean isGui3d) {
     BakedModel baked = model.bakeModel(owner, transform, overrides, spriteGetter, location);
     // bake the GUI model if present
     BakedModel bakedGui = baked;
@@ -125,15 +125,15 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
     /* Swap out GUI model if needed */
 
     @Override
-    public BakedModel applyTransform(ItemDisplayContext cameraTransformType, PoseStack mat, boolean leftHanded) {
+    public BakedModel applyTransform(ItemDisplayContext cameraTransformType, PoseStack mat, boolean leftHanded, DefaultTransform defaultTransform) {
       if (cameraTransformType == ItemDisplayContext.GUI) {
         if(gui instanceof TransformTypeDependentItemBakedModel)
-          return ((TransformTypeDependentItemBakedModel)gui).applyTransform(cameraTransformType, mat, leftHanded);
+          return ((TransformTypeDependentItemBakedModel)gui).applyTransform(cameraTransformType, mat, leftHanded, defaultTransform);
         gui.getTransforms().getTransform(cameraTransformType).apply(leftHanded, mat);
         return gui;
       }
       if(wrapped instanceof TransformTypeDependentItemBakedModel)
-        return ((TransformTypeDependentItemBakedModel)wrapped).applyTransform(cameraTransformType, mat, leftHanded);
+        return ((TransformTypeDependentItemBakedModel)wrapped).applyTransform(cameraTransformType, mat, leftHanded, defaultTransform);
       wrapped.getTransforms().getTransform(cameraTransformType).apply(leftHanded, mat);
       return wrapped;
     }

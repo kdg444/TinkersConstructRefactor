@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.data;
 
+import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import io.github.tropheusj.milk.Milk;
-import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.DefaultCustomIngredients;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;

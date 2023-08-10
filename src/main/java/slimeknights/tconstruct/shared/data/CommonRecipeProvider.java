@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.shared.data;
 
-import me.alphamode.forgetags.Tags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;

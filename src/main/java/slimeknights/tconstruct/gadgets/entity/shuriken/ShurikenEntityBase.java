@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.gadgets.entity.shuriken;
 
-import io.github.fabricators_of_create.porting_lib.entity.ExtraSpawnDataEntity;
+import io.github.fabricators_of_create.porting_lib.entity.IEntityAdditionalSpawnData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
 
-public abstract class ShurikenEntityBase extends ThrowableItemProjectile implements ExtraSpawnDataEntity {
+public abstract class ShurikenEntityBase extends ThrowableItemProjectile implements IEntityAdditionalSpawnData {
 
   public ShurikenEntityBase(EntityType<? extends ShurikenEntityBase> type, Level worldIn) {
     super(type, worldIn);

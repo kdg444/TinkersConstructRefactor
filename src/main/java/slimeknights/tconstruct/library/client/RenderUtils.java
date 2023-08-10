@@ -2,7 +2,7 @@ package slimeknights.tconstruct.library.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;

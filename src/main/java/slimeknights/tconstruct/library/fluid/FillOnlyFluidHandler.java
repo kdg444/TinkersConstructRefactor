@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.fluid;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
 
 import javax.annotation.Nonnull;

@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.recipe.alloying;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
@@ -229,7 +229,7 @@ public class AlloyRecipe implements ICustomOutputRecipe<IAlloyTank> {
 
     @Override
     protected void toNetworkSafe(FriendlyByteBuf buffer, AlloyRecipe recipe) {
-      recipe.output.toBuffer(buffer);
+      recipe.output.writeToPacket(buffer);
       buffer.writeVarInt(recipe.inputs.size());
       for (FluidIngredient input : recipe.inputs) {
         input.write(buffer);
@@ -240,7 +240,7 @@ public class AlloyRecipe implements ICustomOutputRecipe<IAlloyTank> {
     @Nullable
     @Override
     protected AlloyRecipe fromNetworkSafe(ResourceLocation id, FriendlyByteBuf buffer) {
-      FluidStack output = FluidStack.fromBuffer(buffer);
+      FluidStack output = FluidStack.readFromPacket(buffer);
       int inputCount = buffer.readVarInt();
       ImmutableList.Builder<FluidIngredient> builder = ImmutableList.builder();
       for (int i = 0; i < inputCount; i++) {

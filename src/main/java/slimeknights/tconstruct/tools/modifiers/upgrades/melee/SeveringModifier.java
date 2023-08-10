@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.melee;
 
+import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import me.alphamode.forgetags.Tags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;

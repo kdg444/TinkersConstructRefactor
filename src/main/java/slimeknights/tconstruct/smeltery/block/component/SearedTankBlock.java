@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.component;
 
 import io.github.fabricators_of_create.porting_lib.block.LightEmissiveBlock;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.fabricmc.fabric.api.block.BlockPickInteractionAware;

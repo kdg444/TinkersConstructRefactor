@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import io.github.fabricators_of_create.porting_lib.util.TagUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import me.alphamode.forgetags.Tags.Items;
+import io.github.fabricators_of_create.porting_lib.tags.Tags.Items;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;

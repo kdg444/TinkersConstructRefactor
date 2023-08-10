@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.gadgets.entity;
 
-import io.github.fabricators_of_create.porting_lib.entity.ExtraSpawnDataEntity;
+import io.github.fabricators_of_create.porting_lib.entity.IEntityAdditionalSpawnData;
 import net.fabricmc.fabric.api.entity.EntityPickInteractionAware;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -29,7 +29,7 @@ import slimeknights.tconstruct.library.utils.Util;
 
 import javax.annotation.Nullable;
 
-public class FancyItemFrameEntity extends ItemFrame implements EntityPickInteractionAware, ExtraSpawnDataEntity {
+public class FancyItemFrameEntity extends ItemFrame implements EntityPickInteractionAware, IEntityAdditionalSpawnData {
   private static final int DIAMOND_TIMER = 300;
   private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(FancyItemFrameEntity.class, EntityDataSerializers.INT);
   private static final String TAG_VARIANT = "Variant";

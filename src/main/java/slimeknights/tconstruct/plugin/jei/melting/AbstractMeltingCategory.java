@@ -3,7 +3,7 @@ package slimeknights.tconstruct.plugin.jei.melting;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import mezz.jei.api.gui.drawable.IDrawable;

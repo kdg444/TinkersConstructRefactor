@@ -1,12 +1,9 @@
 package slimeknights.tconstruct.common.data.tags;
 
-import me.alphamode.forgetags.Tags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;

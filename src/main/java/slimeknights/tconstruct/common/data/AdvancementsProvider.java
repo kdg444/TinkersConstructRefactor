@@ -2,7 +2,7 @@ package slimeknights.tconstruct.common.data;
 
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.minecraft.advancements.Advancement;

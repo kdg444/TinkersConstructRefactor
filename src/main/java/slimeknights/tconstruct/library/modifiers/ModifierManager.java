@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import io.github.fabricators_of_create.porting_lib.event.BaseEvent;
+import io.github.fabricators_of_create.porting_lib.core.event.BaseEvent;
 import io.github.fabricators_of_create.porting_lib.event.common.ModsLoadedCallback;
 import io.github.fabricators_of_create.porting_lib.util.CraftingHelper;
 import lombok.AccessLevel;

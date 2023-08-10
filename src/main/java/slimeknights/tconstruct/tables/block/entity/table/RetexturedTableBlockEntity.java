@@ -105,6 +105,6 @@ public abstract class RetexturedTableBlockEntity extends TableBlockEntity implem
     
     @Override
     public CompoundTag getTileData() {
-        return getExtraCustomData();
+        return getCustomData();
     }
 }

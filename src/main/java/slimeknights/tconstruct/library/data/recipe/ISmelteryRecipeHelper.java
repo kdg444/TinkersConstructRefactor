@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.library.data.recipe;
 
 import io.github.fabricators_of_create.porting_lib.data.ConditionalRecipe;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import io.github.fabricators_of_create.porting_lib.util.TrueCondition;
-import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.DefaultCustomIngredients;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;

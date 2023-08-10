@@ -3,7 +3,7 @@ package slimeknights.tconstruct.plugin.jei;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import io.github.fabricators_of_create.porting_lib.mixin.accessors.common.accessor.RecipeManagerAccessor;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;

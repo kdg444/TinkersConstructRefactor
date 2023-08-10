@@ -1,4 +1,4 @@
-// 1.20	2023-06-13T14:41:52.724002702	Hephaestus/Tinkers' Construct Tool Recipes
+// 1.20.1	2023-08-10T14:14:21.994867578	Hephaestus/Tinkers' Construct Tool Recipes
 2d22463e1f4fbbf656e8689e35ffac2540dba40e data/tconstruct/recipes/tools/parts/casting/small_axe_head_composite.json
 72087a19cc4e6784e5a9832340bf03f3c00e812c data/tconstruct/recipes/tools/parts/casting/broad_blade_gold_cast.json
 e64a2f5f3389dc9cca12105b62b0333ec753cd84 data/tconstruct/advancements/recipes/tools/tools/building/earth_staff.json
@@ -41,7 +41,7 @@ c169fdbd0ae2f63891c134147536350a0490afb1 data/tconstruct/recipes/tools/parts/cas
 53da67dc8f2e295fcc8b1221f342443ff72610a2 data/tconstruct/advancements/recipes/combat/armor/building/plate_shield.json
 46b35a17c136533ebf9ca61ae6fe6eedb2df9ba2 data/tconstruct/recipes/tools/parts/casting/large_plate_sand_cast.json
 6d760defaf0534b98a00dc0ca43f760c7cf7c098 data/tconstruct/recipes/armor/repair/slimesuit_station.json
-ad5735be84c327f24d80b095996f1c4bfd4a8175 data/tconstruct/recipes/armor/building/slime_skull/gold.json
+752dda4e948724b0e4277e88b335f30d544c513b data/tconstruct/recipes/armor/building/slime_skull/gold.json
 0ccdf6708288849324e397ecb6183f56edf0289e data/tconstruct/recipes/tools/repair/staff_station.json
 0f6a7ca0371fb316a269b0dce5e4fcbcac81ff17 data/tconstruct/recipes/smeltery/casts/sand_casts/pick_head.json
 40f28c6e0d09428af64f828984a38ef2a847ce99 data/tconstruct/recipes/armor/building/plate_helmet.json

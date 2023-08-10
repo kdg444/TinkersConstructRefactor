@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.recipe.casting.container;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.RegistryAccess;

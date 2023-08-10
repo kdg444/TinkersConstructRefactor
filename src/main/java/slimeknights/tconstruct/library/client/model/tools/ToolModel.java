@@ -184,7 +184,7 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
   private record FirstModifier(ModifierEntry entry, IBakedModifierModel model, int modelIndex) {}
 
   /**
-   * Same as {@link #bake(BlockModel, ModelBaker, Function, ModelState, ItemOverrides, ResourceLocation)}, but uses fewer arguments and does not require an instance
+   * Same as {@link #bake(BlockModel, ModelBaker, Function, ModelState, ItemOverrides, ResourceLocation, boolean)}, but uses fewer arguments and does not require an instance
    * @param owner           Model configuration
    * @param spriteGetter    Sprite getter function
    * @param largeTransforms Transform to apply to the large parts. If null, only generates small parts
@@ -264,7 +264,7 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
   }
 
   @Override
-  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
+  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation, boolean isGui3d) {
     // load in modifiers
     Set<Material> allTextures = Sets.newHashSet();
     if (toolParts.isEmpty()) {
@@ -498,11 +498,12 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
     }
 
     @Override
-    public BakedModel applyTransform(ItemDisplayContext type, PoseStack mat, boolean leftHanded) {
+    public BakedModel applyTransform(ItemDisplayContext type, PoseStack mat, boolean leftHanded, DefaultTransform defaultTransform) {
       if (type == ItemDisplayContext.GUI) {
-        return ((TransformTypeDependentItemBakedModel)this.guiModel).applyTransform(type, mat, leftHanded);
+        return ((TransformTypeDependentItemBakedModel)this.guiModel).applyTransform(type, mat, leftHanded, defaultTransform);
       }
-      return TransformTypeDependentItemBakedModel.super.applyTransform(type, mat, leftHanded);
+      defaultTransform.apply(this);
+      return this;
     }
 
     /* Misc properties */
@@ -546,7 +547,7 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
     }
 
     @Override
-    public BakedModel applyTransform(ItemDisplayContext transform, PoseStack mat, boolean leftHanded) {
+    public BakedModel applyTransform(ItemDisplayContext transform, PoseStack mat, boolean leftHanded, DefaultTransform defaultTransform) {
       ((BakedLargeToolModel)wrapped).transforms.getTransform(transform).apply(leftHanded, mat);
       return this;
     }

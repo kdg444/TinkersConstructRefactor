@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.recipe.melting;
 
 import com.google.gson.JsonObject;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.Getter;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -117,7 +117,7 @@ public class MaterialMeltingRecipe implements IMeltingRecipe, IMultiRecipe<Melti
     protected MaterialMeltingRecipe fromNetworkSafe(ResourceLocation id, FriendlyByteBuf buffer) {
       MaterialVariantId inputId = MaterialVariantId.parse(buffer.readUtf(Short.MAX_VALUE));
       int temperature = buffer.readInt();
-      FluidStack output = FluidStack.fromBuffer(buffer);
+      FluidStack output = FluidStack.readFromPacket(buffer);
       return new MaterialMeltingRecipe(id, inputId, temperature, output);
     }
 
@@ -125,7 +125,7 @@ public class MaterialMeltingRecipe implements IMeltingRecipe, IMultiRecipe<Melti
     protected void toNetworkSafe(FriendlyByteBuf buffer, MaterialMeltingRecipe recipe) {
       buffer.writeUtf(recipe.input.getVariant().toString());
       buffer.writeInt(recipe.temperature);
-      recipe.result.toBuffer(buffer);
+      recipe.result.writeToPacket(buffer);
     }
   }
 }

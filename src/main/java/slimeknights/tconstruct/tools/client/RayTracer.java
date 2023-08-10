@@ -83,7 +83,7 @@ public class RayTracer {
    * @return the block reach distance from the server
    */
   private static double getBlockReachDistanceServer(ServerPlayer player) {
-    return player.getAttributeValue(PortingLibAttributes.REACH_DISTANCE);
+    return player.getAttributeValue(PortingLibAttributes.ENTITY_REACH);
   }
 
   private static class ClientOnly {

@@ -10,7 +10,7 @@ import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.resources.ResourceLocation;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import org.openzen.zencode.java.ZenCodeType;
 import org.openzen.zencode.java.ZenCodeType.Nullable;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;

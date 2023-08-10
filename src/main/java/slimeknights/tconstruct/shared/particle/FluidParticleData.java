@@ -4,7 +4,7 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.serialization.Codec;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -43,7 +43,7 @@ public class FluidParticleData implements ParticleOptions {
 
     @Override
     public FluidParticleData fromNetwork(ParticleType<FluidParticleData> type, FriendlyByteBuf buffer) {
-      return new FluidParticleData(type, FluidStack.fromBuffer(buffer));
+      return new FluidParticleData(type, FluidStack.readFromPacket(buffer));
     }
   };
 
@@ -54,7 +54,7 @@ public class FluidParticleData implements ParticleOptions {
 
   @Override
   public void writeToNetwork(FriendlyByteBuf buffer) {
-    fluid.toBuffer(buffer);
+    fluid.writeToPacket(buffer);
   }
 
   @Override

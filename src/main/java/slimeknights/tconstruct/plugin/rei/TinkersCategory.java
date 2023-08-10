@@ -86,18 +86,18 @@ public interface TinkersCategory<T extends Display> extends DisplayCategory<T> {
     return new Point(origin.getX() + x, origin.getY() + y);
   }
 
-  static List<FluidStack> toREIFluids(List<io.github.fabricators_of_create.porting_lib.util.FluidStack> fluids) {
+  static List<FluidStack> toREIFluids(List<io.github.fabricators_of_create.porting_lib.fluids.FluidStack> fluids) {
     List<FluidStack> newFluids = new ArrayList<>();
     fluids.forEach(stack -> newFluids.add(toREIFluid(stack)));
     return newFluids;
   }
 
-  static FluidStack toREIFluid(io.github.fabricators_of_create.porting_lib.util.FluidStack stack) {
+  static FluidStack toREIFluid(io.github.fabricators_of_create.porting_lib.fluids.FluidStack stack) {
     return FluidStack.create(stack.getFluid(), stack.getAmount(), stack.getTag());
   }
 
-  static io.github.fabricators_of_create.porting_lib.util.FluidStack fromREIFluid(FluidStack stack) {
-    return new io.github.fabricators_of_create.porting_lib.util.FluidStack(stack.getFluid(), stack.getAmount(), stack.getTag());
+  static io.github.fabricators_of_create.porting_lib.fluids.FluidStack fromREIFluid(FluidStack stack) {
+    return new io.github.fabricators_of_create.porting_lib.fluids.FluidStack(stack.getFluid(), stack.getAmount(), stack.getTag());
   }
 
   static Slot slot(int x, int y, Point origin, boolean isInput) {

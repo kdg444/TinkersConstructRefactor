@@ -5,7 +5,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.AllArgsConstructor;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
@@ -84,9 +84,9 @@ public class FluidTextureModel implements IUnbakedGeometry<FluidTextureModel> {
   }
 
   @Override
-  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState transform, ItemOverrides overrides, ResourceLocation modelLocation) {
+  public BakedModel bake(BlockModel owner, ModelBaker baker, Function<Material,TextureAtlasSprite> spriteGetter, ModelState transform, ItemOverrides overrides, ResourceLocation modelLocation, boolean isGui3d) {
     // start by baking the model, handing UV lock
-    BakedModel baked = model.bake(owner, baker, spriteGetter, transform, overrides, modelLocation);
+    BakedModel baked = model.bake(owner, baker, spriteGetter, transform, overrides, modelLocation, isGui3d);
 
     // determine which block parts are fluids
     Set<String> fluidTextures = this.fluids.isEmpty() ? Collections.emptySet() : RetexturedModel.getAllRetextured(owner, model.getModel(), this.fluids);

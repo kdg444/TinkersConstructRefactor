@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.gadgets;
 
-import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import slimeknights.tconstruct.common.ClientEventBase;
@@ -10,8 +10,10 @@ import slimeknights.tconstruct.gadgets.client.RenderShuriken;
 @SuppressWarnings("unused")
 public class GadgetClientEvents extends ClientEventBase {
   static void registerModels() {
-    FancyItemFrameRenderer.LOCATIONS_MODEL.forEach((type, loc) -> ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(loc)));
-    FancyItemFrameRenderer.LOCATIONS_MODEL_MAP.forEach((type, loc) -> ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(loc)));
+    ModelLoadingPlugin.register(pluginContext -> {
+      FancyItemFrameRenderer.LOCATIONS_MODEL.forEach((type, loc) -> pluginContext.addModels(loc));
+      FancyItemFrameRenderer.LOCATIONS_MODEL_MAP.forEach((type, loc) -> pluginContext.addModels(loc));
+    });
   }
 
   static void registerRenderers() {

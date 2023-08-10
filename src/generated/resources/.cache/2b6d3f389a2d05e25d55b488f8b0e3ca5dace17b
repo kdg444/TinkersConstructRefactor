@@ -1,4 +1,4 @@
-// 1.20	2023-06-13T14:41:52.729733704	Hephaestus/Tinkers Construct Item Tags
+// 1.20.1	2023-08-10T14:14:22.001190049	Hephaestus/Tinkers Construct Item Tags
 0238a43b0e61403d2c963744ea09a3f26e36e45e data/tconstruct/tags/items/modifiable/ranged.json
 2121a480ce6f8ac2b8129ce8dc023633985394a9 data/tconstruct/tags/items/copper_platforms.json
 8eff271399fac07e1e31db3ae72c802664a91f65 data/tconstruct/tags/items/scorched_blocks.json
@@ -180,7 +180,7 @@ a2fa68eebf89ab41fd6dd732fb77e2bcb5c6d489 data/c/tags/items/soulsteel_ingots.json
 74c8eb6eb569d70640a059190a630b9ca473687d data/c/tags/items/blue_glass.json
 cbf8e975b1016d7d8140594bebb416b9f5493cb1 data/tconstruct/tags/items/casts/multi_use/small_axe_head.json
 31337b8faa670429d0e09753a222a5830b397f49 data/c/tags/items/queens_slime_nuggets.json
-c4733783f6243b3b0647ce3e4cddee4f2b232131 data/c/tags/items/heads.json
+bb0582697b091e3f647c15554f656449f4951405 data/c/tags/items/heads.json
 18f453fd782222313b3dc43e54d3154d6e7583d7 data/c/tags/items/granite.json
 97d33ffec2e4723af902a6668d88229bec85b0e4 data/tconstruct/tags/items/casts/multi_use/broad_axe_head.json
 75b700bdbd75d60f993a11ee7c47f5b7d449a2fd data/c/tags/items/books.json

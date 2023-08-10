@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.entity.controller;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

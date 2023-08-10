@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.general;
 
 import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
-import io.github.fabricators_of_create.porting_lib.fake_players.FakePlayer;
+import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,7 +38,7 @@ public class SoulboundModifier extends NoLevelsModifier {
 //    }
     // this is the latest we can add slot markers to the items so we can return them to slots
     // for simplicity, only care about held items
-    if (/*event.getEntityLiving() instanceof Player player && */!(player.isFake())) {
+    if (/*event.getEntityLiving() instanceof Player player && */!(player instanceof FakePlayer)) {
       for (EquipmentSlot slot : EquipmentSlot.values()) {
         if (slot != EquipmentSlot.MAINHAND) {
           ItemStack stack = player.getItemBySlot(slot);

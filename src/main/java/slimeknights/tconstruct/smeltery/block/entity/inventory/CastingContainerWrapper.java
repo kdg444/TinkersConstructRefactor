@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.entity.inventory;
 
-import io.github.fabricators_of_create.porting_lib.util.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.minecraft.nbt.CompoundTag;

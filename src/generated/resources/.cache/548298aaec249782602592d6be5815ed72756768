@@ -1,4 +1,4 @@
-// 1.20	2023-06-13T14:41:52.730380316	Hephaestus/Tinkers' Construct Modifier Recipes
+// 1.20.1	2023-08-10T14:14:22.002070902	Hephaestus/Tinkers' Construct Modifier Recipes
 9aaf1d262598bd4a77830397f9c16c499de6a5f6 data/tconstruct/recipes/tools/modifiers/upgrade/magnetic_armor.json
 8c9c4d430e5364d667f3f3a9b7892b7f94792be6 data/tconstruct/recipes/tools/modifiers/upgrade/lightspeed_from_block.json
 10849efb4c19ccf4b8d50286f9d5f21b59659b78 data/tconstruct/recipes/tools/modifiers/upgrade/blasting.json
@@ -266,7 +266,6 @@ c2894f10927f36ed57f71c24ba307517d6360cc8 data/tconstruct/recipes/tools/modifiers
 27d313699969dc79d6b2eaf4d2298d00f988366b data/tconstruct/recipes/tools/modifiers/ability/crystalshot_amethyst.json
 29b243d744f716332d7a4a279bf31af7b9a788d2 data/tconstruct/recipes/tools/modifiers/salvage/ability/multishot.json
 98c73bf85336e440b894fb818d08347e98319082 data/tconstruct/recipes/tools/modifiers/salvage/ability/bulk_quiver.json
-398fe46e79359d4799a9441cd436d20004a621c1 data/tconstruct/recipes/tools/severing/piglin_head.json
 a3716140a85a9a7a3120d42d5b3af4ac7d6f4453 data/tconstruct/recipes/tools/modifiers/ability/crystalshot_ichor.json
 234f37864a4f8862b5e5f2d61de62841edcf7899 data/tconstruct/recipes/tools/modifiers/slotless/embellishment_clay.json
 f4badda1357db4b0e2577afdb8a5d684d8683885 data/tconstruct/recipes/tools/modifiers/ability/crystalshot_skyslime.json
