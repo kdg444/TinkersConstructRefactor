@@ -133,15 +133,13 @@ dependencies {
     modImplementation(include("io.github.fabricators_of_create.Porting-Lib:Porting-Lib:${project.port_lib_version}+${project.minecraft_base_version}-entity-refactor")) {
         exclude(group: "io.vram")
     }
-    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:config:${project.port_lib_version}+${project.minecraft_base_version}-entity-refactor"))
+//    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:config:${project.port_lib_version}+${project.minecraft_base_version}-entity-refactor"))
     api(include('com.electronwill.night-config:core:3.6.6'))
     api(include('com.electronwill.night-config:toml:3.6.6'))
     modImplementation("dev.architectury:architectury-fabric:${architectury_version}"){
         exclude(group: "net.fabricmc.fabric-api")
     }
-    modImplementation(include("slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}")) {
-        exclude(group: "io.vram")
-    }
+    modImplementation(include("slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"))
     modImplementation(include("io.github.tropheusj:milk-lib:${project.milk_lib_version}")) {
         exclude(group: "net.fabricmc.fabric-api")
     }
