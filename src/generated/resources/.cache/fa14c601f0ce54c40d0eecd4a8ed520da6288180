@@ -1,4 +1,4 @@
-// 1.20.1	2023-08-10T14:14:21.998097269	Hephaestus/Tinkers' Construct Material Recipe
+// 1.20.1	2023-08-11T20:01:29.225259891	Hephaestus/Tinkers' Construct Material Recipe
 d9352bdc4d37426309901c55a42549cfbbe20ffa data/tconstruct/recipes/tools/materials/hepatizon/ingot.json
 9159a221df06af2ad5bdff5917551d5efe25abf7 data/tconstruct/recipes/tools/materials/silver/ingot.json
 9f076f44424691917689127885297a89a0cfbe1f data/tconstruct/recipes/tools/materials/rock/andesite.json
@@ -29,8 +29,8 @@ b07eb152b21d82b4cac76ed4c53722c5b94bedb6 data/tconstruct/recipes/tools/materials
 25178e224bb1541736f5d49f9a502c9c39cb7ffe data/tconstruct/recipes/tools/materials/melting/pig_iron.json
 1987a01883ddd837fd3f28974cdf996f4758c996 data/tconstruct/recipes/tools/materials/pig_iron/ingot.json
 a0dbe8b934ebcf439833b93a673d8fc2f07a85e5 data/tconstruct/recipes/tools/materials/slimewood/bloodshroom_planks.json
-9407e327a220debaf8e9ed1008b849863fd2ef1c data/tconstruct/recipes/tools/materials/scorched_stone/brick.json
 8a0697f909be2a0f215929162e1eacfa44a6f638 data/tconstruct/recipes/tools/materials/seared_stone/block.json
+9407e327a220debaf8e9ed1008b849863fd2ef1c data/tconstruct/recipes/tools/materials/scorched_stone/brick.json
 4b5e50d510f0ed154954075180d0b0ef03875ff7 data/tconstruct/recipes/tools/materials/rose_gold/nugget.json
 fef005d1d99ccf6ee16d5073431738a975954de5 data/tconstruct/recipes/tools/materials/scorched_stone/block.json
 87cc1c4dee8c0394e63d3434833e68dcda034462 data/tconstruct/recipes/tools/materials/necronium.json

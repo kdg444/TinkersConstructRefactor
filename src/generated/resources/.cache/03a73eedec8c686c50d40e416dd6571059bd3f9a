@@ -1,4 +1,4 @@
-// 1.20.1	2023-08-10T14:14:22.008317494	Hephaestus/Tinkers' Construct Material Render Info Provider
+// 1.20.1	2023-08-11T20:01:29.240374966	Hephaestus/Tinkers' Construct Material Render Info Provider
 7b3847561b9ae29eba59700e9b66b30b4aa1045d assets/tconstruct/tinkering/materials/uranium.json
 b1151a8c0184739225cddc5adc943eccb13def67 assets/tconstruct/tinkering/materials/bronze.json
 107703b8b74bc63055e2339af1478b0ed0e18b99 assets/tconstruct/tinkering/materials/wood/dark_oak.json
@@ -76,8 +76,8 @@ abbe9ae6c972b5f0e8eeb79f3d08587182aa2588 assets/tconstruct/tinkering/materials/u
 6d39e38c0332c0ee4dabc482ebfeb0d7d0186b98 assets/tconstruct/tinkering/materials/cobalt.json
 416711fee0fcf4138f805b64f1f150329d93b852 assets/tconstruct/tinkering/materials/zinc.json
 68a5d0a283888861f904c34f0526187eb85cadb1 assets/tconstruct/tinkering/materials/brass.json
-50021fbea4b048c9cefc27463851e4d4a5e18a44 assets/tconstruct/tinkering/materials/copper/oxidized.json
 629266b561147cb51b5b00db89c84b18bb8b15f8 assets/tconstruct/tinkering/materials/osmium.json
+50021fbea4b048c9cefc27463851e4d4a5e18a44 assets/tconstruct/tinkering/materials/copper/oxidized.json
 7d3797d5a62b974ebefc0f6a7c3c7a7275b5812a assets/tconstruct/tinkering/materials/rock/diorite.json
 fa5add7a7e937d24f4a474f559648decee681692 assets/tconstruct/tinkering/materials/bloodbone.json
 41267d98045e378021758852bfa15719b1093f53 assets/tconstruct/tinkering/materials/aluminum.json

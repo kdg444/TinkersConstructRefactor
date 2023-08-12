@@ -25,7 +25,6 @@ repositories {
     maven { url = "https://maven.wispforest.io" } // TOP
     maven { url = "https://maven.blamejared.com" } // CraftTweaker, Immersive Engineering
     maven { url = "https://www.cursemaven.com" }
-    maven { url = "https://maven.jamieswhiteshirt.com/libs-release" }
     maven { url = "https://maven.ladysnake.org/releases" }
     maven { url = "https://mvn.devos.one/releases/" }
     maven { url = "https://mvn.devos.one/snapshots/" }
@@ -41,6 +40,12 @@ repositories {
         // location of a maven mirror for JEI files, as a fallback
         name = "ModMaven"
         url = "https://modmaven.dev"
+    }
+    maven {
+        url "https://maven.jamieswhiteshirt.com/libs-release"
+        content {
+            includeGroup "com.jamieswhiteshirt"
+        }
     }
 }
 
