@@ -20,7 +20,7 @@ public class TinkerStationMenuInfo implements StationMenuInfo<TinkerStationConta
 
   @Override
   public Iterable<SlotAccessor> getInputSlots(MenuInfoContext<TinkerStationContainerMenu, ?, ModifierRecipeDisplay> context) {
-    return context.getMenu().getInputSlots().stream().map(SlotAccessor::fromSlot).collect(Collectors.toList());
+    return context.getMenu().getInputSlots().stream().map(SlotAccessor::fromSlot).toList();
   }
 
   @Override

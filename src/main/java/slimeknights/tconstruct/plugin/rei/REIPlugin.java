@@ -10,6 +10,7 @@ import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.client.registry.entry.EntryRegistry;
 import me.shedaniel.rei.api.client.registry.transfer.TransferHandlerRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.display.DisplaySerializerRegistry;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.EntryTypeRegistry;
 import me.shedaniel.rei.api.common.util.EntryStacks;
@@ -231,6 +232,11 @@ public class REIPlugin implements REIClientPlugin {
     // modifier worktable
     List<IModifierWorktableRecipe> modifierWorktableRecipes = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.MODIFIER_WORKTABLE.get(), IModifierWorktableRecipe.class);
     modifierWorktableRecipes.forEach(iModifierWorktableRecipe -> registry.add(new ModifierWorktableDisplay(iModifierWorktableRecipe)));
+  }
+
+  @Override
+  public void registerDisplaySerializer(DisplaySerializerRegistry registry) {
+    registry.register(TConstructREIConstants.MODIFIERS, new ModifierRecipeDisplay.Serializer());
   }
 
   @Override

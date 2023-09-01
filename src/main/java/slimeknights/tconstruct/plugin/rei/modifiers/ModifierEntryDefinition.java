@@ -6,6 +6,7 @@ import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.comparison.ComparisonContext;
 import me.shedaniel.rei.api.common.entry.type.EntryDefinition;
 import me.shedaniel.rei.api.common.entry.type.EntryType;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -16,7 +17,7 @@ import slimeknights.tconstruct.plugin.rei.TConstructREIConstants;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class ModifierEntryDefinition implements EntryDefinition<ModifierEntry> {
+public class ModifierEntryDefinition implements EntryDefinition<ModifierEntry>, EntrySerializer<ModifierEntry> {
 
   @Override
   public Class<ModifierEntry> getValueType() {
@@ -78,7 +79,7 @@ public class ModifierEntryDefinition implements EntryDefinition<ModifierEntry> {
 
   @Override
   public @Nullable EntrySerializer<ModifierEntry> getSerializer() {
-    return null;
+    return this;
   }
 
   @Override
@@ -89,5 +90,25 @@ public class ModifierEntryDefinition implements EntryDefinition<ModifierEntry> {
   @Override
   public Stream<? extends TagKey<?>> getTagsFor(EntryStack<ModifierEntry> entry, ModifierEntry value) {
     return Stream.empty();
+  }
+
+  @Override
+  public boolean supportSaving() {
+    return true;
+  }
+
+  @Override
+  public boolean supportReading() {
+    return true;
+  }
+
+  @Override
+  public CompoundTag save(EntryStack<ModifierEntry> entry, ModifierEntry value) {
+    return value.toNbt();
+  }
+
+  @Override
+  public ModifierEntry read(CompoundTag tag) {
+    return ModifierEntry.fromNbt(tag);
   }
 }

@@ -11,6 +11,7 @@ import me.shedaniel.rei.api.client.gui.widgets.Slot;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.util.ClientEntryStacks;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
@@ -91,8 +92,8 @@ public class ModifierRecipeCategory implements TinkersCategory<ModifierRecipeDis
   }
 
   /** Draws a single slot icon */
-  private void drawSlot(Point origin, List<Widget> ingredients, IDisplayModifierRecipe recipe, int slot, int x, int y) {
-    List<ItemStack> stacks = recipe.getDisplayItems(slot);
+  private void drawSlot(Point origin, List<Widget> ingredients, ModifierRecipeDisplay recipe, int slot, int x, int y) {
+    EntryIngredient stacks = recipe.getInputEntries().get(slot);
     if (stacks.isEmpty()) {
       // -1 as the item list includes the output slot, we skip that
       ingredients.add(slotIcons[slot].build(x + 1, y + 1, origin));
@@ -173,22 +174,21 @@ public class ModifierRecipeCategory implements TinkersCategory<ModifierRecipeDis
 
   @Override
   public void addWidgets(ModifierRecipeDisplay display, List<Widget> ingredients, Point origin, Rectangle bounds) {
-    IDisplayModifierRecipe recipe = display.getRecipe();
     // inputs
-    ingredients.add(slot( 3, 33, origin).markInput().entries(EntryIngredients.ofItemStacks(recipe.getDisplayItems(0))));
-    ingredients.add(slot(25, 15, origin).markInput().entries(EntryIngredients.ofItemStacks(recipe.getDisplayItems(1))));
-    ingredients.add(slot(47, 33, origin).markInput().entries(EntryIngredients.ofItemStacks(recipe.getDisplayItems(2))));
-    ingredients.add(slot(43, 58, origin).markInput().entries(EntryIngredients.ofItemStacks(recipe.getDisplayItems(3))));
-    ingredients.add(slot( 7, 58, origin).markInput().entries(EntryIngredients.ofItemStacks(recipe.getDisplayItems(4))));
+    ingredients.add(slot( 3, 33, origin).markInput().entries(display.getInputEntries().get(0)));
+    ingredients.add(slot(25, 15, origin).markInput().entries(display.getInputEntries().get(1)));
+    ingredients.add(slot(47, 33, origin).markInput().entries(display.getInputEntries().get(2)));
+    ingredients.add(slot(43, 58, origin).markInput().entries(display.getInputEntries().get(3)));
+    ingredients.add(slot( 7, 58, origin).markInput().entries(display.getInputEntries().get(4)));
     // modifiers
     Slot output = slot(3, 3, origin).markOutput()
-      .entry(EntryStack.of(TConstructREIConstants.MODIFIER_TYPE, recipe.getDisplayResult()));
+      .entries(display.getOutputEntries().get(0));
     ClientEntryStacks.setRenderer(output.getCurrentEntry(), modifierRenderer);
     output.getBounds().setSize(modifierRenderer.width(), modifierRenderer.height());
     ingredients.add(output);
     // tool
-    ingredients.add(slot( 25, 38, origin).entries(EntryIngredients.ofItemStacks(recipe.getToolWithoutModifier())));
-    ingredients.add(slot(105, 34, origin).entries(EntryIngredients.ofItemStacks(recipe.getToolWithModifier())));
+    ingredients.add(slot( 25, 38, origin).entries(display.getToolWithoutModifier()));
+    ingredients.add(slot(105, 34, origin).entries(display.getToolWithModifier()));
 
     // TODO: still needed?
     // if focusing on a tool, filter out other tools
@@ -207,11 +207,11 @@ public class ModifierRecipeCategory implements TinkersCategory<ModifierRecipeDis
 //      }
 //    }
 
-    drawSlot(origin, ingredients, display.getRecipe(), 0,  2, 32);
-    drawSlot(origin, ingredients, display.getRecipe(), 1, 24, 14);
-    drawSlot(origin, ingredients, display.getRecipe(), 2, 46, 32);
-    drawSlot(origin, ingredients, display.getRecipe(), 3, 42, 57);
-    drawSlot(origin, ingredients, display.getRecipe(), 4,  6, 57);
+    drawSlot(origin, ingredients, display, 0,  2, 32);
+    drawSlot(origin, ingredients, display, 1, 24, 14);
+    drawSlot(origin, ingredients, display, 2, 46, 32);
+    drawSlot(origin, ingredients, display, 3, 42, 57);
+    drawSlot(origin, ingredients, display, 4,  6, 57);
 
     // draw info icons
     if (display.hasRequirements()) {

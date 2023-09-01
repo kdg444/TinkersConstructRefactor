@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.ResourceLocationException;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -39,6 +40,21 @@ public class ModifierId extends ResourceLocation {
     } catch (ResourceLocationException resourcelocationexception) {
       return null;
     }
+  }
+
+  /**
+   * Gets a modifier ID from JSON, throwing a nice exception if invalid
+   * @param tag  Compound object
+   * @param key   Key to fetch
+   * @return  Resource location parsed
+   */
+  public static ModifierId getFromNbt(CompoundTag tag, String key) {
+    String text = tag.getString(key);
+    ModifierId location = tryParse(text);
+    if (location == null) {
+      throw new JsonSyntaxException("Expected " + key + " to be a Modifier ID, was '" + text + "'");
+    }
+    return location;
   }
 
   /**

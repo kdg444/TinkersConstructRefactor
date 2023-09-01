@@ -10,6 +10,7 @@ import com.google.gson.JsonSerializer;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.With;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
@@ -121,6 +122,26 @@ public class ModifierEntry implements Comparable<ModifierEntry> {
     json.addProperty("name", getId().toString());
     json.addProperty("level", level);
     return json;
+  }
+
+  /**
+   * Converts this entry to Nbt
+   * @return  Compound tag of entry
+   */
+  public CompoundTag toNbt() {
+    CompoundTag tag = new CompoundTag();
+    tag.putString("name", getId().toString());
+    tag.putInt("level", level);
+    return tag;
+  }
+
+  /**
+   * Parses a modifier entry from JSON
+   * @param tag  Compound object
+   * @return  Parsed Compound
+   */
+  public static ModifierEntry fromNbt(CompoundTag tag) {
+    return new ModifierEntry(ModifierId.getFromNbt(tag, "name"), tag.getInt("level"));
   }
 
   /**

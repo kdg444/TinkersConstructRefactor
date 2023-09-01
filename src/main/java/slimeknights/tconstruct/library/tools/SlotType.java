@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
@@ -100,6 +101,10 @@ public final class SlotType {
     return getOrCreate(buffer.readUtf());
   }
 
+  public static SlotType read(CompoundTag tag) {
+    return getOrCreate(tag.getString("name"));
+  }
+
   /**
    * Gets a collection of all registered slot types. Persists between worlds, so a slot type existing does not mean its used
    * @return  Collection of all slot types
@@ -134,6 +139,11 @@ public final class SlotType {
   /** Writes this slot type to the packet buffer */
   public void write(FriendlyByteBuf buffer) {
     buffer.writeUtf(name);
+  }
+
+  /** Writes this slot type to the compound tag */
+  public void write(CompoundTag tag) {
+    tag.putString("name", name);
   }
 
   @Override
@@ -203,6 +213,15 @@ public final class SlotType {
         buffer.writeVarInt(slots.getCount());
         slots.getType().write(buffer);
       }
+    }
+
+    public static SlotCount read(CompoundTag tag) {
+      return new SlotCount(SlotType.read(tag), tag.getInt("count"));
+    }
+
+    public void write(CompoundTag tag) {
+      tag.putInt("count", getCount());
+      getType().write(tag);
     }
 
     @Override
