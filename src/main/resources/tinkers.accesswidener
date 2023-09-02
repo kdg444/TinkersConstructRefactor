@@ -153,3 +153,5 @@ accessible method net/minecraft/world/level/levelgen/feature/HugeFungusFeature p
 accessible method net/minecraft/world/level/levelgen/feature/HugeFungusFeature placeHat (Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/util/RandomSource;Lnet/minecraft/world/level/levelgen/feature/HugeFungusConfiguration;Lnet/minecraft/core/BlockPos;IZ)V
 
 accessible method net/minecraft/client/gui/GuiGraphics flushIfUnmanaged ()V
+
+accessible method net/minecraft/world/level/block/TntBlock explode (Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/LivingEntity;)V

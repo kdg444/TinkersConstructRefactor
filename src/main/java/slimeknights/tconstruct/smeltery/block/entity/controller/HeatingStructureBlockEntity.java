@@ -404,7 +404,6 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
       // update ourself
       fluid = IDisplayFluidListener.normalizeFluid(fluid);
       modelData.setData(IDisplayFluidListener.PROPERTY, fluid);
-//      this.requestModelDataUpdate(); TODO: PORT?
       BlockState state = getBlockState();
       level.sendBlockUpdated(worldPosition, state, state, 48);
       updateListeners(fluid);

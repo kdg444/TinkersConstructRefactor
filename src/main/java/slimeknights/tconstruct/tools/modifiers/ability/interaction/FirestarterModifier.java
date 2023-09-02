@@ -105,7 +105,7 @@ public class FirestarterModifier extends InteractionModifier.NoLevels implements
 
     // ignite the TNT
     if (state.getBlock() instanceof TntBlock tnt) {
-//      tnt.onCaughtFire(state, world, pos, sideHit, player); TODO: PORT
+      TntBlock.explode(world, pos, player);
       world.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
       return true;
     }
