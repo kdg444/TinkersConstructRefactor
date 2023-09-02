@@ -2,8 +2,15 @@ package slimeknights.tconstruct.smeltery.block.entity.controller;
 
 import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -29,11 +36,8 @@ import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.mantle.client.model.data.IModelData;
 import slimeknights.mantle.client.model.data.ModelDataMap;
-import slimeknights.mantle.client.model.data.SinglePropertyData;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.transfer.item.IItemHandler;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
-import slimeknights.mantle.transfer.item.ItemTransferable;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.common.multiblock.IMasterLogic;
@@ -66,7 +70,7 @@ import java.util.function.Consumer;
 
 import static slimeknights.mantle.util.RetexturedHelper.TAG_TEXTURE;
 
-public abstract class HeatingStructureBlockEntity extends NameableBlockEntity implements IMasterLogic, ISmelteryTankHandler, IRetexturedBlockEntity, ItemTransferable, CustomRenderBoundingBoxBlockEntity {
+public abstract class HeatingStructureBlockEntity extends NameableBlockEntity implements IMasterLogic, ISmelteryTankHandler, IRetexturedBlockEntity, SidedStorageBlockEntity, CustomRenderBoundingBoxBlockEntity {
   private static final String TAG_STRUCTURE = "structure";
   private static final String TAG_TANK = "tank";
   private static final String TAG_INVENTORY = "inventory";
@@ -102,8 +106,6 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
   /** Inventory handling melting items */
   @Getter
   protected final MeltingModuleInventory meltingInventory = createMeltingInventory();
-
-  private final LazyOptional<IItemHandler> itemCapability = LazyOptional.of(() -> meltingInventory);
 
   /** Fuel module */
   @Getter
@@ -269,16 +271,10 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
 
   /* Capability */
 
-  @Override
-  public void invalidateCaps() {
-    super.invalidateCaps();
-    this.itemCapability.invalidate();
-  }
-
   @Nonnull
   @Override
-  public LazyOptional<IItemHandler> getItemHandler(@org.jetbrains.annotations.Nullable Direction direction) {
-    return itemCapability.cast();
+  public Storage<ItemVariant> getItemStorage(@Nullable Direction direction) {
+    return meltingInventory;
   }
 
   /* Structure */
@@ -469,7 +465,11 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
    * @param stack  Stack to insert
    */
   private ItemStack insertIntoInventory(ItemStack stack) {
-    return ItemHandlerHelper.insertItem(meltingInventory, stack, false);
+    try (Transaction t = TransferUtil.getTransaction()) {
+      long inserted = StorageUtil.tryInsertStacking(meltingInventory, ItemVariant.of(stack), stack.getCount(), t);
+      t.commit();
+      return ItemHandlerHelper.copyStackWithSize(stack, (int) (stack.getCount() - inserted));
+    }
   }
 
 

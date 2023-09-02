@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.tables.menu.module;
 
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import net.minecraft.core.Direction;
@@ -9,9 +11,9 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import slimeknights.mantle.inventory.BaseContainerMenu;
 import slimeknights.mantle.inventory.SmartItemHandlerSlot;
-import slimeknights.mantle.transfer.TransferUtil;
 import slimeknights.mantle.transfer.item.EmptyHandler;
 import slimeknights.mantle.transfer.item.IItemHandler;
+import slimeknights.tconstruct.transfer.EmptySlottedStorage;
 
 import javax.annotation.Nullable;
 
@@ -21,7 +23,8 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
   private final int columns;
   @Getter
   private final int slotCount;
-  protected final LazyOptional<IItemHandler> itemHandler;
+  @Nullable
+  protected final SlottedStackStorage itemHandler;
 
   public SideInventoryContainer(MenuType<?> containerType, int windowId, Inventory inv, @Nullable TILE tile, int x, int y, int columns) {
     this(containerType, windowId, inv, tile, null, x, y, columns);
@@ -32,14 +35,14 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
 
     // must have a TE
     if (tile == null) {
-      this.itemHandler = LazyOptional.of(() -> EmptyHandler.INSTANCE);
+      this.itemHandler = null;
     } else {
-      this.itemHandler = TransferUtil.getItemHandler(tile, inventoryDirection);
+      this.itemHandler = (SlottedStackStorage) TransferUtil.getItemStorage(tile, inventoryDirection);
     }
 
     // slot properties
-    IItemHandler handler = itemHandler.orElse(EmptyHandler.INSTANCE);
-    this.slotCount = handler.getSlots();
+    SlottedStackStorage handler = itemHandler == null ? EmptySlottedStorage.EMPTY : itemHandler;
+    this.slotCount = handler.getSlotCount();
     this.columns = columns;
     int rows = this.slotCount / columns;
     if (this.slotCount % columns != 0) {
@@ -68,7 +71,7 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
    * @param y            Slot Y position
    * @return  Inventory slot
    */
-  protected Slot createSlot(IItemHandler itemHandler, int index, int x, int y) {
+  protected Slot createSlot(SlottedStackStorage itemHandler, int index, int x, int y) {
     return new SmartItemHandlerSlot(itemHandler, index, x, y);
   }
 }

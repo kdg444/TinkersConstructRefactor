@@ -34,7 +34,7 @@ public class EntityModifierCapability implements EntityComponentInitializer {
   /* Static helpers */
 
   /** List of predicates to check if the entity supports this capability */
-  private static final List<Predicate<Entity>> ENTITY_PREDICATES = new ArrayList<>();
+  public static final List<Class<? extends Entity>> ENTITY_PREDICATES = new ArrayList<>();
 
   /** Capability ID */
   private static final ResourceLocation ID = TConstruct.getResource("modifiers");
@@ -46,18 +46,8 @@ public class EntityModifierCapability implements EntityComponentInitializer {
     return CAPABILITY.maybeGet(entity).orElse(EMPTY).getModifiers();
   }
 
-  /** Checks if the given entity supports this capability */
-  public static boolean supportCapability(Entity entity) {
-    for (Predicate<Entity> entityPredicate : ENTITY_PREDICATES) {
-      if (entityPredicate.test(entity)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   /** Registers a predicate of entites that need this capability */
-  public static void registerEntityPredicate(Predicate<Entity> predicate) {
+  public static void registerEntityPredicate(Class<? extends Entity> predicate) {
     ENTITY_PREDICATES.add(predicate);
   }
 

@@ -546,6 +546,11 @@ public class ToolStack implements IToolStackView {
   }
 
   @Override
+  public void setPersistentData(ModDataNBT data) {
+    this.persistentModData = data;
+  }
+
+  @Override
   public IModDataView getVolatileData() {
     if (volatileModData == null) {
       // parse if the tag already exists

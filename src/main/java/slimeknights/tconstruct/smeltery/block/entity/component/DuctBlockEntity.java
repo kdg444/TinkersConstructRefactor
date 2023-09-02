@@ -2,10 +2,12 @@ package slimeknights.tconstruct.smeltery.block.entity.component;
 
 
 import io.github.fabricators_of_create.porting_lib.block.CustomUpdateTagHandlingBlockEntity;
-import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -17,10 +19,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import slimeknights.mantle.client.model.data.IModelData;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.transfer.item.IItemHandler;
-import slimeknights.mantle.transfer.item.ItemTransferable;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.entity.component.SmelteryInputOutputBlockEntity.SmelteryFluidIO;
@@ -35,13 +35,12 @@ import javax.annotation.Nullable;
 /**
  * Filtered drain tile entity
  */
-public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider, ItemTransferable, CustomUpdateTagHandlingBlockEntity, RenderAttachmentBlockEntity {
+public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider, SidedStorageBlockEntity, CustomUpdateTagHandlingBlockEntity, RenderAttachmentBlockEntity {
   private static final String TAG_ITEM = "item";
   private static final Component TITLE = TConstruct.makeTranslation("gui", "duct");
 
   @Getter
   private final DuctItemHandler itemHandler = new DuctItemHandler(this);
-  private final LazyOptional<IItemHandler> itemCapability = LazyOptional.of(() -> itemHandler);
 
   public DuctBlockEntity(BlockPos pos, BlockState state) {
     this(TinkerSmeltery.duct.get(), pos, state);
@@ -70,14 +69,8 @@ public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider, It
 
   @Nonnull
   @Override
-  public LazyOptional<IItemHandler> getItemHandler(@org.jetbrains.annotations.Nullable Direction direction) {
-    return itemCapability.cast();
-  }
-
-  @Override
-  public void invalidateCaps() {
-    super.invalidateCaps();
-    itemCapability.invalidate();
+  public Storage<ItemVariant> getItemStorage(@org.jetbrains.annotations.Nullable Direction direction) {
+    return itemHandler;
   }
 
   @Override

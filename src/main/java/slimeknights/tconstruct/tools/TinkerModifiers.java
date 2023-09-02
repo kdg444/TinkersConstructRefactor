@@ -582,7 +582,7 @@ public final class TinkerModifiers extends TinkerModule {
     PersistentDataCapability.register();
     EntityModifierCapability.register();
     // by default, we support modifying projectiles (arrows or fireworks mainly, but maybe other stuff). other entities may come in the future
-    EntityModifierCapability.registerEntityPredicate(entity -> entity instanceof Projectile);
+    EntityModifierCapability.registerEntityPredicate(Projectile.class);
   }
 
   public static void gatherData(final FabricDataGenerator.Pack pack, ExistingFileHelper helper) {

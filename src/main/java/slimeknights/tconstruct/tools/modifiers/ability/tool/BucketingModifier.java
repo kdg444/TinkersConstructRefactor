@@ -1,10 +1,14 @@
 package slimeknights.tconstruct.tools.modifiers.ability.tool;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.mixin.transfer.BucketItemAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -34,7 +38,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
-import slimeknights.mantle.transfer.TransferUtil;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -110,8 +113,8 @@ public class BucketingModifier extends TankModifier implements BlockInteractionM
     Level world = context.getLevel();
     BlockPos target = context.getClickedPos();
     Direction face = context.getClickedFace();
-    LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(world, target, face);
-    if (!capability.isPresent()) {
+    Storage<FluidVariant> capability = FluidStorage.SIDED.find(world, target, face);
+    if (capability == null) {
       return InteractionResult.PASS;
     }
 
@@ -119,40 +122,44 @@ public class BucketingModifier extends TankModifier implements BlockInteractionM
     if (!world.isClientSide) {
       Player player = context.getPlayer();
       boolean sneaking = player != null && player.isShiftKeyDown();
-      capability.ifPresent(cap -> {
-        FluidStack fluidStack = getFluid(tool);
-        // sneaking fills, not sneak drains
-        SoundEvent sound = null;
-        if (sneaking) {
-          // must have something to fill
-          if (!fluidStack.isEmpty()) {
-            long added = cap.fill(fluidStack, false);
+      FluidStack fluidStack = getFluid(tool);
+      // sneaking fills, not sneak drains
+      SoundEvent sound = null;
+      if (sneaking) {
+        // must have something to fill
+        if (!fluidStack.isEmpty()) {
+          try (Transaction t = TransferUtil.getTransaction()) {
+            long added = capability.insert(fluidStack.getType(), fluidStack.getAmount(), t);
             if (added > 0) {
               sound = FluidVariantAttributes.getEmptySound(fluidStack.getType());
               fluidStack.shrink(added);
               setFluid(tool, fluidStack);
             }
+            t.commit();
           }
-          // if nothing currently, will drain whatever
-        } else if (fluidStack.isEmpty()) {
-          FluidStack drained = cap.drain(getCapacity(tool), false);
-          if (!drained.isEmpty()) {
-            setFluid(tool, drained);
-            sound = FluidVariantAttributes.getFillSound(drained.getType());
-          }
-        } else {
-          // filter drained to be the same as the current fluid
-          FluidStack drained = cap.drain(new FluidStack(fluidStack, getCapacity(tool) - fluidStack.getAmount()), false);
-          if (!drained.isEmpty() && drained.isFluidEqual(fluidStack)) {
-            fluidStack.grow(drained.getAmount());
+        }
+        // if nothing currently, will drain whatever
+      } else if (fluidStack.isEmpty()) {
+        FluidStack drained = TransferUtil.extractAnyFluid(capability, getCapacity(tool));
+        if (!drained.isEmpty()) {
+          setFluid(tool, drained);
+          sound = FluidVariantAttributes.getFillSound(drained.getType());
+        }
+      } else {
+        // filter drained to be the same as the current fluid
+        try (Transaction t = TransferUtil.getTransaction()) {
+          long drained = capability.extract(fluidStack.getType(), getCapacity(tool) - fluidStack.getAmount(), t);
+          if (drained >= 0 && drained == fluidStack.getAmount()) {
+            fluidStack.grow(drained);
             setFluid(tool, fluidStack);
-            sound = FluidVariantAttributes.getFillSound(drained.getType());
+            sound = FluidVariantAttributes.getFillSound(fluidStack.getType());
           }
+          t.commit();
         }
-        if (sound != null) {
-          world.playSound(null, target, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
-        }
-      });
+      }
+      if (sound != null) {
+        world.playSound(null, target, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
+      }
     }
     return InteractionResult.sidedSuccess(world.isClientSide);
   }

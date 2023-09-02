@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -128,7 +129,7 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
         BlockEntity te = world.getBlockEntity(neighbor);
         if (te != null && isUsable(te, inv.player)) {
           // try internal access first
-          if (hasItemHandler(te, null)) {
+          if (hasItemHandler(world, neighbor, null)) {
             inventoryTE = te;
             accessDir = null;
             break;
@@ -136,7 +137,7 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
 
           // try sided access next
           Direction side = dir.getOpposite();
-          if (hasItemHandler(te, side)) {
+          if (hasItemHandler(world, neighbor, side)) {
             inventoryTE = te;
             accessDir = side;
             break;
@@ -167,12 +168,13 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
   /**
    * Checks to see if the given Tile Entity has an item handler that's compatible with the side inventory
    * The Tile Entity's item handler must be an instance of IItemHandlerModifiable
-   * @param tileEntity Tile to check
+   * @param level Level to retrieve the storage
+   * @param pos The position of the block where is storage should be located
    * @param direction the given direction
    * @return True if compatible.
    */
-  private static boolean hasItemHandler(BlockEntity tileEntity, @Nullable Direction direction) {
-    return tileEntity instanceof Container container && TransferUtil.simplifyItem(InventoryStorage.of(container, direction)).isPresent();
+  private static boolean hasItemHandler(Level level, BlockPos pos, @Nullable Direction direction) {
+    return ItemStorage.SIDED.find(level, pos, direction) != null;
   }
 
 

@@ -8,6 +8,7 @@ import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehav
 import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.item.PiglinsNeutralItem;
 import io.github.fabricators_of_create.porting_lib.item.WalkOnSnowItem;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemItemStorages;
 import lombok.Getter;
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -83,6 +84,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     ((FabricItemSettings)builderIn).customDamage(this::damageItem);
     ItemGroupEvents.modifyEntriesEvent(tab).register(this::fillItemCategory);
     FluidStorage.ITEM.registerForItems((itemStack, context) -> new ToolFluidCapability(context, Lazy.of(() -> ToolStack.from(itemStack))), this);
+    ItemItemStorages.ITEM.registerForItems((itemStack, context) -> ToolInventoryCapability.getCap(context, itemStack), this);
   }
 
   public ModifiableArmorItem(ModifiableArmorMaterial material, ArmorSlotType slotType, Properties properties, ResourceKey<CreativeModeTab> tab) {

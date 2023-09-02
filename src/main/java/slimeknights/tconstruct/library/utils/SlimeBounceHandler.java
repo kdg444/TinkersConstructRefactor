@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.utils;
 
 import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
+import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Mth;
@@ -37,10 +38,10 @@ public class SlimeBounceHandler {
    * @param bounce  Bounce amount
    */
   public static void addBounceHandler(LivingEntity entity, @Nullable Vec3 bounce) {
-    // no fake players PlayerTick event TODO: PORT
-//    if (entity instanceof FakePlayer) {
-//      return;
-//    }
+    // no fake players PlayerTick event
+    if (entity instanceof FakePlayer) {
+      return;
+    }
     // update bounce info
     BounceInfo info = BOUNCING_ENTITIES.get(entity);
     if (info == null) {

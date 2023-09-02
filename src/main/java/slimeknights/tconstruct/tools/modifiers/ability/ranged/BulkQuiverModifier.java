@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.modifiers.ability.ranged;
 
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
@@ -42,7 +43,7 @@ public class BulkQuiverModifier extends InventoryMenuModifier implements BowAmmo
   }
 
   @Override
-  public boolean isItemValid(IToolStackView tool, ModifierEntry modifier, int slot, ItemStack stack) {
+  public boolean isItemValid(IToolStackView tool, ModifierEntry modifier, int slot, ItemVariant stack) {
     Item item = stack.getItem();
     return (item == Items.FIREWORK_ROCKET && tool.hasTag(TinkerTags.Items.CROSSBOWS)) || stack.getItem() instanceof ArrowItem;
   }

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.entity.inventory;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -40,8 +41,9 @@ public class DuctItemHandler extends SingleItemHandler<DuctBlockEntity> {
   }
 
   @Override
-  protected boolean isItemValid(ItemStack stack) {
+  protected boolean isItemValid(ItemVariant variant) {
     // the item or its container must be in the tag
+    ItemStack stack = variant.toStack();
     if (!stack.is(TinkerTags.Items.DUCT_CONTAINERS)) {
       ItemStack container = stack.getRecipeRemainder();
       if (container.isEmpty() || !container.is(TinkerTags.Items.DUCT_CONTAINERS)) {

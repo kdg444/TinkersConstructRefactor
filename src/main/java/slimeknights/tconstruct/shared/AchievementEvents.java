@@ -35,7 +35,7 @@ public final class AchievementEvents {
   private static final String ADVANCEMENT_SHOOT_ARROW = "minecraft:adventure/shoot_arrow";
 
   public static void onCraft(Player player, ItemStack crafted, Container craftMatrix) {
-    if (player == null || /*event.getPlayer() instanceof FakePlayer ||*/ !(player instanceof ServerPlayer playerMP) || crafted.isEmpty()) {
+    if (player == null || player instanceof FakePlayer || !(player instanceof ServerPlayer playerMP) || crafted.isEmpty()) {
       return;
     }
     Item item = crafted.getItem();

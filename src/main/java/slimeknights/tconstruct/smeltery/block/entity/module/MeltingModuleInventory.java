@@ -1,6 +1,11 @@
 package slimeknights.tconstruct.smeltery.block.entity.module;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -8,19 +13,21 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
-import slimeknights.mantle.transfer.item.IItemHandlerModifiable;
 import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.IOreRate;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
  * Inventory composite made of a set of melting module inventories
  */
-public class MeltingModuleInventory implements IItemHandlerModifiable {
+public class MeltingModuleInventory implements SlottedStackStorage, TransactionContext.CloseCallback {
   private static final String TAG_SLOT = "slot";
   private static final String TAG_ITEMS = "items";
   private static final String TAG_SIZE = "size";
@@ -64,7 +71,7 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
   /* Properties */
 
   @Override
-  public int getSlots() {
+  public int getSlotCount() {
     return modules.length;
   }
 
@@ -74,7 +81,7 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
    * @return  True if valid
    */
   public boolean validSlot(int slot) {
-    return slot >= 0 && slot < getSlots();
+    return slot >= 0 && slot < getSlotCount();
   }
 
   @Override
@@ -83,7 +90,7 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
   }
 
   @Override
-  public boolean isItemValid(int slot, ItemStack stack) {
+  public boolean isItemValid(int slot, ItemVariant stack) {
     return true;
   }
 
@@ -199,48 +206,48 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
     }
   }
 
-  @Nonnull
   @Override
-  public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-    if (stack.isEmpty()) {
-      return ItemStack.EMPTY;
+  public long insertSlot(int slot, ItemVariant resource, long amount, TransactionContext transaction) {
+    if (resource.isBlank()) {
+      return 0;
     }
-    if (slot < 0 || slot >= getSlots()) {
-      return stack;
+    if (slot < 0 || slot >= getSlotCount()) {
+      return 0;
     }
 
     // if the slot is empty, we can insert. Ignores stack sizes at this time, assuming always 1
     MeltingModule module = getModule(slot);
     boolean canInsert = module.getStack().isEmpty();
-    if (!simulate && canInsert) {
-      setStackInSlot(slot, ItemHandlerHelper.copyStackWithSize(stack, 1));
+    if (canInsert) {
+      updateSnapshots(slot, transaction);
+      setStackInSlot(slot, resource.toStack());
     }
-    return canInsert ? ItemHandlerHelper.copyStackWithSize(stack, stack.getCount() - 1) : stack;
+    return canInsert ? amount - 1 : amount;
   }
 
-  @Nonnull
   @Override
-  public ItemStack extractItem(int slot, int amount, boolean simulate) {
+  public long extractSlot(int slot, ItemVariant resource, long amount, TransactionContext transaction) {
     if (amount == 0) {
-      return ItemStack.EMPTY;
+      return 0;
     }
     if (!validSlot(slot)) {
-      return ItemStack.EMPTY;
+      return 0;
     }
 
     ItemStack existing = getStackInSlot(slot);
     if (existing.isEmpty()) {
-      return ItemStack.EMPTY;
+      return 0;
     }
 
-    if (simulate) {
-      return existing.copy();
-    } else {
-      setStackInSlot(slot, ItemStack.EMPTY);
-      return existing;
-    }
+    updateSnapshots(slot, transaction);
+    setStackInSlot(slot, ItemStack.EMPTY);
+    return existing.getCount();
   }
 
+  @Override
+  public SingleSlotStorage<ItemVariant> getSlot(int slot) {
+    return getModule(slot);
+  }
 
   /* Heating */
 
@@ -355,8 +362,72 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
    * @param consumer  IIntArray consumer
    */
   public void trackInts(Consumer<ContainerData> consumer) {
-    for (int i = 0; i < getSlots(); i++) {
+    for (int i = 0; i < getSlotCount(); i++) {
       consumer.accept(getModule(i));
+    }
+  }
+
+  @Override
+  public long insert(ItemVariant resource, long maxAmount, TransactionContext transaction) {
+    long inserted = 0;
+    for (int i = 0; i < getSlotCount(); i++) {
+      inserted += insertSlot(i, resource, maxAmount, transaction);
+      maxAmount -= inserted;
+    }
+    return inserted;
+  }
+
+  @Override
+  public long extract(ItemVariant resource, long maxAmount, TransactionContext transaction) {
+    long extracted = 0;
+    for (int i = 0; i < getSlotCount(); i++) {
+      extracted += extractSlot(i, resource, maxAmount, transaction);
+      maxAmount -= extracted;
+    }
+    return extracted;
+  }
+
+  protected SnapshotData createSnapshot(int slot) {
+    return new SnapshotData(slot, getStackInSlot(slot));
+  }
+
+  protected void readSnapshot(SnapshotData snapshot) {
+    setStackInSlot(snapshot.slot(), snapshot.stack());
+  }
+
+  public void updateSnapshots(int slot, TransactionContext transaction) {
+    // Make sure we have enough storage for snapshots
+    while (snapshots.size() <= transaction.nestingDepth()) {
+      snapshots.add(null);
+    }
+
+    // If the snapshot is null, we need to create it, and we need to register a callback.
+    if (snapshots.get(transaction.nestingDepth()) == null) {
+      SnapshotData snapshot = createSnapshot(slot);
+      Objects.requireNonNull(snapshot, "Snapshot may not be null!");
+
+      snapshots.set(transaction.nestingDepth(), snapshot);
+      transaction.addCloseCallback(this);
+    }
+  }
+
+  private final List<SnapshotData> snapshots = new ArrayList<>();
+
+  @Override
+  public void onClose(TransactionContext transaction, TransactionContext.Result result) {
+    // Get and remove the relevant snapshot.
+    SnapshotData snapshot = snapshots.set(transaction.nestingDepth(), null);
+
+    if (result.wasAborted()) {
+      // If the transaction was aborted, we just revert to the state of the snapshot.
+      readSnapshot(snapshot);
+    } else if (transaction.nestingDepth() > 0) {
+      if (snapshots.get(transaction.nestingDepth() - 1) == null) {
+        // No snapshot yet, so move the snapshot one nesting level up.
+        snapshots.set(transaction.nestingDepth() - 1, snapshot);
+        // This is the first snapshot at this level: we need to call addCloseCallback.
+        transaction.getOpenTransaction(transaction.nestingDepth() - 1).addCloseCallback(this);
+      }
     }
   }
 }

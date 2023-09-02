@@ -54,7 +54,7 @@ public class ToolContainerScreen extends AbstractContainerScreen<ToolContainerMe
   private final IToolStackView tool;
   public ToolContainerScreen(ToolContainerMenu menu, Inventory inv, Component title) {
     super(menu, inv, title);
-    int slots = menu.getItemHandler().getSlots();
+    int slots = menu.getItemHandler().getSlotCount();
     if (menu.isShowOffhand()) {
       slots++;
     }

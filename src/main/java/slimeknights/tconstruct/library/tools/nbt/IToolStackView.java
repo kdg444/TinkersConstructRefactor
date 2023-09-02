@@ -51,6 +51,8 @@ public interface IToolStackView extends IToolContext {
   @Override
   ModDataNBT getPersistentData();
 
+  void setPersistentData(ModDataNBT data);
+
 
   /* Helpers */
 

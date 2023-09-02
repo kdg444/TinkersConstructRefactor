@@ -2,6 +2,7 @@ package slimeknights.tconstruct.smeltery.block.entity.module;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.fabricmc.fabric.api.transfer.v1.item.base.SingleStackStorage;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
@@ -21,8 +22,9 @@ import java.util.function.Predicate;
 /**
  * This class represents a single item slot that can melt into a liquid
  */
+@SuppressWarnings("UnstableApiUsage")
 @RequiredArgsConstructor
-public class MeltingModule implements IMeltingContainer, ContainerData {
+public class MeltingModule extends SingleStackStorage implements IMeltingContainer, ContainerData {
   public static final int NO_SPACE = -1;
 
   private static final String TAG_CURRENT_TIME = "time";

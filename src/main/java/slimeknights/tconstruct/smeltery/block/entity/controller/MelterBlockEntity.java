@@ -5,6 +5,9 @@ import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import lombok.Setter;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -23,7 +26,6 @@ import slimeknights.mantle.transfer.fluid.FluidTank;
 import slimeknights.mantle.transfer.fluid.FluidTransferable;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.transfer.item.IItemHandler;
-import slimeknights.mantle.transfer.item.ItemTransferable;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
@@ -42,7 +44,7 @@ import slimeknights.tconstruct.smeltery.menu.MelterContainerMenu;
 import javax.annotation.Nullable;
 import java.util.Collections;
 
-public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferable, ItemTransferable, ChunkUnloadListeningBlockEntity, RenderAttachmentBlockEntity {
+public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferable, SidedStorageBlockEntity, ChunkUnloadListeningBlockEntity, RenderAttachmentBlockEntity {
 
   /** Max capacity for the tank */
   private static final long TANK_CAPACITY = FluidValues.INGOT * 12;
@@ -73,8 +75,6 @@ public class MelterBlockEntity extends NameableBlockEntity implements ITankBlock
   /** Handles all the melting needs */
   @Getter
   private final MeltingModuleInventory meltingInventory = new MeltingModuleInventory(this, tank, Config.COMMON.melterOreRate, 3);
-  /** Capability holder for the tank */
-  private final LazyOptional<IItemHandler> inventoryHolder = LazyOptional.of(() -> meltingInventory);
 
   /** Fuel handling logic */
   @Getter
@@ -121,8 +121,8 @@ public class MelterBlockEntity extends NameableBlockEntity implements ITankBlock
   
   @Nullable
   @Override
-  public LazyOptional<IItemHandler> getItemHandler(@Nullable Direction direction) {
-    return inventoryHolder;
+  public Storage<ItemVariant> getItemStorage(@Nullable Direction direction) {
+    return meltingInventory;
   }
   
   @Override
@@ -140,7 +140,6 @@ public class MelterBlockEntity extends NameableBlockEntity implements ITankBlock
   public void invalidateCaps() {
 //    super.invalidateCaps();
     this.tankHolder.invalidate();
-    this.inventoryHolder.invalidate();
   }
 
   /*

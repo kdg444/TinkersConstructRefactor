@@ -1,6 +1,11 @@
 package slimeknights.tconstruct.tools.menu;
 
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemItemStorages;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import lombok.Getter;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,6 +23,7 @@ import slimeknights.tconstruct.tools.TinkerTools;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 /** Container for a tool inventory */
 public class ToolContainerMenu extends AbstractContainerMenu {
@@ -31,7 +37,7 @@ public class ToolContainerMenu extends AbstractContainerMenu {
   private final ItemStack stack;
   /** Item handler being rendered */
   @Getter
-  private final IItemHandler itemHandler;
+  private final SlottedStackStorage itemHandler;
   private final Player player;
   @Getter
   private final EquipmentSlot slotType;
@@ -42,7 +48,7 @@ public class ToolContainerMenu extends AbstractContainerMenu {
   /** Index of the first player inventory slot */
   private final int playerInventoryStart;
 
-  public ToolContainerMenu(int id, Inventory playerInventory, ItemStack stack, IItemHandlerModifiable itemHandler, EquipmentSlot slotType) {
+  public ToolContainerMenu(int id, Inventory playerInventory, ItemStack stack, SlottedStackStorage itemHandler, EquipmentSlot slotType) {
     this(TinkerTools.toolContainer.get(), id, playerInventory, stack, itemHandler, slotType);
   }
 
@@ -50,13 +56,11 @@ public class ToolContainerMenu extends AbstractContainerMenu {
   public static ToolContainerMenu forClient(int id, Inventory inventory, FriendlyByteBuf buffer) {
     EquipmentSlot slotType = buffer.readEnum(EquipmentSlot.class);
     ItemStack stack = inventory.player.getItemBySlot(slotType);
-    // TODO: PORT
-    // FAPI does not have the ability to search for item storages in items. Oh no.
-    IItemHandler handler = null;//stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).filter(cap -> cap instanceof IItemHandlerModifiable).orElse(EmptyItemHandler.INSTANCE);
+    SlottedStackStorage handler = (SlottedStackStorage) Optional.ofNullable(ItemItemStorages.ITEM.find(stack, ContainerItemContext.withConstant(stack))).filter(cap -> cap instanceof SlottedStackStorage).orElse(null);
     return new ToolContainerMenu(TinkerTools.toolContainer.get(), id, inventory, stack, handler, slotType);
   }
 
-  protected ToolContainerMenu(@Nullable MenuType<?> type, int id, Inventory playerInventory, ItemStack stack, IItemHandler handler, EquipmentSlot slotType) {
+  protected ToolContainerMenu(@Nullable MenuType<?> type, int id, Inventory playerInventory, ItemStack stack, SlottedStackStorage handler, EquipmentSlot slotType) {
     super(type, id);
     this.stack = stack;
     this.itemHandler = handler;
@@ -64,7 +68,7 @@ public class ToolContainerMenu extends AbstractContainerMenu {
     this.slotType = slotType;
 
     // add tool slots
-    int slots = itemHandler.getSlots();
+    int slots = itemHandler.getSlotCount();
     for (int i = 0; i < slots; i++) {
       this.addSlot(new ToolContainerSlot(itemHandler, i, 8 + (i % 9) * SLOT_SIZE, (REPEAT_BACKGROUND_START + 1) + (i / 9) * SLOT_SIZE));
     }
@@ -138,7 +142,7 @@ public class ToolContainerMenu extends AbstractContainerMenu {
 
     private final int index;
 
-    public ToolContainerSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
+    public ToolContainerSlot(SlottedStackStorage itemHandler, int index, int xPosition, int yPosition) {
       super(itemHandler, index, xPosition, yPosition);
       this.index = index;
     }
@@ -146,7 +150,7 @@ public class ToolContainerMenu extends AbstractContainerMenu {
     @Override
     public void set(@Nonnull ItemStack stack) {
       // using set as an indicator it changed, so no need to call setChanged anymore here
-      ((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(index, stack);
+      this.getItemHandler().setStackInSlot(index, stack);
     }
 
     @Override

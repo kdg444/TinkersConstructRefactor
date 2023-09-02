@@ -1,6 +1,10 @@
 package slimeknights.tconstruct.smeltery.menu;
 
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import lombok.Getter;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -20,8 +24,10 @@ import slimeknights.tconstruct.smeltery.block.entity.controller.MelterBlockEntit
 import slimeknights.tconstruct.smeltery.block.entity.module.MeltingModuleInventory;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.function.Consumer;
 
+@SuppressWarnings("UnstableApiUsage")
 public class MelterContainerMenu extends TriggeringBaseContainerMenu<MelterBlockEntity> {
   public static final ResourceLocation TOOLTIP_FORMAT = TConstruct.getResource("melter");
 
@@ -36,7 +42,7 @@ public class MelterContainerMenu extends TriggeringBaseContainerMenu<MelterBlock
     // create slots
     if (melter != null) {
       MeltingModuleInventory inventory = melter.getMeltingInventory();
-      inputs = new Slot[inventory.getSlots()];
+      inputs = new Slot[inventory.getSlotCount()];
       for (int i = 0; i < inputs.length; i++) {
         inputs[i] = this.addSlot(new SmartItemHandlerSlot(inventory, i, 22, 16 + (i * 18)));
       }
@@ -45,12 +51,10 @@ public class MelterContainerMenu extends TriggeringBaseContainerMenu<MelterBlock
       Level world = melter.getLevel();
       BlockPos down = melter.getBlockPos().below();
       if (world != null && world.getBlockState(down).is(TinkerTags.Blocks.FUEL_TANKS)) {
-        BlockEntity te = world.getBlockEntity(down);
-        if (te != null) {
-          hasFuelSlot = TransferUtil.getItemHandler(te).filter(handler -> {
-            this.addSlot(new SmartItemHandlerSlot(handler, 0, 151, 32));
-            return true;
-          }).isPresent();
+        Storage<ItemVariant> storage = ItemStorage.SIDED.find(world, down, null);
+        if (storage instanceof SlottedStackStorage slottedStorage) {
+          this.addSlot(new SmartItemHandlerSlot(slottedStorage, 0, 151, 32));
+          hasFuelSlot = true;
         }
       }
 

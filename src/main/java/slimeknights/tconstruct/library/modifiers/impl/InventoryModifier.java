@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.library.modifiers.impl;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -20,7 +22,10 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 /** Modifier that has an inventory */
@@ -38,6 +43,8 @@ public class InventoryModifier extends Modifier implements InventoryModifierHook
   private final ResourceLocation inventoryKey;
   /** Number of slots to add per modifier level */
   protected final int slotsPerLevel;
+
+  private final List<CompoundTag> snapshots = new ArrayList<>();
 
   public InventoryModifier(int slotsPerLevel) {
     this(null, slotsPerLevel);
@@ -152,6 +159,47 @@ public class InventoryModifier extends Modifier implements InventoryModifierHook
       // list did not contain the slot, so add it
       if (!stack.isEmpty()) {
         list.add(write(stack, slot));
+      }
+    }
+  }
+
+  @Override
+  public void updateSnapshots(IToolStackView tool, ModifierEntry modifier, int slot, TransactionContext transaction) {
+    // Make sure we have enough storage for snapshots
+    while (snapshots.size() <= transaction.nestingDepth()) {
+      snapshots.add(null);
+    }
+
+    // If the snapshot is null, we need to create it, and we need to register a callback.
+    if (snapshots.get(transaction.nestingDepth()) == null) {
+      CompoundTag snapshot = new CompoundTag();
+      tool.getPersistentData().writeToNbt(snapshot);
+      Objects.requireNonNull(snapshot, "Snapshot may not be null!");
+
+      snapshots.set(transaction.nestingDepth(), snapshot);
+      transaction.addCloseCallback(new OnClose(tool));
+    }
+  }
+
+  @AllArgsConstructor
+  public class OnClose implements TransactionContext.CloseCallback {
+    private final IToolStackView tool;
+
+    @Override
+    public void onClose(TransactionContext t, TransactionContext.Result result) {
+      // Get and remove the relevant snapshot.
+      CompoundTag lastSnapshot = snapshots.set(t.nestingDepth(), null);
+
+      if (result.wasAborted()) {
+        // If the transaction was aborted, we just revert to the state of the snapshot.
+        tool.setPersistentData(ModDataNBT.readFromNBT(lastSnapshot));;
+      } else if (t.nestingDepth() > 0) {
+        if (snapshots.get(t.nestingDepth() - 1) == null) {
+          // No snapshot yet, so move the snapshot one nesting level up.
+          snapshots.set(t.nestingDepth() - 1, lastSnapshot);
+          // This is the first snapshot at this level: we need to call addCloseCallback.
+          t.getOpenTransaction(t.nestingDepth() - 1).addCloseCallback(this);
+        }
       }
     }
   }

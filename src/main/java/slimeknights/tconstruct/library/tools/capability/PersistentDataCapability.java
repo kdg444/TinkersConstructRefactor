@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.tools.capability;
 
+import dev.onyxstudios.cca.api.v3.component.Component;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
@@ -56,13 +57,10 @@ public class PersistentDataCapability implements EntityComponentInitializer {
 
   /** Event listener to attach the capability */
   public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-//    Entity entity = event.getObject(); TODO: PORT
-//    // must be on players, but also support anything else with modifiers, this is their data
-//    if (entity instanceof Player || EntityModifierCapability.supportCapability(entity)) {
-//      Provider provider = new Provider();
-//      event.addCapability(ID, provider);
-//      event.addListener(provider);
-//    }
+    // must be on players, but also support anything else with modifiers, this is their data
+    for (Class<? extends Entity> clazz : EntityModifierCapability.ENTITY_PREDICATES) {
+      registry.registerFor(clazz, CAPABILITY, entity -> new NamespacedNBT());
+    }
   }
 
   /** Syncs the data to the given player */
@@ -95,42 +93,25 @@ public class PersistentDataCapability implements EntityComponentInitializer {
     sync(handler.getPlayer());
   }
 
-//  /** Capability provider instance */
-//  private static class Provider extends ComponentKey<NamespacedNBT> implements Runnable {
-//    private Lazy<CompoundTag> nbt;
-//    private LazyOptional<NamespacedNBT> capability;
-//    private Provider() {
-//      this.nbt = Lazy.of(CompoundTag::new);
-//      this.capability = LazyOptional.of(() -> NamespacedNBT.readFromNBT(nbt.get()));
-//    }
-//
-//    @Override
-//    public @Nullable NamespacedNBT getInternal(ComponentContainer container) {
-//      return null;
-//    }
-//
-//    @Nonnull
-//    @Override
-//    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-//      return CAPABILITY.orEmpty(cap, capability);
-//    }
-//
-//    @Override
-//    public void run() {
-//      // called when capabilities invalidate, create a new cap just in case they are revived later
-//      capability.invalidate();
-//      capability = LazyOptional.of(() -> NamespacedNBT.readFromNBT(nbt.get()));
-//    }
-//
-//    @Override
-//    public CompoundTag serializeNBT() {
-//      return nbt.get().copy();
-//    }
-//
-//    @Override
-//    public void deserializeNBT(CompoundTag nbt) {
-//      this.nbt = Lazy.of(() -> nbt);
-//      run();
-//    }
-//  }
+  /** Capability provider instance */
+  private static class Provider implements Component {
+    private NamespacedNBT capability;
+    private Provider(Entity entity) {
+      this.capability = NamespacedNBT.readFromNBT(new CompoundTag());
+    }
+
+    public NamespacedNBT getCapability() {
+      return capability;
+    }
+
+    @Override
+    public void writeToNbt(CompoundTag tag) {
+      capability.writeToNbt(tag);
+    }
+
+    @Override
+    public void readFromNbt(CompoundTag nbt) {
+      this.capability = NamespacedNBT.readFromNBT(nbt);
+    }
+  }
 }

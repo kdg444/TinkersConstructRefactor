@@ -1,6 +1,10 @@
 package slimeknights.tconstruct.smeltery.menu;
 
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import lombok.Getter;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -20,6 +24,7 @@ import slimeknights.tconstruct.smeltery.block.entity.controller.AlloyerBlockEnti
 import slimeknights.tconstruct.smeltery.block.entity.module.alloying.MixerAlloyTank;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class AlloyerContainerMenu extends TriggeringBaseContainerMenu<AlloyerBlockEntity> {
@@ -46,10 +51,10 @@ public class AlloyerContainerMenu extends TriggeringBaseContainerMenu<AlloyerBlo
       // add fuel slot if present
       BlockPos down = alloyer.getBlockPos().below();
       if (world != null && world.getBlockState(down).is(TinkerTags.Blocks.FUEL_TANKS)) {
-        BlockEntity te = world.getBlockEntity(down);
-        if (te != null) {
-          hasFuelSlot = TransferUtil.getItemHandler(te).filter(handler -> {
-            this.addSlot(new SmartItemHandlerSlot(handler, 0, 151, 32));
+        Optional<Storage<ItemVariant>> storage = Optional.ofNullable(ItemStorage.SIDED.find(world, down, null)).filter(view -> view instanceof SlottedStackStorage);
+        if (storage.isPresent()) {
+          hasFuelSlot = storage.filter(handler -> {
+            this.addSlot(new SmartItemHandlerSlot((SlottedStackStorage) handler, 0, 151, 32));
             return true;
           }).isPresent();
         }

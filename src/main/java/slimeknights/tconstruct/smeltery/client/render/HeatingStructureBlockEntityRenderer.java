@@ -88,7 +88,7 @@ public class HeatingStructureBlockEntityRenderer implements BlockEntityRenderer<
     int max = Config.CLIENT.maxSmelteryItemQuads.get();
     if (max != 0) {
       int quadsRendered = 0;
-      for (int i = 0; i < inventory.getSlots(); i++) {
+      for (int i = 0; i < inventory.getSlotCount(); i++) {
         ItemStack stack = inventory.getStackInSlot(i);
         if (!stack.isEmpty()) {
           // calculate position inside the smeltery from slot index
