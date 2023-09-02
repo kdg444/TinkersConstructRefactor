@@ -1,16 +1,14 @@
 package slimeknights.tconstruct.common.data.loot;
 
-import io.github.fabricators_of_create.porting_lib.tool.ToolActions;
 import io.github.fabricators_of_create.porting_lib.data.ModdedBlockLootSubProvider;
-import io.github.fabricators_of_create.porting_lib.loot.CanToolPerformAction;
+import io.github.fabricators_of_create.porting_lib.tool.ToolActions;
+import io.github.fabricators_of_create.porting_lib.tool.loot.CanToolPerformAction;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -49,7 +47,6 @@ import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.world.TinkerWorld;
 
 import javax.annotation.Nonnull;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;

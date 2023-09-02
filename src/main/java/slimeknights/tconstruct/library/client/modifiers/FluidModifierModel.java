@@ -1,14 +1,12 @@
 package slimeknights.tconstruct.library.client.modifiers;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.math.Transformation;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -68,9 +66,9 @@ public class FluidModifierModel extends NormalModifierModel {
   }
 
   @Override
-  public ImmutableList<BakedQuad> getQuads(IToolStackView tool, ModifierEntry entry, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, @Nullable ItemLayerPixels pixels) {
+  public Mesh getQuads(IToolStackView tool, ModifierEntry entry, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, @Nullable ItemLayerPixels pixels) {
     // first, determine stored fluid
-    ImmutableList<BakedQuad> quads = super.getQuads(tool, entry, spriteGetter, transforms, isLarge, startTintIndex, pixels);
+    Mesh quads = super.getQuads(tool, entry, spriteGetter, transforms, isLarge, startTintIndex, pixels);
     // modifier must be tank
     // TODO: is there anything that can be done about the fluid? to prevent weird offsets?
     if (entry.getModifier() instanceof TankModifier tank) {
@@ -81,15 +79,15 @@ public class FluidModifierModel extends NormalModifierModel {
         Material template = getTemplate(tank, tool, fluid, isLarge);
         if (template != null) {
           // finally, build (mostly based on bucket model)
-          ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
-          builder.addAll(quads);
+//          ImmutableList.Builder<BakedQuad> builder = ImmutableList.builder();
+//          builder.addAll(quads);
           TextureAtlasSprite fluidSprite = FluidVariantRendering.getSprite(fluid.getType());
           int color = FluidVariantRendering.getColor(fluid.getType());
           int luminosity = FluidVariantAttributes.getLuminance(fluid.getType());
           TextureAtlasSprite templateSprite = spriteGetter.apply(template);
 //          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 7.498f / 16f, Direction.NORTH, color, -1, luminosity)); TODO: PORT
 //          builder.addAll(ItemTextureQuadConverter.convertTexture(transforms, templateSprite, fluidSprite, 8.502f / 16f, Direction.SOUTH, color, -1, luminosity));
-          quads = builder.build();
+//          quads = builder.build();
         }
       }
     }

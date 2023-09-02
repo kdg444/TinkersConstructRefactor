@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.library.client.modifiers;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.math.Transformation;
-import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
+import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import slimeknights.mantle.util.ItemLayerPixels;
@@ -16,6 +16,8 @@ import java.util.function.Function;
  * Modifier model for a particular tool. One copy of a class with this interface exists per modifier per tool
  */
 public interface IBakedModifierModel {
+  Mesh EMPTY_MESH = RendererAccess.INSTANCE.getRenderer().meshBuilder().build();
+
   /**
    * Gets the key to use for caching results from this modifier. Should uniquely represent this tool state for the given modifier
    * For most models, this can be just the modifier itself
@@ -39,7 +41,7 @@ public interface IBakedModifierModel {
    * @param pixels           Item layer pixels to reduce z-fighting. Pass into methods from {@link slimeknights.mantle.client.model.util.MantleItemLayerModel}
    * @return  List of baked quads
    */
-  ImmutableList<BakedQuad> getQuads(IToolStackView tool, ModifierEntry modifier, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, @Nullable ItemLayerPixels pixels);
+  Mesh getQuads(IToolStackView tool, ModifierEntry modifier, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, @Nullable ItemLayerPixels pixels);
 
   /**
    * Gets the number of tint indexes used by this model

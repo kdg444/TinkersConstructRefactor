@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.client.modifiers;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.math.Transformation;
+import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
@@ -76,17 +77,17 @@ public class BreakableMaterialModifierModel implements IBakedModifierModel {
   }
 
   @Override
-  public ImmutableList<BakedQuad> getQuads(IToolStackView tool, ModifierEntry modifier, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, @Nullable ItemLayerPixels pixels) {
+  public Mesh getQuads(IToolStackView tool, ModifierEntry modifier, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, @Nullable ItemLayerPixels pixels) {
     Material texture = textures[(isLarge ? 2 : 0) | (tool.isBroken() ? 1 : 0)];
     if (texture == null && tool.isBroken()) {
       texture = textures[isLarge ? 2 : 0];
     }
     if (texture != null) {
-      MutableObject<ImmutableList<BakedQuad>> mutable = new MutableObject<>();
+      MutableObject<Mesh> mutable = new MutableObject<>();
       MaterialModel.getPartQuads(mutable::setValue, texture, spriteGetter, transforms, -1, getMaterial(tool, modifier.getModifier()), pixels);
       return mutable.getValue();
     }
-    return ImmutableList.of();
+    return EMPTY_MESH;
   }
 
   /** Data class to cache a mateirla texture */

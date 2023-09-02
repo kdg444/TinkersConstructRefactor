@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.client;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.math.Transformation;
+import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
@@ -43,9 +44,9 @@ public class OverslimeModifierModel extends NormalModifierModel {
   }
 
   @Override
-  public ImmutableList<BakedQuad> getQuads(IToolStackView tool, ModifierEntry entry, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, @Nullable ItemLayerPixels pixels) {
+  public Mesh getQuads(IToolStackView tool, ModifierEntry entry, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, @Nullable ItemLayerPixels pixels) {
     if (entry.getModifier() instanceof OverslimeModifier overslime && overslime.getOverslime(tool) == 0) {
-      return ImmutableList.of();
+      return EMPTY_MESH;
     }
     return super.getQuads(tool, entry, spriteGetter, transforms, isLarge, startTintIndex, pixels);
   }

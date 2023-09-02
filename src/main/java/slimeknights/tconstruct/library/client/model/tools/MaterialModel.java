@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.library.client.model.tools;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
@@ -10,8 +9,11 @@ import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoad
 import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
+import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
+import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
+import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
@@ -25,7 +27,6 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec2;
-import org.apache.commons.lang3.mutable.MutableObject;
 import org.joml.Vector3f;
 import slimeknights.mantle.client.model.util.BakedItemModel;
 import slimeknights.mantle.client.model.util.MantleItemLayerModel;
@@ -102,7 +103,7 @@ public class MaterialModel implements IUnbakedGeometry<MaterialModel> {
    * @param material      Material to use
    * @return  Model quads
    */
-  public static TextureAtlasSprite getPartQuads(Consumer<ImmutableList<BakedQuad>> quadConsumer, BlockModel owner, Function<Material, TextureAtlasSprite> spriteGetter, Transformation transform, String name, int index, @Nullable MaterialVariantId material) {
+  public static TextureAtlasSprite getPartQuads(Consumer<Mesh> quadConsumer, BlockModel owner, Function<Material, TextureAtlasSprite> spriteGetter, Transformation transform, String name, int index, @Nullable MaterialVariantId material) {
     return getPartQuads(quadConsumer, owner, spriteGetter, transform, name, index, material, null);
   }
 
@@ -117,7 +118,7 @@ public class MaterialModel implements IUnbakedGeometry<MaterialModel> {
    * @param pixels        Pixels for the z-fighting fix. See {@link MantleItemLayerModel} for more information
    * @return  Model quads
    */
-  public static TextureAtlasSprite getPartQuads(Consumer<ImmutableList<BakedQuad>> quadConsumer, BlockModel owner, Function<Material, TextureAtlasSprite> spriteGetter, Transformation transform, String name, int index, @Nullable MaterialVariantId material, @Nullable ItemLayerPixels pixels) {
+  public static TextureAtlasSprite getPartQuads(Consumer<Mesh> quadConsumer, BlockModel owner, Function<Material, TextureAtlasSprite> spriteGetter, Transformation transform, String name, int index, @Nullable MaterialVariantId material, @Nullable ItemLayerPixels pixels) {
     return getPartQuads(quadConsumer, owner.getMaterial(name), spriteGetter, transform, index, material, pixels);
   }
 
@@ -131,7 +132,7 @@ public class MaterialModel implements IUnbakedGeometry<MaterialModel> {
    * @param pixels        Pixels for the z-fighting fix. See {@link MantleItemLayerModel} for more information
    * @return  Model quads
    */
-  public static TextureAtlasSprite getPartQuads(Consumer<ImmutableList<BakedQuad>> quadConsumer, Material texture, Function<Material, TextureAtlasSprite> spriteGetter, Transformation transform, int index, @Nullable MaterialVariantId material, @Nullable ItemLayerPixels pixels) {
+  public static TextureAtlasSprite getPartQuads(Consumer<Mesh> quadConsumer, Material texture, Function<Material, TextureAtlasSprite> spriteGetter, Transformation transform, int index, @Nullable MaterialVariantId material, @Nullable ItemLayerPixels pixels) {
     int color = -1;
     int light = 0;
     TextureAtlasSprite finalSprite = null;
@@ -172,12 +173,12 @@ public class MaterialModel implements IUnbakedGeometry<MaterialModel> {
    * @return  Baked model
    */
   private static BakedModel bakeInternal(BlockModel owner, Function<Material, TextureAtlasSprite> spriteGetter, Transformation transform, @Nullable MaterialVariantId material, int index, ItemOverrides overrides) {
-    // small hack to reduce the need to create a second immutable list
-    MutableObject<ImmutableList<BakedQuad>> mutableList = new MutableObject<>();
-    TextureAtlasSprite particle = getPartQuads(mutableList::setValue, owner, spriteGetter, transform, "texture", index, material);
+    MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+    QuadEmitter emitter = meshBuilder.getEmitter();
+    TextureAtlasSprite particle = getPartQuads(mesh -> mesh.outputTo(emitter), owner, spriteGetter, transform, "texture", index, material);
 
     // bake model - while the transform may not be identity, it never has rotation so its safe to say untransformed
-    return new BakedItemModel(mutableList.getValue(), particle, owner.getTransforms(), overrides, true, owner.getGuiLight().lightLikeBlock());
+    return new BakedItemModel(meshBuilder.build(), quad -> true, particle, owner.getTransforms(), overrides, true, owner.getGuiLight().lightLikeBlock());
   }
 
   @Override

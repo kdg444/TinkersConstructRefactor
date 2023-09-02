@@ -8,6 +8,7 @@ import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehav
 import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
 import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.item.ShieldBlockItem;
+import io.github.fabricators_of_create.porting_lib.tool.addons.ToolActionItem;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemItemStorages;
 import lombok.Getter;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -60,7 +61,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /** Base class for any items that launch projectiles */
-public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implements IModifiableDisplay, CustomEnchantingBehaviorItem, DamageableItem, CustomMaxCountItem, ShieldBlockItem {
+public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implements IModifiableDisplay, CustomEnchantingBehaviorItem, DamageableItem, CustomMaxCountItem, ShieldBlockItem, ToolActionItem {
   /** Drawspeed as of the time this launcher started charging, used clientside for various features including scope and the model.
    * Not necessary to clear as its only used by logic that checks other hooks to see if a bow is drawing */
   public static final TinkerDataKey<Float> DRAWSPEED = TConstruct.createKey("drawspeed");

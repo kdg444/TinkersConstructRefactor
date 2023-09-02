@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.client;
 
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerInteractionEvents;
 import io.github.fabricators_of_create.porting_lib.event.client.InteractEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -67,11 +68,11 @@ public class ClientInteractionHandler {
   public static void init() {
     ClientRightClickAir.EVENT.register(ClientInteractionHandler::chestplateToolUse);
     InteractEvents.USE.register(ClientInteractionHandler::preventDoubleInteract);
-
+    PlayerInteractionEvents.LEFT_CLICK_EMPTY.register(ClientInteractionHandler::leftClickAir);
   }
 
   /** Implements the client side of left click interaction for {@link slimeknights.tconstruct.library.modifiers.hook.interaction.GeneralInteractionModifierHook#onToolUse(IToolStackView, ModifierEntry, Player, InteractionHand, InteractionSource)} */
-  static void leftClickAir(LeftClickEmpty event) {
+  static void leftClickAir(PlayerInteractionEvents.LeftClickEmpty event) {
     // not sure if anyone sets the result, but just in case listen to it so they can stop us running
     if (event.getCancellationResult() != InteractionResult.PASS) {
       return;

@@ -8,6 +8,7 @@ import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehav
 import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.item.PiglinsNeutralItem;
 import io.github.fabricators_of_create.porting_lib.item.WalkOnSnowItem;
+import io.github.fabricators_of_create.porting_lib.tool.addons.ToolActionItem;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemItemStorages;
 import lombok.Getter;
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
@@ -66,7 +67,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, DamageableItem, PiglinsNeutralItem, FabricElytraItem, CustomEnchantingBehaviorItem, WalkOnSnowItem {
+public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, DamageableItem, PiglinsNeutralItem, FabricElytraItem, CustomEnchantingBehaviorItem, WalkOnSnowItem, ToolActionItem {
   /** Volatile modifier tag to make piglins neutal when worn */
   public static final ResourceLocation PIGLIN_NEUTRAL = TConstruct.getResource("piglin_neutral");
   /** Volatile modifier tag to make this item an elytra */

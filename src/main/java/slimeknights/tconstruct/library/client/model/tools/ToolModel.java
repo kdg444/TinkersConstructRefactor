@@ -17,7 +17,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.log4j.Log4j2;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
+import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
+import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
+import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
+import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -30,6 +35,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -37,6 +43,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import org.joml.Vector3f;
@@ -142,7 +149,7 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
    * @param transforms      Transforms to apply
    * @param isLarge         If true, the quads are for a large tool
    */
-  private static void addModifierQuads(Function<Material, TextureAtlasSprite> spriteGetter, Map<ModifierId,IBakedModifierModel> modifierModels, List<ModifierId> firstModifiers, IToolStackView tool, Consumer<ImmutableList<BakedQuad>> quadConsumer, ItemLayerPixels pixels, Transformation transforms, boolean isLarge) {
+  private static void addModifierQuads(Function<Material, TextureAtlasSprite> spriteGetter, Map<ModifierId,IBakedModifierModel> modifierModels, List<ModifierId> firstModifiers, IToolStackView tool, Consumer<Mesh> quadConsumer, ItemLayerPixels pixels, Transformation transforms, boolean isLarge) {
     if (!modifierModels.isEmpty()) {
       // keep a running tint index so models know where they should start, currently starts at 0 as the main model does not use tint indexes
       int modelIndex = 0;
@@ -201,18 +208,12 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
     boolean isBroken = tool != null && tool.isBroken();
     TextureAtlasSprite particle = null;
     // we create both builders always, though large may be unused
-    ReversedListBuilder<BakedQuad> smallBuilder = new ReversedListBuilder<>();
-    ReversedListBuilder<BakedQuad> largeBuilder = new ReversedListBuilder<>();
+    ReversedListBuilder<Mesh> smallBuilder = new ReversedListBuilder<>();
+    ReversedListBuilder<Mesh> largeBuilder = new ReversedListBuilder<>();
     ItemLayerPixels smallPixels = new ItemLayerPixels();
     ItemLayerPixels largePixels = new ItemLayerPixels();
-    Consumer<ImmutableList<BakedQuad>> smallConsumer;
-    Consumer<ImmutableList<BakedQuad>> largeConsumer = largeBuilder::addAll;
-    // for large tools, we don't need non-south small quads
-    if (largeTransforms != null) {
-      smallConsumer = quads -> smallBuilder.addAll(quads.stream().filter(quad -> quad.getDirection() == Direction.SOUTH).collect(Collectors.toList()));
-    } else {
-      smallConsumer = smallBuilder::addAll;
-    }
+    Consumer<Mesh> smallConsumer = smallBuilder::add;
+    Consumer<Mesh> largeConsumer = largeBuilder::add;
 
     // add quads for all modifiers first, for the sake of the item layer pixels
     if (tool != null && !modifierModels.isEmpty()) {
@@ -256,11 +257,21 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
     }
 
     // large models use a custom model here
+    MeshBuilder finalSmallMesh = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+    QuadEmitter emitter = finalSmallMesh.getEmitter();
+    for (Mesh mesh : smallBuilder.build()) {
+      mesh.outputTo(emitter);
+    }
     if (largeTransforms != null) {
-      return new BakedLargeToolModel(largeBuilder.build(), smallBuilder.build(), particle, owner.getTransforms(), overrides, owner.getGuiLight().lightLikeBlock());
+      MeshBuilder finalLargeMesh = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+      QuadEmitter largeEmitter = finalLargeMesh.getEmitter();
+      for (Mesh mesh : largeBuilder.build()) {
+        mesh.outputTo(largeEmitter);
+      }
+      return new BakedLargeToolModel(finalLargeMesh.build(), finalSmallMesh.build(), particle, owner.getTransforms(), overrides, owner.getGuiLight().lightLikeBlock());
     }
     // for small, we leave out the large quads, so the baked item model logic is sufficient
-    return new BakedItemModel(smallBuilder.build(), particle, owner.getTransforms(), overrides, true, owner.getGuiLight().lightLikeBlock());
+    return new BakedItemModel(finalSmallMesh.build(), quad -> true, particle, owner.getTransforms(), overrides, true, owner.getGuiLight().lightLikeBlock());
   }
 
   @Override
@@ -470,7 +481,7 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
 
   /** Baked model for large tools, has separate quads in GUIs */
   private static class BakedLargeToolModel implements BakedModel, TransformTypeDependentItemBakedModel {
-    private final ImmutableList<BakedQuad> largeQuads;
+    private final Mesh largeQuads;
     @Getter
     private final TextureAtlasSprite particleIcon;
     private final ItemTransforms transforms;
@@ -480,7 +491,7 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
     private final boolean usesBlockLight;
     private final BakedModel guiModel;
 
-    private BakedLargeToolModel(ImmutableList<BakedQuad> largeQuads, ImmutableList<BakedQuad> smallQuads, TextureAtlasSprite particle, ItemTransforms transforms, ItemOverrides overrides, boolean isSideLit) {
+    private BakedLargeToolModel(Mesh largeQuads, Mesh smallQuads, TextureAtlasSprite particle, ItemTransforms transforms, ItemOverrides overrides, boolean isSideLit) {
       this.largeQuads = largeQuads;
       this.particleIcon = particle;
       this.transforms = transforms;
@@ -491,10 +502,18 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
 
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand) {
-      if (side == null) {
-        return largeQuads;
-      }
       return ImmutableList.of();
+    }
+
+    @Override
+    public void emitItemQuads(ItemStack stack, Supplier<RandomSource> randomSupplier, RenderContext context) {
+      // for large tools, we don't need non-south small quads
+      this.largeQuads.outputTo(context.getEmitter());
+    }
+
+    @Override
+    public boolean isVanillaAdapter() {
+      return false;
     }
 
     @Override
@@ -531,19 +550,22 @@ public class ToolModel implements IUnbakedGeometry<ToolModel> {
 
   /** Baked model for large tools in the GUI, small quads */
   private static class BakedLargeToolGui extends ForwardingBakedModel implements TransformTypeDependentItemBakedModel {
-    private final List<BakedQuad> guiQuads;
-    public BakedLargeToolGui(BakedLargeToolModel model, List<BakedQuad> guiQuads) {
+    private final Mesh guiQuads;
+    public BakedLargeToolGui(BakedLargeToolModel model, Mesh guiQuads) {
       wrapped = model;
       this.guiQuads = guiQuads;
     }
 
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand) {
-      // these quads are only shown in handle perspective for GUI
-      if (side == null) {
-        return guiQuads;
-      }
       return ImmutableList.of();
+    }
+    @Override
+    public void emitItemQuads(ItemStack stack, Supplier<RandomSource> randomSupplier, RenderContext context) {
+      // these quads are only shown in handle perspective for GUI
+      context.pushTransform(quad -> quad.lightFace() == Direction.SOUTH);
+      this.guiQuads.outputTo(context.getEmitter());
+      context.popTransform();
     }
 
     @Override

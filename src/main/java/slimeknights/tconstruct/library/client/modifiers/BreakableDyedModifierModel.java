@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.client.modifiers;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.math.Transformation;
+import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
@@ -51,7 +52,7 @@ public class BreakableDyedModifierModel implements IBakedModifierModel {
   }
 
   @Override
-  public ImmutableList<BakedQuad> getQuads(IToolStackView tool, ModifierEntry modifier, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, @Nullable ItemLayerPixels pixels) {
+  public Mesh getQuads(IToolStackView tool, ModifierEntry modifier, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, @Nullable ItemLayerPixels pixels) {
     Material texture = textures[(isLarge ? 2 : 0) | (tool.isBroken() ? 1 : 0)];
     if (texture != null) {
       IModDataView data = tool.getPersistentData();
@@ -60,7 +61,7 @@ public class BreakableDyedModifierModel implements IBakedModifierModel {
         return MantleItemLayerModel.getQuadsForSprite(0xFF000000 | data.getInt(key), -1, spriteGetter.apply(texture), transforms, 0, pixels);
       }
     }
-    return ImmutableList.of();
+    return EMPTY_MESH;
   }
 
   /** Data class to cache a colored texture */
