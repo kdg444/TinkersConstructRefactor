@@ -241,9 +241,9 @@ public class FluidTextureModel implements IUnbakedGeometry<FluidTextureModel> {
       }
 
       // if valid, use the block
-      if (originalModel instanceof WrapperBakedModel wrapperBakedModel)
-        return ((Baked)wrapperBakedModel.getWrappedModel()).getCachedModel(new BakedCacheKey(FluidStack.EMPTY, ModelHelper.getParticleTexture(block)));
-      return ((Baked)originalModel).getCachedModel(new BakedCacheKey(FluidStack.EMPTY, ModelHelper.getParticleTexture(block)));
+      if (originalModel instanceof Baked baked)
+        return baked.getCachedModel(new BakedCacheKey(FluidStack.EMPTY, ModelHelper.getParticleTexture(block)));
+      return ((Baked) ((WrapperBakedModel) originalModel).getWrappedModel()).getCachedModel(new BakedCacheKey(FluidStack.EMPTY, ModelHelper.getParticleTexture(block)));
     }
   }
 }

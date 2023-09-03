@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
+import net.fabricmc.fabric.api.renderer.v1.model.WrapperBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
@@ -108,7 +109,9 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
         return model;
       }
       // always baked model as this override is only used in our model
-      return ((Baked<?>)model).getCachedModel(tank.getFluid(), tank.getCapacity());
+      if (model instanceof Baked<?> baked)
+        return baked.getCachedModel(tank.getFluid(), tank.getCapacity());
+      return ((Baked<?>) ((WrapperBakedModel) model).getWrappedModel()).getCachedModel(tank.getFluid(), tank.getCapacity());
     }
   }
 
