@@ -2,7 +2,10 @@ package slimeknights.tconstruct.fluids.fluids;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -74,6 +77,16 @@ public abstract class DirectionalSlimeFluid extends SimpleDirectionalFluid {
     public boolean isSource(FluidState state) {
       return false;
     }
+
+    @Override
+    public ParticleOptions getBubbleParticle(Entity entity) {
+      return ParticleTypes.BUBBLE;
+    }
+
+    @Override
+    public ParticleOptions getSplashParticle(Entity entity) {
+      return ParticleTypes.SPLASH;
+    }
   }
 
   public static class Source extends DirectionalSlimeFluid {
@@ -90,6 +103,16 @@ public abstract class DirectionalSlimeFluid extends SimpleDirectionalFluid {
     @Override
     public boolean isSource(FluidState state) {
       return true;
+    }
+
+    @Override
+    public ParticleOptions getBubbleParticle(Entity entity) {
+      return ParticleTypes.BUBBLE;
+    }
+
+    @Override
+    public ParticleOptions getSplashParticle(Entity entity) {
+      return ParticleTypes.SPLASH;
     }
   }
 }
