@@ -144,11 +144,6 @@ public class MaterialIngredient extends Ingredient {
     return new FabricMaterialIngredient(this);
   }
 
-  @Override
-  public void toNetwork(FriendlyByteBuf buffer) {
-
-  }
-
   public static class FabricMaterialIngredient implements CustomIngredient {
     private final MaterialIngredient ingredient;
 
