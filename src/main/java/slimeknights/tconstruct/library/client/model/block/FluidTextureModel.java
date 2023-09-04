@@ -193,7 +193,7 @@ public class FluidTextureModel implements IUnbakedGeometry<FluidTextureModel> {
       Block block = retextured.isEmpty() ? null : data.getData(RetexturedHelper.BLOCK_PROPERTY);
       if (!fluid.isEmpty() || block != null) {
         BakedCacheKey key = new BakedCacheKey(fluid, block != null ? ModelHelper.getParticleTexture(block) : null);
-          ((FabricBakedModel)getCachedModel(key)).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+          getCachedModel(key).emitBlockQuads(blockView, state, pos, randomSupplier, context);
           return;
         }
       }
