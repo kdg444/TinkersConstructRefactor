@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.tables.menu.module;
 
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
-import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
@@ -11,8 +11,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import slimeknights.mantle.inventory.BaseContainerMenu;
 import slimeknights.mantle.inventory.SmartItemHandlerSlot;
-import slimeknights.mantle.transfer.item.EmptyHandler;
-import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.tconstruct.transfer.EmptySlottedStorage;
 
 import javax.annotation.Nullable;
@@ -24,7 +22,7 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
   @Getter
   private final int slotCount;
   @Nullable
-  protected final SlottedStackStorage itemHandler;
+  protected final SlottedStorage<ItemVariant> itemHandler;
 
   public SideInventoryContainer(MenuType<?> containerType, int windowId, Inventory inv, @Nullable TILE tile, int x, int y, int columns) {
     this(containerType, windowId, inv, tile, null, x, y, columns);
@@ -37,11 +35,11 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
     if (tile == null) {
       this.itemHandler = null;
     } else {
-      this.itemHandler = (SlottedStackStorage) TransferUtil.getItemStorage(tile, inventoryDirection);
+      this.itemHandler = (SlottedStorage<ItemVariant>) TransferUtil.getItemStorage(tile, inventoryDirection);
     }
 
     // slot properties
-    SlottedStackStorage handler = itemHandler == null ? EmptySlottedStorage.EMPTY : itemHandler;
+    SlottedStorage<ItemVariant> handler = itemHandler == null ? EmptySlottedStorage.EMPTY : itemHandler;
     this.slotCount = handler.getSlotCount();
     this.columns = columns;
     int rows = this.slotCount / columns;
@@ -71,7 +69,7 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
    * @param y            Slot Y position
    * @return  Inventory slot
    */
-  protected Slot createSlot(SlottedStackStorage itemHandler, int index, int x, int y) {
+  protected Slot createSlot(SlottedStorage<ItemVariant> itemHandler, int index, int x, int y) {
     return new SmartItemHandlerSlot(itemHandler, index, x, y);
   }
 }

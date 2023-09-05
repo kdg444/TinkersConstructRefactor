@@ -150,7 +150,7 @@ public class ToolContainerMenu extends AbstractContainerMenu {
     @Override
     public void set(@Nonnull ItemStack stack) {
       // using set as an indicator it changed, so no need to call setChanged anymore here
-      this.getItemHandler().setStackInSlot(index, stack);
+      ((SlottedStackStorage)this.getItemHandler()).setStackInSlot(index, stack);
     }
 
     @Override
