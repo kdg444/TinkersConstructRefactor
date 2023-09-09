@@ -1,5 +1,8 @@
 package slimeknights.tconstruct.tables.client.inventory.module;
 
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -7,10 +10,8 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import slimeknights.mantle.client.screen.MultiModuleScreen;
 import slimeknights.mantle.inventory.BaseContainerMenu;
-import slimeknights.mantle.inventory.EmptyItemHandler;
-import slimeknights.mantle.transfer.TransferUtil;
-import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.tconstruct.tables.block.entity.inventory.IScalingContainer;
+import slimeknights.tconstruct.transfer.EmptySlottedStorage;
 
 import java.util.Optional;
 
@@ -19,10 +20,9 @@ public class ScalingChestScreen<T extends BlockEntity> extends DynamicContainerS
   public ScalingChestScreen(MultiModuleScreen<?> parent, BaseContainerMenu<T> container, Inventory playerInventory, Component title) {
     super(parent, container, playerInventory, title);
     BlockEntity tile = container.getTile();
-    IItemHandler handler = Optional.ofNullable(tile)
-                                   .flatMap(t -> TransferUtil.getItemHandler(t).resolve())
-                                   .orElse(EmptyItemHandler.INSTANCE);
-    this.scaling = handler instanceof IScalingContainer ? (IScalingContainer) handler : handler::getSlots;
+    SlottedStorage<ItemVariant> handler = (SlottedStorage<ItemVariant>) Optional.ofNullable(TransferUtil.getItemStorage(tile))
+                                   .orElse(EmptySlottedStorage.EMPTY);
+    this.scaling = handler instanceof IScalingContainer ? (IScalingContainer) handler : handler::getSlotCount;
     this.slotCount = scaling.getVisualSize();
     this.sliderActive = true;
   }

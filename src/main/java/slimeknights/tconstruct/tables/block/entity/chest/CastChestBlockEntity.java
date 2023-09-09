@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tables.block.entity.chest;
 
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -26,13 +27,13 @@ public class CastChestBlockEntity extends AbstractChestBlockEntity {
     }
 
     @Override
-    public boolean isItemValid(int slot, ItemStack stack) {
-      for (int i = 0; i < this.getSlots(); i++) {
-        if (ItemStack.isSameItem(stack, this.getStackInSlot(i))) {
+    public boolean isItemValid(int slot, ItemVariant stack, int count) {
+      for (int i = 0; i < this.getSlotCount(); i++) {
+        if (stack.isOf(this.getStackInSlot(i).getItem())) {
           return i == slot;
         }
       }
-      return stack.is(TinkerTags.Items.CASTS);
+      return stack.getItem().builtInRegistryHolder().is(TinkerTags.Items.CASTS);
     }
   }
 }

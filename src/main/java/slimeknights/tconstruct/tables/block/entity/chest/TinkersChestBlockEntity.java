@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tables.block.entity.chest;
 
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -11,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import slimeknights.mantle.transfer.item.ItemStackHandler;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tables.block.entity.inventory.IChestItemHandler;
@@ -81,7 +81,7 @@ public class TinkersChestBlockEntity extends AbstractChestBlockEntity {
 
     @Override
     public int getVisualSize() {
-      return getSlots();
+      return getSlotCount();
     }
 
     @Override

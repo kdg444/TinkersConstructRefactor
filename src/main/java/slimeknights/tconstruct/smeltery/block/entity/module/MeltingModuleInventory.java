@@ -369,22 +369,24 @@ public class MeltingModuleInventory implements SlottedStackStorage, TransactionC
 
   @Override
   public long insert(ItemVariant resource, long maxAmount, TransactionContext transaction) {
-    long inserted = 0;
+    long totalInserted = 0;
     for (int i = 0; i < getSlotCount(); i++) {
-      inserted += insertSlot(i, resource, maxAmount, transaction);
+      long inserted = insertSlot(i, resource, maxAmount, transaction);
+      totalInserted += inserted;
       maxAmount -= inserted;
     }
-    return inserted;
+    return totalInserted;
   }
 
   @Override
   public long extract(ItemVariant resource, long maxAmount, TransactionContext transaction) {
-    long extracted = 0;
+    long totalExtracted = 0;
     for (int i = 0; i < getSlotCount(); i++) {
-      extracted += extractSlot(i, resource, maxAmount, transaction);
+      long extracted = extractSlot(i, resource, maxAmount, transaction);
+      totalExtracted += extracted;
       maxAmount -= extracted;
     }
-    return extracted;
+    return totalExtracted;
   }
 
   protected SnapshotData createSnapshot(int slot) {

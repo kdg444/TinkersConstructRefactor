@@ -1,5 +1,8 @@
 package slimeknights.tconstruct.tables.block;
 
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -23,6 +26,7 @@ import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.mantle.transfer.item.IItemHandlerModifiable;
 import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.tables.block.entity.chest.AbstractChestBlockEntity;
+import slimeknights.tconstruct.tables.block.entity.inventory.IChestItemHandler;
 
 import javax.annotation.Nullable;
 
@@ -84,10 +88,8 @@ public class ChestBlock extends TabbedTableBlock {
     ItemStack heldItem = playerInventory.getSelected();
 
     if (!heldItem.isEmpty() && te instanceof AbstractChestBlockEntity chest && chest.canInsert(player, heldItem)) {
-      IItemHandlerModifiable itemHandler = chest.getItemHandler();
-      ItemStack rest = ItemHandlerHelper.insertItem(itemHandler, heldItem, false);
-      if (rest.isEmpty() || rest.getCount() < heldItem.getCount()) {
-        playerInventory.items.set(playerInventory.selected, rest);
+      IChestItemHandler itemHandler = chest.getItemHandler();
+      if (StorageUtil.move(PlayerInventoryStorage.of(playerInventory).getSlot(playerInventory.selected), itemHandler, variant -> true, heldItem.getCount(), null) != 0) {
         return InteractionResult.SUCCESS;
       }
     }

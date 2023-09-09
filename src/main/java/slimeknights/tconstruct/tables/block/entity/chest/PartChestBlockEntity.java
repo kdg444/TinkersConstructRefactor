@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tables.block.entity.chest;
 
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -26,11 +27,11 @@ public class PartChestBlockEntity extends AbstractChestBlockEntity {
     }
 
     @Override
-    public boolean isItemValid(int slot, ItemStack stack) {
+    public boolean isItemValid(int slot, ItemVariant stack, int count) {
       // check if there is no other slot containing that item
-      for (int i = 0; i < this.getSlots(); i++) {
+      for (int i = 0; i < this.getSlotCount(); i++) {
         // don't compare count
-        if (ItemStack.isSameItemSameTags(stack, this.getStackInSlot(i))) {
+        if (ItemStack.isSameItemSameTags(stack.toStack(count), this.getStackInSlot(i))) {
           return i == slot; // only allowed in the same slot
         }
       }
