@@ -58,6 +58,9 @@ public class MaterialRecipeProvider extends BaseRecipeProvider implements IMater
     materialRecipe(consumer, MaterialIds.acacia,  Ingredient.of(Items.ACACIA_PLANKS),   1, 1, folder + "wood/planks/acacia");
     materialRecipe(consumer, MaterialIds.crimson, Ingredient.of(Items.CRIMSON_PLANKS),  1, 1, folder + "wood/planks/crimson");
     materialRecipe(consumer, MaterialIds.warped,  Ingredient.of(Items.WARPED_PLANKS),   1, 1, folder + "wood/planks/warped");
+    materialRecipe(consumer, MaterialIds.mangrove,  Ingredient.of(Items.MANGROVE_PLANKS),   1, 1, folder + "wood/planks/mangrove");
+    materialRecipe(consumer, MaterialIds.cherry,  Ingredient.of(Items.CHERRY_PLANKS),   1, 1, folder + "wood/planks/cherry");
+    materialRecipe(consumer, MaterialIds.bamboo,  Ingredient.of(Items.BAMBOO_PLANKS),   1, 1, folder + "wood/planks/bamboo");
     materialRecipe(withCondition(consumer, TagDifferencePresentCondition.ofKeys(ItemTags.PLANKS, TinkerTags.Items.VARIANT_PLANKS)), MaterialIds.wood,
                    DefaultCustomIngredients.difference(Ingredient.of(ItemTags.PLANKS), Ingredient.of(TinkerTags.Items.VARIANT_PLANKS)), 1, 1, folder + "wood/planks/default");
     // logs

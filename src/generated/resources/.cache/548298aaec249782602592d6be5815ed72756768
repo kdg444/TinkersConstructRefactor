@@ -1,4 +1,4 @@
-// 1.20.1	2023-08-11T20:01:29.23004687	Hephaestus/Tinkers' Construct Modifier Recipes
+// 1.20.1	2023-10-26T09:03:27.555780043	Hephaestus/Tinkers' Construct Modifier Recipes
 9aaf1d262598bd4a77830397f9c16c499de6a5f6 data/tconstruct/recipes/tools/modifiers/upgrade/magnetic_armor.json
 8c9c4d430e5364d667f3f3a9b7892b7f94792be6 data/tconstruct/recipes/tools/modifiers/upgrade/lightspeed_from_block.json
 10849efb4c19ccf4b8d50286f9d5f21b59659b78 data/tconstruct/recipes/tools/modifiers/upgrade/blasting.json
@@ -83,8 +83,8 @@ e0a72fa9186f2f7179bea68fdba835d0c07d4e8c data/tconstruct/recipes/tools/modifiers
 780f6c34547705207a68af7ff93e42dfb456500d data/tconstruct/recipes/tools/modifiers/salvage/upgrade/feather_falling.json
 7f9cf694759cfd25056c7cd61f1e8bddff4a9a55 data/tconstruct/recipes/tools/modifiers/worktable/enchantment_converting/slotless_tool.json
 3813f3cd349becd9e09d0c2a08a0217a5237b246 data/tconstruct/recipes/tools/severing/cave_spider_head.json
-16beb4b67c1b09f89e9b80f25ae9fc804e3dbc05 data/tconstruct/recipes/tools/modifiers/salvage/upgrade/knockback.json
 7133f7d3b2fcc5b01fc2ace598edb133dbaeb2f4 data/tconstruct/advancements/recipes/misc/tools/modifiers/silky_cloth.json
+16beb4b67c1b09f89e9b80f25ae9fc804e3dbc05 data/tconstruct/recipes/tools/modifiers/salvage/upgrade/knockback.json
 eff7a30b31b3850733d452ca8da916bc6a533155 data/tconstruct/recipes/tools/modifiers/salvage/upgrade/respiration.json
 9e70c2497ea6fca5145491a1ddfa80a690e04676 data/tconstruct/recipes/tools/modifiers/salvage/upgrade/lightspeed_armor.json
 6badd35fcdd7f4d12807978bbc986c5d143fc9fe data/tconstruct/recipes/tools/severing/turtle_shell.json
@@ -146,8 +146,8 @@ dc7812e0d8fe3c71b29cc88c6e41fa98a69f9a18 data/tconstruct/recipes/tools/modifiers
 114947bff7e7b17c36d1ec1f4840f9e5500cd54b data/tconstruct/recipes/tools/modifiers/salvage/upgrade/soulbound.json
 f235a810918fb5bd3f062bf9871af971cd588ab9 data/tconstruct/recipes/tools/modifiers/slotless/embellishment_amethyst_bronze.json
 cafd2d719bbf39a88640d92ad38dd8028a9aa3ab data/tconstruct/recipes/tools/modifiers/salvage/upgrade/scope.json
-bde2281fdd22449a07221f041c6dce7090fc5435 data/tconstruct/recipes/tools/modifiers/cobalt_reinforcement.json
 e641ac1ce0cfc56e9e7ba4ce3ce83e3154e49597 data/tconstruct/recipes/tools/modifiers/silky_cloth.json
+bde2281fdd22449a07221f041c6dce7090fc5435 data/tconstruct/recipes/tools/modifiers/cobalt_reinforcement.json
 1c17ba7373fb5a6606014f2dd76ca3cc747aac4d data/tconstruct/recipes/tools/modifiers/upgrade/necrotic.json
 b2a69fef4efaae006301a1ad2cede1f43834d129 data/tconstruct/recipes/tools/modifiers/salvage/ability/crystalshot.json
 72fd5853395b37d215f8cb1dfe5f79717d489e32 data/tconstruct/recipes/tools/modifiers/upgrade/knockback_armor.json

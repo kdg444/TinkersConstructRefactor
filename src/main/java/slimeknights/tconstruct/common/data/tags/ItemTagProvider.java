@@ -333,9 +333,9 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
              Items.BROWN_SHULKER_BOX, Items.GREEN_SHULKER_BOX, Items.RED_SHULKER_BOX, Items.BLACK_SHULKER_BOX);
 
     this.tag(TinkerTags.Items.VARIANT_PLANKS)
-        .add(Items.OAK_PLANKS, Items.SPRUCE_PLANKS, Items.BIRCH_PLANKS, Items.JUNGLE_PLANKS, Items.DARK_OAK_PLANKS, Items.ACACIA_PLANKS, Items.CRIMSON_PLANKS, Items.WARPED_PLANKS)
+        .add(Items.OAK_PLANKS, Items.SPRUCE_PLANKS, Items.BIRCH_PLANKS, Items.JUNGLE_PLANKS, Items.DARK_OAK_PLANKS, Items.ACACIA_PLANKS, Items.CRIMSON_PLANKS, Items.WARPED_PLANKS, Items.MANGROVE_PLANKS, Items.CHERRY_PLANKS, Items.BAMBOO_PLANKS)
         .addTag(TinkerTags.Items.SLIMY_PLANKS);
-    this.tag(TinkerTags.Items.VARIANT_LOGS).forceAddTag(ItemTags.OAK_LOGS).forceAddTag(ItemTags.SPRUCE_LOGS).forceAddTag(ItemTags.BIRCH_LOGS).forceAddTag(ItemTags.JUNGLE_LOGS).forceAddTag(ItemTags.DARK_OAK_LOGS).forceAddTag(ItemTags.ACACIA_LOGS).forceAddTag(ItemTags.CRIMSON_STEMS).forceAddTag(ItemTags.WARPED_STEMS).forceAddTag(TinkerTags.Items.SLIMY_LOGS);
+    this.tag(TinkerTags.Items.VARIANT_LOGS).forceAddTag(ItemTags.OAK_LOGS).forceAddTag(ItemTags.SPRUCE_LOGS).forceAddTag(ItemTags.BIRCH_LOGS).forceAddTag(ItemTags.JUNGLE_LOGS).forceAddTag(ItemTags.DARK_OAK_LOGS).forceAddTag(ItemTags.ACACIA_LOGS).forceAddTag(ItemTags.CRIMSON_STEMS).forceAddTag(ItemTags.WARPED_STEMS).forceAddTag(TinkerTags.Items.SLIMY_LOGS).forceAddTag(ItemTags.MANGROVE_LOGS).forceAddTag(ItemTags.CHERRY_LOGS);
 
     // part builder
     this.tag(TinkerTags.Items.DEFAULT_PATTERNS).add(TinkerTables.pattern.get());
