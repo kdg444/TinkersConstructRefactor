@@ -2,14 +2,19 @@ package slimeknights.tconstruct.shared;
 
 import io.github.fabricators_of_create.porting_lib.event.common.RecipesUpdatedCallback;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.crafting.RecipeManager;
+import slimeknights.mantle.registration.FluidAttributeClientHandler;
+import slimeknights.mantle.registration.FluidAttributeHandler;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.fluids.FluidClientEvents;
+import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.gadgets.GadgetClientEvents;
 import slimeknights.tconstruct.library.client.book.TinkerBook;
 import slimeknights.tconstruct.library.client.data.spritetransformer.GreyToColorMapping;
@@ -63,6 +68,10 @@ public class TinkerClient implements ClientModInitializer {
     ToolClientEvents.clientSetupEvent();
     WorldClientEvents.clientSetup();
     ClientInteractionHandler.init();
+
+    var attributes = TinkerFluids.potion.get().createAttributes();
+    FluidRenderHandlerRegistry.INSTANCE.register(TinkerFluids.potion.get(), new FluidAttributeClientHandler(attributes));
+    FluidVariantAttributes.register(TinkerFluids.potion.get(), new FluidAttributeHandler(attributes));
 
     // client mod compat checks
     if (FabricLoader.getInstance().isModLoaded("inventorytabs") && Config.CLIENT.inventoryTabsCompat.get()) {
