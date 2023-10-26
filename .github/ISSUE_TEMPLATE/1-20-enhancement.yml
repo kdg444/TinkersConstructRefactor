@@ -32,12 +32,6 @@ body:
     validations:
       required: true
   - type: input
-    id: mantle-version
-    attributes:
-      label: Mantle Version
-    validations:
-      required: true
-  - type: input
     id: hephaestus-version
     attributes:
       label: "Hephaestus Version"
