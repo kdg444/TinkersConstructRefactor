@@ -383,7 +383,6 @@ public class TinkerStationScreen extends BaseTabbedScreen<TinkerStationBlockEnti
 
   public static void renderIcon(GuiGraphics graphics, LayoutIcon icon, int x, int y) {
     Pattern pattern = icon.getValue(Pattern.class);
-    Minecraft minecraft = Minecraft.getInstance();
     if (pattern != null) {
       // draw pattern sprite
       RenderUtils.setup(InventoryMenu.BLOCK_ATLAS);
@@ -411,13 +410,12 @@ public class TinkerStationScreen extends BaseTabbedScreen<TinkerStationBlockEnti
     final float yOff = 22f;
 
     // render the background icon
-    PoseStack renderPose = RenderSystem.getModelViewStack();
+    PoseStack renderPose = graphics.pose();
     renderPose.pushPose();
     renderPose.translate(xOff, yOff, 0.0F);
     renderPose.scale(scale, scale, 1.0f);
     renderIcon(graphics, currentLayout.getIcon(), (int) (this.cornerX / scale), (int) (this.cornerY / scale));
     renderPose.popPose();
-    RenderSystem.applyModelViewMatrix();
 
     // rebind gui texture since itemstack drawing sets it to something else
     RenderUtils.setup(TINKER_STATION_TEXTURE, 1.0f, 1.0f, 1.0f, 0.82f);
