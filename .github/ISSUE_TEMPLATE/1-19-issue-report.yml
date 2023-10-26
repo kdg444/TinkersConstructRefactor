@@ -27,14 +27,14 @@ body:
   - type: input
     id: fabric-version
     attributes:
-      label: Fabric/Quilt Version
+      label: Fabric Version
       placeholder: "Ex: 0.14.8"
     validations:
       required: true
   - type: input
     id: fabric-api-version
     attributes:
-      label: Fabric/Quilt API Version
+      label: Fabric API Version
       placeholder: "Ex: 0.83.0-1.19.4"
     validations:
       required: true

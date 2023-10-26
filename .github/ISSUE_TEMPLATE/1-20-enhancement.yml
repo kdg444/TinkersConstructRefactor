@@ -1,6 +1,6 @@
-name: 1.19 Enhancement
-description: Suggest a change to existing 1.19 features
-labels: [1.19, Enhancement, Unreviewed]
+name: 1.20 Enhancement
+description: Suggest a change to existing 1.20 features
+labels: [1.20, Enhancement, Unreviewed]
 body:
   - type: markdown
     attributes:
@@ -21,14 +21,14 @@ body:
     id: minecraft-version
     attributes:
       label: Minecraft Version
-      value: 1.19.4
+      value: 1.20.1
     validations:
       required: true
   - type: input
     id: fabric-version
     attributes:
       label: Fabric Version
-      placeholder: "Ex: 0.83.0-1.19.4"
+      placeholder: "Ex: 0.90.4-1.20.1"
     validations:
       required: true
   - type: input
