@@ -46,6 +46,7 @@ import slimeknights.mantle.client.model.util.SimpleBlockModel;
 import slimeknights.mantle.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
+import slimeknights.tconstruct.library.client.model.ModelHelper;
 import slimeknights.tconstruct.library.client.model.ModelProperties;
 import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
 import slimeknights.tconstruct.smeltery.item.TankItem;
@@ -111,7 +112,7 @@ public class TankModel implements IUnbakedGeometry<TankModel> {
       // always baked model as this override is only used in our model
       if (model instanceof Baked<?> baked)
         return baked.getCachedModel(tank.getFluid(), tank.getCapacity());
-      return ((Baked<?>) ((WrapperBakedModel) model).getWrappedModel()).getCachedModel(tank.getFluid(), tank.getCapacity());
+      return ((Baked<?>) ModelHelper.unwrap(model, Baked.class)).getCachedModel(tank.getFluid(), tank.getCapacity());
     }
   }
 

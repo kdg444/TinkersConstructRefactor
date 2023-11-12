@@ -9,6 +9,12 @@
     "maxShiftBy": 5
   },
   "mixins": [
-    "DataFixersMixin"
+    "DataFixersMixin",
+    "mantle.ModelHelperMixin",
+    "mantle.RetexturedHelperMixin",
+    "mantle.RetexturedModelMixin"
+  ],
+  "client": [
+    "mantle.RetexturedModelMixin$RetexturedModelRetexturedOverrideMixin"
   ]
 }

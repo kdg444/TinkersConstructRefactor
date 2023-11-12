@@ -243,7 +243,7 @@ public class FluidTextureModel implements IUnbakedGeometry<FluidTextureModel> {
       // if valid, use the block
       if (originalModel instanceof Baked baked)
         return baked.getCachedModel(new BakedCacheKey(FluidStack.EMPTY, ModelHelper.getParticleTexture(block)));
-      return ((Baked) ((WrapperBakedModel) originalModel).getWrappedModel()).getCachedModel(new BakedCacheKey(FluidStack.EMPTY, ModelHelper.getParticleTexture(block)));
+      return slimeknights.tconstruct.library.client.model.ModelHelper.unwrap(originalModel, Baked.class).getCachedModel(new BakedCacheKey(FluidStack.EMPTY, ModelHelper.getParticleTexture(block)));
     }
   }
 }
