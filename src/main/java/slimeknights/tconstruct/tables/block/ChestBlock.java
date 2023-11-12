@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.tables.block;
 
-import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.minecraft.core.BlockPos;
@@ -23,8 +22,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import slimeknights.mantle.transfer.item.IItemHandler;
-import slimeknights.mantle.transfer.item.IItemHandlerModifiable;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.tables.block.entity.chest.AbstractChestBlockEntity;
 import slimeknights.tconstruct.tables.block.entity.inventory.IChestItemHandler;
 

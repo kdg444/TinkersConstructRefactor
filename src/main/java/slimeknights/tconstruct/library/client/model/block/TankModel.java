@@ -10,6 +10,7 @@ import io.github.fabricators_of_create.porting_lib.models.TransformTypeDependent
 import io.github.fabricators_of_create.porting_lib.models.geometry.IGeometryLoader;
 import io.github.fabricators_of_create.porting_lib.models.geometry.IUnbakedGeometry;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
@@ -43,7 +44,6 @@ import slimeknights.mantle.client.model.data.IModelData;
 import slimeknights.mantle.client.model.util.ColoredBlockModel;
 import slimeknights.mantle.client.model.util.ExtraTextureConfiguration;
 import slimeknights.mantle.client.model.util.SimpleBlockModel;
-import slimeknights.mantle.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.model.ModelProperties;

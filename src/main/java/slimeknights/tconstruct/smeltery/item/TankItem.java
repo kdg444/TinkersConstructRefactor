@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery.item;
 
 import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -14,12 +15,9 @@ import slimeknights.mantle.client.SafeClientAccess;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
 import slimeknights.mantle.item.BlockTooltipItem;
-import slimeknights.mantle.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.utils.NBTTags;
-import slimeknights.tconstruct.smeltery.TinkerSmeltery;
-import slimeknights.tconstruct.smeltery.block.component.SearedTankBlock;
 import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity;
 
 import javax.annotation.Nullable;
@@ -35,6 +33,7 @@ public class TankItem extends BlockTooltipItem implements CustomMaxCountItem {
   public TankItem(Block blockIn, Properties builder, boolean limitStackSize) {
     super(blockIn, builder);
     this.limitStackSize = limitStackSize;
+    FluidStorage.ITEM.registerForItems((itemStack, context) -> new TankItemFluidHandler(context), this);
   }
 
   /** Checks if the tank item is filled */
@@ -85,21 +84,6 @@ public class TankItem extends BlockTooltipItem implements CustomMaxCountItem {
     }
     else {
       super.appendHoverText(stack, worldIn, tooltip, flagIn);
-    }
-  }
-
-//  @Nullable
-//  @Override
-//  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-//    return new TankItemFluidHandler(stack);
-//  }
-
-  @SuppressWarnings("UnstableApiUsage")
-  public static void initCapabilities() {
-    for (SearedTankBlock block : TinkerSmeltery.searedTank.values()) {
-      FluidStorage.combinedItemApiProvider(block.asItem()).register(ctx -> {
-        return null; // TODO transfer
-      });
     }
   }
 

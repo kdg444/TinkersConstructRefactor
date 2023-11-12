@@ -2,6 +2,9 @@ package slimeknights.tconstruct.library.recipe.melting;
 
 import com.google.gson.JsonObject;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -57,7 +60,7 @@ public class DamageableMeltingRecipe extends MeltingRecipe {
   }
 
   @Override
-  public void handleByproducts(IMeltingContainer inv, IFluidHandler handler) {
+  public void handleByproducts(IMeltingContainer inv, SlottedStorage<FluidVariant> handler) {
     ItemStack input = inv.getStack();
     int maxDamage = input.getMaxDamage();
     if (maxDamage <= 0) {
@@ -67,7 +70,7 @@ public class DamageableMeltingRecipe extends MeltingRecipe {
       int itemDamage = input.getDamageValue();
       for (int i = 0; i < byproducts.size(); i++) {
         FluidStack fluidStack = byproducts.get(i);
-        handler.fill(scaleOutput(fluidStack, itemDamage, maxDamage, i < byproductSizes.length ? byproductSizes[i] : unitSize), false);
+        TransferUtil.insertFluid(handler, scaleOutput(fluidStack, itemDamage, maxDamage, i < byproductSizes.length ? byproductSizes[i] : unitSize));
       }
     }
   }

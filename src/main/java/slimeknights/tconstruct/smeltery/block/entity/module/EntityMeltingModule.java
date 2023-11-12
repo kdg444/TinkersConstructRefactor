@@ -1,7 +1,11 @@
 package slimeknights.tconstruct.smeltery.block.entity.module;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import lombok.RequiredArgsConstructor;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -34,7 +38,7 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 public class EntityMeltingModule {
   private final MantleBlockEntity parent;
-  private final IFluidHandler tank;
+  private final SlottedStorage<FluidVariant> tank;
   /** Supplier that returns true if the tank has space */
   private final BooleanSupplier canMeltEntities;
   /** Function that tries to insert an item into the inventory */
@@ -144,7 +148,10 @@ public class EntityMeltingModule {
           // if the entity is successfully damaged, fill the tank with fluid
           if (entity.hurt(entity.fireImmune() ? TinkerDamageTypes.getSource(entity.level().registryAccess(), TinkerDamageTypes.SMELTERY_MAGIC) : TinkerDamageTypes.getSource(entity.level().registryAccess(), TinkerDamageTypes.SMELTERY_DAMAGE), damage)) {
             // its fine if we don't fill it all, leftover fluid is just lost
-            tank.fill(fluid, false);
+            try (Transaction tx = TransferUtil.getTransaction()) {
+              tank.insert(fluid.getType(), fluid.getAmount(), tx);
+              tx.commit();
+            }
             melted = true;
           }
         }

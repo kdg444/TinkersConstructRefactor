@@ -1,33 +1,34 @@
 package slimeknights.tconstruct.smeltery.item;
 
-import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.world.item.ItemStack;
-import slimeknights.mantle.transfer.fluid.FluidTank;
-import slimeknights.mantle.transfer.fluid.IFluidHandlerItem;
 import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity;
-
-import javax.annotation.Nonnull;
 
 /**
  * Handler that works with a tank item to adjust its tank in NBT
  */
 @RequiredArgsConstructor
-public class TankItemFluidHandler implements IFluidHandlerItem {
-  private final LazyOptional<IFluidHandlerItem> holder = LazyOptional.of(() -> this);
+public class TankItemFluidHandler implements SingleSlotStorage<FluidVariant> {
   @Getter
-  private final ItemStack container;
+  private final ContainerItemContext container;
 
   /** Gets the tank on the stack */
   private FluidTank getTank() {
-    return TankItem.getFluidTank(container);
+    return TankItem.getFluidTank(container.getItemVariant().toStack());
   }
 
   /** Updates the container from the given tank */
-  private void updateContainer(FluidTank tank) {
-    TankItem.setTank(container, tank);
+  private void updateContainer(FluidTank tank, TransactionContext tx) {
+    ItemStack newStack = container.getItemVariant().toStack();
+    TankItem.setTank(newStack, tank);
+    container.exchange(ItemVariant.of(newStack), 1, tx);
   }
 
 //  @Override
@@ -36,55 +37,42 @@ public class TankItemFluidHandler implements IFluidHandlerItem {
 //  }
 
   @Override
-  public int getTanks() {
-    return 1;
-  }
-
-  @Nonnull
-  @Override
-  public FluidStack getFluidInTank(int tank) {
-    return getTank().getFluidInTank(tank);
+  public long getCapacity() {
+    return TankBlockEntity.getCapacity(container.getItemVariant().getItem());
   }
 
   @Override
-  public long getTankCapacity(int tank) {
-    return TankBlockEntity.getCapacity(container.getItem());
-  }
-
-  @Override
-  public boolean isFluidValid(int tank, FluidStack stack) {
-    return true;
-  }
-
-  @Override
-  public long fill(FluidStack resource, boolean sim) {
+  public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
     FluidTank tank = getTank();
-    long didFill = tank.fill(resource, sim);
-    if (didFill > 0 && !sim) {
-      updateContainer(tank);
+    long didFill = tank.insert(resource, maxAmount, transaction);
+    if (didFill > 0) {
+      updateContainer(tank, transaction);
     }
     return didFill;
   }
 
-  @Nonnull
   @Override
-  public FluidStack drain(FluidStack resource, boolean sim) {
+  public long extract(FluidVariant resource, long maxAmount, TransactionContext transaction) {
     FluidTank tank = getTank();
-    FluidStack didDrain = tank.drain(resource, sim);
-    if (!didDrain.isEmpty() && !sim) {
-      updateContainer(tank);
+    long didDrain = tank.extract(resource, maxAmount, transaction);
+    if (!(didDrain <= 0)) {
+      updateContainer(tank, transaction);
     }
     return didDrain;
   }
 
-  @Nonnull
   @Override
-  public FluidStack drain(long maxDrain, boolean sim) {
-    FluidTank tank = getTank();
-    FluidStack didDrain = tank.drain(maxDrain, sim);
-    if (!didDrain.isEmpty() && !sim) {
-      updateContainer(tank);
-    }
-    return didDrain;
+  public boolean isResourceBlank() {
+    return getResource().isBlank();
+  }
+
+  @Override
+  public FluidVariant getResource() {
+    return getTank().getResource();
+  }
+
+  @Override
+  public long getAmount() {
+    return getTank().getAmount();
   }
 }

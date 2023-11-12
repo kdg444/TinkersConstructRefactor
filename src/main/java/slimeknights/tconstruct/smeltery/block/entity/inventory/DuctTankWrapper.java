@@ -1,62 +1,53 @@
 package slimeknights.tconstruct.smeltery.block.entity.inventory;
 
-import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.AllArgsConstructor;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+
+import java.util.Iterator;
 
 @AllArgsConstructor
-public class DuctTankWrapper implements IFluidHandler {
-  private final IFluidHandler parent;
+public class DuctTankWrapper implements SlottedStorage<FluidVariant> {
+  private final SlottedStorage<FluidVariant> parent;
   private final DuctItemHandler itemHandler;
 
 
   /* Properties */
 
   @Override
-  public int getTanks() {
-    return parent.getTanks();
+  public int getSlotCount() {
+    return parent.getSlotCount();
   }
 
   @Override
-  public FluidStack getFluidInTank(int tank) {
-    return parent.getFluidInTank(tank);
+  public SingleSlotStorage<FluidVariant> getSlot(int tank) {
+    return parent.getSlot(tank);
   }
 
   @Override
-  public long getTankCapacity(int tank) {
-    return parent.getTankCapacity(tank);
-  }
-
-  @Override
-  public boolean isFluidValid(int tank, FluidStack stack) {
-    return itemHandler.getFluid().isFluidEqual(stack);
+  public Iterator<StorageView<FluidVariant>> iterator() {
+    return parent.iterator();
   }
 
 
   /* Interactions */
 
   @Override
-  public long fill(FluidStack resource, boolean sim) {
-    if (resource.isEmpty() || !itemHandler.getFluid().isFluidEqual(resource)) {
+  public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+    if ((maxAmount <= 0 || resource.isBlank()) || !itemHandler.getFluid().isFluidEqual(resource)) {
       return 0;
     }
-    return parent.fill(resource, sim);
+    return parent.insert(resource, maxAmount, transaction);
   }
 
   @Override
-  public FluidStack drain(long maxDrain, boolean sim) {
-    FluidStack fluid = itemHandler.getFluid();
-    if (fluid.isEmpty()) {
-      return FluidStack.EMPTY;
+  public long extract(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+    if ((maxAmount <= 0 || resource.isBlank()) || !itemHandler.getFluid().isFluidEqual(resource)) {
+      return 0;
     }
-    return parent.drain(new FluidStack(fluid, maxDrain), sim);
-  }
-
-  @Override
-  public FluidStack drain(FluidStack resource, boolean sim) {
-    if (resource.isEmpty() || !itemHandler.getFluid().isFluidEqual(resource)) {
-      return FluidStack.EMPTY;
-    }
-    return parent.drain(resource, sim);
+    return parent.extract(resource, maxAmount, transaction);
   }
 }

@@ -1,11 +1,15 @@
 package slimeknights.tconstruct.smeltery.block.entity.component;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import lombok.Setter;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -16,8 +20,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
-import slimeknights.mantle.transfer.fluid.FluidTank;
-import slimeknights.mantle.transfer.fluid.FluidTransferable;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.library.client.model.ModelProperties;
 import slimeknights.tconstruct.library.fluid.FluidTankAnimated;
@@ -30,7 +32,7 @@ import slimeknights.tconstruct.smeltery.item.TankItem;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITankBlockEntity, FluidTransferable, RenderAttachmentBlockEntity {
+public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITankBlockEntity, SidedStorageBlockEntity, RenderAttachmentBlockEntity {
   /** Max capacity for the tank */
   public static final long DEFAULT_CAPACITY = FluidConstants.BUCKET * 4;
 
@@ -61,8 +63,6 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
   /** Internal fluid tank instance */
   @Getter
   protected final FluidTankAnimated tank;
-  /** Capability holder for the tank */
-  private final LazyOptional<IFluidHandler> holder;
   /** Tank data for the model */
   private final SinglePropertyData<FluidTank> modelData;
   /** Last comparator strength to reduce block updates */
@@ -85,7 +85,6 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
   protected TankBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ITankBlock block) {
     super(type, pos, state);
     tank = new FluidTankAnimated(block.getCapacity(), this);
-    holder = LazyOptional.of(() -> tank);
     modelData = new SinglePropertyData<>(ModelProperties.FLUID_TANK, tank);
   }
 
@@ -96,14 +95,8 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
 
   @Override
   @Nonnull
-  public LazyOptional<IFluidHandler> getFluidHandler(@Nullable Direction direction) {
-    return holder.cast();
-  }
-
-  @Override
-  public void invalidateCaps() {
-    super.invalidateCaps();
-    holder.invalidate();
+  public Storage<FluidVariant> getFluidStorage(@Nullable Direction direction) {
+    return tank;
   }
 
   @Nonnull

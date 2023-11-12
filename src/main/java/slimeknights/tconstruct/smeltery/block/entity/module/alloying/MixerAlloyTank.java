@@ -1,22 +1,23 @@
 package slimeknights.tconstruct.smeltery.block.entity.module.alloying;
 
-import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import io.github.fabricators_of_create.porting_lib.common.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import slimeknights.mantle.transfer.TransferUtil;
-import slimeknights.mantle.transfer.fluid.EmptyFluidHandler;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
-import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.recipe.alloying.IMutableAlloyTank;
+import slimeknights.tconstruct.smeltery.block.entity.tank.EmptyFluidStorage;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
@@ -31,7 +32,7 @@ public class MixerAlloyTank implements IMutableAlloyTank {
   /** Handler parent */
   private final MantleBlockEntity parent;
   /** Tank for outputs */
-  private final IFluidHandler outputTank;
+  private final SlottedStorage<FluidVariant> outputTank;
 
   /** Current temperature. Provided as a getter and setter as there are a few contexts with different source for temperature */
   @Getter
@@ -40,12 +41,12 @@ public class MixerAlloyTank implements IMutableAlloyTank {
 
   // side tank cache
   /** Cache of tanks for each of the sides */
-  private final Map<Direction,LazyOptional<IFluidHandler>> inputs = new EnumMap<>(Direction.class);
+  private final Map<Direction,SlottedStorage<FluidVariant>> inputs = new EnumMap<>(Direction.class);
   /** Map of invalidation listeners for each side */
-  private final Map<Direction,NonNullConsumer<LazyOptional<IFluidHandler>>> listeners = new EnumMap<>(Direction.class);
+  private final Map<Direction,NonNullConsumer<SlottedStorage<FluidVariant>>> listeners = new EnumMap<>(Direction.class);
   /** Map of tank index to tank on the side */
   @Nullable
-  private IFluidHandler[] indexedList = null;
+  private SlottedStorage<FluidVariant>[] indexedList = null;
 
   // state
   /** If true, tanks are marked for refresh later */
@@ -60,17 +61,17 @@ public class MixerAlloyTank implements IMutableAlloyTank {
   }
 
   /** Gets the map of index to direction */
-  private IFluidHandler[] indexTanks() {
+  private SlottedStorage<FluidVariant>[] indexTanks() {
     // convert map into indexed list of fluid handlers, will be cleared next time a side updates
     if (indexedList == null) {
-      indexedList = new IFluidHandler[currentTanks];
+      indexedList = new SlottedStorage[currentTanks];
       if (currentTanks > 0) {
         int nextTank = 0;
         for (Direction direction : Direction.values()) {
           if (direction != Direction.DOWN) {
-            LazyOptional<IFluidHandler> handler = inputs.getOrDefault(direction, LazyOptional.empty());
-            if (handler.isPresent()) {
-              indexedList[nextTank] = handler.orElse(EmptyFluidHandler.INSTANCE);
+            SlottedStorage<FluidVariant> handler = inputs.getOrDefault(direction, null);
+            if (handler != null) {
+              indexedList[nextTank] = handler;
               nextTank++;
             }
           }
@@ -81,11 +82,11 @@ public class MixerAlloyTank implements IMutableAlloyTank {
   }
 
   /** Gets the fluid handler for the given tank index */
-  public IFluidHandler getFluidHandler(int tank) {
+  public SlottedStorage<FluidVariant> getFluidHandler(int tank) {
     checkTanks();
     // invalid index, nothing
     if (tank >= currentTanks || tank < 0) {
-      return EmptyFluidHandler.INSTANCE;
+      return EmptyFluidStorage.INSTANCE;
     }
     return indexTanks()[tank];
   }
@@ -98,7 +99,7 @@ public class MixerAlloyTank implements IMutableAlloyTank {
       return FluidStack.EMPTY;
     }
     // get the first fluid from the proper tank, we do not support multiple fluids on a side
-    return indexTanks()[tank].getFluidInTank(0);
+    return new FluidStack(indexTanks()[tank].getSlot(0));
   }
 
   @Override
@@ -108,18 +109,18 @@ public class MixerAlloyTank implements IMutableAlloyTank {
     if (tank >= currentTanks || tank < 0) {
       return FluidStack.EMPTY;
     }
-    return indexTanks()[tank].drain(fluidStack, false);
+    return new FluidStack(fluidStack.getType(), TransferUtil.extractFluid(indexTanks()[tank], fluidStack));
   }
 
   @Override
   public boolean canFit(FluidStack fluid, int removed) {
     checkTanks();
-    return outputTank.fill(fluid, true) == fluid.getAmount();
+    return StorageUtil.simulateInsert(outputTank, fluid.getType(), fluid.getAmount(), null) == fluid.getAmount();
   }
 
   @Override
   public long fill(FluidStack fluidStack) {
-    return outputTank.fill(fluidStack, false);
+    return TransferUtil.insertFluid(outputTank, fluidStack);
   }
 
   /**
@@ -140,18 +141,18 @@ public class MixerAlloyTank implements IMutableAlloyTank {
           // limit by blocks as that gives the modpack more control, say they want to allow only scorched tanks
           if (world.getBlockState(target).is(TinkerTags.Blocks.ALLOYER_TANKS)) {
             // if we found a tank, increment the number of tanks
-            LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(world, target, direction.getOpposite());
-            if (capability.isPresent()) {
+            Storage<FluidVariant> capability = FluidStorage.SIDED.find(world, target, direction.getOpposite());
+            if (capability != null && capability instanceof SlottedStorage<FluidVariant> storage) {
               // attach a listener so we know when the side invalidates
-              capability.addListener(listeners.computeIfAbsent(direction, dir -> new WeakConsumerWrapper<>(this, (self, handler) -> {
-                if (handler == self.inputs.get(dir)) {
-                  refresh(dir, false);
-                }
-              })));
-              inputs.put(direction, capability);
+//              capability.addListener(listeners.computeIfAbsent(direction, dir -> new WeakConsumerWrapper<>(this, (self, handler) -> {
+//                if (handler == self.inputs.get(dir)) { TODO: PORT replacement?
+//                  refresh(dir, false);
+//                }
+//              })));
+              inputs.put(direction, storage);
               currentTanks++;
             } else {
-              inputs.put(direction, LazyOptional.empty());
+              inputs.put(direction, null);
             }
           }
         }
@@ -169,7 +170,7 @@ public class MixerAlloyTank implements IMutableAlloyTank {
     if (direction == Direction.DOWN) {
       return;
     }
-    if (!checkInput || (inputs.containsKey(direction) && inputs.get(direction).isPresent())) {
+    if (!checkInput || (inputs.containsKey(direction) && inputs.get(direction) != null)) {
       currentTanks--;
     }
     inputs.remove(direction);

@@ -3,6 +3,9 @@ package slimeknights.tconstruct.smeltery.block.entity.controller;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import lombok.Setter;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -15,7 +18,6 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
-import slimeknights.mantle.transfer.fluid.FluidTransferable;
 import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -38,7 +40,7 @@ import java.util.Collections;
 /**
  * Dedicated alloying block
  */
-public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferable {
+public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBlockEntity, SidedStorageBlockEntity {
   /** Max capacity for the tank */
   private static final long TANK_CAPACITY = TankType.INGOT_TANK.getCapacity();
   /** Name of the container */
@@ -49,8 +51,6 @@ public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBloc
   /** Tank for this mixer */
   @Getter
   protected final FluidTankAnimated tank = new FluidTankAnimated(TANK_CAPACITY, this);
-  /* Capability for return */
-  private final LazyOptional<IFluidHandler> tankHolder = LazyOptional.of(() -> tank);
 
   // modules
   /** Logic for a mixer alloying */
@@ -83,14 +83,8 @@ public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBloc
 
   @Nonnull
   @Override
-  public LazyOptional<IFluidHandler> getFluidHandler(@org.jetbrains.annotations.Nullable Direction direction) {
-    return tankHolder.cast();
-  }
-
-  //  @Override
-  public void invalidateCaps() {
-//    super.invalidateCaps();
-    this.tankHolder.invalidate();
+  public Storage<FluidVariant> getFluidStorage(@org.jetbrains.annotations.Nullable Direction direction) {
+    return tank;
   }
 
 

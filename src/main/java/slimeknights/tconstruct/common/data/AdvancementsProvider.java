@@ -3,8 +3,11 @@ package slimeknights.tconstruct.common.data;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
@@ -36,7 +39,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.data.GenericDataProvider;
-import slimeknights.mantle.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
@@ -387,7 +389,7 @@ public class AdvancementsProvider extends GenericDataProvider {
   /** Gets a tank filled with the given fluid */
   private static FluidTank getTankWith(Fluid fluid, long capacity) {
     FluidTank tank = new FluidTank(capacity);
-    tank.fill(new FluidStack(fluid, capacity), false);
+    TransferUtil.insert(tank, FluidVariant.of(fluid), capacity);
     return tank;
   }
 

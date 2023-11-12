@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.base.SingleStackStorage;
-import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
@@ -23,9 +22,6 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import slimeknights.mantle.transfer.item.IItemHandler;
-import slimeknights.mantle.transfer.item.IItemHandlerModifiable;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -177,9 +173,9 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
   }
 
   @Override
-  public boolean isItemValid(int slot, ItemVariant stack) {
+  public boolean isItemValid(int slot, ItemVariant stack, int count) {
     // no nesting item handlers
-    if (!stack.isBlank() && isBlacklisted(stack.toStack())) {
+    if (!stack.isBlank() && isBlacklisted(stack.toStack(count))) {
       return false;
     }
     IToolStackView tool = this.tool.get();

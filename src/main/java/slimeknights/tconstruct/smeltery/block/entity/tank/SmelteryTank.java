@@ -2,30 +2,39 @@ package slimeknights.tconstruct.smeltery.block.entity.tank;
 
 import com.google.common.collect.Lists;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.Level;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.smeltery.block.entity.tank.ISmelteryTankHandler.FluidChange;
 import slimeknights.tconstruct.smeltery.network.SmelteryTankUpdatePacket;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
 /**
  * Fluid handler implementation for the smeltery
  */
-public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> implements IFluidHandler {
+@SuppressWarnings("UnstableApiUsage")
+public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> extends SnapshotParticipant<SmelteryTank.FluidSnapshot> implements SlottedStorage<FluidVariant> {
   private final T parent;
   /** Fluids actually contained in the tank */
   @Getter
-  private final List<FluidStack> fluids;
+  private List<FluidStack> fluids;
   /** Maximum capacity of the smeltery */
   private long capacity;
   /** Current amount of fluid in the tank */
@@ -84,20 +93,19 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
   /* Fluids */
 
   @Override
-  public boolean isFluidValid(int tank, FluidStack stack) {
-    return true;
-  }
-
-  @Override
-  public int getTanks() {
+  public int getSlotCount() {
     if (contained < capacity) {
       return fluids.size() + 1;
     }
     return fluids.size();
   }
 
-  @Nonnull
   @Override
+  public SingleSlotStorage<FluidVariant> getSlot(int slot) {
+    return new FluidStackSlot(getFluidInTank(slot), slot);
+  }
+
+  @Nonnull
   public FluidStack getFluidInTank(int tank) {
     if (tank < 0 || tank >= fluids.size()) {
       return FluidStack.EMPTY;
@@ -105,7 +113,6 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
     return fluids.get(tank);
   }
 
-  @Override
   public long getTankCapacity(int tank) {
     if (tank < 0) {
       return 0;
@@ -136,23 +143,20 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
   /* Filling and draining */
 
   @Override
-  public long fill(FluidStack resource, boolean sim) {
+  public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
     // if full or nothing being filled, do nothing
-    if (contained >= capacity || resource.isEmpty()) {
+    if (contained >= capacity || maxAmount <= 0 || resource.isBlank()) {
       return 0;
     }
 
     // determine how much we can fill
-    long usable = Math.min(capacity - contained, resource.getAmount());
+    long usable = Math.min(capacity - contained, maxAmount);
     // could be negative if the smeltery size changes then you try filling it
     if (usable <= 0) {
       return 0;
     }
 
-    // done here if just simulating
-    if (sim) {
-      return usable;
-    }
+    updateSnapshots(transaction);
 
     // add contained fluid amount
     contained += usable;
@@ -162,85 +166,62 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
       if (fluid.isFluidEqual(resource)) {
         // yup. add it
         fluid.grow(usable);
-        parent.notifyFluidsChanged(FluidChange.CHANGED, fluid);
+        transaction.addCloseCallback((tx, result) -> {
+          if (result.wasCommitted())
+            parent.notifyFluidsChanged(FluidChange.CHANGED, fluid);
+        });
         return usable;
       }
     }
 
     // not present yet, add it
-    resource = resource.copy();
-    resource.setAmount(usable);
-    fluids.add(resource);
-    parent.notifyFluidsChanged(FluidChange.ADDED, resource);
+    var fluid = new FluidStack(resource, usable);
+    fluids.add(fluid);
+    transaction.addCloseCallback((tx, result) -> {
+      if (result.wasCommitted())
+        parent.notifyFluidsChanged(FluidChange.ADDED, fluid);
+    });
     return usable;
   }
 
-  @Nonnull
   @Override
-  public FluidStack drain(long maxDrain, boolean sim) {
-    if (fluids.isEmpty()) {
-      return FluidStack.EMPTY;
-    }
-
-    // simply drain the first one
-    FluidStack fluid = fluids.get(0);
-    long drainable = Math.min(maxDrain, fluid.getAmount());
-
-    // copy contained fluid to return for accuracy
-    FluidStack ret = fluid.copy();
-    ret.setAmount(drainable);
-
-    // remove the fluid from the tank
-    if (!sim) {
-      fluid.shrink(drainable);
-      contained -= drainable;
-      // if now empty, remove from the list
-      if (fluid.getAmount() <= 0) {
-        fluids.remove(fluid);
-        parent.notifyFluidsChanged(FluidChange.REMOVED, fluid);
-      } else {
-        parent.notifyFluidsChanged(FluidChange.CHANGED, fluid);
-      }
-    }
-
-    // return drained fluid
-    return ret;
-  }
-
-  @Nonnull
-  @Override
-  public FluidStack drain(FluidStack toDrain, boolean sim) {
+  public long extract(FluidVariant resource, long maxAmount, TransactionContext transaction) {
     // search for the resource
     ListIterator<FluidStack> iter = fluids.listIterator();
     while (iter.hasNext()) {
       FluidStack fluid = iter.next();
-      if (fluid.isFluidEqual(toDrain)) {
+      if (fluid.isFluidEqual(resource)) {
         // if found, determine how much we can drain
-        long drainable = Math.min(toDrain.getAmount(), fluid.getAmount());
+        long drainable = Math.min(maxAmount, fluid.getAmount());
 
         // copy contained fluid to return for accuracy
         FluidStack ret = fluid.copy();
         ret.setAmount(drainable);
 
         // update tank if executing
-        if (!sim) {
-          fluid.shrink(drainable);
-          contained -= drainable;
-          // if now empty, remove from the list
-          if (fluid.getAmount() <= 0) {
-            iter.remove();
-            parent.notifyFluidsChanged(FluidChange.REMOVED, fluid);
-          } else {
-            parent.notifyFluidsChanged(FluidChange.CHANGED, fluid);
-          }
+        updateSnapshots(transaction);
+        fluid.shrink(drainable);
+        contained -= drainable;
+        // if now empty, remove from the list
+        if (fluid.getAmount() <= 0) {
+          iter.remove();
+          transaction.addCloseCallback((tx, result) -> {
+            if (result.wasCommitted())
+              parent.notifyFluidsChanged(FluidChange.REMOVED, fluid);
+          });
+        } else {
+          transaction.addCloseCallback((tx, result) -> {
+            if (result.wasCommitted())
+              parent.notifyFluidsChanged(FluidChange.CHANGED, fluid);
+          });
         }
 
-        return ret;
+        return drainable;
       }
     }
 
     // nothing drained
-    return FluidStack.EMPTY;
+    return 0;
   }
 
   /* Saving and loading */
@@ -291,4 +272,136 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> im
     }
     capacity = tag.getLong(TAG_CAPACITY);
   }
+
+  @Override
+  public Iterator<StorageView<FluidVariant>> iterator() {
+    return (Iterator) getSlots().iterator();
+  }
+
+  @Override
+  protected FluidSnapshot createSnapshot() {
+    List<FluidStack> cachedFluids = new ArrayList<>();
+    for (int i = 0; i < fluids.size(); i++) {
+      cachedFluids.add(i, fluids.get(i).copy());
+    }
+    return new FluidSnapshot(this.contained, cachedFluids);
+  }
+
+  @Override
+  protected void readSnapshot(FluidSnapshot snapshot) {
+    this.fluids = snapshot.fluids();
+    this.contained = snapshot.contained();
+  }
+
+  @SuppressWarnings("UnstableApiUsage")
+  @AllArgsConstructor
+  public class FluidStackSlot extends SnapshotParticipant<FluidSnapshot> implements SingleSlotStorage<FluidVariant> {
+
+    private FluidStack fluid;
+    private final int slot;
+
+    @Override
+    public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+      // if full or nothing being filled, do nothing
+      if (contained >= capacity || maxAmount <= 0 || resource.isBlank()) {
+        return 0;
+      }
+
+      // determine how much we can fill
+      long usable = Math.min(capacity - contained, maxAmount);
+      // could be negative if the smeltery size changes then you try filling it
+      if (usable <= 0) {
+        return 0;
+      }
+
+      updateSnapshots(transaction);
+
+      // add contained fluid amount
+      contained += usable;
+
+      // check if we already have the given liquid
+      if (fluid.isFluidEqual(resource)) {
+        // yup. add it
+        fluid.grow(usable);
+        transaction.addCloseCallback((tx, result) -> {
+          if (result.wasCommitted())
+            parent.notifyFluidsChanged(FluidChange.CHANGED, fluid);
+        });
+        return usable;
+      }
+
+      // not present yet, add it
+      var fluid = new FluidStack(resource, usable);
+      fluids.add(fluid);
+      transaction.addCloseCallback((tx, result) -> {
+        if (result.wasCommitted())
+          parent.notifyFluidsChanged(FluidChange.ADDED, fluid);
+      });
+      return usable;
+    }
+
+    @Override
+    public long extract(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+      if (fluid.isFluidEqual(resource)) {
+        // if found, determine how much we can drain
+        long drainable = Math.min(maxAmount, fluid.getAmount());
+
+        // copy contained fluid to return for accuracy
+        FluidStack ret = fluid.copy();
+        ret.setAmount(drainable);
+
+        // update tank if executing
+        updateSnapshots(transaction);
+        fluid.shrink(drainable);
+        contained -= drainable;
+        // if now empty, remove from the list
+        transaction.addCloseCallback((tx, result) -> {
+          if (result.wasCommitted()) {
+            if (fluid.getAmount() <= 0) {
+              SmelteryTank.this.fluids.remove(slot);
+              parent.notifyFluidsChanged(FluidChange.REMOVED, fluid);
+            } else {
+              parent.notifyFluidsChanged(FluidChange.CHANGED, fluid);
+            }
+          }
+        });
+
+
+        return drainable;
+      }
+      return 0;
+    }
+
+    @Override
+    public boolean isResourceBlank() {
+      return this.fluid.getType().isBlank();
+    }
+
+    @Override
+    public FluidVariant getResource() {
+      return this.fluid.getType();
+    }
+
+    @Override
+    public long getAmount() {
+      return this.fluid.getAmount();
+    }
+
+    @Override
+    public long getCapacity() {
+      return SmelteryTank.this.getTankCapacity(this.slot);
+    }
+
+    @Override
+    protected FluidSnapshot createSnapshot() {
+      return SmelteryTank.this.createSnapshot();
+    }
+
+    @Override
+    protected void readSnapshot(FluidSnapshot snapshot) {
+      SmelteryTank.this.readSnapshot(snapshot);
+    }
+  }
+
+  public record FluidSnapshot(long contained, List<FluidStack> fluids) {}
 }

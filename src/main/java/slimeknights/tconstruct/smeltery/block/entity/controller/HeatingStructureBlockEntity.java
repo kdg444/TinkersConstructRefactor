@@ -6,7 +6,9 @@ import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
@@ -100,8 +102,8 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
   @Getter
   protected final SmelteryTank<HeatingStructureBlockEntity> tank = new SmelteryTank<>(this);
   /** Capability to pass to drains for fluid handling */
-  @Getter
-  private LazyOptional<IFluidHandler> fluidCapability = LazyOptional.empty();
+  @Nullable @Getter
+  private SlottedStorage<FluidVariant> fluidCapability;
 
   /** Inventory handling melting items */
   @Getter
@@ -318,8 +320,8 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
         new StructureUpdatePacket(worldPosition, newStructure.getMinPos(), newStructure.getMaxPos(), newStructure.getTanks()), level, worldPosition);
 
       // update tank capability, do first for update listeners on the drain blocks
-      if (!fluidCapability.isPresent()) {
-        fluidCapability = LazyOptional.of(() -> tank);
+      if (fluidCapability == null) {
+        fluidCapability = tank;
       }
 
       // set master positions
@@ -327,9 +329,8 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
       setStructure(newStructure);
     } else {
       // remove tank capability
-      if (fluidCapability.isPresent()) {
-        fluidCapability.invalidate();
-        fluidCapability = LazyOptional.empty();
+      if (fluidCapability != null) {
+        fluidCapability = null;
       }
 
       // clear positions
@@ -565,7 +566,7 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
     if (nbt.contains(TAG_STRUCTURE, Tag.TAG_COMPOUND)) {
       setStructure(multiblock.readFromTag(nbt.getCompound(TAG_STRUCTURE)));
       if (structure != null) {
-        fluidCapability = LazyOptional.of(() -> tank);
+        fluidCapability = tank;
       }
     }
     // only exists to be sent server to client in update packets

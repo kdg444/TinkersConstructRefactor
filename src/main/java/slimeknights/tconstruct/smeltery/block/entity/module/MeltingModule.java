@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.smeltery.block.entity.module;
 
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.fabricmc.fabric.api.transfer.v1.item.base.SingleStackStorage;
@@ -8,7 +9,6 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.common.network.InventorySlotSyncPacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;

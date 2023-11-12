@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.entity.module;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import io.github.fabricators_of_create.porting_lib.common.util.NonNullConsumer;
 import io.github.fabricators_of_create.porting_lib.common.util.NonNullFunction;
@@ -9,6 +10,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -20,10 +29,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import slimeknights.mantle.transfer.TransferUtil;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
-import slimeknights.mantle.transfer.item.IItemHandler;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
@@ -47,8 +52,8 @@ public class FuelModule implements ContainerData {
   public static final int SOLID_TEMPERATURE = 800;
 
   /** Listener to attach to stored capability */
-  private final NonNullConsumer<LazyOptional<IFluidHandler>> fluidListener = new WeakConsumerWrapper<>(this, (self, cap) -> self.reset());
-  private final NonNullConsumer<LazyOptional<IItemHandler>> itemListener = new WeakConsumerWrapper<>(this, (self, cap) -> self.reset());
+  private final NonNullConsumer<SlottedStorage<FluidVariant>> fluidListener = new WeakConsumerWrapper<>(this, (self, cap) -> self.reset());
+  private final NonNullConsumer<SlottedStorage<ItemVariant>> itemListener = new WeakConsumerWrapper<>(this, (self, cap) -> self.reset());
 
   /** Parent TE */
   private final MantleBlockEntity parent;
@@ -60,18 +65,18 @@ public class FuelModule implements ContainerData {
   private MeltingFuel lastRecipe;
   /** Last fluid handler where fluid was extracted */
   @Nullable
-  private LazyOptional<IFluidHandler> fluidHandler;
+  private Storage<FluidVariant> fluidHandler;
   /** Last item handler where items were extracted */
   @Nullable
-  private LazyOptional<IItemHandler> itemHandler;
+  private Storage<ItemVariant> itemHandler;
   /** Position of the last fluid handler */
   private BlockPos lastPos = NULL_POS;
 
 
   /** Client fuel display */
-  private List<LazyOptional<IFluidHandler>> tankDisplayHandlers;
+  private List<SlottedStorage<FluidVariant>> tankDisplayHandlers;
   /** Listener to attach to display capabilities */
-  private final NonNullConsumer<LazyOptional<IFluidHandler>> displayListener = new WeakConsumerWrapper<>(this, (self, cap) -> {
+  private final NonNullConsumer<SlottedStorage<FluidVariant>> displayListener = new WeakConsumerWrapper<>(this, (self, cap) -> {
     if (self.tankDisplayHandlers != null) {
       self.tankDisplayHandlers.remove(cap);
     }
@@ -145,22 +150,21 @@ public class FuelModule implements ContainerData {
   /* Fuel updating */
 
   /* Cache of objects, since they are otherwise created possibly several times */
-  private final NonNullFunction<IItemHandler,Integer> trySolidFuelConsume = handler -> trySolidFuel(handler, true);
-  private final NonNullFunction<IItemHandler,Integer> trySolidFuelNoConsume = handler -> trySolidFuel(handler, false);
-  private final NonNullFunction<IFluidHandler,Integer> tryLiquidFuelConsume = handler -> tryLiquidFuel(handler, true);
-  private final NonNullFunction<IFluidHandler,Integer> tryLiquidFuelNoConsume = handler -> tryLiquidFuel(handler, false);
+  private final NonNullFunction<Storage<ItemVariant>,Integer> trySolidFuelConsume = handler -> trySolidFuel(handler, true);
+  private final NonNullFunction<Storage<ItemVariant>,Integer> trySolidFuelNoConsume = handler -> trySolidFuel(handler, false);
+  private final NonNullFunction<Storage<FluidVariant>,Integer> tryLiquidFuelConsume = handler -> tryLiquidFuel(handler, true);
+  private final NonNullFunction<Storage<FluidVariant>,Integer> tryLiquidFuelNoConsume = handler -> tryLiquidFuel(handler, false);
 
   /**
    * Tries to consume fuel from the given fluid handler
    * @param handler  Handler to consume fuel from
    * @return   Temperature of the consumed fuel, 0 if none found
    */
-  private int trySolidFuel(IItemHandler handler, boolean consume) {
-    for (int i = 0; i < handler.getSlots(); i++) {
-      ItemStack stack = handler.getStackInSlot(i);
+  private int trySolidFuel(Storage<ItemVariant> handler, boolean consume) {
+    for (StorageView<ItemVariant> view : handler) {
       int time = 0;
-      if (FuelRegistry.INSTANCE.get(stack.getItem()) != null)
-        time = FuelRegistry.INSTANCE.get(stack.getItem()/*, TinkerRecipeTypes.FUEL.get()*/) / 4;
+      if (FuelRegistry.INSTANCE.get(view.getResource().getItem()) != null)
+        time = FuelRegistry.INSTANCE.get(view.getResource().getItem()/*, TinkerRecipeTypes.FUEL.get()*/) / 4;
       if (time > 0) {
         if (consume) {
           ItemStack extracted = handler.extractItem(i, 1, false);
@@ -200,7 +204,7 @@ public class FuelModule implements ContainerData {
    * @param consume  If true, fuel is consumed
    * @return Mapper function for solid fuel
    */
-  private NonNullFunction<IItemHandler,Integer> trySolidFuel(boolean consume) {
+  private NonNullFunction<Storage<ItemVariant>,Integer> trySolidFuel(boolean consume) {
     return consume ? trySolidFuelConsume : trySolidFuelNoConsume;
   }
 
@@ -209,16 +213,19 @@ public class FuelModule implements ContainerData {
    * @param handler  Handler to consume fuel from
    * @return   Temperature of the consumed fuel, 0 if none found
    */
-  private int tryLiquidFuel(IFluidHandler handler, boolean consume) {
-    FluidStack fluid = handler.getFluidInTank(0);
+  private int tryLiquidFuel(Storage<FluidVariant> handler, boolean consume) {
+    FluidStack fluid = TransferUtil.getFirstFluid(handler);
     MeltingFuel recipe = findRecipe(fluid.getFluid());
     if (recipe != null) {
       long amount = recipe.getAmount(fluid.getFluid());
       if (fluid.getAmount() >= amount) {
         if (consume) {
-          FluidStack drained = handler.drain(new FluidStack(fluid, amount), false);
-          if (drained.getAmount() != amount) {
-            TConstruct.LOG.error("Invalid amount of fuel drained from tank");
+          try (Transaction tx = TransferUtil.getTransaction()) {
+            long drained = handler.extract(fluid.getType(), amount, tx);
+            tx.commit();
+            if (drained != amount) {
+              TConstruct.LOG.error("Invalid amount of fuel drained from tank");
+            }
           }
           fuel += recipe.getDuration();
           fuelQuality = recipe.getDuration();
@@ -238,7 +245,7 @@ public class FuelModule implements ContainerData {
    * @param consume  If true, fuel is consumed
    * @return Mapper function for liquid fuel
    */
-  private NonNullFunction<IFluidHandler,Integer> tryLiquidFuel(boolean consume) {
+  private NonNullFunction<Storage<FluidVariant>,Integer> tryLiquidFuel(boolean consume) {
     return consume ? tryLiquidFuelConsume : tryLiquidFuelNoConsume;
   }
 
@@ -249,29 +256,28 @@ public class FuelModule implements ContainerData {
    */
   private int tryFindFuel(BlockPos pos, boolean consume) {
     BlockEntity te = getLevel().getBlockEntity(pos);
-    if (te != null) {
-      // if we find a valid cap, try to consume fuel from it
-      LazyOptional<IFluidHandler> capability = TransferUtil.getFluidHandler(te);
-      Optional<Integer> temperature = capability.map(tryLiquidFuel(consume));
+    // if we find a valid cap, try to consume fuel from it
+    Storage<FluidVariant> storage = FluidStorage.SIDED.find(getLevel(), pos, null);
+    Optional<Integer> temperature = Optional.ofNullable(storage).map(tryLiquidFuel(consume));
+    if (temperature.isPresent()) {
+      itemHandler = null;
+      fluidHandler = storage;
+      tankDisplayHandlers = null;
+//        storage.addListener(fluidListener);
+      throw new RuntimeException("Add listener");
+      lastPos = pos;
+      return temperature.get();
+    } else {
+      // if we find a valid item cap, consume fuel from that
+      LazyOptional<IItemHandler> itemCap = TransferUtil.getItemHandler(te);
+      temperature = itemCap.map(trySolidFuel(consume));
       if (temperature.isPresent()) {
-        itemHandler = null;
-        fluidHandler = capability;
+        fluidHandler = null;
         tankDisplayHandlers = null;
-        capability.addListener(fluidListener);
+        itemHandler = itemCap;
+        itemCap.addListener(itemListener);
         lastPos = pos;
         return temperature.get();
-      } else {
-        // if we find a valid item cap, consume fuel from that
-        LazyOptional<IItemHandler> itemCap = TransferUtil.getItemHandler(te);
-        temperature = itemCap.map(trySolidFuel(consume));
-        if (temperature.isPresent()) {
-          fluidHandler = null;
-          tankDisplayHandlers = null;
-          itemHandler = itemCap;
-          itemCap.addListener(itemListener);
-          lastPos = pos;
-          return temperature.get();
-        }
       }
     }
 
@@ -286,9 +292,9 @@ public class FuelModule implements ContainerData {
     // if we have a handler, try to use that if possible
     Optional<Integer> handlerTemp = Optional.empty();
     if (fluidHandler != null) {
-      handlerTemp = fluidHandler.map(tryLiquidFuel(consume));
+      handlerTemp = Optional.of(fluidHandler).map(tryLiquidFuel(consume));
     } else if (itemHandler != null) {
-      handlerTemp = itemHandler.map(trySolidFuel(consume));
+      handlerTemp = Optional.of(itemHandler).map(trySolidFuel(consume));
     // if no handler, try to find one at the last position
     } else if (lastPos != NULL_POS) {
       int posTemp = tryFindFuel(lastPos, consume);
@@ -439,26 +445,22 @@ public class FuelModule implements ContainerData {
     // fetch primary fuel handler
     if (fluidHandler == null && itemHandler == null) {
       BlockEntity te = getLevel().getBlockEntity(mainTank);
-      if (te != null) {
-        LazyOptional<IFluidHandler> fluidCap = TransferUtil.getFluidHandler(te);
-        if (fluidCap.isPresent()) {
-          fluidHandler = fluidCap;
-          fluidHandler.addListener(fluidListener);
-        } else {
-          LazyOptional<IItemHandler> itemCap = TransferUtil.getItemHandler(te);
-          if (itemCap.isPresent()) {
-            itemHandler = itemCap;
-            itemHandler.addListener(itemListener);
-          }
+      Storage<FluidVariant> fluidCap = FluidStorage.SIDED.find(getLevel(), mainTank, null);
+      if (fluidCap != null) {
+        fluidHandler = fluidCap;
+//        fluidHandler.addListener(fluidListener);
+        throw new RuntimeException("Add listener");
+      } else {
+        Storage<ItemVariant> itemCap = ItemStorage.SIDED.find(getLevel(), mainTank, null);
+        if (itemCap != null) {
+          itemHandler = itemCap;
+//          itemHandler.addListener(itemListener);
+          throw new RuntimeException("Add listener");
         }
       }
     }
-    // ensure all handlers are set
-    if (fluidHandler == null) fluidHandler = LazyOptional.empty();
-    if (itemHandler == null) itemHandler = LazyOptional.empty();
-
     // if its an item, stop here
-    if (itemHandler.isPresent()) {
+    if (itemHandler != null) {
       return FuelInfo.ITEM;
     }
 

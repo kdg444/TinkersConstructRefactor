@@ -1,19 +1,21 @@
 package slimeknights.tconstruct.smeltery.block.entity.module;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
-import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.IOreRate;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe;
 
@@ -35,7 +37,7 @@ public class MeltingModuleInventory implements SlottedStackStorage, TransactionC
   /** Parent tile entity */
   private final MantleBlockEntity parent;
   /** Fluid handler for outputs */
-  protected final IFluidHandler fluidHandler;
+  protected final SlottedStorage<FluidVariant> fluidHandler;
   /** Array of modules containing each slot */
   private MeltingModule[] modules;
   /** If true, module cannot be resized */
@@ -50,7 +52,7 @@ public class MeltingModuleInventory implements SlottedStackStorage, TransactionC
    * @param oreRate        Ore rate
    * @param size           Size
    */
-  public MeltingModuleInventory(MantleBlockEntity parent, IFluidHandler fluidHandler, IOreRate oreRate, int size) {
+  public MeltingModuleInventory(MantleBlockEntity parent, SlottedStorage<FluidVariant> fluidHandler, IOreRate oreRate, int size) {
     this.parent = parent;
     this.fluidHandler = fluidHandler;
     this.modules = new MeltingModule[size];
@@ -64,7 +66,7 @@ public class MeltingModuleInventory implements SlottedStackStorage, TransactionC
    * @param fluidHandler   Tank for output
    * @param oreRate        Ore rate
    */
-  public MeltingModuleInventory(MantleBlockEntity parent, IFluidHandler fluidHandler, IOreRate oreRate) {
+  public MeltingModuleInventory(MantleBlockEntity parent, SlottedStorage<FluidVariant> fluidHandler, IOreRate oreRate) {
     this(parent, fluidHandler, oreRate, 0);
   }
 
@@ -90,7 +92,7 @@ public class MeltingModuleInventory implements SlottedStackStorage, TransactionC
   }
 
   @Override
-  public boolean isItemValid(int slot, ItemVariant stack) {
+  public boolean isItemValid(int slot, ItemVariant stack, int count) {
     return true;
   }
 
@@ -273,8 +275,11 @@ public class MeltingModuleInventory implements SlottedStackStorage, TransactionC
    */
   protected boolean tryFillTank(int index, IMeltingRecipe recipe) {
     FluidStack fluid = recipe.getOutput(getModule(index));
-    if (fluidHandler.fill(fluid.copy(), true) == fluid.getAmount()) {
-      fluidHandler.fill(fluid, false);
+    if (StorageUtil.simulateInsert(fluidHandler, fluid.getType(), fluid.getAmount(), null) == fluid.getAmount()) {
+      try (Transaction tx = TransferUtil.getTransaction()) {
+        fluidHandler.insert(fluid.getType(), fluid.getAmount(), tx);
+        tx.commit();
+      }
       return true;
     }
     return false;

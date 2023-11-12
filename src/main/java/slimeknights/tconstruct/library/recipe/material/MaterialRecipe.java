@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.recipe.material;
 
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import lombok.Getter;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
@@ -11,7 +12,6 @@ import net.minecraft.world.level.Level;
 import slimeknights.mantle.recipe.ICustomOutputRecipe;
 import slimeknights.mantle.recipe.container.ISingleStackContainer;
 import slimeknights.mantle.recipe.helper.ItemOutput;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariant;

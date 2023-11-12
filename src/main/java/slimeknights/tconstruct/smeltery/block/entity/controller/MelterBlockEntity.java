@@ -1,10 +1,11 @@
 package slimeknights.tconstruct.smeltery.block.entity.controller;
 
 import io.github.fabricators_of_create.porting_lib.block.ChunkUnloadListeningBlockEntity;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import lombok.Getter;
 import lombok.Setter;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
@@ -22,10 +23,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
-import slimeknights.mantle.transfer.fluid.FluidTank;
-import slimeknights.mantle.transfer.fluid.FluidTransferable;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
-import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
@@ -44,7 +41,7 @@ import slimeknights.tconstruct.smeltery.menu.MelterContainerMenu;
 import javax.annotation.Nullable;
 import java.util.Collections;
 
-public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity, FluidTransferable, SidedStorageBlockEntity, ChunkUnloadListeningBlockEntity, RenderAttachmentBlockEntity {
+public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity, SidedStorageBlockEntity, ChunkUnloadListeningBlockEntity, RenderAttachmentBlockEntity {
 
   /** Max capacity for the tank */
   private static final long TANK_CAPACITY = FluidValues.INGOT * 12;
@@ -59,8 +56,6 @@ public class MelterBlockEntity extends NameableBlockEntity implements ITankBlock
   /** Internal fluid tank output */
   @Getter
   protected final FluidTankAnimated tank = new FluidTankAnimated(TANK_CAPACITY, this);
-  /** Capability holder for the tank */
-  private final LazyOptional<IFluidHandler> tankHolder = LazyOptional.of(() -> tank);
   /** Tank data for the model */
   @Getter
   private final SinglePropertyData<FluidTank> modelData = new SinglePropertyData<>(ModelProperties.FLUID_TANK, tank);
@@ -115,8 +110,8 @@ public class MelterBlockEntity extends NameableBlockEntity implements ITankBlock
   
   @Nullable
   @Override
-  public LazyOptional<IFluidHandler> getFluidHandler(@Nullable Direction direction) {
-    return tankHolder;
+  public Storage<FluidVariant> getFluidStorage(@Nullable Direction direction) {
+    return tank;
   }
   
   @Nullable
@@ -134,12 +129,6 @@ public class MelterBlockEntity extends NameableBlockEntity implements ITankBlock
   @Override
   public void onChunkUnloaded() {
     invalidateCaps();
-  }
-  
-//  @Override
-  public void invalidateCaps() {
-//    super.invalidateCaps();
-    this.tankHolder.invalidate();
   }
 
   /*

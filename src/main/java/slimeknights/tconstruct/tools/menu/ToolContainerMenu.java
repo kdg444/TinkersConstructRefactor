@@ -4,8 +4,6 @@ import io.github.fabricators_of_create.porting_lib.transfer.item.ItemItemStorage
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import lombok.Getter;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
@@ -15,8 +13,6 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.inventory.SmartItemHandlerSlot;
-import slimeknights.mantle.transfer.item.IItemHandler;
-import slimeknights.mantle.transfer.item.IItemHandlerModifiable;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.tools.TinkerTools;

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.entity.module.alloying;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -22,7 +23,7 @@ public class SmelteryAlloyTank implements IMutableAlloyTank {
 
   @Override
   public int getTanks() {
-    return handler.getTanks();
+    return handler.getSlotCount();
   }
 
   @Override
@@ -38,11 +39,11 @@ public class SmelteryAlloyTank implements IMutableAlloyTank {
 
   @Override
   public FluidStack drain(int tank, FluidStack fluidStack) {
-    return handler.drain(fluidStack, false);
+    return new FluidStack(fluidStack.getType(), TransferUtil.extractFluid(handler, fluidStack));
   }
 
   @Override
   public long fill(FluidStack fluidStack) {
-    return handler.fill(fluidStack, false);
+    return TransferUtil.insertFluid(handler, fluidStack);
   }
 }

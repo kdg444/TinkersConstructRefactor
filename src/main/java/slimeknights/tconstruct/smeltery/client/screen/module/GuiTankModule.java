@@ -1,9 +1,10 @@
 package slimeknights.tconstruct.smeltery.client.screen.module;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.Getter;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -12,7 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import slimeknights.mantle.Mantle;
 import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.library.client.GuiUtil;
 
 import javax.annotation.Nullable;
@@ -29,12 +29,12 @@ public class GuiTankModule {
 
   private static final int TANK_INDEX = 0;
   private final AbstractContainerScreen<?> screen;
-  private final IFluidHandler tank;
+  private final SlottedStorage<FluidVariant> tank;
   @Getter
   private final int x, y, width, height;
   private final BiConsumer<Long,List<Component>> formatter;
 
-  public GuiTankModule(AbstractContainerScreen<?> screen, IFluidHandler tank, int x, int y, int width, int height, ResourceLocation tooltipId) {
+  public GuiTankModule(AbstractContainerScreen<?> screen, SlottedStorage<FluidVariant> tank, int x, int y, int width, int height, ResourceLocation tooltipId) {
     this.screen = screen;
     this.tank = tank;
     this.x = x;
@@ -59,11 +59,11 @@ public class GuiTankModule {
    * @return  Fluid height
    */
   private long getFluidHeight() {
-    long capacity =  tank.getTankCapacity(TANK_INDEX);
+    long capacity =  tank.getSlot(TANK_INDEX).getCapacity();
     if (capacity == 0) {
       return height;
     }
-    return height * tank.getFluidInTank(TANK_INDEX).getAmount() / capacity;
+    return height * tank.getSlot(TANK_INDEX).getAmount() / capacity;
   }
 
   /**
@@ -71,7 +71,7 @@ public class GuiTankModule {
    * @param graphics  Gui graphics instance
    */
   public void draw(GuiGraphics graphics) {
-    GuiUtil.renderFluidTank(graphics.pose(), screen, tank.getFluidInTank(TANK_INDEX), tank.getTankCapacity(TANK_INDEX), x, y, width, height, 100);
+    GuiUtil.renderFluidTank(graphics.pose(), screen, new FluidStack(tank.getSlot(TANK_INDEX)), tank.getSlot(TANK_INDEX).getCapacity(), x, y, width, height, 100);
   }
 
   /**
@@ -107,9 +107,9 @@ public class GuiTankModule {
     int checkY = mouseY - screen.topPos;
 
     if (isHovered(checkX, checkY)) {
-      FluidStack fluid = tank.getFluidInTank(TANK_INDEX);
+      FluidStack fluid = new FluidStack(tank.getSlot(TANK_INDEX));
       long amount = fluid.getAmount();
-      long capacity = tank.getTankCapacity(TANK_INDEX);
+      long capacity = tank.getSlot(TANK_INDEX).getCapacity();
 
       // if hovering over the fluid, display with name
       final List<Component> tooltip;
@@ -151,7 +151,7 @@ public class GuiTankModule {
   @Nullable
   public FluidStack getIngreientUnderMouse(int checkX, int checkY) {
     if (isHovered(checkX, checkY) && checkY > (y + height) - getFluidHeight()) {
-      return tank.getFluidInTank(TANK_INDEX);
+      return new FluidStack(tank.getSlot(TANK_INDEX));
     }
     return null;
   }

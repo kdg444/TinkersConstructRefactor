@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.library.recipe.melting;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import slimeknights.mantle.recipe.ICustomOutputRecipe;
@@ -39,7 +41,7 @@ public interface IMeltingRecipe extends ICustomOutputRecipe<IMeltingContainer> {
    * @param inv      Input inventory
    * @param handler  Fluid handler to fill with the byproduct
    */
-  default void handleByproducts(IMeltingContainer inv, IFluidHandler handler) {}
+  default void handleByproducts(IMeltingContainer inv, SlottedStorage<FluidVariant> handler) {}
 
   /* Recipe data */
 
