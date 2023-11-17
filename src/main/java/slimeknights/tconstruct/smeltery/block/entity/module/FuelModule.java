@@ -219,7 +219,7 @@ public class FuelModule implements ContainerData {
    * @return   Temperature of the consumed fuel, 0 if none found
    */
   private int tryLiquidFuel(Storage<FluidVariant> handler, boolean consume) {
-    FluidStack fluid = TransferUtil.getFirstFluid(handler);
+    FluidStack fluid = TransferUtil.firstOrEmpty(handler);
     MeltingFuel recipe = findRecipe(fluid.getFluid());
     if (recipe != null) {
       long amount = recipe.getAmount(fluid.getFluid());
