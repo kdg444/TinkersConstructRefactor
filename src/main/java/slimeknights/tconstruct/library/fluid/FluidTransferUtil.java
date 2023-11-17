@@ -12,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import slimeknights.mantle.fluid.FluidTransferHelper;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
 
 /**
  * Alternative to {@link net.minecraftforge.fluids.FluidUtil} since no one has time to make the forge util not a buggy mess

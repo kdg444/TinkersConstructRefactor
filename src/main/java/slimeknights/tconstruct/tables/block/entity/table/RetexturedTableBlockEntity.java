@@ -3,7 +3,6 @@ package slimeknights.tconstruct.tables.block.entity.table;
 import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
 import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
 import lombok.Getter;
-import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -16,14 +15,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
 import slimeknights.mantle.client.model.data.IModelData;
-import slimeknights.mantle.client.model.data.SinglePropertyData;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.shared.block.entity.TableBlockEntity;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
-public abstract class RetexturedTableBlockEntity extends TableBlockEntity implements IRetexturedBlockEntity, RenderAttachmentBlockEntity, CustomRenderBoundingBoxBlockEntity {
+public abstract class RetexturedTableBlockEntity extends TableBlockEntity implements IRetexturedBlockEntity, CustomRenderBoundingBoxBlockEntity {
   private static final String TAG_TEXTURE = "texture";
 
   private final Lazy<IModelData> data = Lazy.of(this::getRetexturedModelData);
@@ -42,7 +40,7 @@ public abstract class RetexturedTableBlockEntity extends TableBlockEntity implem
 
   @Nonnull
   @Override
-  public IModelData getRenderAttachmentData() {
+  public IModelData getRenderData() {
     return this.data.get();
   }
 

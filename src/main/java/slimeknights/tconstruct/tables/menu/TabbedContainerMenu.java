@@ -2,9 +2,12 @@ package slimeknights.tconstruct.tables.menu;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,7 +25,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.tuple.Pair;
 import slimeknights.mantle.inventory.EmptyItemHandler;
-import slimeknights.mantle.transfer.TransferUtil;
 import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.shared.inventory.TriggeringMultiModuleContainerMenu;
@@ -147,7 +149,7 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
 
       // if we found something, add the side inventory
       if (inventoryTE != null) {
-        int invSlots = TransferUtil.getItemHandler(inventoryTE, accessDir).orElse(EmptyItemHandler.INSTANCE).getSlots();
+        int invSlots = ((SlottedStorage<ItemVariant>)TransferUtil.getItemStorage(inventoryTE, accessDir)).getSlotCount();
         int columns = Mth.clamp((invSlots - 1) / 9 + 1, 3, 6);
         this.addSubContainer(new SideInventoryContainer<>(TinkerTables.craftingStationContainer.get(), containerId, inv, inventoryTE, accessDir, -6 - 18 * 6, 8, columns), false);
       }
@@ -174,7 +176,7 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
    * @return True if compatible.
    */
   private static boolean hasItemHandler(Level level, BlockPos pos, @Nullable Direction direction) {
-    return ItemStorage.SIDED.find(level, pos, direction) != null;
+    return ItemStorage.SIDED.find(level, pos, direction) instanceof SlottedStorage<ItemVariant>;
   }
 
 

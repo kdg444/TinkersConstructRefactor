@@ -1,8 +1,15 @@
 package slimeknights.tconstruct.smeltery.block.entity;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import lombok.Getter;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -26,10 +33,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
-import slimeknights.mantle.transfer.fluid.FluidTransferable;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
-import slimeknights.mantle.transfer.item.wrapper.SidedInvWrapper;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;
@@ -50,7 +53,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public abstract class CastingBlockEntity extends TableBlockEntity implements WorldlyContainer, FluidUpdatePacket.IFluidPacketReceiver, FluidTransferable {
+@SuppressWarnings("UnstableApiUsage")
+public abstract class CastingBlockEntity extends TableBlockEntity implements WorldlyContainer, FluidUpdatePacket.IFluidPacketReceiver, SidedStorageBlockEntity {
   // slots
   public static final int INPUT = 0;
   public static final int OUTPUT = 1;
@@ -69,7 +73,6 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
   /** Special casting fluid tank */
   @Getter
   private final CastingFluidHandler tank = new CastingFluidHandler(this);
-  private final LazyOptional<CastingFluidHandler> holder = LazyOptional.of(() -> tank);
 
   /* Casting recipes */
   /** Recipe type for casting recipes, may be basin or table */
@@ -112,7 +115,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
     super(beType, pos, state, NAME, 2, 1);
     this.requireCast = state.getBlock() instanceof AbstractCastingBlock casting && casting.isRequireCast();
     this.emptyCastTag = emptyCastTag;
-    this.itemHandler = new SidedInvWrapper(this, Direction.DOWN);
+    this.itemHandler = InventoryStorage.of(this, Direction.DOWN);
     this.castingType = castingType;
     this.moldingType = moldingType;
     this.castingInventory = new CastingContainerWrapper(this);
@@ -120,8 +123,8 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
   }
 
   @Override
-  public LazyOptional<IFluidHandler> getFluidHandler(@org.jetbrains.annotations.Nullable Direction direction) {
-    return holder.cast();
+  public Storage<FluidVariant> getFluidStorage(@org.jetbrains.annotations.Nullable Direction direction) {
+    return tank;
   }
 
   /**
@@ -129,7 +132,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
    * @param player Player activating the block.
    */
   public void interact(Player player, InteractionHand hand) {
-    if (level == null || level.isClientSide) {
+    if (level == null/* || level.isClientSide*/) {
       return;
     }
     // can't interact if liquid inside
@@ -360,7 +363,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
    * @param sim  EXECUTE or SIMULATE
    * @return        Amount of fluid needed for recipe, used to resize the tank.
    */
-  public long initNewCasting(FluidStack fluid, boolean sim) {
+  public long initNewCasting(FluidStack fluid, TransactionContext tx) {
     if (this.currentRecipe != null || this.recipeName != null) {
       return 0;
     }
@@ -383,11 +386,13 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
       castingInventory.useInput();
       ICastingRecipe castingRecipe = findCastingRecipe();
       if (castingRecipe != null) {
-        if (!sim) {
-          this.currentRecipe = castingRecipe;
-          this.recipeName = null;
-          this.lastOutput = null;
-        }
+        tx.addOuterCloseCallback(result -> {
+          if (result.wasCommitted()) {
+            this.currentRecipe = castingRecipe;
+            this.recipeName = null;
+            this.lastOutput = null;
+          }
+        });
         return castingRecipe.getFluidAmount(castingInventory);
       }
     } else {
@@ -395,15 +400,17 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
       castingInventory.useOutput();
       ICastingRecipe castingRecipe = findCastingRecipe();
       if (castingRecipe != null) {
-        if (!sim) {
-          this.currentRecipe = castingRecipe;
-          this.recipeName = null;
-          this.lastOutput = null;
-          // move output to input slot, prevents removing and ensures item is reduced properly
-          setItem(INPUT, getItem(OUTPUT));
-          setItem(OUTPUT, ItemStack.EMPTY);
-          castingInventory.useInput();
-        }
+        tx.addOuterCloseCallback(result -> {
+          if (result.wasCommitted()) {
+            this.currentRecipe = castingRecipe;
+            this.recipeName = null;
+            this.lastOutput = null;
+            // move output to input slot, prevents removing and ensures item is reduced properly
+            setItem(INPUT, getItem(OUTPUT));
+            setItem(OUTPUT, ItemStack.EMPTY);
+            castingInventory.useInput();
+          }
+        });
         return castingRecipe.getFluidAmount(castingInventory);
       }
     }
@@ -449,9 +456,12 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
     if (fluid.isEmpty()) {
       reset();
     } else {
-      long capacity = initNewCasting(fluid, false);
-      if (capacity > 0) {
-        tank.setCapacity(capacity);
+      try (Transaction tx = TransferUtil.getTransaction()) {
+        long capacity = initNewCasting(fluid, tx);
+        if (capacity > 0) {
+          tank.setCapacity(capacity);
+        }
+        tx.commit();
       }
     }
     tank.setFluid(fluid);

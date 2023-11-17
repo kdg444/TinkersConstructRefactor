@@ -4,7 +4,6 @@ import io.github.fabricators_of_create.porting_lib.block.ChunkUnloadListeningBlo
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import lombok.Getter;
 import lombok.Setter;
-import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -41,7 +40,7 @@ import slimeknights.tconstruct.smeltery.menu.MelterContainerMenu;
 import javax.annotation.Nullable;
 import java.util.Collections;
 
-public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity, SidedStorageBlockEntity, ChunkUnloadListeningBlockEntity, RenderAttachmentBlockEntity {
+public class MelterBlockEntity extends NameableBlockEntity implements ITankBlockEntity, SidedStorageBlockEntity, ChunkUnloadListeningBlockEntity {
 
   /** Max capacity for the tank */
   private static final long TANK_CAPACITY = FluidValues.INGOT * 12;
@@ -211,7 +210,7 @@ public class MelterBlockEntity extends NameableBlockEntity implements ITankBlock
   }
 
   @Override
-  public Object getRenderAttachmentData() {
+  public Object getRenderData() {
     return modelData;
   }
 }

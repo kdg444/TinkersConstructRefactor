@@ -2,10 +2,8 @@ package slimeknights.tconstruct.smeltery.block.entity.component;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import lombok.Setter;
-import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -20,7 +18,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.client.model.data.SinglePropertyData;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.library.client.model.ModelProperties;
 import slimeknights.tconstruct.library.fluid.FluidTankAnimated;
 import slimeknights.tconstruct.library.utils.NBTTags;
@@ -32,7 +29,7 @@ import slimeknights.tconstruct.smeltery.item.TankItem;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITankBlockEntity, SidedStorageBlockEntity, RenderAttachmentBlockEntity {
+public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITankBlockEntity, SidedStorageBlockEntity {
   /** Max capacity for the tank */
   public static final long DEFAULT_CAPACITY = FluidConstants.BUCKET * 4;
 
@@ -101,7 +98,7 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
 
   @Nonnull
   @Override
-  public Object getRenderAttachmentData() {
+  public Object getRenderData() {
     return modelData;
   }
 

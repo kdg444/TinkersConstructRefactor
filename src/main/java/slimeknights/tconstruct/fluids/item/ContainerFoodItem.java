@@ -2,6 +2,7 @@ package slimeknights.tconstruct.fluids.item;
 
 import com.mojang.datafixers.util.Pair;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import slimeknights.tconstruct.fluids.util.ConstantFluidContainerWrapper;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -76,12 +78,7 @@ public class ContainerFoodItem extends Item {
     public FluidContainerFoodItem(Properties props, Supplier<FluidStack> fluid) {
       super(props);
       this.fluid = fluid;
+      FluidStorage.ITEM.registerForItems((itemStack, context) -> new ConstantFluidContainerWrapper(fluid.get(), itemStack, context), this);
     }
-
-//    @Nullable TODO: PORT
-//    @Override
-//    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-//      return new ConstantFluidContainerWrapper(fluid.get(), stack);
-//    }
   }
 }

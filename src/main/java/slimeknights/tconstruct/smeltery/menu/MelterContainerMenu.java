@@ -12,9 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import slimeknights.mantle.inventory.SmartItemHandlerSlot;
-import slimeknights.mantle.transfer.TransferUtil;
 import slimeknights.mantle.util.sync.ValidZeroDataSlot;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -24,7 +22,6 @@ import slimeknights.tconstruct.smeltery.block.entity.controller.MelterBlockEntit
 import slimeknights.tconstruct.smeltery.block.entity.module.MeltingModuleInventory;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 @SuppressWarnings("UnstableApiUsage")

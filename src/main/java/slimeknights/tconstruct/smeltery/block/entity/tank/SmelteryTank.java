@@ -166,7 +166,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> ex
       if (fluid.isFluidEqual(resource)) {
         // yup. add it
         fluid.grow(usable);
-        transaction.addCloseCallback((tx, result) -> {
+        transaction.addOuterCloseCallback((result) -> {
           if (result.wasCommitted())
             parent.notifyFluidsChanged(FluidChange.CHANGED, fluid);
         });
@@ -177,7 +177,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> ex
     // not present yet, add it
     var fluid = new FluidStack(resource, usable);
     fluids.add(fluid);
-    transaction.addCloseCallback((tx, result) -> {
+    transaction.addOuterCloseCallback((result) -> {
       if (result.wasCommitted())
         parent.notifyFluidsChanged(FluidChange.ADDED, fluid);
     });
@@ -205,12 +205,12 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> ex
         // if now empty, remove from the list
         if (fluid.getAmount() <= 0) {
           iter.remove();
-          transaction.addCloseCallback((tx, result) -> {
+          transaction.addOuterCloseCallback((result) -> {
             if (result.wasCommitted())
               parent.notifyFluidsChanged(FluidChange.REMOVED, fluid);
           });
         } else {
-          transaction.addCloseCallback((tx, result) -> {
+          transaction.addOuterCloseCallback((result) -> {
             if (result.wasCommitted())
               parent.notifyFluidsChanged(FluidChange.CHANGED, fluid);
           });
@@ -323,7 +323,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> ex
       if (fluid.isFluidEqual(resource)) {
         // yup. add it
         fluid.grow(usable);
-        transaction.addCloseCallback((tx, result) -> {
+        transaction.addOuterCloseCallback((result) -> {
           if (result.wasCommitted())
             parent.notifyFluidsChanged(FluidChange.CHANGED, fluid);
         });
@@ -333,7 +333,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> ex
       // not present yet, add it
       var fluid = new FluidStack(resource, usable);
       fluids.add(fluid);
-      transaction.addCloseCallback((tx, result) -> {
+      transaction.addOuterCloseCallback((result) -> {
         if (result.wasCommitted())
           parent.notifyFluidsChanged(FluidChange.ADDED, fluid);
       });
@@ -355,7 +355,7 @@ public class SmelteryTank<T extends MantleBlockEntity & ISmelteryTankHandler> ex
         fluid.shrink(drainable);
         contained -= drainable;
         // if now empty, remove from the list
-        transaction.addCloseCallback((tx, result) -> {
+        transaction.addOuterCloseCallback((result) -> {
           if (result.wasCommitted()) {
             if (fluid.getAmount() <= 0) {
               SmelteryTank.this.fluids.remove(slot);

@@ -1,54 +1,44 @@
 package slimeknights.tconstruct.library.fluid;
 
-import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 
-import javax.annotation.Nonnull;
+import java.util.Iterator;
 
 /**
  * Fluid handler wrapper that only allows filling
  */
-public class FillOnlyFluidHandler implements IFluidHandler {
-	private final IFluidHandler parent;
-	public FillOnlyFluidHandler(IFluidHandler parent) {
+public class FillOnlyFluidHandler implements SlottedStorage<FluidVariant> {
+	private final SlottedStorage<FluidVariant> parent;
+	public FillOnlyFluidHandler(SlottedStorage<FluidVariant> parent) {
 		this.parent = parent;
 	}
 
-	@Override
-	public int getTanks() {
-		return parent.getTanks();
-	}
+  @Override
+  public int getSlotCount() {
+    return this.parent.getSlotCount();
+  }
 
-	@Nonnull
-	@Override
-	public FluidStack getFluidInTank(int tank) {
-		return parent.getFluidInTank(tank);
-	}
+  @Override
+  public SingleSlotStorage<FluidVariant> getSlot(int slot) {
+    return this.parent.getSlot(slot);
+  }
 
-	@Override
-	public long getTankCapacity(int tank) {
-		return parent.getTankCapacity(tank);
-	}
+  @Override
+  public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+    return this.parent.insert(resource, maxAmount, transaction);
+  }
 
-	@Override
-	public boolean isFluidValid(int tank, FluidStack stack) {
-		return false;
-	}
+  @Override
+  public long extract(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+    return 0;
+  }
 
-	@Override
-	public long fill(FluidStack resource, boolean sim) {
-		return parent.fill(resource, sim);
-	}
-
-	@Nonnull
-	@Override
-	public FluidStack drain(FluidStack resource, boolean sim) {
-		return FluidStack.EMPTY;
-	}
-
-	@Nonnull
-	@Override
-	public FluidStack drain(long maxDrain, boolean sim) {
-		return FluidStack.EMPTY;
-	}
+  @Override
+  public Iterator<StorageView<FluidVariant>> iterator() {
+    return this.parent.iterator();
+  }
 }

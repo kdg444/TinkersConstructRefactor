@@ -177,7 +177,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
   }
 
   @Override
-  public IModelData getRenderAttachmentData() {
+  public IModelData getRenderData() {
     return getRetexturedModelData();
   }
 
@@ -206,7 +206,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
     }
 
     @Override
-    public IModelData getRenderAttachmentData() {
+    public IModelData getRenderData() {
       return getModelData();
     }
 

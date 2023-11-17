@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.tables.block;
 
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -21,7 +23,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.tconstruct.tables.block.entity.chest.AbstractChestBlockEntity;
 import slimeknights.tconstruct.tables.block.entity.inventory.IChestItemHandler;
 
@@ -95,7 +96,7 @@ public class ChestBlock extends TabbedTableBlock {
   }
 
   @Override
-  protected void dropInventoryItems(BlockState state, Level worldIn, BlockPos pos, IItemHandler inventory) {
+  protected void dropInventoryItems(BlockState state, Level worldIn, BlockPos pos, Storage<ItemVariant> inventory) {
     if (dropsItems) {
       dropInventoryItems(worldIn, pos, inventory);
     }

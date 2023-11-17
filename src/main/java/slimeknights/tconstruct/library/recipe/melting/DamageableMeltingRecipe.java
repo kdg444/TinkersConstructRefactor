@@ -11,7 +11,6 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 import java.util.List;

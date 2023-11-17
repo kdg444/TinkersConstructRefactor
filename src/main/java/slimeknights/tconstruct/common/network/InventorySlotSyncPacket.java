@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.common.network;
 
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -7,8 +9,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
-import slimeknights.mantle.transfer.TransferUtil;
-import slimeknights.mantle.transfer.item.IItemHandlerModifiable;
+
+import java.util.Optional;
 
 public class InventorySlotSyncPacket implements IThreadsafePacket {
 
@@ -47,10 +49,10 @@ public class InventorySlotSyncPacket implements IThreadsafePacket {
       if (world != null) {
         BlockEntity te = world.getBlockEntity(packet.pos);
         if (te != null) {
-          TransferUtil.getItemHandler(te)
-            .filter(cap -> cap instanceof IItemHandlerModifiable)
+          Optional.ofNullable(TransferUtil.getItemStorage(te))
+            .filter(cap -> cap instanceof SlottedStackStorage)
             .ifPresent(cap -> {
-              ((IItemHandlerModifiable)cap).setStackInSlot(packet.slot, packet.itemStack);
+              ((SlottedStackStorage)cap).setStackInSlot(packet.slot, packet.itemStack);
               //noinspection ConstantConditions
               Minecraft.getInstance().levelRenderer.blockChanged(null, packet.pos, null, null, 0);
             });

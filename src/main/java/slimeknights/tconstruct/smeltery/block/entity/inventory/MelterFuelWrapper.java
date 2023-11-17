@@ -1,9 +1,11 @@
 package slimeknights.tconstruct.smeltery.block.entity.inventory;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import slimeknights.mantle.transfer.fluid.FluidTank;
 import slimeknights.tconstruct.library.recipe.fuel.IFluidContainer;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 
@@ -69,7 +71,11 @@ public class MelterFuelWrapper implements IFluidContainer {
       long amount = fuel.getAmount(this);
       if (amount > 0) {
         // TODO: assert drained valid?
-        long drained = tank.drain(amount, false).getAmount();
+        long drained;
+        try (Transaction tx = TransferUtil.getTransaction()) {
+          drained = tank.extract(tank.getResource(), amount, tx);
+          tx.commit();
+        }
         int duration = fuel.getDuration();
         if (drained < amount) {
           return duration * drained / amount;

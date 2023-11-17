@@ -4,7 +4,6 @@ import io.github.fabricators_of_create.porting_lib.block.CustomDataPacketHandlin
 import io.github.fabricators_of_create.porting_lib.block.CustomUpdateTagHandlingBlockEntity;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.Getter;
-import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;

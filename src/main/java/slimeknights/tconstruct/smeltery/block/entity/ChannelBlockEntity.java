@@ -1,25 +1,27 @@
 package slimeknights.tconstruct.smeltery.block.entity;
 
 import io.github.fabricators_of_create.porting_lib.block.CustomRenderBoundingBoxBlockEntity;
-import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
-import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import io.github.fabricators_of_create.porting_lib.common.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
+import io.github.fabricators_of_create.porting_lib.util.StorageProvider;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Plane;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Mth;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import slimeknights.mantle.transfer.TransferUtil;
-import slimeknights.mantle.transfer.fluid.EmptyFluidHandler;
-import slimeknights.mantle.transfer.fluid.FluidTransferable;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.fluid.FillOnlyFluidHandler;
@@ -35,30 +37,32 @@ import slimeknights.tconstruct.smeltery.network.FluidUpdatePacket.IFluidPacketRe
 import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Logic for channel fluid transfer
  */
-public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacketReceiver, FluidTransferable, CustomRenderBoundingBoxBlockEntity {
+@SuppressWarnings("UnstableApiUsage")
+public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacketReceiver, SidedStorageBlockEntity, CustomRenderBoundingBoxBlockEntity {
 	/** Channel internal tank */
 	private final ChannelTank tank = new ChannelTank(FaucetBlockEntity.DROPLETS_PER_TICK * 3, this);
 	/** Handler to return from channel top */
-	private final LazyOptional<IFluidHandler> topHandler = LazyOptional.of(() -> new FillOnlyFluidHandler(tank));
+	private final Storage<FluidVariant> topHandler = new FillOnlyFluidHandler(tank);
 	/** Tanks for inserting on each side */
-	private final Map<Direction,IFluidHandler> sideTanks = Util.make(new EnumMap<>(Direction.class), map -> {
+	private final Map<Direction,Storage<FluidVariant>> sideTanks = Util.make(new EnumMap<>(Direction.class), map -> {
 		for (Direction direction : Plane.HORIZONTAL) {
 			map.put(direction, new ChannelSideTank(this, tank, direction));
 		}
 	});
 	/** Tanks for inserting on each side */
-	private final Map<Direction,LazyOptional<IFluidHandler>> sideHandlers = new EnumMap<>(Direction.class);
+	private final Map<Direction,Storage<FluidVariant>> sideHandlers = new EnumMap<>(Direction.class);
 	/** Tanks for alerting neighbors the given side is present */
-	private final Map<Direction,LazyOptional<IFluidHandler>> emptySideHandler = new EnumMap<>(Direction.class);
+	private final Map<Direction,Storage<FluidVariant>> emptySideHandler = new EnumMap<>(Direction.class);
 
 	/** Cache of tanks on all neighboring sides */
-	private final Map<Direction,LazyOptional<IFluidHandler>> neighborTanks = new EnumMap<>(Direction.class);
+	private final Map<Direction, StorageProvider<FluidVariant>> neighborTanks = new EnumMap<>(Direction.class);
 	/** Consumers to attach to each of the neighbors */
-	private final Map<Direction, NonNullConsumer<LazyOptional<IFluidHandler>>> neighborConsumers = new EnumMap<>(Direction.class);
+	private final Map<Direction, NonNullConsumer<Storage<FluidVariant>>> neighborConsumers = new EnumMap<>(Direction.class);
 
   /** Ticker instance for this TE, serverside only */
   public static final BlockEntityTicker<ChannelBlockEntity> SERVER_TICKER = (level, pos, state, self) -> self.tick(state);
@@ -87,33 +91,23 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 		return new AABB(worldPosition.getX(), worldPosition.getY() - 1, worldPosition.getZ(), worldPosition.getX() + 1, worldPosition.getY() + 1, worldPosition.getZ() + 1);
 	}
 
-	/** Called when a capability invalidates to clear the given side */
-	private void invalidateSide(Direction side, LazyOptional<IFluidHandler> capability) {
-		if (!this.isRemoved()) {
-			if (neighborTanks.get(side) == capability) {
-				neighborTanks.remove(side);
-			}
-		}
-	}
-
-
 	/* Fluid handlers */
 
   @Override
-  public LazyOptional<IFluidHandler> getFluidHandler(@Nullable Direction side) {
+  public Storage<FluidVariant> getFluidStorage(@Nullable Direction side) {
     if (side == null || side == Direction.UP) {
-      return topHandler.cast();
+      return topHandler;
     }
     // side tanks keep track of which side inserts
     if (side != Direction.DOWN) {
       ChannelConnection connection = getBlockState().getValue(ChannelBlock.DIRECTION_MAP.get(side));
       if (connection == ChannelConnection.IN) {
-        return sideHandlers.computeIfAbsent(side, s -> LazyOptional.of(() -> sideTanks.get(s))).cast();
+        return sideHandlers.computeIfAbsent(side, sideTanks::get);
       }
       // for out, return an empty fluid handler so the block we are pouring into knows we support fluids, even though we disallow any interaction
       // this will get invalidated when the connection goes back to in later
       if (connection == ChannelConnection.OUT) {
-        return emptySideHandler.computeIfAbsent(side, s -> LazyOptional.of(() -> EmptyFluidHandler.INSTANCE)).cast();
+        return emptySideHandler.computeIfAbsent(side, s -> Storage.empty());
       }
     }
     return null;
@@ -124,15 +118,9 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	 * @param side  Side of the neighbor to fetch
 	 * @return  Fluid handler, or empty
 	 */
-	private LazyOptional<IFluidHandler> getNeighborHandlerUncached(Direction side) {
+	private StorageProvider<FluidVariant> getNeighborHandlerUncached(Direction side) {
 		assert level != null;
-		// must have a fluid handler
-    LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(level, worldPosition.relative(side), side.getOpposite());
-    if (handler.isPresent()) {
-      handler.addListener(neighborConsumers.computeIfAbsent(side, s -> new WeakConsumerWrapper<>(this, (self, lazy) -> self.invalidateSide(s, lazy))));
-      return handler;
-    }
-		return LazyOptional.empty();
+		return StorageProvider.createForFluids(level, worldPosition.relative(side));
 	}
 
 	/**
@@ -140,7 +128,7 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	 * @param side  Side of the neighbor to fetch
 	 * @return  Fluid handler, or empty
 	 */
-	protected LazyOptional<IFluidHandler> getNeighborHandler(Direction side) {
+	protected StorageProvider<FluidVariant> getNeighborHandler(Direction side) {
 		return neighborTanks.computeIfAbsent(side, this::getNeighborHandlerUncached);
 	}
 
@@ -169,36 +157,36 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 			if (connection != ChannelConnection.OUT) {
 				neighborTanks.remove(Direction.DOWN);
 				// remove the empty handler, mostly so the neighbor knows to update
-				LazyOptional<IFluidHandler> handler = emptySideHandler.remove(side);
+        Storage<FluidVariant> handler = emptySideHandler.remove(side);
 				if (handler != null) {
-					handler.invalidate();
+//					handler.invalidate();
 				}
 			}
 			// remove the side handler, if we changed from out or from in the handler is no longer correct
 			if (connection != ChannelConnection.IN) {
-				LazyOptional<IFluidHandler> handler = sideHandlers.remove(side);
+        Storage<FluidVariant> handler = sideHandlers.remove(side);
 				if (handler != null) {
-					handler.invalidate();
+//					handler.invalidate();
 				}
 			}
 		}
 	}
 
 //	@Override
-	public void invalidateCaps() {
+//	public void invalidateCaps() {
 //		super.invalidateCaps();
-		topHandler.invalidate();
-		for (LazyOptional<IFluidHandler> handler : sideHandlers.values()) {
-			if (handler != null) {
-				handler.invalidate();
-			}
-		}
-		for (LazyOptional<IFluidHandler> handler : emptySideHandler.values()) {
-			if (handler != null) {
-				handler.invalidate();
-			}
-		}
-	}
+//		topHandler.invalidate();
+//		for (LazyOptional<IFluidHandler> handler : sideHandlers.values()) {
+//			if (handler != null) {
+//				handler.invalidate();
+//			}
+//		}
+//		for (LazyOptional<IFluidHandler> handler : emptySideHandler.values()) {
+//			if (handler != null) {
+//				handler.invalidate();
+//			}
+//		}
+//	}
 
 
 	/* Flowing property */
@@ -354,7 +342,7 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 
 		// get the handler on the side, try filling
     // TODO: handle the case of no fluid handler on the side that may later become a handler
-		return getNeighborHandler(side).filter(handler -> fill(side, handler, flowRate))
+		return Optional.ofNullable(getNeighborHandler(side).get(side.getOpposite())).filter(handler -> fill(side, handler, flowRate))
 																	 .isPresent();
 	}
 
@@ -365,17 +353,20 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	 * @param amount   Amount to fill
 	 * @return  True if the side successfully filled something
 	 */
-	protected boolean fill(Direction side, IFluidHandler handler, long amount) {
+	protected boolean fill(Direction side, Storage<FluidVariant> handler, long amount) {
 		// make sure we do not allow more than the fluid allows, should not happen but just in case
 		long usable = Math.min(tank.getMaxUsable(), amount);
 		if (usable > 0) {
 			// see how much works
-			FluidStack fluid = tank.drain(usable, true);
-			long filled = handler.fill(fluid, true);
+			long fluid = StorageUtil.simulateExtract(tank, tank.getResource(), usable, null);
+			long filled = StorageUtil.simulateInsert(handler, tank.getResource(), fluid, null);
 			if (filled > 0) {
 				// drain the amount that worked
-				fluid = tank.drain(filled, false);
-				handler.fill(fluid, false);
+        try (Transaction tx = TransferUtil.getTransaction()) {
+          fluid = tank.extract(tank.getResource(), filled, tx);
+          handler.insert(tank.getResource(), fluid, tx);
+          tx.commit();
+        }
 
 				// mark that the side is flowing
 				setFlow(side, true);

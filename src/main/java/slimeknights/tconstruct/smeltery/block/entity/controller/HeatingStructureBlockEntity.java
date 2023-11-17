@@ -38,8 +38,6 @@ import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.mantle.client.model.data.IModelData;
 import slimeknights.mantle.client.model.data.ModelDataMap;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
-import slimeknights.mantle.transfer.item.IItemHandler;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.common.multiblock.IMasterLogic;
@@ -626,7 +624,7 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
   }
 
   @Override
-  public IModelData getRenderAttachmentData() {
+  public IModelData getRenderData() {
     return modelData;
   }
 }

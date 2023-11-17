@@ -5,6 +5,7 @@ import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import io.github.fabricators_of_create.porting_lib.common.util.NonNullConsumer;
 import io.github.fabricators_of_create.porting_lib.common.util.NonNullFunction;
+import io.github.fabricators_of_create.porting_lib.util.StorageProvider;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -65,16 +66,16 @@ public class FuelModule implements ContainerData {
   private MeltingFuel lastRecipe;
   /** Last fluid handler where fluid was extracted */
   @Nullable
-  private Storage<FluidVariant> fluidHandler;
+  private StorageProvider<FluidVariant> fluidHandler;
   /** Last item handler where items were extracted */
   @Nullable
-  private Storage<ItemVariant> itemHandler;
+  private StorageProvider<ItemVariant> itemHandler;
   /** Position of the last fluid handler */
   private BlockPos lastPos = NULL_POS;
 
 
   /** Client fuel display */
-  private List<SlottedStorage<FluidVariant>> tankDisplayHandlers;
+  private List<BlockPos> tankDisplayHandlers;
   /** Listener to attach to display capabilities */
   private final NonNullConsumer<SlottedStorage<FluidVariant>> displayListener = new WeakConsumerWrapper<>(this, (self, cap) -> {
     if (self.tankDisplayHandlers != null) {
@@ -161,36 +162,40 @@ public class FuelModule implements ContainerData {
    * @return   Temperature of the consumed fuel, 0 if none found
    */
   private int trySolidFuel(Storage<ItemVariant> handler, boolean consume) {
-    for (StorageView<ItemVariant> view : handler) {
+    for (StorageView<ItemVariant> view : handler.nonEmptyViews()) {
+      ItemStack stack = view.getResource().toStack((int) view.getAmount());
       int time = 0;
       if (FuelRegistry.INSTANCE.get(view.getResource().getItem()) != null)
         time = FuelRegistry.INSTANCE.get(view.getResource().getItem()/*, TinkerRecipeTypes.FUEL.get()*/) / 4;
       if (time > 0) {
         if (consume) {
-          ItemStack extracted = handler.extractItem(i, 1, false);
-          if (ItemStack.isSameItem(extracted, stack) && !stack.isEmpty()) {
-            fuel += time;
-            fuelQuality = time;
-            temperature = SOLID_TEMPERATURE;
-            parent.setChangedFast();
-            // return the container
-            ItemStack container = extracted.getRecipeRemainder();
-            if (!container.isEmpty()) {
-              // if we cannot insert the container back, spit it on the ground
-              ItemStack notInserted = ItemHandlerHelper.insertItem(handler, container, false);
-              if (!notInserted.isEmpty()) {
-                Level world = getLevel();
-                double x = (world.random.nextFloat() * 0.5F) + 0.25D;
-                double y = (world.random.nextFloat() * 0.5F) + 0.25D;
-                double z = (world.random.nextFloat() * 0.5F) + 0.25D;
-                BlockPos pos = lastPos == NULL_POS ? parent.getBlockPos() : lastPos;
-                ItemEntity itementity = new ItemEntity(world, pos.getX() + x, pos.getY() + y, pos.getZ() + z, container);
-                itementity.setDefaultPickUpDelay();
-                world.addFreshEntity(itementity);
+          try (Transaction tx = TransferUtil.getTransaction()) {
+            view.extract(view.getResource(), 1, tx);
+            if (view.getResource().matches(stack) && !stack.isEmpty()) {
+              fuel += time;
+              fuelQuality = time;
+              temperature = SOLID_TEMPERATURE;
+              parent.setChangedFast();
+              // return the container
+              ItemStack container = view.getResource().toStack((int) view.getAmount()).getRecipeRemainder();
+              if (!container.isEmpty()) {
+                // if we cannot insert the container back, spit it on the ground
+                long inserted = TransferUtil.insertItem(handler, container);
+                if (inserted == 0) {
+                  Level world = getLevel();
+                  double x = (world.random.nextFloat() * 0.5F) + 0.25D;
+                  double y = (world.random.nextFloat() * 0.5F) + 0.25D;
+                  double z = (world.random.nextFloat() * 0.5F) + 0.25D;
+                  BlockPos pos = lastPos == NULL_POS ? parent.getBlockPos() : lastPos;
+                  ItemEntity itementity = new ItemEntity(world, pos.getX() + x, pos.getY() + y, pos.getZ() + z, container);
+                  itementity.setDefaultPickUpDelay();
+                  world.addFreshEntity(itementity);
+                }
               }
+            } else {
+              TConstruct.LOG.error("Invalid item removed from solid fuel handler");
             }
-          } else {
-            TConstruct.LOG.error("Invalid item removed from solid fuel handler");
+            tx.commit();
           }
         }
         return SOLID_TEMPERATURE;
@@ -255,27 +260,23 @@ public class FuelModule implements ContainerData {
    * @return   Temperature of the consumed fuel, 0 if none found
    */
   private int tryFindFuel(BlockPos pos, boolean consume) {
-    BlockEntity te = getLevel().getBlockEntity(pos);
     // if we find a valid cap, try to consume fuel from it
     Storage<FluidVariant> storage = FluidStorage.SIDED.find(getLevel(), pos, null);
     Optional<Integer> temperature = Optional.ofNullable(storage).map(tryLiquidFuel(consume));
     if (temperature.isPresent()) {
       itemHandler = null;
-      fluidHandler = storage;
+      fluidHandler = StorageProvider.createForFluids(getLevel(), pos);;
       tankDisplayHandlers = null;
-//        storage.addListener(fluidListener);
-      throw new RuntimeException("Add listener");
       lastPos = pos;
       return temperature.get();
     } else {
       // if we find a valid item cap, consume fuel from that
-      LazyOptional<IItemHandler> itemCap = TransferUtil.getItemHandler(te);
-      temperature = itemCap.map(trySolidFuel(consume));
+      Storage<ItemVariant> itemCap = ItemStorage.SIDED.find(getLevel(), pos, null);
+      temperature = Optional.ofNullable(itemCap).map(trySolidFuel(consume));
       if (temperature.isPresent()) {
         fluidHandler = null;
         tankDisplayHandlers = null;
-        itemHandler = itemCap;
-        itemCap.addListener(itemListener);
+        itemHandler = StorageProvider.createForItems(getLevel(), pos);
         lastPos = pos;
         return temperature.get();
       }
@@ -292,9 +293,9 @@ public class FuelModule implements ContainerData {
     // if we have a handler, try to use that if possible
     Optional<Integer> handlerTemp = Optional.empty();
     if (fluidHandler != null) {
-      handlerTemp = Optional.of(fluidHandler).map(tryLiquidFuel(consume));
+      handlerTemp = Optional.ofNullable(getFluidStorage()).map(tryLiquidFuel(consume));
     } else if (itemHandler != null) {
-      handlerTemp = Optional.of(itemHandler).map(trySolidFuel(consume));
+      handlerTemp = Optional.ofNullable(getItemStorage()).map(trySolidFuel(consume));
     // if no handler, try to find one at the last position
     } else if (lastPos != NULL_POS) {
       int posTemp = tryFindFuel(lastPos, consume);
@@ -324,6 +325,22 @@ public class FuelModule implements ContainerData {
       temperature = 0;
     }
     return 0;
+  }
+
+  public Storage<FluidVariant> getFluidStorage() {
+    Storage<FluidVariant> storage = fluidHandler.get(null);
+    if (storage == null) {
+      reset();
+    }
+    return storage;
+  }
+
+  public Storage<ItemVariant> getItemStorage() {
+    Storage<ItemVariant> storage = itemHandler.get(null);
+    if (storage == null) {
+      reset();
+    }
+    return storage;
   }
 
   /* Tag */
@@ -444,18 +461,13 @@ public class FuelModule implements ContainerData {
 
     // fetch primary fuel handler
     if (fluidHandler == null && itemHandler == null) {
-      BlockEntity te = getLevel().getBlockEntity(mainTank);
       Storage<FluidVariant> fluidCap = FluidStorage.SIDED.find(getLevel(), mainTank, null);
       if (fluidCap != null) {
-        fluidHandler = fluidCap;
-//        fluidHandler.addListener(fluidListener);
-        throw new RuntimeException("Add listener");
+        fluidHandler = StorageProvider.createForFluids(getLevel(), mainTank);
       } else {
         Storage<ItemVariant> itemCap = ItemStorage.SIDED.find(getLevel(), mainTank, null);
         if (itemCap != null) {
-          itemHandler = itemCap;
-//          itemHandler.addListener(itemListener);
-          throw new RuntimeException("Add listener");
+          itemHandler = StorageProvider.createForItems(getLevel(), mainTank);
         }
       }
     }
@@ -465,16 +477,19 @@ public class FuelModule implements ContainerData {
     }
 
     // determine what fluid we have and hpw many other fluids we have
-    FuelInfo info = fluidHandler.map(handler -> {
-      FluidStack fluid = handler.getFluidInTank(0);
-      int temperature = 0;
-      if (!fluid.isEmpty()) {
-        MeltingFuel fuel = findRecipe(fluid.getFluid());
-        if (fuel != null) {
-          temperature = fuel.getTemperature();
+    FuelInfo info = Optional.ofNullable(getFluidStorage()).map(handler -> {
+      for (StorageView<FluidVariant> view : handler.nonEmptyViews()) {
+        FluidStack fluid = new FluidStack(view);
+        int temperature = 0;
+        if (!fluid.isEmpty()) {
+          MeltingFuel fuel = findRecipe(fluid.getFluid());
+          if (fuel != null) {
+            temperature = fuel.getTemperature();
+          }
         }
+        return FuelInfo.of(fluid, view.getCapacity(), temperature);
       }
-      return FuelInfo.of(fluid, handler.getTankCapacity(0), temperature);
+      return FuelInfo.EMPTY;
     }).orElse(FuelInfo.EMPTY);
 
     // add extra fluid display
@@ -487,13 +502,9 @@ public class FuelModule implements ContainerData {
         if (positions == null) positions = tankSupplier.get();
         for (BlockPos pos : positions) {
           if (!pos.equals(mainTank)) {
-            BlockEntity te = world.getBlockEntity(pos);
-            if (te != null) {
-              LazyOptional<IFluidHandler> handler = TransferUtil.getFluidHandler(te);
-              if (handler.isPresent()) {
-                handler.addListener(displayListener);
-                tankDisplayHandlers.add(handler);
-              }
+            Storage<FluidVariant> handler = FluidStorage.SIDED.find(world, pos, null);
+            if (handler != null) {
+              tankDisplayHandlers.add(pos);
             }
           }
         }
@@ -501,16 +512,21 @@ public class FuelModule implements ContainerData {
 
       // add display info from each handler
       FluidStack currentFuel = info.getFluid();
-      for (LazyOptional<IFluidHandler> capability : tankDisplayHandlers) {
-        capability.ifPresent(handler -> {
+      for (BlockPos pos : tankDisplayHandlers) {
+        Storage<FluidVariant> handler = FluidStorage.SIDED.find(world, pos, null);
+        if (handler != null ) {
           // sum if empty (more capacity) or the same fluid (more amount and capacity)
-          FluidStack fluid = handler.getFluidInTank(0);
-          if (fluid.isEmpty()) {
-            info.add(0, handler.getTankCapacity(0));
-          } else if (currentFuel.isFluidEqual(fluid)) {
-            info.add(fluid.getAmount(), handler.getTankCapacity(0));
+          for (StorageView<FluidVariant> view : handler.nonEmptyViews()) {
+            FluidStack fluid = new FluidStack(view);
+            if (fluid.isEmpty()) {
+              info.add(0, view.getCapacity());
+            } else if (currentFuel.isFluidEqual(fluid)) {
+              info.add(fluid.getAmount(), view.getCapacity());
+            }
           }
-        });
+        } else {
+          tankDisplayHandlers.remove(pos);
+        }
       }
     }
 

@@ -1,12 +1,16 @@
 package slimeknights.tconstruct.smeltery.block.entity.inventory;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import slimeknights.mantle.inventory.SingleItemHandler;
-import slimeknights.mantle.transfer.TransferUtil;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.network.InventorySlotSyncPacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -51,9 +55,10 @@ public class DuctItemHandler extends SingleItemHandler<DuctBlockEntity> {
       }
     }
     // the item must contain fluid (no empty cans or buckets)
-    return TransferUtil.getFluidHandlerItem(stack)
-                .filter(cap -> !cap.getFluidInTank(0).isEmpty())
-                .isPresent();
+    Storage<FluidVariant> storage = FluidStorage.ITEM.find(stack, ContainerItemContext.withConstant(stack));
+    if (storage == null)
+      return false;
+    return !TransferUtil.firstOrEmpty(storage).isEmpty();
   }
 
   /**
@@ -65,8 +70,9 @@ public class DuctItemHandler extends SingleItemHandler<DuctBlockEntity> {
     if (stack.isEmpty()) {
       return FluidStack.EMPTY;
     }
-    return TransferUtil.getFluidHandlerItem(stack)
-                    .map(handler -> handler.getFluidInTank(0))
-                    .orElse(FluidStack.EMPTY);
+    Storage<FluidVariant> storage = FluidStorage.ITEM.find(stack, ContainerItemContext.withConstant(stack));
+    if (storage == null)
+      return FluidStack.EMPTY;
+    return TransferUtil.firstOrEmpty(storage);
   }
 }

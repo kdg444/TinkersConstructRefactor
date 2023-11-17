@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import slimeknights.mantle.recipe.ICustomOutputRecipe;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;

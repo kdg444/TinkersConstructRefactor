@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tables.block.entity.table;
 
 import io.github.fabricators_of_create.porting_lib.event.common.ItemCraftedCallback;
 import io.github.fabricators_of_create.porting_lib.mixin.accessors.common.accessor.RecipeManagerAccessor;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
@@ -12,7 +13,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.state.BlockState;
-import slimeknights.mantle.transfer.item.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
@@ -62,7 +62,6 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
   public PartBuilderBlockEntity(BlockPos pos, BlockState state) {
     super(TinkerTables.partBuilderTile.get(), pos, state, NAME, 2);
     this.itemHandler = new ConfigurableInvWrapperCapability(this, false, false);
-    this.itemHandlerCap = LazyOptional.of(() -> this.itemHandler);
     this.inventoryWrapper = new PartBuilderContainerWrapper(this);
     this.craftingResult = new LazyResultContainer(this);
   }

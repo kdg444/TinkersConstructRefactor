@@ -4,20 +4,24 @@ import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import slimeknights.mantle.transfer.fluid.IFluidHandler;
 import slimeknights.tconstruct.smeltery.block.entity.CastingBlockEntity;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
+@SuppressWarnings("UnstableApiUsage")
 @RequiredArgsConstructor
-public class CastingFluidHandler implements IFluidHandler {
+public class CastingFluidHandler extends SnapshotParticipant<CastingFluidHandler.Snapshot> implements SingleSlotStorage<FluidVariant> {
   private final CastingBlockEntity tile;
   @Getter @Setter
   private FluidStack fluid = FluidStack.EMPTY;
@@ -51,7 +55,8 @@ public class CastingFluidHandler implements IFluidHandler {
   }
 
   @Override
-  public long fill(FluidStack resource, boolean sim) {
+  public long insert(FluidVariant variant, long maxAmount, TransactionContext tx) {
+    FluidStack resource = new FluidStack(variant, maxAmount);
     if (resource.isEmpty() || !isFluidValid(resource)) {
       return 0;
     }
@@ -59,29 +64,30 @@ public class CastingFluidHandler implements IFluidHandler {
     // update filter and capacity
     long capacity = this.capacity;
     if (filter == null || this.capacity == 0) {
-      Fluid fluid = resource.getFluid();
-      capacity = tile.initNewCasting(resource, sim);
+      Fluid fluid = variant.getFluid();
+      capacity = tile.initNewCasting(resource, tx);
       if (capacity <= 0) {
         return 0;
       }
-      if (!sim) {
-        this.capacity = capacity;
-        this.filter = fluid;
-      }
+      updateSnapshots(tx);
+      this.capacity = capacity;
+      this.filter = fluid;
     }
 
     // if no fluid yet, copy it in
     if (fluid.isEmpty()) {
-      long amount = Math.min(capacity, resource.getAmount());
-      if (!sim) {
-        fluid = new FluidStack(resource, amount);
-        tile.onContentsChanged();
-      }
+      long amount = Math.min(capacity, maxAmount);
+      updateSnapshots(tx);
+      fluid = new FluidStack(resource, amount);
+      tx.addOuterCloseCallback(result -> {
+        if (result.wasCommitted())
+          tile.onContentsChanged();
+      });
       return amount;
     }
 
     // safety: should never be false, but good to check
-    if (!resource.isFluidEqual(fluid)) {
+    if (!FluidStack.isFluidEqual(variant, fluid.getType())) {
       return 0;
     }
 
@@ -93,77 +99,80 @@ public class CastingFluidHandler implements IFluidHandler {
     // if it fits, it grows
     long amount = resource.getAmount();
     if (amount < space) {
-      if (!sim) {
-        fluid.grow(amount);
-        tile.onContentsChanged();
-      }
+      updateSnapshots(tx);
+      fluid.grow(amount);
+      tx.addOuterCloseCallback(result -> {
+        if (result.wasCommitted())
+          tile.onContentsChanged();
+      });
       return amount;
     } else {
       // too much? set to max
-      if (!sim) {
-        fluid.setAmount(capacity);
-        tile.onContentsChanged();
-      }
+      updateSnapshots(tx);
+      fluid.setAmount(capacity);
+      tx.addOuterCloseCallback(result -> {
+        if (result.wasCommitted())
+          tile.onContentsChanged();
+      });
       return space;
     }
   }
 
-  @Nonnull
   @Override
-  public FluidStack drain(FluidStack resource, boolean sim) {
-    if (resource.isEmpty() || !resource.isFluidEqual(fluid)) {
-      return FluidStack.EMPTY;
+  public long extract(FluidVariant resource, long maxDrain, TransactionContext tx) {
+    if (maxDrain <= 0 || resource.isBlank() || !FluidStack.isFluidEqual(resource, fluid.getType())) {
+      return 0;
     }
-    return this.drain(resource.getAmount(), sim);
-  }
 
-  @Nonnull
-  @Override
-  public FluidStack drain(long maxDrain, boolean sim) {
     long drained = Math.min(fluid.getAmount(), maxDrain);
     if (drained <= 0) {
-      return FluidStack.EMPTY;
+      return 0;
     }
 
-    FluidStack stack = new FluidStack(fluid, drained);
-    if (!sim) {
-      fluid.shrink(drained);
-      if (fluid.isEmpty()) {
-        // since empty, assume the current recipe is invalid now
-        // fixes some odd behavior with capacity and recipes going out of sync
-        tile.reset();
-      } else {
-        // called in reset
-        tile.onContentsChanged();
+    updateSnapshots(tx);
+    fluid.shrink(drained);
+    tx.addOuterCloseCallback(result -> {
+      if (result.wasCommitted()) {
+        if (fluid.isEmpty()) {
+          // since empty, assume the current recipe is invalid now
+          // fixes some odd behavior with capacity and recipes going out of sync
+          tile.reset();
+        } else {
+          // called in reset
+          tile.onContentsChanged();
+        }
       }
-    }
-    return stack;
+    });
+    return drained;
   }
 
   /* Required */
 
-  @Nonnull
   @Override
-  public FluidStack getFluidInTank(int tank) {
-    if (tank == 0) {
-      return fluid;
-    }
-    return FluidStack.EMPTY;
+  public boolean isResourceBlank() {
+    return fluid.getType().isBlank();
   }
 
   @Override
-  public int getTanks() {
-    return 1;
+  public FluidVariant getResource() {
+    return fluid.getType();
   }
 
   @Override
-  public long getTankCapacity(int tank) {
-    return getCapacity();
+  public long getAmount() {
+    return fluid.getAmount();
   }
 
   @Override
-  public boolean isFluidValid(int tank, FluidStack stack) {
-    return tank == 0 && isFluidValid(stack);
+  protected Snapshot createSnapshot() {
+    return new Snapshot(this.capacity, this.fluid.copy(), this.filter);
+  }
+
+  @Override
+  protected void readSnapshot(Snapshot snapshot) {
+    this.capacity = snapshot.capacity;
+    this.fluid = snapshot.fluidStack;
+    this.filter = snapshot.filter;
   }
 
   /* Tag */
@@ -196,4 +205,6 @@ public class CastingFluidHandler implements IFluidHandler {
     }
     return nbt;
   }
+
+  public record Snapshot(long capacity, FluidStack fluidStack, Fluid filter) {}
 }

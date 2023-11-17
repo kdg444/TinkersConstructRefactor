@@ -1,8 +1,15 @@
 package slimeknights.tconstruct.library.recipe.casting.container;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +22,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.recipe.IMultiRecipe;
-import slimeknights.mantle.transfer.TransferUtil;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.casting.DisplayCastingRecipe;
 import slimeknights.tconstruct.library.recipe.casting.ICastingContainer;
@@ -24,6 +30,7 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Casting recipe that takes an arbitrary fluid for a given amount and fills a container
@@ -41,11 +48,15 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
   @Getter
   protected final Item container;
 
+  private static Optional<Storage<FluidVariant>> getFluidHandlerItem(ItemStack stack) {
+    return Optional.ofNullable(FluidStorage.ITEM.find(stack, ContainerItemContext.withInitial(stack)));
+  }
+
   @Override
   public long getFluidAmount(ICastingContainer inv) {
-    Fluid fluid = inv.getFluid();
-    return TransferUtil.getFluidHandlerItem(inv.getStack())
-              .map(handler -> handler.fill(new FluidStack(fluid, this.fluidAmount), true))
+    FluidVariant fluid = FluidVariant.of(inv.getFluid());
+    return getFluidHandlerItem(inv.getStack())
+              .map(handler -> StorageUtil.simulateInsert(handler, fluid, this.fluidAmount, null))
               .orElse(0L);
   }
 
@@ -67,10 +78,10 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
   @Override
   public boolean matches(ICastingContainer inv, Level worldIn) {
     ItemStack stack = inv.getStack();
-    Fluid fluid = inv.getFluid();
+    FluidVariant fluid = FluidVariant.of(inv.getFluid());
     return stack.getItem() == this.container.asItem()
-           && TransferUtil.getFluidHandlerItem(stack)
-                   .filter(handler -> handler.fill(new FluidStack(fluid, this.fluidAmount), true) > 0)
+           && getFluidHandlerItem(stack)
+                   .filter(handler -> StorageUtil.simulateInsert(handler, fluid, this.fluidAmount, null) > 0)
                    .isPresent();
   }
 
@@ -84,9 +95,13 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
   @Override
   public ItemStack assemble(ICastingContainer inv, RegistryAccess registryAccess) {
     ItemStack stack = inv.getStack().copy();
-    return TransferUtil.getFluidHandlerItem(stack).map(handler -> {
-      handler.fill(new FluidStack(inv.getFluid(), this.fluidAmount, inv.getFluidTag()), false);
-      return handler.getContainer();
+    ContainerItemContext context = ContainerItemContext.withInitial(stack);
+    return Optional.ofNullable(FluidStorage.ITEM.find(stack, context)).map(handler -> {
+      try (Transaction tx = TransferUtil.getTransaction()) {
+        handler.insert(FluidVariant.of(inv.getFluid(), inv.getFluidTag()), this.fluidAmount, tx);
+        tx.commit();
+      }
+      return context.getItemVariant().toStack((int) context.getAmount());
     }).orElse(stack);
   }
 
@@ -103,9 +118,13 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
                                              .map(fluid -> {
                                                FluidStack fluidStack = new FluidStack(fluid, fluidAmount);
                                                ItemStack stack = new ItemStack(container);
-                                               stack = TransferUtil.getFluidHandlerItem(stack).map(handler -> {
-                                                 handler.fill(fluidStack, false);
-                                                 return handler.getContainer();
+                                               ContainerItemContext context = ContainerItemContext.withInitial(stack);
+                                               stack = Optional.ofNullable(FluidStorage.ITEM.find(stack, context)).map(handler -> {
+                                                 try (Transaction tx = TransferUtil.getTransaction()) {
+                                                   handler.insert(fluidStack.getType(), fluidStack.getAmount(), tx);
+                                                   tx.commit();
+                                                 }
+                                                 return context.getItemVariant().toStack((int) context.getAmount());
                                                }).orElse(stack);
                                                return new DisplayCastingRecipe(getType(), casts, Collections.singletonList(fluidStack), stack, 5, true);
                                              })
