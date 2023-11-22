@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.tools.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
+import io.github.fabricators_of_create.porting_lib.item.api.extensions.RepairableItem;
 import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
 import io.github.fabricators_of_create.porting_lib.item.ContinueUsingItem;
@@ -77,7 +78,7 @@ import java.util.function.Consumer;
  * A standard modifiable item which implements melee hooks
  * This class handles how all the modifier hooks and display data for items made out of different materials
  */
-public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, DamageableItem, ShieldBlockItem, CustomMaxCountItem, ReequipAnimationItem, CustomEnchantingBehaviorItem, ContinueUsingItem, ToolActionItem {
+public class ModifiableItem extends Item implements IModifiableDisplay, UseFirstBehaviorItem, DamageableItem, ShieldBlockItem, CustomMaxCountItem, ReequipAnimationItem, CustomEnchantingBehaviorItem, ContinueUsingItem, ToolActionItem, RepairableItem {
   /** Tool definition for the given tool */
   @Getter
   private final ToolDefinition toolDefinition;
@@ -168,7 +169,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   /* Damage/Durability */
 
-//  @Override
+  @Override
   public boolean isRepairable(ItemStack stack) {
     // handle in the tinker station
     return false;

@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.tools.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
+import io.github.fabricators_of_create.porting_lib.item.api.extensions.RepairableItem;
 import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
 import io.github.fabricators_of_create.porting_lib.item.CustomMaxCountItem;
@@ -61,7 +62,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /** Base class for any items that launch projectiles */
-public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implements IModifiableDisplay, CustomEnchantingBehaviorItem, DamageableItem, CustomMaxCountItem, ShieldBlockItem, ToolActionItem {
+public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implements IModifiableDisplay, CustomEnchantingBehaviorItem, DamageableItem, CustomMaxCountItem, ShieldBlockItem, ToolActionItem, RepairableItem {
   /** Drawspeed as of the time this launcher started charging, used clientside for various features including scope and the model.
    * Not necessary to clear as its only used by logic that checks other hooks to see if a bow is drawing */
   public static final TinkerDataKey<Float> DRAWSPEED = TConstruct.createKey("drawspeed");
@@ -163,7 +164,7 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
 
   /* Damage/Durability */
 
-//  @Override TODO: PORT
+  @Override
   public boolean isRepairable(ItemStack stack) {
     // handle in the tinker station
     return false;

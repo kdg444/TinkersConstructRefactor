@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.tools.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
+import io.github.fabricators_of_create.porting_lib.item.api.extensions.RepairableItem;
 import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
 import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
@@ -67,7 +68,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, DamageableItem, PiglinsNeutralItem, FabricElytraItem, CustomEnchantingBehaviorItem, WalkOnSnowItem, ToolActionItem {
+public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay, DamageableItem, PiglinsNeutralItem, FabricElytraItem, CustomEnchantingBehaviorItem, WalkOnSnowItem, ToolActionItem, RepairableItem {
   /** Volatile modifier tag to make piglins neutal when worn */
   public static final ResourceLocation PIGLIN_NEUTRAL = TConstruct.getResource("piglin_neutral");
   /** Volatile modifier tag to make this item an elytra */
@@ -195,7 +196,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
 
   /* Damage/Durability */
 
-//  @Override
+  @Override
   public boolean isRepairable(ItemStack stack) {
     // handle in the tinker station
     return false;
