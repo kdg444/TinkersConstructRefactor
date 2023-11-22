@@ -325,7 +325,7 @@ public class TooltipUtil {
       if (entry.getModifier().shouldDisplay(false)) {
         Component name = entry.getModifier().getDisplayName(tool, entry.getLevel());
         if (flag.isAdvanced() && Config.CLIENT.modifiersIDsInAdvancedTooltips.get()) {
-          tooltips.add(new TranslatableComponent(KEY_ID_FORMAT, name, new TextComponent(entry.getModifier().getId().toString())).withStyle(ChatFormatting.DARK_GRAY));
+          tooltips.add(Component.translatable(KEY_ID_FORMAT, name, Component.literal(entry.getModifier().getId().toString())).withStyle(ChatFormatting.DARK_GRAY));
         } else {
           tooltips.add(name);
         }
@@ -507,7 +507,7 @@ public class TooltipUtil {
       MaterialVariantId material = materials.get(i).getVariant();
       tooltips.add(requirement.nameForMaterial(material).copy().withStyle(ChatFormatting.UNDERLINE).withStyle(style -> style.withColor(MaterialTooltipCache.getColor(material))));
       if (flag.isAdvanced()) {
-        tooltips.add((new TextComponent(material.toString())).withStyle(ChatFormatting.DARK_GRAY));
+        tooltips.add((Component.literal(material.toString())).withStyle(ChatFormatting.DARK_GRAY));
       }
       MaterialRegistry.getInstance().getMaterialStats(material.getId(), requirement.getStatType()).ifPresent(stat -> tooltips.addAll(stat.getLocalizedInfo()));
       if (i != max) {

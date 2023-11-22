@@ -1,31 +1,34 @@
 {
   "type": "tconstruct:modifier",
+  "allow_crystal": true,
   "inputs": [
     {
-      "tag": "forge:string"
+      "tag": "c:string"
     },
     {
       "item": "minecraft:spyglass"
     },
     {
-      "tag": "forge:string"
+      "tag": "c:string"
     }
   ],
-  "tools": [
-    {
-      "tag": "tconstruct:modifiable/armor/helmets"
-    },
-    {
-      "tag": "tconstruct:modifiable/interactable/right"
-    }
-  ],
+  "max_level": 1,
+  "result": {
+    "level": 1,
+    "name": "tconstruct:zoom"
+  },
   "slots": {
     "upgrades": 1
   },
-  "allow_crystal": true,
-  "result": {
-    "name": "tconstruct:zoom",
-    "level": 1
-  },
-  "max_level": 1
+  "tools": {
+    "fabric:type": "fabric:any",
+    "ingredients": [
+      {
+        "tag": "tconstruct:modifiable/armor/helmets"
+      },
+      {
+        "tag": "tconstruct:modifiable/interactable/right"
+      }
+    ]
+  }
 }

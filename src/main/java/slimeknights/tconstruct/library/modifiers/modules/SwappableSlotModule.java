@@ -3,7 +3,6 @@ package slimeknights.tconstruct.library.modifiers.modules;
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
@@ -45,7 +44,7 @@ public record SwappableSlotModule(@Nullable ResourceLocation key, int slotCount)
     if (!slotName.isEmpty()) {
       SlotType type = SlotType.getIfPresent(slotName);
       if (type != null) {
-        return new TranslatableComponent(FORMAT, name.plainCopy(), type.getDisplayName()).withStyle(style -> style.withColor(type.getColor()));
+        return Component.translatable(FORMAT, name.plainCopy(), type.getDisplayName()).withStyle(style -> style.withColor(type.getColor()));
       }
     }
     return name;

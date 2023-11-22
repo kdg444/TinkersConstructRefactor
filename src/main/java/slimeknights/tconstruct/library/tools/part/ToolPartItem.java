@@ -55,13 +55,13 @@ public class ToolPartItem extends MaterialItem implements IToolPart {
     MaterialId id = materialVariant.getId();
     if (!materialVariant.equals(IMaterial.UNKNOWN_ID)) {
       if (flag.isAdvanced()) {
-        tooltip.add((new TranslatableComponent(MATERIAL_KEY, materialVariant.toString())).withStyle(ChatFormatting.DARK_GRAY));
+        tooltip.add((Component.translatable(MATERIAL_KEY, materialVariant.toString())).withStyle(ChatFormatting.DARK_GRAY));
       }
       if (canUseMaterial(id)) {
         for (ModifierEntry entry : MaterialRegistry.getInstance().getTraits(id, getStatType())) {
           Component name = entry.getModifier().getDisplayName(entry.getLevel());
           if (flag.isAdvanced() && Config.CLIENT.modifiersIDsInAdvancedTooltips.get()) {
-            tooltip.add(new TranslatableComponent(TooltipUtil.KEY_ID_FORMAT, name, new TextComponent(entry.getModifier().getId().toString())).withStyle(ChatFormatting.DARK_GRAY));
+            tooltip.add(Component.translatable(TooltipUtil.KEY_ID_FORMAT, name, Component.literal(entry.getModifier().getId().toString())).withStyle(ChatFormatting.DARK_GRAY));
           } else {
             tooltip.add(name);
           }

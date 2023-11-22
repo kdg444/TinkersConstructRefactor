@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.modifiers.hook;
 
-import net.minecraftforge.common.ToolAction;
+import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 

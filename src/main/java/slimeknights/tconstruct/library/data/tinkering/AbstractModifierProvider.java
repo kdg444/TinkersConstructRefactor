@@ -67,7 +67,7 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
   /* Composable helpers */
 
   /** Sets up a builder for a composable modifier */
-  protected ComposableModifier.Builder buildModifier(ModifierId id, @Nullable ICondition condition, JsonRedirect... redirects) {
+  protected ComposableModifier.Builder buildModifier(ModifierId id, @Nullable ConditionJsonProvider condition, JsonRedirect... redirects) {
     ComposableModifier.Builder builder = ComposableModifier.builder();
     Composable previous = composableModifiers.putIfAbsent(id, new Composable(builder, condition, redirects));
     if (previous != null || allModifiers.containsKey(id)) {
@@ -82,7 +82,7 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
   }
 
   /** Sets up a builder for a composable modifier */
-  protected ComposableModifier.Builder buildModifier(DynamicModifier<?> modifier, @Nullable ICondition condition, JsonRedirect... redirects) {
+  protected ComposableModifier.Builder buildModifier(DynamicModifier<?> modifier, @Nullable ConditionJsonProvider condition, JsonRedirect... redirects) {
     return buildModifier(modifier.getId(), condition, redirects);
   }
 
@@ -113,13 +113,13 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
   public CompletableFuture<?> run(CachedOutput cache) {
     addModifiers();
     List<CompletableFuture<?>> futures = new ArrayList<>();
-    allModifiers.forEach((id, data) -> futures.add(saveThing(cache, id, data.serialize()));
-    composableModifiers.forEach((id, data) -> saveThing(cache, id, data.serialize())));
+    allModifiers.forEach((id, data) -> futures.add(saveThing(cache, id, data.serialize())));
+    composableModifiers.forEach((id, data) -> saveThing(cache, id, data.serialize()));
     return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
   }
 
   /** Serializes the given modifier with its condition and redirects */
-  private static JsonObject serializeModifier(@Nullable Modifier modifier, @Nullable ICondition condition, JsonRedirect[] redirects) {
+  private static JsonObject serializeModifier(@Nullable Modifier modifier, @Nullable ConditionJsonProvider condition, JsonRedirect[] redirects) {
     JsonObject json;
     if (modifier != null) {
       json = ModifierManager.MODIFIER_LOADERS.serialize(modifier).getAsJsonObject();
@@ -148,7 +148,7 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
   }
 
   /** Result for composable too */
-  private record Composable(ComposableModifier.Builder builder, @Nullable ICondition condition, JsonRedirect[] redirects) {
+  private record Composable(ComposableModifier.Builder builder, @Nullable ConditionJsonProvider condition, JsonRedirect[] redirects) {
     /** Writes this result to JSON */
     public JsonObject serialize() {
       return serializeModifier(builder.build(), condition, redirects);

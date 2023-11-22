@@ -47,7 +47,7 @@ public class ValidatedResult {
    * @return  Validation result with the given message
    */
   public static ValidatedResult failure(String translationKey, Object... params) {
-    return failure(new TranslatableComponent(translationKey, params));
+    return failure(Component.translatable(translationKey, params));
   }
 
   /** If true, this recipe passed and can be crafted for the given input */

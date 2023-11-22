@@ -235,7 +235,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     }));
     TinkerWorld.slimeDirt.forEach((type, block) -> this.tag(type.getDirtBlockTag()).add(block));
     endermanHoldable.addTag(TinkerTags.Blocks.SLIMY_SOIL);
-    tagBlocks(BlockTags.REPLACEABLE_PLANTS, TinkerWorld.slimeTallGrass, TinkerWorld.slimeFern);
+    tagBlocks(BlockTags.REPLACEABLE, TinkerWorld.slimeTallGrass, TinkerWorld.slimeFern);
 
     Consumer<Block> flowerPotAppender = this.tag(BlockTags.FLOWER_POTS)::add;
     TinkerWorld.pottedSlimeFern.forEach(flowerPotAppender);

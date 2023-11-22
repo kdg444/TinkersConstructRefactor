@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.modifiers.dynamic;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot.Type;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
@@ -19,7 +20,7 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 @RequiredArgsConstructor
 public class MobDisguiseModifier extends NoLevelsModifier {
   /** Loader instance */
-  public static final IGenericLoader<MobDisguiseModifier> LOADER = new GenericRegistryEntrySerializer<>("entity", ForgeRegistries.ENTITIES, MobDisguiseModifier::new, m -> m.type);
+  public static final IGenericLoader<MobDisguiseModifier> LOADER = new GenericRegistryEntrySerializer<>("entity", BuiltInRegistries.ENTITY_TYPE, MobDisguiseModifier::new, m -> m.type);
   /** @deprecated use {@link MobDisguiseModule#DISGUISES} */
   @Deprecated
   public static final TinkerDataKey<Multiset<EntityType<?>>> DISGUISES = MobDisguiseModule.DISGUISES;

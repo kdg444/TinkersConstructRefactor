@@ -94,6 +94,6 @@ public class TinkerItemProperties {
   /** Registers properties for a bow */
   public static void registerToolProperties(Item item) {
     ItemProperties.PROPERTIES.computeIfAbsent(item, itemx -> Maps.newHashMap()).put(CHARGING_ID, CHARGING);
-    ItemProperties.register(item, CHARGE_ID, CHARGE);
+    ItemProperties.PROPERTIES.computeIfAbsent(item, itemx -> Maps.newHashMap()).put(CHARGE_ID, CHARGE);
   }
 }

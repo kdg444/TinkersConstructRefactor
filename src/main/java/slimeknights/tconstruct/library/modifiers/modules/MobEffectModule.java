@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -15,7 +16,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.data.predicate.entity.LivingEntityPredicate;
@@ -131,7 +131,7 @@ public record MobEffectModule(
     @Override
     public MobEffectModule deserialize(JsonObject json) {
       IJsonPredicate<LivingEntity> predicate = LivingEntityPredicate.LOADER.getAndDeserialize(json, "entity");
-      MobEffect effect = JsonHelper.getAsEntry(ForgeRegistries.MOB_EFFECTS, json, "effect");
+      MobEffect effect = JsonHelper.getAsEntry(BuiltInRegistries.MOB_EFFECT, json, "effect");
       ScalingValue level = ScalingValue.get(json, "level");
       ScalingValue time = ScalingValue.get(json, "time");
       return new MobEffectModule(predicate, effect, level, time);
@@ -140,7 +140,7 @@ public record MobEffectModule(
     @Override
     public void serialize(MobEffectModule object, JsonObject json) {
       json.add("entity", LivingEntityPredicate.LOADER.serialize(object.predicate));
-      json.addProperty("effect", Objects.requireNonNull(object.effect.getRegistryName()).toString());
+      json.addProperty("effect", Objects.requireNonNull(BuiltInRegistries.MOB_EFFECT.getKey(object.effect)).toString());
       json.add("level", object.level.serialize());
       json.add("time", object.time.serialize());
     }
@@ -148,7 +148,7 @@ public record MobEffectModule(
     @Override
     public MobEffectModule fromNetwork(FriendlyByteBuf buffer) {
       IJsonPredicate<LivingEntity> predicate = LivingEntityPredicate.LOADER.fromNetwork(buffer);
-      MobEffect effect = buffer.readRegistryIdUnsafe(ForgeRegistries.MOB_EFFECTS);
+      MobEffect effect = BuiltInRegistries.MOB_EFFECT.byId(buffer.readVarInt());
       ScalingValue level = ScalingValue.fromNetwork(buffer);
       ScalingValue time = ScalingValue.fromNetwork(buffer);
       return new MobEffectModule(predicate, effect, level, time);
@@ -157,7 +157,7 @@ public record MobEffectModule(
     @Override
     public void toNetwork(MobEffectModule object, FriendlyByteBuf buffer) {
       LivingEntityPredicate.LOADER.toNetwork(object.predicate, buffer);
-      buffer.writeRegistryIdUnsafe(ForgeRegistries.MOB_EFFECTS, object.effect);
+      buffer.writeVarInt(BuiltInRegistries.MOB_EFFECT.getId(object.effect));
       object.level.toNetwork(buffer);
       object.time.toNetwork(buffer);
     }

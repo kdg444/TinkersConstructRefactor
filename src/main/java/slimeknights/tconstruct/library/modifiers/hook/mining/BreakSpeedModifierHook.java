@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.modifiers.hook.mining;
 
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
 import net.minecraft.core.Direction;
-import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
@@ -24,12 +24,12 @@ public interface BreakSpeedModifierHook {
    * @param isEffective          If true, the tool is effective against this block type
    * @param miningSpeedModifier  Calculated modifier from potion effects such as haste and environment such as water, use for additive bonuses to ensure consistency with the mining speed stat
    */
-  void onBreakSpeed(IToolStackView tool, ModifierEntry modifier, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier);
+  void onBreakSpeed(IToolStackView tool, ModifierEntry modifier, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier);
 
   /** Merger that runs each hook in succession */
   record AllMerger(Collection<BreakSpeedModifierHook> modules) implements BreakSpeedModifierHook {
     @Override
-    public void onBreakSpeed(IToolStackView tool, ModifierEntry modifier, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+    public void onBreakSpeed(IToolStackView tool, ModifierEntry modifier, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
       for (BreakSpeedModifierHook module : modules) {
         module.onBreakSpeed(tool, modifier, event, sideHit, isEffective, miningSpeedModifier);
       }

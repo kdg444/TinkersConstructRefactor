@@ -1,8 +1,6 @@
 package slimeknights.tconstruct.library.modifiers.hook;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -50,12 +48,12 @@ public interface TooltipModifierHook {
 
   /** Adds a flat bonus tooltip */
   static void addFlatBoost(Modifier modifier, Component name, double bonus, List<Component> tooltip) {
-    tooltip.add(modifier.applyStyle(new TextComponent(Util.BONUS_FORMAT.format(bonus) + " ").append(name)));
+    tooltip.add(modifier.applyStyle(Component.literal(Util.BONUS_FORMAT.format(bonus) + " ").append(name)));
   }
 
   /** Adds a percentage boost tooltip */
   static void addPercentBoost(Modifier modifier, Component name, double bonus, List<Component> tooltip) {
-    tooltip.add(modifier.applyStyle(new TextComponent(Util.PERCENT_BOOST_FORMAT.format(bonus) + " ").append(name)));
+    tooltip.add(modifier.applyStyle(Component.literal(Util.PERCENT_BOOST_FORMAT.format(bonus) + " ").append(name)));
   }
 
   /**
@@ -69,7 +67,7 @@ public interface TooltipModifierHook {
    */
   static void addStatBoost(IToolStackView tool, Modifier modifier, FloatToolStat stat, TagKey<Item> condition, float amount, List<Component> tooltip) {
     if (tool.hasTag(condition)) {
-      addFlatBoost(modifier, new TranslatableComponent(modifier.getTranslationKey() + "." + stat.getName().getPath()), amount * tool.getMultiplier(stat), tooltip);
+      addFlatBoost(modifier, Component.translatable(modifier.getTranslationKey() + "." + stat.getName().getPath()), amount * tool.getMultiplier(stat), tooltip);
     }
   }
 

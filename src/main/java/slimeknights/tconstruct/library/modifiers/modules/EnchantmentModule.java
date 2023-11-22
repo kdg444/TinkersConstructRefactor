@@ -2,9 +2,9 @@ package slimeknights.tconstruct.library.modifiers.modules;
 
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -36,27 +36,27 @@ public abstract class EnchantmentModule implements ModifierModule {
   public record Loader<T extends EnchantmentModule>(BiFunction<Enchantment, Integer, T> constructor) implements IGenericLoader<T> {
     @Override
     public T deserialize(JsonObject json) {
-      Enchantment enchantment = JsonHelper.getAsEntry(ForgeRegistries.ENCHANTMENTS, json, "name");
+      Enchantment enchantment = JsonHelper.getAsEntry(BuiltInRegistries.ENCHANTMENT, json, "name");
       int level = JsonUtils.getIntMin(json, "level", 1);
       return constructor.apply(enchantment, level);
     }
 
     @Override
     public void serialize(T object, JsonObject json) {
-      json.addProperty("name", Objects.requireNonNull(object.enchantment.getRegistryName()).toString());
+      json.addProperty("name", Objects.requireNonNull(BuiltInRegistries.ENCHANTMENT.getKey(object.enchantment)).toString());
       json.addProperty("level", object.level);
     }
 
     @Override
     public T fromNetwork(FriendlyByteBuf buffer) {
-      Enchantment enchantment = buffer.readRegistryIdUnsafe(ForgeRegistries.ENCHANTMENTS);
+      Enchantment enchantment = BuiltInRegistries.ENCHANTMENT.byId(buffer.readVarInt());
       int level = buffer.readVarInt();
       return constructor.apply(enchantment, level);
     }
 
     @Override
     public void toNetwork(T object, FriendlyByteBuf buffer) {
-      buffer.writeRegistryIdUnsafe(ForgeRegistries.ENCHANTMENTS, object.enchantment);
+      buffer.writeVarInt(BuiltInRegistries.ENCHANTMENT.getId(object.enchantment));
       buffer.writeVarInt(object.level);
     }
   }

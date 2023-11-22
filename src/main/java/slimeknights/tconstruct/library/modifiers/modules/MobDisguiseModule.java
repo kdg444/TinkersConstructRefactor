@@ -2,9 +2,9 @@ package slimeknights.tconstruct.library.modifiers.modules;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot.Type;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.json.serializer.GenericRegistryEntrySerializer;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 public record MobDisguiseModule(EntityType<?> entity) implements EquipmentChangeModifierHook, ModifierModule {
   private static final List<ModifierHook<?>> DEFAULT_HOOKS = List.of(TinkerHooks.EQUIPMENT_CHANGE);
-  public static final IGenericLoader<MobDisguiseModule> LOADER = new GenericRegistryEntrySerializer<>("entity", ForgeRegistries.ENTITIES, MobDisguiseModule::new, MobDisguiseModule::entity);
+  public static final IGenericLoader<MobDisguiseModule> LOADER = new GenericRegistryEntrySerializer<>("entity", BuiltInRegistries.ENTITY_TYPE, MobDisguiseModule::new, MobDisguiseModule::entity);
 
   /**
    * Data key for all disguises on an entity

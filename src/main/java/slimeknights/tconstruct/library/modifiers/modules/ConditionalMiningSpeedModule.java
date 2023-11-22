@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.modifiers.modules;
 
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -8,7 +9,6 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.data.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
@@ -35,7 +35,7 @@ public record ConditionalMiningSpeedModule(IJsonPredicate<BlockState> predicate,
   }
 
   @Override
-  public void onBreakSpeed(IToolStackView tool, ModifierEntry modifier, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
+  public void onBreakSpeed(IToolStackView tool, ModifierEntry modifier, PlayerEvents.BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) {
     if ((isEffective || !requireEffective) && predicate.matches(event.getState())) {
       event.setNewSpeed(event.getNewSpeed() * (modifier.getEffectiveLevel(tool) * bonus * tool.getMultiplier(ToolStats.MINING_SPEED) * miningSpeedModifier));
     }

@@ -1,4 +1,4 @@
-// 1.20.1	2023-10-26T09:03:27.555780043	Hephaestus/Tinkers' Construct Modifier Recipes
+// 1.20.1	2023-11-22T16:50:16.075932836	Hephaestus/Tinkers' Construct Modifier Recipes
 9aaf1d262598bd4a77830397f9c16c499de6a5f6 data/tconstruct/recipes/tools/modifiers/upgrade/magnetic_armor.json
 8c9c4d430e5364d667f3f3a9b7892b7f94792be6 data/tconstruct/recipes/tools/modifiers/upgrade/lightspeed_from_block.json
 10849efb4c19ccf4b8d50286f9d5f21b59659b78 data/tconstruct/recipes/tools/modifiers/upgrade/blasting.json
@@ -15,7 +15,7 @@ a37df070860c1fce163cc01076a3cef795aa8805 data/tconstruct/recipes/tools/modifiers
 477400a27c1e5d400eb96c86457d065b0ef51d41 data/tconstruct/recipes/tools/modifiers/worktable/remove_modifier_venom.json
 071657c9372ac95e046ef94eac222db6c888a240 data/tconstruct/recipes/tools/modifiers/salvage/ability/pathing.json
 94f571d011dd100fa8737d79c6cb8ac2340e2bf1 data/tconstruct/recipes/tools/modifiers/salvage/ability/wetting.json
-bac1fe88f3b0faaad49c947eccfec4167a1e5587 data/tconstruct/recipes/tools/modifiers/upgrade/severing.json
+c8a0fc061d410e561d0fd739b75ef2034debad43 data/tconstruct/recipes/tools/modifiers/upgrade/severing.json
 83f339b0b3d7fe237a0cfd99c961fa4c4e70fa94 data/tconstruct/recipes/tools/modifiers/salvage/ability/bucketing.json
 4c704457836b9aae1cde60de03805bfcbbacb430 data/tconstruct/recipes/tools/modifiers/ability/crystalshot_quartz.json
 4859ea73303c6d90929b4ab4cad2e6c88d614e30 data/tconstruct/recipes/tools/modifiers/upgrade/soulbound.json
@@ -40,7 +40,7 @@ c02c83b7ede762a3af987efd6ad589f56b5d6554 data/tconstruct/recipes/tools/modifiers
 b0e23775bf39fc271dab6b1713286212492cf504 data/tconstruct/recipes/tools/modifiers/salvage/upgrade/power.json
 17e4fff201c2eb174bc64c35e755e01ce4458356 data/tconstruct/recipes/tools/modifiers/ability/trick_quiver.json
 ab50670aba733f60c505b9f5dcef444bedc217d9 data/tconstruct/recipes/tools/modifiers/ability/crystalshot_enderslime.json
-c21b8a91f82e2d84e373b112f13951208aa7aed4 data/tconstruct/recipes/tools/modifiers/upgrade/knockback.json
+684a0b8e1b1eeb502497b65f605343734a613b43 data/tconstruct/recipes/tools/modifiers/upgrade/knockback.json
 1069147c129fc2c19d0172c63699efd0f0d8fc38 data/tconstruct/recipes/tools/modifiers/upgrade/haste_from_block.json
 47d14e529dbd2c3b303b5efb5d4d5bafa34d8a68 data/tconstruct/recipes/tools/modifiers/slotless/overslime/ichor_block.json
 902b751b015a8ad72b8524f43faf9de37394cb8c data/tconstruct/recipes/tools/modifiers/slotless/embellishment_ender.json
@@ -126,9 +126,9 @@ bd2aab99eb6ee1c5d7986f53c8bce4b3a75fe716 data/tconstruct/recipes/tools/modifiers
 8d921caeed8c087bce1ca292b73ff3d58bd33c15 data/tconstruct/recipes/tools/severing/enderman_head.json
 216c70e44c5277f6eafd124428321b9c7eded9f4 data/tconstruct/recipes/tools/modifiers/defense/golden.json
 7a5db49aa38bf4ef229963ec9e538721fd9734e3 data/tconstruct/recipes/tools/severing/wither_skeleton_bone.json
+a4a3dbff680fa64d0c2fccc8cd0ddb605d66c794 data/tconstruct/recipes/tools/modifiers/upgrade/cooling.json
 314c9bccf08ec85301f3742113ccdce620a56e07 data/tconstruct/recipes/tools/modifiers/upgrade/lightspeed_from_dust.json
 ebfeeb5eb3fd91c538454193a42257ad103636fa data/tconstruct/recipes/tools/modifiers/upgrade/hydraulic_from_bricks.json
-a4a3dbff680fa64d0c2fccc8cd0ddb605d66c794 data/tconstruct/recipes/tools/modifiers/upgrade/cooling.json
 73efdf1871c3b434348d1691a5a66e8b5585c078 data/tconstruct/recipes/tools/modifiers/salvage/ability/reach.json
 90e0b24aaacfce0a556a198428a41a29d59724d0 data/tconstruct/recipes/tools/modifiers/salvage/upgrade/piercing.json
 8481f1c9c40c6bca01cae0f46948c7fe9d292da2 data/tconstruct/recipes/tools/modifiers/defense/melee_protection.json
@@ -208,7 +208,7 @@ c5a437ab2e6a6c0f90bf1fa16292c28144d78ed7 data/tconstruct/recipes/tools/modifiers
 310b792eaf19f33d66d32b12bbdcb23327c0ce95 data/tconstruct/recipes/tools/modifiers/upgrade/scope.json
 71f822410eb0c474299794371cc20034283a8744 data/tconstruct/recipes/tools/modifiers/ability/luck_pants.json
 9b506052504cc108ade8287d702c20de25c925da data/tconstruct/recipes/tools/modifiers/salvage/ability/parrying.json
-314b30186fc45c625f683126e5f3b127178ffc60 data/tconstruct/recipes/tools/modifiers/stringy_crafting_table.json
+97bb33ae01869e823c8cddf5d5d147b8b0941b32 data/tconstruct/recipes/tools/modifiers/stringy_crafting_table.json
 d6e007c3197d269e67fc1bb0d8790223e56dea87 data/tconstruct/recipes/tools/modifiers/ability/bouncy.json
 887604ca7b69cf5e272fdcb7792cb3acd3721c16 data/tconstruct/recipes/tools/modifiers/worktable/enchantment_converting/defense_tool.json
 08f48ceb4a579df158fb76e77a7650e79d1734b2 data/tconstruct/recipes/tools/severing/spider_head.json
@@ -257,7 +257,7 @@ a11273e85cee8b9bb59c46fa8e984b279180f474 data/tconstruct/recipes/tools/modifiers
 12744fb1cc54b49b2e2b77c3bbbae5917d5fb603 data/tconstruct/recipes/tools/modifiers/upgrade/hydraulic_from_shard.json
 adfe72bd860c5f950bce546710f81df0d3e82179 data/tconstruct/recipes/tools/modifiers/ability/bucketing.json
 ae7b53dcfafeb77fef71360d9621a68c146b5914 data/tconstruct/recipes/tools/modifiers/salvage/upgrade/sharpness.json
-db9051a44cf4239e71941919c6818bc8299cf3bb data/tconstruct/recipes/tools/modifiers/stringy_tinker_station.json
+e5ae4af0108a7d271d86c2da98ee50a04847546e data/tconstruct/recipes/tools/modifiers/stringy_tinker_station.json
 a271d4ef4c3b6d0fcca2be78bc23335a5dc5faae data/tconstruct/recipes/tools/modifiers/upgrade/step_up.json
 1888a3cd74f46d43ca602a8e2b446f30991808cc data/tconstruct/recipes/tools/modifiers/salvage/upgrade/overforced.json
 f992699831bcf7bb215f737324d5c9747ebcd1db data/tconstruct/recipes/tools/modifiers/slotless/embellishment_steel.json
@@ -310,7 +310,7 @@ d1e92e0ea83fd1e20d7d31d2cee6b49506c9c49e data/tconstruct/recipes/tools/severing/
 8f73773efedc6a5eb2004af0f5f2e16227f0c6e4 data/tconstruct/recipes/tools/modifiers/worktable/attack_modifier_clearing.json
 9eea0ce35e031233184d0e74f6b3916914877d59 data/tconstruct/recipes/tools/modifiers/ability/crystalshot_earthslime.json
 e7499e2825a62f1d2ae53e004b03954582252245 data/tconstruct/recipes/tools/modifiers/salvage/upgrade/knockback_armor.json
-efae81beab41fc0e2df1c592e799f1363920386c data/tconstruct/recipes/tools/modifiers/upgrade/zoom.json
+875530558712636f943eb8d19bb5010e6865cc86 data/tconstruct/recipes/tools/modifiers/upgrade/zoom.json
 eca20dbb50e76cfdd044b1278415d6fccc107a65 data/tconstruct/recipes/tools/modifiers/slotless/overslime/sky_congealed.json
 c9b98f994cb728d700e6572d7557dd8ced5b2172 data/tconstruct/recipes/tools/modifiers/salvage/upgrade/step_up.json
 b6c047427559c07dbe63060dd59922300bfa83d6 data/tconstruct/recipes/tools/severing/stray_head.json
