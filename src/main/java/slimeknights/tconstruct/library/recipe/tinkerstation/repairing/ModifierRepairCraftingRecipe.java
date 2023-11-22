@@ -16,6 +16,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
+import slimeknights.tconstruct.library.modifiers.TinkerHooks;
 import slimeknights.tconstruct.library.recipe.tinkerstation.repairing.ModifierRepairRecipeSerializer.IModifierRepairRecipe;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
@@ -101,7 +102,7 @@ public class ModifierRepairCraftingRecipe extends CustomRecipe implements IModif
     float repairAmount = inputs.getSecond();
     ToolStack tool = inputs.getFirst();
     for (ModifierEntry entry : tool.getModifierList()) {
-      repairAmount = entry.getModifier().getRepairFactor(tool, entry.getLevel(), repairAmount);
+      repairAmount = entry.getHook(TinkerHooks.REPAIR_FACTOR).getRepairFactor(tool, entry, repairAmount);
       if (repairAmount <= 0) {
         // failed to repair
         return ItemStack.EMPTY;
@@ -127,7 +128,7 @@ public class ModifierRepairCraftingRecipe extends CustomRecipe implements IModif
       float repairFloat = tool.getModifierLevel(modifier) * repairAmount;
       if (repairFloat > 0) {
         for (ModifierEntry entry : tool.getModifierList()) {
-          repairFloat = entry.getModifier().getRepairFactor(tool, entry.getLevel(), repairFloat);
+          repairFloat = entry.getHook(TinkerHooks.REPAIR_FACTOR).getRepairFactor(tool, entry, repairFloat);
           if (repairFloat <= 0) {
             break;
           }

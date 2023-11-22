@@ -1,6 +1,5 @@
 {
   "type": "tconstruct:modifier",
-  "allow_crystal": true,
   "inputs": [
     {
       "item": "minecraft:piston"
@@ -9,15 +8,16 @@
       "item": "minecraft:slime_block"
     }
   ],
-  "max_level": 5,
-  "result": {
-    "level": 1,
-    "name": "tconstruct:knockback"
+  "tools": {
+    "tag": "tconstruct:modifiable/melee"
   },
   "slots": {
     "upgrades": 1
   },
-  "tools": {
-    "tag": "tconstruct:modifiable/melee"
-  }
+  "allow_crystal": true,
+  "result": {
+    "name": "tconstruct:knockback",
+    "level": 1
+  },
+  "max_level": 3
 }

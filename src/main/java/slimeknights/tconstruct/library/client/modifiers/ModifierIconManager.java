@@ -59,8 +59,22 @@ public class ModifierIconManager implements IEarlySafeManagerReloadListener, Ide
   }
 
   /** Called on resource manager build to add the manager */
-  private static void onResourceManagerRegister() {
-    ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(INSTANCE);
+  private static void onResourceManagerRegister(RegisterClientReloadListenersEvent manager) {
+    manager.registerReloadListener(INSTANCE);
+  }
+
+  /** Called on texture stitch to add the new textures */
+  private static void textureStitch(TextureStitchEvent.Pre event) {
+    if (event.getAtlas().location().equals(InventoryMenu.BLOCK_ATLAS)) {
+      // temporary workaround to the fact that texture stitching might run before the resource loader
+      if (modifierIcons.isEmpty()) {
+        INSTANCE.onReloadSafe(Minecraft.getInstance().getResourceManager());
+      }
+      Consumer<ResourceLocation> spriteAdder = event::addSprite;
+      modifierIcons.values().forEach(list -> list.forEach(spriteAdder));
+      event.addSprite(DEFAULT_COVER);
+      event.addSprite(DEFAULT_PAGES);
+    }
   }
 
   @Override

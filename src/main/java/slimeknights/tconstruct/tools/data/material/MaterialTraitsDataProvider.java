@@ -24,7 +24,7 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
   @Override
   protected void addMaterialTraits() {
     // tier 1
-    addDefaultTraits(MaterialIds.wood, TinkerModifiers.cultivated);
+    addDefaultTraits(MaterialIds.wood, ModifierIds.cultivated);
     addDefaultTraits(MaterialIds.rock, TinkerModifiers.stonebound);
     addDefaultTraits(MaterialIds.flint, TinkerModifiers.jagged);
     addDefaultTraits(MaterialIds.bone, TinkerModifiers.piercing);
@@ -37,7 +37,7 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     addDefaultTraits(MaterialIds.vine, TinkerModifiers.solarPowered);
 
     // tier 2
-    addDefaultTraits(MaterialIds.iron, ModifierIds.sturdy);
+    addDefaultTraits(MaterialIds.iron, TinkerModifiers.magnetic);
     addDefaultTraits(MaterialIds.copper, TinkerModifiers.dwarven);
     addDefaultTraits(MaterialIds.searedStone, TinkerModifiers.searing);
     addDefaultTraits(MaterialIds.slimewood, TinkerModifiers.overgrowth, TinkerModifiers.overslime);

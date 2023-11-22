@@ -272,13 +272,14 @@ public class Config {
    * Client specific configuration - only loaded clientside from tconstruct-client.toml
    */
   public static class Client {
-    //public final ModConfigSpec.BooleanValue temperatureInCelsius;
+    //public final ForgeConfigSpec.BooleanValue temperatureInCelsius;
     public final ModConfigSpec.BooleanValue tankFluidModel;
     public final ModConfigSpec.BooleanValue extraToolTips;
     public final ModConfigSpec.BooleanValue logMissingMaterialTextures;
     public final ModConfigSpec.BooleanValue logMissingModifierTextures;
     public final ModConfigSpec.BooleanValue showModifiersInJEI;
     public final ModConfigSpec.BooleanValue renderShieldSlotItem;
+    public final ModConfigSpec.BooleanValue modifiersIDsInAdvancedTooltips;
     public final ModConfigSpec.IntValue maxSmelteryItemQuads;
 
     // framed modifier
@@ -331,6 +332,11 @@ public class Config {
         .comment("Maximum number of quads to render for items in the smeltery. Most blocks are about 6 quads, items like ingots are around 26.",
                  "Setting this lower will cause fewer items to be renderer (but never a partial item). Set to -1 to allow unlimited quads, and 0 to disable the item renderer.")
         .defineInRange("maxSmelteryItemQuads", 3500, -1, Short.MAX_VALUE);
+
+      this.modifiersIDsInAdvancedTooltips = builder
+        .comment("If true, shows modifier IDs in advanced tooltips for tools and tool parts.",
+                 "They are more intrusive than most advanced tooltip content, so this option is provided in case some mod made poor design decisions and put essential gameplay info in tooltips or for pack makers who do not need modifier info.")
+        .define("modifiersIDsInAdvancedTooltips", true);
 
       builder.comment("Settings related to modifiers").push("modifiers");
       {
