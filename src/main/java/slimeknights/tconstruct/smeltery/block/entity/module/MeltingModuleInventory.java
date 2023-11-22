@@ -222,9 +222,9 @@ public class MeltingModuleInventory implements SlottedStackStorage, TransactionC
     boolean canInsert = module.getStack().isEmpty();
     if (canInsert) {
       updateSnapshots(slot, transaction);
-      setStackInSlot(slot, resource.toStack());
+      setStackInSlot(slot, resource.toStack((int) amount));
     }
-    return canInsert ? amount - 1 : amount;
+    return canInsert ? amount : 0;
   }
 
   @Override
