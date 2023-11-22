@@ -35,6 +35,9 @@
     "rei_common": [
       "slimeknights.tconstruct.plugin.rei.REIPluginServer"
     ],
+    "mixinsquared": [
+      "slimeknights.tconstruct.StarSodiumFixer"
+    ],
     "cardinal-components": [
       "slimeknights.tconstruct.gadgets.capability.PiggybackCapability",
       "slimeknights.tconstruct.tools.logic.EquipmentChangeWatcher",

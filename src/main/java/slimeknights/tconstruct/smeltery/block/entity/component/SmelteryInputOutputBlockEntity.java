@@ -178,7 +178,7 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
 
   @Override
   public IModelData getRenderData() {
-    return getRetexturedModelData();
+    return this.modelData;
   }
 
   /** Fluid implementation of smeltery IO */
