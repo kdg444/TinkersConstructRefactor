@@ -222,7 +222,9 @@ public class FaucetBlockEntity extends MantleBlockEntity implements CustomRender
       }
       if (!drained.isEmpty() && !FluidVariantAttributes.isLighterThanAir(drained.getType())) {
         // can we fill
-        long filled = StorageUtil.simulateInsert(output, drained.getType(), drained.getAmount(), null);
+        Transaction sim = TransferUtil.getTransaction();
+        long filled = StorageUtil.simulateInsert(output, drained.getType(), drained.getAmount(), sim);
+        sim.close();
         if (filled > 0) {
           // fill if requested
           if (execute) {
@@ -276,7 +278,9 @@ public class FaucetBlockEntity extends MantleBlockEntity implements CustomRender
       fillStack.setAmount(Math.min(drained.getAmount(), DROPLETS_PER_TICK));
 
       // can we fill?
-      long filled = StorageUtil.simulateInsert(output, fillStack.getType(), fillStack.getAmount(), null);
+      Transaction sim = TransferUtil.getTransaction();
+      long filled = StorageUtil.simulateInsert(output, fillStack.getType(), fillStack.getAmount(), sim);
+      sim.close();
       if (filled > 0) {
         // update client if they do not think we have fluid
         if (!renderFluid.isFluidEqual(drained)) {

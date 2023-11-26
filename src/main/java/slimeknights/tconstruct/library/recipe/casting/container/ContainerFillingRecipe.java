@@ -55,9 +55,11 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
   @Override
   public long getFluidAmount(ICastingContainer inv) {
     FluidVariant fluid = FluidVariant.of(inv.getFluid());
-    return getFluidHandlerItem(inv.getStack())
-              .map(handler -> StorageUtil.simulateInsert(handler, fluid, this.fluidAmount, null))
-              .orElse(0L);
+    try (Transaction tx = TransferUtil.getTransaction()) {
+      return getFluidHandlerItem(inv.getStack())
+        .map(handler -> StorageUtil.simulateInsert(handler, fluid, this.fluidAmount, tx))
+        .orElse(0L);
+    }
   }
 
   @Override
@@ -79,10 +81,12 @@ public abstract class ContainerFillingRecipe implements ICastingRecipe, IMultiRe
   public boolean matches(ICastingContainer inv, Level worldIn) {
     ItemStack stack = inv.getStack();
     FluidVariant fluid = FluidVariant.of(inv.getFluid());
-    return stack.getItem() == this.container.asItem()
+    try (Transaction tx = TransferUtil.getTransaction()) {
+      return stack.getItem() == this.container.asItem()
            && getFluidHandlerItem(stack)
-                   .filter(handler -> StorageUtil.simulateInsert(handler, fluid, this.fluidAmount, null) > 0)
-                   .isPresent();
+        .filter(handler -> StorageUtil.simulateInsert(handler, fluid, this.fluidAmount, tx) > 0)
+        .isPresent();
+    }
   }
 
   /** @deprecated use {@link ICastingRecipe#assemble(Container, RegistryAccess)} */

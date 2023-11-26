@@ -358,8 +358,10 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 		long usable = Math.min(tank.getMaxUsable(), amount);
 		if (usable > 0) {
 			// see how much works
-			long fluid = StorageUtil.simulateExtract(tank, tank.getResource(), usable, null);
-			long filled = StorageUtil.simulateInsert(handler, tank.getResource(), fluid, null);
+      Transaction sim = TransferUtil.getTransaction();
+			long fluid = StorageUtil.simulateExtract(tank, tank.getResource(), usable, sim);
+			long filled = StorageUtil.simulateInsert(handler, tank.getResource(), fluid, sim);
+      sim.close();
 			if (filled > 0) {
 				// drain the amount that worked
         try (Transaction tx = TransferUtil.getTransaction()) {
