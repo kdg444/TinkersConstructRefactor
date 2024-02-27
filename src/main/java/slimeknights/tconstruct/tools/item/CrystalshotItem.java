@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.item;
 
+import io.github.fabricators_of_create.porting_lib.item.InfiniteArrowItem;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -9,10 +10,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.tools.TinkerTools;
@@ -21,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Internal item used by crystalshot modifier */
-public class CrystalshotItem extends ArrowItem {
+public class CrystalshotItem extends ArrowItem implements InfiniteArrowItem {
   /** Possible variants for a random crystalshot, so addons can register their own if desired */
   public static final List<String> RANDOM_VARIANTS;
   static {
@@ -54,13 +57,10 @@ public class CrystalshotItem extends ArrowItem {
     return arrow;
   }
 
-//  @Override TODO: PORT
-//  public boolean isInfinite(ItemStack stack, ItemStack bow, Player player) {
-//    return EnchantmentHelper.getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.INFINITY_ARROWS, bow) > 0;
-//  }
-
-//  @Override
-//  public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {}
+  @Override
+  public boolean isInfinite(ItemStack stack, ItemStack bow, Player player) {
+    return EnchantmentHelper.getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.INFINITY_ARROWS, bow) > 0;
+  }
 
   /** Creates a crystal shot with the given variant */
   public static ItemStack withVariant(String variant, int size) {

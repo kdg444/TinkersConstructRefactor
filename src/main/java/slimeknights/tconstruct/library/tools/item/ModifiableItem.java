@@ -108,7 +108,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
     return false;
   }
 
-//  @Override
+  @Override
   public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
     return false;
   }
@@ -502,7 +502,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay, UseFirst
 
   @Override
   public boolean allowContinuingBlockBreaking(Player player, ItemStack oldStack, ItemStack newStack) {
-    return shouldCauseReequipAnimation(oldStack, newStack, false);
+    return !shouldCauseReequipAnimation(oldStack, newStack, false);
   }
 
   @Override

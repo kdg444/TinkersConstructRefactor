@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.tools.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import io.github.fabricators_of_create.porting_lib.common.util.Lazy;
+import io.github.fabricators_of_create.porting_lib.item.ReequipAnimationItem;
 import io.github.fabricators_of_create.porting_lib.item.api.extensions.RepairableItem;
 import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import io.github.fabricators_of_create.porting_lib.enchant.CustomEnchantingBehaviorItem;
@@ -62,7 +63,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /** Base class for any items that launch projectiles */
-public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implements IModifiableDisplay, CustomEnchantingBehaviorItem, DamageableItem, CustomMaxCountItem, ShieldBlockItem, ToolActionItem, RepairableItem {
+public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implements IModifiableDisplay, CustomEnchantingBehaviorItem, DamageableItem, CustomMaxCountItem, ShieldBlockItem, ToolActionItem, RepairableItem, ReequipAnimationItem {
   /** Drawspeed as of the time this launcher started charging, used clientside for various features including scope and the model.
    * Not necessary to clear as its only used by logic that checks other hooks to see if a bow is drawing */
   public static final TinkerDataKey<Float> DRAWSPEED = TConstruct.createKey("drawspeed");
@@ -311,15 +312,15 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
 
   /* Misc */
 
-//  @Override TODO: PORT
-//  public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
-//    return shouldCauseReequipAnimation(oldStack, newStack, false);
-//  }
-//
-//  @Override
-//  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-//    return ModifiableItemUtil.shouldCauseReequip(oldStack, newStack, slotChanged);
-//  }
+  @Override
+  public boolean allowContinuingBlockBreaking(Player player, ItemStack oldStack, ItemStack newStack) {
+    return !shouldCauseReequipAnimation(oldStack, newStack, false);
+  }
+
+  @Override
+  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+    return ModifiableItemUtil.shouldCauseReequip(oldStack, newStack, slotChanged);
+  }
 
 
   /* Harvest logic, mostly used by modifiers but technically would let you make a pickaxe bow */

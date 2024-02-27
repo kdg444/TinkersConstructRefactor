@@ -58,11 +58,4 @@ public class SlimeTallGrassBlock extends BushBlock implements IShearable, IPlant
     Block block = state.getBlock();
     return TinkerWorld.slimeDirt.contains(block) || TinkerWorld.vanillaSlimeGrass.contains(block) || TinkerWorld.earthSlimeGrass.contains(block) || TinkerWorld.skySlimeGrass.contains(block) || TinkerWorld.enderSlimeGrass.contains(block) || TinkerWorld.ichorSlimeGrass.contains(block);
   }
-
-//  @Override TODO: PORT
-//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-//    if (this.foliageType != SlimeType.ICHOR) {
-//      super.fillItemCategory(group, items);
-//    }
-//  }
 }

@@ -132,7 +132,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
    * @param player Player activating the block.
    */
   public void interact(Player player, InteractionHand hand) {
-    if (level == null/* || level.isClientSide*/) {
+    if (level == null || level.isClientSide) {
       return;
     }
     // can't interact if liquid inside

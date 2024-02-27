@@ -136,10 +136,10 @@ dependencies {
     // dependencies
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
     include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.1.1")))
-    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:Porting-Lib:${project.port_lib_version}+${project.minecraft_base_version}-entity-refactor")) {
+    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:Porting-Lib:${project.port_lib_version}+${project.minecraft_base_version}")) {
         exclude(group: "io.vram")
     }
-//    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:config:${project.port_lib_version}+${project.minecraft_base_version}-entity-refactor"))
+//    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:config:${project.port_lib_version}+${project.minecraft_base_version}"))
     api(include('com.electronwill.night-config:core:3.6.6'))
     api(include('com.electronwill.night-config:toml:3.6.6'))
     modImplementation("dev.architectury:architectury-fabric:${architectury_version}"){

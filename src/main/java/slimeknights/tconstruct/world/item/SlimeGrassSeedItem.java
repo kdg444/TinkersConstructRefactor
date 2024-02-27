@@ -92,11 +92,4 @@ public class SlimeGrassSeedItem extends TooltipItem {
     }
     return InteractionResult.SUCCESS;
   }
-
-//  @Override TODO: PORT
-//  public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-//    if (this.foliage != SlimeType.ICHOR) {
-//      super.fillItemCategory(group, items);
-//    }
-//  }
 }

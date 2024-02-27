@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.shared.block;
 
+import io.github.fabricators_of_create.porting_lib.block.BeaconColorMultiplierBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.DyeColor;
@@ -10,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 import java.util.Locale;
 
-public class ClearStainedGlassBlock extends AbstractGlassBlock {
+public class ClearStainedGlassBlock extends AbstractGlassBlock implements BeaconColorMultiplierBlock {
 
   private final GlassColor glassColor;
   public ClearStainedGlassBlock(Properties properties, GlassColor glassColor) {
@@ -19,7 +20,7 @@ public class ClearStainedGlassBlock extends AbstractGlassBlock {
   }
 
   @Nullable
-//  @Override
+  @Override
   public float[] getBeaconColorMultiplier(BlockState state, LevelReader world, BlockPos pos, BlockPos beaconPos) {
     return this.glassColor.getRgb();
   }
