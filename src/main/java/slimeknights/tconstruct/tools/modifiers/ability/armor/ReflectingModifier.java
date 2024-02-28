@@ -1,9 +1,11 @@
 package slimeknights.tconstruct.tools.modifiers.ability.armor;
 
-import io.github.fabricators_of_create.porting_lib.entity.events.ProjectileImpactCallback;
+import io.github.fabricators_of_create.porting_lib.entity.events.EntityEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.ProjectileImpactEvent;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -31,17 +33,20 @@ import slimeknights.tconstruct.tools.logic.InteractionHandler;
 
 public class ReflectingModifier extends Modifier {
   public ReflectingModifier() {
-    ProjectileImpactCallback.EVENT.register(this::projectileImpact);
+    EntityEvents.PROJECTILE_IMPACT.register(this::projectileImpact);
   }
 
-  private boolean projectileImpact(Projectile projectile, HitResult hit) {
+  private void projectileImpact(ProjectileImpactEvent event) {
+    Entity entity = event.getEntity();
     // first, need a projectile that is hitting a living entity
-    if (!projectile.level().isClientSide) {
+    if (!entity.level().isClientSide) {
+      Projectile projectile = event.getProjectile();
 
       // handle blacklist for projectiles
       // living entity must be using one of our shields
+      HitResult hit = event.getRayTraceResult();
       if (!RegistryHelper.contains(TinkerTags.EntityTypes.REFLECTING_BLACKLIST, projectile.getType())
-          && hit.getType() == Type.ENTITY && ((EntityHitResult) hit).getEntity() instanceof LivingEntity living && living.isUsingItem() && living != projectile.getOwner()) {
+        && hit.getType() == Type.ENTITY && ((EntityHitResult) hit).getEntity() instanceof LivingEntity living && living.isUsingItem() && living != projectile.getOwner()) {
         ItemStack stack = living.getUseItem();
         if (stack.is(TinkerTags.Items.SHIELDS)) {
           ToolStack tool = ToolStack.from(stack);
@@ -55,8 +60,8 @@ public class ReflectingModifier extends Modifier {
               int time = hook.getUseDuration(tool, activeModifier) - living.getUseItemRemainingTicks();
               // must be blocking, started blocking within the last 2*level seconds, and be within the block angle
               if (hook.getUseAction(tool, activeModifier) == UseAnim.BLOCK
-                  && (time >= 5 && time < 40 * reflectingLevel)
-                  && InteractionHandler.canBlock(living, projectile.position(), tool)) {
+                && (time >= 5 && time < 40 * reflectingLevel)
+                && InteractionHandler.canBlock(living, projectile.position(), tool)) {
 
                 // time to actually reflect, this code is strongly based on code from the Parry mod
                 // take ownership of the projectile so it counts as a player kill, except in the case of fishing bobbers
@@ -85,13 +90,12 @@ public class ReflectingModifier extends Modifier {
                   TinkerNetwork.getInstance().sendVanillaPacket(new ClientboundSetEntityMotionPacket(projectile), living);
                 }
                 living.level().playSound(null, living.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 1.5F + living.level().random.nextFloat() * 0.4F);
-                return true;
+                event.setCanceled(true);
               }
             }
           }
         }
       }
     }
-    return false;
   }
 }

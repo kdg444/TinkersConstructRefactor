@@ -1,8 +1,10 @@
 package slimeknights.tconstruct.tools.logic;
 
 import com.google.common.collect.Multiset;
+import io.github.fabricators_of_create.porting_lib.entity.events.EntityEvents;
 import io.github.fabricators_of_create.porting_lib.entity.events.ProjectileImpactCallback;
 import io.github.fabricators_of_create.porting_lib.core.event.BaseEvent.Result;
+import io.github.fabricators_of_create.porting_lib.entity.events.ProjectileImpactEvent;
 import io.github.fabricators_of_create.porting_lib.event.common.GrindstoneEvents;
 import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
@@ -85,7 +87,7 @@ public class ToolEvents {
     LivingEntityEvents.HURT.register(ToolEvents::livingHurt);
     LivingEntityEvents.TICK.register(ToolEvents::livingWalk);
     LivingEntityEvents.VISIBILITY.register(ToolEvents::livingVisibility);
-    ProjectileImpactCallback.EVENT.register(ToolEvents::projectileHit);
+    EntityEvents.PROJECTILE_IMPACT.register(ToolEvents::projectileHit);
     GrindstoneEvents.ON_PLACE_ITEM.register(ToolEvents::onGrindstoneChange);
   }
 
@@ -418,10 +420,12 @@ public class ToolEvents {
   }
 
   /** Implements projectile hit hook */
-  static boolean projectileHit(Projectile projectile, HitResult hit) {
+  static void projectileHit(ProjectileImpactEvent event) {
+    Projectile projectile = event.getProjectile();
     ModifierNBT modifiers = EntityModifierCapability.getOrEmpty(projectile);
     if (!modifiers.isEmpty()) {
       NamespacedNBT nbt = PersistentDataCapability.getOrWarn(projectile);
+      HitResult hit = event.getRayTraceResult();
       HitResult.Type type = hit.getType();
       // extract a firing entity as that is a common need
       LivingEntity attacker = projectile.getOwner() instanceof LivingEntity l ? l : null;
@@ -433,27 +437,23 @@ public class ToolEvents {
           if (entityHit.getEntity().getType() != EntityType.ENDERMAN || modifiers.getLevel(TinkerModifiers.enderference.getId()) > 0) {
             // extract a living target as that is the most common need
             LivingEntity target = ToolAttackUtil.getLivingEntity(entityHit.getEntity());
-            boolean cancel = false;
             for (ModifierEntry entry : modifiers.getModifiers()) {
               if (entry.getHook(TinkerHooks.PROJECTILE_HIT).onProjectileHitEntity(modifiers, nbt, entry, projectile, entityHit, attacker, target)) {
-                cancel = true;
+                event.setCanceled(true);
               }
             }
-            if (cancel)
-              return true;
           }
         }
         case BLOCK -> {
           BlockHitResult blockHit = (BlockHitResult)hit;
           for (ModifierEntry entry : modifiers.getModifiers()) {
             if (entry.getHook(TinkerHooks.PROJECTILE_HIT).onProjectileHitBlock(modifiers, nbt, entry, projectile, blockHit, attacker)) {
-              return true;
+              event.setCanceled(true);
             }
           }
         }
       }
     }
-    return false;
   }
 
   static void onGrindstoneChange(GrindstoneEvents.OnplaceItem event) {
