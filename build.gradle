@@ -11,7 +11,6 @@ plugins {
     id "fabric-loom" version "1.5.+"
     id "maven-publish"
 //    id "io.freefair.lombok"
-    id "org.quiltmc.quilt-mappings-on-loom" version "4.2.+"
 }
 
 repositories {
