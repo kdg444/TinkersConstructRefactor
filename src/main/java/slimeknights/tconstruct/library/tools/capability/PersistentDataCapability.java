@@ -61,6 +61,7 @@ public class PersistentDataCapability implements EntityComponentInitializer {
     for (Class<? extends Entity> clazz : EntityModifierCapability.ENTITY_PREDICATES) {
       registry.registerFor(clazz, CAPABILITY, entity -> new NamespacedNBT());
     }
+    registry.registerForPlayers(CAPABILITY, player -> new NamespacedNBT());
   }
 
   /** Syncs the data to the given player */
