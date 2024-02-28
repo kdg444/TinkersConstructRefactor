@@ -2,10 +2,10 @@ package slimeknights.tconstruct.tools.logic;
 
 import com.google.common.collect.Multiset;
 import io.github.fabricators_of_create.porting_lib.entity.events.EntityEvents;
-import io.github.fabricators_of_create.porting_lib.entity.events.ProjectileImpactCallback;
 import io.github.fabricators_of_create.porting_lib.core.event.BaseEvent.Result;
 import io.github.fabricators_of_create.porting_lib.entity.events.ProjectileImpactEvent;
 import io.github.fabricators_of_create.porting_lib.event.common.GrindstoneEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents.LivingVisibilityEvent;
 import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
 import io.github.fabricators_of_create.porting_lib.util.EntityHelper;
@@ -49,6 +49,7 @@ import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.TinkerHooks;
 import slimeknights.tconstruct.library.modifiers.data.ModifierMaxLevel;
+import slimeknights.tconstruct.library.modifiers.dynamic.MobDisguiseModifier;
 import slimeknights.tconstruct.library.modifiers.modules.MobDisguiseModule;
 import slimeknights.tconstruct.library.tools.capability.EntityModifierCapability;
 import slimeknights.tconstruct.library.tools.capability.PersistentDataCapability;
@@ -86,7 +87,7 @@ public class ToolEvents {
     LivingEntityEvents.HURT.register(ToolEvents::livingAttack);
     LivingEntityEvents.HURT.register(ToolEvents::livingHurt);
     LivingEntityEvents.TICK.register(ToolEvents::livingWalk);
-    LivingEntityEvents.VISIBILITY.register(ToolEvents::livingVisibility);
+    LivingVisibilityEvent.VISIBILITY.register(ToolEvents::livingVisibility);
     EntityEvents.PROJECTILE_IMPACT.register(ToolEvents::projectileHit);
     GrindstoneEvents.ON_PLACE_ITEM.register(ToolEvents::onGrindstoneChange);
   }
@@ -392,18 +393,19 @@ public class ToolEvents {
   }
 
   /** Handles visibility effects of mob disguise and projectile protection */
-  static double livingVisibility(LivingEntity living, @Nullable Entity lookingEntity, double current) {
-    MutableDouble value = new MutableDouble(current);
+  static void livingVisibility(LivingVisibilityEvent event) {
     // always nonnull in vanilla, not sure when it would be nullable but I dont see a need for either modifier
+    Entity lookingEntity = event.getLookingEntity();
     if (lookingEntity == null) {
-      return current;
+      return;
     }
+    LivingEntity living = event.getEntity();
     TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> {
       // mob disguise
-      Multiset<EntityType<?>> disguises = data.get(MobDisguiseModule.DISGUISES);
+      Multiset<EntityType<?>> disguises = data.get(MobDisguiseModifier.DISGUISES);
       if (disguises != null && disguises.contains(lookingEntity.getType())) {
         // not as good as a real head
-        value.setValue(value.getValue() * 0.65);
+        event.modifyVisibility(0.65f);
       }
 
       // projectile protection
@@ -412,11 +414,10 @@ public class ToolEvents {
         float max = projData.getMax();
         if (max > 0) {
           // reduces visibility by 5% per level
-          value.setValue(value.getValue() * Math.max(0, 1 - (max * 0.05)));
+          event.modifyVisibility(Math.max(0, 1 - (max * 0.05)));
         }
       }
     });
-    return value.getValue();
   }
 
   /** Implements projectile hit hook */

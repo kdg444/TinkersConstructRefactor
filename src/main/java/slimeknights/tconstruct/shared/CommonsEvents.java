@@ -30,28 +30,28 @@ import java.util.Objects;
 public class CommonsEvents {
 
   public static void init() {
-    LivingEntityEvents.JUMP.register(CommonsEvents::onLivingJump);
+    LivingEntityEvents.LivingJumpEvent.JUMP.register(CommonsEvents::onLivingJump);
     UseBlockCallback.EVENT.register(CommonsEvents::openSpectatorMenu);
   }
 
   // Slimy block jump stuff
-  static void onLivingJump(LivingEntity entity) {
-    if (entity == null) {
+  static void onLivingJump(LivingEntityEvents.LivingJumpEvent event) {
+    if (event.getEntity() == null) {
       return;
     }
 
     // check if we jumped from a slime block
-    BlockPos pos = BlockPos.containing(entity.getX(), entity.getY(), entity.getZ());
-    if (entity.getCommandSenderWorld().isEmptyBlock(pos)) {
+    BlockPos pos = BlockPos.containing(event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ());
+    if (event.getEntity().getCommandSenderWorld().isEmptyBlock(pos)) {
       pos = pos.below();
     }
-    BlockState state = entity.getCommandSenderWorld().getBlockState(pos);
+    BlockState state = event.getEntity().getCommandSenderWorld().getBlockState(pos);
     Block block = state.getBlock();
 
     if (TinkerWorld.congealedSlime.contains(block)) {
-      bounce(entity, 0.25f);
+      bounce(event.getEntity(), 0.25f);
     } else if (TinkerWorld.slimeDirt.contains(block) || TinkerWorld.vanillaSlimeGrass.contains(block) || TinkerWorld.earthSlimeGrass.contains(block) || TinkerWorld.skySlimeGrass.contains(block) || TinkerWorld.enderSlimeGrass.contains(block) || TinkerWorld.ichorSlimeGrass.contains(block)) {
-      bounce(entity, 0.06f);
+      bounce(event.getEntity(), 0.06f);
     }
   }
 

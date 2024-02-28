@@ -17,6 +17,7 @@ import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.library.utils.TooltipKey;
+import slimeknights.tconstruct.shared.TinkerDamageTypes;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -47,11 +48,10 @@ public class ThornsModifier extends IncrementalModifier {
     DamageSource source;
     Player player = context.getPlayerAttacker();
     if (player != null) {
-      source = player.damageSources().playerAttack(player);
+      source = player.damageSources().source(TinkerDamageTypes.PLAYER_ATTACK_BYPASS_ARMOR, player);
     } else {
-      source = player.damageSources().mobAttack(context.getAttacker());
+      source = player.damageSources().source(TinkerDamageTypes.MOB_ATTACK_BYPASS_ARMOR, context.getAttacker());
     }
-//    source.bypassArmor(); TODO: PORT
     float secondaryDamage = (getScaledLevel(tool, level) * tool.getMultiplier(ToolStats.ATTACK_DAMAGE) * 0.75f) * context.getCooldown();
     if (context.isCritical()) {
       secondaryDamage *= 1.5f;

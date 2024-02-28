@@ -10,6 +10,7 @@ import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEve
 import io.github.fabricators_of_create.porting_lib.entity.events.PlayerTickEvents;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -45,7 +46,7 @@ public class EquipmentChangeWatcher implements EntityComponentInitializer {
 //    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, event -> event.register(PlayerLastEquipment.class));
 
     // equipment change is used on both sides
-    LivingEntityEvents.EQUIPMENT_CHANGE.register(EquipmentChangeWatcher::onEquipmentChange);
+    ServerEntityEvents.EQUIPMENT_CHANGE.register(EquipmentChangeWatcher::onEquipmentChange);
 
     // only need to use the cap and the player tick on the client
     if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {

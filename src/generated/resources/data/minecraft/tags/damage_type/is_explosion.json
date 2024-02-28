@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "tconstruct:self_destruct",
+      "required": false
+    },
+    {
+      "id": "tconstruct:player_attack_explosion",
+      "required": false
+    },
+    {
+      "id": "tconstruct:mob_attack_explosion",
+      "required": false
+    }
+  ]
+}

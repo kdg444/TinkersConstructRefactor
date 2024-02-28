@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "tconstruct:bleed",
+      "required": false
+    },
+    {
+      "id": "tconstruct:player_attack_magic",
+      "required": false
+    },
+    {
+      "id": "tconstruct:mob_attack_magic",
+      "required": false
+    }
+  ]
+}

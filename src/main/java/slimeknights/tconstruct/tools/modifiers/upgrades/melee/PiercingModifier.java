@@ -26,6 +26,7 @@ import slimeknights.tconstruct.library.tools.nbt.NamespacedNBT;
 import slimeknights.tconstruct.library.tools.stat.ModifierStatsBuilder;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.library.utils.TooltipKey;
+import slimeknights.tconstruct.shared.TinkerDamageTypes;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -59,11 +60,10 @@ public class PiercingModifier extends IncrementalModifier implements ProjectileH
     DamageSource source;
     Player player = context.getPlayerAttacker();
     if (player != null) {
-      source = player.damageSources().playerAttack(player);
+      source = player.damageSources().source(TinkerDamageTypes.PLAYER_ATTACK_BYPASS_ARMOR, player);
     } else {
-      source = context.getAttacker().damageSources().mobAttack(context.getAttacker());
+      source = context.getAttacker().damageSources().source(TinkerDamageTypes.MOB_ATTACK_BYPASS_ARMOR, context.getAttacker());
     }
-//    source.bypassArmor(); TODO: PORT
     float secondaryDamage = (getScaledLevel(tool, level) * tool.getMultiplier(ToolStats.ATTACK_DAMAGE) - tool.getVolatileData().getFloat(PIERCING_DEBUFF)) * context.getCooldown();
     if (context.isCritical()) {
       secondaryDamage *= 1.5f;
@@ -83,9 +83,9 @@ public class PiercingModifier extends IncrementalModifier implements ProjectileH
     // deals 1 pierce damage per level
     DamageSource source;
     if (attacker instanceof Player player) {
-      source = projectile.damageSources().playerAttack(player)/*.bypassArmor() TODO: PORT*/;
+      source = projectile.damageSources().source(TinkerDamageTypes.PLAYER_ATTACK_BYPASS_ARMOR, player);
     } else if (attacker != null) {
-      source = projectile.damageSources().mobAttack(attacker)/*.bypassArmor() TODO: PORT*/;
+      source = projectile.damageSources().source(TinkerDamageTypes.MOB_ATTACK_BYPASS_ARMOR, attacker);
     } else {
       source = projectile.damageSources().generic();
     }

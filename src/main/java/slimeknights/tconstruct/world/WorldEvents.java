@@ -3,6 +3,7 @@ package slimeknights.tconstruct.world;
 import com.google.common.collect.Lists;
 import io.github.fabricators_of_create.porting_lib.config.ConfigEvents;
 import io.github.fabricators_of_create.porting_lib.config.ConfigType;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents.LivingVisibilityEvent;
 import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.tags.Tags;
@@ -61,7 +62,7 @@ import java.util.function.Predicate;
 public class WorldEvents {
   public static void init() {
     LootTableEvents.MODIFY.register(WorldEvents::onLootTableLoad);
-    LivingEntityEvents.VISIBILITY.register(WorldEvents::livingVisibility);
+    LivingVisibilityEvent.VISIBILITY.register(WorldEvents::livingVisibility);
     LivingEntityEvents.DROPS.register(WorldEvents::creeperKill);
     ConfigEvents.LOADING.register(config -> {
       if (config.getModId().equals(TConstruct.MOD_ID) && config.getType() == ConfigType.COMMON)
@@ -220,18 +221,19 @@ public class WorldEvents {
 
 
   /* Heads */
-  static double livingVisibility(LivingEntity entity, Entity lookingEntity, double originalMultiplier) {
+  static void livingVisibility(LivingVisibilityEvent event) {
+    Entity lookingEntity = event.getLookingEntity();
     if (lookingEntity == null) {
-      return originalMultiplier;
+      return;
     }
+    LivingEntity entity = event.getEntity();
     ItemStack helmet = entity.getItemBySlot(EquipmentSlot.HEAD);
     Item item = helmet.getItem();
     if (item != Items.AIR && TinkerWorld.headItems.contains(item)) {
       if (lookingEntity.getType() == ((TinkerHeadType)((SkullBlock)((BlockItem)item).getBlock()).getType()).getType()) {
-        return 0.5f;
+        event.modifyVisibility(0.5f);
       }
     }
-    return originalMultiplier;
   }
 
   static boolean creeperKill(LivingEntity target, DamageSource source, Collection<ItemEntity> drops, int lootingLevel, boolean recentlyHit) {

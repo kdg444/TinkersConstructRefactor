@@ -57,6 +57,7 @@ import slimeknights.tconstruct.shared.block.WaxedPlatformBlock;
 import slimeknights.tconstruct.shared.block.WeatheringPlatformBlock;
 import slimeknights.tconstruct.shared.command.TConstructCommand;
 import slimeknights.tconstruct.shared.data.CommonRecipeProvider;
+import slimeknights.tconstruct.shared.data.TinkerDamageSourceProvider;
 import slimeknights.tconstruct.shared.inventory.BlockContainerOpenedTrigger;
 import slimeknights.tconstruct.shared.item.TinkerBookItem;
 import slimeknights.tconstruct.shared.item.TinkerBookItem.BookType;
@@ -181,5 +182,6 @@ public final class TinkerCommons extends TinkerModule {
 
   public static void gatherData(final FabricDataGenerator.Pack pack) {
     pack.addProvider(CommonRecipeProvider::new);
+    pack.addProvider(TinkerDamageSourceProvider::new);
   }
 }

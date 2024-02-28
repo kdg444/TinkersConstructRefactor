@@ -15,6 +15,7 @@ import slimeknights.tconstruct.library.modifiers.spilling.ISpillingEffect;
 import slimeknights.tconstruct.library.tools.context.ToolAttackContext;
 import slimeknights.tconstruct.library.tools.helper.ToolAttackUtil;
 import slimeknights.tconstruct.library.utils.JsonUtils;
+import slimeknights.tconstruct.shared.TinkerDamageTypes;
 
 import javax.annotation.Nullable;
 import java.util.Locale;
@@ -27,15 +28,8 @@ public record DamageSpillingEffect(DamageType type, float damage) implements ISp
 
   @Override
   public void applyEffects(FluidStack fluid, float scale, ToolAttackContext context) {
-    DamageSource source;
-    Player player = context.getPlayerAttacker();
-    if (player != null) {
-      source = player.damageSources().playerAttack(player);
-    } else {
-      source = player.damageSources().mobAttack(context.getAttacker());
-    }
+    DamageSource source = type.apply(context);
     // special effects
-    type.apply(source);
     ToolAttackUtil.attackEntitySecondary(source, this.damage * scale, context.getTarget(), context.getLivingTarget(), true);
   }
 
@@ -54,30 +48,57 @@ public record DamageSpillingEffect(DamageType type, float damage) implements ISp
   public enum DamageType {
     NORMAL {
       @Override
-      public void apply(DamageSource source) {}
+      public DamageSource apply(ToolAttackContext context) {
+        Player player = context.getPlayerAttacker();
+        if (player != null) {
+          return player.damageSources().playerAttack(player);
+        } else {
+          return player.damageSources().mobAttack(context.getAttacker());
+        }
+      }
     },
     FIRE {
       @Override
-      public void apply(DamageSource source) {
-//        ((DamageSourceAccessor)source).port_lib$setFireDamage(); TODO: PORT
+      public DamageSource apply(ToolAttackContext context) {
+        Player player = context.getPlayerAttacker();
+        if (player != null) {
+          return player.damageSources().source(TinkerDamageTypes.PLAYER_ATTACK_FIRE, player);
+        } else {
+          return player.damageSources().source(TinkerDamageTypes.MOB_ATTACK_FIRE, context.getAttacker());
+        }
       }
     },
     MAGIC {
       @Override
-      public void apply(DamageSource source) {
-//        source.setMagic();
+      public DamageSource apply(ToolAttackContext context) {
+        Player player = context.getPlayerAttacker();
+        if (player != null) {
+          return player.damageSources().source(TinkerDamageTypes.PLAYER_ATTACK_MAGIC, player);
+        } else {
+          return player.damageSources().source(TinkerDamageTypes.MOB_ATTACK_MAGIC, context.getAttacker());
+        }
       }
     },
     EXPLOSION {
       @Override
-      public void apply(DamageSource source) {
-//        source.setExplosion();
+      public DamageSource apply(ToolAttackContext context) {
+        Player player = context.getPlayerAttacker();
+        if (player != null) {
+          return player.damageSources().source(TinkerDamageTypes.PLAYER_ATTACK_EXPLOSION, player);
+        } else {
+          return player.damageSources().source(TinkerDamageTypes.MOB_ATTACK_EXPLOSION, context.getAttacker());
+        }
       }
     },
     PIERCING {
       @Override
-      public void apply(DamageSource source) {
-//        source.bypassArmor();
+      public DamageSource apply(ToolAttackContext context) {
+        Player player = context.getPlayerAttacker();
+        if (player != null) {
+          return player.damageSources().source(TinkerDamageTypes.PLAYER_ATTACK_BYPASS_ARMOR, player);
+        } else {
+          return player.damageSources().source(TinkerDamageTypes.MOB_ATTACK_BYPASS_ARMOR, context.getAttacker());
+        }
       }
     };
 
@@ -85,7 +106,7 @@ public record DamageSpillingEffect(DamageType type, float damage) implements ISp
     private final String name = this.name().toLowerCase(Locale.US);
 
     /** Applies this effect to the given damage source */
-    public abstract void apply(DamageSource source);
+    public abstract DamageSource apply(ToolAttackContext context);
 
     /** Gets the type for the given name */
     @Nullable

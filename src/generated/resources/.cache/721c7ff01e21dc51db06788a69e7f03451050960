@@ -1,4 +1,4 @@
-// 1.20.1	2024-02-27T18:09:08.39448471	Hephaestus/Tinkers' Construct Table Recipes
+// 1.20.1	2024-02-28T15:28:36.276025727	Hephaestus/Tinkers' Construct Table Recipes
 2d2d01d833acb47ef02be0d6cd74f6c9541d7ab6 data/tconstruct/advancements/recipes/misc/tables/tinkers_forge.json
 a3ac5d55d1df70bf9ea8ceaa8128b8e0aaaa23ee data/tconstruct/recipes/tables/tinker_station_damaging/potion_two.json
 4e941abc53e47c3c707b17b18c8d4f3f6e0293f1 data/tconstruct/recipes/tables/crafting_table_repair.json
@@ -26,8 +26,8 @@ dedc28dced53ae5f4315a0b54627589e803c2d0d data/tconstruct/advancements/recipes/mi
 d6ae486455032b600aad555df1a23c0a2fadb026 data/tconstruct/recipes/tables/tinkers_forge.json
 a43285f5dfb8203591ee2bf8d754511997ff36b2 data/tconstruct/recipes/tables/tinker_station_damaging/base_two.json
 d7783cee991561ca192bac4d4b832bef9302eecb data/tconstruct/advancements/recipes/misc/tables/tinker_station.json
-f300c7c2000fcb6c0d1239a2a8bb97526df518af data/tconstruct/advancements/recipes/misc/tables/crafting_station.json
 5fd8c8351a4ff0296e2236512d50c205dc2793d5 data/tconstruct/recipes/tables/crafting_station_from_logs.json
+f300c7c2000fcb6c0d1239a2a8bb97526df518af data/tconstruct/advancements/recipes/misc/tables/crafting_station.json
 16e6ec95ddf0680d4e3fd6fb94377122a5377f30 data/tconstruct/advancements/recipes/misc/tables/modifier_worktable.json
 c76a9a168ddcf1d4a5d6525ed110fb042e4462a6 data/tconstruct/recipes/tables/tinker_station_part_swapping.json
 d1a537d535271c2ee011b853c2cba869bd50ece2 data/tconstruct/recipes/tables/dagger_recycling.json

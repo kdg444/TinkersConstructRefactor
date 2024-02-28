@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.upgrades.armor;
 
 import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents.LivingJumpEvent;
 import io.github.fabricators_of_create.porting_lib.entity.events.LivingEntityEvents.Fall.FallEvent;
 import net.minecraft.world.entity.LivingEntity;
 import slimeknights.tconstruct.TConstruct;
@@ -13,7 +14,7 @@ public class LeapingModifier extends IncrementalArmorLevelModifier {
   public LeapingModifier() {
     super(LEAPING);
     LivingEntityEvents.FALL.register(LeapingModifier::onLivingFall);
-    LivingEntityEvents.JUMP.register(LeapingModifier::onLivingJump);
+    LivingJumpEvent.JUMP.register(LeapingModifier::onLivingJump);
   }
 
   /** Reduce fall distance for fall damage */
@@ -26,7 +27,8 @@ public class LeapingModifier extends IncrementalArmorLevelModifier {
   }
 
   /** Called on jumping to boost the jump height of the entity */
-  private static void onLivingJump(LivingEntity entity) {
+  private static void onLivingJump(LivingJumpEvent event) {
+    LivingEntity entity = event.getEntity();
     float boost = ModifierUtil.getTotalModifierFloat(entity, LEAPING);
     if (boost > 0) {
       entity.setDeltaMovement(entity.getDeltaMovement().add(0, boost * 0.1, 0));

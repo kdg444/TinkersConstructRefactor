@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.defense;
 
+import io.github.fabricators_of_create.porting_lib.core.event.BaseEvent.Result;
+import io.github.fabricators_of_create.porting_lib.entity.events.CriticalHitEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -9,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.data.ModifierMaxLevel;
+import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
 import slimeknights.tconstruct.library.tools.context.EquipmentContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
@@ -21,7 +24,7 @@ public class DragonbornModifier extends AbstractProtectionModifier<ModifierMaxLe
   private static final TinkerDataKey<ModifierMaxLevel> DRAGONBORN = TConstruct.createKey("dragonborn");
   public DragonbornModifier() {
     super(DRAGONBORN);
-//    MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, CriticalHitEvent.class, DragonbornModifier::onCritical);
+    CriticalHitEvent.CRITICAL_HIT.register(DragonbornModifier::onCritical);
   }
 
   @Override
@@ -47,32 +50,32 @@ public class DragonbornModifier extends AbstractProtectionModifier<ModifierMaxLe
   }
 
   /** Boosts critical hit damage */
-//  private static void onCritical(CriticalHitEvent event) { TODO: PORT
-//    if (event.getResult() != Result.DENY) {
-//      // force critical if not already critical and in the air
-//      LivingEntity living = event.getEntityLiving();
-//
-//      // check dragonborn first, faster check
-//      TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> {
-//        ModifierMaxLevel dragonborn = data.get(DRAGONBORN);
-//        if (dragonborn != null) {
-//          float max = dragonborn.getMax();
-//          if (max > 0) {
-//            // make it critical if we meet our simpler conditions, note this does not boost attack damage
-//            boolean isCritical = event.isVanillaCritical() || event.getResult() == Result.ALLOW;
-//            if (!isCritical && isAirborne(living)) {
-//              isCritical = true;
-//              event.setResult(Result.ALLOW);
-//            }
-//
-//            // if we either were or became critical, time to boost
-//            if (isCritical) {
-//              // adds +5% critical hit per level
-//              event.setDamageModifier(event.getDamageModifier() + max * 0.05f);
-//            }
-//          }
-//        }
-//      });
-//    }
-//  }
+  private static void onCritical(CriticalHitEvent event) {
+    if (event.getResult() != Result.DENY) {
+      // force critical if not already critical and in the air
+      LivingEntity living = event.getEntity();
+
+      // check dragonborn first, faster check
+      TinkerDataCapability.CAPABILITY.maybeGet(living).ifPresent(data -> {
+        ModifierMaxLevel dragonborn = data.get(DRAGONBORN);
+        if (dragonborn != null) {
+          float max = dragonborn.getMax();
+          if (max > 0) {
+            // make it critical if we meet our simpler conditions, note this does not boost attack damage
+            boolean isCritical = event.isVanillaCritical() || event.getResult() == Result.ALLOW;
+            if (!isCritical && isAirborne(living)) {
+              isCritical = true;
+              event.setResult(Result.ALLOW);
+            }
+
+            // if we either were or became critical, time to boost
+            if (isCritical) {
+              // adds +5% critical hit per level
+              event.setDamageModifier(event.getDamageModifier() + max * 0.05f);
+            }
+          }
+        }
+      });
+    }
+  }
 }

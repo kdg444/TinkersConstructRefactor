@@ -1,0 +1,5 @@
+// 1.20.1	2024-02-28T15:28:36.28302259	Hephaestus/Tags for minecraft:damage_type
+94922fdc8b0d7306ea363a90ea23c02e40ffffb6 data/minecraft/tags/damage_type/bypasses_armor.json
+f321614e71697a2614d79ca9766e470d07cdfc23 data/minecraft/tags/damage_type/bypasses_effects.json
+2300f65a2cec0869ac49c1218eb9a598bb96615a data/minecraft/tags/damage_type/is_fire.json
+18891bdab741bd22d8ae49bd69588feb6fa6c301 data/minecraft/tags/damage_type/is_explosion.json

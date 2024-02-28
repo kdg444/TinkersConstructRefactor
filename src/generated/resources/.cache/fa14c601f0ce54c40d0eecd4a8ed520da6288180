@@ -1,4 +1,4 @@
-// 1.20.1	2024-02-27T18:09:08.3992581	Hephaestus/Tinkers' Construct Material Recipe
+// 1.20.1	2024-02-28T15:28:36.281157384	Hephaestus/Tinkers' Construct Material Recipe
 d9352bdc4d37426309901c55a42549cfbbe20ffa data/tconstruct/recipes/tools/materials/hepatizon/ingot.json
 9159a221df06af2ad5bdff5917551d5efe25abf7 data/tconstruct/recipes/tools/materials/silver/ingot.json
 f1316bf643a2b0e78bc92244a96e352463a8f359 data/tconstruct/recipes/tools/materials/gold/block.json
@@ -66,8 +66,8 @@ a0dbe8b934ebcf439833b93a673d8fc2f07a85e5 data/tconstruct/recipes/tools/materials
 06d84650061926aaa023ebf8cd43bc126333df8d data/tconstruct/recipes/tools/materials/wood/planks/spruce.json
 fef005d1d99ccf6ee16d5073431738a975954de5 data/tconstruct/recipes/tools/materials/scorched_stone/block.json
 87cc1c4dee8c0394e63d3434833e68dcda034462 data/tconstruct/recipes/tools/materials/necronium.json
-a5e96cef6938abfb990e6c5ca82a54d9ec25c7d4 data/tconstruct/recipes/tools/materials/melting/amethyst_bronze.json
 0fe58e130f9c4fc3ae4680b206f218eb3d6f093b data/tconstruct/recipes/tools/materials/melting/queens_slime.json
+a5e96cef6938abfb990e6c5ca82a54d9ec25c7d4 data/tconstruct/recipes/tools/materials/melting/amethyst_bronze.json
 ec32195506bd134155876d9fc94d642ee1810794 data/tconstruct/recipes/tools/materials/steel/nugget.json
 d45142042a30f34542fc659aaaa2e63ca74355a9 data/tconstruct/recipes/tools/materials/constantan/nugget.json
 9dcef1c7398d695aa2b341a189e75c6b5a93b9dd data/tconstruct/recipes/tools/materials/casting/iron.json
