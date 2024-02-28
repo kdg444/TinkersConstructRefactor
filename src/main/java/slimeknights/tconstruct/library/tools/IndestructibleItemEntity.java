@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.tools;
 
+import io.github.fabricators_of_create.porting_lib.entity.PortingLibEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -33,7 +34,7 @@ public class IndestructibleItemEntity extends ItemEntity {
 
   @Override
   public Packet<ClientGamePacketListener> getAddEntityPacket() {
-    return new ClientboundAddEntityPacket(this);
+    return PortingLibEntity.getEntitySpawningPacket(this);
   }
 
   /** Copies the pickup delay from another entity */

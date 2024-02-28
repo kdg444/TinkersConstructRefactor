@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.gadgets.entity.shuriken;
 
 import io.github.fabricators_of_create.porting_lib.entity.IEntityAdditionalSpawnData;
+import io.github.fabricators_of_create.porting_lib.entity.PortingLibEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -87,6 +88,6 @@ public abstract class ShurikenEntityBase extends ThrowableItemProjectile impleme
   @Nonnull
   @Override
   public Packet<ClientGamePacketListener> getAddEntityPacket() {
-    return new ClientboundAddEntityPacket(this);
+    return PortingLibEntity.getEntitySpawningPacket(this);
   }
 }

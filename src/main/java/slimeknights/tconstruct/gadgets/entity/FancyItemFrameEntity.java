@@ -1,12 +1,15 @@
 package slimeknights.tconstruct.gadgets.entity;
 
 import io.github.fabricators_of_create.porting_lib.entity.IEntityAdditionalSpawnData;
+import io.github.fabricators_of_create.porting_lib.entity.PortingLibEntity;
 import net.fabricmc.fabric.api.entity.EntityPickInteractionAware;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -220,6 +223,11 @@ public class FancyItemFrameEntity extends ItemFrame implements EntityPickInterac
     if (doesRotate(frameId)) {
       rotationTimer = compound.getInt(TAG_ROTATION_TIMER);
     }
+  }
+
+  @Override
+  public Packet<ClientGamePacketListener> getAddEntityPacket() {
+    return PortingLibEntity.getEntitySpawningPacket(this);
   }
 
   @Override

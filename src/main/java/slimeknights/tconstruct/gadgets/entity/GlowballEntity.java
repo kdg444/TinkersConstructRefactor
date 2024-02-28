@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.gadgets.entity;
 
 import io.github.fabricators_of_create.porting_lib.entity.IEntityAdditionalSpawnData;
+import io.github.fabricators_of_create.porting_lib.entity.PortingLibEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -79,6 +80,6 @@ public class GlowballEntity extends ThrowableItemProjectile implements IEntityAd
   @Nonnull
   @Override
   public Packet<ClientGamePacketListener> getAddEntityPacket() {
-    return new ClientboundAddEntityPacket(this);
+    return PortingLibEntity.getEntitySpawningPacket(this);
   }
 }
