@@ -1,4 +1,4 @@
-// 1.20.1	2023-11-22T16:50:16.074762214	Hephaestus/Tinkers Construct Block Tags
+// 1.20.1	2024-02-27T18:09:08.401387994	Hephaestus/Tinkers Construct Block Tags
 61ba530b49ae3c5473c77baf566f3b7fab2307ad data/minecraft/tags/blocks/saplings.json
 0c9d7465ebc29fbe18ed898c790e1bcfe4e7cb82 data/tconstruct/tags/blocks/mineable/mattock.json
 764c0179593c083175d3f04f45cd587c6cdad81d data/minecraft/tags/blocks/enderman_holdable.json
@@ -107,6 +107,7 @@ cda0126300bdf066f09dbfa39fb558b30e651698 data/c/tags/blocks/magenta_glass.json
 a5bbd7c84759fb40df68448187c42fc7121dd48b data/minecraft/tags/blocks/impermeable.json
 abc9aeafd0de81dfc1ab881f1a6829f1304cbc54 data/tconstruct/tags/blocks/seared_tanks.json
 767647ed425d404e7f10e01dfc22736c2c058db2 data/minecraft/tags/blocks/guarded_by_piglins.json
+6e9a38454b1dd38e4ef80c100527c394f16d3fa7 data/fabric/tags/blocks/needs_tool_level_4.json
 60ff2365a1894da58d7ac72aa8d959c9767f1552 data/c/tags/blocks/yellow_glass_panes.json
 fc013a612063830eb341afed7b26ebf4bf168534 data/minecraft/tags/blocks/standing_signs.json
 8b80b0f1b0910cf681c87c6730f4a416166c8c2f data/c/tags/blocks/brown_glass_panes.json
@@ -135,7 +136,6 @@ bf75f0ec5429b1548fe4b2cb9a5c25fc6b7a5780 data/tconstruct/tags/blocks/slimy_nyliu
 bfc608c02fa04308e35598020d32bdc540ad4785 data/c/tags/blocks/mineable/shears.json
 b14774fe93e76a60061cc0a57a06b3e1bc3062e1 data/c/tags/blocks/brown_glass.json
 9c5a85c6f51271580b57e77c79d634c6d0a000a6 data/minecraft/tags/blocks/logs.json
-6e9a38454b1dd38e4ef80c100527c394f16d3fa7 data/c/tags/blocks/needs_netherite_tool.json
 8b0a9042c903911ed240e36034b283d887a05d40 data/c/tags/blocks/queens_slime_blocks.json
 a08d0363fb23baa8ee7863cf13ad3fa392f57ffa data/c/tags/blocks/orange_glass_panes.json
 d6c6a0a5853475f1f8a6e436a11e2a4bcba66fa6 data/c/tags/blocks/cobalt_ores.json
