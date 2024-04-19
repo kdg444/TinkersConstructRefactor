@@ -1,4 +1,4 @@
-// 1.20.1	2024-02-28T15:28:36.285961899	Hephaestus/Tinkers' Construct Smeltery Recipes
+// 1.20.1	2024-04-19T14:57:03.405596155	Hephaestus/Tinkers' Construct Smeltery Recipes
 f1e39ffd4c80c5235d5afef69a9d2db13f4da7cd data/tconstruct/recipes/smeltery/melting/metal/tin/raw.json
 33d3b06a2e2274fa281ecac6301002b24d364f84 data/tconstruct/recipes/smeltery/melting/metal/aluminum/dust.json
 e1c52c203db9f85cecfa6e424d7fb03b3ef0c778 data/tconstruct/recipes/smeltery/casting/metal/invar/rod_gold_cast.json
