@@ -365,8 +365,9 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 			if (filled > 0) {
 				// drain the amount that worked
         try (Transaction tx = TransferUtil.getTransaction()) {
-          fluid = tank.extract(tank.getResource(), filled, tx);
-          handler.insert(tank.getResource(), fluid, tx);
+          var resource = tank.getResource();
+          fluid = tank.extract(resource, filled, tx);
+          handler.insert(resource, fluid, tx);
           tx.commit();
         }
 

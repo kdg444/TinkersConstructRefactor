@@ -96,7 +96,7 @@ public class FaucetBlockEntity extends MantleBlockEntity implements CustomRender
     if (inputHandler == null) {
       inputHandler = findFluidHandler(getBlockState().getValue(FACING).getOpposite());
     }
-    return inputHandler.get(getBlockState().getValue(FACING).getOpposite());
+    return inputHandler.get(getBlockState().getValue(FACING));
   }
 
   /**
@@ -108,7 +108,7 @@ public class FaucetBlockEntity extends MantleBlockEntity implements CustomRender
     if (outputHandler == null) {
       outputHandler = findFluidHandler(Direction.DOWN);
     }
-    return outputHandler.get(Direction.DOWN);
+    return outputHandler.get(Direction.UP);
   }
 
   /**

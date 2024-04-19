@@ -53,6 +53,7 @@ public class ChannelTank extends FluidTank {
     boolean wasEmpty = isEmpty();
     long amount = super.insert(insertedVariant, maxAmount, tx);
     updateSnapshots(tx);
+    updateLockSnapshots(tx);
 
     locked += amount;
     tx.addOuterCloseCallback((result) -> {
@@ -68,6 +69,7 @@ public class ChannelTank extends FluidTank {
   public long extract(FluidVariant extractedVariant, long maxAmount, TransactionContext tx) {
     boolean wasEmpty = isEmpty();
     long extracted = super.extract(extractedVariant, maxAmount, tx);
+    updateLockSnapshots(tx);
     // if we removed something, sync to client
     tx.addOuterCloseCallback((result) -> {
       if (result.wasCommitted() && !wasEmpty && isEmpty()) {
@@ -91,8 +93,7 @@ public class ChannelTank extends FluidTank {
 		return nbt;
 	}
 
-  public void updateSnapshots(TransactionContext transaction) {
-    super.updateSnapshots(transaction);
+  public void updateLockSnapshots(TransactionContext transaction) {
     // Make sure we have enough storage for snapshots
     while (lockSnapshots.size() <= transaction.nestingDepth()) {
       lockSnapshots.add(null);
@@ -101,16 +102,13 @@ public class ChannelTank extends FluidTank {
     // If the snapshot is null, we need to create it, and we need to register a callback.
     if (lockSnapshots.get(transaction.nestingDepth()) == null) {
       long snapshot = this.locked;
-      Objects.requireNonNull(snapshot, "Snapshot may not be null!");
 
       lockSnapshots.set(transaction.nestingDepth(), snapshot);
-      transaction.addCloseCallback(this);
+      transaction.addCloseCallback(this::closeLock);
     }
   }
 
-  @Override
-  public void onClose(TransactionContext transaction, Transaction.Result result) {
-    super.onClose(transaction, result);
+  public void closeLock(TransactionContext transaction, Transaction.Result result) {
     // Get and remove the relevant snapshot.
     long snapshot = lockSnapshots.set(transaction.nestingDepth(), null);
 
@@ -122,10 +120,8 @@ public class ChannelTank extends FluidTank {
         // No snapshot yet, so move the snapshot one nesting level up.
         lockSnapshots.set(transaction.nestingDepth() - 1, snapshot);
         // This is the first snapshot at this level: we need to call addCloseCallback.
-        transaction.getOpenTransaction(transaction.nestingDepth() - 1).addCloseCallback(this);
+        transaction.getOpenTransaction(transaction.nestingDepth() - 1).addCloseCallback(this::closeLock);
       }
-    } else {
-      transaction.addOuterCloseCallback(this);
     }
   }
 }
