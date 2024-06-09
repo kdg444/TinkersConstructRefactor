@@ -197,7 +197,7 @@ public class ToolEvents {
     if (entity.getType() == EntityType.ENDER_DRAGON && amount > 0 && !entity.level().isClientSide) {
       // player caused explosion, end crystals and TNT are examples
 //      DamageSource source = event.getSource();
-      if (source.is(DamageTypes.EXPLOSION) && source.getEntity() != null && source.getEntity().getType() == EntityType.PLAYER) {
+      if (source.is(DamageTypes.PLAYER_EXPLOSION) && source.getEntity() != null && source.getEntity().getType() == EntityType.PLAYER) {
         // drops 1 - 8 scales
         ModifierUtil.dropItem(entity, new ItemStack(TinkerModifiers.dragonScale, 1 + entity.level().random.nextInt(8)));
       }
