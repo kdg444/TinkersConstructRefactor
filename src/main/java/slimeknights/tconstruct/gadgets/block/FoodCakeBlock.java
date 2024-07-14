@@ -24,16 +24,21 @@ public class FoodCakeBlock extends CakeBlock {
     this.food = food;
   }
 
-  @Override
-  public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-    InteractionResult result = this.eatSlice(world, pos, state, player);
+  private InteractionResult useWithContext(UseContext context){
+    InteractionResult result = this.eatSlice(context.getWorld(), context.getPos(), context.getState(), context.getPlayer());
     if (result.consumesAction()) {
       return result;
     }
-    if (world.isClientSide() && player.getItemInHand(handIn).isEmpty()) {
+    if (context.getWorld().isClientSide() && context.getPlayer().getItemInHand(context.getHandIn()).isEmpty()) {
       return InteractionResult.CONSUME;
     }
     return InteractionResult.PASS;
+  }
+
+  @Override
+  public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    UseContext context = new UseContext(state, world, pos, player, handIn, hit);
+    return useWithContext(context);
   }
 
   /** Checks if the given player has all potion effects from the food */
