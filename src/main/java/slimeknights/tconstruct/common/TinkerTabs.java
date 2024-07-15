@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import slimeknights.mantle.item.RetexturedBlockItem;
 import slimeknights.mantle.util.SupplierCreativeTab;
@@ -341,157 +342,164 @@ public class TinkerTabs {
     });
   }
 
+  //Calls upon helper methods to gather all items
   public static void buildSmelteryTab(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output output) {
+    addBasicItems(output);
+    addSearedItems(output);
+    addScorchedItems(output);
+    addTanks(output);
+    addControllers(output);
+    addMiscellaneousItems(output);
+    addCasts(output);
+  }
+
+  private static void addBasicItems(CreativeModeTab.Output output) {
     output.accept(TinkerSmeltery.grout);
     output.accept(TinkerSmeltery.netherGrout);
+  }
 
-    output.accept(TinkerSmeltery.searedStone);
-    output.accept(TinkerSmeltery.searedStone.getSlab());
-    output.accept(TinkerSmeltery.searedStone.getStairs());
-    output.accept(TinkerSmeltery.searedCobble);
-    output.accept(TinkerSmeltery.searedCobble.getSlab());
-    output.accept(TinkerSmeltery.searedCobble.getStairs());
-    output.accept(TinkerSmeltery.searedCobble.getWall());
-    output.accept(TinkerSmeltery.searedPaver);
-    output.accept(TinkerSmeltery.searedPaver.getSlab());
-    output.accept(TinkerSmeltery.searedPaver.getStairs());
-    output.accept(TinkerSmeltery.searedBricks);
-    output.accept(TinkerSmeltery.searedBricks.getSlab());
-    output.accept(TinkerSmeltery.searedBricks.getStairs());
-    output.accept(TinkerSmeltery.searedBricks.getWall());
-    output.accept(TinkerSmeltery.searedCrackedBricks);
-    output.accept(TinkerSmeltery.searedFancyBricks);
-    output.accept(TinkerSmeltery.searedTriangleBricks);
+  private static void addSearedItems(CreativeModeTab.Output output) {
+    acceptAll(output, TinkerSmeltery.searedStone,
+            TinkerSmeltery.searedCobble,
+            TinkerSmeltery.searedPaver,
+            TinkerSmeltery.searedBricks,
+            TinkerSmeltery.searedCrackedBricks,
+            TinkerSmeltery.searedFancyBricks,
+            TinkerSmeltery.searedTriangleBricks,
+            TinkerSmeltery.searedLadder,
+            TinkerSmeltery.searedGlass,
+            TinkerSmeltery.searedGlassPane);
 
-    output.accept(TinkerSmeltery.searedLadder);
-    output.accept(TinkerSmeltery.searedGlass);
-    output.accept(TinkerSmeltery.searedGlassPane);
+    fillItemCategory(output, TinkerSmeltery.searedDrain,
+            TinkerSmeltery.searedDuct,
+            TinkerSmeltery.searedChute);
+  }
 
-    ((TableBlockItem)TinkerSmeltery.searedDrain.asItem()).fillItemCategory(output);
-    ((TableBlockItem)TinkerSmeltery.searedDuct.asItem()).fillItemCategory(output);
-    ((TableBlockItem)TinkerSmeltery.searedChute.asItem()).fillItemCategory(output);
+  private static void addScorchedItems(CreativeModeTab.Output output) {
+    acceptAll(output, TinkerSmeltery.scorchedStone,
+            TinkerSmeltery.polishedScorchedStone,
+            TinkerSmeltery.scorchedBricks,
+            TinkerSmeltery.scorchedRoad,
+            TinkerSmeltery.chiseledScorchedBricks,
+            TinkerSmeltery.scorchedLadder,
+            TinkerSmeltery.scorchedGlass,
+            TinkerSmeltery.scorchedGlassPane);
 
-    output.accept(TinkerSmeltery.scorchedStone);
-    output.accept(TinkerSmeltery.polishedScorchedStone);
+    fillItemCategory(output, TinkerSmeltery.scorchedDrain,
+            TinkerSmeltery.scorchedDuct,
+            TinkerSmeltery.scorchedChute);
+  }
 
-    output.accept(TinkerSmeltery.scorchedBricks);
-    output.accept(TinkerSmeltery.scorchedBricks.getSlab());
-    output.accept(TinkerSmeltery.scorchedBricks.getStairs());
-    output.accept(TinkerSmeltery.scorchedBricks.getFence());
-    output.accept(TinkerSmeltery.scorchedRoad);
-    output.accept(TinkerSmeltery.scorchedRoad.getSlab());
-    output.accept(TinkerSmeltery.scorchedRoad.getStairs());
+  private static void addTanks(CreativeModeTab.Output output) {
+    acceptAll(output, TinkerSmeltery.searedLantern,
+            TinkerSmeltery.searedFaucet,
+            TinkerSmeltery.searedChannel,
+            TinkerSmeltery.searedBasin,
+            TinkerSmeltery.searedTable,
+            TinkerSmeltery.scorchedLantern,
+            TinkerSmeltery.scorchedFaucet,
+            TinkerSmeltery.scorchedChannel,
+            TinkerSmeltery.scorchedBasin,
+            TinkerSmeltery.scorchedTable);
+  }
 
-    output.accept(TinkerSmeltery.chiseledScorchedBricks);
-    output.accept(TinkerSmeltery.scorchedLadder);
-    output.accept(TinkerSmeltery.scorchedGlass);
-    output.accept(TinkerSmeltery.scorchedGlassPane);
+  private static void addControllers(CreativeModeTab.Output output) {
+    fillItemCategory(output, TinkerSmeltery.smelteryController,
+            TinkerSmeltery.foundryController);
 
-    ((TableBlockItem)TinkerSmeltery.scorchedDrain.asItem()).fillItemCategory(output);
-    ((TableBlockItem)TinkerSmeltery.scorchedDuct.asItem()).fillItemCategory(output);
-    ((TableBlockItem)TinkerSmeltery.scorchedChute.asItem()).fillItemCategory(output);
+    acceptAll(output, TinkerSmeltery.searedMelter,
+            TinkerSmeltery.searedHeater,
+            TinkerSmeltery.scorchedAlloyer);
+  }
 
-    TinkerSmeltery.searedTank.forEach(searedTankBlock -> {
-      output.accept(searedTankBlock);
-    });
+  private static void addMiscellaneousItems(CreativeModeTab.Output output) {
+    acceptAll(output, TinkerSmeltery.searedBrick,
+            TinkerSmeltery.scorchedBrick,
+            TinkerSmeltery.copperCan);
+  }
 
-    output.accept(TinkerSmeltery.searedLantern);
-    output.accept(TinkerSmeltery.searedFaucet);
-    output.accept(TinkerSmeltery.searedChannel);
-    output.accept(TinkerSmeltery.searedBasin);
-    output.accept(TinkerSmeltery.searedTable);
+  private static void addCasts(CreativeModeTab.Output output) {
+    acceptAll(output, TinkerSmeltery.blankSandCast,
+            TinkerSmeltery.blankRedSandCast,
+            TinkerSmeltery.ingotCast,
+            TinkerSmeltery.nuggetCast,
+            TinkerSmeltery.gemCast,
+            TinkerSmeltery.rodCast,
+            TinkerSmeltery.repairKitCast,
+            TinkerSmeltery.plateCast,
+            TinkerSmeltery.gearCast,
+            TinkerSmeltery.coinCast,
+            TinkerSmeltery.wireCast,
+            TinkerSmeltery.pickHeadCast,
+            TinkerSmeltery.smallAxeHeadCast,
+            TinkerSmeltery.smallBladeCast,
+            TinkerSmeltery.hammerHeadCast,
+            TinkerSmeltery.broadBladeCast,
+            TinkerSmeltery.broadAxeHeadCast,
+            TinkerSmeltery.toolBindingCast,
+            TinkerSmeltery.roundPlateCast,
+            TinkerSmeltery.largePlateCast,
+            TinkerSmeltery.toolHandleCast,
+            TinkerSmeltery.toughHandleCast,
+            TinkerSmeltery.bowLimbCast,
+            TinkerSmeltery.bowGripCast);
 
-    TinkerSmeltery.scorchedTank.forEach(searedTankBlock -> {
-      output.accept(searedTankBlock);
-    });
+    acceptAll(output, TinkerSmeltery.ingotCast.getSand(),
+            TinkerSmeltery.ingotCast.getRedSand(),
+            TinkerSmeltery.nuggetCast.getSand(),
+            TinkerSmeltery.nuggetCast.getRedSand(),
+            TinkerSmeltery.gemCast.getSand(),
+            TinkerSmeltery.gemCast.getRedSand(),
+            TinkerSmeltery.rodCast.getSand(),
+            TinkerSmeltery.rodCast.getRedSand(),
+            TinkerSmeltery.repairKitCast.getSand(),
+            TinkerSmeltery.repairKitCast.getRedSand(),
+            TinkerSmeltery.plateCast.getSand(),
+            TinkerSmeltery.plateCast.getRedSand(),
+            TinkerSmeltery.gearCast.getSand(),
+            TinkerSmeltery.gearCast.getRedSand(),
+            TinkerSmeltery.coinCast.getSand(),
+            TinkerSmeltery.coinCast.getRedSand(),
+            TinkerSmeltery.wireCast.getSand(),
+            TinkerSmeltery.wireCast.getRedSand(),
+            TinkerSmeltery.pickHeadCast.getSand(),
+            TinkerSmeltery.pickHeadCast.getRedSand(),
+            TinkerSmeltery.smallAxeHeadCast.getSand(),
+            TinkerSmeltery.smallAxeHeadCast.getRedSand(),
+            TinkerSmeltery.smallBladeCast.getSand(),
+            TinkerSmeltery.smallBladeCast.getRedSand(),
+            TinkerSmeltery.hammerHeadCast.getSand(),
+            TinkerSmeltery.hammerHeadCast.getRedSand(),
+            TinkerSmeltery.broadBladeCast.getSand(),
+            TinkerSmeltery.broadBladeCast.getRedSand(),
+            TinkerSmeltery.broadAxeHeadCast.getSand(),
+            TinkerSmeltery.broadAxeHeadCast.getRedSand(),
+            TinkerSmeltery.toolBindingCast.getSand(),
+            TinkerSmeltery.toolBindingCast.getRedSand(),
+            TinkerSmeltery.roundPlateCast.getSand(),
+            TinkerSmeltery.roundPlateCast.getRedSand(),
+            TinkerSmeltery.largePlateCast.getSand(),
+            TinkerSmeltery.largePlateCast.getRedSand(),
+            TinkerSmeltery.toolHandleCast.getSand(),
+            TinkerSmeltery.toolHandleCast.getRedSand(),
+            TinkerSmeltery.toughHandleCast.getSand(),
+            TinkerSmeltery.toughHandleCast.getRedSand(),
+            TinkerSmeltery.bowLimbCast.getSand(),
+            TinkerSmeltery.bowLimbCast.getRedSand(),
+            TinkerSmeltery.bowGripCast.getSand(),
+            TinkerSmeltery.bowGripCast.getRedSand());
+  }
 
-    output.accept(TinkerSmeltery.scorchedLantern);
-    output.accept(TinkerSmeltery.scorchedFaucet);
-    output.accept(TinkerSmeltery.scorchedChannel);
-    output.accept(TinkerSmeltery.scorchedBasin);
-    output.accept(TinkerSmeltery.scorchedTable);
+  private static void acceptAll(CreativeModeTab.Output output, ItemLike... items) {
+    for (ItemLike item : items) {
+        output.accept(item);
+    }
+  }
 
-    ((TableBlockItem)TinkerSmeltery.smelteryController.asItem()).fillItemCategory(output);
-    ((TableBlockItem)TinkerSmeltery.foundryController.asItem()).fillItemCategory(output);
-
-    output.accept(TinkerSmeltery.searedMelter);
-    output.accept(TinkerSmeltery.searedHeater);
-    output.accept(TinkerSmeltery.scorchedAlloyer);
-
-    output.accept(TinkerSmeltery.searedBrick);
-    output.accept(TinkerSmeltery.scorchedBrick);
-    output.accept(TinkerSmeltery.copperCan);
-
-    // Casts
-    output.accept(TinkerSmeltery.blankSandCast);
-    output.accept(TinkerSmeltery.blankRedSandCast);
-
-    output.accept(TinkerSmeltery.ingotCast);
-    output.accept(TinkerSmeltery.ingotCast.getSand());
-    output.accept(TinkerSmeltery.ingotCast.getRedSand());
-    output.accept(TinkerSmeltery.nuggetCast);
-    output.accept(TinkerSmeltery.nuggetCast.getSand());
-    output.accept(TinkerSmeltery.nuggetCast.getRedSand());
-    output.accept(TinkerSmeltery.gemCast);
-    output.accept(TinkerSmeltery.gemCast.getSand());
-    output.accept(TinkerSmeltery.gemCast.getRedSand());
-    output.accept(TinkerSmeltery.rodCast);
-    output.accept(TinkerSmeltery.rodCast.getSand());
-    output.accept(TinkerSmeltery.rodCast.getRedSand());
-    output.accept(TinkerSmeltery.repairKitCast);
-    output.accept(TinkerSmeltery.repairKitCast.getSand());
-    output.accept(TinkerSmeltery.repairKitCast.getRedSand());
-    output.accept(TinkerSmeltery.plateCast);
-    output.accept(TinkerSmeltery.plateCast.getSand());
-    output.accept(TinkerSmeltery.plateCast.getRedSand());
-    output.accept(TinkerSmeltery.gearCast);
-    output.accept(TinkerSmeltery.gearCast.getSand());
-    output.accept(TinkerSmeltery.gearCast.getRedSand());
-    output.accept(TinkerSmeltery.coinCast);
-    output.accept(TinkerSmeltery.coinCast.getSand());
-    output.accept(TinkerSmeltery.coinCast.getRedSand());
-    output.accept(TinkerSmeltery.wireCast);
-    output.accept(TinkerSmeltery.wireCast.getSand());
-    output.accept(TinkerSmeltery.wireCast.getRedSand());
-    output.accept(TinkerSmeltery.pickHeadCast);
-    output.accept(TinkerSmeltery.pickHeadCast.getSand());
-    output.accept(TinkerSmeltery.pickHeadCast.getRedSand());
-    output.accept(TinkerSmeltery.smallAxeHeadCast);
-    output.accept(TinkerSmeltery.smallAxeHeadCast.getSand());
-    output.accept(TinkerSmeltery.smallAxeHeadCast.getRedSand());
-    output.accept(TinkerSmeltery.smallBladeCast);
-    output.accept(TinkerSmeltery.smallBladeCast.getSand());
-    output.accept(TinkerSmeltery.smallBladeCast.getRedSand());
-    output.accept(TinkerSmeltery.hammerHeadCast);
-    output.accept(TinkerSmeltery.hammerHeadCast.getSand());
-    output.accept(TinkerSmeltery.hammerHeadCast.getRedSand());
-    output.accept(TinkerSmeltery.broadBladeCast);
-    output.accept(TinkerSmeltery.broadBladeCast.getSand());
-    output.accept(TinkerSmeltery.broadBladeCast.getRedSand());
-    output.accept(TinkerSmeltery.broadAxeHeadCast);
-    output.accept(TinkerSmeltery.broadAxeHeadCast.getSand());
-    output.accept(TinkerSmeltery.broadAxeHeadCast.getRedSand());
-    output.accept(TinkerSmeltery.toolBindingCast);
-    output.accept(TinkerSmeltery.toolBindingCast.getSand());
-    output.accept(TinkerSmeltery.toolBindingCast.getRedSand());
-    output.accept(TinkerSmeltery.roundPlateCast);
-    output.accept(TinkerSmeltery.roundPlateCast.getSand());
-    output.accept(TinkerSmeltery.roundPlateCast.getRedSand());
-    output.accept(TinkerSmeltery.largePlateCast);
-    output.accept(TinkerSmeltery.largePlateCast.getSand());
-    output.accept(TinkerSmeltery.largePlateCast.getRedSand());
-    output.accept(TinkerSmeltery.toolHandleCast);
-    output.accept(TinkerSmeltery.toolHandleCast.getSand());
-    output.accept(TinkerSmeltery.toolHandleCast.getRedSand());
-    output.accept(TinkerSmeltery.toughHandleCast);
-    output.accept(TinkerSmeltery.toughHandleCast.getSand());
-    output.accept(TinkerSmeltery.toughHandleCast.getRedSand());
-    output.accept(TinkerSmeltery.bowLimbCast);
-    output.accept(TinkerSmeltery.bowLimbCast.getSand());
-    output.accept(TinkerSmeltery.bowLimbCast.getRedSand());
-    output.accept(TinkerSmeltery.bowGripCast);
-    output.accept(TinkerSmeltery.bowGripCast.getSand());
-    output.accept(TinkerSmeltery.bowGripCast.getRedSand());
+  private static void fillItemCategory(CreativeModeTab.Output output, ItemLike... items) {
+    for (ItemLike item : items) {
+        ((TableBlockItem)item.asItem()).fillItemCategory(output);
+    }
   }
 
   public static void init() {
