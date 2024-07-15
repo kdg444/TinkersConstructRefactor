@@ -190,7 +190,7 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener, Id
     ImmutableMap.Builder<ModifierId,IBakedModifierModel> modelMap = ImmutableMap.builder();
 
     // create two texture adders, so we only log on the final option if missing
-    Predicate<Material> textureAdder = DynamicTextureLoader.getTextureAdder(textures, Config.CLIENT.logMissingModifierTextures.get());
+    Predicate<Material> textureAdder = DynamicTextureLoader.getTextureAdder(textures, Config.CLIENT.logMissingModifiers.get());
 
     // load each modifier
     for (Entry<ModifierId, IUnbakedModifierModel> entry : modifierModels.entrySet()) {

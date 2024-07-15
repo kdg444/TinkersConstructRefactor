@@ -85,7 +85,7 @@ public class HeatingStructureBlockEntityRenderer implements BlockEntityRenderer<
     MeltingModuleInventory inventory = smeltery.getMeltingInventory();
     Minecraft mc = Minecraft.getInstance();
     ItemRenderer itemRenderer = mc.getItemRenderer();
-    int max = Config.CLIENT.maxSmelteryItemQuads.get();
+    int max = Config.CLIENT.maxSmelteryItems.get();
     if (max != 0) {
       int quadsRendered = 0;
       for (int i = 0; i < inventory.getSlotCount(); i++) {

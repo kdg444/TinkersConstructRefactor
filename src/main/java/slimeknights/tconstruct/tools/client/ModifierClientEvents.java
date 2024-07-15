@@ -151,7 +151,7 @@ public class ModifierClientEvents {
   /** Update the slot in the first shield slot */
   static void equipmentChange(ToolEquipmentChangeEvent event) {
     EquipmentChangeContext context = event.getContext();
-    if (Config.CLIENT.renderShieldSlotItem.get()) {
+    if (Config.CLIENT.renderShield.get()) {
       if (event.getEntity() == Minecraft.getInstance().player && context.getChangedSlot() == EquipmentSlot.LEGS) {
         IToolStackView tool = context.getToolInSlot(EquipmentSlot.LEGS);
         if (tool != null) {

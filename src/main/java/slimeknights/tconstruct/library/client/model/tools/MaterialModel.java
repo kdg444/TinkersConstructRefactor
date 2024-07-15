@@ -83,7 +83,7 @@ public class MaterialModel implements IUnbakedGeometry<MaterialModel> {
     // if the texture is missing, stop here
     if (!MissingTextureAtlasSprite.getLocation().equals(texture.texture())) {
       // texture should exist in item/tool, or the validator cannot handle them
-      Predicate<Material> textureAdder = DynamicTextureLoader.getTextureAdder(allTextures, Config.CLIENT.logMissingMaterialTextures.get());
+      Predicate<Material> textureAdder = DynamicTextureLoader.getTextureAdder(allTextures, Config.CLIENT.logMissingMaterial.get());
       // if no specific material is set, load all materials as dependencies. If just one material, use just that one
       if (material == null) {
         MaterialRenderInfoLoader.INSTANCE.getAllRenderInfos().forEach(info -> info.getTextureDependencies(textureAdder, texture));

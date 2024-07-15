@@ -153,7 +153,7 @@ public class JEIPlugin implements IModPlugin {
     assert Minecraft.getInstance().level != null;
     RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
     List<ModifierEntry> modifiers = Collections.emptyList();
-    if (Config.CLIENT.showModifiersInJEI.get()) {
+    if (Config.CLIENT.showModifiers.get()) {
       modifiers = ModifierRecipeLookup.getRecipeModifierList();
     }
     registration.register(TConstructJEIConstants.ENTITY_TYPE, Collections.emptyList(), new EntityIngredientHelper(), new EntityIngredientRenderer(16));

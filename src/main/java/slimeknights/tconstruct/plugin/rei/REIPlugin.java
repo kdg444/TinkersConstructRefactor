@@ -143,7 +143,7 @@ public class REIPlugin implements REIClientPlugin {
   public void registerEntries(EntryRegistry registry) {
     RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
     List<ModifierEntry> modifiers = Collections.emptyList();
-    if (Config.CLIENT.showModifiersInJEI.get()) {
+    if (Config.CLIENT.showModifiers.get()) {
       modifiers = RecipeHelper.getJEIRecipes(manager, TinkerRecipeTypes.TINKER_STATION.get(), IDisplayModifierRecipe.class)
         .stream()
         .map(recipe -> recipe.getDisplayResult().getModifier())

@@ -324,7 +324,7 @@ public class TooltipUtil {
     for (ModifierEntry entry : tool.getModifierList()) {
       if (entry.getModifier().shouldDisplay(false)) {
         Component name = entry.getModifier().getDisplayName(tool, entry.getLevel());
-        if (flag.isAdvanced() && Config.CLIENT.modifiersIDsInAdvancedTooltips.get()) {
+        if (flag.isAdvanced() && Config.CLIENT.advToolTipIDs.get()) {
           tooltips.add(Component.translatable(KEY_ID_FORMAT, name, Component.literal(entry.getModifier().getId().toString())).withStyle(ChatFormatting.DARK_GRAY));
         } else {
           tooltips.add(name);

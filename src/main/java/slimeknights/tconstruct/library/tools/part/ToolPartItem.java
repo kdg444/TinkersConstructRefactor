@@ -60,7 +60,7 @@ public class ToolPartItem extends MaterialItem implements IToolPart {
       if (canUseMaterial(id)) {
         for (ModifierEntry entry : MaterialRegistry.getInstance().getTraits(id, getStatType())) {
           Component name = entry.getModifier().getDisplayName(entry.getLevel());
-          if (flag.isAdvanced() && Config.CLIENT.modifiersIDsInAdvancedTooltips.get()) {
+          if (flag.isAdvanced() && Config.CLIENT.advToolTipIDs.get()) {
             tooltip.add(Component.translatable(TooltipUtil.KEY_ID_FORMAT, name, Component.literal(entry.getModifier().getId().toString())).withStyle(ChatFormatting.DARK_GRAY));
           } else {
             tooltip.add(name);

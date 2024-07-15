@@ -275,12 +275,12 @@ public class Config {
     //public final ForgeConfigSpec.BooleanValue temperatureInCelsius;
     public final ModConfigSpec.BooleanValue tankFluidModel;
     public final ModConfigSpec.BooleanValue extraToolTips;
-    public final ModConfigSpec.BooleanValue logMissingMaterialTextures;
-    public final ModConfigSpec.BooleanValue logMissingModifierTextures;
-    public final ModConfigSpec.BooleanValue showModifiersInJEI;
-    public final ModConfigSpec.BooleanValue renderShieldSlotItem;
-    public final ModConfigSpec.BooleanValue modifiersIDsInAdvancedTooltips;
-    public final ModConfigSpec.IntValue maxSmelteryItemQuads;
+    public final ModConfigSpec.BooleanValue logMissingMaterial;
+    public final ModConfigSpec.BooleanValue logMissingModifiers;
+    public final ModConfigSpec.BooleanValue showModifiers;
+    public final ModConfigSpec.BooleanValue renderShield;
+    public final ModConfigSpec.BooleanValue advToolTipIDs;
+    public final ModConfigSpec.IntValue maxSmelteryItems;
 
     // framed modifier
     public final ModConfigSpec.BooleanValue renderItemFrame;
@@ -313,27 +313,27 @@ public class Config {
         .translation("tconstruct.configgui.extraToolTips")
         .define("extraToolTips", true);
 
-      this.logMissingMaterialTextures = builder
+      this.logMissingMaterial = builder
         .comment("If true, the game will log all material textures which do not exist in resource packs but can be added, can be helpful for moddevs or resourcepack makers")
         .translation("tconstruct.configgui.logMissingMaterialTextures")
         .define("logMissingMaterialTextures", false);
 
-      this.logMissingModifierTextures = builder
+      this.logMissingModifiers = builder
         .comment("If true, the game will log all modifier textures which do not exist in resource packs but can be added, can be helpful for moddevs or resourcepack makers")
         .translation("tconstruct.configgui.logMissingMaterialTextures")
         .define("logMissingModifierTextures", false);
 
-      this.showModifiersInJEI = builder
+      this.showModifiers = builder
         .comment("If true, modifiers will be added to the JEI ingredient list. If false, they will only be visible in the modifiers recipe tab.")
         .translation("tconstruct.configgui.showModifiersInJEI")
         .define("showModifiersInJEI", true);
 
-      this.maxSmelteryItemQuads = builder
+      this.maxSmelteryItems = builder
         .comment("Maximum number of quads to render for items in the smeltery. Most blocks are about 6 quads, items like ingots are around 26.",
                  "Setting this lower will cause fewer items to be renderer (but never a partial item). Set to -1 to allow unlimited quads, and 0 to disable the item renderer.")
         .defineInRange("maxSmelteryItemQuads", 3500, -1, Short.MAX_VALUE);
 
-      this.modifiersIDsInAdvancedTooltips = builder
+      this.advToolTipIDs = builder
         .comment("If true, shows modifier IDs in advanced tooltips for tools and tool parts.",
                  "They are more intrusive than most advanced tooltip content, so this option is provided in case some mod made poor design decisions and put essential gameplay info in tooltips or for pack makers who do not need modifier info.")
         .define("modifiersIDsInAdvancedTooltips", true);
@@ -341,7 +341,7 @@ public class Config {
       builder.comment("Settings related to modifiers").push("modifiers");
       {
 
-        this.renderShieldSlotItem = builder
+        this.renderShield = builder
           .comment("If true, the shield slot legging modifier will render the next offhand item above the offhand slot.")
           .define("renderShieldSlotItem", true);
 
